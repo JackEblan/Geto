@@ -30,7 +30,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.android.geto.common.SETTINGS_TYPE_LIST
 import com.android.geto.domain.model.UserAppSettingsItem
 import com.android.geto.presentation.user_app_settings.components.AddSettingsDialog
 import kotlinx.coroutines.flow.collectLatest
@@ -136,7 +135,7 @@ private fun StatelessScreen(
                             Spacer(modifier = Modifier.height(5.dp))
 
                             Text(
-                                text = SETTINGS_TYPE_LIST[settingsItem.settingsType],
+                                text = settingsItem.settingsType.label,
                                 style = MaterialTheme.typography.bodySmall
                             )
 

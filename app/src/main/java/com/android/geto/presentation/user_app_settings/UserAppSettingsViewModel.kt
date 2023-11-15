@@ -95,7 +95,7 @@ class UserAppSettingsViewModel @Inject constructor(
                 }
 
                 viewModelScope.launch {
-                    settingsRepository.setSettings(_state.value.userAppSettingsList)
+                    settingsRepository.applySettings(_state.value.userAppSettingsList)
                         .collectLatest { result ->
                             when {
                                 result.isSuccess -> {

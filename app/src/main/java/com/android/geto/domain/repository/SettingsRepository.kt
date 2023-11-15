@@ -7,7 +7,7 @@ typealias SetSettingsResultMessage = String
 
 interface SettingsRepository {
 
-    suspend fun setSettings(userAppSettingsItemList: List<UserAppSettingsItem>): Flow<Result<SetSettingsResultMessage>>
+    suspend fun applySettings(userAppSettingsItemList: List<UserAppSettingsItem>): Flow<Result<SetSettingsResultMessage>>
 
     suspend fun revertSettings(userAppSettingsItemList: List<UserAppSettingsItem>): Flow<Result<SetSettingsResultMessage>>
 }

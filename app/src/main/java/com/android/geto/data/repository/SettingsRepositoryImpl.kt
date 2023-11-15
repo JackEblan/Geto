@@ -2,6 +2,7 @@ package com.android.geto.data.repository
 
 import android.content.ContentResolver
 import android.provider.Settings
+import com.android.geto.common.SettingsType
 import com.android.geto.domain.model.UserAppSettingsItem
 import com.android.geto.domain.repository.SetSettingsResultMessage
 import com.android.geto.domain.repository.SettingsRepository
@@ -16,10 +17,10 @@ import kotlin.coroutines.resume
 class SettingsRepositoryImpl @Inject constructor(
     private val ioDispatcher: CoroutineDispatcher, private val contentResolver: ContentResolver
 ) : SettingsRepository {
-    override suspend fun setSettings(userAppSettingsItemList: List<UserAppSettingsItem>): Flow<Result<SetSettingsResultMessage>> =
-        flow {
+    override suspend fun applySettings(userAppSettingsItemList: List<UserAppSettingsItem>): Flow<Result<SetSettingsResultMessage>> {
+        return flow {
             val result = withContext(ioDispatcher) {
-                applySettings(
+                onResult(
                     userAppSettingsItemList = userAppSettingsItemList,
                     valueSelector = { it.valueOnLaunch },
                     successMessage = "Settings has been applied"
@@ -29,10 +30,12 @@ class SettingsRepositoryImpl @Inject constructor(
             emit(result)
         }
 
-    override suspend fun revertSettings(userAppSettingsItemList: List<UserAppSettingsItem>): Flow<Result<SetSettingsResultMessage>> =
-        flow {
+    }
+
+    override suspend fun revertSettings(userAppSettingsItemList: List<UserAppSettingsItem>): Flow<Result<SetSettingsResultMessage>> {
+        return flow {
             val result = withContext(ioDispatcher) {
-                applySettings(
+                onResult(
                     userAppSettingsItemList = userAppSettingsItemList,
                     valueSelector = { it.valueOnRevert },
                     successMessage = "Settings has been reverted"
@@ -42,50 +45,50 @@ class SettingsRepositoryImpl @Inject constructor(
             emit(result)
         }
 
-    private suspend fun applySettings(
+    }
+
+    private suspend fun onResult(
         userAppSettingsItemList: List<UserAppSettingsItem>,
         valueSelector: (UserAppSettingsItem) -> String,
         successMessage: String
     ): Result<SetSettingsResultMessage> {
         return suspendCancellableCoroutine { continuation ->
             userAppSettingsItemList.filter { it.enabled }.forEach { userAppSettingsItem ->
-                    try {
-                        val successful = when (userAppSettingsItem.settingsType) {
-                            0 -> Settings.System.putString(
-                                contentResolver,
-                                userAppSettingsItem.key,
-                                valueSelector(userAppSettingsItem)
-                            )
+                try {
+                    val successful = when (userAppSettingsItem.settingsType) {
+                        SettingsType.SYSTEM -> Settings.System.putString(
+                            contentResolver,
+                            userAppSettingsItem.key,
+                            valueSelector(userAppSettingsItem)
+                        )
 
-                            1 -> Settings.Secure.putString(
-                                contentResolver,
-                                userAppSettingsItem.key,
-                                valueSelector(userAppSettingsItem)
-                            )
+                        SettingsType.SECURE -> Settings.Secure.putString(
+                            contentResolver,
+                            userAppSettingsItem.key,
+                            valueSelector(userAppSettingsItem)
+                        )
 
-                            2 -> Settings.Global.putString(
-                                contentResolver,
-                                userAppSettingsItem.key,
-                                valueSelector(userAppSettingsItem)
-                            )
-
-                            else -> false
-                        }
-
-                        if (successful) {
-                            continuation.resume(Result.success(successMessage))
-                        } else {
-                            continuation.resume(
-                                Result.failure(
-                                    IllegalArgumentException("${userAppSettingsItem.key} cannot be found")
-                                )
-                            )
-                        }
-
-                    } catch (e: SecurityException) {
-                        continuation.resume(Result.failure(e))
+                        SettingsType.GLOBAL -> Settings.Global.putString(
+                            contentResolver,
+                            userAppSettingsItem.key,
+                            valueSelector(userAppSettingsItem)
+                        )
                     }
+
+                    if (successful) {
+                        continuation.resume(Result.success(successMessage))
+                    } else {
+                        continuation.resume(
+                            Result.failure(
+                                IllegalArgumentException("${userAppSettingsItem.key} failed to set")
+                            )
+                        )
+                    }
+
+                } catch (e: SecurityException) {
+                    continuation.resume(Result.failure(e))
                 }
+            }
         }
     }
 }

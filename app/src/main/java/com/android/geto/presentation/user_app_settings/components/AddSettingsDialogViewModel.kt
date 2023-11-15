@@ -2,6 +2,7 @@ package com.android.geto.presentation.user_app_settings.components
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.android.geto.common.SettingsType
 import com.android.geto.domain.model.UserAppSettingsItem
 import com.android.geto.domain.repository.UserAppSettingsRepository
 import com.android.geto.domain.use_case.add_settings.AddSettingsUseCases
@@ -63,10 +64,20 @@ class AddSettingsDialogViewModel @Inject constructor(
                 }
 
                 viewModelScope.launch {
+                    val settingsType = when (_state.value.selectedRadioOptionIndex) {
+                        0 -> SettingsType.SYSTEM
+
+                        1 -> SettingsType.SECURE
+
+                        2 -> SettingsType.GLOBAL
+
+                        else -> SettingsType.SYSTEM
+                    }
+
                     repository.upsertUserAppSettings(
                         UserAppSettingsItem(
                             enabled = true,
-                            settingsType = _state.value.selectedRadioOptionIndex,
+                            settingsType = settingsType,
                             packageName = event.packageName,
                             label = _state.value.label,
                             key = _state.value.key,
