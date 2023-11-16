@@ -23,13 +23,17 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import com.android.geto.domain.model.UserAppSettingsItem
 import com.android.geto.presentation.user_app_settings.components.AddSettingsDialog
 import kotlinx.coroutines.flow.collectLatest
@@ -40,7 +44,23 @@ fun UserAppSettingsScreen(
 ) {
     val context = LocalContext.current
 
+    val lifecycleOwner = LocalLifecycleOwner.current
+
     val state = viewModel.state.collectAsState().value
+
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) {
+                viewModel.onEvent(UserAppSettingsEvent.OnRevertSettings)
+            }
+        }
+
+        lifecycleOwner.lifecycle.addObserver(observer)
+
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+        }
+    }
 
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collectLatest { event ->
