@@ -18,16 +18,14 @@ class UserAppListViewModel @Inject constructor(private val repository: UserAppLi
     val state = _state.asStateFlow()
 
     init {
-        getInstalledPackageList()
+        getUserAppList()
     }
 
-    private fun getInstalledPackageList() {
-        _state.value = _state.value.copy(isLoading = true)
-
+    private fun getUserAppList() {
         viewModelScope.launch {
-            val installedApps = repository.getUserAppList()
+            val apps = repository.getUserAppList()
 
-            _state.value = _state.value.copy(apps = installedApps, isLoading = false)
+            _state.value = _state.value.copy(apps = apps, isLoading = false)
         }
     }
 }

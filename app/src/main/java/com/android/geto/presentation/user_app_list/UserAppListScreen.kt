@@ -56,9 +56,7 @@ fun UserAppListScreen(
     }, onMoreOptionsClick = {
         scope.launch {
             Toast.makeText(
-                context,
-                "This is a test app developed by Jack Eblan",
-                Toast.LENGTH_SHORT
+                context, "This is a test app developed by Jack Eblan", Toast.LENGTH_SHORT
             ).show()
         }
     })

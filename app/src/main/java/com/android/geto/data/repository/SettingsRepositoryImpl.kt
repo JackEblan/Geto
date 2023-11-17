@@ -11,6 +11,7 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
 
 class SettingsRepositoryImpl @Inject constructor(
     private val ioDispatcher: CoroutineDispatcher, private val contentResolver: ContentResolver
@@ -66,15 +67,11 @@ class SettingsRepositoryImpl @Inject constructor(
                     if (successful) {
                         continuation.resume(Result.success(successMessage))
                     } else {
-                        continuation.resume(
-                            Result.failure(
-                                IllegalArgumentException("${userAppSettingsItem.key} failed to apply")
-                            )
-                        )
+                        continuation.resumeWithException(IllegalArgumentException("${userAppSettingsItem.key} failed to apply"))
                     }
 
                 } catch (e: SecurityException) {
-                    continuation.resume(Result.failure(e))
+                    continuation.resumeWithException(e)
                 }
             }
         }

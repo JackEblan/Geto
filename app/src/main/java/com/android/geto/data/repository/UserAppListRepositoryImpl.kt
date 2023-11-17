@@ -13,11 +13,9 @@ class UserAppListRepositoryImpl @Inject constructor(
 ) : UserAppListRepository {
 
     override suspend fun getUserAppList(): List<AppItem> {
-        val installedAppsList = withContext(defaultDispatcher) {
+        return withContext(defaultDispatcher) {
             packageManager.getInstalledApplications(PackageManager.GET_META_DATA)
                 .toAppItemList(packageManager = packageManager)
         }
-
-        return installedAppsList
     }
 }
