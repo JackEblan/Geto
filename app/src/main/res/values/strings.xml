@@ -1,7 +1,3 @@
 <resources>
     <string name="app_name">Geto</string>
-    <string name="geto_notification_channel_title">Geto Revert System Settings</string>
-    <string name="geto_notification_channel_id">Geto Notification Channel Id</string>
-    <string name="geto_notification_channel_description">Geto revert system settings</string>
-    <string name="geto_notification_title">Monitor Running Apps</string>
 </resources>

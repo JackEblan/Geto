@@ -5,8 +5,8 @@ import android.content.pm.PackageManager
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.android.geto.common.NAV_KEY_APP_NAME
-import com.android.geto.common.NAV_KEY_PACKAGE_NAME
+import com.android.geto.common.navigation.NavigationKey.NAV_KEY_APP_NAME
+import com.android.geto.common.navigation.NavigationKey.NAV_KEY_PACKAGE_NAME
 import com.android.geto.domain.repository.SettingsRepository
 import com.android.geto.domain.repository.UserAppSettingsRepository
 import com.android.geto.domain.use_case.user_app_settings.UserAppSettingsUseCases
@@ -95,21 +95,13 @@ class UserAppSettingsViewModel @Inject constructor(
                 }
 
                 viewModelScope.launch {
-                    settingsRepository.applySettings(_state.value.userAppSettingsList)
-                        .collectLatest { result ->
-                            when {
-                                result.isSuccess -> {
-                                    val appIntent =
-                                        packageManager.getLaunchIntentForPackage(packageName)
+                    settingsRepository.applySettings(_state.value.userAppSettingsList).onSuccess {
+                        val appIntent = packageManager.getLaunchIntentForPackage(packageName)
 
-                                    _uiEvent.emit(UIEvent.LaunchApp(appIntent))
-                                }
-
-                                result.isFailure -> {
-                                    _uiEvent.emit(UIEvent.Toast(result.getOrElse { it.message }))
-                                }
-                            }
-                        }
+                        _uiEvent.emit(UIEvent.LaunchApp(appIntent))
+                    }.onFailure {
+                        _uiEvent.emit(UIEvent.Toast(it.message))
+                    }
                 }
             }
 
@@ -134,17 +126,10 @@ class UserAppSettingsViewModel @Inject constructor(
                 }
 
                 viewModelScope.launch {
-                    settingsRepository.revertSettings(_state.value.userAppSettingsList)
-                        .collectLatest { result ->
-                            when {
-                                result.isSuccess -> {
-                                    _uiEvent.emit(UIEvent.Toast(result.getOrElse { it.message }))
-                                }
-
-                                result.isFailure -> {
-                                    _uiEvent.emit(UIEvent.Toast(result.getOrElse { it.message }))
-                                }
-                            }
+                    settingsRepository.revertSettings(_state.value.userAppSettingsList).onSuccess {
+                            _uiEvent.emit(UIEvent.Toast(it))
+                        }.onFailure {
+                            _uiEvent.emit(UIEvent.Toast(it.message))
                         }
                 }
             }

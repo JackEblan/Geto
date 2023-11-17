@@ -36,7 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.android.geto.R
-import com.android.geto.common.Screens
+import com.android.geto.common.navigation.NavigationScreen
 import kotlinx.coroutines.launch
 
 @Composable
@@ -52,7 +52,7 @@ fun UserAppListScreen(
     val state = viewModel.state.collectAsState().value
 
     StatelessScreen(modifier = modifier, state = state, onItemClick = { packageName, appName ->
-        navController.navigate(route = Screens.UserAppSettings.route + "/$packageName/$appName")
+        navController.navigate(route = NavigationScreen.UserAppSettings.route + "/$packageName/$appName")
     }, onMoreOptionsClick = {
         scope.launch {
             Toast.makeText(

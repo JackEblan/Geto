@@ -23,7 +23,7 @@ class UserAppSettingsRepositoryImpl @Inject constructor(
         return try {
             withContext(ioDispatcher) {
                 dao.upsert(userAppSettingsItem.toSettingsItemEntity())
-                Result.success("${userAppSettingsItem.label} changed successfully")
+                Result.success("${userAppSettingsItem.label} saved successfully")
             }
         } catch (e: CancellationException) {
             Result.failure(e)

@@ -31,7 +31,6 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.android.geto.common.SETTINGS_TYPE_LIST
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -128,7 +127,7 @@ private fun StatelessScreen(
                 Spacer(modifier = Modifier.height(10.dp))
 
                 Column(Modifier.selectableGroup()) {
-                    SETTINGS_TYPE_LIST.forEachIndexed { index, text ->
+                    listOf("System", "Secure", "Global").forEachIndexed { index, text ->
                         Row(
                             Modifier
                                 .fillMaxWidth()

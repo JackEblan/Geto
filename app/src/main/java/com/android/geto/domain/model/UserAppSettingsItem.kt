@@ -1,7 +1,5 @@
 package com.android.geto.domain.model
 
-import com.android.geto.common.SettingsType
-
 data class UserAppSettingsItem(
     val enabled: Boolean,
     val settingsType: SettingsType,
@@ -11,3 +9,7 @@ data class UserAppSettingsItem(
     val valueOnLaunch: String,
     val valueOnRevert: String
 )
+
+enum class SettingsType(val label: String) {
+    SYSTEM("System"), SECURE("Secure"), GLOBAL("Global")
+}

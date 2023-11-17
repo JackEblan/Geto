@@ -2,7 +2,7 @@ package com.android.geto.data.local
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.android.geto.common.SettingsType
+import com.android.geto.domain.model.SettingsType
 
 @Entity
 data class UserAppSettingsItemEntity(
