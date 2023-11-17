@@ -39,7 +39,7 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable(route = NavigationScreen.UserAppSettings.route + "/{$NAV_KEY_PACKAGE_NAME}/{$NAV_KEY_APP_NAME}") {
-                            UserAppSettingsScreen()
+                            UserAppSettingsScreen(navController = navController)
                         }
                     }
                 }

@@ -7,11 +7,8 @@ import com.android.geto.domain.model.UserAppSettingsItem
 import com.android.geto.domain.repository.ApplySettingsResultMessage
 import com.android.geto.domain.repository.SettingsRepository
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
-import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
 
 class SettingsRepositoryImpl @Inject constructor(
     private val ioDispatcher: CoroutineDispatcher, private val contentResolver: ContentResolver
@@ -36,44 +33,31 @@ class SettingsRepositoryImpl @Inject constructor(
         }
     }
 
-    private suspend fun onResult(
+    private fun onResult(
         userAppSettingsItemList: List<UserAppSettingsItem>,
         valueSelector: (UserAppSettingsItem) -> String,
         successMessage: String
     ): Result<ApplySettingsResultMessage> {
-        return suspendCancellableCoroutine { continuation ->
+        return runCatching {
             userAppSettingsItemList.filter { it.enabled }.forEach { userAppSettingsItem ->
-                try {
-                    val successful = when (userAppSettingsItem.settingsType) {
-                        SettingsType.SYSTEM -> Settings.System.putString(
-                            contentResolver,
-                            userAppSettingsItem.key,
-                            valueSelector(userAppSettingsItem)
-                        )
+                val successful = when (userAppSettingsItem.settingsType) {
+                    SettingsType.SYSTEM -> Settings.System.putString(
+                        contentResolver, userAppSettingsItem.key, valueSelector(userAppSettingsItem)
+                    )
 
-                        SettingsType.SECURE -> Settings.Secure.putString(
-                            contentResolver,
-                            userAppSettingsItem.key,
-                            valueSelector(userAppSettingsItem)
-                        )
+                    SettingsType.SECURE -> Settings.Secure.putString(
+                        contentResolver, userAppSettingsItem.key, valueSelector(userAppSettingsItem)
+                    )
 
-                        SettingsType.GLOBAL -> Settings.Global.putString(
-                            contentResolver,
-                            userAppSettingsItem.key,
-                            valueSelector(userAppSettingsItem)
-                        )
-                    }
-
-                    if (successful) {
-                        continuation.resume(Result.success(successMessage))
-                    } else {
-                        continuation.resumeWithException(IllegalArgumentException("${userAppSettingsItem.key} failed to apply"))
-                    }
-
-                } catch (e: SecurityException) {
-                    continuation.resumeWithException(e)
+                    SettingsType.GLOBAL -> Settings.Global.putString(
+                        contentResolver, userAppSettingsItem.key, valueSelector(userAppSettingsItem)
+                    )
                 }
+                check(successful) { "${userAppSettingsItem.key} failed to apply" }
             }
-        }
+
+            successMessage
+
+        }.fold(onSuccess = { Result.success(it) }, onFailure = { Result.failure(it) })
     }
 }

@@ -11,8 +11,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -34,13 +34,16 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
+import androidx.navigation.NavController
 import com.android.geto.domain.model.UserAppSettingsItem
 import com.android.geto.presentation.user_app_settings.components.AddSettingsDialog
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun UserAppSettingsScreen(
-    modifier: Modifier = Modifier, viewModel: UserAppSettingsViewModel = hiltViewModel()
+    modifier: Modifier = Modifier,
+    navController: NavController,
+    viewModel: UserAppSettingsViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
 
@@ -82,6 +85,9 @@ fun UserAppSettingsScreen(
 
     StatelessScreen(modifier = modifier,
                     state = state,
+                    onNavigationIconClick = {
+                        navController.popBackStack()
+                    },
                     onUserAppSettingsItemCheckBoxChange = { checked, userAppSettingsItem ->
                         viewModel.onEvent(
                             UserAppSettingsEvent.OnUserAppSettingsItemCheckBoxChange(
@@ -93,9 +99,6 @@ fun UserAppSettingsScreen(
                         viewModel.onEvent(UserAppSettingsEvent.OnDeleteUserAppSettingsItem(it))
                     },
                     onAddUserAppSettingsClick = { viewModel.onEvent(UserAppSettingsEvent.OnOpenAddSettingsDialog) },
-                    onRevertSettings = {
-                        viewModel.onEvent(UserAppSettingsEvent.OnRevertSettings)
-                    },
                     onLaunchApp = {
                         viewModel.onEvent(UserAppSettingsEvent.OnLaunchApp)
                     })
@@ -113,18 +116,20 @@ fun UserAppSettingsScreen(
 private fun StatelessScreen(
     modifier: Modifier = Modifier,
     state: UserAppSettingsState,
+    onNavigationIconClick: () -> Unit,
     onUserAppSettingsItemCheckBoxChange: (Boolean, UserAppSettingsItem) -> Unit,
     onDeleteUserAppSettingsItem: (UserAppSettingsItem) -> Unit,
     onAddUserAppSettingsClick: () -> Unit,
-    onRevertSettings: () -> Unit,
     onLaunchApp: () -> Unit
 ) {
     Scaffold(modifier = modifier.fillMaxSize(), topBar = {
         TopAppBar(title = {
             Text(text = state.appName)
-        }, actions = {
-            IconButton(onClick = { onRevertSettings() }) {
-                Icon(imageVector = Icons.Default.Refresh, contentDescription = null)
+        }, navigationIcon = {
+            IconButton(onClick = { onNavigationIconClick() }) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null
+                )
             }
         })
     }) { innerPadding ->
