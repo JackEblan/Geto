@@ -1,6 +1,7 @@
 package com.android.geto.presentation
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,6 +23,12 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        Toast.makeText(
+            applicationContext,
+            "Test app developed by Jack Eblan. The app will be slower in debug mode.",
+            Toast.LENGTH_SHORT
+        ).show()
 
         setContent {
             DevOpsHideNoRootTheme {
