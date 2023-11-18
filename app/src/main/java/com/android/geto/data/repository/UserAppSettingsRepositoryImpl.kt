@@ -27,6 +27,16 @@ class UserAppSettingsRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun upsertUserAppSettingsEnabled(userAppSettingsItem: UserAppSettingsItem): Result<AddUserAppSettingsResultMessage> {
+        return runCatching {
+            withContext(ioDispatcher) {
+                val enabled = if (userAppSettingsItem.enabled) "enabled" else "disabled"
+                dao.upsert(userAppSettingsItem.toSettingsItemEntity())
+                "${userAppSettingsItem.label} $enabled"
+            }
+        }
+    }
+
     override suspend fun deleteUserAppSettings(userAppSettingsItem: UserAppSettingsItem): Result<AddUserAppSettingsResultMessage> {
         return runCatching {
             withContext(ioDispatcher) {

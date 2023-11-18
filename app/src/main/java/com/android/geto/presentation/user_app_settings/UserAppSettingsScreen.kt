@@ -124,7 +124,7 @@ private fun StatelessScreen(
 ) {
     Scaffold(modifier = modifier.fillMaxSize(), topBar = {
         TopAppBar(title = {
-            Text(text = state.appName)
+            Text(text = state.appName, maxLines = 1)
         }, navigationIcon = {
             IconButton(onClick = { onNavigationIconClick() }) {
                 Icon(

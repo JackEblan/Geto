@@ -127,10 +127,10 @@ class UserAppSettingsViewModel @Inject constructor(
 
                 viewModelScope.launch {
                     settingsRepository.revertSettings(_state.value.userAppSettingsList).onSuccess {
-                            _uiEvent.emit(UIEvent.Toast(it))
-                        }.onFailure {
-                            _uiEvent.emit(UIEvent.Toast(it.message))
-                        }
+                        _uiEvent.emit(UIEvent.Toast(it))
+                    }.onFailure {
+                        _uiEvent.emit(UIEvent.Toast(it.message))
+                    }
                 }
             }
 
@@ -139,8 +139,9 @@ class UserAppSettingsViewModel @Inject constructor(
                     val updatedUserAppSettingsItem =
                         event.userAppSettingsItem.copy(enabled = event.checked)
 
-                    userAppSettingsRepository.upsertUserAppSettings(updatedUserAppSettingsItem)
-                        .onSuccess {
+                    userAppSettingsRepository.upsertUserAppSettingsEnabled(
+                        updatedUserAppSettingsItem
+                    ).onSuccess {
                             _uiEvent.emit(UIEvent.Toast(it))
                         }.onFailure {
                             _uiEvent.emit(UIEvent.Toast(it.localizedMessage))
