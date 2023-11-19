@@ -1,8 +1,7 @@
 package com.android.geto.data.repository
 
 import com.android.geto.data.local.AppDatabase
-import com.android.geto.data.mappers.toSettingsItemEntity
-import com.android.geto.data.mappers.toSettingsItemList
+import com.android.geto.data.local.UserAppSettingsItemEntity
 import com.android.geto.domain.model.UserAppSettingsItem
 import com.android.geto.domain.repository.AddUserAppSettingsResultMessage
 import com.android.geto.domain.repository.UserAppSettingsRepository
@@ -50,5 +49,31 @@ class UserAppSettingsRepositoryImpl @Inject constructor(
         return dao.getUserAppSettingsList(packageName).map {
             it.toSettingsItemList()
         }
+    }
+
+    private fun List<UserAppSettingsItemEntity>.toSettingsItemList(): List<UserAppSettingsItem> {
+        return map { entity ->
+            UserAppSettingsItem(
+                enabled = entity.enabled,
+                settingsType = entity.settingsType,
+                packageName = entity.packageName,
+                label = entity.label,
+                key = entity.key,
+                valueOnLaunch = entity.valueOnLaunch,
+                valueOnRevert = entity.valueOnRevert
+            )
+        }
+    }
+
+    private fun UserAppSettingsItem.toSettingsItemEntity(): UserAppSettingsItemEntity {
+        return UserAppSettingsItemEntity(
+            enabled = enabled,
+            settingsType = settingsType,
+            packageName = packageName,
+            label = label,
+            key = key,
+            valueOnLaunch = valueOnLaunch,
+            valueOnRevert = valueOnRevert
+        )
     }
 }
