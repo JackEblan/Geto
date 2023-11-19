@@ -58,6 +58,6 @@ class SettingsRepositoryImpl @Inject constructor(
 
             successMessage
 
-        }.fold(onSuccess = { Result.success(it) }, onFailure = { Result.failure(it) })
+        }
     }
 }
