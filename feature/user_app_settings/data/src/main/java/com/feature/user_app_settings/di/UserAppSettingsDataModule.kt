@@ -1,9 +1,8 @@
 package com.feature.user_app_settings.di
 
 import android.content.Context
-import androidx.room.Room
 import com.core.common.di.IoDispatcher
-import com.core.local.AppDatabase
+import com.core.local.database.AppDatabase
 import com.feature.user_app_settings.data.repository.SettingsRepositoryImpl
 import com.feature.user_app_settings.data.repository.UserAppSettingsRepositoryImpl
 import com.feature.user_app_settings.domain.repository.SettingsRepository
@@ -19,12 +18,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object UserAppSettingsDataModule {
-
-    @Singleton
-    @Provides
-    fun appDatabase(@ApplicationContext context: Context): AppDatabase = Room.databaseBuilder(
-        context, AppDatabase::class.java, AppDatabase.DATABASE_NAME
-    ).build()
 
     @Singleton
     @Provides

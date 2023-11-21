@@ -1,7 +1,7 @@
 package com.feature.user_app_settings.data.repository
 
-import com.core.local.AppDatabase
-import com.core.local.UserAppSettingsItemEntity
+import com.core.local.database.AppDatabase
+import com.core.local.database.UserAppSettingsItemEntity
 import com.feature.user_app_settings.domain.model.SettingsType
 import com.feature.user_app_settings.domain.model.UserAppSettingsItem
 import com.feature.user_app_settings.domain.repository.AddUserAppSettingsResultMessage
