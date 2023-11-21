@@ -53,6 +53,7 @@ android {
 dependencies {
     implementation(project(":core:common"))
     implementation(project(":feature:user_app_list:presentation"))
+    implementation(project(":feature:user_app_settings:presentation"))
 
     implementation(libs.core.ktx)
     implementation(libs.activity.ktx)
@@ -83,8 +84,4 @@ dependencies {
     implementation(libs.hilt.navigation.compose)
     ksp(libs.dagger.compiler)
     ksp(libs.hilt.compiler)
-
-    implementation(libs.room.runtime)
-    implementation(libs.room.ktx)
-    ksp(libs.room.compiler)
 }

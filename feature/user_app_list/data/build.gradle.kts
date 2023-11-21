@@ -36,6 +36,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:common"))
     implementation(project(":feature:user_app_list:domain"))
 
     implementation(libs.core.ktx)

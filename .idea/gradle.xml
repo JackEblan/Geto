@@ -12,6 +12,18 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/core" />
+            <option value="$PROJECT_DIR$/core/common" />
+            <option value="$PROJECT_DIR$/core/local" />
+            <option value="$PROJECT_DIR$/feature" />
+            <option value="$PROJECT_DIR$/feature/user_app_list" />
+            <option value="$PROJECT_DIR$/feature/user_app_list/data" />
+            <option value="$PROJECT_DIR$/feature/user_app_list/domain" />
+            <option value="$PROJECT_DIR$/feature/user_app_list/presentation" />
+            <option value="$PROJECT_DIR$/feature/user_app_settings" />
+            <option value="$PROJECT_DIR$/feature/user_app_settings/data" />
+            <option value="$PROJECT_DIR$/feature/user_app_settings/domain" />
+            <option value="$PROJECT_DIR$/feature/user_app_settings/presentation" />
           </set>
         </option>
       </GradleProjectSettings>

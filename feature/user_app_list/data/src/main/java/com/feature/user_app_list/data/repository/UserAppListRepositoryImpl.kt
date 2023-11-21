@@ -23,7 +23,7 @@ class UserAppListRepositoryImpl @Inject constructor(
 
     private fun List<ApplicationInfo>.toAppItemList(
         packageManager: PackageManager
-    ): List<com.feature.user_app_list.domain.model.AppItem> {
+    ): List<AppItem> {
         return filter { (it.flags and ApplicationInfo.FLAG_SYSTEM) == 0 }.map {
             val label = packageManager.getApplicationLabel(it)
 
@@ -37,7 +37,7 @@ class UserAppListRepositoryImpl @Inject constructor(
             appIcon.setBounds(0, 0, canvas.width, canvas.height)
             appIcon.draw(canvas)
 
-            com.feature.user_app_list.domain.model.AppItem(
+            AppItem(
                 icon = appIconToBitmap, packageName = it.packageName, label = label.toString()
             )
         }.sortedBy { it.label }
