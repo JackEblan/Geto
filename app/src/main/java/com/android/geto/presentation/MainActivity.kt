@@ -11,12 +11,12 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.android.geto.common.navigation.NavigationKey.NAV_KEY_APP_NAME
-import com.android.geto.common.navigation.NavigationKey.NAV_KEY_PACKAGE_NAME
-import com.android.geto.common.navigation.NavigationScreen
-import com.android.geto.presentation.user_app_list.UserAppListScreen
 import com.android.geto.presentation.user_app_settings.UserAppSettingsScreen
 import com.android.geto.ui.theme.DevOpsHideNoRootTheme
+import com.core.common.navigation.NavigationKey.NAV_KEY_APP_NAME
+import com.core.common.navigation.NavigationKey.NAV_KEY_PACKAGE_NAME
+import com.core.common.navigation.NavigationScreen
+import com.feature.user_app_list.presentation.user_app_list.UserAppListScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -42,7 +42,9 @@ class MainActivity : ComponentActivity() {
                         startDestination = NavigationScreen.UserAppList.route
                     ) {
                         composable(route = NavigationScreen.UserAppList.route) {
-                            UserAppListScreen(navController = navController)
+                            UserAppListScreen(
+                                navController = navController
+                            )
                         }
 
                         composable(route = NavigationScreen.UserAppSettings.route + "/{$NAV_KEY_PACKAGE_NAME}/{$NAV_KEY_APP_NAME}") {

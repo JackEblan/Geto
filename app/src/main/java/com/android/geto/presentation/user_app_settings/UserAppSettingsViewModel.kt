@@ -5,11 +5,11 @@ import android.content.pm.PackageManager
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.android.geto.common.navigation.NavigationKey.NAV_KEY_APP_NAME
-import com.android.geto.common.navigation.NavigationKey.NAV_KEY_PACKAGE_NAME
 import com.android.geto.domain.repository.SettingsRepository
 import com.android.geto.domain.repository.UserAppSettingsRepository
 import com.android.geto.domain.use_case.user_app_settings.UserAppSettingsUseCases
+import com.core.common.navigation.NavigationKey.NAV_KEY_APP_NAME
+import com.core.common.navigation.NavigationKey.NAV_KEY_PACKAGE_NAME
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow

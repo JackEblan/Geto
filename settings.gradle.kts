@@ -15,3 +15,7 @@ dependencyResolutionManagement {
 
 rootProject.name = "Geto"
 include(":app")
+include(":feature:user_app_list:data")
+include(":feature:user_app_list:domain")
+include(":feature:user_app_list:presentation")
+include(":core:common")

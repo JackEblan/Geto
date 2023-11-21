@@ -1,20 +1,17 @@
+@Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
-    id("com.google.dagger.hilt.android")
-    id("com.google.devtools.ksp")
+    alias(libs.plugins.com.android.library)
+    alias(libs.plugins.org.jetbrains.kotlin.android)
+    alias(libs.plugins.com.google.dagger.hilt.android)
+    alias(libs.plugins.com.google.devtools.ksp)
 }
 
 android {
-    namespace = "com.android.geto"
+    namespace = "com.feature.user_app_list.presentation"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.android.geto"
         minSdk = 26
-        targetSdk = 34
-        versionCode = 2
-        versionName = "1.2 Alpha version"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -52,7 +49,8 @@ android {
 
 dependencies {
     implementation(project(":core:common"))
-    implementation(project(":feature:user_app_list:presentation"))
+    implementation(project(":feature:user_app_list:data"))
+    implementation(project(":feature:user_app_list:domain"))
 
     implementation(libs.core.ktx)
     implementation(libs.activity.ktx)
@@ -83,8 +81,4 @@ dependencies {
     implementation(libs.hilt.navigation.compose)
     ksp(libs.dagger.compiler)
     ksp(libs.hilt.compiler)
-
-    implementation(libs.room.runtime)
-    implementation(libs.room.ktx)
-    ksp(libs.room.compiler)
 }

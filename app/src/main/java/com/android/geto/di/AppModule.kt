@@ -5,10 +5,8 @@ import android.content.pm.PackageManager
 import androidx.room.Room
 import com.android.geto.data.local.AppDatabase
 import com.android.geto.data.repository.SettingsRepositoryImpl
-import com.android.geto.data.repository.UserAppListRepositoryImpl
 import com.android.geto.data.repository.UserAppSettingsRepositoryImpl
 import com.android.geto.domain.repository.SettingsRepository
-import com.android.geto.domain.repository.UserAppListRepository
 import com.android.geto.domain.repository.UserAppSettingsRepository
 import com.android.geto.domain.use_case.ValidatePackageName
 import com.android.geto.domain.use_case.add_settings.AddSettingsUseCases
@@ -41,15 +39,6 @@ object AppModule {
     @Provides
     fun packageManager(@ApplicationContext context: Context): PackageManager =
         context.packageManager
-
-    @Singleton
-    @Provides
-    fun userAppListRepository(
-        @ApplicationContext context: Context,
-        @DefaultDispatcher defaultDispatcher: CoroutineDispatcher
-    ): UserAppListRepository = UserAppListRepositoryImpl(
-        defaultDispatcher = defaultDispatcher, packageManager = context.packageManager
-    )
 
     @Singleton
     @Provides

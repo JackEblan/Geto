@@ -1,0 +1,76 @@
+[versions]
+room_version = "2.6.0"
+dagger_hilt_version = "2.48.1"
+dagger_hilt_navigation_compose_version = "1.1.0"
+lifecyle_scopes_version = "2.6.2"
+kotlinx_coroutines_core_version = "1.7.1"
+kotlinx_coroutines_android_version = "1.7.3"
+lifecycle_viewmodel_compose_version = "2.7.0-rc01"
+navigation_compose_version = "2.7.5"
+compose_bom = "2023.10.01"
+espresso_core_version = "3.5.1"
+test-ext-junit_version = "1.1.5"
+junit_version = "4.13.2"
+compose_material3_version = "1.2.0-alpha11"
+activity_version = "1.8.1"
+lifecycle-runtime-ktx_version = "2.6.2"
+core-ktx_version = "1.12.0"
+agp = "8.1.2"
+org-jetbrains-kotlin-android = "1.9.10"
+appcompat = "1.6.1"
+material = "1.10.0"
+ksp_version = "1.9.10-1.0.13"
+
+[libraries]
+# Room Database
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "room_version" }
+room-ktx = { module = "androidx.room:room-ktx", version.ref = "room_version" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "room_version" }
+
+# Dagger Hilt
+hilt-android-gradle-plugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "dagger_hilt_version" }
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "dagger_hilt_version" }
+hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "dagger_hilt_navigation_compose_version" }
+dagger-compiler = { module = "com.google.dagger:dagger-compiler", version.ref = "dagger_hilt_version" }
+hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "dagger_hilt_version" }
+
+# Lifecycle Scopes
+lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecyle_scopes_version" }
+lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecyle_scopes_version" }
+
+# Coroutines
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx_coroutines_core_version" }
+kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinx_coroutines_android_version" }
+
+# Jetpack Compose
+lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle_viewmodel_compose_version" }
+navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigation_compose_version" }
+compose-bom = { module = "androidx.compose:compose-bom", version.ref = "compose_bom" }
+ui = { module = "androidx.compose.ui:ui" }
+ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
+ui-graphics = { module = "androidx.compose.ui:ui-graphics" }
+ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
+ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
+ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
+compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "compose_material3_version" }
+
+# Test
+espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso_core_version" }
+test-ext-junit = { module = "androidx.test.ext:junit", version.ref = "test-ext-junit_version" }
+junit-junit = { module = "junit:junit", version.ref = "junit_version" }
+
+# Activity
+activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity_version" }
+activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "activity_version" }
+
+# Android Core
+core-ktx = { module = "androidx.core:core-ktx", version.ref = "core-ktx_version" }
+appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+
+[plugins]
+com-android-application = { id = "com.android.application", version.ref = "agp" }
+com-android-library = { id = "com.android.library", version.ref = "agp" }
+org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "org-jetbrains-kotlin-android" }
+com-google-dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "dagger_hilt_version" }
+com-google-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp_version" }
