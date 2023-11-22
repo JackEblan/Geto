@@ -20,9 +20,9 @@ gradlePlugin {
             implementationClass = "AndroidLibraryConventionPlugin"
         }
 
-        register("androidLibraryCompose") {
-            id = "com.android.geto.library.compose"
-            implementationClass = "AndroidLibraryComposeConventionPlugin"
+        register("androidFeature") {
+            id = "com.android.geto.feature"
+            implementationClass = "AndroidFeatureConventionPlugin"
         }
 
         register("androidHilt") {

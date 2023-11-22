@@ -28,16 +28,13 @@
             <option value="$PROJECT_DIR$/build-logic/convention" />
             <option value="$PROJECT_DIR$/core" />
             <option value="$PROJECT_DIR$/core/common" />
-            <option value="$PROJECT_DIR$/core/local" />
+            <option value="$PROJECT_DIR$/core/data" />
+            <option value="$PROJECT_DIR$/core/database" />
+            <option value="$PROJECT_DIR$/core/domain" />
+            <option value="$PROJECT_DIR$/core/model" />
             <option value="$PROJECT_DIR$/feature" />
-            <option value="$PROJECT_DIR$/feature/user_app_list" />
-            <option value="$PROJECT_DIR$/feature/user_app_list/data" />
-            <option value="$PROJECT_DIR$/feature/user_app_list/domain" />
-            <option value="$PROJECT_DIR$/feature/user_app_list/presentation" />
-            <option value="$PROJECT_DIR$/feature/user_app_settings" />
-            <option value="$PROJECT_DIR$/feature/user_app_settings/data" />
-            <option value="$PROJECT_DIR$/feature/user_app_settings/domain" />
-            <option value="$PROJECT_DIR$/feature/user_app_settings/presentation" />
+            <option value="$PROJECT_DIR$/feature/userapplist" />
+            <option value="$PROJECT_DIR$/feature/userappsettings" />
           </set>
         </option>
       </GradleProjectSettings>

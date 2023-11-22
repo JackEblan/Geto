@@ -16,11 +16,10 @@ dependencyResolutionManagement {
 
 rootProject.name = "Geto"
 include(":app")
-include(":feature:user_app_list:data")
-include(":feature:user_app_list:domain")
-include(":feature:user_app_list:presentation")
 include(":core:common")
-include(":feature:user_app_settings:data")
-include(":feature:user_app_settings:domain")
-include(":core:local")
-include(":feature:user_app_settings:presentation")
+include(":core:database")
+include(":core:data")
+include(":core:domain")
+include(":feature:userapplist")
+include(":feature:userappsettings")
+include(":core:model")

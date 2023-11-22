@@ -24,30 +24,30 @@ internal fun Project.configureAndroidCompose(
         }
 
         dependencies {
-            "implementation"(libs.findLibrary("core.ktx").get())
-            "implementation"(libs.findLibrary("activity.ktx").get())
-            "implementation"(libs.findLibrary("activity.compose").get())
-            "implementation"(platform(libs.findLibrary("compose.bom").get()))
-            "implementation"(libs.findLibrary("ui").get())
-            "implementation"(libs.findLibrary("ui.graphics").get())
-            "implementation"(libs.findLibrary("ui.tooling.preview").get())
-            "implementation"(libs.findLibrary("compose.material3").get())
-            "implementation"(libs.findLibrary("lifecycle.viewmodel.compose").get())
-            "implementation"(libs.findLibrary("navigation.compose").get())
+            add("implementation", (libs.findLibrary("core.ktx").get()))
+            add("implementation", (libs.findLibrary("activity.ktx").get()))
+            add("implementation", (libs.findLibrary("activity.compose").get()))
+            add("implementation", (platform(libs.findLibrary("compose.bom").get())))
+            add("implementation", (libs.findLibrary("ui").get()))
+            add("implementation", (libs.findLibrary("ui.graphics").get()))
+            add("implementation", (libs.findLibrary("ui.tooling.preview").get()))
+            add("implementation", (libs.findLibrary("compose.material3").get()))
+            add("implementation", (libs.findLibrary("lifecycle.viewmodel.compose").get()))
+            add("implementation", (libs.findLibrary("navigation.compose").get()))
 
-            "testImplementation"(libs.findLibrary("junit.junit").get())
-            "androidTestImplementation"(libs.findLibrary("test.ext.junit").get())
-            "androidTestImplementation"(libs.findLibrary("espresso.core").get())
-            "androidTestImplementation"(platform(libs.findLibrary("compose.bom").get()))
-            "androidTestImplementation"(libs.findLibrary("ui.test.junit4").get())
-            "debugImplementation"(libs.findLibrary("ui.tooling").get())
-            "debugImplementation"(libs.findLibrary("ui.test.manifest").get())
+            add("testImplementation", (libs.findLibrary("junit.junit").get()))
+            add("androidTestImplementation", (libs.findLibrary("test.ext.junit").get()))
+            add("androidTestImplementation", (libs.findLibrary("espresso.core").get()))
+            add("androidTestImplementation", (platform(libs.findLibrary("compose.bom").get())))
+            add("androidTestImplementation", (libs.findLibrary("ui.test.junit4").get()))
+            add("debugImplementation", (libs.findLibrary("ui.tooling").get()))
+            add("debugImplementation", (libs.findLibrary("ui.test.manifest").get()))
 
-            "implementation"(libs.findLibrary("kotlinx.coroutines.core").get())
-            "implementation"(libs.findLibrary("kotlinx.coroutines.android").get())
+            add("implementation", (libs.findLibrary("kotlinx.coroutines.core").get()))
+            add("implementation", (libs.findLibrary("kotlinx.coroutines.android").get()))
 
-            "implementation"(libs.findLibrary("lifecycle.viewmodel.ktx").get())
-            "implementation"(libs.findLibrary("lifecycle.runtime.ktx").get())
+            add("implementation", (libs.findLibrary("lifecycle.viewmodel.ktx").get()))
+            add("implementation", (libs.findLibrary("lifecycle.runtime.ktx").get()))
         }
     }
 }

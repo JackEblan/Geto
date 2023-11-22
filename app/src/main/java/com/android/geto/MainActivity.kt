@@ -15,8 +15,8 @@ import com.android.geto.ui.theme.DevOpsHideNoRootTheme
 import com.core.common.navigation.NavigationKey.NAV_KEY_APP_NAME
 import com.core.common.navigation.NavigationKey.NAV_KEY_PACKAGE_NAME
 import com.core.common.navigation.NavigationScreen
-import com.feature.user_app_list.presentation.user_app_list.UserAppListScreen
-import com.feature.user_app_settings.presentation.user_app_settings.UserAppSettingsScreen
+import com.feature.userapplist.UserAppListScreen
+import com.feature.userappsettings.UserAppSettingsScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
