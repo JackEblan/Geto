@@ -1,8 +1,10 @@
 import com.android.build.api.dsl.LibraryExtension
-import org.gradle.api.JavaVersion
+import com.android.geto.configureKotlinAndroid
+import com.android.geto.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.dependencies
 
 class AndroidLibraryConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
@@ -13,31 +15,14 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
             }
 
             extensions.configure<LibraryExtension> {
-                compileSdk = 34
+                configureKotlinAndroid(this)
+                defaultConfig.targetSdk = 34
+            }
 
-                defaultConfig {
-                    minSdk = 26
-                    targetSdk = 34
-                    testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-                    vectorDrawables {
-                        useSupportLibrary = true
-                    }
-                }
-
-                buildTypes {
-                    release {
-                        isMinifyEnabled = false
-                        proguardFiles(
-                            getDefaultProguardFile("proguard-android-optimize.txt"),
-                            "proguard-rules.pro"
-                        )
-                    }
-                }
-
-                compileOptions {
-                    sourceCompatibility = JavaVersion.VERSION_17
-                    targetCompatibility = JavaVersion.VERSION_17
-                }
+            dependencies {
+                "testImplementation"(libs.findLibrary("junit.junit").get())
+                "androidTestImplementation"(libs.findLibrary("test.ext.junit").get())
+                "androidTestImplementation"(libs.findLibrary("espresso.core").get())
             }
         }
     }

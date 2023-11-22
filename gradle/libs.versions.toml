@@ -1,4 +1,5 @@
 [versions]
+androidx_compose_compiler = "1.5.3"
 room_version = "2.6.0"
 dagger_hilt_version = "2.48.1"
 dagger_hilt_navigation_compose_version = "1.1.0"
@@ -71,6 +72,7 @@ material = { group = "com.google.android.material", name = "material", version.r
 # Gradle Plugin
 android-gradle_plugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp_version" }
 kotlin-gradle_plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "org_jetbrains_kotlin_android_version" }
+ksp-gradle_plugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp_version" }
 
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "agp_version" }
