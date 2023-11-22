@@ -2,7 +2,7 @@ package com.feature.user_app_settings.di
 
 import android.content.Context
 import com.core.common.di.IoDispatcher
-import com.core.local.database.AppDatabase
+import com.core.local.room.AppDatabase
 import com.feature.user_app_settings.data.repository.SettingsRepositoryImpl
 import com.feature.user_app_settings.data.repository.UserAppSettingsRepositoryImpl
 import com.feature.user_app_settings.domain.repository.SettingsRepository

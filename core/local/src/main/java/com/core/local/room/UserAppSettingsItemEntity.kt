@@ -1,4 +1,4 @@
-package com.core.local.database
+package com.core.local.room
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
