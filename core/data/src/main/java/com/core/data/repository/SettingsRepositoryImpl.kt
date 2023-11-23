@@ -2,6 +2,7 @@ package com.core.data.repository
 
 import android.content.ContentResolver
 import android.provider.Settings
+import com.core.common.di.IoDispatcher
 import com.core.domain.repository.ApplySettingsResultMessage
 import com.core.domain.repository.SettingsRepository
 import com.core.model.SettingsType
@@ -11,7 +12,8 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class SettingsRepositoryImpl @Inject constructor(
-    private val ioDispatcher: CoroutineDispatcher, private val contentResolver: ContentResolver
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
+    private val contentResolver: ContentResolver
 ) : SettingsRepository {
     override suspend fun applySettings(userAppSettingsItemList: List<UserAppSettingsItem>): Result<ApplySettingsResultMessage> {
         return withContext(ioDispatcher) {

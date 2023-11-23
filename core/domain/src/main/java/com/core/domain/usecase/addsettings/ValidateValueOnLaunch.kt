@@ -1,6 +1,6 @@
-package com.core.domain.use_case.add_settings
+package com.core.domain.usecase.addsettings
 
-import com.core.domain.use_case.ValidationResult
+import com.core.domain.usecase.ValidationResult
 
 class ValidateValueOnLaunch {
 

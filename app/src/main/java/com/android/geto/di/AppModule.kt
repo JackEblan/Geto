@@ -1,5 +1,6 @@
-package com.feature.userappsettings.di
+package com.android.geto.di
 
+import android.content.ContentResolver
 import android.content.Context
 import android.content.pm.PackageManager
 import dagger.Module
@@ -11,7 +12,11 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object UserAppSettingsPresentationModule {
+object AppModule {
+    @Provides
+    @Singleton
+    fun contentResolver(@ApplicationContext context: Context): ContentResolver =
+        context.contentResolver
 
     @Provides
     @Singleton

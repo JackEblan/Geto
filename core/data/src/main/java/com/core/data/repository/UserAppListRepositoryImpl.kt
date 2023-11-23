@@ -4,6 +4,7 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import com.core.common.di.IoDispatcher
 import com.core.domain.repository.UserAppListRepository
 import com.core.model.AppItem
 import kotlinx.coroutines.CoroutineDispatcher
@@ -11,7 +12,8 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class UserAppListRepositoryImpl @Inject constructor(
-    private val defaultDispatcher: CoroutineDispatcher, private val packageManager: PackageManager
+    @IoDispatcher private val defaultDispatcher: CoroutineDispatcher,
+    private val packageManager: PackageManager
 ) : UserAppListRepository {
 
     override suspend fun getUserAppList(): List<AppItem> {

@@ -1,6 +1,6 @@
-package com.core.domain.use_case.user_app_settings
+package com.core.domain.usecase.userappsettings
 
-import com.core.domain.use_case.ValidatePackageName
+import com.core.domain.usecase.ValidatePackageName
 
 data class UserAppSettingsUseCases(
     val validateAppName: ValidateAppName,

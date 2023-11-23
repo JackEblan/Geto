@@ -1,6 +1,6 @@
-package com.core.domain.use_case.user_app_settings
+package com.core.domain.usecase.userappsettings
 
-import com.core.domain.use_case.ValidationResult
+import com.core.domain.usecase.ValidationResult
 import com.core.model.UserAppSettingsItem
 
 class ValidateUserAppSettingsList {

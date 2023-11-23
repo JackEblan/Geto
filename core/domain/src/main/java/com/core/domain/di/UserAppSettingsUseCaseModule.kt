@@ -1,14 +1,14 @@
 package com.core.domain.di
 
-import com.core.domain.use_case.ValidatePackageName
-import com.core.domain.use_case.add_settings.AddSettingsUseCases
-import com.core.domain.use_case.add_settings.ValidateKey
-import com.core.domain.use_case.add_settings.ValidateLabel
-import com.core.domain.use_case.add_settings.ValidateValueOnLaunch
-import com.core.domain.use_case.add_settings.ValidateValueOnRevert
-import com.core.domain.use_case.user_app_settings.UserAppSettingsUseCases
-import com.core.domain.use_case.user_app_settings.ValidateAppName
-import com.core.domain.use_case.user_app_settings.ValidateUserAppSettingsList
+import com.core.domain.usecase.ValidatePackageName
+import com.core.domain.usecase.addsettings.AddSettingsUseCases
+import com.core.domain.usecase.addsettings.ValidateKey
+import com.core.domain.usecase.addsettings.ValidateLabel
+import com.core.domain.usecase.addsettings.ValidateValueOnLaunch
+import com.core.domain.usecase.addsettings.ValidateValueOnRevert
+import com.core.domain.usecase.userappsettings.UserAppSettingsUseCases
+import com.core.domain.usecase.userappsettings.ValidateAppName
+import com.core.domain.usecase.userappsettings.ValidateUserAppSettingsList
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

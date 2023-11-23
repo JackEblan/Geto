@@ -9,7 +9,7 @@ import com.core.common.navigation.NavigationKey.NAV_KEY_APP_NAME
 import com.core.common.navigation.NavigationKey.NAV_KEY_PACKAGE_NAME
 import com.core.domain.repository.SettingsRepository
 import com.core.domain.repository.UserAppSettingsRepository
-import com.core.domain.use_case.user_app_settings.UserAppSettingsUseCases
+import com.core.domain.usecase.userappsettings.UserAppSettingsUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow

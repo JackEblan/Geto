@@ -1,5 +1,6 @@
 package com.core.data.repository
 
+import com.core.common.di.IoDispatcher
 import com.core.database.room.AppDatabase
 import com.core.database.room.UserAppSettingsItemEntity
 import com.core.domain.repository.AddUserAppSettingsResultMessage
@@ -12,7 +13,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class UserAppSettingsRepositoryImpl @Inject constructor(
-    private val ioDispatcher: CoroutineDispatcher, appDatabase: AppDatabase
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher, appDatabase: AppDatabase
 ) : UserAppSettingsRepository {
 
     private val dao = appDatabase.userAppSettingsDao

@@ -20,6 +20,7 @@ include(":core:common")
 include(":core:database")
 include(":core:data")
 include(":core:domain")
+include(":core:model")
+
 include(":feature:userapplist")
 include(":feature:userappsettings")
-include(":core:model")

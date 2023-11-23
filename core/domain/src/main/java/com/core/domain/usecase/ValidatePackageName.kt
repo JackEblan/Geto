@@ -1,4 +1,4 @@
-package com.core.domain.use_case
+package com.core.domain.usecase
 
 class ValidatePackageName {
 

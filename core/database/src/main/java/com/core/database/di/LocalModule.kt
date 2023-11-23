@@ -18,4 +18,6 @@ object LocalModule {
     fun appDatabase(@ApplicationContext context: Context): AppDatabase = Room.databaseBuilder(
         context, AppDatabase::class.java, AppDatabase.DATABASE_NAME
     ).build()
+
+
 }

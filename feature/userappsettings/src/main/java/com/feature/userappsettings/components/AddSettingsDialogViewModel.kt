@@ -3,7 +3,7 @@ package com.feature.userappsettings.components
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.core.domain.repository.UserAppSettingsRepository
-import com.core.domain.use_case.add_settings.AddSettingsUseCases
+import com.core.domain.usecase.addsettings.AddSettingsUseCases
 import com.core.model.SettingsType
 import com.core.model.UserAppSettingsItem
 import dagger.hilt.android.lifecycle.HiltViewModel
