@@ -9,14 +9,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.android.geto.ui.theme.DevOpsHideNoRootTheme
-import com.core.common.navigation.NavigationKey.NAV_KEY_APP_NAME
-import com.core.common.navigation.NavigationKey.NAV_KEY_PACKAGE_NAME
-import com.core.common.navigation.NavigationScreen
-import com.feature.userapplist.UserAppListScreen
-import com.feature.userappsettings.UserAppSettingsScreen
+import com.feature.userapplist.navigation.userAppListNavigationRoute
+import com.feature.userapplist.navigation.userAppListScreen
+import com.feature.userappsettings.navigation.navigateToUserAppSettings
+import com.feature.userappsettings.navigation.userAppSettingsScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -38,20 +36,17 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
 
                     NavHost(
-                        navController = navController,
-                        startDestination = NavigationScreen.UserAppList.route
+                        navController = navController, startDestination = userAppListNavigationRoute
                     ) {
-                        composable(route = NavigationScreen.UserAppList.route) {
-                            UserAppListScreen(
-                                navController = navController
+                        userAppListScreen(onItemClick = { packageName, appName ->
+                            navController.navigateToUserAppSettings(
+                                packageName = packageName, appName = appName
                             )
-                        }
+                        })
 
-                        composable(route = NavigationScreen.UserAppSettings.route + "/{$NAV_KEY_PACKAGE_NAME}/{$NAV_KEY_APP_NAME}") {
-                            UserAppSettingsScreen(
-                                navController = navController
-                            )
-                        }
+                        userAppSettingsScreen(onArrowBackClick = {
+                            navController.popBackStack()
+                        })
                     }
                 }
             }

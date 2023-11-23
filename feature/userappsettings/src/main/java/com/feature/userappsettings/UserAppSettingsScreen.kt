@@ -34,7 +34,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
-import androidx.navigation.NavController
 import com.core.model.UserAppSettingsItem
 import com.feature.userappsettings.components.AddSettingsDialog
 import kotlinx.coroutines.flow.collectLatest
@@ -42,8 +41,8 @@ import kotlinx.coroutines.flow.collectLatest
 @Composable
 fun UserAppSettingsScreen(
     modifier: Modifier = Modifier,
-    navController: NavController,
-    viewModel: UserAppSettingsViewModel = hiltViewModel()
+    viewModel: UserAppSettingsViewModel = hiltViewModel(),
+    onArrowBackClick: () -> Unit
 ) {
     val context = LocalContext.current
 
@@ -86,7 +85,7 @@ fun UserAppSettingsScreen(
     StatelessScreen(modifier = modifier,
                     state = state,
                     onNavigationIconClick = {
-                        navController.popBackStack()
+                        onArrowBackClick()
                     },
                     onUserAppSettingsItemCheckBoxChange = { checked, userAppSettingsItem ->
                         viewModel.onEvent(

@@ -16,7 +16,7 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                 apply("com.android.geto.hilt")
             }
 
-            extensions.configure<com.android.build.api.dsl.LibraryExtension> {
+            extensions.configure<LibraryExtension> {
                 configureKotlinAndroid(this)
                 defaultConfig.targetSdk = 34
             }
@@ -25,7 +25,6 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
             configureAndroidCompose(extension)
 
             dependencies {
-                add("implementation", project(":core:common"))
                 add("implementation", project(":core:data"))
                 add("implementation", project(":core:domain"))
                 add("implementation", project(":core:model"))

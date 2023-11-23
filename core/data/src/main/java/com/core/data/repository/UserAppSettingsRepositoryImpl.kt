@@ -1,5 +1,6 @@
 package com.core.data.repository
 
+import com.core.common.di.DefaultDispatcher
 import com.core.common.di.IoDispatcher
 import com.core.database.room.AppDatabase
 import com.core.database.room.UserAppSettingsItemEntity
@@ -13,7 +14,9 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class UserAppSettingsRepositoryImpl @Inject constructor(
-    @IoDispatcher private val ioDispatcher: CoroutineDispatcher, appDatabase: AppDatabase
+    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
+    appDatabase: AppDatabase
 ) : UserAppSettingsRepository {
 
     private val dao = appDatabase.userAppSettingsDao
@@ -52,18 +55,19 @@ class UserAppSettingsRepositoryImpl @Inject constructor(
         }
     }
 
-    private fun List<UserAppSettingsItemEntity>.toSettingsItemList(): List<UserAppSettingsItem> {
-
-        return map { entity ->
-            UserAppSettingsItem(
-                enabled = entity.enabled,
-                settingsType = entity.settingsType,
-                packageName = entity.packageName,
-                label = entity.label,
-                key = entity.key,
-                valueOnLaunch = entity.valueOnLaunch,
-                valueOnRevert = entity.valueOnRevert
-            )
+    private suspend fun List<UserAppSettingsItemEntity>.toSettingsItemList(): List<UserAppSettingsItem> {
+        return withContext(defaultDispatcher) {
+            map { entity ->
+                UserAppSettingsItem(
+                    enabled = entity.enabled,
+                    settingsType = entity.settingsType,
+                    packageName = entity.packageName,
+                    label = entity.label,
+                    key = entity.key,
+                    valueOnLaunch = entity.valueOnLaunch,
+                    valueOnRevert = entity.valueOnRevert
+                )
+            }
         }
     }
 
