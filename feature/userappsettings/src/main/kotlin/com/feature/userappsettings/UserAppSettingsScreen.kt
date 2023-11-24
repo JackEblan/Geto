@@ -34,12 +34,13 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.core.model.UserAppSettingsItem
 import com.feature.userappsettings.components.AddSettingsDialog
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
-fun UserAppSettingsScreen(
+internal fun UserAppSettingsScreen(
     modifier: Modifier = Modifier,
     viewModel: UserAppSettingsViewModel = hiltViewModel(),
     onArrowBackClick: () -> Unit
@@ -50,10 +51,12 @@ fun UserAppSettingsScreen(
 
     val state = viewModel.state.collectAsState().value
 
+    val userAppSettingsList = viewModel.userAppSettingsList.collectAsStateWithLifecycle().value
+
     DisposableEffect(lifecycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
             if (event == Lifecycle.Event.ON_RESUME) {
-                viewModel.onEvent(UserAppSettingsEvent.OnRevertSettings)
+                viewModel.onEvent(UserAppSettingsEvent.OnRevertSettings(userAppSettingsList))
             }
         }
 
@@ -87,6 +90,7 @@ fun UserAppSettingsScreen(
                     onNavigationIconClick = {
                         onArrowBackClick()
                     },
+                    userAppSettingsList = userAppSettingsList,
                     onUserAppSettingsItemCheckBoxChange = { checked, userAppSettingsItem ->
                         viewModel.onEvent(
                             UserAppSettingsEvent.OnUserAppSettingsItemCheckBoxChange(
@@ -99,7 +103,7 @@ fun UserAppSettingsScreen(
                     },
                     onAddUserAppSettingsClick = { viewModel.onEvent(UserAppSettingsEvent.OnOpenAddSettingsDialog) },
                     onLaunchApp = {
-                        viewModel.onEvent(UserAppSettingsEvent.OnLaunchApp)
+                        viewModel.onEvent(UserAppSettingsEvent.OnLaunchApp(userAppSettingsList))
                     })
 
     if (state.openAddSettingsDialog) {
@@ -115,6 +119,7 @@ fun UserAppSettingsScreen(
 private fun StatelessScreen(
     modifier: Modifier = Modifier,
     state: UserAppSettingsState,
+    userAppSettingsList: List<UserAppSettingsItem>,
     onNavigationIconClick: () -> Unit,
     onUserAppSettingsItemCheckBoxChange: (Boolean, UserAppSettingsItem) -> Unit,
     onDeleteUserAppSettingsItem: (UserAppSettingsItem) -> Unit,
@@ -139,7 +144,7 @@ private fun StatelessScreen(
         ) {
 
             LazyColumn(modifier = Modifier.weight(1f)) {
-                items(state.userAppSettingsList) { settingsItem ->
+                items(userAppSettingsList) { settingsItem ->
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         verticalAlignment = Alignment.CenterVertically

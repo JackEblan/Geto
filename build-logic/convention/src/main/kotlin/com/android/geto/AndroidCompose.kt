@@ -43,6 +43,7 @@ internal fun Project.configureAndroidCompose(
 
             add("implementation", (libs.findLibrary("lifecycle.viewmodel.ktx").get()))
             add("implementation", (libs.findLibrary("lifecycle.runtime.ktx").get()))
+            add("implementation", (libs.findLibrary("lifecycle.runtime.compose").get()))
         }
     }
 }

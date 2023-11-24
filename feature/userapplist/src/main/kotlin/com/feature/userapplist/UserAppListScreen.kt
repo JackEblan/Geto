@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
-fun UserAppListScreen(
+internal fun UserAppListScreen(
     modifier: Modifier = Modifier,
     viewModel: UserAppListViewModel = hiltViewModel(),
     onItemClick: (String, String) -> Unit

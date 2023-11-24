@@ -1,13 +1,10 @@
 package com.core.domain.di
 
-import com.core.domain.usecase.ValidatePackageName
 import com.core.domain.usecase.addsettings.AddSettingsUseCases
 import com.core.domain.usecase.addsettings.ValidateKey
 import com.core.domain.usecase.addsettings.ValidateLabel
 import com.core.domain.usecase.addsettings.ValidateValueOnLaunch
 import com.core.domain.usecase.addsettings.ValidateValueOnRevert
-import com.core.domain.usecase.userappsettings.UserAppSettingsUseCases
-import com.core.domain.usecase.userappsettings.ValidateAppName
 import com.core.domain.usecase.userappsettings.ValidateUserAppSettingsList
 import dagger.Module
 import dagger.Provides
@@ -25,15 +22,10 @@ object UserAppSettingsUseCaseModule {
         validateLabel = ValidateLabel(),
         validateKey = ValidateKey(),
         validateValueOnLaunch = ValidateValueOnLaunch(),
-        validateValueOnRevert = ValidateValueOnRevert(),
-        validatePackageName = ValidatePackageName()
+        validateValueOnRevert = ValidateValueOnRevert()
     )
 
     @Singleton
     @Provides
-    fun userAppSettingsUseCases(): UserAppSettingsUseCases = UserAppSettingsUseCases(
-        validateAppName = ValidateAppName(),
-        validatePackageName = ValidatePackageName(),
-        validateUserAppSettingsList = ValidateUserAppSettingsList()
-    )
+    fun validateUserAppSettingsList(): ValidateUserAppSettingsList = ValidateUserAppSettingsList()
 }

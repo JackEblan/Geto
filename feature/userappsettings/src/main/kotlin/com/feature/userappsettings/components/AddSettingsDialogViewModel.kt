@@ -32,8 +32,6 @@ class AddSettingsDialogViewModel @Inject constructor(
     fun onEvent(event: AddSettingsDialogEvent) {
         when (event) {
             is AddSettingsDialogEvent.AddSettings -> {
-                val packageNameResult = addSettingsUseCases.validatePackageName(event.packageName)
-
                 val labelResult = addSettingsUseCases.validateLabel(_state.value.label)
 
                 val keyResult = addSettingsUseCases.validateKey(_state.value.key)
@@ -47,10 +45,6 @@ class AddSettingsDialogViewModel @Inject constructor(
                 val hasTypingError = listOf(
                     labelResult, keyResult, valueOnLaunchResult, valueOnRevertResult
                 ).any { !it.successful }
-
-                if (!packageNameResult.successful) {
-                    return
-                }
 
                 if (hasTypingError) {
                     _state.value = _state.value.copy(

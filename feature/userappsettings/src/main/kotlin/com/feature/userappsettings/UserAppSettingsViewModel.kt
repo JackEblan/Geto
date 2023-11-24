@@ -7,15 +7,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.core.domain.repository.SettingsRepository
 import com.core.domain.repository.UserAppSettingsRepository
-import com.core.domain.usecase.userappsettings.UserAppSettingsUseCases
+import com.core.domain.usecase.userappsettings.ValidateUserAppSettingsList
+import com.core.model.UserAppSettingsItem
 import com.feature.userappsettings.navigation.NAV_KEY_APP_NAME
 import com.feature.userappsettings.navigation.NAV_KEY_PACKAGE_NAME
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,7 +27,7 @@ class UserAppSettingsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val userAppSettingsRepository: UserAppSettingsRepository,
     private val settingsRepository: SettingsRepository,
-    private val userAppSettingsUseCases: UserAppSettingsUseCases,
+    private val validateUserAppSettingsList: ValidateUserAppSettingsList,
     private val packageManager: PackageManager
 ) : ViewModel() {
     private val _state = MutableStateFlow(UserAppSettingsState())
@@ -39,33 +42,23 @@ class UserAppSettingsViewModel @Inject constructor(
 
     private val appName = savedStateHandle.get<String>(NAV_KEY_APP_NAME) ?: ""
 
+    val userAppSettingsList: StateFlow<List<UserAppSettingsItem>> =
+        userAppSettingsRepository.getUserAppSettingsList(packageName).stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = emptyList()
+        )
+
     init {
-        onEvent(UserAppSettingsEvent.GetUserAppSettingsList)
+        onEvent(UserAppSettingsEvent.GetUserAppInfo)
     }
 
     fun onEvent(event: UserAppSettingsEvent) {
         when (event) {
-            is UserAppSettingsEvent.GetUserAppSettingsList -> {
-                val appNameResult = userAppSettingsUseCases.validateAppName(appName)
-
-                val packageNameResult = userAppSettingsUseCases.validatePackageName(packageName)
-
-                if (!packageNameResult.successful || !appNameResult.successful) {
-                    return
-                }
-
+            is UserAppSettingsEvent.GetUserAppInfo -> {
                 _state.value = _state.value.copy(
                     appName = appName, packageName = packageName
                 )
-
-                viewModelScope.launch {
-                    userAppSettingsRepository.getUserAppSettingsList(packageName)
-                        .collectLatest { userAppSettingsList ->
-                            _state.value = _state.value.copy(
-                                userAppSettingsList = userAppSettingsList
-                            )
-                        }
-                }
             }
 
             UserAppSettingsEvent.OnDismissAddSettingsDialog -> {
@@ -77,12 +70,8 @@ class UserAppSettingsViewModel @Inject constructor(
             }
 
             is UserAppSettingsEvent.OnLaunchApp -> {
-                val appNameResult = userAppSettingsUseCases.validateAppName(appName)
-
-                val packageNameResult = userAppSettingsUseCases.validatePackageName(packageName)
-
                 val userAppSettingsListResult =
-                    userAppSettingsUseCases.validateUserAppSettingsList(_state.value.userAppSettingsList)
+                    validateUserAppSettingsList(event.userAppSettingsList)
 
                 if (!userAppSettingsListResult.successful) {
                     viewModelScope.launch {
@@ -92,12 +81,8 @@ class UserAppSettingsViewModel @Inject constructor(
                     return
                 }
 
-                if (!packageNameResult.successful || !appNameResult.successful) {
-                    return
-                }
-
                 viewModelScope.launch {
-                    settingsRepository.applySettings(_state.value.userAppSettingsList).onSuccess {
+                    settingsRepository.applySettings(event.userAppSettingsList).onSuccess {
                         val appIntent = packageManager.getLaunchIntentForPackage(packageName)
 
                         _uiEvent.emit(UIEvent.LaunchApp(appIntent))
@@ -107,13 +92,9 @@ class UserAppSettingsViewModel @Inject constructor(
                 }
             }
 
-            UserAppSettingsEvent.OnRevertSettings -> {
-                val appNameResult = userAppSettingsUseCases.validateAppName(appName)
-
-                val packageNameResult = userAppSettingsUseCases.validatePackageName(packageName)
-
+            is UserAppSettingsEvent.OnRevertSettings -> {
                 val userAppSettingsListResult =
-                    userAppSettingsUseCases.validateUserAppSettingsList(_state.value.userAppSettingsList)
+                    validateUserAppSettingsList(event.userAppSettingsList)
 
                 if (!userAppSettingsListResult.successful) {
                     viewModelScope.launch {
@@ -123,12 +104,8 @@ class UserAppSettingsViewModel @Inject constructor(
                     return
                 }
 
-                if (!packageNameResult.successful || !appNameResult.successful) {
-                    return
-                }
-
                 viewModelScope.launch {
-                    settingsRepository.revertSettings(_state.value.userAppSettingsList).onSuccess {
+                    settingsRepository.revertSettings(event.userAppSettingsList).onSuccess {
                         _uiEvent.emit(UIEvent.Toast(it))
                     }.onFailure {
                         _uiEvent.emit(UIEvent.Toast(it.message))
