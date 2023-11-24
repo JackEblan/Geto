@@ -35,11 +35,6 @@ internal fun Project.configureAndroidCompose(
             add("implementation", (libs.findLibrary("lifecycle.viewmodel.compose").get()))
             add("implementation", (libs.findLibrary("navigation.compose").get()))
 
-            add("testImplementation", (libs.findLibrary("junit.junit").get()))
-            add("androidTestImplementation", (libs.findLibrary("test.ext.junit").get()))
-            add("androidTestImplementation", (libs.findLibrary("espresso.core").get()))
-            add("androidTestImplementation", (platform(libs.findLibrary("compose.bom").get())))
-            add("androidTestImplementation", (libs.findLibrary("ui.test.junit4").get()))
             add("debugImplementation", (libs.findLibrary("ui.tooling").get()))
             add("debugImplementation", (libs.findLibrary("ui.test.manifest").get()))
 

@@ -66,13 +66,13 @@ activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "activ
 
 # Android Core
 core-ktx = { module = "androidx.core:core-ktx", version.ref = "core-ktx_version" }
-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
+material = { module = "com.google.android.material:material", version.ref = "material" }
 
 # Gradle Plugin
-android-gradle_plugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp_version" }
-kotlin-gradle_plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "org_jetbrains_kotlin_android_version" }
-ksp-gradle_plugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp_version" }
+android-gradle_plugin = { module = "com.android.tools.build:gradle", version.ref = "agp_version" }
+kotlin-gradle_plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "org_jetbrains_kotlin_android_version" }
+ksp-gradle_plugin = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version.ref = "ksp_version" }
 
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "agp_version" }
