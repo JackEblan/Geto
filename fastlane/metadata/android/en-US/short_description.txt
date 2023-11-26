@@ -1,0 +1,1 @@
+Apply your custom device settings to a specific user app.

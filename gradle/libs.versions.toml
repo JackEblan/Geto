@@ -5,8 +5,7 @@ dagger_hilt_version = "2.48.1"
 dagger_hilt_navigation_compose_version = "1.1.0"
 lifecyle_scopes_version = "2.6.2"
 lifecycle_viewmodel_compose_version = "2.7.0-rc01"
-kotlinx_coroutines_core_version = "1.7.1"
-kotlinx_coroutines_android_version = "1.7.3"
+kotlinx_coroutines_version = "1.7.3"
 navigation_compose_version = "2.7.5"
 compose_bom = "2023.10.01"
 espresso_core_version = "3.5.1"
@@ -16,7 +15,7 @@ compose_material3_version = "1.2.0-alpha11"
 activity_version = "1.8.1"
 lifecycle-runtime-ktx_version = "2.6.2"
 core-ktx_version = "1.12.0"
-agp_version = "8.1.2"
+agp_version = "8.1.4"
 org_jetbrains_kotlin_android_version = "1.9.10"
 appcompat = "1.6.1"
 material = "1.10.0"
@@ -41,8 +40,8 @@ lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", v
 lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecyle_scopes_version" }
 
 # Coroutines
-kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx_coroutines_core_version" }
-kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinx_coroutines_android_version" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx_coroutines_version" }
+kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinx_coroutines_version" }
 
 # Jetpack Compose
 lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle_viewmodel_compose_version" }
