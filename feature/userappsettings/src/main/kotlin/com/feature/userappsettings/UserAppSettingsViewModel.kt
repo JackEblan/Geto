@@ -97,10 +97,6 @@ class UserAppSettingsViewModel @Inject constructor(
                     validateUserAppSettingsList(event.userAppSettingsList)
 
                 if (!userAppSettingsListResult.successful) {
-                    viewModelScope.launch {
-                        _uiEvent.emit(UIEvent.Toast(userAppSettingsListResult.errorMessage))
-                    }
-
                     return
                 }
 
