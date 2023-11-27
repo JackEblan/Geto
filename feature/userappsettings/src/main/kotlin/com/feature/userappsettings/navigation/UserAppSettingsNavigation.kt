@@ -6,17 +6,17 @@ import androidx.navigation.compose.composable
 import com.feature.userappsettings.UserAppSettingsScreen
 
 
-const val NAV_KEY_PACKAGE_NAME = "package_name"
+const val navKeyPackageName = "package_name"
 
-const val NAV_KEY_APP_NAME = "app_name"
+const val navKeyAppName = "app_name"
 
-const val userAppSettingsNavigationRouteTitle = "user_app_settings_route"
+const val userAppSettingsNavigationRoutePrefix = "user_app_settings_route"
 
 const val userAppSettingsNavigationRoute =
-    "$userAppSettingsNavigationRouteTitle/{$NAV_KEY_PACKAGE_NAME}/{$NAV_KEY_APP_NAME}"
+    "$userAppSettingsNavigationRoutePrefix/{$navKeyPackageName}/{$navKeyAppName}"
 
 fun NavController.navigateToUserAppSettings(packageName: String, appName: String) {
-    this.navigate("$userAppSettingsNavigationRouteTitle/$packageName/$appName")
+    this.navigate("$userAppSettingsNavigationRoutePrefix/$packageName/$appName")
 }
 
 fun NavGraphBuilder.userAppSettingsScreen(onArrowBackClick: () -> Unit) {
