@@ -23,9 +23,24 @@ dependencies {
 
 gradlePlugin {
     plugins {
+        register("androidApplication") {
+            id = "com.android.geto.application"
+            implementationClass = "AndroidApplicationConventionPlugin"
+        }
+
+        register("androidApplicationCompose") {
+            id = "com.android.geto.application.compose"
+            implementationClass = "AndroidApplicationComposeConventionPlugin"
+        }
+
         register("androidLibrary") {
             id = "com.android.geto.library"
             implementationClass = "AndroidLibraryConventionPlugin"
+        }
+
+        register("androidLibraryCompose") {
+            id = "com.android.geto.library.compose"
+            implementationClass = "AndroidLibraryComposeConventionPlugin"
         }
 
         register("androidFeature") {

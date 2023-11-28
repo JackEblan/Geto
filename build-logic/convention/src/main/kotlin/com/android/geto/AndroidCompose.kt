@@ -14,7 +14,7 @@ internal fun Project.configureAndroidCompose(
 
         composeOptions {
             kotlinCompilerExtensionVersion =
-                libs.findVersion("androidx.compose.compiler").get().toString()
+                libs.findVersion("androidxComposeCompiler").get().toString()
         }
 
         packaging {
@@ -24,26 +24,10 @@ internal fun Project.configureAndroidCompose(
         }
 
         dependencies {
-            add("implementation", (libs.findLibrary("core.ktx").get()))
-            add("implementation", (libs.findLibrary("activity.ktx").get()))
-            add("implementation", (libs.findLibrary("activity.compose").get()))
-            add("implementation", (platform(libs.findLibrary("compose.bom").get())))
-            add("implementation", (libs.findLibrary("ui").get()))
-            add("implementation", (libs.findLibrary("ui.graphics").get()))
-            add("implementation", (libs.findLibrary("ui.tooling.preview").get()))
-            add("implementation", (libs.findLibrary("compose.material3").get()))
-            add("implementation", (libs.findLibrary("lifecycle.viewmodel.compose").get()))
-            add("implementation", (libs.findLibrary("navigation.compose").get()))
-
-            add("debugImplementation", (libs.findLibrary("ui.tooling").get()))
-            add("debugImplementation", (libs.findLibrary("ui.test.manifest").get()))
-
-            add("implementation", (libs.findLibrary("kotlinx.coroutines.core").get()))
-            add("implementation", (libs.findLibrary("kotlinx.coroutines.android").get()))
-
-            add("implementation", (libs.findLibrary("lifecycle.viewmodel.ktx").get()))
-            add("implementation", (libs.findLibrary("lifecycle.runtime.ktx").get()))
-            add("implementation", (libs.findLibrary("lifecycle.runtime.compose").get()))
+            val bom = libs.findLibrary("androidx-compose-bom").get()
+            add("implementation", platform(bom))
+            add("androidTestImplementation", platform(bom))
+            add("debugImplementation", libs.findLibrary("androidx.compose.ui.test.manifest").get())
         }
     }
 }
