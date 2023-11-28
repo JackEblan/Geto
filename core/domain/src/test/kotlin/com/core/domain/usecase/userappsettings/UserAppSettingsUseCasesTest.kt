@@ -16,7 +16,7 @@ class UserAppSettingsUseCasesTest {
     }
 
     @Test
-    fun `When user app settings list is empty or no enabled settings, return error`() {
+    fun `When user app settings list has no enabled settings, return error`() {
         val userAppSettingsList = listOf(
             UserAppSettingsItem(
                 enabled = false,
@@ -30,6 +30,13 @@ class UserAppSettingsUseCasesTest {
         )
 
         val result = validateUserAppSettingsList(userAppSettingsList)
+
+        assertEquals(result.successful, false)
+    }
+
+    @Test
+    fun `When user app settings list is empty, return error`() {
+        val result = validateUserAppSettingsList(emptyList())
 
         assertEquals(result.successful, false)
     }
