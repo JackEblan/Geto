@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.android.geto.ui.theme.DevOpsHideNoRootTheme
-import com.feature.userapplist.navigation.userAppListNavigationRoute
+import com.feature.userapplist.navigation.USER_APP_LIST_NAVIGATION_ROUTE
 import com.feature.userapplist.navigation.userAppListScreen
 import com.feature.userappsettings.navigation.navigateToUserAppSettings
 import com.feature.userappsettings.navigation.userAppSettingsScreen
@@ -28,7 +28,7 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
 
                     NavHost(
-                        navController = navController, startDestination = userAppListNavigationRoute
+                        navController = navController, startDestination = USER_APP_LIST_NAVIGATION_ROUTE
                     ) {
                         userAppListScreen(onItemClick = { packageName, appName ->
                             navController.navigateToUserAppSettings(

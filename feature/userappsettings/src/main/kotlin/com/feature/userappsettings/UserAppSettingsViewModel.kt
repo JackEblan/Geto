@@ -9,8 +9,8 @@ import com.core.domain.repository.SettingsRepository
 import com.core.domain.repository.UserAppSettingsRepository
 import com.core.domain.usecase.userappsettings.ValidateUserAppSettingsList
 import com.core.model.UserAppSettingsItem
-import com.feature.userappsettings.navigation.navKeyAppName
-import com.feature.userappsettings.navigation.navKeyPackageName
+import com.feature.userappsettings.navigation.NAV_KEY_APP_NAME
+import com.feature.userappsettings.navigation.NAV_KEY_PACKAGE_NAME
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -38,9 +38,9 @@ class UserAppSettingsViewModel @Inject constructor(
 
     val uiEvent = _uiEvent.asSharedFlow()
 
-    private val packageName = savedStateHandle.get<String>(navKeyPackageName) ?: ""
+    private val packageName = savedStateHandle.get<String>(NAV_KEY_PACKAGE_NAME) ?: ""
 
-    private val appName = savedStateHandle.get<String>(navKeyAppName) ?: ""
+    private val appName = savedStateHandle.get<String>(NAV_KEY_APP_NAME) ?: ""
 
     val userAppSettingsList: StateFlow<List<UserAppSettingsItem>> =
         userAppSettingsRepository.getUserAppSettingsList(packageName).stateIn(

@@ -10,7 +10,7 @@ navigation_compose_version = "2.7.5"
 compose_bom = "2023.10.01"
 espresso_core_version = "3.5.1"
 test-ext-junit_version = "1.1.5"
-junit_version = "4.13.2"
+junit4_version = "4.13.2"
 compose_material3_version = "1.2.0-alpha11"
 activity_version = "1.8.1"
 lifecycle-runtime-ktx_version = "2.6.2"
@@ -58,7 +58,7 @@ compose-material3 = { module = "androidx.compose.material3:material3", version.r
 # Test
 espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso_core_version" }
 test-ext-junit = { module = "androidx.test.ext:junit", version.ref = "test-ext-junit_version" }
-junit-junit = { module = "junit:junit", version.ref = "junit_version" }
+junit-junit4 = { module = "junit:junit", version.ref = "junit4_version" }
 
 # Activity
 activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity_version" }
