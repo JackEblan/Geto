@@ -1,31 +1,22 @@
 package com.feature.userapplist
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.core.domain.repository.UserAppListRepository
+import com.core.model.AppItem
+import com.core.systemmanagers.PackageManagerHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class UserAppListViewModel @Inject constructor(private val repository: UserAppListRepository) :
+class UserAppListViewModel @Inject constructor(packageManagerHelper: PackageManagerHelper) :
     ViewModel() {
 
-    private val _state = MutableStateFlow(UserAppListState())
+    private val _apps = MutableStateFlow<List<AppItem>>(emptyList())
 
-    val state = _state.asStateFlow()
+    val apps = _apps.asStateFlow()
 
     init {
-        getUserAppList()
-    }
-
-    private fun getUserAppList() {
-        viewModelScope.launch {
-            val apps = repository.getUserAppList()
-
-            _state.value = _state.value.copy(apps = apps, isLoading = false)
-        }
+        _apps.value = packageManagerHelper.getNonSystemAppList()
     }
 }

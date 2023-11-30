@@ -13,29 +13,22 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             with(pluginManager) {
-                apply("com.android.library")
-                apply("org.jetbrains.kotlin.android")
+                apply("com.android.geto.library")
                 apply("com.android.geto.hilt")
             }
 
             extensions.configure<LibraryExtension> {
-                configureKotlinAndroid(this)
-                defaultConfig.targetSdk = 34
+                defaultConfig {
+                    testInstrumentationRunner =
+                        "com.core.testing.HiltTestRunner"
+                }
             }
-
-            val extension = extensions.getByType<LibraryExtension>()
-            configureAndroidCompose(extension)
 
             dependencies {
                 add("implementation", project(":core:data"))
                 add("implementation", project(":core:designsystem"))
                 add("implementation", project(":core:domain"))
                 add("implementation", project(":core:model"))
-
-                add("testImplementation", kotlin("test"))
-                add("testImplementation", project(":core:testing"))
-                add("androidTestImplementation", kotlin("test"))
-                add("androidTestImplementation", project(":core:testing"))
 
                 add("implementation", libs.findLibrary("androidx.hilt.navigation.compose").get())
                 add("implementation", libs.findLibrary("androidx.lifecycle.runtime.compose").get())

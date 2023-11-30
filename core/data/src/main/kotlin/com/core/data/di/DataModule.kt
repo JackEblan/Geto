@@ -1,10 +1,8 @@
 package com.core.data.di
 
 import com.core.data.repository.SettingsRepositoryImpl
-import com.core.data.repository.UserAppListRepositoryImpl
 import com.core.data.repository.UserAppSettingsRepositoryImpl
 import com.core.domain.repository.SettingsRepository
-import com.core.domain.repository.UserAppListRepository
 import com.core.domain.repository.UserAppSettingsRepository
 import dagger.Binds
 import dagger.Module
@@ -15,10 +13,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 interface DataModule {
-
-    @Binds
-    @Singleton
-    fun userAppListRepository(impl: UserAppListRepositoryImpl): UserAppListRepository
 
     @Binds
     @Singleton

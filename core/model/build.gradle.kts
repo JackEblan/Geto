@@ -1,7 +1,3 @@
 plugins {
-    id("com.android.geto.library")
-}
-
-android {
-    namespace = "com.core.model"
+    id("com.android.geto.jvm.library")
 }

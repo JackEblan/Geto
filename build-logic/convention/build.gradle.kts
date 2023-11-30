@@ -57,5 +57,10 @@ gradlePlugin {
             id = "com.android.geto.room"
             implementationClass = "AndroidRoomConventionPlugin"
         }
+
+        register("jvmLibrary") {
+            id = "com.android.geto.jvm.library"
+            implementationClass = "JvmLibraryConventionPlugin"
+        }
     }
 }

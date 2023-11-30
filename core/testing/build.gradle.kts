@@ -8,6 +8,7 @@ android {
 }
 
 dependencies {
+    api(libs.androidx.test.ext)
     api(libs.androidx.test.core)
     api(libs.androidx.test.espresso.core)
     api(libs.androidx.test.rules)
@@ -15,4 +16,7 @@ dependencies {
     api(libs.hilt.android.testing)
     api(libs.junit.junit)
     api(libs.kotlinx.coroutines.test)
+    api(libs.mockito.core)
+    api(libs.mockito.kotlin)
+    api(libs.truth)
 }
