@@ -24,3 +24,6 @@ include(":core:model")
 
 include(":feature:userapplist")
 include(":feature:userappsettings")
+include(":core:testing")
+include(":core:designsystem")
+include(":core:systemmanagers")

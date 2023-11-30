@@ -1,8 +1,8 @@
 package com.core.domain.usecase.addsettings
 
+import com.google.common.truth.Truth.assertThat
 import org.junit.Before
 import org.junit.Test
-import kotlin.test.assertEquals
 
 class AddSettingsUseCasesTest {
 
@@ -19,30 +19,30 @@ class AddSettingsUseCasesTest {
     }
 
     @Test
-    fun `when settings key is blank, returnError`() {
+    fun `when settings key is blank, return false`() {
         val result = addSettingsUseCases.validateKey("")
 
-        assertEquals(result.successful, false)
+        assertThat(result.successful).isFalse()
     }
 
     @Test
-    fun `when settings label is blank, returnError`() {
+    fun `when settings label is blank, return false`() {
         val result = addSettingsUseCases.validateLabel("")
 
-        assertEquals(result.successful, false)
+        assertThat(result.successful).isFalse()
     }
 
     @Test
-    fun `when settings value on launch is blank, returnError`() {
+    fun `when settings value on launch is blank, return false`() {
         val result = addSettingsUseCases.validateValueOnLaunch("")
 
-        assertEquals(result.successful, false)
+        assertThat(result.successful).isFalse()
     }
 
     @Test
-    fun `when settings value on revert is blank, returnError`() {
+    fun `when settings value on revert is blank, return false`() {
         val result = addSettingsUseCases.validateValueOnRevert("")
 
-        assertEquals(result.successful, false)
+        assertThat(result.successful).isFalse()
     }
 }

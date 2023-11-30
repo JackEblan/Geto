@@ -2,9 +2,9 @@ package com.core.domain.usecase.userappsettings
 
 import com.core.model.SettingsType
 import com.core.model.UserAppSettingsItem
+import com.google.common.truth.Truth.assertThat
 import org.junit.Before
 import org.junit.Test
-import kotlin.test.assertEquals
 
 class UserAppSettingsUseCasesTest {
 
@@ -16,7 +16,7 @@ class UserAppSettingsUseCasesTest {
     }
 
     @Test
-    fun `When user app settings list is empty or no enabled settings, return error`() {
+    fun `When user app settings list has no enabled settings, return false`() {
         val userAppSettingsList = listOf(
             UserAppSettingsItem(
                 enabled = false,
@@ -31,6 +31,13 @@ class UserAppSettingsUseCasesTest {
 
         val result = validateUserAppSettingsList(userAppSettingsList)
 
-        assertEquals(result.successful, false)
+        assertThat(result.successful).isFalse()
+    }
+
+    @Test
+    fun `When user app settings list is empty, return false`() {
+        val result = validateUserAppSettingsList(emptyList())
+
+        assertThat(result.successful).isFalse()
     }
 }

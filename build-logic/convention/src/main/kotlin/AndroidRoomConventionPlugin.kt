@@ -7,7 +7,7 @@ class AndroidRoomConventionPlugin : Plugin<Project> {
 
     override fun apply(target: Project) {
         with(target) {
-            pluginManager.apply("com.android.library")
+            pluginManager.apply("com.google.devtools.ksp")
 
             dependencies {
                 "implementation"(libs.findLibrary("room.runtime").get())
