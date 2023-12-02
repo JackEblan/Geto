@@ -1,7 +1,9 @@
-package com.core.database.room
+package com.core.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import com.core.database.dao.UserAppSettingsDao
+import com.core.database.model.UserAppSettingsItemEntity
 
 @Database(
     entities = [UserAppSettingsItemEntity::class], version = 1, exportSchema = false

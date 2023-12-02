@@ -9,6 +9,7 @@ android {
 }
 
 dependencies {
+    api(libs.androidx.core.ktx)
     api(libs.androidx.activity.compose)
     api(libs.androidx.compose.foundation)
     api(libs.androidx.compose.foundation.layout)
@@ -18,6 +19,4 @@ dependencies {
     api(libs.androidx.compose.ui.util)
 
     debugApi(libs.androidx.compose.ui.tooling)
-
-    implementation(libs.androidx.core.ktx)
 }

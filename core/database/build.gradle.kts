@@ -6,6 +6,10 @@ plugins {
 
 android {
     namespace = "com.core.database"
+
+    defaultConfig {
+        testInstrumentationRunner = "com.core.testing.HiltTestRunner"
+    }
 }
 
 dependencies {
