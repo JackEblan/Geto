@@ -2,6 +2,7 @@
 
 Geto
 ==================
+[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" height="80">](https://f-droid.org/en/packages/com.android.geto/)
 
 An Android app that can modify your device settings and apply them to a specific user app.
 App must be granted with **android.permission.WRITE_SECURE_SETTINGS** to make it work properly.
