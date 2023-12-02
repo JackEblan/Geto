@@ -5,6 +5,12 @@ plugins {
 
 android {
     namespace = "com.core.data"
+
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+        }
+    }
 }
 
 dependencies {

@@ -3,9 +3,12 @@ package com.core.systemmanagers.packagemanager
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import com.google.common.truth.Truth.assertThat
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.TestCoroutineScheduler
+import kotlinx.coroutines.test.TestDispatcher
 import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.setMain
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -23,14 +26,16 @@ class PackageManagerHelperImplTest {
     @Mock
     private lateinit var mockByteArrayOutputStream: ByteArrayOutputStream
 
-    @Mock
     private lateinit var mockPackageManagerHelperImpl: PackageManagerHelperImpl
 
-    private lateinit var testCoroutineScheduler: TestCoroutineScheduler
+    private lateinit var testDispatcher: TestDispatcher
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Before
     fun setup() {
-        testCoroutineScheduler = TestCoroutineScheduler()
+        testDispatcher = StandardTestDispatcher()
+
+        Dispatchers.setMain(testDispatcher)
 
         mockPackageManager = mock {
             val userApp = mock<ApplicationInfo> {
@@ -44,20 +49,17 @@ class PackageManagerHelperImplTest {
 
             on { getApplicationLabel(userApp) } doReturn "User App"
         }
+
+        mockPackageManagerHelperImpl = PackageManagerHelperImpl(
+            defaultDispatcher = testDispatcher,
+            packageManager = mockPackageManager,
+            byteArrayOutputStream = mockByteArrayOutputStream
+        )
     }
 
     @Test
-    fun `filter non-system apps, return true if the applicationInfoList is not empty`() {
-        val testDispatcher = StandardTestDispatcher(testCoroutineScheduler)
-
+    fun `filter non-system apps, return true if the applicationInfoList is not empty`() =
         runTest(testDispatcher) {
-            mockPackageManagerHelperImpl = PackageManagerHelperImpl(
-                defaultDispatcher = testDispatcher,
-                packageManager = mockPackageManager,
-                byteArrayOutputStream = mockByteArrayOutputStream
-            )
-
             assertThat(mockPackageManagerHelperImpl.getNonSystemAppList()).isNotEmpty()
         }
-    }
 }

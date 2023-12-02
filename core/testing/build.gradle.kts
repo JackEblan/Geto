@@ -18,5 +18,7 @@ dependencies {
     api(libs.kotlinx.coroutines.test)
     api(libs.mockito.core)
     api(libs.mockito.kotlin)
+    api(libs.mockito.inline)
     api(libs.truth)
+    api(libs.robolectric)
 }
