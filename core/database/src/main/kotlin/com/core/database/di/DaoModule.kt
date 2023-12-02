@@ -1,7 +1,7 @@
 package com.core.database.di
 
-import com.core.database.room.AppDatabase
-import com.core.database.room.UserAppSettingsDao
+import com.core.database.AppDatabase
+import com.core.database.dao.UserAppSettingsDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

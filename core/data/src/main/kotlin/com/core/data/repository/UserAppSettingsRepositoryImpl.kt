@@ -2,9 +2,8 @@ package com.core.data.repository
 
 import com.core.common.di.DefaultDispatcher
 import com.core.common.di.IoDispatcher
-import com.core.database.room.AppDatabase
-import com.core.database.room.UserAppSettingsDao
-import com.core.database.room.UserAppSettingsItemEntity
+import com.core.database.dao.UserAppSettingsDao
+import com.core.database.model.UserAppSettingsItemEntity
 import com.core.domain.repository.AddUserAppSettingsResultMessage
 import com.core.domain.repository.UserAppSettingsRepository
 import com.core.model.UserAppSettingsItem
