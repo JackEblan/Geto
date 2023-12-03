@@ -38,6 +38,8 @@ This guide is only for non-pc and Android 11+
 
 Here are some settings you can experiment with. Simply choose an app from the list, click the **Add Settings** button, and proceed to fill in the provided options. Refer to the examples below for guidance. If you have unique settings that work well on different devices, please reach out to me so that I can incorporate them into this list. Your contributions are appreciated!
 
+To apply your settings to a specific app, click **Launch App**. Remember to reset your preferences after exiting the app by clicking the **Refresh** button in the upper-right corner.
+
 1. **Hide Developer Options in any apps:**
    - Type is *Global*
    - Settings label is *Hide Developer Options*
