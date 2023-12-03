@@ -1,5 +1,5 @@
 plugins {
-    id("com.android.geto.feature")
+    alias(libs.plugins.com.android.geto.feature)
 }
 
 android {

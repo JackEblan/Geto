@@ -1,6 +1,6 @@
 plugins {
-    id("com.android.geto.library")
-    id("com.android.geto.hilt")
+    alias(libs.plugins.com.android.geto.library)
+    alias(libs.plugins.com.android.geto.hilt)
 }
 
 android {
@@ -8,6 +8,6 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:common"))
-    implementation(project(":core:model"))
+    implementation(projects.core.common)
+    implementation(projects.core.model)
 }

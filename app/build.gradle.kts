@@ -22,6 +22,7 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
+            isShrinkResources = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
             )
@@ -36,17 +37,17 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:common"))
-    implementation(project(":core:designsystem"))
-    implementation(project(":feature:userapplist"))
-    implementation(project(":feature:userappsettings"))
+    implementation(projects.core.common)
+    implementation(projects.core.designsystem)
+    implementation(projects.feature.userapplist)
+    implementation(projects.feature.userappsettings)
 
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.navigation.compose)
 
-    androidTestImplementation(project(":core:testing"))
-    testImplementation(project(":core:testing"))
+    androidTestImplementation(projects.core.testing)
+    testImplementation(projects.core.testing)
 
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)

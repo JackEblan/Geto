@@ -1,7 +1,7 @@
 plugins {
-    id("com.android.geto.library")
-    id("com.android.geto.hilt")
-    id("com.android.geto.room")
+    alias(libs.plugins.com.android.geto.library)
+    alias(libs.plugins.com.android.geto.hilt)
+    alias(libs.plugins.com.android.geto.room)
 }
 
 android {
@@ -13,5 +13,5 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:model"))
+    implementation(projects.core.model)
 }

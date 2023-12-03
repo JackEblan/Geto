@@ -1,3 +1,3 @@
 plugins {
-    id("com.android.geto.jvm.library")
+    alias(libs.plugins.com.android.geto.jvm.library)
 }

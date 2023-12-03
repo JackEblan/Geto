@@ -64,6 +64,7 @@ class UserAppSettingsDaoTest {
         val userAppSettingsList =
             userAppSettingsDao.getUserAppSettingsList("com.android.geto").first()
 
-        assertEquals(listOf("com.android.geto"), userAppSettingsList.map { it.packageName })
+        assertEquals(expected = listOf("com.android.geto"),
+                     actual = userAppSettingsList.map { it.packageName })
     }
 }

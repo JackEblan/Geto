@@ -14,6 +14,7 @@ dependencyResolutionManagement {
     }
 }
 
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 rootProject.name = "Geto"
 include(":app")
 include(":core:common")

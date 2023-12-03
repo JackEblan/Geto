@@ -1,6 +1,6 @@
 plugins {
-    id("com.android.geto.library")
-    id("com.android.geto.hilt")
+    alias(libs.plugins.com.android.geto.library)
+    alias(libs.plugins.com.android.geto.hilt)
 }
 
 android {
@@ -19,6 +19,4 @@ dependencies {
     api(libs.mockito.core)
     api(libs.mockito.kotlin)
     api(libs.mockito.inline)
-    api(libs.truth)
-    api(libs.robolectric)
 }

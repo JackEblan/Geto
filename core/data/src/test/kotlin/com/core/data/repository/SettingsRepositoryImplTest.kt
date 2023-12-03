@@ -5,7 +5,6 @@ import android.provider.Settings
 import com.core.domain.repository.SettingsRepository
 import com.core.model.SettingsType
 import com.core.model.UserAppSettingsItem
-import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -21,6 +20,7 @@ import org.mockito.Mock
 import org.mockito.MockedStatic
 import org.mockito.Mockito.mockStatic
 import org.mockito.junit.MockitoJUnitRunner
+import kotlin.test.assertNotNull
 
 @RunWith(MockitoJUnitRunner::class)
 class SettingsRepositoryImplTest {
@@ -90,7 +90,7 @@ class SettingsRepositoryImplTest {
 
         val result = settingsRepository.applySettings(userAppSettingsItemList).getOrNull()
 
-        assertThat(result).isNotNull()
+        assertNotNull(result)
     }
 
 
@@ -118,7 +118,7 @@ class SettingsRepositoryImplTest {
 
         val result = settingsRepository.applySettings(userAppSettingsItemList).getOrNull()
 
-        assertThat(result).isNotNull()
+        assertNotNull(result)
     }
 
 
@@ -146,7 +146,7 @@ class SettingsRepositoryImplTest {
 
         val result = settingsRepository.applySettings(userAppSettingsItemList).getOrNull()
 
-        assertThat(result).isNotNull()
+        assertNotNull(result)
     }
 
     @Test
@@ -173,7 +173,7 @@ class SettingsRepositoryImplTest {
 
         val result = settingsRepository.revertSettings(userAppSettingsItemList).getOrNull()
 
-        assertThat(result).isNotNull()
+        assertNotNull(result)
     }
 
     @Test
@@ -200,7 +200,7 @@ class SettingsRepositoryImplTest {
 
         val result = settingsRepository.revertSettings(userAppSettingsItemList).getOrNull()
 
-        assertThat(result).isNotNull()
+        assertNotNull(result)
     }
 
 
@@ -228,6 +228,6 @@ class SettingsRepositoryImplTest {
 
         val result = settingsRepository.revertSettings(userAppSettingsItemList).getOrNull()
 
-        assertThat(result).isNotNull()
+        assertNotNull(result)
     }
 }
