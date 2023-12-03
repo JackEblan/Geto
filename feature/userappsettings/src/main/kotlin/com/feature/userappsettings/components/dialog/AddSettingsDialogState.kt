@@ -1,4 +1,4 @@
-package com.feature.userappsettings.components
+package com.feature.userappsettings.components.dialog
 
 data class AddSettingsDialogState(
     val selectedRadioOptionIndex: Int = 0,

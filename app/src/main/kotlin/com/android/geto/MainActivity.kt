@@ -9,7 +9,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import com.android.geto.ui.theme.DevOpsHideNoRootTheme
+import com.core.designsystem.theme.DevOpsHideNoRootTheme
 import com.feature.userapplist.navigation.USER_APP_LIST_NAVIGATION_ROUTE
 import com.feature.userapplist.navigation.userAppListScreen
 import com.feature.userappsettings.navigation.navigateToUserAppSettings

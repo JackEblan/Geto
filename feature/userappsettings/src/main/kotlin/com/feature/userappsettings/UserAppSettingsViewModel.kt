@@ -8,7 +8,6 @@ import androidx.lifecycle.viewModelScope
 import com.core.domain.repository.SettingsRepository
 import com.core.domain.repository.UserAppSettingsRepository
 import com.core.domain.usecase.userappsettings.ValidateUserAppSettingsList
-import com.core.model.UserAppSettingsItem
 import com.feature.userappsettings.navigation.NAV_KEY_APP_NAME
 import com.feature.userappsettings.navigation.NAV_KEY_PACKAGE_NAME
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,6 +17,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -30,7 +30,7 @@ class UserAppSettingsViewModel @Inject constructor(
     private val validateUserAppSettingsList: ValidateUserAppSettingsList,
     private val packageManager: PackageManager
 ) : ViewModel() {
-    private val _state = MutableStateFlow(UserAppSettingsState())
+    private val _state = MutableStateFlow(UserAppSettingsUiState())
 
     val state = _state.asStateFlow()
 
@@ -42,11 +42,17 @@ class UserAppSettingsViewModel @Inject constructor(
 
     private val appName = savedStateHandle.get<String>(NAV_KEY_APP_NAME) ?: ""
 
-    val userAppSettingsList: StateFlow<List<UserAppSettingsItem>> =
-        userAppSettingsRepository.getUserAppSettingsList(packageName).stateIn(
+    val uIstate: StateFlow<UserAppSettingsDataState> =
+        userAppSettingsRepository.getUserAppSettingsList(packageName).map { list ->
+            if (list.isNotEmpty()) {
+                UserAppSettingsDataState.ShowUserAppSettingsList(list)
+            } else {
+                UserAppSettingsDataState.Empty
+            }
+        }.stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000),
-            initialValue = emptyList()
+            initialValue = UserAppSettingsDataState.Loading
         )
 
     init {

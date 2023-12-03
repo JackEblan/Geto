@@ -33,7 +33,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.core.model.UserAppSettingsItem
-import com.feature.userappsettings.components.AddSettingsDialog
+import com.feature.userappsettings.components.dialog.AddSettingsDialog
+import com.feature.userappsettings.components.placeholder.EmptyUserAppSettingsScreen
+import com.feature.userappsettings.components.placeholder.LoadingUserAppSettingsScreen
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -46,7 +48,7 @@ internal fun UserAppSettingsScreen(
 
     val state = viewModel.state.collectAsState().value
 
-    val userAppSettingsList = viewModel.userAppSettingsList.collectAsStateWithLifecycle().value
+    val uIState = viewModel.uIstate.collectAsStateWithLifecycle().value
 
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collectLatest { event ->
@@ -68,13 +70,18 @@ internal fun UserAppSettingsScreen(
 
     StatelessScreen(modifier = modifier,
                     state = state,
+                    uIState = uIState,
                     onNavigationIconClick = {
                         onArrowBackClick()
                     },
                     onRevertSettingsIconClick = {
-                        viewModel.onEvent(UserAppSettingsEvent.OnRevertSettings(userAppSettingsList))
+                        viewModel.onEvent(
+                            UserAppSettingsEvent.OnRevertSettings(
+                                if (uIState is UserAppSettingsDataState.ShowUserAppSettingsList) uIState.userAppSettingsList
+                                else emptyList()
+                            )
+                        )
                     },
-                    userAppSettingsList = userAppSettingsList,
                     onUserAppSettingsItemCheckBoxChange = { checked, userAppSettingsItem ->
                         viewModel.onEvent(
                             UserAppSettingsEvent.OnUserAppSettingsItemCheckBoxChange(
@@ -87,8 +94,14 @@ internal fun UserAppSettingsScreen(
                     },
                     onAddUserAppSettingsClick = { viewModel.onEvent(UserAppSettingsEvent.OnOpenAddSettingsDialog) },
                     onLaunchApp = {
-                        viewModel.onEvent(UserAppSettingsEvent.OnLaunchApp(userAppSettingsList))
+                        viewModel.onEvent(
+                            UserAppSettingsEvent.OnLaunchApp(
+                                if (uIState is UserAppSettingsDataState.ShowUserAppSettingsList) uIState.userAppSettingsList
+                                else emptyList()
+                            )
+                        )
                     })
+
 
     if (state.openAddSettingsDialog) {
         AddSettingsDialog(
@@ -102,8 +115,8 @@ internal fun UserAppSettingsScreen(
 @Composable
 private fun StatelessScreen(
     modifier: Modifier = Modifier,
-    state: UserAppSettingsState,
-    userAppSettingsList: List<UserAppSettingsItem>,
+    state: UserAppSettingsUiState,
+    uIState: UserAppSettingsDataState,
     onNavigationIconClick: () -> Unit,
     onRevertSettingsIconClick: () -> Unit,
     onUserAppSettingsItemCheckBoxChange: (Boolean, UserAppSettingsItem) -> Unit,
@@ -132,40 +145,64 @@ private fun StatelessScreen(
                 .fillMaxSize()
         ) {
 
-            LazyColumn(modifier = Modifier.weight(1f)) {
-                items(userAppSettingsList) { settingsItem ->
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Checkbox(checked = settingsItem.enabled, onCheckedChange = {
-                            onUserAppSettingsItemCheckBoxChange(
-                                it, settingsItem
-                            )
-                        })
+            when (uIState) {
+                UserAppSettingsDataState.Empty -> {
+                    EmptyUserAppSettingsScreen(
+                        modifier = Modifier
+                            .weight(1f)
+                            .fillMaxSize()
+                    )
+                }
 
-                        Column(modifier = Modifier.weight(1f)) {
-                            Text(
-                                text = settingsItem.label,
-                                style = MaterialTheme.typography.bodyLarge
-                            )
+                UserAppSettingsDataState.Loading -> {
+                    LoadingUserAppSettingsScreen(
+                        modifier = Modifier
+                            .weight(1f)
+                            .fillMaxSize()
+                    )
+                }
 
-                            Spacer(modifier = Modifier.height(5.dp))
+                is UserAppSettingsDataState.ShowUserAppSettingsList -> {
+                    LazyColumn(modifier = Modifier.weight(1f)) {
+                        items(uIState.userAppSettingsList) { settingsItem ->
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Checkbox(checked = settingsItem.enabled, onCheckedChange = {
+                                    onUserAppSettingsItemCheckBoxChange(
+                                        it, settingsItem
+                                    )
+                                })
 
-                            Text(
-                                text = settingsItem.settingsType.label,
-                                style = MaterialTheme.typography.bodySmall
-                            )
+                                Column(modifier = Modifier.weight(1f)) {
+                                    Text(
+                                        text = settingsItem.label,
+                                        style = MaterialTheme.typography.bodyLarge
+                                    )
 
-                            Spacer(modifier = Modifier.height(5.dp))
+                                    Spacer(modifier = Modifier.height(5.dp))
 
-                            Text(
-                                text = settingsItem.key, style = MaterialTheme.typography.bodySmall
-                            )
-                        }
+                                    Text(
+                                        text = settingsItem.settingsType.label,
+                                        style = MaterialTheme.typography.bodySmall
+                                    )
 
-                        IconButton(onClick = { onDeleteUserAppSettingsItem(settingsItem) }) {
-                            Icon(imageVector = Icons.Default.Delete, contentDescription = null)
+                                    Spacer(modifier = Modifier.height(5.dp))
+
+                                    Text(
+                                        text = settingsItem.key,
+                                        style = MaterialTheme.typography.bodySmall
+                                    )
+                                }
+
+                                IconButton(onClick = { onDeleteUserAppSettingsItem(settingsItem) }) {
+                                    Icon(
+                                        imageVector = Icons.Default.Delete,
+                                        contentDescription = null
+                                    )
+                                }
+                            }
                         }
                     }
                 }

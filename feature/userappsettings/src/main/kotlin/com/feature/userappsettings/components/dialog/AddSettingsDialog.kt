@@ -1,4 +1,4 @@
-package com.feature.userappsettings.components
+package com.feature.userappsettings.components.dialog
 
 import android.widget.Toast
 import androidx.compose.foundation.ScrollState

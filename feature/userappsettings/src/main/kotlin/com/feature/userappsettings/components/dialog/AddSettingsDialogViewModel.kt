@@ -1,4 +1,4 @@
-package com.feature.userappsettings.components
+package com.feature.userappsettings.components.dialog
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

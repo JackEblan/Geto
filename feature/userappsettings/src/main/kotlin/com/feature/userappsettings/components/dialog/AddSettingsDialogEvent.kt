@@ -1,4 +1,4 @@
-package com.feature.userappsettings.components
+package com.feature.userappsettings.components.dialog
 
 sealed class AddSettingsDialogEvent {
     data class OnRadioOptionSelected(val selectedRadioOptionIndex: Int) : AddSettingsDialogEvent()
