@@ -40,7 +40,7 @@ Here are some settings you can experiment with. Simply choose an app from the li
 
 To apply your settings to a specific app, click **Launch App**. Remember to reset your preferences after exiting the app by clicking the **Refresh** button in the upper-right corner.
 
-1. ** Hide developer options detection in any apps:**
+1. **Hide developer options detection in any apps:**
    - Type is *Global*
    - Settings label is *Hide Developer Options*
    - Settings key is *development_settings_enabled*
