@@ -4,14 +4,10 @@ plugins {
 }
 
 android {
-    namespace = "com.core.data"
+    namespace = "com.core.sharedpreferences"
 }
 
 dependencies {
-    implementation(projects.core.common)
-    implementation(projects.core.database)
     implementation(projects.core.domain)
     implementation(projects.core.model)
-    implementation(projects.core.testing)
-    implementation(projects.core.sharedpreferences)
 }

@@ -6,7 +6,7 @@ import com.core.database.dao.UserAppSettingsDao
 import com.core.database.model.UserAppSettingsItemEntity
 
 @Database(
-    entities = [UserAppSettingsItemEntity::class], version = 1, exportSchema = false
+    entities = [UserAppSettingsItemEntity::class], version = 1, exportSchema = true
 )
 abstract class AppDatabase : RoomDatabase() {
 

@@ -1,36 +1,25 @@
-package com.core.data.repository
+package com.core.sharedpreferences.system
 
 import android.content.ContentResolver
 import android.provider.Settings
-import com.core.domain.repository.SettingsRepository
 import com.core.model.SettingsType
 import com.core.model.UserAppSettingsItem
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.TestDispatcher
-import kotlinx.coroutines.test.runTest
-import kotlinx.coroutines.test.setMain
 import org.junit.After
-import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.MockedStatic
-import org.mockito.Mockito.mockStatic
+import org.mockito.Mockito
 import org.mockito.junit.MockitoJUnitRunner
 import kotlin.test.assertNotNull
 
 @RunWith(MockitoJUnitRunner::class)
-class SettingsRepositoryImplTest {
+class SystemSettingsSharedPreferencesTest {
 
     @Mock
     lateinit var mockContentResolver: ContentResolver
-
-    private lateinit var settingsRepository: SettingsRepository
-
-    private lateinit var testDispatcher: TestDispatcher
 
     private lateinit var mockedSettingsGlobal: MockedStatic<Settings.Global>
 
@@ -38,23 +27,19 @@ class SettingsRepositoryImplTest {
 
     private lateinit var mockedSettingsSystem: MockedStatic<Settings.System>
 
+    private lateinit var systemSettingsSharedPreferences: SystemSettingsSharedPreferences
+
     @OptIn(ExperimentalCoroutinesApi::class)
     @Before
     fun setUp() {
+        systemSettingsSharedPreferences =
+            SystemSettingsSharedPreferences(contentResolver = mockContentResolver)
 
-        testDispatcher = StandardTestDispatcher()
+        mockedSettingsGlobal = Mockito.mockStatic(Settings.Global::class.java)
 
-        Dispatchers.setMain(testDispatcher)
+        mockedSettingsSecure = Mockito.mockStatic(Settings.Secure::class.java)
 
-        settingsRepository = SettingsRepositoryImpl(
-            testDispatcher, mockContentResolver
-        )
-
-        mockedSettingsGlobal = mockStatic(Settings.Global::class.java)
-
-        mockedSettingsSecure = mockStatic(Settings.Secure::class.java)
-
-        mockedSettingsSystem = mockStatic(Settings.System::class.java)
+        mockedSettingsSystem = Mockito.mockStatic(Settings.System::class.java)
     }
 
     @After
@@ -67,7 +52,7 @@ class SettingsRepositoryImplTest {
     }
 
     @Test
-    fun `apply Global Settings should return Result`() = runTest(testDispatcher) {
+    fun `apply Global Settings should return Result`() {
         val userAppSettingsItemList = listOf(
             UserAppSettingsItem(
                 enabled = true,
@@ -88,14 +73,18 @@ class SettingsRepositoryImplTest {
             )
         }.thenReturn(true)
 
-        val result = settingsRepository.applySettings(userAppSettingsItemList).getOrNull()
+        val result = systemSettingsSharedPreferences.putSystemPreferences(
+            userAppSettingsItemList = userAppSettingsItemList,
+            valueSelector = { userAppSettingsItemList.first().valueOnLaunch },
+            successMessage = ""
+        ).getOrNull()
 
         assertNotNull(result)
     }
 
 
     @Test
-    fun `apply Secure Settings should return Result`() = runTest(testDispatcher) {
+    fun `apply Secure Settings should return Result`() {
         val userAppSettingsItemList = listOf(
             UserAppSettingsItem(
                 enabled = true,
@@ -116,14 +105,18 @@ class SettingsRepositoryImplTest {
             )
         }.thenReturn(true)
 
-        val result = settingsRepository.applySettings(userAppSettingsItemList).getOrNull()
+        val result = systemSettingsSharedPreferences.putSystemPreferences(
+            userAppSettingsItemList = userAppSettingsItemList,
+            valueSelector = { userAppSettingsItemList.first().valueOnLaunch },
+            successMessage = ""
+        ).getOrNull()
 
         assertNotNull(result)
     }
 
 
     @Test
-    fun `apply System Settings should return Result`() = runTest(testDispatcher) {
+    fun `apply System Settings should return Result`() {
         val userAppSettingsItemList = listOf(
             UserAppSettingsItem(
                 enabled = true,
@@ -144,13 +137,17 @@ class SettingsRepositoryImplTest {
             )
         }.thenReturn(true)
 
-        val result = settingsRepository.applySettings(userAppSettingsItemList).getOrNull()
+        val result = systemSettingsSharedPreferences.putSystemPreferences(
+            userAppSettingsItemList = userAppSettingsItemList,
+            valueSelector = { userAppSettingsItemList.first().valueOnLaunch },
+            successMessage = ""
+        ).getOrNull()
 
         assertNotNull(result)
     }
 
     @Test
-    fun `revert Global Settings should return Result`() = runTest(testDispatcher) {
+    fun `revert Global Settings should return Result`() {
         val userAppSettingsItemList = listOf(
             UserAppSettingsItem(
                 enabled = true,
@@ -171,13 +168,17 @@ class SettingsRepositoryImplTest {
             )
         }.thenReturn(true)
 
-        val result = settingsRepository.revertSettings(userAppSettingsItemList).getOrNull()
+        val result = systemSettingsSharedPreferences.putSystemPreferences(
+            userAppSettingsItemList = userAppSettingsItemList,
+            valueSelector = { userAppSettingsItemList.first().valueOnRevert },
+            successMessage = ""
+        ).getOrNull()
 
         assertNotNull(result)
     }
 
     @Test
-    fun `revert Secure Settings should return Result`() = runTest(testDispatcher) {
+    fun `revert Secure Settings should return Result`() {
         val userAppSettingsItemList = listOf(
             UserAppSettingsItem(
                 enabled = true,
@@ -198,14 +199,18 @@ class SettingsRepositoryImplTest {
             )
         }.thenReturn(true)
 
-        val result = settingsRepository.revertSettings(userAppSettingsItemList).getOrNull()
+        val result = systemSettingsSharedPreferences.putSystemPreferences(
+            userAppSettingsItemList = userAppSettingsItemList,
+            valueSelector = { userAppSettingsItemList.first().valueOnRevert },
+            successMessage = ""
+        ).getOrNull()
 
         assertNotNull(result)
     }
 
 
     @Test
-    fun `revert System Settings should return Result`() = runTest(testDispatcher) {
+    fun `revert System Settings should return Result`() {
         val userAppSettingsItemList = listOf(
             UserAppSettingsItem(
                 enabled = true,
@@ -226,7 +231,11 @@ class SettingsRepositoryImplTest {
             )
         }.thenReturn(true)
 
-        val result = settingsRepository.revertSettings(userAppSettingsItemList).getOrNull()
+        val result = systemSettingsSharedPreferences.putSystemPreferences(
+            userAppSettingsItemList = userAppSettingsItemList,
+            valueSelector = { userAppSettingsItemList.first().valueOnRevert },
+            successMessage = ""
+        ).getOrNull()
 
         assertNotNull(result)
     }

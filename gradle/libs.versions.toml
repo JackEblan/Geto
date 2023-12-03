@@ -19,7 +19,7 @@ junit4 = "4.13.2"
 compose_material3_version = "1.2.0-alpha11"
 lifecycle-runtime-ktx_version = "2.6.2"
 core-ktx_version = "1.12.0"
-agp_version = "8.1.4"
+gradle = "8.2.0"
 org_jetbrains_kotlin_android_version = "1.9.10"
 appcompat = "1.6.1"
 material = "1.10.0"
@@ -94,14 +94,14 @@ appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat"
 material = { module = "com.google.android.material:material", version.ref = "material" }
 
 # Gradle Plugin
-android-gradle_plugin = { module = "com.android.tools.build:gradle", version.ref = "agp_version" }
-kotlin-gradle_plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "org_jetbrains_kotlin_android_version" }
-ksp-gradle_plugin = { module = "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin", version.ref = "ksp_version" }
+android-gradle_plugin = { group = "com.android.tools.build", name = "gradle", version.ref = "gradle" }
+kotlin-gradle_plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "org_jetbrains_kotlin_android_version" }
+ksp-gradle_plugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp_version" }
 junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
 
 [plugins]
-com-android-application = { id = "com.android.application", version.ref = "agp_version" }
-com-android-library = { id = "com.android.library", version.ref = "agp_version" }
+com-android-application = { id = "com.android.application", version.ref = "gradle" }
+com-android-library = { id = "com.android.library", version.ref = "gradle" }
 org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "org_jetbrains_kotlin_android_version" }
 com-google-dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 com-google-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp_version" }
