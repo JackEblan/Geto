@@ -1,10 +1,15 @@
 package com.core.sharedpreferences.system
 
-import android.content.ContentResolver
+import android.content.Context
 import android.provider.Settings
 import com.core.model.SettingsType
 import com.core.model.UserAppSettingsItem
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.TestDispatcher
+import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -19,7 +24,9 @@ import kotlin.test.assertNotNull
 class SystemSettingsSharedPreferencesTest {
 
     @Mock
-    lateinit var mockContentResolver: ContentResolver
+    private lateinit var mockContext: Context
+
+    private lateinit var testDispatcher: TestDispatcher
 
     private lateinit var mockedSettingsGlobal: MockedStatic<Settings.Global>
 
@@ -27,13 +34,18 @@ class SystemSettingsSharedPreferencesTest {
 
     private lateinit var mockedSettingsSystem: MockedStatic<Settings.System>
 
-    private lateinit var systemSettingsSharedPreferences: SystemSettingsSharedPreferences
+    private lateinit var systemSettingsDataSourceImpl: SystemSettingsDataSourceImpl
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Before
     fun setUp() {
-        systemSettingsSharedPreferences =
-            SystemSettingsSharedPreferences(contentResolver = mockContentResolver)
+        testDispatcher = StandardTestDispatcher()
+
+        Dispatchers.setMain(testDispatcher)
+
+        systemSettingsDataSourceImpl = SystemSettingsDataSourceImpl(
+            ioDispatcher = testDispatcher, context = mockContext
+        )
 
         mockedSettingsGlobal = Mockito.mockStatic(Settings.Global::class.java)
 
@@ -52,7 +64,7 @@ class SystemSettingsSharedPreferencesTest {
     }
 
     @Test
-    fun `apply Global Settings should return Result`() {
+    fun `apply Global Settings should return Result`() = runTest(testDispatcher) {
         val userAppSettingsItemList = listOf(
             UserAppSettingsItem(
                 enabled = true,
@@ -67,13 +79,13 @@ class SystemSettingsSharedPreferencesTest {
 
         mockedSettingsGlobal.`when`<Boolean> {
             Settings.Global.putString(
-                mockContentResolver,
+                mockContext.contentResolver,
                 userAppSettingsItemList.first().key,
                 userAppSettingsItemList.first().valueOnLaunch
             )
         }.thenReturn(true)
 
-        val result = systemSettingsSharedPreferences.putSystemPreferences(
+        val result = systemSettingsDataSourceImpl.putSystemPreferences(
             userAppSettingsItemList = userAppSettingsItemList,
             valueSelector = { userAppSettingsItemList.first().valueOnLaunch },
             successMessage = ""
@@ -84,7 +96,7 @@ class SystemSettingsSharedPreferencesTest {
 
 
     @Test
-    fun `apply Secure Settings should return Result`() {
+    fun `apply Secure Settings should return Result`() = runTest(testDispatcher) {
         val userAppSettingsItemList = listOf(
             UserAppSettingsItem(
                 enabled = true,
@@ -99,13 +111,13 @@ class SystemSettingsSharedPreferencesTest {
 
         mockedSettingsSecure.`when`<Boolean> {
             Settings.Secure.putString(
-                mockContentResolver,
+                mockContext.contentResolver,
                 userAppSettingsItemList.first().key,
                 userAppSettingsItemList.first().valueOnLaunch
             )
         }.thenReturn(true)
 
-        val result = systemSettingsSharedPreferences.putSystemPreferences(
+        val result = systemSettingsDataSourceImpl.putSystemPreferences(
             userAppSettingsItemList = userAppSettingsItemList,
             valueSelector = { userAppSettingsItemList.first().valueOnLaunch },
             successMessage = ""
@@ -114,9 +126,8 @@ class SystemSettingsSharedPreferencesTest {
         assertNotNull(result)
     }
 
-
     @Test
-    fun `apply System Settings should return Result`() {
+    fun `apply System Settings should return Result`() = runTest(testDispatcher) {
         val userAppSettingsItemList = listOf(
             UserAppSettingsItem(
                 enabled = true,
@@ -131,13 +142,13 @@ class SystemSettingsSharedPreferencesTest {
 
         mockedSettingsSystem.`when`<Boolean> {
             Settings.System.putString(
-                mockContentResolver,
+                mockContext.contentResolver,
                 userAppSettingsItemList.first().key,
                 userAppSettingsItemList.first().valueOnLaunch
             )
         }.thenReturn(true)
 
-        val result = systemSettingsSharedPreferences.putSystemPreferences(
+        val result = systemSettingsDataSourceImpl.putSystemPreferences(
             userAppSettingsItemList = userAppSettingsItemList,
             valueSelector = { userAppSettingsItemList.first().valueOnLaunch },
             successMessage = ""
@@ -147,7 +158,7 @@ class SystemSettingsSharedPreferencesTest {
     }
 
     @Test
-    fun `revert Global Settings should return Result`() {
+    fun `revert Global Settings should return Result`() = runTest(testDispatcher) {
         val userAppSettingsItemList = listOf(
             UserAppSettingsItem(
                 enabled = true,
@@ -162,13 +173,13 @@ class SystemSettingsSharedPreferencesTest {
 
         mockedSettingsGlobal.`when`<Boolean> {
             Settings.Global.putString(
-                mockContentResolver,
+                mockContext.contentResolver,
                 userAppSettingsItemList.first().key,
                 userAppSettingsItemList.first().valueOnRevert
             )
         }.thenReturn(true)
 
-        val result = systemSettingsSharedPreferences.putSystemPreferences(
+        val result = systemSettingsDataSourceImpl.putSystemPreferences(
             userAppSettingsItemList = userAppSettingsItemList,
             valueSelector = { userAppSettingsItemList.first().valueOnRevert },
             successMessage = ""
@@ -178,7 +189,7 @@ class SystemSettingsSharedPreferencesTest {
     }
 
     @Test
-    fun `revert Secure Settings should return Result`() {
+    fun `revert Secure Settings should return Result`() = runTest(testDispatcher) {
         val userAppSettingsItemList = listOf(
             UserAppSettingsItem(
                 enabled = true,
@@ -193,13 +204,13 @@ class SystemSettingsSharedPreferencesTest {
 
         mockedSettingsSecure.`when`<Boolean> {
             Settings.Secure.putString(
-                mockContentResolver,
+                mockContext.contentResolver,
                 userAppSettingsItemList.first().key,
                 userAppSettingsItemList.first().valueOnRevert
             )
         }.thenReturn(true)
 
-        val result = systemSettingsSharedPreferences.putSystemPreferences(
+        val result = systemSettingsDataSourceImpl.putSystemPreferences(
             userAppSettingsItemList = userAppSettingsItemList,
             valueSelector = { userAppSettingsItemList.first().valueOnRevert },
             successMessage = ""
@@ -210,7 +221,7 @@ class SystemSettingsSharedPreferencesTest {
 
 
     @Test
-    fun `revert System Settings should return Result`() {
+    fun `revert System Settings should return Result`() = runTest(testDispatcher) {
         val userAppSettingsItemList = listOf(
             UserAppSettingsItem(
                 enabled = true,
@@ -225,13 +236,13 @@ class SystemSettingsSharedPreferencesTest {
 
         mockedSettingsSystem.`when`<Boolean> {
             Settings.System.putString(
-                mockContentResolver,
+                mockContext.contentResolver,
                 userAppSettingsItemList.first().key,
                 userAppSettingsItemList.first().valueOnRevert
             )
         }.thenReturn(true)
 
-        val result = systemSettingsSharedPreferences.putSystemPreferences(
+        val result = systemSettingsDataSourceImpl.putSystemPreferences(
             userAppSettingsItemList = userAppSettingsItemList,
             valueSelector = { userAppSettingsItemList.first().valueOnRevert },
             successMessage = ""
