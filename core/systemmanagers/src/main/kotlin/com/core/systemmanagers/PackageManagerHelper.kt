@@ -1,7 +1,8 @@
 package com.core.systemmanagers
 
 import com.core.model.AppItem
+import kotlinx.coroutines.flow.Flow
 
 interface PackageManagerHelper {
-    suspend fun getNonSystemAppList(): List<AppItem>
+    fun getNonSystemAppList(): Flow<List<AppItem>>
 }

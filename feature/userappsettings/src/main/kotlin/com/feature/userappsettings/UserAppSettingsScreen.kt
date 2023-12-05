@@ -33,9 +33,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.core.model.UserAppSettingsItem
+import com.core.ui.EmptyListPlaceHolderScreen
+import com.core.ui.LoadingPlaceHolderScreen
 import com.feature.userappsettings.components.dialog.AddSettingsDialog
-import com.feature.userappsettings.components.placeholder.EmptyUserAppSettingsScreen
-import com.feature.userappsettings.components.placeholder.LoadingUserAppSettingsScreen
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -46,7 +46,7 @@ internal fun UserAppSettingsScreen(
 ) {
     val context = LocalContext.current
 
-    val state = viewModel.state.collectAsState().value
+    val dataState = viewModel.dataState.collectAsState().value
 
     val uIState = viewModel.uIstate.collectAsStateWithLifecycle().value
 
@@ -69,8 +69,8 @@ internal fun UserAppSettingsScreen(
     }
 
     StatelessScreen(modifier = modifier,
-                    state = state,
-                    uIState = uIState,
+                    uIState = dataState,
+                    dataState = uIState,
                     onNavigationIconClick = {
                         onArrowBackClick()
                     },
@@ -103,10 +103,10 @@ internal fun UserAppSettingsScreen(
                     })
 
 
-    if (state.openAddSettingsDialog) {
+    if (dataState.openAddSettingsDialog) {
         AddSettingsDialog(
             onDismissRequest = { viewModel.onEvent(UserAppSettingsEvent.OnDismissAddSettingsDialog) },
-            packageName = state.packageName
+            packageName = dataState.packageName
         )
     }
 }
@@ -115,8 +115,8 @@ internal fun UserAppSettingsScreen(
 @Composable
 private fun StatelessScreen(
     modifier: Modifier = Modifier,
-    state: UserAppSettingsUiState,
-    uIState: UserAppSettingsDataState,
+    uIState: UserAppSettingsUiState,
+    dataState: UserAppSettingsDataState,
     onNavigationIconClick: () -> Unit,
     onRevertSettingsIconClick: () -> Unit,
     onUserAppSettingsItemCheckBoxChange: (Boolean, UserAppSettingsItem) -> Unit,
@@ -126,7 +126,7 @@ private fun StatelessScreen(
 ) {
     Scaffold(modifier = modifier.fillMaxSize(), topBar = {
         TopAppBar(title = {
-            Text(text = state.appName, maxLines = 1)
+            Text(text = uIState.appName, maxLines = 1)
         }, navigationIcon = {
             IconButton(onClick = onNavigationIconClick) {
                 Icon(
@@ -145,17 +145,19 @@ private fun StatelessScreen(
                 .fillMaxSize()
         ) {
 
-            when (uIState) {
+            when (dataState) {
                 UserAppSettingsDataState.Empty -> {
-                    EmptyUserAppSettingsScreen(
+                    EmptyListPlaceHolderScreen(
                         modifier = Modifier
                             .weight(1f)
-                            .fillMaxSize()
+                            .fillMaxSize(),
+                        icon = Icons.Default.Refresh,
+                        text = "Nothing is here"
                     )
                 }
 
                 UserAppSettingsDataState.Loading -> {
-                    LoadingUserAppSettingsScreen(
+                    LoadingPlaceHolderScreen(
                         modifier = Modifier
                             .weight(1f)
                             .fillMaxSize()
@@ -164,7 +166,7 @@ private fun StatelessScreen(
 
                 is UserAppSettingsDataState.ShowUserAppSettingsList -> {
                     LazyColumn(modifier = Modifier.weight(1f)) {
-                        items(uIState.userAppSettingsList) { settingsItem ->
+                        items(dataState.userAppSettingsList) { settingsItem ->
                             Row(
                                 modifier = Modifier.fillMaxWidth(),
                                 verticalAlignment = Alignment.CenterVertically

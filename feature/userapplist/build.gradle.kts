@@ -8,4 +8,5 @@ android {
 
 dependencies {
     implementation(projects.core.systemmanagers)
+    implementation(projects.core.ui)
 }

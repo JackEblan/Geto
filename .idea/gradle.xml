@@ -34,6 +34,7 @@
             <option value="$PROJECT_DIR$/core/sharedpreferences" />
             <option value="$PROJECT_DIR$/core/systemmanagers" />
             <option value="$PROJECT_DIR$/core/testing" />
+            <option value="$PROJECT_DIR$/core/ui" />
             <option value="$PROJECT_DIR$/feature" />
             <option value="$PROJECT_DIR$/feature/userapplist" />
             <option value="$PROJECT_DIR$/feature/userappsettings" />

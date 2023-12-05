@@ -32,7 +32,7 @@ class UserAppSettingsViewModel @Inject constructor(
 ) : ViewModel() {
     private val _state = MutableStateFlow(UserAppSettingsUiState())
 
-    val state = _state.asStateFlow()
+    val dataState = _state.asStateFlow()
 
     private val _uiEvent = MutableSharedFlow<UIEvent>()
 

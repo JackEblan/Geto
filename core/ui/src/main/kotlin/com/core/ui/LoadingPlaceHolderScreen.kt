@@ -1,4 +1,4 @@
-package com.feature.userappsettings.components.placeholder
+package com.core.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -8,7 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
 @Composable
-fun LoadingUserAppSettingsScreen(modifier: Modifier = Modifier) {
+fun LoadingPlaceHolderScreen(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.Center,

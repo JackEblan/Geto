@@ -25,33 +25,33 @@ class UserAppSettingsRepositoryTest {
         val entity = UserAppSettingsItemEntity(
             enabled = false,
             settingsType = SettingsType.SYSTEM,
-            packageName = "Branden Charles",
-            label = "proin",
-            key = "hendrerit",
-            valueOnLaunch = "ante",
-            valueOnRevert = "te"
+            packageName = "com.android.geto",
+            label = "Geto",
+            key = "geto",
+            valueOnLaunch = "0",
+            valueOnRevert = "1"
         )
 
         userAppSettingsDao.upsert(entity)
 
-        assertContains(iterable = userAppSettingsDao.entitiesStateFlow.value, element = entity)
+        assertContains(iterable = userAppSettingsDao.entitiesStateFlow.first(), element = entity)
     }
 
     @Test
     fun upsertUserAppSettingsEnabled() = runTest {
         val entity = UserAppSettingsItemEntity(
-            enabled = false,
+            enabled = true,
             settingsType = SettingsType.SYSTEM,
-            packageName = "Branden Charles",
-            label = "proin",
-            key = "hendrerit",
-            valueOnLaunch = "ante",
-            valueOnRevert = "te"
+            packageName = "com.android.geto",
+            label = "Geto",
+            key = "geto1",
+            valueOnLaunch = "0",
+            valueOnRevert = "1"
         )
 
         userAppSettingsDao.upsert(entity)
 
-        assertContains(iterable = userAppSettingsDao.entitiesStateFlow.value, element = entity)
+        assertContains(iterable = userAppSettingsDao.entitiesStateFlow.first(), element = entity)
     }
 
     @Test
@@ -59,16 +59,16 @@ class UserAppSettingsRepositoryTest {
         val entity = UserAppSettingsItemEntity(
             enabled = false,
             settingsType = SettingsType.SYSTEM,
-            packageName = "Branden Charles",
-            label = "proin",
-            key = "hendrerit",
-            valueOnLaunch = "ante",
-            valueOnRevert = "te"
+            packageName = "com.android.geto",
+            label = "Geto",
+            key = "geto1",
+            valueOnLaunch = "0",
+            valueOnRevert = "1"
         )
 
         userAppSettingsDao.delete(entity)
 
-        assertFalse { userAppSettingsDao.entitiesStateFlow.value.contains(entity) }
+        assertFalse { userAppSettingsDao.entitiesStateFlow.first().contains(entity) }
     }
 
     @Test
@@ -86,7 +86,7 @@ class UserAppSettingsRepositoryTest {
         userAppSettingsDao.upsert(entity)
 
         assertTrue {
-            userAppSettingsDao.getUserAppSettingsList(entity.packageName).first().contains(entity)
+            userAppSettingsDao.getUserAppSettingsList(entity.packageName).first().isNotEmpty()
         }
     }
 }

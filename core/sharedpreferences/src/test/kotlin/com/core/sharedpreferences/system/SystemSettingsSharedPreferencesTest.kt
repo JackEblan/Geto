@@ -64,7 +64,7 @@ class SystemSettingsSharedPreferencesTest {
     }
 
     @Test
-    fun `apply Global Settings should return Result`() = runTest(testDispatcher) {
+    fun `apply Global Settings return Result`() = runTest(testDispatcher) {
         val userAppSettingsItemList = listOf(
             UserAppSettingsItem(
                 enabled = true,
@@ -96,7 +96,7 @@ class SystemSettingsSharedPreferencesTest {
 
 
     @Test
-    fun `apply Secure Settings should return Result`() = runTest(testDispatcher) {
+    fun `apply Secure Settings return Result`() = runTest(testDispatcher) {
         val userAppSettingsItemList = listOf(
             UserAppSettingsItem(
                 enabled = true,
@@ -127,7 +127,7 @@ class SystemSettingsSharedPreferencesTest {
     }
 
     @Test
-    fun `apply System Settings should return Result`() = runTest(testDispatcher) {
+    fun `apply System Settings return Result`() = runTest(testDispatcher) {
         val userAppSettingsItemList = listOf(
             UserAppSettingsItem(
                 enabled = true,
@@ -158,7 +158,7 @@ class SystemSettingsSharedPreferencesTest {
     }
 
     @Test
-    fun `revert Global Settings should return Result`() = runTest(testDispatcher) {
+    fun `revert Global Settings return Result`() = runTest(testDispatcher) {
         val userAppSettingsItemList = listOf(
             UserAppSettingsItem(
                 enabled = true,
@@ -189,7 +189,7 @@ class SystemSettingsSharedPreferencesTest {
     }
 
     @Test
-    fun `revert Secure Settings should return Result`() = runTest(testDispatcher) {
+    fun `revert Secure Settings return Result`() = runTest(testDispatcher) {
         val userAppSettingsItemList = listOf(
             UserAppSettingsItem(
                 enabled = true,
@@ -221,7 +221,7 @@ class SystemSettingsSharedPreferencesTest {
 
 
     @Test
-    fun `revert System Settings should return Result`() = runTest(testDispatcher) {
+    fun `revert System Settings return Result`() = runTest(testDispatcher) {
         val userAppSettingsItemList = listOf(
             UserAppSettingsItem(
                 enabled = true,

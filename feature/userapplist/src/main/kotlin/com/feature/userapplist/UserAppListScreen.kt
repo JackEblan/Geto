@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -21,12 +23,13 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.core.ui.EmptyListPlaceHolderScreen
 
 @Composable
 internal fun UserAppListScreen(
@@ -34,15 +37,17 @@ internal fun UserAppListScreen(
     viewModel: UserAppListViewModel = hiltViewModel(),
     onItemClick: (String, String) -> Unit
 ) {
-    val state = viewModel.state.collectAsState().value
+    val state = viewModel.uIState.collectAsStateWithLifecycle().value
 
-    StatelessScreen(modifier = modifier, state = state, onItemClick = onItemClick)
+    StatelessScreen(modifier = modifier, uIState = state, onItemClick = onItemClick)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun StatelessScreen(
-    modifier: Modifier = Modifier, state: UserAppListState, onItemClick: (String, String) -> Unit
+    modifier: Modifier = Modifier,
+    uIState: UserAppListUiState,
+    onItemClick: (String, String) -> Unit
 ) {
     Scaffold(modifier = modifier.fillMaxSize(), topBar = {
         TopAppBar(title = {
@@ -54,36 +59,53 @@ private fun StatelessScreen(
                 .padding(innerPadding)
                 .fillMaxSize()
         ) {
-            if (state.isLoading) {
-                LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
-            }
+            when (uIState) {
+                UserAppListUiState.Empty -> {
+                    EmptyListPlaceHolderScreen(
+                        modifier = Modifier
+                            .weight(1f)
+                            .fillMaxSize(),
+                        icon = Icons.Default.Refresh,
+                        text = "Strange, nothing is here"
+                    )
+                }
 
-            LazyColumn(modifier = Modifier.fillMaxSize()) {
-                items(state.apps) { appItem ->
-                    Row(modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable { onItemClick(appItem.packageName, appItem.label) }
-                        .padding(10.dp), verticalAlignment = Alignment.CenterVertically) {
+                UserAppListUiState.Loading -> {
+                    LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
+                }
 
-                        Image(
-                            modifier = Modifier.size(50.dp), bitmap = BitmapFactory.decodeByteArray(
-                                appItem.icon, 0, appItem.icon!!.size
-                            ).asImageBitmap(), contentDescription = null
-                        )
+                is UserAppListUiState.UserAppList -> {
+                    LazyColumn(modifier = Modifier.fillMaxSize()) {
+                        items(uIState.list) { appItem ->
+                            Row(modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable { onItemClick(appItem.packageName, appItem.label) }
+                                .padding(10.dp), verticalAlignment = Alignment.CenterVertically) {
 
-                        Spacer(modifier = Modifier.width(10.dp))
+                                Image(
+                                    modifier = Modifier.size(50.dp),
+                                    bitmap = BitmapFactory.decodeByteArray(
+                                        appItem.icon, 0, appItem.icon!!.size
+                                    ).asImageBitmap(),
+                                    contentDescription = null
+                                )
 
-                        Column(modifier = Modifier.weight(1f)) {
-                            Text(
-                                text = appItem.label, style = MaterialTheme.typography.bodyLarge
-                            )
+                                Spacer(modifier = Modifier.width(10.dp))
 
-                            Spacer(modifier = Modifier.height(5.dp))
+                                Column(modifier = Modifier.weight(1f)) {
+                                    Text(
+                                        text = appItem.label,
+                                        style = MaterialTheme.typography.bodyLarge
+                                    )
 
-                            Text(
-                                text = appItem.packageName,
-                                style = MaterialTheme.typography.bodySmall
-                            )
+                                    Spacer(modifier = Modifier.height(5.dp))
+
+                                    Text(
+                                        text = appItem.packageName,
+                                        style = MaterialTheme.typography.bodySmall
+                                    )
+                                }
+                            }
                         }
                     }
                 }

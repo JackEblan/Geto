@@ -5,3 +5,7 @@ plugins {
 android {
     namespace = "com.feature.userappsettings"
 }
+
+dependencies {
+    implementation(projects.core.ui)
+}
