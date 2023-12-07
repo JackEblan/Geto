@@ -19,4 +19,8 @@ dependencies {
     api(libs.mockito.core)
     api(libs.mockito.kotlin)
     api(libs.mockito.inline)
+
+    implementation(projects.core.domain)
+    implementation(projects.core.model)
+    implementation(projects.core.systemmanagers)
 }

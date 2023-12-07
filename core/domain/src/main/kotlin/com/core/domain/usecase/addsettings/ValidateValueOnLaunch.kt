@@ -7,8 +7,7 @@ class ValidateValueOnLaunch {
     operator fun invoke(valueOnLaunch: String): ValidationResult {
         if (valueOnLaunch.isBlank()) {
             return ValidationResult(
-                successful = false,
-                errorMessage = "Settings value on launch is blank"
+                successful = false, errorMessage = "Settings value on launch is blank"
             )
         }
 

@@ -1,6 +1,7 @@
 package com.core.systemmanagers.packagemanager
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.content.pm.PackageManager.NameNotFoundException
@@ -10,8 +11,6 @@ import com.core.common.di.DefaultDispatcher
 import com.core.model.AppItem
 import com.core.systemmanagers.PackageManagerHelper
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject
@@ -22,31 +21,32 @@ class PackageManagerHelperImpl @Inject constructor(
     private val byteArrayOutputStream: ByteArrayOutputStream
 ) : PackageManagerHelper {
     @SuppressLint("QueryPermissionsNeeded")
-    override fun getNonSystemAppList(): Flow<List<AppItem>> {
-        return flow {
-            val appItemList = packageManager.getInstalledApplications(PackageManager.GET_META_DATA)
-                .filter { (it.flags and ApplicationInfo.FLAG_SYSTEM) == 0 }.map {
-                    val label = packageManager.getApplicationLabel(it).toString()
+    override suspend fun getNonSystemAppList(): List<AppItem> {
+        return packageManager.getInstalledApplications(PackageManager.GET_META_DATA)
+            .filter { (it.flags and ApplicationInfo.FLAG_SYSTEM) == 0 }.map {
+                val label = packageManager.getApplicationLabel(it).toString()
 
-                    val icon = try {
-                        packageManager.getApplicationIcon(it.packageName)
-                    } catch (e: NameNotFoundException) {
-                        null
-                    }
+                val icon = try {
+                    packageManager.getApplicationIcon(it.packageName)
+                } catch (e: NameNotFoundException) {
+                    null
+                }
 
-                    val iconByteArray = withContext(defaultDispatcher) {
-                        icon?.toBitmap()
-                            ?.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
+                val iconByteArray = withContext(defaultDispatcher) {
+                    icon?.toBitmap()
+                        ?.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
 
-                        byteArrayOutputStream.toByteArray()
-                    }
+                    byteArrayOutputStream.toByteArray()
+                }
 
-                    byteArrayOutputStream.reset()
+                byteArrayOutputStream.reset()
 
-                    AppItem(icon = iconByteArray, packageName = it.packageName, label = label)
-                }.sortedBy { it.label }
+                AppItem(icon = iconByteArray, packageName = it.packageName, label = label)
+            }.sortedBy { it.label }
+    }
 
-            emit(appItemList)
-        }
+
+    override fun getLaunchIntentForPackage(packageName: String): Intent? {
+        return packageManager.getLaunchIntentForPackage(packageName)
     }
 }

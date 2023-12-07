@@ -7,8 +7,7 @@ class ValidateValueOnRevert {
     operator fun invoke(valueOnRevert: String): ValidationResult {
         if (valueOnRevert.isBlank()) {
             return ValidationResult(
-                successful = false,
-                errorMessage = "Settings value on revert is blank"
+                successful = false, errorMessage = "Settings value on revert is blank"
             )
         }
 

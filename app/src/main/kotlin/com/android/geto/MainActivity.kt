@@ -28,7 +28,8 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
 
                     NavHost(
-                        navController = navController, startDestination = USER_APP_LIST_NAVIGATION_ROUTE
+                        navController = navController,
+                        startDestination = USER_APP_LIST_NAVIGATION_ROUTE
                     ) {
                         userAppListScreen(onItemClick = { packageName, appName ->
                             navController.navigateToUserAppSettings(

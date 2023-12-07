@@ -4,7 +4,6 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestDispatcher
 import kotlinx.coroutines.test.runTest
@@ -17,7 +16,7 @@ import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 import java.io.ByteArrayOutputStream
-import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 @RunWith(MockitoJUnitRunner::class)
 class PackageManagerHelperImplTest {
@@ -61,9 +60,6 @@ class PackageManagerHelperImplTest {
     @Test
     fun `filter non-system apps, return true if the applicationInfoList is not empty`() =
         runTest(testDispatcher) {
-            assertEquals(expected = true,
-                         actual = mockPackageManagerHelperImpl.getNonSystemAppList().first()
-                             .isNotEmpty()
-            )
+            assertTrue { mockPackageManagerHelperImpl.getNonSystemAppList().isNotEmpty() }
         }
 }
