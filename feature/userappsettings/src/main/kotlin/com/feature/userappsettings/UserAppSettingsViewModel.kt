@@ -81,7 +81,7 @@ class UserAppSettingsViewModel @Inject constructor(
 
                 if (!userAppSettingsListResult.successful) {
                     viewModelScope.launch {
-                        _uiEvent.emit(UIEvent.Toast(userAppSettingsListResult.errorMessage))
+                        _uiEvent.emit(UIEvent.ShowSnackbar(userAppSettingsListResult.errorMessage))
                     }
 
                     return
@@ -93,7 +93,7 @@ class UserAppSettingsViewModel @Inject constructor(
 
                         _uiEvent.emit(UIEvent.LaunchApp(appIntent))
                     }.onFailure {
-                        _uiEvent.emit(UIEvent.Toast(it.message))
+                        _uiEvent.emit(UIEvent.ShowSnackbar(it.message))
                     }
                 }
             }
@@ -104,7 +104,7 @@ class UserAppSettingsViewModel @Inject constructor(
 
                 if (!userAppSettingsListResult.successful) {
                     viewModelScope.launch {
-                        _uiEvent.emit(UIEvent.Toast(userAppSettingsListResult.errorMessage))
+                        _uiEvent.emit(UIEvent.ShowSnackbar(userAppSettingsListResult.errorMessage))
                     }
 
                     return
@@ -112,9 +112,9 @@ class UserAppSettingsViewModel @Inject constructor(
 
                 viewModelScope.launch {
                     settingsRepository.revertSettings(event.userAppSettingsList).onSuccess {
-                        _uiEvent.emit(UIEvent.Toast(it))
+                        _uiEvent.emit(UIEvent.ShowSnackbar(it))
                     }.onFailure {
-                        _uiEvent.emit(UIEvent.Toast(it.message))
+                        _uiEvent.emit(UIEvent.ShowSnackbar(it.message))
                     }
                 }
             }
@@ -127,9 +127,9 @@ class UserAppSettingsViewModel @Inject constructor(
                     userAppSettingsRepository.upsertUserAppSettingsEnabled(
                         updatedUserAppSettingsItem
                     ).onSuccess {
-                        _uiEvent.emit(UIEvent.Toast(it))
+                        _uiEvent.emit(UIEvent.ShowSnackbar(it))
                     }.onFailure {
-                        _uiEvent.emit(UIEvent.Toast(it.localizedMessage))
+                        _uiEvent.emit(UIEvent.ShowSnackbar(it.localizedMessage))
                     }
                 }
             }
@@ -138,9 +138,9 @@ class UserAppSettingsViewModel @Inject constructor(
                 viewModelScope.launch {
                     userAppSettingsRepository.deleteUserAppSettings(event.userAppSettingsItem)
                         .onSuccess {
-                            _uiEvent.emit(UIEvent.Toast(it))
+                            _uiEvent.emit(UIEvent.ShowSnackbar(it))
                         }.onFailure {
-                            _uiEvent.emit(UIEvent.Toast(it.localizedMessage))
+                            _uiEvent.emit(UIEvent.ShowSnackbar(it.localizedMessage))
                         }
                 }
             }
@@ -148,7 +148,7 @@ class UserAppSettingsViewModel @Inject constructor(
     }
 
     sealed class UIEvent {
-        data class Toast(val message: String? = null) : UIEvent()
+        data class ShowSnackbar(val message: String? = null) : UIEvent()
 
         data class LaunchApp(val intent: Intent? = null) : UIEvent()
     }

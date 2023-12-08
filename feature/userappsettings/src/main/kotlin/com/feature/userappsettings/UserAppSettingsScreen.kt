@@ -1,6 +1,6 @@
 package com.feature.userappsettings
 
-import android.widget.Toast
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -11,21 +11,29 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.material3.Button
+import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -48,6 +56,10 @@ internal fun UserAppSettingsScreen(
 ) {
     val context = LocalContext.current
 
+    val snackbarHostState = remember {
+        SnackbarHostState()
+    }
+
     val dataState = viewModel.dataState.collectAsState().value
 
     val uIState = viewModel.uIstate.collectAsStateWithLifecycle().value
@@ -61,9 +73,9 @@ internal fun UserAppSettingsScreen(
                     }
                 }
 
-                is UserAppSettingsViewModel.UIEvent.Toast -> {
+                is UserAppSettingsViewModel.UIEvent.ShowSnackbar -> {
                     event.message?.let {
-                        Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+                        snackbarHostState.showSnackbar(message = it)
                     }
                 }
             }
@@ -71,6 +83,7 @@ internal fun UserAppSettingsScreen(
     }
 
     StatelessScreen(modifier = modifier,
+                    snackbarHostState = { snackbarHostState },
                     uIState = { dataState },
                     dataState = { uIState },
                     onNavigationIconClick = {
@@ -117,6 +130,7 @@ internal fun UserAppSettingsScreen(
 @Composable
 private fun StatelessScreen(
     modifier: Modifier = Modifier,
+    snackbarHostState: () -> SnackbarHostState,
     uIState: () -> UserAppSettingsUiState,
     dataState: () -> UserAppSettingsDataState,
     onNavigationIconClick: () -> Unit,
@@ -135,13 +149,29 @@ private fun StatelessScreen(
                     imageVector = Icons.Default.ArrowBack, contentDescription = null
                 )
             }
-        }, actions = {
+        })
+    }, bottomBar = {
+        BottomAppBar(actions = {
             IconButton(onClick = onRevertSettingsIconClick) {
                 Icon(imageVector = Icons.Default.Refresh, contentDescription = null)
             }
+            IconButton(onClick = onAddUserAppSettingsClick) {
+                Icon(
+                    Icons.Filled.Add,
+                    contentDescription = null,
+                )
+            }
+        }, floatingActionButton = {
+            FloatingActionButton(
+                onClick = onLaunchApp,
+                containerColor = BottomAppBarDefaults.bottomAppBarFabColor,
+                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
+            ) {
+                Icon(imageVector = Icons.Default.PlayArrow, contentDescription = null)
+            }
         })
-    }) { innerPadding ->
-        Column(
+    }, snackbarHost = { SnackbarHost(hostState = snackbarHostState()) }) { innerPadding ->
+        Box(
             modifier = modifier
                 .padding(innerPadding)
                 .fillMaxSize()
@@ -150,9 +180,7 @@ private fun StatelessScreen(
             when (val dataStateParam = dataState()) {
                 UserAppSettingsDataState.Empty -> {
                     EmptyListPlaceHolderScreen(
-                        modifier = Modifier
-                            .weight(1f)
-                            .fillMaxSize(),
+                        modifier = Modifier.fillMaxSize(),
                         icon = ImageVector.vectorResource(com.core.ui.R.drawable.sentiment_dissatisfied),
                         text = "Nothing is here"
                     )
@@ -160,15 +188,13 @@ private fun StatelessScreen(
 
                 UserAppSettingsDataState.Loading -> {
                     LoadingPlaceHolderScreen(
-                        modifier = Modifier
-                            .weight(1f)
-                            .fillMaxSize()
+                        modifier = Modifier.fillMaxSize()
                     )
                 }
 
                 is UserAppSettingsDataState.ShowUserAppSettingsList -> {
 
-                    LazyColumn(modifier = Modifier.weight(1f)) {
+                    LazyColumn(modifier = Modifier.fillMaxSize()) {
                         items(dataStateParam.userAppSettingsList) { settingsItem ->
                             Row(
                                 modifier = Modifier.fillMaxWidth(),
@@ -211,23 +237,6 @@ private fun StatelessScreen(
                         }
                     }
                 }
-            }
-
-            Button(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(5.dp),
-                onClick = onAddUserAppSettingsClick
-            ) {
-                Text(text = "Add Settings")
-            }
-
-            Button(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(5.dp), onClick = onLaunchApp
-            ) {
-                Text(text = "Launch app")
             }
         }
     }
