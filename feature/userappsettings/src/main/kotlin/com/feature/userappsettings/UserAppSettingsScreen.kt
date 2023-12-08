@@ -71,8 +71,8 @@ internal fun UserAppSettingsScreen(
     }
 
     StatelessScreen(modifier = modifier,
-                    uIState = dataState,
-                    dataState = uIState,
+                    uIState = { dataState },
+                    dataState = { uIState },
                     onNavigationIconClick = {
                         onArrowBackClick()
                     },
@@ -117,8 +117,8 @@ internal fun UserAppSettingsScreen(
 @Composable
 private fun StatelessScreen(
     modifier: Modifier = Modifier,
-    uIState: UserAppSettingsUiState,
-    dataState: UserAppSettingsDataState,
+    uIState: () -> UserAppSettingsUiState,
+    dataState: () -> UserAppSettingsDataState,
     onNavigationIconClick: () -> Unit,
     onRevertSettingsIconClick: () -> Unit,
     onUserAppSettingsItemCheckBoxChange: (Boolean, UserAppSettingsItem) -> Unit,
@@ -128,7 +128,7 @@ private fun StatelessScreen(
 ) {
     Scaffold(modifier = modifier.fillMaxSize(), topBar = {
         TopAppBar(title = {
-            Text(text = uIState.appName, maxLines = 1)
+            Text(text = uIState().appName, maxLines = 1)
         }, navigationIcon = {
             IconButton(onClick = onNavigationIconClick) {
                 Icon(
@@ -147,7 +147,7 @@ private fun StatelessScreen(
                 .fillMaxSize()
         ) {
 
-            when (dataState) {
+            when (val dataStateParam = dataState()) {
                 UserAppSettingsDataState.Empty -> {
                     EmptyListPlaceHolderScreen(
                         modifier = Modifier
@@ -167,8 +167,9 @@ private fun StatelessScreen(
                 }
 
                 is UserAppSettingsDataState.ShowUserAppSettingsList -> {
+
                     LazyColumn(modifier = Modifier.weight(1f)) {
-                        items(dataState.userAppSettingsList) { settingsItem ->
+                        items(dataStateParam.userAppSettingsList) { settingsItem ->
                             Row(
                                 modifier = Modifier.fillMaxWidth(),
                                 verticalAlignment = Alignment.CenterVertically

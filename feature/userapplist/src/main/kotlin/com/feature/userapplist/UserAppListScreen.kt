@@ -45,11 +45,10 @@ internal fun UserAppListScreen(
     val pullRefreshState = rememberPullRefreshState(refreshing = state.isLoading,
                                                     onRefresh = { viewModel.onEvent(UserAppListEvent.GetNonSystemApps) })
 
-    StatelessScreen(
-        modifier = modifier,
-        pullRefreshState = pullRefreshState,
-        state = state,
-        onItemClick = onItemClick
+    StatelessScreen(modifier = modifier,
+                    pullRefreshState = { pullRefreshState },
+                    state = { state },
+                    onItemClick = onItemClick
     )
 }
 
@@ -57,8 +56,8 @@ internal fun UserAppListScreen(
 @Composable
 private fun StatelessScreen(
     modifier: Modifier = Modifier,
-    pullRefreshState: PullRefreshState,
-    state: UserAppListState,
+    pullRefreshState: () -> PullRefreshState,
+    state: () -> UserAppListState,
     onItemClick: (String, String) -> Unit
 ) {
     Scaffold(modifier = modifier.fillMaxSize(), topBar = {
@@ -68,18 +67,18 @@ private fun StatelessScreen(
     }) { innerPadding ->
         Box(
             modifier = Modifier
-                .pullRefresh(pullRefreshState)
+                .pullRefresh(pullRefreshState())
                 .padding(innerPadding)
                 .fillMaxSize()
         ) {
             PullRefreshIndicator(
-                refreshing = state.isLoading,
-                state = pullRefreshState,
+                refreshing = state().isLoading,
+                state = pullRefreshState(),
                 modifier = Modifier.align(Alignment.TopCenter)
             )
 
             LazyColumn(modifier = Modifier.fillMaxSize()) {
-                items(state.appList) { appItem ->
+                items(state().appList) { appItem ->
                     Row(modifier = Modifier
                         .fillMaxWidth()
                         .clickable { onItemClick(appItem.packageName, appItem.label) }
