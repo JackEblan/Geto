@@ -18,7 +18,7 @@ kotlinxCoroutines = "1.7.3"
 kotlinGradlePlugin = "1.9.10"
 test-ext-junit_version = "1.1.5"
 junit4 = "4.13.2"
-compose_material3_version = "1.2.0-alpha11"
+composeMaterial = "1.6"
 lifecycle-runtime-ktx_version = "2.6.2"
 core-ktx_version = "1.12.0"
 appcompat = "1.6.1"
@@ -60,6 +60,7 @@ androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", versi
 androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation" }
 androidx-compose-foundation-layout = { group = "androidx.compose.foundation", name = "foundation-layout" }
 androidx-lifecycle-viewmodel-compose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "androidxLifecycleViewmodelCompose" }
+androidx-compose-material = { group = "androidx.compose.material", name = "material" }
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime" }
 androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }

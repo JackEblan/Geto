@@ -23,6 +23,8 @@ class UserAppListViewModel @Inject constructor(private val packageManagerHelper:
     fun onEvent(event: UserAppListEvent) {
         when (event) {
             UserAppListEvent.GetNonSystemApps -> {
+                _state.value = _state.value.copy(isLoading = true)
+
                 viewModelScope.launch {
                     val appList = packageManagerHelper.getNonSystemAppList()
 
