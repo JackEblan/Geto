@@ -13,7 +13,8 @@ App must be granted with **android.permission.WRITE_SECURE_SETTINGS** to make it
 
 # Installation
 
-This guide is only for non-pc and Android 11+
+This guide is only for Android 11+ without using computer.
+For Android 10 and below, [This Youtube tutorial](https://www.youtube.com/watch?v=k4k297qItY4) can help you.
 
 1. **Install Shizuku and aShell:**
     - Download and
