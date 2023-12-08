@@ -4,6 +4,11 @@ Geto
 ==================
 [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" height="80">](https://f-droid.org/en/packages/com.android.geto/)
 
+The only reason I created this app is to turn off that damn Developer Options when using a banking
+app. The only annoying thing about it is you have to go to the Settings app. When you turn off that
+switch button, your Developer Options configurations will be reset to default. The good thing is
+that when you modify your settings through its Shared Preferences, you won't lose all your settings
+once the Developer Options are modified.
 An Android app that can modify your device settings and apply them to a specific user app.
 App must be granted with **android.permission.WRITE_SECURE_SETTINGS** to make it work properly.
 
@@ -14,7 +19,8 @@ App must be granted with **android.permission.WRITE_SECURE_SETTINGS** to make it
 # Installation
 
 This guide is only for Android 11+ without using computer.
-For Android 10 and below, [This Youtube tutorial](https://www.youtube.com/watch?v=k4k297qItY4) can help you.
+For Android 10 and below, [This Youtube tutorial](https://www.youtube.com/watch?v=k4k297qItY4) can
+help you.
 
 1. **Install Shizuku and aShell:**
     - Download and

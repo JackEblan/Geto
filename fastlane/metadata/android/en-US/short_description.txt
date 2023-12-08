@@ -1,1 +1,1 @@
-Apply settings to your apps.
+Hide Developer Options detection in any apps.

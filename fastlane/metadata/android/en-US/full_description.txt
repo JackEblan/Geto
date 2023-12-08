@@ -1,6 +1,8 @@
+The only reason I created this app is to turn off that damn Developer Options when using a banking app. The only annoying thing about it is you have to go to the Settings app. When you turn off that switch button, your Developer Options configurations will be reset to default. The good thing is that when you modify your settings through its Shared Preferences, you won't lose all your settings once the Developer Options are modified.
 An Android app that can modify your device settings and apply them to a specific user app. App must be granted with android.permission.WRITE_SECURE_SETTINGS to make it work properly.
 
 This guide is only for non-pc and Android 11+
+If you are on Android below 10, this YouTube tutorial can help you: https://www.youtube.com/watch?v=k4k297qItY4
 
 Installation:
 
@@ -14,7 +16,7 @@ Installation:
    - Launch aShell on your device. If the app does not show any errors then Shizuku service is working properly.
 
 4. Grant Necessary Permissions:
-   - In the aShell command box, enter the following command and press Enter: pm grant com.android.geto android.permission.WRITE_SECURE_SETTINGS
+   - In the aShell command box, enter the following command and press Enter: pm grant <i>com.android.geto android.permission.WRITE_SECURE_SETTINGS</i>
 
    - Ensure that no errors are reported during the execution of the command.
 
