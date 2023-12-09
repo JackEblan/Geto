@@ -81,7 +81,7 @@ class AddSettingsDialogViewModel @Inject constructor(
                     ).onSuccess {
                         _state.update { AddSettingsDialogState() }
 
-                        _uiEvent.emit(UIEvent.Toast(it))
+                        _uiEvent.emit(UIEvent.ShowSnackbar(it))
 
                         _uiEvent.emit(UIEvent.DismissDialog)
                     }
@@ -121,7 +121,7 @@ class AddSettingsDialogViewModel @Inject constructor(
     }
 
     sealed class UIEvent {
-        data class Toast(val message: String? = null) : UIEvent()
+        data class ShowSnackbar(val message: String? = null) : UIEvent()
 
         data object DismissDialog : UIEvent()
     }

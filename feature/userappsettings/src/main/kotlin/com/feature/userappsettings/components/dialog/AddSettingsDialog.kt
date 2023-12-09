@@ -1,6 +1,5 @@
 package com.feature.userappsettings.components.dialog
 
-import android.widget.Toast
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -27,7 +26,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
@@ -40,11 +38,9 @@ fun AddSettingsDialog(
     modifier: Modifier = Modifier,
     viewModel: AddSettingsDialogViewModel = hiltViewModel(),
     packageName: String,
-    onDismissRequest: () -> Unit
+    onDismissRequest: () -> Unit,
+    onShowSnackbar: (String) -> Unit
 ) {
-
-    val context = LocalContext.current
-
     val state = viewModel.state.collectAsState().value
 
     val scrollState = rememberScrollState()
@@ -52,10 +48,8 @@ fun AddSettingsDialog(
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collectLatest { event ->
             when (event) {
-                is AddSettingsDialogViewModel.UIEvent.Toast -> {
-                    event.message?.let {
-                        Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
-                    }
+                is AddSettingsDialogViewModel.UIEvent.ShowSnackbar -> {
+                    event.message?.let(onShowSnackbar)
                 }
 
                 AddSettingsDialogViewModel.UIEvent.DismissDialog -> {
@@ -66,8 +60,8 @@ fun AddSettingsDialog(
     }
 
     StatelessScreen(modifier = modifier,
-                    state = state,
-                    scrollState = scrollState,
+                    state = { state },
+                    scrollState = { scrollState },
                     onRadioOptionSelected = {
                         viewModel.onEvent(AddSettingsDialogEvent.OnRadioOptionSelected(it))
                     },
@@ -94,8 +88,8 @@ fun AddSettingsDialog(
 @Composable
 private fun StatelessScreen(
     modifier: Modifier = Modifier,
-    state: AddSettingsDialogState,
-    scrollState: ScrollState,
+    state: () -> AddSettingsDialogState,
+    scrollState: () -> ScrollState,
     onRadioOptionSelected: (Int) -> Unit,
     onDismissRequest: () -> Unit,
     onTypingLabel: (String) -> Unit,
@@ -115,7 +109,7 @@ private fun StatelessScreen(
         ) {
             Column(
                 modifier = Modifier
-                    .verticalScroll(scrollState)
+                    .verticalScroll(scrollState())
                     .padding(10.dp)
             ) {
                 Spacer(modifier = Modifier.height(10.dp))
@@ -135,7 +129,7 @@ private fun StatelessScreen(
                                 .fillMaxWidth()
                                 .padding(vertical = 10.dp)
                                 .selectable(
-                                    selected = (index == state.selectedRadioOptionIndex),
+                                    selected = (index == state().selectedRadioOptionIndex),
                                     onClick = { onRadioOptionSelected(index) },
                                     role = Role.RadioButton
                                 )
@@ -143,7 +137,8 @@ private fun StatelessScreen(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             RadioButton(
-                                selected = (index == state.selectedRadioOptionIndex), onClick = null
+                                selected = (index == state().selectedRadioOptionIndex),
+                                onClick = null
                             )
                             Text(
                                 text = text,
@@ -160,15 +155,15 @@ private fun StatelessScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 5.dp),
-                    value = state.label,
+                    value = state().label,
                     onValueChange = { onTypingLabel(it) },
                     label = {
                         Text(text = "Settings label")
                     },
-                    isError = state.labelError != null,
+                    isError = state().labelError != null,
                     supportingText = {
-                        if (state.labelError != null) {
-                            Text(text = state.labelError)
+                        state().labelError?.let {
+                            Text(text = it)
                         }
                     },
                     singleLine = true,
@@ -179,15 +174,15 @@ private fun StatelessScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 5.dp),
-                    value = state.key,
+                    value = state().key,
                     onValueChange = { onTypingName(it) },
                     label = {
                         Text(text = "Settings key")
                     },
-                    isError = state.keyError != null,
+                    isError = state().keyError != null,
                     supportingText = {
-                        if (state.keyError != null) {
-                            Text(text = state.keyError)
+                        state().keyError?.let {
+                            Text(text = it)
                         }
                     },
                     singleLine = true,
@@ -198,15 +193,15 @@ private fun StatelessScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 5.dp),
-                    value = state.valueOnLaunch,
+                    value = state().valueOnLaunch,
                     onValueChange = { onTypingValueOnLaunch(it) },
                     label = {
                         Text(text = "Settings value on launch")
                     },
-                    isError = state.valueOnLaunchError != null,
+                    isError = state().valueOnLaunchError != null,
                     supportingText = {
-                        if (state.valueOnLaunchError != null) {
-                            Text(text = state.valueOnLaunchError)
+                        state().valueOnLaunchError?.let {
+                            Text(text = it)
                         }
                     },
                     singleLine = true,
@@ -217,15 +212,15 @@ private fun StatelessScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 5.dp),
-                    value = state.valueOnRevert,
+                    value = state().valueOnRevert,
                     onValueChange = { onTypingValueOnExit(it) },
                     label = {
                         Text(text = "Settings value on revert")
                     },
-                    isError = state.valueOnRevertError != null,
+                    isError = state().valueOnRevertError != null,
                     supportingText = {
-                        if (state.valueOnRevertError != null) {
-                            Text(text = state.valueOnRevertError)
+                        state().valueOnRevertError?.let {
+                            Text(text = it)
                         }
                     },
                     singleLine = true,

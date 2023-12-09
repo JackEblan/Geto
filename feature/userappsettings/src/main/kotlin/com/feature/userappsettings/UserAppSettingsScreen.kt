@@ -34,6 +34,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -47,6 +48,7 @@ import com.core.ui.EmptyListPlaceHolderScreen
 import com.core.ui.LoadingPlaceHolderScreen
 import com.feature.userappsettings.components.dialog.AddSettingsDialog
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @Composable
 internal fun UserAppSettingsScreen(
@@ -55,6 +57,8 @@ internal fun UserAppSettingsScreen(
     onArrowBackClick: () -> Unit
 ) {
     val context = LocalContext.current
+
+    val coroutineScope = rememberCoroutineScope()
 
     val snackbarHostState = remember {
         SnackbarHostState()
@@ -119,10 +123,13 @@ internal fun UserAppSettingsScreen(
 
 
     if (dataState.openAddSettingsDialog) {
-        AddSettingsDialog(
-            onDismissRequest = { viewModel.onEvent(UserAppSettingsEvent.OnDismissAddSettingsDialog) },
-            packageName = dataState.packageName
-        )
+        AddSettingsDialog(packageName = dataState.packageName,
+                          onDismissRequest = { viewModel.onEvent(UserAppSettingsEvent.OnDismissAddSettingsDialog) },
+                          onShowSnackbar = { message ->
+                              coroutineScope.launch {
+                                  snackbarHostState.showSnackbar(message = message)
+                              }
+                          })
     }
 }
 
