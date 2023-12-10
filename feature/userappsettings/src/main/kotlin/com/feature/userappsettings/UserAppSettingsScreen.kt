@@ -16,6 +16,7 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.outlined.Create
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.Checkbox
@@ -37,9 +38,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -188,7 +187,7 @@ private fun StatelessScreen(
                 UserAppSettingsDataState.Empty -> {
                     EmptyListPlaceHolderScreen(
                         modifier = Modifier.fillMaxSize(),
-                        icon = ImageVector.vectorResource(com.core.ui.R.drawable.sentiment_dissatisfied),
+                        icon = Icons.Outlined.Create,
                         text = "Nothing is here"
                     )
                 }

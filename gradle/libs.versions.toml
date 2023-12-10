@@ -1,6 +1,7 @@
 [versions]
 androidxActivity = "1.8.1"
 androidxComposeBom = "2023.10.01"
+androidxCoreKtx = "1.12.0"
 androidxComposeCompiler = "1.5.3"
 androidxEspresso = "3.5.1"
 androidGradlePlugin = "8.2.0"
@@ -16,20 +17,12 @@ room = "2.6.0"
 hilt = "2.48.1"
 kotlinxCoroutines = "1.7.3"
 kotlinGradlePlugin = "1.9.10"
-test-ext-junit_version = "1.1.5"
 junit4 = "4.13.2"
-composeMaterial = "1.6"
-lifecycle-runtime-ktx_version = "2.6.2"
-core-ktx_version = "1.12.0"
-appcompat = "1.6.1"
-material = "1.10.0"
 ksp = "1.9.10-1.0.13"
-androidx-test-ext-junit = "1.1.5"
 robolectric = "4.11.1"
 mockito = "5.7.0"
 mockitoKotlin = "5.1.0"
 mockitoInline = "5.2.0"
-truth = "1.1.4"
 
 [libraries]
 # Room Database
@@ -56,6 +49,9 @@ kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-cor
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
 
 # Jetpack Compose
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidxActivity" }
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCoreKtx" }
+androidx-activity-ktx = { group = "androidx.activity", name = "activity-ktx", version.ref = "androidxActivity" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidxComposeBom" }
 androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation" }
 androidx-compose-foundation-layout = { group = "androidx.compose.foundation", name = "foundation-layout" }
@@ -83,22 +79,11 @@ robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "
 mockito-core = { group = "org.mockito", name = "mockito-core", version.ref = "mockito" }
 mockito-kotlin = { group = "org.mockito.kotlin", name = "mockito-kotlin", version.ref = "mockitoKotlin" }
 mockito-inline = { group = "org.mockito", name = "mockito-inline", version.ref = "mockitoInline" }
-truth = { group = "com.google.truth", name = "truth", version.ref = "truth" }
-
-# Activity
-androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidxActivity" }
-androidx-activity-ktx = { group = "androidx.activity", name = "activity-ktx", version.ref = "androidxActivity" }
-
-# Android Core
-androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx_version" }
-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
-material = { module = "com.google.android.material:material", version.ref = "material" }
 
 # Gradle Plugin
 android-gradle_plugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
 kotlin-gradle_plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlinGradlePlugin" }
 ksp-gradle_plugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
 
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }

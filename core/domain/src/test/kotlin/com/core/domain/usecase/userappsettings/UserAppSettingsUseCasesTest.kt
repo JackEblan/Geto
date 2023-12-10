@@ -2,9 +2,9 @@ package com.core.domain.usecase.userappsettings
 
 import com.core.model.SettingsType
 import com.core.model.UserAppSettingsItem
-import com.google.common.truth.Truth.assertThat
 import org.junit.Before
 import org.junit.Test
+import kotlin.test.assertEquals
 
 class UserAppSettingsUseCasesTest {
 
@@ -31,13 +31,13 @@ class UserAppSettingsUseCasesTest {
 
         val result = validateUserAppSettingsList(userAppSettingsList)
 
-        assertThat(result.successful).isFalse()
+        assertEquals(expected = result.successful, actual = false)
     }
 
     @Test
     fun `When user app settings list is empty, return false`() {
         val result = validateUserAppSettingsList(emptyList())
 
-        assertThat(result.successful).isFalse()
+        assertEquals(expected = result.successful, actual = false)
     }
 }

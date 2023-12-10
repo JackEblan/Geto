@@ -4,6 +4,7 @@ import android.content.Context
 import android.provider.Settings
 import com.core.model.SettingsType
 import com.core.model.UserAppSettingsItem
+import com.core.sharedpreferences.SystemSettingsDataSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -34,7 +35,7 @@ class SystemSettingsSharedPreferencesTest {
 
     private lateinit var mockedSettingsSystem: MockedStatic<Settings.System>
 
-    private lateinit var systemSettingsDataSourceImpl: SystemSettingsDataSourceImpl
+    private lateinit var systemSettingsDataSource: SystemSettingsDataSource
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Before
@@ -43,7 +44,7 @@ class SystemSettingsSharedPreferencesTest {
 
         Dispatchers.setMain(testDispatcher)
 
-        systemSettingsDataSourceImpl = SystemSettingsDataSourceImpl(
+        systemSettingsDataSource = SystemSettingsDataSourceImpl(
             ioDispatcher = testDispatcher, context = mockContext
         )
 
@@ -85,7 +86,7 @@ class SystemSettingsSharedPreferencesTest {
             )
         }.thenReturn(true)
 
-        val result = systemSettingsDataSourceImpl.putSystemPreferences(
+        val result = systemSettingsDataSource.putSystemPreferences(
             userAppSettingsItemList = userAppSettingsItemList,
             valueSelector = { userAppSettingsItemList.first().valueOnLaunch },
             successMessage = ""
@@ -117,7 +118,7 @@ class SystemSettingsSharedPreferencesTest {
             )
         }.thenReturn(true)
 
-        val result = systemSettingsDataSourceImpl.putSystemPreferences(
+        val result = systemSettingsDataSource.putSystemPreferences(
             userAppSettingsItemList = userAppSettingsItemList,
             valueSelector = { userAppSettingsItemList.first().valueOnLaunch },
             successMessage = ""
@@ -148,7 +149,7 @@ class SystemSettingsSharedPreferencesTest {
             )
         }.thenReturn(true)
 
-        val result = systemSettingsDataSourceImpl.putSystemPreferences(
+        val result = systemSettingsDataSource.putSystemPreferences(
             userAppSettingsItemList = userAppSettingsItemList,
             valueSelector = { userAppSettingsItemList.first().valueOnLaunch },
             successMessage = ""
@@ -179,7 +180,7 @@ class SystemSettingsSharedPreferencesTest {
             )
         }.thenReturn(true)
 
-        val result = systemSettingsDataSourceImpl.putSystemPreferences(
+        val result = systemSettingsDataSource.putSystemPreferences(
             userAppSettingsItemList = userAppSettingsItemList,
             valueSelector = { userAppSettingsItemList.first().valueOnRevert },
             successMessage = ""
@@ -210,7 +211,7 @@ class SystemSettingsSharedPreferencesTest {
             )
         }.thenReturn(true)
 
-        val result = systemSettingsDataSourceImpl.putSystemPreferences(
+        val result = systemSettingsDataSource.putSystemPreferences(
             userAppSettingsItemList = userAppSettingsItemList,
             valueSelector = { userAppSettingsItemList.first().valueOnRevert },
             successMessage = ""
@@ -242,7 +243,7 @@ class SystemSettingsSharedPreferencesTest {
             )
         }.thenReturn(true)
 
-        val result = systemSettingsDataSourceImpl.putSystemPreferences(
+        val result = systemSettingsDataSource.putSystemPreferences(
             userAppSettingsItemList = userAppSettingsItemList,
             valueSelector = { userAppSettingsItemList.first().valueOnRevert },
             successMessage = ""

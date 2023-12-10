@@ -1,8 +1,8 @@
 package com.core.domain.usecase.addsettings
 
-import com.google.common.truth.Truth.assertThat
 import org.junit.Before
 import org.junit.Test
+import kotlin.test.assertEquals
 
 class AddSettingsUseCasesTest {
 
@@ -22,27 +22,55 @@ class AddSettingsUseCasesTest {
     fun `when settings key is blank, return false`() {
         val result = addSettingsUseCases.validateKey("")
 
-        assertThat(result.successful).isFalse()
+        assertEquals(expected = result.successful, actual = false)
     }
 
     @Test
     fun `when settings label is blank, return false`() {
         val result = addSettingsUseCases.validateLabel("")
 
-        assertThat(result.successful).isFalse()
+        assertEquals(expected = result.successful, actual = false)
     }
 
     @Test
     fun `when settings value on launch is blank, return false`() {
         val result = addSettingsUseCases.validateValueOnLaunch("")
 
-        assertThat(result.successful).isFalse()
+        assertEquals(expected = result.successful, actual = false)
     }
 
     @Test
     fun `when settings value on revert is blank, return false`() {
         val result = addSettingsUseCases.validateValueOnRevert("")
 
-        assertThat(result.successful).isFalse()
+        assertEquals(expected = result.successful, actual = false)
+    }
+
+    @Test
+    fun `when settings key is blank, return true`() {
+        val result = addSettingsUseCases.validateKey("Test")
+
+        assertEquals(expected = result.successful, actual = true)
+    }
+
+    @Test
+    fun `when settings label is blank, return true`() {
+        val result = addSettingsUseCases.validateLabel("Test")
+
+        assertEquals(expected = result.successful, actual = true)
+    }
+
+    @Test
+    fun `when settings value on launch is blank, return true`() {
+        val result = addSettingsUseCases.validateValueOnLaunch("Test")
+
+        assertEquals(expected = result.successful, actual = true)
+    }
+
+    @Test
+    fun `when settings value on revert is blank, return true`() {
+        val result = addSettingsUseCases.validateValueOnRevert("Test")
+
+        assertEquals(expected = result.successful, actual = true)
     }
 }
