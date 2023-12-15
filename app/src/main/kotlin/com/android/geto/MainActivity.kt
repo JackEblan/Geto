@@ -3,13 +3,14 @@ package com.android.geto
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import com.core.designsystem.theme.DevOpsHideNoRootTheme
+import com.core.designsystem.theme.GetoTheme
 import com.feature.userapplist.navigation.USER_APP_LIST_NAVIGATION_ROUTE
 import com.feature.userapplist.navigation.userAppListScreen
 import com.feature.userappsettings.navigation.navigateToUserAppSettings
@@ -19,9 +20,10 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         setContent {
-            DevOpsHideNoRootTheme {
+            GetoTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
