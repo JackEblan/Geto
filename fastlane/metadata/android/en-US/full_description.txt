@@ -1,7 +1,7 @@
 The only reason I created this app is to turn off that damn Developer Options when using a banking app. The only annoying thing about it is you have to go to the Settings app. When you turn off that switch button, your Developer Options configurations will be reset to default. The good thing is that when you modify your settings through its Shared Preferences, you won't lose all your settings once the Developer Options are modified.
 So basically, you have to grant this app with with <i>android.permission.WRITE_SECURE_SETTINGS</i> in order for it to modify your Settings values.
 
-This guide is only for non-pc and Android 11+
+This guide is only for Android 11+ without using computer.
 If you are on Android below 10, this YouTube tutorial can help you: https://www.youtube.com/watch?v=k4k297qItY4
 
 Installation:

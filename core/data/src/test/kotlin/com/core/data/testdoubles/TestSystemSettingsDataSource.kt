@@ -5,8 +5,9 @@ import com.core.model.SettingsType
 import com.core.model.UserAppSettingsItem
 import com.core.sharedpreferences.SystemSettingsDataSource
 
-class TestSystemSettingsDataSource(private val settingsMap: MutableMap<String, String> = mutableMapOf()) :
-    SystemSettingsDataSource {
+class TestSystemSettingsDataSource : SystemSettingsDataSource {
+
+    private val settingsMap: MutableMap<String, String> = mutableMapOf()
 
     override suspend fun putSystemPreferences(
         userAppSettingsItemList: List<UserAppSettingsItem>,
