@@ -40,7 +40,7 @@ internal fun UserAppListScreen(
 ) {
     val state = viewModel.state.collectAsStateWithLifecycle().value
 
-    val pullRefreshState = rememberPullRefreshState(refreshing = state.isLoading,
+    val pullRefreshState = rememberPullRefreshState(refreshing = false,
                                                     onRefresh = { viewModel.onEvent(UserAppListEvent.GetNonSystemApps) })
 
     StatelessScreen(modifier = modifier,
@@ -70,7 +70,7 @@ private fun StatelessScreen(
                 .fillMaxSize()
         ) {
             PullRefreshIndicator(
-                refreshing = state().isLoading,
+                refreshing = false,
                 state = pullRefreshState(),
                 modifier = Modifier.align(Alignment.TopCenter)
             )

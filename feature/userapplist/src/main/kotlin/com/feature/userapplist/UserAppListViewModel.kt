@@ -23,10 +23,7 @@ class UserAppListViewModel @Inject constructor(
     fun onEvent(event: UserAppListEvent) {
         when (event) {
             UserAppListEvent.GetNonSystemApps -> {
-                _state.value = _state.value.copy(isLoading = true)
-
-                _state.value =
-                    _state.value.copy(isLoading = false, appList = getNonSystemApps(packageManager))
+                _state.value = _state.value.copy(appList = getNonSystemApps(packageManager))
             }
         }
     }
