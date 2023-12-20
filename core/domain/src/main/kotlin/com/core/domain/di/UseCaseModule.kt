@@ -5,6 +5,7 @@ import com.core.domain.usecase.addsettings.ValidateKey
 import com.core.domain.usecase.addsettings.ValidateLabel
 import com.core.domain.usecase.addsettings.ValidateValueOnLaunch
 import com.core.domain.usecase.addsettings.ValidateValueOnRevert
+import com.core.domain.usecase.userapplist.GetNonSystemApps
 import com.core.domain.usecase.userappsettings.ValidateUserAppSettingsList
 import dagger.Module
 import dagger.Provides
@@ -14,7 +15,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object UserAppSettingsUseCaseModule {
+object UseCaseModule {
 
     @Singleton
     @Provides
@@ -28,4 +29,8 @@ object UserAppSettingsUseCaseModule {
     @Singleton
     @Provides
     fun validateUserAppSettingsList(): ValidateUserAppSettingsList = ValidateUserAppSettingsList()
+
+    @Singleton
+    @Provides
+    fun getNonSystemApps(): GetNonSystemApps = GetNonSystemApps()
 }

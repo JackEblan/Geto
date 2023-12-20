@@ -13,8 +13,10 @@ androidxTestCore = "1.5.0"
 androidxTestExt = "1.1.5"
 androidxTestRules = "1.5.0"
 androidxTestRunner = "1.5.2"
+coil = "2.5.0"
 room = "2.6.0"
 hilt = "2.48.1"
+jacoco = "0.8.7"
 kotlinxCoroutines = "1.7.3"
 kotlinGradlePlugin = "1.9.10"
 junit4 = "4.13.2"
@@ -66,6 +68,7 @@ androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "u
 androidx-compose-ui-util = { group = "androidx.compose.ui", name = "ui-util" }
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "androidxNavigationCompose" }
 androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 
 # Test
 androidx-test-core = { group = "androidx.test", name = "core", version.ref = "androidxTestCore" }
@@ -98,6 +101,7 @@ com-android-geto-application-compose = { id = "com.android.geto.application.comp
 com-android-geto-library = { id = "com.android.geto.library", version = "unspecified" }
 com-android-geto-jvm-library = { id = "com.android.geto.jvm.library", version = "unspecified" }
 com-android-geto-library-compose = { id = "com.android.geto.library.compose", version = "unspecified" }
+com-android-geto-library-jacoco = { id = "com.android.geto.library.jacoco", version = "unspecified" }
 com-android-geto-feature = { id = "com.android.geto.feature", version = "unspecified" }
 com-android-geto-hilt = { id = "com.android.geto.hilt", version = "unspecified" }
 com-android-geto-room = { id = "com.android.geto.room", version = "unspecified" }

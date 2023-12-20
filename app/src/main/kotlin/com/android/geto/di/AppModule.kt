@@ -8,7 +8,6 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import java.io.ByteArrayOutputStream
 import javax.inject.Singleton
 
 @Module
@@ -23,8 +22,4 @@ object AppModule {
     @Singleton
     fun packageManager(@ApplicationContext context: Context): PackageManager =
         context.packageManager
-
-    @Provides
-    @Singleton
-    fun byteArrayOutputStream() = ByteArrayOutputStream()
 }

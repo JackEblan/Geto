@@ -22,5 +22,4 @@ dependencies {
 
     implementation(projects.core.domain)
     implementation(projects.core.model)
-    implementation(projects.core.systemmanagers)
 }

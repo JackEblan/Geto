@@ -1,13 +1,13 @@
 package com.feature.userappsettings
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.core.domain.repository.SettingsRepository
 import com.core.domain.repository.UserAppSettingsRepository
 import com.core.domain.usecase.userappsettings.ValidateUserAppSettingsList
-import com.core.systemmanagers.PackageManagerHelper
 import com.feature.userappsettings.navigation.NAV_KEY_APP_NAME
 import com.feature.userappsettings.navigation.NAV_KEY_PACKAGE_NAME
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -28,7 +28,7 @@ class UserAppSettingsViewModel @Inject constructor(
     private val userAppSettingsRepository: UserAppSettingsRepository,
     private val settingsRepository: SettingsRepository,
     private val validateUserAppSettingsList: ValidateUserAppSettingsList,
-    private val packageManagerHelper: PackageManagerHelper
+    private val packageManager: PackageManager
 ) : ViewModel() {
     private val _state = MutableStateFlow(UserAppSettingsUiState())
 
@@ -89,7 +89,7 @@ class UserAppSettingsViewModel @Inject constructor(
 
                 viewModelScope.launch {
                     settingsRepository.applySettings(event.userAppSettingsList).onSuccess {
-                        val appIntent = packageManagerHelper.getLaunchIntentForPackage(packageName)
+                        val appIntent = packageManager.getLaunchIntentForPackage(packageName)
 
                         _uiEvent.emit(UIEvent.LaunchApp(appIntent))
                     }.onFailure {

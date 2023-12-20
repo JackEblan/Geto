@@ -1,27 +1,32 @@
 package com.feature.userappsettings
 
+import android.content.pm.PackageManager
 import androidx.lifecycle.SavedStateHandle
 import com.core.domain.usecase.userappsettings.ValidateUserAppSettingsList
 import com.core.model.SettingsType
 import com.core.model.UserAppSettingsItem
-import com.core.testing.repository.TestPackageManagerHelper
 import com.core.testing.repository.TestSettingsRepository
 import com.core.testing.repository.TestUserAppSettingsRepository
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.mockito.Mock
+import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.kotlin.mock
 import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
+@RunWith(MockitoJUnitRunner::class)
 class UserAppSettingsViewModelTest {
+    @Mock
+    private lateinit var mockPackageManager: PackageManager
 
     private lateinit var userAppSettingsRepository: TestUserAppSettingsRepository
 
     private lateinit var settingsRepository: TestSettingsRepository
-
-    private lateinit var packageManagerHelper: TestPackageManagerHelper
 
     private val savedStateHandle = SavedStateHandle()
 
@@ -34,14 +39,14 @@ class UserAppSettingsViewModelTest {
 
         settingsRepository = TestSettingsRepository()
 
-        packageManagerHelper = TestPackageManagerHelper()
+        mockPackageManager = mock()
 
         viewModel = UserAppSettingsViewModel(
             savedStateHandle = savedStateHandle,
             userAppSettingsRepository = userAppSettingsRepository,
             settingsRepository = settingsRepository,
             validateUserAppSettingsList = ValidateUserAppSettingsList(),
-            packageManagerHelper = packageManagerHelper
+            packageManager = mockPackageManager
         )
     }
 

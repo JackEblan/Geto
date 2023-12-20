@@ -4,6 +4,8 @@ plugins {
     `kotlin-dsl`
 }
 
+group = "com.android.geto.buildlogic"
+
 java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
@@ -21,6 +23,13 @@ dependencies {
     compileOnly(libs.ksp.gradle.plugin)
 }
 
+tasks {
+    validatePlugins {
+        enableStricterValidation = true
+        failOnWarning = true
+    }
+}
+
 gradlePlugin {
     plugins {
         register("androidApplication") {
@@ -36,6 +45,11 @@ gradlePlugin {
         register("androidLibrary") {
             id = "com.android.geto.library"
             implementationClass = "AndroidLibraryConventionPlugin"
+        }
+
+        register("androidLibraryJacoco") {
+            id = "com.android.geto.library.jacoco"
+            implementationClass = "AndroidLibraryJacocoConventionPlugin"
         }
 
         register("androidLibraryCompose") {

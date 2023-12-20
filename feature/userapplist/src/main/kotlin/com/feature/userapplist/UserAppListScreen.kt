@@ -1,7 +1,5 @@
 package com.feature.userapplist
 
-import android.graphics.BitmapFactory
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,10 +26,10 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil.compose.AsyncImage
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -84,10 +82,10 @@ private fun StatelessScreen(
                         .clickable { onItemClick(appItem.packageName, appItem.label) }
                         .padding(10.dp), verticalAlignment = Alignment.CenterVertically) {
 
-                        Image(
-                            modifier = Modifier.size(50.dp), bitmap = BitmapFactory.decodeByteArray(
-                                appItem.icon, 0, appItem.icon!!.size
-                            ).asImageBitmap(), contentDescription = null
+                        AsyncImage(
+                            model = appItem.icon,
+                            contentDescription = null,
+                            modifier = Modifier.size(50.dp)
                         )
 
                         Spacer(modifier = Modifier.width(10.dp))
