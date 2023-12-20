@@ -28,36 +28,25 @@ class GetNonSystemAppsTest {
     }
 
     @Test
-    fun `filter non-system apps contains non null app icon`() {
+    fun `filter non-system apps`() {
         mockPackageManager = mock {
             val userAppWithAppIcon = mock<ApplicationInfo> {
                 it.packageName = "com.android.sample.userapp1"
                 it.flags = 0
             }
 
-            val applicationInfoList = listOf(userAppWithAppIcon)
-
-            on { getInstalledApplications(PackageManager.GET_META_DATA) } doReturn applicationInfoList
-
-            on { getApplicationLabel(userAppWithAppIcon) } doReturn "User App"
-        }
-
-        assertTrue { getNonSystemApps(mockPackageManager).isNotEmpty() }
-    }
-
-    @Test
-    fun `filter non-system apps contains null app icon`() {
-        mockPackageManager = mock {
             val userAppWithoutAppIcon = mock<ApplicationInfo> {
-                it.packageName = "com.android.sample.userapp1"
+                it.packageName = "com.android.sample.userapp2"
                 it.flags = 0
             }
 
-            val applicationInfoList = listOf(userAppWithoutAppIcon)
+            val applicationInfoList = listOf(userAppWithAppIcon, userAppWithoutAppIcon)
 
             on { getInstalledApplications(PackageManager.GET_META_DATA) } doReturn applicationInfoList
 
-            on { getApplicationLabel(userAppWithoutAppIcon) } doReturn "User App"
+            on { getApplicationLabel(userAppWithAppIcon) } doReturn "User App1"
+
+            on { getApplicationLabel(userAppWithoutAppIcon) } doReturn "User App2"
 
             on { getApplicationIcon(userAppWithoutAppIcon.packageName) } doThrow (NameNotFoundException())
         }

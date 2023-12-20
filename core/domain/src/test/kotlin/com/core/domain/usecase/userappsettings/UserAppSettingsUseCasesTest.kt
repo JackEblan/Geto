@@ -38,6 +38,25 @@ class UserAppSettingsUseCasesTest {
     fun `When user app settings list is empty, return false`() {
         val result = validateUserAppSettingsList(emptyList())
 
-        assertEquals(expected = result.successful, actual = false)
+        assertEquals(expected = false, actual = result.successful)
+    }
+
+    @Test
+    fun `When user app settings list is not empty and all items are enabled, return true`() {
+        val userAppSettingsList = listOf(
+            UserAppSettingsItem(
+                enabled = true,
+                settingsType = SettingsType.GLOBAL,
+                packageName = "com.android.settings",
+                label = "Settings",
+                key = "com.android.settings",
+                valueOnLaunch = "0",
+                valueOnRevert = "1"
+            )
+        )
+
+        val result = validateUserAppSettingsList(userAppSettingsList)
+
+        assertEquals(expected = true, actual = result.successful)
     }
 }
