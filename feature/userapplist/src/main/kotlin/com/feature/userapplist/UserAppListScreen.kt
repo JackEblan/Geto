@@ -30,6 +30,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
+import com.core.model.AppItem
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -38,14 +41,14 @@ internal fun UserAppListScreen(
     viewModel: UserAppListViewModel = hiltViewModel(),
     onItemClick: (String, String) -> Unit
 ) {
-    val state = viewModel.state.collectAsStateWithLifecycle().value
+    val appList = viewModel.state.collectAsStateWithLifecycle().value
 
     val pullRefreshState = rememberPullRefreshState(refreshing = false,
                                                     onRefresh = { viewModel.onEvent(UserAppListEvent.GetNonSystemApps) })
 
     StatelessScreen(modifier = modifier,
                     pullRefreshState = { pullRefreshState },
-                    state = { state },
+                    appList = { appList.toImmutableList() },
                     onItemClick = onItemClick
     )
 }
@@ -55,7 +58,7 @@ internal fun UserAppListScreen(
 private fun StatelessScreen(
     modifier: Modifier = Modifier,
     pullRefreshState: () -> PullRefreshState,
-    state: () -> UserAppListState,
+    appList: () -> ImmutableList<AppItem>,
     onItemClick: (String, String) -> Unit
 ) {
     Scaffold(modifier = modifier.fillMaxSize(), topBar = {
@@ -76,7 +79,7 @@ private fun StatelessScreen(
             )
 
             LazyColumn(modifier = Modifier.fillMaxSize()) {
-                items(state().appList) { appItem ->
+                items(appList()) { appItem ->
                     Row(modifier = Modifier
                         .fillMaxWidth()
                         .clickable { onItemClick(appItem.packageName, appItem.label) }

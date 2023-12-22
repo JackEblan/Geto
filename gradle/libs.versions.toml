@@ -18,6 +18,7 @@ room = "2.6.0"
 hilt = "2.48.1"
 jacoco = "0.8.7"
 kotlinxCoroutines = "1.7.3"
+kotlinxImmutableCollections = "0.3.6"
 kotlinGradlePlugin = "1.9.10"
 junit4 = "4.13.2"
 ksp = "1.9.10-1.0.13"
@@ -49,6 +50,7 @@ androidx-lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lif
 # Coroutines
 kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
+kotlinx-collections-immutable = { group = "org.jetbrains.kotlinx", name = "kotlinx-collections-immutable", version.ref = "kotlinxImmutableCollections" }
 
 # Jetpack Compose
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidxActivity" }
