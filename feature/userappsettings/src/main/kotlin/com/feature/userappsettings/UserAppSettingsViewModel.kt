@@ -12,11 +12,9 @@ import com.feature.userappsettings.navigation.NAV_KEY_APP_NAME
 import com.feature.userappsettings.navigation.NAV_KEY_PACKAGE_NAME
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -30,19 +28,15 @@ class UserAppSettingsViewModel @Inject constructor(
     private val validateUserAppSettingsList: ValidateUserAppSettingsList,
     private val packageManager: PackageManager
 ) : ViewModel() {
-    private val _state = MutableStateFlow(UserAppSettingsUiState())
-
-    val dataState = _state.asStateFlow()
-
     private val _uiEvent = MutableSharedFlow<UIEvent>()
 
     val uiEvent = _uiEvent.asSharedFlow()
 
-    private val packageName = savedStateHandle.get<String>(NAV_KEY_PACKAGE_NAME) ?: ""
+    val packageName = savedStateHandle.get<String>(NAV_KEY_PACKAGE_NAME) ?: ""
 
-    private val appName = savedStateHandle.get<String>(NAV_KEY_APP_NAME) ?: ""
+    val appName = savedStateHandle.get<String>(NAV_KEY_APP_NAME) ?: ""
 
-    val uIstate: StateFlow<UserAppSettingsDataState> =
+    val dataState: StateFlow<UserAppSettingsDataState> =
         userAppSettingsRepository.getUserAppSettingsList(packageName).map { list ->
             if (list.isNotEmpty()) {
                 UserAppSettingsDataState.ShowUserAppSettingsList(list)
@@ -55,26 +49,8 @@ class UserAppSettingsViewModel @Inject constructor(
             initialValue = UserAppSettingsDataState.Loading
         )
 
-    init {
-        onEvent(UserAppSettingsEvent.GetUserAppInfo)
-    }
-
     fun onEvent(event: UserAppSettingsEvent) {
         when (event) {
-            is UserAppSettingsEvent.GetUserAppInfo -> {
-                _state.value = _state.value.copy(
-                    appName = appName, packageName = packageName
-                )
-            }
-
-            UserAppSettingsEvent.OnDismissAddSettingsDialog -> {
-                _state.value = _state.value.copy(openAddSettingsDialog = false)
-            }
-
-            UserAppSettingsEvent.OnOpenAddSettingsDialog -> {
-                _state.value = _state.value.copy(openAddSettingsDialog = true)
-            }
-
             is UserAppSettingsEvent.OnLaunchApp -> {
                 val userAppSettingsListResult =
                     validateUserAppSettingsList(event.userAppSettingsList)

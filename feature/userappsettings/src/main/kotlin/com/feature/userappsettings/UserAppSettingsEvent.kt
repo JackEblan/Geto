@@ -3,12 +3,6 @@ package com.feature.userappsettings
 import com.core.model.UserAppSettingsItem
 
 sealed class UserAppSettingsEvent {
-    data object GetUserAppInfo : UserAppSettingsEvent()
-
-    data object OnOpenAddSettingsDialog : UserAppSettingsEvent()
-
-    data object OnDismissAddSettingsDialog : UserAppSettingsEvent()
-
     data class OnRevertSettings(val userAppSettingsList: List<UserAppSettingsItem>) :
         UserAppSettingsEvent()
 

@@ -34,14 +34,17 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.core.model.UserAppSettingsItem
 import com.core.ui.EmptyListPlaceHolderScreen
 import com.core.ui.LoadingPlaceHolderScreen
@@ -63,9 +66,11 @@ internal fun UserAppSettingsScreen(
         SnackbarHostState()
     }
 
-    val dataState = viewModel.dataState.collectAsState().value
+    var openAddSettingsDialog by rememberSaveable {
+        mutableStateOf(false)
+    }
 
-    val uIState = viewModel.uIstate.collectAsStateWithLifecycle().value
+    val dataState = viewModel.dataState.collectAsState().value
 
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collectLatest { event ->
@@ -87,15 +92,15 @@ internal fun UserAppSettingsScreen(
 
     StatelessScreen(modifier = modifier,
                     snackbarHostState = { snackbarHostState },
-                    uIState = { dataState },
-                    dataState = { uIState },
+                    appName = { viewModel.appName },
+                    dataState = { dataState },
                     onNavigationIconClick = {
                         onArrowBackClick()
                     },
                     onRevertSettingsIconClick = {
                         viewModel.onEvent(
                             UserAppSettingsEvent.OnRevertSettings(
-                                if (uIState is UserAppSettingsDataState.ShowUserAppSettingsList) uIState.userAppSettingsList
+                                if (dataState is UserAppSettingsDataState.ShowUserAppSettingsList) dataState.userAppSettingsList
                                 else emptyList()
                             )
                         )
@@ -110,20 +115,19 @@ internal fun UserAppSettingsScreen(
                     onDeleteUserAppSettingsItem = {
                         viewModel.onEvent(UserAppSettingsEvent.OnDeleteUserAppSettingsItem(it))
                     },
-                    onAddUserAppSettingsClick = { viewModel.onEvent(UserAppSettingsEvent.OnOpenAddSettingsDialog) },
+                    onAddUserAppSettingsClick = { openAddSettingsDialog = true },
                     onLaunchApp = {
                         viewModel.onEvent(
                             UserAppSettingsEvent.OnLaunchApp(
-                                if (uIState is UserAppSettingsDataState.ShowUserAppSettingsList) uIState.userAppSettingsList
+                                if (dataState is UserAppSettingsDataState.ShowUserAppSettingsList) dataState.userAppSettingsList
                                 else emptyList()
                             )
                         )
                     })
 
-
-    if (dataState.openAddSettingsDialog) {
-        AddSettingsDialog(packageName = dataState.packageName,
-                          onDismissRequest = { viewModel.onEvent(UserAppSettingsEvent.OnDismissAddSettingsDialog) },
+    if (openAddSettingsDialog) {
+        AddSettingsDialog(packageName = viewModel.packageName,
+                          onDismissRequest = { openAddSettingsDialog = false },
                           onShowSnackbar = { message ->
                               coroutineScope.launch {
                                   snackbarHostState.showSnackbar(message = message)
@@ -137,7 +141,7 @@ internal fun UserAppSettingsScreen(
 private fun StatelessScreen(
     modifier: Modifier = Modifier,
     snackbarHostState: () -> SnackbarHostState,
-    uIState: () -> UserAppSettingsUiState,
+    appName: () -> String,
     dataState: () -> UserAppSettingsDataState,
     onNavigationIconClick: () -> Unit,
     onRevertSettingsIconClick: () -> Unit,
@@ -148,7 +152,7 @@ private fun StatelessScreen(
 ) {
     Scaffold(modifier = modifier.fillMaxSize(), topBar = {
         TopAppBar(title = {
-            Text(text = uIState().appName, maxLines = 1)
+            Text(text = appName(), maxLines = 1)
         }, navigationIcon = {
             IconButton(onClick = onNavigationIconClick) {
                 Icon(

@@ -24,11 +24,6 @@ class GetNonSystemAppsTest {
 
     @Before
     fun setUp() {
-        getNonSystemApps = GetNonSystemApps()
-    }
-
-    @Test
-    fun `filter non-system apps`() {
         mockPackageManager = mock {
             val userAppWithAppIcon = mock<ApplicationInfo> {
                 it.packageName = "com.android.sample.userapp1"
@@ -51,6 +46,13 @@ class GetNonSystemAppsTest {
             on { getApplicationIcon(userAppWithoutAppIcon.packageName) } doThrow (NameNotFoundException())
         }
 
-        assertTrue { getNonSystemApps(mockPackageManager).isNotEmpty() }
+        getNonSystemApps = GetNonSystemApps(mockPackageManager)
+    }
+
+    @Test
+    fun `filter non-system apps`() {
+
+
+        assertTrue { getNonSystemApps().isNotEmpty() }
     }
 }
