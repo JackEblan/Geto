@@ -4,10 +4,11 @@ import com.core.domain.repository.ApplySettingsResultMessage
 import com.core.model.SettingsType
 import com.core.model.UserAppSettingsItem
 import com.core.sharedpreferences.SystemSettingsDataSource
+import java.util.concurrent.ConcurrentHashMap
 
 class TestSystemSettingsDataSource : SystemSettingsDataSource {
 
-    private val settingsMap: MutableMap<String, String> = mutableMapOf()
+    private val settingsMap = ConcurrentHashMap<String, String>()
 
     override suspend fun putSystemPreferences(
         userAppSettingsItemList: List<UserAppSettingsItem>,

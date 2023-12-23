@@ -21,7 +21,7 @@ class UserAppSettingsRepositoryTest {
     }
 
     @Test
-    fun upsertUserAppSettings() = runTest {
+    fun `get UserAppSettings upsert UserAppSettingsItemEntity returns not empty`() = runTest {
         val entity = UserAppSettingsItemEntity(
             enabled = false,
             settingsType = SettingsType.SYSTEM,
@@ -38,7 +38,7 @@ class UserAppSettingsRepositoryTest {
     }
 
     @Test
-    fun upsertUserAppSettingsEnabled() = runTest {
+    fun `get UserAppSettings upsert UserAppSettingsItemEntity with enabled property returns not empty`() = runTest {
         val entity = UserAppSettingsItemEntity(
             enabled = true,
             settingsType = SettingsType.SYSTEM,
@@ -55,7 +55,7 @@ class UserAppSettingsRepositoryTest {
     }
 
     @Test
-    fun deleteUserAppSettings() = runTest {
+    fun `get UserAppSettings delete UserAppSettingsItemEntity returns item not exist`() = runTest {
         val entity = UserAppSettingsItemEntity(
             enabled = false,
             settingsType = SettingsType.SYSTEM,
@@ -72,7 +72,7 @@ class UserAppSettingsRepositoryTest {
     }
 
     @Test
-    fun getUserAppSettingsList() = runTest {
+    fun `get UserAppSettings filter by package name returns not empty`() = runTest {
         val entity = UserAppSettingsItemEntity(
             enabled = false,
             settingsType = SettingsType.SYSTEM,

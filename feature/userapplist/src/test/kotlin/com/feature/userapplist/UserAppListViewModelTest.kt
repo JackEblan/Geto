@@ -15,7 +15,7 @@ class UserAppListViewModelTest {
     }
 
     @Test
-    fun `Get Non System apps`() = runTest {
+    fun `Get Non System apps, return not empty`() = runTest {
         val appList = testPackageRepository.getNonSystemApps()
 
         assertTrue { appList.isNotEmpty() }

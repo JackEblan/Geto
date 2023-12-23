@@ -15,7 +15,7 @@ class PackageRepositoryTest {
     }
 
     @Test
-    fun `Get Non System apps`() = runTest {
+    fun `Get Non System apps, return not empty`() = runTest {
         val appList = testPackageManagerDataSource.getNonSystemApps()
 
         assertTrue { appList.isNotEmpty() }

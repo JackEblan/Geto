@@ -4,10 +4,11 @@ import com.core.domain.repository.ApplySettingsResultMessage
 import com.core.domain.repository.SettingsRepository
 import com.core.model.SettingsType
 import com.core.model.UserAppSettingsItem
+import java.util.concurrent.ConcurrentHashMap
 
 class TestSettingsRepository : SettingsRepository {
 
-    private val settingsMap = mutableMapOf<String, String>()
+    private val settingsMap = ConcurrentHashMap<String, String>()
 
     override suspend fun applySettings(userAppSettingsItemList: List<UserAppSettingsItem>): Result<ApplySettingsResultMessage> {
         return runCatching {
