@@ -1,4 +1,4 @@
-package com.core.sharedpreferences.system
+package com.core.sharedpreferences
 
 import android.content.Context
 import android.provider.Settings
@@ -6,7 +6,6 @@ import com.core.common.di.IoDispatcher
 import com.core.domain.repository.ApplySettingsResultMessage
 import com.core.model.SettingsType
 import com.core.model.UserAppSettingsItem
-import com.core.sharedpreferences.SystemSettingsDataSource
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext

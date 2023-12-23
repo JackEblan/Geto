@@ -1,7 +1,9 @@
 package com.core.data.di
 
+import com.core.data.repository.PackageRepositoryImpl
 import com.core.data.repository.SettingsRepositoryImpl
 import com.core.data.repository.UserAppSettingsRepositoryImpl
+import com.core.domain.repository.PackageRepository
 import com.core.domain.repository.SettingsRepository
 import com.core.domain.repository.UserAppSettingsRepository
 import dagger.Binds
@@ -21,4 +23,8 @@ interface DataModule {
     @Binds
     @Singleton
     fun settingsRepository(impl: SettingsRepositoryImpl): SettingsRepository
+
+    @Binds
+    @Singleton
+    fun packageRepository(impl: PackageRepositoryImpl): PackageRepository
 }

@@ -36,17 +36,17 @@ class UserAppSettingsViewModel @Inject constructor(
 
     val appName = savedStateHandle.get<String>(NAV_KEY_APP_NAME) ?: ""
 
-    val dataState: StateFlow<UserAppSettingsDataState> =
+    val dataState: StateFlow<UserAppSettingsUiState> =
         userAppSettingsRepository.getUserAppSettingsList(packageName).map { list ->
             if (list.isNotEmpty()) {
-                UserAppSettingsDataState.ShowUserAppSettingsList(list)
+                UserAppSettingsUiState.ShowUserAppSettingsList(list)
             } else {
-                UserAppSettingsDataState.Empty
+                UserAppSettingsUiState.Empty
             }
         }.stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000),
-            initialValue = UserAppSettingsDataState.Loading
+            initialValue = UserAppSettingsUiState.Loading
         )
 
     fun onEvent(event: UserAppSettingsEvent) {

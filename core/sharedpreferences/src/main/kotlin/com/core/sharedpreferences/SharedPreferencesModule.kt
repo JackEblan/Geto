@@ -1,7 +1,7 @@
-package com.core.sharedpreferences.di
+package com.core.sharedpreferences
 
 import com.core.sharedpreferences.SystemSettingsDataSource
-import com.core.sharedpreferences.system.SystemSettingsDataSourceImpl
+import com.core.sharedpreferences.SystemSettingsDataSourceImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

@@ -4,7 +4,7 @@ import com.core.common.di.IoDispatcher
 import com.core.domain.repository.ApplySettingsResultMessage
 import com.core.domain.repository.SettingsRepository
 import com.core.model.UserAppSettingsItem
-import com.core.sharedpreferences.system.SystemSettingsDataSourceImpl
+import com.core.sharedpreferences.SystemSettingsDataSourceImpl
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

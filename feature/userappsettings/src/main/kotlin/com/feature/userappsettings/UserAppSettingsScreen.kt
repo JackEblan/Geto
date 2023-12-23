@@ -100,7 +100,7 @@ internal fun UserAppSettingsScreen(
                     onRevertSettingsIconClick = {
                         viewModel.onEvent(
                             UserAppSettingsEvent.OnRevertSettings(
-                                if (dataState is UserAppSettingsDataState.ShowUserAppSettingsList) dataState.userAppSettingsList
+                                if (dataState is UserAppSettingsUiState.ShowUserAppSettingsList) dataState.userAppSettingsList
                                 else emptyList()
                             )
                         )
@@ -119,7 +119,7 @@ internal fun UserAppSettingsScreen(
                     onLaunchApp = {
                         viewModel.onEvent(
                             UserAppSettingsEvent.OnLaunchApp(
-                                if (dataState is UserAppSettingsDataState.ShowUserAppSettingsList) dataState.userAppSettingsList
+                                if (dataState is UserAppSettingsUiState.ShowUserAppSettingsList) dataState.userAppSettingsList
                                 else emptyList()
                             )
                         )
@@ -142,7 +142,7 @@ private fun StatelessScreen(
     modifier: Modifier = Modifier,
     snackbarHostState: () -> SnackbarHostState,
     appName: () -> String,
-    dataState: () -> UserAppSettingsDataState,
+    dataState: () -> UserAppSettingsUiState,
     onNavigationIconClick: () -> Unit,
     onRevertSettingsIconClick: () -> Unit,
     onUserAppSettingsItemCheckBoxChange: (Boolean, UserAppSettingsItem) -> Unit,
@@ -188,7 +188,7 @@ private fun StatelessScreen(
         ) {
 
             when (val dataStateParam = dataState()) {
-                UserAppSettingsDataState.Empty -> {
+                UserAppSettingsUiState.Empty -> {
                     EmptyListPlaceHolderScreen(
                         modifier = Modifier.fillMaxSize(),
                         icon = Icons.Outlined.Create,
@@ -196,13 +196,13 @@ private fun StatelessScreen(
                     )
                 }
 
-                UserAppSettingsDataState.Loading -> {
+                UserAppSettingsUiState.Loading -> {
                     LoadingPlaceHolderScreen(
                         modifier = Modifier.fillMaxSize()
                     )
                 }
 
-                is UserAppSettingsDataState.ShowUserAppSettingsList -> {
+                is UserAppSettingsUiState.ShowUserAppSettingsList -> {
 
                     LazyColumn(modifier = Modifier.fillMaxSize()) {
                         items(dataStateParam.userAppSettingsList) { settingsItem ->

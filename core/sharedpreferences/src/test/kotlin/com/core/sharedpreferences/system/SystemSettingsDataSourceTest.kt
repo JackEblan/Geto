@@ -5,6 +5,7 @@ import android.provider.Settings
 import com.core.model.SettingsType
 import com.core.model.UserAppSettingsItem
 import com.core.sharedpreferences.SystemSettingsDataSource
+import com.core.sharedpreferences.SystemSettingsDataSourceImpl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -22,7 +23,7 @@ import org.mockito.junit.MockitoJUnitRunner
 import kotlin.test.assertNotNull
 
 @RunWith(MockitoJUnitRunner::class)
-class SystemSettingsSharedPreferencesTest {
+class SystemSettingsDataSourceTest {
 
     @Mock
     private lateinit var mockContext: Context

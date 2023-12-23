@@ -1,7 +1,5 @@
 package com.core.domain.di
 
-import android.content.pm.PackageManager
-import com.core.domain.usecase.userapplist.GetNonSystemApps
 import com.core.domain.usecase.userappsettings.ValidateUserAppSettingsList
 import dagger.Module
 import dagger.Provides
@@ -15,8 +13,4 @@ object UseCaseModule {
     @Singleton
     @Provides
     fun validateUserAppSettingsList(): ValidateUserAppSettingsList = ValidateUserAppSettingsList()
-
-    @Singleton
-    @Provides
-    fun getNonSystemApps(packageManager: PackageManager): GetNonSystemApps = GetNonSystemApps(packageManager)
 }
