@@ -17,21 +17,16 @@ class TestSystemSettingsDataSource : SystemSettingsDataSource {
     ): Result<ApplySettingsResultMessage> {
         return runCatching {
             userAppSettingsItemList.filter { it.enabled }.forEach { userAppSettingsItem ->
-                val successful = when (userAppSettingsItem.settingsType) {
-                    SettingsType.SYSTEM -> settingsMap.put(
-                        userAppSettingsItem.key, valueSelector(userAppSettingsItem)
-                    )
+                when (userAppSettingsItem.settingsType) {
+                    SettingsType.SYSTEM -> settingsMap[userAppSettingsItem.key] =
+                        valueSelector(userAppSettingsItem)
 
-                    SettingsType.SECURE -> settingsMap.put(
-                        userAppSettingsItem.key, valueSelector(userAppSettingsItem)
-                    )
+                    SettingsType.SECURE -> settingsMap[userAppSettingsItem.key] =
+                        valueSelector(userAppSettingsItem)
 
-                    SettingsType.GLOBAL -> settingsMap.put(
-                        userAppSettingsItem.key, valueSelector(userAppSettingsItem)
-                    )
+                    SettingsType.GLOBAL -> settingsMap[userAppSettingsItem.key] =
+                        valueSelector(userAppSettingsItem)
                 }
-
-                check(successful.isNullOrBlank()) { "${userAppSettingsItem.key} failed to apply" }
             }
 
             successMessage
