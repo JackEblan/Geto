@@ -1,7 +1,8 @@
 package com.core.data.repository
 
-import com.core.common.di.DefaultDispatcher
-import com.core.common.di.IoDispatcher
+import com.core.common.Dispatcher
+import com.core.common.GetoDispatchers.Default
+import com.core.common.GetoDispatchers.IO
 import com.core.database.dao.UserAppSettingsDao
 import com.core.database.model.UserAppSettingsItemEntity
 import com.core.domain.repository.AddUserAppSettingsResultMessage
@@ -14,8 +15,8 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class UserAppSettingsRepositoryImpl @Inject constructor(
-    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
-    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
+    @Dispatcher(Default) private val defaultDispatcher: CoroutineDispatcher,
+    @Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher,
     private val userAppSettingsDao: UserAppSettingsDao
 ) : UserAppSettingsRepository {
 

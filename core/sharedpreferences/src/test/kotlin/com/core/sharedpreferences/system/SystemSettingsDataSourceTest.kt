@@ -6,12 +6,8 @@ import com.core.model.SettingsType
 import com.core.model.UserAppSettingsItem
 import com.core.sharedpreferences.SystemSettingsDataSource
 import com.core.sharedpreferences.SystemSettingsDataSourceImpl
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.TestDispatcher
 import kotlinx.coroutines.test.runTest
-import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -20,6 +16,7 @@ import org.mockito.Mock
 import org.mockito.MockedStatic
 import org.mockito.Mockito
 import org.mockito.junit.MockitoJUnitRunner
+import kotlin.test.assertFails
 import kotlin.test.assertNotNull
 
 @RunWith(MockitoJUnitRunner::class)
@@ -28,7 +25,7 @@ class SystemSettingsDataSourceTest {
     @Mock
     private lateinit var mockContext: Context
 
-    private lateinit var testDispatcher: TestDispatcher
+    private val testDispatcher = StandardTestDispatcher()
 
     private lateinit var mockedSettingsGlobal: MockedStatic<Settings.Global>
 
@@ -38,13 +35,8 @@ class SystemSettingsDataSourceTest {
 
     private lateinit var systemSettingsDataSource: SystemSettingsDataSource
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Before
     fun setUp() {
-        testDispatcher = StandardTestDispatcher()
-
-        Dispatchers.setMain(testDispatcher)
-
         systemSettingsDataSource = SystemSettingsDataSourceImpl(
             ioDispatcher = testDispatcher, context = mockContext
         )
@@ -66,7 +58,7 @@ class SystemSettingsDataSourceTest {
     }
 
     @Test
-    fun `apply Global Settings return Result`() = runTest(testDispatcher) {
+    fun `apply Global Settings return Result success`() = runTest(testDispatcher) {
         val userAppSettingsItemList = listOf(
             UserAppSettingsItem(
                 enabled = true,
@@ -98,7 +90,7 @@ class SystemSettingsDataSourceTest {
 
 
     @Test
-    fun `apply Secure Settings return Result`() = runTest(testDispatcher) {
+    fun `apply Secure Settings return Result success`() = runTest(testDispatcher) {
         val userAppSettingsItemList = listOf(
             UserAppSettingsItem(
                 enabled = true,
@@ -129,7 +121,7 @@ class SystemSettingsDataSourceTest {
     }
 
     @Test
-    fun `apply System Settings return Result`() = runTest(testDispatcher) {
+    fun `apply System Settings return Result success`() = runTest(testDispatcher) {
         val userAppSettingsItemList = listOf(
             UserAppSettingsItem(
                 enabled = true,
@@ -160,7 +152,7 @@ class SystemSettingsDataSourceTest {
     }
 
     @Test
-    fun `revert Global Settings return Result`() = runTest(testDispatcher) {
+    fun `revert Global Settings return Result success`() = runTest(testDispatcher) {
         val userAppSettingsItemList = listOf(
             UserAppSettingsItem(
                 enabled = true,
@@ -191,7 +183,7 @@ class SystemSettingsDataSourceTest {
     }
 
     @Test
-    fun `revert Secure Settings return Result`() = runTest(testDispatcher) {
+    fun `revert Secure Settings return Result success`() = runTest(testDispatcher) {
         val userAppSettingsItemList = listOf(
             UserAppSettingsItem(
                 enabled = true,
@@ -223,7 +215,7 @@ class SystemSettingsDataSourceTest {
 
 
     @Test
-    fun `revert System Settings return Result`() = runTest(testDispatcher) {
+    fun `revert System Settings return Result success`() = runTest(testDispatcher) {
         val userAppSettingsItemList = listOf(
             UserAppSettingsItem(
                 enabled = true,
@@ -251,5 +243,192 @@ class SystemSettingsDataSourceTest {
         ).getOrNull()
 
         assertNotNull(result)
+    }
+
+    @Test
+    fun `apply Global Settings return Result failure`() = runTest(testDispatcher) {
+        val userAppSettingsItemList = listOf(
+            UserAppSettingsItem(
+                enabled = true,
+                settingsType = SettingsType.GLOBAL,
+                packageName = "com.android.geto",
+                label = "Test",
+                key = "test",
+                valueOnLaunch = "0",
+                valueOnRevert = "1"
+            )
+        )
+
+        mockedSettingsGlobal.`when`<Boolean> {
+            Settings.Global.putString(
+                mockContext.contentResolver,
+                userAppSettingsItemList.first().key,
+                userAppSettingsItemList.first().valueOnLaunch
+            )
+        }.thenReturn(false)
+
+        assertFails {
+            systemSettingsDataSource.putSystemPreferences(
+                userAppSettingsItemList = userAppSettingsItemList,
+                valueSelector = { userAppSettingsItemList.first().valueOnLaunch },
+                successMessage = ""
+            ).getOrThrow()
+        }
+    }
+
+    @Test
+    fun `apply Secure Settings return Result failure`() = runTest(testDispatcher) {
+        val userAppSettingsItemList = listOf(
+            UserAppSettingsItem(
+                enabled = true,
+                settingsType = SettingsType.SECURE,
+                packageName = "com.android.geto",
+                label = "Test",
+                key = "test",
+                valueOnLaunch = "0",
+                valueOnRevert = "1"
+            )
+        )
+
+        mockedSettingsSecure.`when`<Boolean> {
+            Settings.Secure.putString(
+                mockContext.contentResolver,
+                userAppSettingsItemList.first().key,
+                userAppSettingsItemList.first().valueOnLaunch
+            )
+        }.thenReturn(false)
+
+        assertFails {
+            systemSettingsDataSource.putSystemPreferences(
+                userAppSettingsItemList = userAppSettingsItemList,
+                valueSelector = { userAppSettingsItemList.first().valueOnLaunch },
+                successMessage = ""
+            ).getOrThrow()
+        }
+    }
+
+    @Test
+    fun `apply System Settings return Result failure`() = runTest(testDispatcher) {
+        val userAppSettingsItemList = listOf(
+            UserAppSettingsItem(
+                enabled = true,
+                settingsType = SettingsType.SYSTEM,
+                packageName = "com.android.geto",
+                label = "Test",
+                key = "test",
+                valueOnLaunch = "0",
+                valueOnRevert = "1"
+            )
+        )
+
+        mockedSettingsSystem.`when`<Boolean> {
+            Settings.System.putString(
+                mockContext.contentResolver,
+                userAppSettingsItemList.first().key,
+                userAppSettingsItemList.first().valueOnLaunch
+            )
+        }.thenReturn(false)
+
+        assertFails {
+            systemSettingsDataSource.putSystemPreferences(
+                userAppSettingsItemList = userAppSettingsItemList,
+                valueSelector = { userAppSettingsItemList.first().valueOnLaunch },
+                successMessage = ""
+            ).getOrThrow()
+        }
+    }
+
+    @Test
+    fun `revert Global Settings return Result failure`() = runTest(testDispatcher) {
+        val userAppSettingsItemList = listOf(
+            UserAppSettingsItem(
+                enabled = true,
+                settingsType = SettingsType.GLOBAL,
+                packageName = "com.android.geto",
+                label = "Test",
+                key = "test",
+                valueOnLaunch = "0",
+                valueOnRevert = "1"
+            )
+        )
+
+        mockedSettingsGlobal.`when`<Boolean> {
+            Settings.Global.putString(
+                mockContext.contentResolver,
+                userAppSettingsItemList.first().key,
+                userAppSettingsItemList.first().valueOnRevert
+            )
+        }.thenReturn(false)
+
+        assertFails {
+            systemSettingsDataSource.putSystemPreferences(
+                userAppSettingsItemList = userAppSettingsItemList,
+                valueSelector = { userAppSettingsItemList.first().valueOnRevert },
+                successMessage = ""
+            ).getOrThrow()
+        }
+    }
+
+    @Test
+    fun `revert Secure Settings return Result failure`() = runTest(testDispatcher) {
+        val userAppSettingsItemList = listOf(
+            UserAppSettingsItem(
+                enabled = true,
+                settingsType = SettingsType.SECURE,
+                packageName = "com.android.geto",
+                label = "Test",
+                key = "test",
+                valueOnLaunch = "0",
+                valueOnRevert = "1"
+            )
+        )
+
+        mockedSettingsSecure.`when`<Boolean> {
+            Settings.Secure.putString(
+                mockContext.contentResolver,
+                userAppSettingsItemList.first().key,
+                userAppSettingsItemList.first().valueOnRevert
+            )
+        }.thenReturn(false)
+
+        assertFails {
+            systemSettingsDataSource.putSystemPreferences(
+                userAppSettingsItemList = userAppSettingsItemList,
+                valueSelector = { userAppSettingsItemList.first().valueOnRevert },
+                successMessage = ""
+            ).getOrThrow()
+        }
+    }
+
+
+    @Test
+    fun `revert System Settings return Result failure`() = runTest(testDispatcher) {
+        val userAppSettingsItemList = listOf(
+            UserAppSettingsItem(
+                enabled = true,
+                settingsType = SettingsType.SYSTEM,
+                packageName = "com.android.geto",
+                label = "Test",
+                key = "test",
+                valueOnLaunch = "0",
+                valueOnRevert = "1"
+            )
+        )
+
+        mockedSettingsSystem.`when`<Boolean> {
+            Settings.System.putString(
+                mockContext.contentResolver,
+                userAppSettingsItemList.first().key,
+                userAppSettingsItemList.first().valueOnRevert
+            )
+        }.thenReturn(false)
+
+        assertFails {
+            systemSettingsDataSource.putSystemPreferences(
+                userAppSettingsItemList = userAppSettingsItemList,
+                valueSelector = { userAppSettingsItemList.first().valueOnRevert },
+                successMessage = ""
+            ).getOrThrow()
+        }
     }
 }

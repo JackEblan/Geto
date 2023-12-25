@@ -2,7 +2,8 @@ package com.core.sharedpreferences
 
 import android.content.Context
 import android.provider.Settings
-import com.core.common.di.IoDispatcher
+import com.core.common.Dispatcher
+import com.core.common.GetoDispatchers.IO
 import com.core.domain.repository.ApplySettingsResultMessage
 import com.core.model.SettingsType
 import com.core.model.UserAppSettingsItem
@@ -12,7 +13,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class SystemSettingsDataSourceImpl @Inject constructor(
-    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
+    @Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher,
     @ApplicationContext context: Context
 ) : SystemSettingsDataSource {
 

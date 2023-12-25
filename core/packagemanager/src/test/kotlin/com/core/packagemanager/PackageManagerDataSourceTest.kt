@@ -2,14 +2,9 @@ package com.core.packagemanager
 
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.TestDispatcher
 import kotlinx.coroutines.test.runTest
-import kotlinx.coroutines.test.setMain
 import org.junit.Assert.*
-
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -27,15 +22,10 @@ class PackageManagerDataSourceTest {
 
     private lateinit var packageManagerDataSource: PackageManagerDataSource
 
-    private lateinit var testDispatcher: TestDispatcher
+    private val testDispatcher = StandardTestDispatcher()
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Before
     fun setUp() {
-        testDispatcher = StandardTestDispatcher()
-
-        Dispatchers.setMain(testDispatcher)
-
         mockPackageManager = mock {
             val userAppWithAppIcon = mock<ApplicationInfo> {
                 it.packageName = "com.android.sample.userapp1"
@@ -59,13 +49,12 @@ class PackageManagerDataSourceTest {
         }
 
         packageManagerDataSource = PackageManagerDataSourceImpl(
-            packageManager = mockPackageManager,
-            ioDispatcher = testDispatcher
+            packageManager = mockPackageManager, ioDispatcher = testDispatcher
         )
     }
 
     @Test
-    fun `filter non-system apps`() = runTest(testDispatcher) {
+    fun `filter non-system apps return not empty`() = runTest(testDispatcher) {
         assertTrue { packageManagerDataSource.getNonSystemApps().isNotEmpty() }
     }
 }

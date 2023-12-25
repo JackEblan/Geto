@@ -2,7 +2,8 @@ package com.core.packagemanager
 
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
-import com.core.common.di.IoDispatcher
+import com.core.common.Dispatcher
+import com.core.common.GetoDispatchers.IO
 import com.core.model.AppItem
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
@@ -10,7 +11,7 @@ import javax.inject.Inject
 
 class PackageManagerDataSourceImpl @Inject constructor(
     private val packageManager: PackageManager,
-    @IoDispatcher private val ioDispatcher: CoroutineDispatcher
+    @Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher
 ) : PackageManagerDataSource {
     override suspend fun getNonSystemApps(): List<AppItem> {
         return withContext(ioDispatcher) {
