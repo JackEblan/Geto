@@ -1,7 +1,7 @@
 package com.feature.userappsettings.components.dialog
 
 import com.core.model.SettingsType
-import com.core.model.UserAppSettingsItem
+import com.core.model.UserAppSettings
 import com.core.testing.repository.TestUserAppSettingsRepository
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
@@ -18,8 +18,8 @@ class AddSettingsDialogViewModelTest {
     }
 
     @Test
-    fun `Add UserAppSettingsItem returns success`() = runTest {
-        val userAppSettingsItem = UserAppSettingsItem(
+    fun `Add UserAppSettingsItem then item existed`() = runTest {
+        val userAppSettings = UserAppSettings(
             enabled = true,
             settingsType = SettingsType.SYSTEM,
             packageName = "com.android.geto",
@@ -29,11 +29,11 @@ class AddSettingsDialogViewModelTest {
             valueOnRevert = ""
         )
 
-        userAppSettingsRepository.upsertUserAppSettings(userAppSettingsItem)
+        userAppSettingsRepository.upsertUserAppSettings(userAppSettings)
 
         assertTrue {
             userAppSettingsRepository.getUserAppSettingsList("com.android.geto").first()
-                .contains(userAppSettingsItem)
+                .contains(userAppSettings)
         }
     }
 }

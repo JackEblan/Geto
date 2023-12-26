@@ -17,7 +17,12 @@ dependencies {
     api(libs.androidx.compose.ui.tooling.preview)
     api(libs.androidx.compose.ui.util)
 
+    implementation(libs.coil)
+
     debugApi(libs.androidx.compose.ui.tooling)
 
     androidTestImplementation(projects.core.testing)
+
+    implementation(projects.core.model)
+
 }

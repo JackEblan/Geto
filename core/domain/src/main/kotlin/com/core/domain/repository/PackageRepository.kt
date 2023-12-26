@@ -1,7 +1,7 @@
 package com.core.domain.repository
 
-import com.core.model.AppItem
+import com.core.model.NonSystemApp
 
 interface PackageRepository {
-    suspend fun getNonSystemApps(): List<AppItem>
+    suspend fun getNonSystemApps(): List<NonSystemApp>
 }

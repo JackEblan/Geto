@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.core.domain.repository.UserAppSettingsRepository
 import com.core.model.SettingsType
-import com.core.model.UserAppSettingsItem
+import com.core.model.UserAppSettings
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -34,7 +34,7 @@ class AddSettingsDialogViewModel @Inject constructor(
                     }
 
                     repository.upsertUserAppSettings(
-                        UserAppSettingsItem(
+                        UserAppSettings(
                             enabled = true,
                             settingsType = settingsType,
                             packageName = event.packageName,

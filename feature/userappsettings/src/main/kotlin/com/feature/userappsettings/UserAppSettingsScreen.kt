@@ -1,31 +1,23 @@
 package com.feature.userappsettings
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.outlined.Create
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomAppBarDefaults
-import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -40,14 +32,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.core.model.UserAppSettingsItem
+import com.core.model.UserAppSettings
 import com.core.ui.EmptyListPlaceHolderScreen
 import com.core.ui.LoadingPlaceHolderScreen
+import com.core.ui.UserAppSettingsItem
 import com.feature.userappsettings.components.dialog.AddSettingsDialog
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -108,7 +99,7 @@ internal fun UserAppSettingsScreen(
                     onUserAppSettingsItemCheckBoxChange = { checked, userAppSettingsItem ->
                         viewModel.onEvent(
                             UserAppSettingsEvent.OnUserAppSettingsItemCheckBoxChange(
-                                checked = checked, userAppSettingsItem = userAppSettingsItem
+                                checked = checked, userAppSettings = userAppSettingsItem
                             )
                         )
                     },
@@ -145,8 +136,8 @@ private fun StatelessScreen(
     dataState: () -> UserAppSettingsUiState,
     onNavigationIconClick: () -> Unit,
     onRevertSettingsIconClick: () -> Unit,
-    onUserAppSettingsItemCheckBoxChange: (Boolean, UserAppSettingsItem) -> Unit,
-    onDeleteUserAppSettingsItem: (UserAppSettingsItem) -> Unit,
+    onUserAppSettingsItemCheckBoxChange: (Boolean, UserAppSettings) -> Unit,
+    onDeleteUserAppSettingsItem: (UserAppSettings) -> Unit,
     onAddUserAppSettingsClick: () -> Unit,
     onLaunchApp: () -> Unit
 ) {
@@ -205,45 +196,19 @@ private fun StatelessScreen(
                 is UserAppSettingsUiState.ShowUserAppSettingsList -> {
 
                     LazyColumn(modifier = Modifier.fillMaxSize()) {
-                        items(dataStateParam.userAppSettingsList) { settingsItem ->
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Checkbox(checked = settingsItem.enabled, onCheckedChange = {
-                                    onUserAppSettingsItemCheckBoxChange(
-                                        it, settingsItem
-                                    )
-                                })
-
-                                Column(modifier = Modifier.weight(1f)) {
-                                    Text(
-                                        text = settingsItem.label,
-                                        style = MaterialTheme.typography.bodyLarge
-                                    )
-
-                                    Spacer(modifier = Modifier.height(5.dp))
-
-                                    Text(
-                                        text = settingsItem.settingsType.label,
-                                        style = MaterialTheme.typography.bodySmall
-                                    )
-
-                                    Spacer(modifier = Modifier.height(5.dp))
-
-                                    Text(
-                                        text = settingsItem.key,
-                                        style = MaterialTheme.typography.bodySmall
-                                    )
-                                }
-
-                                IconButton(onClick = { onDeleteUserAppSettingsItem(settingsItem) }) {
-                                    Icon(
-                                        imageVector = Icons.Default.Delete,
-                                        contentDescription = null
-                                    )
-                                }
-                            }
+                        items(dataStateParam.userAppSettingsList) { userAppSettings ->
+                            UserAppSettingsItem(enabled = { userAppSettings.enabled },
+                                                label = { userAppSettings.label },
+                                                settingsTypeLabel = { userAppSettings.settingsType.label },
+                                                key = { userAppSettings.key },
+                                                onUserAppSettingsItemCheckBoxChange = { check ->
+                                                    onUserAppSettingsItemCheckBoxChange(
+                                                        check, userAppSettings
+                                                    )
+                                                },
+                                                onDeleteUserAppSettingsItem = {
+                                                    onDeleteUserAppSettingsItem(userAppSettings)
+                                                })
                         }
                     }
                 }

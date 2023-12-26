@@ -4,33 +4,33 @@ import android.content.ContentResolver
 import android.provider.Settings
 import com.core.common.Dispatcher
 import com.core.common.GetoDispatchers
-import com.core.domain.util.SettingsWriteable
+import com.core.domain.util.WriteSecureSettingsPermission
 import com.core.model.SettingsType
-import com.core.model.UserAppSettingsItem
+import com.core.model.UserAppSettings
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class SystemSecureGlobalSettingsWriteable @Inject constructor(
+class SystemSecureGlobalWriteSecureSettingsPermission @Inject constructor(
     @Dispatcher(GetoDispatchers.IO) private val ioDispatcher: CoroutineDispatcher,
     private val contentResolver: ContentResolver
-) : SettingsWriteable {
-    override suspend fun canWriteSettings(
-        userAppSettingsItem: UserAppSettingsItem,
-        valueSelector: (UserAppSettingsItem) -> String,
+) : WriteSecureSettingsPermission {
+    override suspend fun canWriteSecureSettings(
+        userAppSettings: UserAppSettings,
+        valueSelector: (UserAppSettings) -> String,
     ): Boolean {
         return withContext(ioDispatcher) {
-            when (userAppSettingsItem.settingsType) {
+            when (userAppSettings.settingsType) {
                 SettingsType.SYSTEM -> Settings.System.putString(
-                    contentResolver, userAppSettingsItem.key, valueSelector(userAppSettingsItem)
+                    contentResolver, userAppSettings.key, valueSelector(userAppSettings)
                 )
 
                 SettingsType.SECURE -> Settings.Secure.putString(
-                    contentResolver, userAppSettingsItem.key, valueSelector(userAppSettingsItem)
+                    contentResolver, userAppSettings.key, valueSelector(userAppSettings)
                 )
 
                 SettingsType.GLOBAL -> Settings.Global.putString(
-                    contentResolver, userAppSettingsItem.key, valueSelector(userAppSettingsItem)
+                    contentResolver, userAppSettings.key, valueSelector(userAppSettings)
                 )
             }
         }

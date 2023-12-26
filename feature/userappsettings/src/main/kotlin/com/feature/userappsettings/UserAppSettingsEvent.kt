@@ -1,19 +1,19 @@
 package com.feature.userappsettings
 
-import com.core.model.UserAppSettingsItem
+import com.core.model.UserAppSettings
 
 sealed class UserAppSettingsEvent {
-    data class OnRevertSettings(val userAppSettingsList: List<UserAppSettingsItem>) :
+    data class OnRevertSettings(val userAppSettingsList: List<UserAppSettings>) :
         UserAppSettingsEvent()
 
-    data class OnLaunchApp(val userAppSettingsList: List<UserAppSettingsItem>) :
+    data class OnLaunchApp(val userAppSettingsList: List<UserAppSettings>) :
         UserAppSettingsEvent()
 
     data class OnUserAppSettingsItemCheckBoxChange(
-        val checked: Boolean, val userAppSettingsItem: UserAppSettingsItem
+        val checked: Boolean, val userAppSettings: UserAppSettings
     ) : UserAppSettingsEvent()
 
     data class OnDeleteUserAppSettingsItem(
-        val userAppSettingsItem: UserAppSettingsItem
+        val userAppSettings: UserAppSettings
     ) : UserAppSettingsEvent()
 }

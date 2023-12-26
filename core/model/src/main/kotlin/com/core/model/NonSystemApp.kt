@@ -2,6 +2,6 @@ package com.core.model
 
 import android.graphics.drawable.Drawable
 
-data class AppItem(
+data class NonSystemApp(
     val icon: Drawable? = null, val packageName: String, val label: String
 )

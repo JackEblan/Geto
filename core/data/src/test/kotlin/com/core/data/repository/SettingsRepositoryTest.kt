@@ -2,37 +2,37 @@ package com.core.data.repository
 
 import com.core.domain.repository.SettingsRepository
 import com.core.model.SettingsType
-import com.core.model.UserAppSettingsItem
-import com.core.testing.util.TestSettingsWriteable
+import com.core.model.UserAppSettings
+import com.core.testing.util.TestWriteSecureSettingsPermission
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
+import kotlin.test.assertFails
 import kotlin.test.assertNotNull
-import kotlin.test.assertNull
 
 class SettingsRepositoryTest {
 
     private val testDispatcher = StandardTestDispatcher()
 
-    private lateinit var settingsWritable: TestSettingsWriteable
+    private lateinit var settingsWritable: TestWriteSecureSettingsPermission
 
     private lateinit var subject: SettingsRepository
 
-    private val userAppSettingsItemList = mutableListOf<UserAppSettingsItem>()
+    private val userAppSettingsList = mutableListOf<UserAppSettings>()
 
     @Before
     fun setup() {
-        settingsWritable = TestSettingsWriteable()
+        settingsWritable = TestWriteSecureSettingsPermission()
 
         subject = SettingsRepositoryImpl(settingsWritable)
     }
 
     @Test
     fun `Apply Global settings return Result success`() = runTest(testDispatcher) {
-        settingsWritable.setWriteableSettings(true)
+        settingsWritable.setWriteSecureSettings(true)
 
-        val userAppSettings = UserAppSettingsItem(
+        val userAppSettings = UserAppSettings(
             enabled = true,
             settingsType = SettingsType.GLOBAL,
             packageName = "com.android.geto",
@@ -42,18 +42,18 @@ class SettingsRepositoryTest {
             valueOnRevert = "1"
         )
 
-        userAppSettingsItemList.add(userAppSettings)
+        userAppSettingsList.add(userAppSettings)
 
-        val result = subject.applySettings(userAppSettingsItemList).getOrNull()
+        val result = subject.applySettings(userAppSettingsList).getOrNull()
 
         assertNotNull(result)
     }
 
     @Test
     fun `Apply Secure settings return Result success`() = runTest(testDispatcher) {
-        settingsWritable.setWriteableSettings(true)
+        settingsWritable.setWriteSecureSettings(true)
 
-        val userAppSettings = UserAppSettingsItem(
+        val userAppSettings = UserAppSettings(
             enabled = true,
             settingsType = SettingsType.SECURE,
             packageName = "com.android.geto",
@@ -63,18 +63,18 @@ class SettingsRepositoryTest {
             valueOnRevert = "1"
         )
 
-        userAppSettingsItemList.add(userAppSettings)
+        userAppSettingsList.add(userAppSettings)
 
-        val result = subject.applySettings(userAppSettingsItemList).getOrNull()
+        val result = subject.applySettings(userAppSettingsList).getOrNull()
 
         assertNotNull(result)
     }
 
     @Test
     fun `Apply System settings return Result success`() = runTest(testDispatcher) {
-        settingsWritable.setWriteableSettings(true)
+        settingsWritable.setWriteSecureSettings(true)
 
-        val userAppSettings = UserAppSettingsItem(
+        val userAppSettings = UserAppSettings(
             enabled = true,
             settingsType = SettingsType.SYSTEM,
             packageName = "com.android.geto",
@@ -84,18 +84,18 @@ class SettingsRepositoryTest {
             valueOnRevert = "1"
         )
 
-        userAppSettingsItemList.add(userAppSettings)
+        userAppSettingsList.add(userAppSettings)
 
-        val result = subject.applySettings(userAppSettingsItemList).getOrNull()
+        val result = subject.applySettings(userAppSettingsList).getOrNull()
 
         assertNotNull(result)
     }
 
     @Test
     fun `Revert Global settings return Result success`() = runTest(testDispatcher) {
-        settingsWritable.setWriteableSettings(true)
+        settingsWritable.setWriteSecureSettings(true)
 
-        val userAppSettings = UserAppSettingsItem(
+        val userAppSettings = UserAppSettings(
             enabled = true,
             settingsType = SettingsType.GLOBAL,
             packageName = "com.android.geto",
@@ -105,18 +105,18 @@ class SettingsRepositoryTest {
             valueOnRevert = "1"
         )
 
-        userAppSettingsItemList.add(userAppSettings)
+        userAppSettingsList.add(userAppSettings)
 
-        val result = subject.revertSettings(userAppSettingsItemList).getOrNull()
+        val result = subject.revertSettings(userAppSettingsList).getOrNull()
 
         assertNotNull(result)
     }
 
     @Test
     fun `Revert Secure settings return Result success`() = runTest(testDispatcher) {
-        settingsWritable.setWriteableSettings(true)
+        settingsWritable.setWriteSecureSettings(true)
 
-        val userAppSettings = UserAppSettingsItem(
+        val userAppSettings = UserAppSettings(
             enabled = true,
             settingsType = SettingsType.SECURE,
             packageName = "com.android.geto",
@@ -126,18 +126,18 @@ class SettingsRepositoryTest {
             valueOnRevert = "1"
         )
 
-        userAppSettingsItemList.add(userAppSettings)
+        userAppSettingsList.add(userAppSettings)
 
-        val result = subject.revertSettings(userAppSettingsItemList).getOrNull()
+        val result = subject.revertSettings(userAppSettingsList).getOrNull()
 
         assertNotNull(result)
     }
 
     @Test
     fun `Revert System settings return Result success`() = runTest(testDispatcher) {
-        settingsWritable.setWriteableSettings(true)
+        settingsWritable.setWriteSecureSettings(true)
 
-        val userAppSettings = UserAppSettingsItem(
+        val userAppSettings = UserAppSettings(
             enabled = true,
             settingsType = SettingsType.SYSTEM,
             packageName = "com.android.geto",
@@ -147,18 +147,18 @@ class SettingsRepositoryTest {
             valueOnRevert = "1"
         )
 
-        userAppSettingsItemList.add(userAppSettings)
+        userAppSettingsList.add(userAppSettings)
 
-        val result = subject.revertSettings(userAppSettingsItemList).getOrNull()
+        val result = subject.revertSettings(userAppSettingsList).getOrNull()
 
         assertNotNull(result)
     }
 
     @Test
     fun `Apply Global settings return Result failure`() = runTest(testDispatcher) {
-        settingsWritable.setWriteableSettings(false)
+        settingsWritable.setWriteSecureSettings(false)
 
-        val userAppSettings = UserAppSettingsItem(
+        val userAppSettings = UserAppSettings(
             enabled = true,
             settingsType = SettingsType.GLOBAL,
             packageName = "com.android.geto",
@@ -168,18 +168,16 @@ class SettingsRepositoryTest {
             valueOnRevert = "1"
         )
 
-        userAppSettingsItemList.add(userAppSettings)
+        userAppSettingsList.add(userAppSettings)
 
-        val result = subject.applySettings(userAppSettingsItemList).getOrNull()
-
-        assertNull(result)
+        assertFails { subject.applySettings(userAppSettingsList).getOrThrow() }
     }
 
     @Test
     fun `Apply Secure settings return Result failure`() = runTest(testDispatcher) {
-        settingsWritable.setWriteableSettings(false)
+        settingsWritable.setWriteSecureSettings(false)
 
-        val userAppSettings = UserAppSettingsItem(
+        val userAppSettings = UserAppSettings(
             enabled = true,
             settingsType = SettingsType.SECURE,
             packageName = "com.android.geto",
@@ -189,18 +187,16 @@ class SettingsRepositoryTest {
             valueOnRevert = "1"
         )
 
-        userAppSettingsItemList.add(userAppSettings)
+        userAppSettingsList.add(userAppSettings)
 
-        val result = subject.applySettings(userAppSettingsItemList).getOrNull()
-
-        assertNull(result)
+        assertFails { subject.applySettings(userAppSettingsList).getOrThrow() }
     }
 
     @Test
     fun `Apply System settings return Result failure`() = runTest(testDispatcher) {
-        settingsWritable.setWriteableSettings(false)
+        settingsWritable.setWriteSecureSettings(false)
 
-        val userAppSettings = UserAppSettingsItem(
+        val userAppSettings = UserAppSettings(
             enabled = true,
             settingsType = SettingsType.SYSTEM,
             packageName = "com.android.geto",
@@ -210,18 +206,16 @@ class SettingsRepositoryTest {
             valueOnRevert = "1"
         )
 
-        userAppSettingsItemList.add(userAppSettings)
+        userAppSettingsList.add(userAppSettings)
 
-        val result = subject.applySettings(userAppSettingsItemList).getOrNull()
-
-        assertNull(result)
+        assertFails { subject.applySettings(userAppSettingsList).getOrThrow() }
     }
 
     @Test
     fun `Revert Global settings return Result failure`() = runTest(testDispatcher) {
-        settingsWritable.setWriteableSettings(false)
+        settingsWritable.setWriteSecureSettings(false)
 
-        val userAppSettings = UserAppSettingsItem(
+        val userAppSettings = UserAppSettings(
             enabled = true,
             settingsType = SettingsType.GLOBAL,
             packageName = "com.android.geto",
@@ -231,18 +225,16 @@ class SettingsRepositoryTest {
             valueOnRevert = "1"
         )
 
-        userAppSettingsItemList.add(userAppSettings)
+        userAppSettingsList.add(userAppSettings)
 
-        val result = subject.revertSettings(userAppSettingsItemList).getOrNull()
-
-        assertNull(result)
+        assertFails { subject.revertSettings(userAppSettingsList).getOrThrow() }
     }
 
     @Test
     fun `Revert Secure settings return Result failure`() = runTest(testDispatcher) {
-        settingsWritable.setWriteableSettings(false)
+        settingsWritable.setWriteSecureSettings(false)
 
-        val userAppSettings = UserAppSettingsItem(
+        val userAppSettings = UserAppSettings(
             enabled = true,
             settingsType = SettingsType.SECURE,
             packageName = "com.android.geto",
@@ -252,18 +244,16 @@ class SettingsRepositoryTest {
             valueOnRevert = "1"
         )
 
-        userAppSettingsItemList.add(userAppSettings)
+        userAppSettingsList.add(userAppSettings)
 
-        val result = subject.revertSettings(userAppSettingsItemList).getOrNull()
-
-        assertNull(result)
+        assertFails { subject.revertSettings(userAppSettingsList).getOrThrow() }
     }
 
     @Test
     fun `Revert System settings return Result failure`() = runTest(testDispatcher) {
-        settingsWritable.setWriteableSettings(false)
+        settingsWritable.setWriteSecureSettings(false)
 
-        val userAppSettings = UserAppSettingsItem(
+        val userAppSettings = UserAppSettings(
             enabled = true,
             settingsType = SettingsType.SYSTEM,
             packageName = "com.android.geto",
@@ -273,10 +263,8 @@ class SettingsRepositoryTest {
             valueOnRevert = "1"
         )
 
-        userAppSettingsItemList.add(userAppSettings)
+        userAppSettingsList.add(userAppSettings)
 
-        val result = subject.revertSettings(userAppSettingsItemList).getOrNull()
-
-        assertNull(result)
+        assertFails { subject.revertSettings(userAppSettingsList).getOrThrow() }
     }
 }

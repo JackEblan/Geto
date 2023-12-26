@@ -4,7 +4,7 @@ import android.content.pm.PackageManager
 import androidx.lifecycle.SavedStateHandle
 import com.core.domain.usecase.userappsettings.ValidateUserAppSettingsList
 import com.core.model.SettingsType
-import com.core.model.UserAppSettingsItem
+import com.core.model.UserAppSettings
 import com.core.testing.repository.TestSettingsRepository
 import com.core.testing.repository.TestUserAppSettingsRepository
 import kotlinx.coroutines.flow.first
@@ -15,9 +15,7 @@ import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.mock
-import kotlin.test.assertFails
 import kotlin.test.assertFalse
-import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
 @RunWith(MockitoJUnitRunner::class)
@@ -52,11 +50,11 @@ class UserAppSettingsViewModelTest {
     }
 
     @Test
-    fun `Launch app returns Result success`() = runTest {
-        settingsRepository.setWriteableSettings(true)
+    fun `Apply settings returns Result success`() = runTest {
+        settingsRepository.setWriteSecureSettings(true)
 
         val settings = listOf(
-            UserAppSettingsItem(
+            UserAppSettings(
                 enabled = true,
                 settingsType = SettingsType.SYSTEM,
                 packageName = "",
@@ -68,15 +66,15 @@ class UserAppSettingsViewModelTest {
         )
         val result = settingsRepository.applySettings(settings)
 
-        assertNotNull(result)
+        assertTrue { result.isSuccess }
     }
 
     @Test
     fun `Revert settings returns Result success`() = runTest {
-        settingsRepository.setWriteableSettings(true)
+        settingsRepository.setWriteSecureSettings(true)
 
         val settings = listOf(
-            UserAppSettingsItem(
+            UserAppSettings(
                 enabled = true,
                 settingsType = SettingsType.SYSTEM,
                 packageName = "",
@@ -88,33 +86,12 @@ class UserAppSettingsViewModelTest {
         )
         val result = settingsRepository.revertSettings(settings)
 
-        assertNotNull(result)
+        assertTrue { result.isSuccess }
     }
 
     @Test
-    fun `Check enabled UserAppSettingsItem returns success with enabled to true`() =
-        runTest {
-            val userAppSettingsItem = UserAppSettingsItem(
-                enabled = true,
-                settingsType = SettingsType.SYSTEM,
-                packageName = "com.android.geto",
-                label = "",
-                key = "key",
-                valueOnLaunch = "",
-                valueOnRevert = ""
-            )
-
-            userAppSettingsRepository.upsertUserAppSettingsEnabled(userAppSettingsItem)
-
-            val updateduserAppSettingsItem =
-                userAppSettingsRepository.getUserAppSettingsList("com.android.geto").first()
-
-            assertTrue { updateduserAppSettingsItem.first { it.key == userAppSettingsItem.key }.enabled }
-        }
-
-    @Test
-    fun `Delete UserAppSettingsItem returns success`() = runTest {
-        val userAppSettingsItem = UserAppSettingsItem(
+    fun `Check UserAppSettingsItem enabled to true then item is updated`() = runTest {
+        val userAppSettings = UserAppSettings(
             enabled = true,
             settingsType = SettingsType.SYSTEM,
             packageName = "com.android.geto",
@@ -124,22 +101,42 @@ class UserAppSettingsViewModelTest {
             valueOnRevert = ""
         )
 
-        userAppSettingsRepository.upsertUserAppSettings(userAppSettingsItem)
+        userAppSettingsRepository.upsertUserAppSettingsEnabled(userAppSettings)
 
-        userAppSettingsRepository.deleteUserAppSettings(userAppSettingsItem)
+        val updateduserAppSettingsItem =
+            userAppSettingsRepository.getUserAppSettingsList("com.android.geto").first()
+
+        assertTrue { updateduserAppSettingsItem.first { it.key == userAppSettings.key }.enabled }
+    }
+
+    @Test
+    fun `Delete UserAppSettingsItem then item not existed`() = runTest {
+        val userAppSettings = UserAppSettings(
+            enabled = true,
+            settingsType = SettingsType.SYSTEM,
+            packageName = "com.android.geto",
+            label = "",
+            key = "key",
+            valueOnLaunch = "",
+            valueOnRevert = ""
+        )
+
+        userAppSettingsRepository.upsertUserAppSettings(userAppSettings)
+
+        userAppSettingsRepository.deleteUserAppSettings(userAppSettings)
 
         assertFalse {
             userAppSettingsRepository.getUserAppSettingsList("com.android.geto").first()
-                .contains(userAppSettingsItem)
+                .contains(userAppSettings)
         }
     }
 
     @Test
-    fun `Launch app returns Result failure`() = runTest {
-        settingsRepository.setWriteableSettings(false)
+    fun `Apply settings returns Result failure`() = runTest {
+        settingsRepository.setWriteSecureSettings(false)
 
         val settings = listOf(
-            UserAppSettingsItem(
+            UserAppSettings(
                 enabled = true,
                 settingsType = SettingsType.SYSTEM,
                 packageName = "",
@@ -150,15 +147,17 @@ class UserAppSettingsViewModelTest {
             )
         )
 
-        assertFails { settingsRepository.applySettings(settings).getOrThrow() }
+        val result = settingsRepository.applySettings(settings)
+
+        assertTrue { result.isFailure }
     }
 
     @Test
     fun `Revert settings returns Result failure`() = runTest {
-        settingsRepository.setWriteableSettings(false)
+        settingsRepository.setWriteSecureSettings(false)
 
         val settings = listOf(
-            UserAppSettingsItem(
+            UserAppSettings(
                 enabled = true,
                 settingsType = SettingsType.SYSTEM,
                 packageName = "",
@@ -169,6 +168,8 @@ class UserAppSettingsViewModelTest {
             )
         )
 
-        assertFails { settingsRepository.revertSettings(settings).getOrThrow() }
+        val result = settingsRepository.revertSettings(settings)
+
+        assertTrue { result.isFailure }
     }
 }

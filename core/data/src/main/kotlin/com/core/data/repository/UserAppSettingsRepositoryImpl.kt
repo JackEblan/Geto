@@ -7,7 +7,7 @@ import com.core.database.dao.UserAppSettingsDao
 import com.core.database.model.UserAppSettingsItemEntity
 import com.core.domain.repository.AddUserAppSettingsResultMessage
 import com.core.domain.repository.UserAppSettingsRepository
-import com.core.model.UserAppSettingsItem
+import com.core.model.UserAppSettings
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -20,44 +20,44 @@ class UserAppSettingsRepositoryImpl @Inject constructor(
     private val userAppSettingsDao: UserAppSettingsDao
 ) : UserAppSettingsRepository {
 
-    override suspend fun upsertUserAppSettings(userAppSettingsItem: UserAppSettingsItem): Result<AddUserAppSettingsResultMessage> {
+    override suspend fun upsertUserAppSettings(userAppSettings: UserAppSettings): Result<AddUserAppSettingsResultMessage> {
         return runCatching {
             withContext(ioDispatcher) {
-                userAppSettingsDao.upsert(userAppSettingsItem.toSettingsItemEntity())
-                "${userAppSettingsItem.label} saved successfully"
+                userAppSettingsDao.upsert(userAppSettings.toSettingsItemEntity())
+                "${userAppSettings.label} saved successfully"
             }
         }
     }
 
-    override suspend fun upsertUserAppSettingsEnabled(userAppSettingsItem: UserAppSettingsItem): Result<AddUserAppSettingsResultMessage> {
+    override suspend fun upsertUserAppSettingsEnabled(userAppSettings: UserAppSettings): Result<AddUserAppSettingsResultMessage> {
         return runCatching {
             withContext(ioDispatcher) {
-                val enabled = if (userAppSettingsItem.enabled) "enabled" else "disabled"
-                userAppSettingsDao.upsert(userAppSettingsItem.toSettingsItemEntity())
-                "${userAppSettingsItem.label} $enabled"
+                val enabled = if (userAppSettings.enabled) "enabled" else "disabled"
+                userAppSettingsDao.upsert(userAppSettings.toSettingsItemEntity())
+                "${userAppSettings.label} $enabled"
             }
         }
     }
 
-    override suspend fun deleteUserAppSettings(userAppSettingsItem: UserAppSettingsItem): Result<AddUserAppSettingsResultMessage> {
+    override suspend fun deleteUserAppSettings(userAppSettings: UserAppSettings): Result<AddUserAppSettingsResultMessage> {
         return runCatching {
             withContext(ioDispatcher) {
-                userAppSettingsDao.delete(userAppSettingsItem.toSettingsItemEntity())
-                "${userAppSettingsItem.label} deleted successfully"
+                userAppSettingsDao.delete(userAppSettings.toSettingsItemEntity())
+                "${userAppSettings.label} deleted successfully"
             }
         }
     }
 
-    override fun getUserAppSettingsList(packageName: String): Flow<List<UserAppSettingsItem>> {
+    override fun getUserAppSettingsList(packageName: String): Flow<List<UserAppSettings>> {
         return userAppSettingsDao.getUserAppSettingsList(packageName).map {
             it.toSettingsItemList()
         }
     }
 
-    private suspend fun List<UserAppSettingsItemEntity>.toSettingsItemList(): List<UserAppSettingsItem> {
+    private suspend fun List<UserAppSettingsItemEntity>.toSettingsItemList(): List<UserAppSettings> {
         return withContext(defaultDispatcher) {
             map { entity ->
-                UserAppSettingsItem(
+                UserAppSettings(
                     enabled = entity.enabled,
                     settingsType = entity.settingsType,
                     packageName = entity.packageName,
@@ -70,7 +70,7 @@ class UserAppSettingsRepositoryImpl @Inject constructor(
         }
     }
 
-    private fun UserAppSettingsItem.toSettingsItemEntity(): UserAppSettingsItemEntity {
+    private fun UserAppSettings.toSettingsItemEntity(): UserAppSettingsItemEntity {
         return UserAppSettingsItemEntity(
             enabled = enabled,
             settingsType = settingsType,

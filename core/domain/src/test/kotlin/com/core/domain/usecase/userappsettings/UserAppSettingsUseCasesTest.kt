@@ -1,7 +1,7 @@
 package com.core.domain.usecase.userappsettings
 
 import com.core.model.SettingsType
-import com.core.model.UserAppSettingsItem
+import com.core.model.UserAppSettings
 import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -18,7 +18,7 @@ class UserAppSettingsUseCasesTest {
     @Test
     fun `When user app settings list has no enabled settings, return false`() {
         val userAppSettingsList = listOf(
-            UserAppSettingsItem(
+            UserAppSettings(
                 enabled = false,
                 settingsType = SettingsType.GLOBAL,
                 packageName = "com.android.settings",
@@ -44,7 +44,7 @@ class UserAppSettingsUseCasesTest {
     @Test
     fun `When user app settings list is not empty and all items are enabled, return true`() {
         val userAppSettingsList = listOf(
-            UserAppSettingsItem(
+            UserAppSettings(
                 enabled = true,
                 settingsType = SettingsType.GLOBAL,
                 packageName = "com.android.settings",
