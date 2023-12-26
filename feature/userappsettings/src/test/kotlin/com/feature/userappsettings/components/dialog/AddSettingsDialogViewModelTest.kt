@@ -18,7 +18,7 @@ class AddSettingsDialogViewModelTest {
     }
 
     @Test
-    fun `Add settings returns result`() = runTest {
+    fun `Add UserAppSettingsItem returns success`() = runTest {
         val userAppSettingsItem = UserAppSettingsItem(
             enabled = true,
             settingsType = SettingsType.SYSTEM,

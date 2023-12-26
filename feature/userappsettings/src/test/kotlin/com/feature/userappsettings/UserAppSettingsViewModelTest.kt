@@ -15,6 +15,7 @@ import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.mock
+import kotlin.test.assertFails
 import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
@@ -51,7 +52,9 @@ class UserAppSettingsViewModelTest {
     }
 
     @Test
-    fun `Launch app returns result`() = runTest {
+    fun `Launch app returns Result success`() = runTest {
+        settingsRepository.setWriteableSettings(true)
+
         val settings = listOf(
             UserAppSettingsItem(
                 enabled = true,
@@ -69,7 +72,9 @@ class UserAppSettingsViewModelTest {
     }
 
     @Test
-    fun `Revert settings returns result`() = runTest {
+    fun `Revert settings returns Result success`() = runTest {
+        settingsRepository.setWriteableSettings(true)
+
         val settings = listOf(
             UserAppSettingsItem(
                 enabled = true,
@@ -87,27 +92,28 @@ class UserAppSettingsViewModelTest {
     }
 
     @Test
-    fun `Check enabled UserAppSettingsItem returns true`() = runTest {
-        val userAppSettingsItem = UserAppSettingsItem(
-            enabled = true,
-            settingsType = SettingsType.SYSTEM,
-            packageName = "com.android.geto",
-            label = "",
-            key = "key",
-            valueOnLaunch = "",
-            valueOnRevert = ""
-        )
+    fun `Check enabled UserAppSettingsItem returns success with enabled to true`() =
+        runTest {
+            val userAppSettingsItem = UserAppSettingsItem(
+                enabled = true,
+                settingsType = SettingsType.SYSTEM,
+                packageName = "com.android.geto",
+                label = "",
+                key = "key",
+                valueOnLaunch = "",
+                valueOnRevert = ""
+            )
 
-        userAppSettingsRepository.upsertUserAppSettingsEnabled(userAppSettingsItem)
+            userAppSettingsRepository.upsertUserAppSettingsEnabled(userAppSettingsItem)
 
-        val updateduserAppSettingsItem =
-            userAppSettingsRepository.getUserAppSettingsList("com.android.geto").first()
+            val updateduserAppSettingsItem =
+                userAppSettingsRepository.getUserAppSettingsList("com.android.geto").first()
 
-        assertTrue { updateduserAppSettingsItem.first { it.key == userAppSettingsItem.key }.enabled }
-    }
+            assertTrue { updateduserAppSettingsItem.first { it.key == userAppSettingsItem.key }.enabled }
+        }
 
     @Test
-    fun `Delete settings returns result`() = runTest {
+    fun `Delete UserAppSettingsItem returns success`() = runTest {
         val userAppSettingsItem = UserAppSettingsItem(
             enabled = true,
             settingsType = SettingsType.SYSTEM,
@@ -126,5 +132,43 @@ class UserAppSettingsViewModelTest {
             userAppSettingsRepository.getUserAppSettingsList("com.android.geto").first()
                 .contains(userAppSettingsItem)
         }
+    }
+
+    @Test
+    fun `Launch app returns Result failure`() = runTest {
+        settingsRepository.setWriteableSettings(false)
+
+        val settings = listOf(
+            UserAppSettingsItem(
+                enabled = true,
+                settingsType = SettingsType.SYSTEM,
+                packageName = "",
+                label = "",
+                key = "",
+                valueOnLaunch = "",
+                valueOnRevert = ""
+            )
+        )
+
+        assertFails { settingsRepository.applySettings(settings).getOrThrow() }
+    }
+
+    @Test
+    fun `Revert settings returns Result failure`() = runTest {
+        settingsRepository.setWriteableSettings(false)
+
+        val settings = listOf(
+            UserAppSettingsItem(
+                enabled = true,
+                settingsType = SettingsType.SYSTEM,
+                packageName = "",
+                label = "",
+                key = "",
+                valueOnLaunch = "",
+                valueOnRevert = ""
+            )
+        )
+
+        assertFails { settingsRepository.revertSettings(settings).getOrThrow() }
     }
 }

@@ -7,12 +7,16 @@ import com.core.model.UserAppSettingsItem
 import java.util.concurrent.ConcurrentHashMap
 
 class TestSettingsRepository : SettingsRepository {
+    private var writeSettings = false
 
     private val settingsMap = ConcurrentHashMap<String, String>()
 
     override suspend fun applySettings(userAppSettingsItemList: List<UserAppSettingsItem>): Result<ApplySettingsResultMessage> {
         return runCatching {
             userAppSettingsItemList.filter { it.enabled }.forEach { userAppSettingsItem ->
+
+                if (!writeSettings) throw SecurityException()
+
                 when (userAppSettingsItem.settingsType) {
                     SettingsType.SYSTEM -> settingsMap[userAppSettingsItem.key] =
                         userAppSettingsItem.valueOnLaunch
@@ -33,6 +37,9 @@ class TestSettingsRepository : SettingsRepository {
     override suspend fun revertSettings(userAppSettingsItemList: List<UserAppSettingsItem>): Result<ApplySettingsResultMessage> {
         return runCatching {
             userAppSettingsItemList.filter { it.enabled }.forEach { userAppSettingsItem ->
+
+                if (!writeSettings) throw SecurityException()
+
                 when (userAppSettingsItem.settingsType) {
                     SettingsType.SYSTEM -> settingsMap[userAppSettingsItem.key] =
                         userAppSettingsItem.valueOnRevert
@@ -48,5 +55,9 @@ class TestSettingsRepository : SettingsRepository {
             "Result success"
 
         }
+    }
+
+    fun setWriteableSettings(value: Boolean) {
+        writeSettings = value
     }
 }

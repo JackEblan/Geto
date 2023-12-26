@@ -31,8 +31,6 @@
             <option value="$PROJECT_DIR$/core/designsystem" />
             <option value="$PROJECT_DIR$/core/domain" />
             <option value="$PROJECT_DIR$/core/model" />
-            <option value="$PROJECT_DIR$/core/packagemanager" />
-            <option value="$PROJECT_DIR$/core/sharedpreferences" />
             <option value="$PROJECT_DIR$/core/testing" />
             <option value="$PROJECT_DIR$/core/ui" />
             <option value="$PROJECT_DIR$/feature" />
