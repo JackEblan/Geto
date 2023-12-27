@@ -52,7 +52,7 @@ guidance. If you have unique settings that work well on different devices, pleas
 that I can incorporate them into this list. Your contributions are appreciated!
 
 To apply your settings to a specific app, click **Launch App**. Remember to reset your preferences
-after exiting the app by clicking the **Refresh** button in the upper-right corner.
+after exiting the app by clicking the **Refresh** button.
 
 1. **Hide developer options detection in any apps:**
     - Type **Global**

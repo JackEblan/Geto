@@ -10,12 +10,13 @@ import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertFails
 import kotlin.test.assertNotNull
+import kotlin.test.assertTrue
 
 class SettingsRepositoryTest {
 
     private val testDispatcher = StandardTestDispatcher()
 
-    private lateinit var settingsWritable: TestWriteSecureSettingsPermission
+    private lateinit var writeSecureSettingsPermission: TestWriteSecureSettingsPermission
 
     private lateinit var subject: SettingsRepository
 
@@ -23,14 +24,14 @@ class SettingsRepositoryTest {
 
     @Before
     fun setup() {
-        settingsWritable = TestWriteSecureSettingsPermission()
+        writeSecureSettingsPermission = TestWriteSecureSettingsPermission()
 
-        subject = SettingsRepositoryImpl(settingsWritable)
+        subject = SettingsRepositoryImpl(writeSecureSettingsPermission)
     }
 
     @Test
     fun `Apply Global settings return Result success`() = runTest(testDispatcher) {
-        settingsWritable.setWriteSecureSettings(true)
+        writeSecureSettingsPermission.setWriteSecureSettings(true)
 
         val userAppSettings = UserAppSettings(
             enabled = true,
@@ -44,14 +45,14 @@ class SettingsRepositoryTest {
 
         userAppSettingsList.add(userAppSettings)
 
-        val result = subject.applySettings(userAppSettingsList).getOrNull()
+        val result = subject.applySettings(userAppSettingsList)
 
-        assertNotNull(result)
+        assertTrue { result.isSuccess }
     }
 
     @Test
     fun `Apply Secure settings return Result success`() = runTest(testDispatcher) {
-        settingsWritable.setWriteSecureSettings(true)
+        writeSecureSettingsPermission.setWriteSecureSettings(true)
 
         val userAppSettings = UserAppSettings(
             enabled = true,
@@ -65,14 +66,14 @@ class SettingsRepositoryTest {
 
         userAppSettingsList.add(userAppSettings)
 
-        val result = subject.applySettings(userAppSettingsList).getOrNull()
+        val result = subject.applySettings(userAppSettingsList)
 
-        assertNotNull(result)
+        assertTrue { result.isSuccess }
     }
 
     @Test
     fun `Apply System settings return Result success`() = runTest(testDispatcher) {
-        settingsWritable.setWriteSecureSettings(true)
+        writeSecureSettingsPermission.setWriteSecureSettings(true)
 
         val userAppSettings = UserAppSettings(
             enabled = true,
@@ -86,14 +87,14 @@ class SettingsRepositoryTest {
 
         userAppSettingsList.add(userAppSettings)
 
-        val result = subject.applySettings(userAppSettingsList).getOrNull()
+        val result = subject.applySettings(userAppSettingsList)
 
-        assertNotNull(result)
+        assertTrue { result.isSuccess }
     }
 
     @Test
     fun `Revert Global settings return Result success`() = runTest(testDispatcher) {
-        settingsWritable.setWriteSecureSettings(true)
+        writeSecureSettingsPermission.setWriteSecureSettings(true)
 
         val userAppSettings = UserAppSettings(
             enabled = true,
@@ -107,14 +108,14 @@ class SettingsRepositoryTest {
 
         userAppSettingsList.add(userAppSettings)
 
-        val result = subject.revertSettings(userAppSettingsList).getOrNull()
+        val result = subject.revertSettings(userAppSettingsList)
 
-        assertNotNull(result)
+        assertTrue { result.isSuccess }
     }
 
     @Test
     fun `Revert Secure settings return Result success`() = runTest(testDispatcher) {
-        settingsWritable.setWriteSecureSettings(true)
+        writeSecureSettingsPermission.setWriteSecureSettings(true)
 
         val userAppSettings = UserAppSettings(
             enabled = true,
@@ -128,14 +129,14 @@ class SettingsRepositoryTest {
 
         userAppSettingsList.add(userAppSettings)
 
-        val result = subject.revertSettings(userAppSettingsList).getOrNull()
+        val result = subject.revertSettings(userAppSettingsList)
 
-        assertNotNull(result)
+        assertTrue { result.isSuccess }
     }
 
     @Test
     fun `Revert System settings return Result success`() = runTest(testDispatcher) {
-        settingsWritable.setWriteSecureSettings(true)
+        writeSecureSettingsPermission.setWriteSecureSettings(true)
 
         val userAppSettings = UserAppSettings(
             enabled = true,
@@ -149,14 +150,14 @@ class SettingsRepositoryTest {
 
         userAppSettingsList.add(userAppSettings)
 
-        val result = subject.revertSettings(userAppSettingsList).getOrNull()
+        val result = subject.revertSettings(userAppSettingsList)
 
-        assertNotNull(result)
+        assertTrue { result.isSuccess }
     }
 
     @Test
     fun `Apply Global settings return Result failure`() = runTest(testDispatcher) {
-        settingsWritable.setWriteSecureSettings(false)
+        writeSecureSettingsPermission.setWriteSecureSettings(false)
 
         val userAppSettings = UserAppSettings(
             enabled = true,
@@ -170,12 +171,14 @@ class SettingsRepositoryTest {
 
         userAppSettingsList.add(userAppSettings)
 
-        assertFails { subject.applySettings(userAppSettingsList).getOrThrow() }
+        val result = subject.applySettings(userAppSettingsList)
+
+        assertTrue { result.isFailure }
     }
 
     @Test
     fun `Apply Secure settings return Result failure`() = runTest(testDispatcher) {
-        settingsWritable.setWriteSecureSettings(false)
+        writeSecureSettingsPermission.setWriteSecureSettings(false)
 
         val userAppSettings = UserAppSettings(
             enabled = true,
@@ -189,12 +192,14 @@ class SettingsRepositoryTest {
 
         userAppSettingsList.add(userAppSettings)
 
-        assertFails { subject.applySettings(userAppSettingsList).getOrThrow() }
+        val result = subject.applySettings(userAppSettingsList)
+
+        assertTrue { result.isFailure }
     }
 
     @Test
     fun `Apply System settings return Result failure`() = runTest(testDispatcher) {
-        settingsWritable.setWriteSecureSettings(false)
+        writeSecureSettingsPermission.setWriteSecureSettings(false)
 
         val userAppSettings = UserAppSettings(
             enabled = true,
@@ -208,12 +213,14 @@ class SettingsRepositoryTest {
 
         userAppSettingsList.add(userAppSettings)
 
-        assertFails { subject.applySettings(userAppSettingsList).getOrThrow() }
+        val result = subject.applySettings(userAppSettingsList)
+
+        assertTrue { result.isFailure }
     }
 
     @Test
     fun `Revert Global settings return Result failure`() = runTest(testDispatcher) {
-        settingsWritable.setWriteSecureSettings(false)
+        writeSecureSettingsPermission.setWriteSecureSettings(false)
 
         val userAppSettings = UserAppSettings(
             enabled = true,
@@ -227,12 +234,14 @@ class SettingsRepositoryTest {
 
         userAppSettingsList.add(userAppSettings)
 
-        assertFails { subject.revertSettings(userAppSettingsList).getOrThrow() }
+        val result = subject.revertSettings(userAppSettingsList)
+
+        assertTrue { result.isFailure }
     }
 
     @Test
     fun `Revert Secure settings return Result failure`() = runTest(testDispatcher) {
-        settingsWritable.setWriteSecureSettings(false)
+        writeSecureSettingsPermission.setWriteSecureSettings(false)
 
         val userAppSettings = UserAppSettings(
             enabled = true,
@@ -246,12 +255,14 @@ class SettingsRepositoryTest {
 
         userAppSettingsList.add(userAppSettings)
 
-        assertFails { subject.revertSettings(userAppSettingsList).getOrThrow() }
+        val result = subject.revertSettings(userAppSettingsList)
+
+        assertTrue { result.isFailure }
     }
 
     @Test
     fun `Revert System settings return Result failure`() = runTest(testDispatcher) {
-        settingsWritable.setWriteSecureSettings(false)
+        writeSecureSettingsPermission.setWriteSecureSettings(false)
 
         val userAppSettings = UserAppSettings(
             enabled = true,
@@ -265,6 +276,8 @@ class SettingsRepositoryTest {
 
         userAppSettingsList.add(userAppSettings)
 
-        assertFails { subject.revertSettings(userAppSettingsList).getOrThrow() }
+        val result = subject.revertSettings(userAppSettingsList)
+
+        assertTrue { result.isFailure }
     }
 }
