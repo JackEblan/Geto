@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.core.domain.repository.SettingsRepository
 import com.core.domain.repository.UserAppSettingsRepository
-import com.core.domain.usecase.userappsettings.ValidateUserAppSettingsList
 import com.feature.userappsettings.navigation.NAV_KEY_APP_NAME
 import com.feature.userappsettings.navigation.NAV_KEY_PACKAGE_NAME
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,7 +24,6 @@ class UserAppSettingsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val userAppSettingsRepository: UserAppSettingsRepository,
     private val settingsRepository: SettingsRepository,
-    private val validateUserAppSettingsList: ValidateUserAppSettingsList,
     private val packageManager: PackageManager
 ) : ViewModel() {
     private val _uiEvent = MutableSharedFlow<UIEvent>()
@@ -52,12 +50,9 @@ class UserAppSettingsViewModel @Inject constructor(
     fun onEvent(event: UserAppSettingsEvent) {
         when (event) {
             is UserAppSettingsEvent.OnLaunchApp -> {
-                val userAppSettingsListResult =
-                    validateUserAppSettingsList(event.userAppSettingsList)
-
-                if (!userAppSettingsListResult.successful) {
+                if (event.userAppSettingsList.isEmpty()) {
                     viewModelScope.launch {
-                        _uiEvent.emit(UIEvent.ShowSnackbar(userAppSettingsListResult.errorMessage))
+                        _uiEvent.emit(UIEvent.ShowSnackbar(message = "Please enable at least one of your settings"))
                     }
 
                     return
@@ -75,12 +70,10 @@ class UserAppSettingsViewModel @Inject constructor(
             }
 
             is UserAppSettingsEvent.OnRevertSettings -> {
-                val userAppSettingsListResult =
-                    validateUserAppSettingsList(event.userAppSettingsList)
 
-                if (!userAppSettingsListResult.successful) {
+                if (event.userAppSettingsList.isEmpty()) {
                     viewModelScope.launch {
-                        _uiEvent.emit(UIEvent.ShowSnackbar(userAppSettingsListResult.errorMessage))
+                        _uiEvent.emit(UIEvent.ShowSnackbar(message = "Please enable at least one of your settings"))
                     }
 
                     return

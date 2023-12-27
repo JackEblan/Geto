@@ -1,5 +1,4 @@
 import com.android.build.gradle.LibraryExtension
-import com.android.geto.configureAndroidCompose
 import com.android.geto.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -18,25 +17,19 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                 defaultConfig {
                     testInstrumentationRunner = "com.core.testing.HiltTestRunner"
                 }
-
-                configureAndroidCompose(this)
             }
 
             dependencies {
-                add("implementation", project(":core:data"))
                 add("implementation", project(":core:designsystem"))
-                add("implementation", project(":core:domain"))
-                add("implementation", project(":core:model"))
+                add("implementation", project(":core:ui"))
 
                 add("implementation", libs.findLibrary("androidx.hilt.navigation.compose").get())
                 add("implementation", libs.findLibrary("androidx.lifecycle.runtime.compose").get())
                 add(
-                    "implementation",
-                    libs.findLibrary("androidx.lifecycle.viewmodel.compose").get()
+                    "implementation", libs.findLibrary("androidx.lifecycle.viewmodel.compose").get()
                 )
                 add(
-                    "implementation",
-                    libs.findLibrary("kotlinx.collections.immutable").get()
+                    "implementation", libs.findLibrary("kotlinx.collections.immutable").get()
                 )
             }
         }
