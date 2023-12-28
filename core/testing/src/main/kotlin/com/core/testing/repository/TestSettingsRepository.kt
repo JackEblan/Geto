@@ -15,7 +15,7 @@ class TestSettingsRepository : SettingsRepository {
         return runCatching {
             userAppSettingsList.filter { it.enabled }.forEach { userAppSettingsItem ->
 
-                if (!writeSecureSettings) throw SecurityException()
+                if (!writeSecureSettings) throw SecurityException("Permission not granted")
 
                 when (userAppSettingsItem.settingsType) {
                     SettingsType.SYSTEM -> settingsMap[userAppSettingsItem.key] =
@@ -38,7 +38,7 @@ class TestSettingsRepository : SettingsRepository {
         return runCatching {
             userAppSettingsList.filter { it.enabled }.forEach { userAppSettingsItem ->
 
-                if (!writeSecureSettings) throw SecurityException()
+                if (!writeSecureSettings) throw SecurityException("Permission not granted")
 
                 when (userAppSettingsItem.settingsType) {
                     SettingsType.SYSTEM -> settingsMap[userAppSettingsItem.key] =

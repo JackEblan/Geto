@@ -35,6 +35,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.core.model.UserAppSettings
 import com.core.ui.EmptyListPlaceHolderScreen
 import com.core.ui.LoadingPlaceHolderScreen
@@ -62,15 +63,19 @@ internal fun UserAppSettingsScreen(
 
     val dataState = viewModel.dataState.collectAsState().value
 
-    LaunchedEffect(key1 = viewModel.showSnackBar) {
-        viewModel.showSnackBar?.let {
+    val showSnackBar = viewModel.showSnackBar.collectAsStateWithLifecycle().value
+
+    val launchAppIntent = viewModel.showSnackBar.collectAsStateWithLifecycle().value
+
+    LaunchedEffect(key1 = showSnackBar) {
+        viewModel.showSnackBar.value?.let {
             snackbarHostState.showSnackbar(message = it)
             viewModel.clearState()
         }
     }
 
-    LaunchedEffect(key1 = viewModel.launchAppIntent) {
-        viewModel.launchAppIntent?.let {
+    LaunchedEffect(key1 = launchAppIntent) {
+        viewModel.launchAppIntent.value?.let {
             context.startActivity(it)
             viewModel.clearState()
         }

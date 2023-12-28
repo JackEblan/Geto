@@ -2,9 +2,6 @@ package com.feature.userappsettings
 
 import android.content.Intent
 import android.content.pm.PackageManager
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -29,9 +26,13 @@ class UserAppSettingsViewModel @Inject constructor(
     private val settingsRepository: SettingsRepository,
     private val packageManager: PackageManager
 ) : ViewModel() {
-    var showSnackBar by mutableStateOf<String?>(null)
+    private var _showSnackBar = MutableStateFlow<String?>(null)
 
-    var launchAppIntent by mutableStateOf<Intent?>(null)
+    private var _launchAppIntent = MutableStateFlow<Intent?>(null)
+
+    val showSnackBar = _showSnackBar.asStateFlow()
+
+    val launchAppIntent = _launchAppIntent.asStateFlow()
 
     val packageName = savedStateHandle.get<String>(NAV_KEY_PACKAGE_NAME) ?: ""
 
@@ -55,7 +56,7 @@ class UserAppSettingsViewModel @Inject constructor(
             is UserAppSettingsEvent.OnLaunchApp -> {
                 if (event.userAppSettingsList.isEmpty()) {
                     viewModelScope.launch {
-                        showSnackBar = "Please enable at least one of your settings"
+                        _showSnackBar.value = "Please enable at least one of your settings"
                     }
 
                     return
@@ -64,10 +65,9 @@ class UserAppSettingsViewModel @Inject constructor(
                 viewModelScope.launch {
                     settingsRepository.applySettings(event.userAppSettingsList).onSuccess {
                         val appIntent = packageManager.getLaunchIntentForPackage(packageName)
-
-                        launchAppIntent = appIntent
+                        _launchAppIntent.value = appIntent
                     }.onFailure {
-                        showSnackBar = it.message
+                        _showSnackBar.value = it.message
                     }
                 }
             }
@@ -76,7 +76,7 @@ class UserAppSettingsViewModel @Inject constructor(
 
                 if (event.userAppSettingsList.isEmpty()) {
                     viewModelScope.launch {
-                        showSnackBar = "Please enable at least one of your settings"
+                        _showSnackBar.value = "Please enable at least one of your settings"
                     }
 
                     return
@@ -84,9 +84,9 @@ class UserAppSettingsViewModel @Inject constructor(
 
                 viewModelScope.launch {
                     settingsRepository.revertSettings(event.userAppSettingsList).onSuccess {
-                        showSnackBar = it
+                        _showSnackBar.value = it
                     }.onFailure {
-                        showSnackBar = it.message
+                        _showSnackBar.value = it.message
                     }
                 }
             }
@@ -99,9 +99,9 @@ class UserAppSettingsViewModel @Inject constructor(
                     userAppSettingsRepository.upsertUserAppSettingsEnabled(
                         updatedUserAppSettingsItem
                     ).onSuccess {
-                        showSnackBar = it
+                        _showSnackBar.value = it
                     }.onFailure {
-                        showSnackBar = it.localizedMessage
+                        _showSnackBar.value = it.localizedMessage
                     }
                 }
             }
@@ -110,9 +110,9 @@ class UserAppSettingsViewModel @Inject constructor(
                 viewModelScope.launch {
                     userAppSettingsRepository.deleteUserAppSettings(event.userAppSettings)
                         .onSuccess {
-                            showSnackBar = it
+                            _showSnackBar.value = it
                         }.onFailure {
-                            showSnackBar = it.localizedMessage
+                            _showSnackBar.value = it.localizedMessage
                         }
                 }
             }
@@ -120,7 +120,7 @@ class UserAppSettingsViewModel @Inject constructor(
     }
 
     fun clearState() {
-        showSnackBar = null
-        launchAppIntent = null
+        _showSnackBar.value = null
+        _launchAppIntent.value = null
     }
 }

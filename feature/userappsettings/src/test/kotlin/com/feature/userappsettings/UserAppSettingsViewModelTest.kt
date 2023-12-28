@@ -1,5 +1,6 @@
 package com.feature.userappsettings
 
+import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.lifecycle.SavedStateHandle
 import com.core.model.SettingsType
@@ -12,7 +13,6 @@ import com.feature.userappsettings.navigation.NAV_KEY_APP_NAME
 import com.feature.userappsettings.navigation.NAV_KEY_PACKAGE_NAME
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
@@ -21,10 +21,12 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
+import org.mockito.Mockito.`when`
 import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.mock
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
+import kotlin.test.assertTrue
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(MockitoJUnitRunner::class)
@@ -83,25 +85,98 @@ class UserAppSettingsViewModelTest {
     }
 
     @Test
-    fun `Launch App with Global Settings applied returns UiEvent as LaunchApp`() = runTest {
-        settingsRepository.setWriteSecureSettings(true)
+    fun `Launch App with Settings applied returns Result success then launch app intent is not null`() =
+        runTest {
+            settingsRepository.setWriteSecureSettings(true)
 
-        val settings = listOf(
-            UserAppSettings(
-                enabled = true,
-                settingsType = SettingsType.GLOBAL,
-                packageName = "",
-                label = "",
-                key = "",
-                valueOnLaunch = "",
-                valueOnRevert = ""
+            val settings = listOf(
+                UserAppSettings(
+                    enabled = true,
+                    settingsType = SettingsType.GLOBAL,
+                    packageName = "test",
+                    label = "test",
+                    key = "test",
+                    valueOnLaunch = "test",
+                    valueOnRevert = "test"
+                )
             )
-        )
 
-        viewModel.onEvent(UserAppSettingsEvent.OnLaunchApp(settings))
+            `when`(mockPackageManager.getLaunchIntentForPackage("test")).thenReturn(Intent())
 
-        print(viewModel.uiEvent.first())
-    }
+            viewModel.onEvent(UserAppSettingsEvent.OnLaunchApp(settings))
+
+            assertTrue { viewModel.launchAppIntent.value != null }
+
+        }
+
+    @Test
+    fun `Launch App with Settings applied returns Result failure then show snackbar message is not null`() =
+        runTest {
+            settingsRepository.setWriteSecureSettings(false)
+
+            val settings = listOf(
+                UserAppSettings(
+                    enabled = true,
+                    settingsType = SettingsType.GLOBAL,
+                    packageName = "test",
+                    label = "test",
+                    key = "test",
+                    valueOnLaunch = "test",
+                    valueOnRevert = "test"
+                )
+            )
+
+            viewModel.onEvent(UserAppSettingsEvent.OnLaunchApp(settings))
+
+            assertTrue { viewModel.showSnackBar.value != null }
+
+        }
+
+    @Test
+    fun `Revert Settings applied returns Result success then show snack bar message is not null`() =
+        runTest {
+            settingsRepository.setWriteSecureSettings(true)
+
+            val settings = listOf(
+                UserAppSettings(
+                    enabled = true,
+                    settingsType = SettingsType.GLOBAL,
+                    packageName = "test",
+                    label = "test",
+                    key = "test",
+                    valueOnLaunch = "test",
+                    valueOnRevert = "test"
+                )
+            )
+
+            viewModel.onEvent(UserAppSettingsEvent.OnRevertSettings(settings))
+
+            assertTrue { viewModel.showSnackBar.value != null }
+
+        }
+
+    @Test
+    fun `Revert Settings applied returns Result failure then show snackbar message is not null`() =
+        runTest {
+            settingsRepository.setWriteSecureSettings(false)
+
+            val settings = listOf(
+                UserAppSettings(
+                    enabled = true,
+                    settingsType = SettingsType.GLOBAL,
+                    packageName = "test",
+                    label = "test",
+                    key = "test",
+                    valueOnLaunch = "test",
+                    valueOnRevert = "test"
+                )
+            )
+
+            viewModel.onEvent(UserAppSettingsEvent.OnLaunchApp(settings))
+
+            assertTrue { viewModel.showSnackBar.value != null }
+
+        }
 
     @Test
     fun `Check UserAppSettingsItem enabled to true then item is updated`() = runTest {
