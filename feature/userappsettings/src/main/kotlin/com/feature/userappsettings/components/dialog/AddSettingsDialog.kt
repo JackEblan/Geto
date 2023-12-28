@@ -35,7 +35,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
-import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun AddSettingsDialog(
@@ -65,17 +64,11 @@ fun AddSettingsDialog(
 
     val scrollState = rememberScrollState()
 
-    LaunchedEffect(key1 = true) {
-        viewModel.uiEvent.collectLatest { event ->
-            when (event) {
-                is AddSettingsDialogViewModel.UIEvent.ShowSnackbar -> {
-                    event.message?.let(onShowSnackbar)
-                }
-
-                AddSettingsDialogViewModel.UIEvent.DismissDialog -> {
-                    onDismissRequest()
-                }
-            }
+    LaunchedEffect(key1 = viewModel.showSnackBar) {
+        viewModel.showSnackBar?.let {
+            onShowSnackbar(it)
+            onDismissRequest()
+            viewModel.clearState()
         }
     }
 
@@ -93,9 +86,7 @@ fun AddSettingsDialog(
                     onRadioOptionSelected = {
                         selectedRadioOptionIndex = it
                     },
-                    onDismissRequest = {
-                        viewModel.onEvent(AddSettingsDialogEvent.OnDismissDialog)
-                    },
+                    onDismissRequest = onDismissRequest,
                     onTypingLabel = {
                         label = it
                     },

@@ -1,13 +1,14 @@
 package com.feature.userappsettings.components.dialog
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.core.domain.repository.UserAppSettingsRepository
 import com.core.model.SettingsType
 import com.core.model.UserAppSettings
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -15,9 +16,7 @@ import javax.inject.Inject
 class AddSettingsDialogViewModel @Inject constructor(
     private val repository: UserAppSettingsRepository
 ) : ViewModel() {
-    private val _uiEvent = MutableSharedFlow<UIEvent>()
-
-    val uiEvent = _uiEvent.asSharedFlow()
+    var showSnackBar by mutableStateOf<String?>(null)
 
     fun onEvent(event: AddSettingsDialogEvent) {
         when (event) {
@@ -44,24 +43,14 @@ class AddSettingsDialogViewModel @Inject constructor(
                             valueOnRevert = event.valueOnRevert
                         )
                     ).onSuccess {
-                        _uiEvent.emit(UIEvent.ShowSnackbar(it))
-
-                        _uiEvent.emit(UIEvent.DismissDialog)
+                        showSnackBar = it
                     }
-                }
-            }
-
-            AddSettingsDialogEvent.OnDismissDialog -> {
-                viewModelScope.launch {
-                    _uiEvent.emit(UIEvent.DismissDialog)
                 }
             }
         }
     }
 
-    sealed class UIEvent {
-        data class ShowSnackbar(val message: String? = null) : UIEvent()
-
-        data object DismissDialog : UIEvent()
+    fun clearState() {
+        showSnackBar = null
     }
 }

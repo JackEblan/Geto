@@ -40,7 +40,6 @@ import com.core.ui.EmptyListPlaceHolderScreen
 import com.core.ui.LoadingPlaceHolderScreen
 import com.core.ui.UserAppSettingsItem
 import com.feature.userappsettings.components.dialog.AddSettingsDialog
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @Composable
@@ -63,21 +62,17 @@ internal fun UserAppSettingsScreen(
 
     val dataState = viewModel.dataState.collectAsState().value
 
-    LaunchedEffect(key1 = true) {
-        viewModel.uiEvent.collectLatest { event ->
-            when (event) {
-                is UserAppSettingsViewModel.UIEvent.LaunchApp -> {
-                    event.intent?.let {
-                        context.startActivity(it)
-                    }
-                }
+    LaunchedEffect(key1 = viewModel.showSnackBar) {
+        viewModel.showSnackBar?.let {
+            snackbarHostState.showSnackbar(message = it)
+            viewModel.clearState()
+        }
+    }
 
-                is UserAppSettingsViewModel.UIEvent.ShowSnackbar -> {
-                    event.message?.let {
-                        snackbarHostState.showSnackbar(message = it)
-                    }
-                }
-            }
+    LaunchedEffect(key1 = viewModel.launchAppIntent) {
+        viewModel.launchAppIntent?.let {
+            context.startActivity(it)
+            viewModel.clearState()
         }
     }
 

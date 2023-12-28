@@ -9,6 +9,4 @@ sealed class AddSettingsDialogEvent {
         val valueOnLaunch: String,
         val valueOnRevert: String,
     ) : AddSettingsDialogEvent()
-
-    data object OnDismissDialog : AddSettingsDialogEvent()
 }

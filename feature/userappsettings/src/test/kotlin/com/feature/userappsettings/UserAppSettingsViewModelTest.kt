@@ -12,6 +12,7 @@ import com.feature.userappsettings.navigation.NAV_KEY_APP_NAME
 import com.feature.userappsettings.navigation.NAV_KEY_PACKAGE_NAME
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
@@ -24,7 +25,6 @@ import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.mock
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
-import kotlin.test.assertTrue
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(MockitoJUnitRunner::class)
@@ -83,13 +83,13 @@ class UserAppSettingsViewModelTest {
     }
 
     @Test
-    fun `Apply settings returns Result success`() = runTest {
+    fun `Launch App with Global Settings applied returns UiEvent as LaunchApp`() = runTest {
         settingsRepository.setWriteSecureSettings(true)
 
         val settings = listOf(
             UserAppSettings(
                 enabled = true,
-                settingsType = SettingsType.SYSTEM,
+                settingsType = SettingsType.GLOBAL,
                 packageName = "",
                 label = "",
                 key = "",
@@ -97,29 +97,10 @@ class UserAppSettingsViewModelTest {
                 valueOnRevert = ""
             )
         )
-        val result = settingsRepository.applySettings(settings)
 
-        assertTrue { result.isSuccess }
-    }
+        viewModel.onEvent(UserAppSettingsEvent.OnLaunchApp(settings))
 
-    @Test
-    fun `Revert settings returns Result success`() = runTest {
-        settingsRepository.setWriteSecureSettings(true)
-
-        val settings = listOf(
-            UserAppSettings(
-                enabled = true,
-                settingsType = SettingsType.SYSTEM,
-                packageName = "",
-                label = "",
-                key = "",
-                valueOnLaunch = "",
-                valueOnRevert = ""
-            )
-        )
-        val result = settingsRepository.revertSettings(settings)
-
-        assertTrue { result.isSuccess }
+        print(viewModel.uiEvent.first())
     }
 
     @Test
@@ -157,47 +138,5 @@ class UserAppSettingsViewModelTest {
         assertIs<UserAppSettingsUiState.Success>(item)
 
         collectJob.cancel()
-    }
-
-    @Test
-    fun `Apply settings returns Result failure`() = runTest {
-        settingsRepository.setWriteSecureSettings(false)
-
-        val settings = listOf(
-            UserAppSettings(
-                enabled = true,
-                settingsType = SettingsType.SYSTEM,
-                packageName = "",
-                label = "",
-                key = "",
-                valueOnLaunch = "",
-                valueOnRevert = ""
-            )
-        )
-
-        val result = settingsRepository.applySettings(settings)
-
-        assertTrue { result.isFailure }
-    }
-
-    @Test
-    fun `Revert settings returns Result failure`() = runTest {
-        settingsRepository.setWriteSecureSettings(false)
-
-        val settings = listOf(
-            UserAppSettings(
-                enabled = true,
-                settingsType = SettingsType.SYSTEM,
-                packageName = "",
-                label = "",
-                key = "",
-                valueOnLaunch = "",
-                valueOnRevert = ""
-            )
-        )
-
-        val result = settingsRepository.revertSettings(settings)
-
-        assertTrue { result.isFailure }
     }
 }

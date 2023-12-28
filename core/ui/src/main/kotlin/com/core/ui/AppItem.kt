@@ -27,7 +27,7 @@ fun AppItem(
     ) {
 
         AsyncImage(
-            model = icon, contentDescription = null, modifier = Modifier.size(50.dp)
+            model = icon(), contentDescription = null, modifier = Modifier.size(50.dp)
         )
 
         Spacer(modifier = Modifier.width(10.dp))
