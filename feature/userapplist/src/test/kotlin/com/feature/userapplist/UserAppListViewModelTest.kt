@@ -1,23 +1,37 @@
 package com.feature.userapplist
 
 import com.core.testing.repository.TestPackageRepository
+import com.core.testing.util.MainDispatcherRule
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
-import kotlin.test.assertTrue
+import kotlin.test.assertEquals
 
 class UserAppListViewModelTest {
-    private lateinit var testPackageRepository: TestPackageRepository
+
+    @get:Rule
+    val mainDispatcherRule = MainDispatcherRule()
+
+    private val testPackageRepository = TestPackageRepository()
+
+    private lateinit var viewModel: UserAppListViewModel
 
     @Before
-    fun setUp() {
-        testPackageRepository = TestPackageRepository()
+    fun setup() {
+        viewModel = UserAppListViewModel(testPackageRepository)
     }
 
     @Test
-    fun `Get Non System apps, return not empty`() = runTest {
-        val appList = testPackageRepository.getNonSystemApps()
+    fun `State is UserAppListUiState ShowAppList when GetNonSystemApps event is called`() =
+        runTest {
+            val nonSystemAppList = testPackageRepository.getNonSystemApps()
 
-        assertTrue { appList.isNotEmpty() }
-    }
+            viewModel.onEvent(UserAppListEvent.GetNonSystemApps)
+
+            assertEquals(
+                expected = UserAppListUiState.ShowAppList(nonSystemAppList),
+                actual = viewModel.uIState.value
+            )
+        }
 }

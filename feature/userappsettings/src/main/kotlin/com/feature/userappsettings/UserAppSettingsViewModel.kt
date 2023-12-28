@@ -37,7 +37,7 @@ class UserAppSettingsViewModel @Inject constructor(
     val dataState: StateFlow<UserAppSettingsUiState> =
         userAppSettingsRepository.getUserAppSettingsList(packageName).map { list ->
             if (list.isNotEmpty()) {
-                UserAppSettingsUiState.ShowUserAppSettingsList(list)
+                UserAppSettingsUiState.Success(list)
             } else {
                 UserAppSettingsUiState.Empty
             }

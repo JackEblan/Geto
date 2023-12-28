@@ -91,7 +91,7 @@ internal fun UserAppSettingsScreen(
                     onRevertSettingsIconClick = {
                         viewModel.onEvent(
                             UserAppSettingsEvent.OnRevertSettings(
-                                if (dataState is UserAppSettingsUiState.ShowUserAppSettingsList) dataState.userAppSettingsList
+                                if (dataState is UserAppSettingsUiState.Success) dataState.userAppSettingsList
                                 else emptyList()
                             )
                         )
@@ -110,7 +110,7 @@ internal fun UserAppSettingsScreen(
                     onLaunchApp = {
                         viewModel.onEvent(
                             UserAppSettingsEvent.OnLaunchApp(
-                                if (dataState is UserAppSettingsUiState.ShowUserAppSettingsList) dataState.userAppSettingsList
+                                if (dataState is UserAppSettingsUiState.Success) dataState.userAppSettingsList
                                 else emptyList()
                             )
                         )
@@ -193,7 +193,7 @@ private fun StatelessScreen(
                     )
                 }
 
-                is UserAppSettingsUiState.ShowUserAppSettingsList -> {
+                is UserAppSettingsUiState.Success -> {
 
                     LazyColumn(modifier = Modifier.fillMaxSize()) {
                         items(dataStateParam.userAppSettingsList) { userAppSettings ->
