@@ -10,7 +10,7 @@ The only reason I created this app is to turn off that damn Developer Options wh
 app. The only annoying thing about it is you have to go to the Settings app. When you turn off that
 switch button, your Developer Options configurations will be reset to default. The good thing is
 that when you modify your settings through its Shared Preferences, you won't lose all your settings
-once the Developer Options are modified. So basically, you have to grant this app with **android.permission.WRITE_SECURE_SETTINGS** in order for it to modify your Settings values.
+once the Developer Options is modified. So basically, you have to grant this app with **android.permission.WRITE_SECURE_SETTINGS** in order for it to modify your Settings values.
 
 ## Screenshots
 
