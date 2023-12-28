@@ -85,7 +85,7 @@ class UserAppSettingsViewModelTest {
     }
 
     @Test
-    fun `Launch App with Settings applied returns Result success then launch app intent is not null`() =
+    fun `On Event Launch App with Settings applied returns Result success then launch app intent is not null`() =
         runTest {
             settingsRepository.setWriteSecureSettings(true)
 
@@ -110,7 +110,7 @@ class UserAppSettingsViewModelTest {
         }
 
     @Test
-    fun `Launch App with Settings applied returns Result failure then show snackbar message is not null`() =
+    fun `On Event Launch App with Settings applied returns Result failure then show snackbar message is not null`() =
         runTest {
             settingsRepository.setWriteSecureSettings(false)
 
@@ -133,7 +133,7 @@ class UserAppSettingsViewModelTest {
         }
 
     @Test
-    fun `Revert Settings applied returns Result success then show snack bar message is not null`() =
+    fun `On Event Revert Settings applied returns Result success then show snack bar message is not null`() =
         runTest {
             settingsRepository.setWriteSecureSettings(true)
 
@@ -156,7 +156,7 @@ class UserAppSettingsViewModelTest {
         }
 
     @Test
-    fun `Revert Settings applied returns Result failure then show snackbar message is not null`() =
+    fun `On Event Revert Settings applied returns Result failure then show snackbar message is not null`() =
         runTest {
             settingsRepository.setWriteSecureSettings(false)
 
@@ -179,7 +179,7 @@ class UserAppSettingsViewModelTest {
         }
 
     @Test
-    fun `Check UserAppSettingsItem enabled to true then item is updated`() = runTest {
+    fun `On Event Check UserAppSettingsItem enabled to true then item is updated`() = runTest {
         val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.dataState.collect() }
 
         viewModel.onEvent(
@@ -201,7 +201,7 @@ class UserAppSettingsViewModelTest {
     }
 
     @Test
-    fun `Delete UserAppSettingsItem then item not existed`() = runTest {
+    fun `On Event Delete UserAppSettingsItem then item not existed`() = runTest {
         val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.dataState.collect() }
 
         userAppSettingsRepository.sendUserAppSettings(userAppSettingsTestData)

@@ -35,6 +35,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 @Composable
 fun AddSettingsDialog(
@@ -64,8 +65,10 @@ fun AddSettingsDialog(
 
     val scrollState = rememberScrollState()
 
-    LaunchedEffect(key1 = viewModel.showSnackBar) {
-        viewModel.showSnackBar?.let {
+    val showSnackBar = viewModel.showSnackBar.collectAsStateWithLifecycle().value
+
+    LaunchedEffect(key1 = showSnackBar) {
+        showSnackBar?.let {
             onShowSnackbar(it)
             onDismissRequest()
             viewModel.clearState()

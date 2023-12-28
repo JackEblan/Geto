@@ -1,5 +1,6 @@
 package com.feature.userappsettings.components.dialog
 
+import android.content.Intent
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -9,6 +10,8 @@ import com.core.domain.repository.UserAppSettingsRepository
 import com.core.model.SettingsType
 import com.core.model.UserAppSettings
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -16,7 +19,9 @@ import javax.inject.Inject
 class AddSettingsDialogViewModel @Inject constructor(
     private val repository: UserAppSettingsRepository
 ) : ViewModel() {
-    var showSnackBar by mutableStateOf<String?>(null)
+    private var _showSnackBar = MutableStateFlow<String?>(null)
+
+    val showSnackBar = _showSnackBar.asStateFlow()
 
     fun onEvent(event: AddSettingsDialogEvent) {
         when (event) {
@@ -43,7 +48,7 @@ class AddSettingsDialogViewModel @Inject constructor(
                             valueOnRevert = event.valueOnRevert
                         )
                     ).onSuccess {
-                        showSnackBar = it
+                        _showSnackBar.value = it
                     }
                 }
             }
@@ -51,6 +56,6 @@ class AddSettingsDialogViewModel @Inject constructor(
     }
 
     fun clearState() {
-        showSnackBar = null
+        _showSnackBar.value = null
     }
 }

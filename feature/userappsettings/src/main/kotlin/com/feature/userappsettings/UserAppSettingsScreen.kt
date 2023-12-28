@@ -65,17 +65,17 @@ internal fun UserAppSettingsScreen(
 
     val showSnackBar = viewModel.showSnackBar.collectAsStateWithLifecycle().value
 
-    val launchAppIntent = viewModel.showSnackBar.collectAsStateWithLifecycle().value
+    val launchAppIntent = viewModel.launchAppIntent.collectAsStateWithLifecycle().value
 
     LaunchedEffect(key1 = showSnackBar) {
-        viewModel.showSnackBar.value?.let {
+        showSnackBar?.let {
             snackbarHostState.showSnackbar(message = it)
             viewModel.clearState()
         }
     }
 
     LaunchedEffect(key1 = launchAppIntent) {
-        viewModel.launchAppIntent.value?.let {
+        launchAppIntent?.let {
             context.startActivity(it)
             viewModel.clearState()
         }

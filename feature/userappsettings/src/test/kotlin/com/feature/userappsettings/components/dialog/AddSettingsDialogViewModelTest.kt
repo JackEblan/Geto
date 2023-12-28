@@ -1,39 +1,44 @@
 package com.feature.userappsettings.components.dialog
 
-import com.core.model.SettingsType
-import com.core.model.UserAppSettings
 import com.core.testing.repository.TestUserAppSettingsRepository
-import kotlinx.coroutines.flow.first
+import com.core.testing.util.MainDispatcherRule
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertTrue
 
 class AddSettingsDialogViewModelTest {
+    @get:Rule
+    val mainDispatcherRule = MainDispatcherRule()
+
     private lateinit var userAppSettingsRepository: TestUserAppSettingsRepository
+
+    private lateinit var viewModel: AddSettingsDialogViewModel
 
     @Before
     fun setUp() {
         userAppSettingsRepository = TestUserAppSettingsRepository()
+
+        viewModel = AddSettingsDialogViewModel(userAppSettingsRepository)
     }
 
     @Test
-    fun `Add UserAppSettingsItem then item existed`() = runTest {
-        val userAppSettings = UserAppSettings(
-            enabled = true,
-            settingsType = SettingsType.SYSTEM,
-            packageName = "com.android.geto",
-            label = "",
-            key = "key",
-            valueOnLaunch = "",
-            valueOnRevert = ""
-        )
+    fun `On Event Add UserAppSettingsItem then return Result success with show snackbar message not null`() =
+        runTest {
+            viewModel.onEvent(
+                AddSettingsDialogEvent.AddSettings(
+                    packageName = "com.android.geto",
+                    selectedRadioOptionIndex = 0,
+                    label = "label",
+                    key = "key",
+                    valueOnLaunch = "value",
+                    valueOnRevert = "value"
+                )
+            )
 
-        userAppSettingsRepository.upsertUserAppSettings(userAppSettings)
-
-        assertTrue {
-            userAppSettingsRepository.getUserAppSettingsList("com.android.geto").first()
-                .contains(userAppSettings)
+            assertTrue {
+                viewModel.showSnackBar.value != null
+            }
         }
-    }
 }
