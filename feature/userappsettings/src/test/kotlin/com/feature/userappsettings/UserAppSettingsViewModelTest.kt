@@ -3,8 +3,6 @@ package com.feature.userappsettings
 import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.lifecycle.SavedStateHandle
-import com.core.model.SettingsType
-import com.core.model.UserAppSettings
 import com.core.testing.data.userAppSettingsTestData
 import com.core.testing.repository.TestSettingsRepository
 import com.core.testing.repository.TestUserAppSettingsRepository
@@ -85,133 +83,74 @@ class UserAppSettingsViewModelTest {
     }
 
     @Test
-    fun `On Event Launch App with Settings applied returns Result success then launch app intent is not null`() =
+    fun `OnEvent LaunchApp then return Result success with launch app intent as not null`() =
         runTest {
             settingsRepository.setWriteSecureSettings(true)
 
-            val settings = listOf(
-                UserAppSettings(
-                    enabled = true,
-                    settingsType = SettingsType.GLOBAL,
-                    packageName = "test",
-                    label = "test",
-                    key = "test",
-                    valueOnLaunch = "test",
-                    valueOnRevert = "test"
-                )
+            `when`(mockPackageManager.getLaunchIntentForPackage(userAppSettingsTestData.first().packageName)).thenReturn(
+                Intent()
             )
 
-            `when`(mockPackageManager.getLaunchIntentForPackage("test")).thenReturn(Intent())
-
-            viewModel.onEvent(UserAppSettingsEvent.OnLaunchApp(settings))
+            viewModel.onEvent(UserAppSettingsEvent.OnLaunchApp(userAppSettingsTestData))
 
             assertTrue { viewModel.launchAppIntent.value != null }
 
         }
 
     @Test
-    fun `On Event Launch App with Settings applied returns Result failure then show snackbar message is not null`() =
+    fun `OnEvent LaunchApp then return Result failure with show snackbar message as not null`() =
         runTest {
             settingsRepository.setWriteSecureSettings(false)
 
-            val settings = listOf(
-                UserAppSettings(
-                    enabled = true,
-                    settingsType = SettingsType.GLOBAL,
-                    packageName = "test",
-                    label = "test",
-                    key = "test",
-                    valueOnLaunch = "test",
-                    valueOnRevert = "test"
-                )
-            )
-
-            viewModel.onEvent(UserAppSettingsEvent.OnLaunchApp(settings))
+            viewModel.onEvent(UserAppSettingsEvent.OnLaunchApp(userAppSettingsTestData))
 
             assertTrue { viewModel.showSnackBar.value != null }
 
         }
 
     @Test
-    fun `On Event Revert Settings applied returns Result success then show snack bar message is not null`() =
+    fun `OnEvent OnRevertSettings then return Result success with show snack bar message as not null`() =
         runTest {
             settingsRepository.setWriteSecureSettings(true)
 
-            val settings = listOf(
-                UserAppSettings(
-                    enabled = true,
-                    settingsType = SettingsType.GLOBAL,
-                    packageName = "test",
-                    label = "test",
-                    key = "test",
-                    valueOnLaunch = "test",
-                    valueOnRevert = "test"
-                )
-            )
-
-            viewModel.onEvent(UserAppSettingsEvent.OnRevertSettings(settings))
+            viewModel.onEvent(UserAppSettingsEvent.OnRevertSettings(userAppSettingsTestData))
 
             assertTrue { viewModel.showSnackBar.value != null }
 
         }
 
     @Test
-    fun `On Event Revert Settings applied returns Result failure then show snackbar message is not null`() =
+    fun `OnEvent OnRevertSettings then return Result failure with show snackbar message as not null`() =
         runTest {
             settingsRepository.setWriteSecureSettings(false)
 
-            val settings = listOf(
-                UserAppSettings(
-                    enabled = true,
-                    settingsType = SettingsType.GLOBAL,
-                    packageName = "test",
-                    label = "test",
-                    key = "test",
-                    valueOnLaunch = "test",
-                    valueOnRevert = "test"
-                )
-            )
-
-            viewModel.onEvent(UserAppSettingsEvent.OnLaunchApp(settings))
+            viewModel.onEvent(UserAppSettingsEvent.OnLaunchApp(userAppSettingsTestData))
 
             assertTrue { viewModel.showSnackBar.value != null }
 
         }
 
     @Test
-    fun `On Event Check UserAppSettingsItem enabled to true then item is updated`() = runTest {
-        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.dataState.collect() }
-
-        viewModel.onEvent(
-            UserAppSettingsEvent.OnUserAppSettingsItemCheckBoxChange(
-                checked = true, userAppSettings = userAppSettingsTestData.first()
+    fun `OnEvent OnUserAppSettingsItemCheckBoxChange then return Result success with show snackbar message as not null`() =
+        runTest {
+            viewModel.onEvent(
+                UserAppSettingsEvent.OnUserAppSettingsItemCheckBoxChange(
+                    checked = true, userAppSettings = userAppSettingsTestData.first()
+                )
             )
-        )
 
-        val item = viewModel.dataState.value
-
-        assertIs<UserAppSettingsUiState.Success>(item)
-
-        assertEquals(
-            expected = item.userAppSettingsList.find { it.enabled },
-            actual = userAppSettingsTestData.first()
-        )
-
-        collectJob.cancel()
-    }
+            assertTrue { viewModel.showSnackBar.value != null }
+        }
 
     @Test
-    fun `On Event Delete UserAppSettingsItem then item not existed`() = runTest {
-        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.dataState.collect() }
+    fun `OnEvent OnDeleteUserAppSettingsItem then return Result success with show snackbar message as not null`() =
+        runTest {
+            viewModel.onEvent(
+                UserAppSettingsEvent.OnDeleteUserAppSettingsItem(
+                    userAppSettingsTestData.first()
+                )
+            )
 
-        userAppSettingsRepository.sendUserAppSettings(userAppSettingsTestData)
-
-        viewModel.onEvent(UserAppSettingsEvent.OnDeleteUserAppSettingsItem(userAppSettingsTestData.first()))
-
-        val item = viewModel.dataState.value
-
-        assertIs<UserAppSettingsUiState.Success>(item)
-
-        collectJob.cancel()
-    }
+            assertTrue { viewModel.showSnackBar.value != null }
+        }
 }

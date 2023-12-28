@@ -23,7 +23,7 @@ class UserAppListViewModelTest {
     }
 
     @Test
-    fun `State is UserAppListUiState ShowAppList when GetNonSystemApps event is called`() =
+    fun `OnEvent GetNonSystemApps returns not empty list with UserAppListUiState as ShowAppList`() =
         runTest {
             val nonSystemAppList = testPackageRepository.getNonSystemApps()
 
