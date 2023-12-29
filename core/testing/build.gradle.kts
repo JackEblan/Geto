@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.com.android.geto.library)
+    alias(libs.plugins.com.android.geto.library.compose)
     alias(libs.plugins.com.android.geto.hilt)
 }
 
@@ -8,18 +9,18 @@ android {
 }
 
 dependencies {
-    api(libs.androidx.test.ext)
-    api(libs.androidx.test.core)
-    api(libs.androidx.test.espresso.core)
-    api(libs.androidx.test.rules)
-    api(libs.androidx.test.runner)
-    api(libs.hilt.android.testing)
-    api(libs.junit.junit)
-    api(libs.kotlinx.coroutines.test)
+    api(kotlin("test"))
+    api(libs.androidx.compose.ui.test)
     api(libs.mockito.core)
     api(libs.mockito.kotlin)
     api(libs.mockito.inline)
+    api(projects.core.domain)
+    api(projects.core.model)
 
-    implementation(projects.core.domain)
-    implementation(projects.core.model)
+    debugApi(libs.androidx.compose.ui.test.manifest)
+
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.test.rules)
+    implementation(libs.hilt.android.testing)
+    implementation(libs.kotlinx.coroutines.test)
 }

@@ -1,5 +1,6 @@
 package com.feature.userapplist
 
+import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -20,21 +22,22 @@ import com.core.ui.AppItem
 import com.core.ui.LoadingPlaceHolderScreen
 
 @Composable
-internal fun UserAppListScreen(
+internal fun UserAppListRoute(
     modifier: Modifier = Modifier,
     viewModel: UserAppListViewModel = hiltViewModel(),
     onItemClick: (String, String) -> Unit
 ) {
     val uIState = viewModel.uIState.collectAsStateWithLifecycle().value
 
-    StatelessScreen(
+    UserAppListScreen(
         modifier = modifier, uIState = { uIState }, onItemClick = onItemClick
     )
 }
 
+@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun StatelessScreen(
+internal fun UserAppListScreen(
     modifier: Modifier = Modifier,
     uIState: () -> UserAppListUiState,
     onItemClick: (String, String) -> Unit
@@ -50,10 +53,16 @@ private fun StatelessScreen(
                 .fillMaxSize()
         ) {
             when (val uIStateParam = uIState()) {
-                UserAppListUiState.Loading -> LoadingPlaceHolderScreen(modifier = Modifier.fillMaxSize())
+                UserAppListUiState.Loading -> LoadingPlaceHolderScreen(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .testTag("userapplist:loading")
+                )
 
                 is UserAppListUiState.ShowAppList -> {
-                    LazyColumn(modifier = Modifier.fillMaxSize()) {
+                    LazyColumn(modifier = Modifier
+                        .fillMaxSize()
+                        .testTag("userapplist:applist")) {
                         items(uIStateParam.nonSystemAppList) { nonSystemApp ->
                             AppItem(modifier = Modifier
                                 .fillMaxWidth()
