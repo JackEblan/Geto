@@ -1,5 +1,6 @@
 package com.feature.appsettings.components.dialog
 
+import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -30,6 +31,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
@@ -46,6 +48,8 @@ fun AddSettingsDialog(
     onShowSnackbar: (String) -> Unit
 ) {
     var selectedRadioOptionIndex by rememberSaveable { mutableIntStateOf(-1) }
+
+    var selectedRadioOptionIndexError by rememberSaveable { mutableStateOf("") }
 
     var label by rememberSaveable { mutableStateOf("") }
 
@@ -75,63 +79,69 @@ fun AddSettingsDialog(
         }
     }
 
-    StatelessScreen(modifier = modifier,
-                    selectedRadioOptionIndex = { selectedRadioOptionIndex },
-                    key = { key },
-                    label = { label },
-                    valueOnLaunch = { valueOnLaunch },
-                    valueOnRevert = { valueOnRevert },
-                    keyError = { keyError },
-                    labelError = { labelError },
-                    valueOnLaunchError = { valueOnLaunchError },
-                    valueOnRevertError = { valueOnRevertError },
-                    scrollState = { scrollState },
-                    onRadioOptionSelected = {
-                        selectedRadioOptionIndex = it
-                    },
-                    onDismissRequest = onDismissRequest,
-                    onTypingLabel = {
-                        label = it
-                    },
-                    onTypingKey = {
-                        key = it
-                    },
-                    onTypingValueOnLaunch = {
-                        valueOnLaunch = it
-                    },
-                    onTypingValueOnRevert = {
-                        valueOnRevert = it
-                    },
-                    onAddSettings = {
-                        labelError = if (label.isBlank()) "Settings label is blank" else ""
+    AddSettingsDialogScreen(modifier = modifier,
+                            selectedRadioOptionIndex = { selectedRadioOptionIndex },
+                            selectedRadioOptionIndexError = { selectedRadioOptionIndexError },
+                            key = { key },
+                            label = { label },
+                            valueOnLaunch = { valueOnLaunch },
+                            valueOnRevert = { valueOnRevert },
+                            keyError = { keyError },
+                            labelError = { labelError },
+                            valueOnLaunchError = { valueOnLaunchError },
+                            valueOnRevertError = { valueOnRevertError },
+                            scrollState = { scrollState },
+                            onRadioOptionSelected = {
+                                selectedRadioOptionIndex = it
+                            },
+                            onDismissRequest = onDismissRequest,
+                            onTypingLabel = {
+                                label = it
+                            },
+                            onTypingKey = {
+                                key = it
+                            },
+                            onTypingValueOnLaunch = {
+                                valueOnLaunch = it
+                            },
+                            onTypingValueOnRevert = {
+                                valueOnRevert = it
+                            },
+                            onAddSettings = {
+                                selectedRadioOptionIndexError =
+                                    if (selectedRadioOptionIndex == -1) "Please select a Settings type" else ""
 
-                        keyError = if (key.isBlank()) "Settings key is blank" else ""
+                                labelError = if (label.isBlank()) "Settings label is blank" else ""
 
-                        valueOnLaunchError =
-                            if (valueOnLaunch.isBlank()) "Settings value on launch is blank" else ""
+                                keyError = if (key.isBlank()) "Settings key is blank" else ""
 
-                        valueOnRevertError =
-                            if (valueOnRevert.isBlank()) "Settings value on revert is blank" else ""
+                                valueOnLaunchError =
+                                    if (valueOnLaunch.isBlank()) "Settings value on launch is blank" else ""
 
-                        if (labelError.isBlank() && keyError.isBlank() && valueOnLaunchError.isBlank() && valueOnRevertError.isBlank()) {
-                            viewModel.onEvent(
-                                AddSettingsDialogEvent.AddSettings(
-                                    packageName = packageName,
-                                    selectedRadioOptionIndex = selectedRadioOptionIndex,
-                                    label = label,
-                                    key = key,
-                                    valueOnLaunch = valueOnLaunch,
-                                    valueOnRevert = valueOnRevert
-                                )
-                            )
-                        }
-                    })
+                                valueOnRevertError =
+                                    if (valueOnRevert.isBlank()) "Settings value on revert is blank" else ""
+
+                                if (labelError.isBlank() && keyError.isBlank() && valueOnLaunchError.isBlank() && valueOnRevertError.isBlank()) {
+                                    viewModel.onEvent(
+                                        AddSettingsDialogEvent.AddSettings(
+                                            packageName = packageName,
+                                            selectedRadioOptionIndex = selectedRadioOptionIndex,
+                                            label = label,
+                                            key = key,
+                                            valueOnLaunch = valueOnLaunch,
+                                            valueOnRevert = valueOnRevert
+                                        )
+                                    )
+                                }
+                            })
 }
 
+@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
 @Composable
-private fun StatelessScreen(
+internal fun AddSettingsDialogScreen(
     modifier: Modifier = Modifier,
     selectedRadioOptionIndex: () -> Int,
+    selectedRadioOptionIndexError: () -> String,
     key: () -> String,
     label: () -> String,
     valueOnLaunch: () -> String,
@@ -172,6 +182,17 @@ private fun StatelessScreen(
 
                 Spacer(modifier = Modifier.height(10.dp))
 
+                if (selectedRadioOptionIndexError().isNotBlank()) {
+                    Text(
+                        modifier = Modifier
+                            .padding(horizontal = 5.dp)
+                            .testTag(":appsettings:dialog:selectedRadioOptionIndexError"),
+                        text = selectedRadioOptionIndexError(),
+                        color = MaterialTheme.colorScheme.error,
+                        style = MaterialTheme.typography.bodySmall
+                    )
+                }
+
                 Column(Modifier.selectableGroup()) {
                     listOf("System", "Secure", "Global").forEachIndexed { index, text ->
                         Row(
@@ -211,7 +232,10 @@ private fun StatelessScreen(
                     },
                     isError = labelError().isNotBlank(),
                     supportingText = {
-                        if (labelError().isNotBlank()) Text(text = labelError())
+                        if (labelError().isNotBlank()) Text(
+                            text = labelError(),
+                            modifier = Modifier.testTag(":appsettings:dialog:labelError")
+                        )
                     },
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
@@ -228,7 +252,10 @@ private fun StatelessScreen(
                     },
                     isError = keyError().isNotBlank(),
                     supportingText = {
-                        if (keyError().isNotBlank()) Text(text = keyError())
+                        if (keyError().isNotBlank()) Text(
+                            text = keyError(),
+                            modifier = Modifier.testTag(":appsettings:dialog:keyError")
+                        )
                     },
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
@@ -245,7 +272,10 @@ private fun StatelessScreen(
                     },
                     isError = valueOnLaunchError().isNotBlank(),
                     supportingText = {
-                        if (valueOnLaunchError().isNotBlank()) Text(text = valueOnLaunchError())
+                        if (valueOnLaunchError().isNotBlank()) Text(
+                            text = valueOnLaunchError(),
+                            modifier = Modifier.testTag(":appsettings:dialog:valueOnLaunchError")
+                        )
                     },
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
@@ -262,7 +292,10 @@ private fun StatelessScreen(
                     },
                     isError = valueOnRevertError().isNotBlank(),
                     supportingText = {
-                        if (valueOnRevertError().isNotBlank()) Text(text = valueOnRevertError())
+                        if (valueOnRevertError().isNotBlank()) Text(
+                            text = valueOnRevertError(),
+                            modifier = Modifier.testTag(":appsettings:dialog:valueOnRevertError")
+                        )
                     },
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
@@ -280,7 +313,9 @@ private fun StatelessScreen(
                     }
                     TextButton(
                         onClick = { onAddSettings() },
-                        modifier = Modifier.padding(5.dp),
+                        modifier = Modifier
+                            .padding(5.dp)
+                            .testTag(":appsettings:dialog:add"),
                     ) {
                         Text("Add")
                     }
