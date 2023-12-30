@@ -11,10 +11,10 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.core.designsystem.theme.GetoTheme
-import com.feature.userapplist.navigation.USER_APP_LIST_NAVIGATION_ROUTE
-import com.feature.userapplist.navigation.userAppListScreen
-import com.feature.userappsettings.navigation.navigateToUserAppSettings
-import com.feature.userappsettings.navigation.userAppSettingsScreen
+import com.feature.applist.navigation.APP_LIST_NAVIGATION_ROUTE
+import com.feature.applist.navigation.appListScreen
+import com.feature.appsettings.navigation.navigateToUserAppSettings
+import com.feature.appsettings.navigation.userAppSettingsScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -31,9 +31,9 @@ class MainActivity : ComponentActivity() {
 
                     NavHost(
                         navController = navController,
-                        startDestination = USER_APP_LIST_NAVIGATION_ROUTE
+                        startDestination = APP_LIST_NAVIGATION_ROUTE
                     ) {
-                        userAppListScreen(onItemClick = { packageName, appName ->
+                        appListScreen(onItemClick = { packageName, appName ->
                             navController.navigateToUserAppSettings(
                                 packageName = packageName, appName = appName
                             )

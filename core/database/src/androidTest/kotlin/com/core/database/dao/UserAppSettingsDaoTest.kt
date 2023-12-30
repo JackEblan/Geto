@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import com.core.database.AppDatabase
-import com.core.database.model.UserAppSettingsItemEntity
+import com.core.database.model.AppSettingsItemEntity
 import com.core.model.SettingsType
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
@@ -14,7 +14,7 @@ import org.junit.Test
 import kotlin.test.assertEquals
 
 class UserAppSettingsDaoTest {
-    private lateinit var userAppSettingsDao: UserAppSettingsDao
+    private lateinit var appSettingsDao: AppSettingsDao
 
     private lateinit var db: AppDatabase
 
@@ -27,7 +27,7 @@ class UserAppSettingsDaoTest {
             AppDatabase::class.java,
         ).build()
 
-        userAppSettingsDao = db.userAppSettingsDao
+        appSettingsDao = db.appSettingsDao
     }
 
     @After
@@ -37,7 +37,7 @@ class UserAppSettingsDaoTest {
 
     @Test
     fun userAppSettingsDao_filters_items_by_package_name() = runTest {
-        val userAppSettingsItemEntity1 = UserAppSettingsItemEntity(
+        val appSettingsItemEntity1 = AppSettingsItemEntity(
             enabled = false,
             settingsType = SettingsType.GLOBAL,
             packageName = "com.android.geto",
@@ -47,7 +47,7 @@ class UserAppSettingsDaoTest {
             valueOnRevert = "1"
         )
 
-        val userAppSettingsItemEntity2 = UserAppSettingsItemEntity(
+        val appSettingsItemEntity2 = AppSettingsItemEntity(
             enabled = false,
             settingsType = SettingsType.GLOBAL,
             packageName = "com.android.settings",
@@ -57,12 +57,12 @@ class UserAppSettingsDaoTest {
             valueOnRevert = "1"
         )
 
-        userAppSettingsDao.upsert(userAppSettingsItemEntity1)
+        appSettingsDao.upsert(appSettingsItemEntity1)
 
-        userAppSettingsDao.upsert(userAppSettingsItemEntity2)
+        appSettingsDao.upsert(appSettingsItemEntity2)
 
         val userAppSettingsList =
-            userAppSettingsDao.getUserAppSettingsList("com.android.geto").first()
+            appSettingsDao.getUserAppSettingsList("com.android.geto").first()
 
         assertEquals(expected = listOf("com.android.geto"),
                      actual = userAppSettingsList.map { it.packageName })

@@ -2,10 +2,10 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "494b5f7f4c262fbda10d585ac1cd19db",
+    "identityHash": "c7e5779604edc843a1b9e281e73375ad",
     "entities": [
       {
-        "tableName": "UserAppSettingsItemEntity",
+        "tableName": "AppSettingsItemEntity",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`enabled` INTEGER NOT NULL, `settingsType` TEXT NOT NULL, `packageName` TEXT NOT NULL, `label` TEXT NOT NULL, `key` TEXT NOT NULL, `valueOnLaunch` TEXT NOT NULL, `valueOnRevert` TEXT NOT NULL, PRIMARY KEY(`key`))",
         "fields": [
           {
@@ -64,7 +64,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '494b5f7f4c262fbda10d585ac1cd19db')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c7e5779604edc843a1b9e281e73375ad')"
     ]
   }
 }

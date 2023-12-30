@@ -1,7 +1,7 @@
 package com.core.database.di
 
 import com.core.database.AppDatabase
-import com.core.database.dao.UserAppSettingsDao
+import com.core.database.dao.AppSettingsDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,6 +14,6 @@ object DaoModule {
 
     @Provides
     @Singleton
-    fun userAppSettingsDao(appDatabase: AppDatabase): UserAppSettingsDao =
-        appDatabase.userAppSettingsDao
+    fun appSettingsDao(appDatabase: AppDatabase): AppSettingsDao =
+        appDatabase.appSettingsDao
 }

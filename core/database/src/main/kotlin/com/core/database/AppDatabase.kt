@@ -2,15 +2,15 @@ package com.core.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.core.database.dao.UserAppSettingsDao
-import com.core.database.model.UserAppSettingsItemEntity
+import com.core.database.dao.AppSettingsDao
+import com.core.database.model.AppSettingsItemEntity
 
 @Database(
-    entities = [UserAppSettingsItemEntity::class], version = 1, exportSchema = true
+    entities = [AppSettingsItemEntity::class], version = 1, exportSchema = true
 )
 abstract class AppDatabase : RoomDatabase() {
 
-    abstract val userAppSettingsDao: UserAppSettingsDao
+    abstract val appSettingsDao: AppSettingsDao
 
     companion object {
         const val DATABASE_NAME = "Geto.db"

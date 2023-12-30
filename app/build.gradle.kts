@@ -38,8 +38,8 @@ android {
 dependencies {
     implementation(projects.core.common)
     implementation(projects.core.designsystem)
-    implementation(projects.feature.userapplist)
-    implementation(projects.feature.userappsettings)
+    implementation(projects.feature.applist)
+    implementation(projects.feature.appsettings)
 
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.compose)

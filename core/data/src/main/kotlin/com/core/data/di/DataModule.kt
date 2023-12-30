@@ -2,12 +2,12 @@ package com.core.data.di
 
 import com.core.data.repository.PackageRepositoryImpl
 import com.core.data.repository.SettingsRepositoryImpl
-import com.core.data.repository.UserAppSettingsRepositoryImpl
+import com.core.data.repository.AppSettingsRepositoryImpl
 import com.core.domain.util.WriteSecureSettingsPermission
 import com.core.data.util.SystemSecureGlobalWriteSecureSettingsPermission
 import com.core.domain.repository.PackageRepository
 import com.core.domain.repository.SettingsRepository
-import com.core.domain.repository.UserAppSettingsRepository
+import com.core.domain.repository.AppSettingsRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -20,7 +20,7 @@ interface DataModule {
 
     @Binds
     @Singleton
-    fun userAppSettingsRepository(impl: UserAppSettingsRepositoryImpl): UserAppSettingsRepository
+    fun userAppSettingsRepository(impl: AppSettingsRepositoryImpl): AppSettingsRepository
 
     @Binds
     @Singleton
