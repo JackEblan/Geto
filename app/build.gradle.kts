@@ -9,8 +9,8 @@ android {
 
     defaultConfig {
         applicationId = "com.android.geto"
-        versionCode = 6
-        versionName = "1.6"
+        versionCode = 7
+        versionName = "1.7"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
