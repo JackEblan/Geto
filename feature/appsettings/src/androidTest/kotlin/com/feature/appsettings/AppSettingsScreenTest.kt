@@ -50,7 +50,7 @@ class AppSettingsScreenTest {
     }
 
     @Test
-    fun state_empty_shows_LazyColumn() {
+    fun state_success_shows_LazyColumn() {
         composeTestRule.setContent {
             AppSettingsScreen(snackbarHostState = { SnackbarHostState() },
                               appName = { "Geto" },
