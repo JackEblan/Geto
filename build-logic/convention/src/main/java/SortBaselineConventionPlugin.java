@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 @SuppressWarnings("KotlinInternalInJava")
@@ -28,7 +29,7 @@ public class SortBaselineConventionPlugin implements Plugin<Project> {
                                 ArtProfileSerializer version = ArtProfileSerializer.valueOf("METADATA_0_0_2");
                                 ArtProfile profile = ArtProfileKt.ArtProfile(file);
                                 assert profile != null;
-                                ArrayList<DexFile> keys = new ArrayList<>(profile.getProfileData().keySet());
+                                List<DexFile> keys = new ArrayList<>(profile.getProfileData().keySet());
                                 Map<DexFile, DexFileData> sortedData = new LinkedHashMap<>();
                                 keys.sort(DexFile.Companion);
                                 keys.forEach(key -> sortedData.put(key, profile.getProfileData().get(key)));
