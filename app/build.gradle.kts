@@ -54,3 +54,5 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
 }
+
+apply(from = "fix-profm.gradle")
