@@ -78,7 +78,7 @@ gradlePlugin {
             implementationClass = "JvmLibraryConventionPlugin"
         }
 
-        create("baselineConventionPlugin") {
+        create("sortBaselineConventionPlugin") {
             id = "com.android.geto.sortBaseline"
             implementationClass = "SortBaselineConventionPlugin"
         }
