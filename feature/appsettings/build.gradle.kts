@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.com.android.geto.feature)
-    alias(libs.plugins.com.android.geto.library.compose)
-    alias(libs.plugins.com.android.geto.library.jacoco)
+    alias(libs.plugins.com.android.geto.libraryCompose)
+    alias(libs.plugins.com.android.geto.libraryJacoco)
 }
 
 android {

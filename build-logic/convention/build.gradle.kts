@@ -2,6 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     `kotlin-dsl`
+    `java-gradle-plugin`
 }
 
 group = "com.android.geto.buildlogic"
@@ -38,7 +39,7 @@ gradlePlugin {
         }
 
         register("androidApplicationCompose") {
-            id = "com.android.geto.application.compose"
+            id = "com.android.geto.applicationCompose"
             implementationClass = "AndroidApplicationComposeConventionPlugin"
         }
 
@@ -48,12 +49,12 @@ gradlePlugin {
         }
 
         register("androidLibraryJacoco") {
-            id = "com.android.geto.library.jacoco"
+            id = "com.android.geto.libraryJacoco"
             implementationClass = "AndroidLibraryJacocoConventionPlugin"
         }
 
         register("androidLibraryCompose") {
-            id = "com.android.geto.library.compose"
+            id = "com.android.geto.libraryCompose"
             implementationClass = "AndroidLibraryComposeConventionPlugin"
         }
 
@@ -73,8 +74,13 @@ gradlePlugin {
         }
 
         register("jvmLibrary") {
-            id = "com.android.geto.jvm.library"
+            id = "com.android.geto.jvmLibrary"
             implementationClass = "JvmLibraryConventionPlugin"
+        }
+
+        create("baselineConventionPlugin") {
+            id = "com.android.geto.sortBaseline"
+            implementationClass = "SortBaselineConventionPlugin"
         }
     }
 }

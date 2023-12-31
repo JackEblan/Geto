@@ -1,6 +1,6 @@
 plugins {
     alias(libs.plugins.com.android.geto.library)
-    alias(libs.plugins.com.android.geto.library.jacoco)
+    alias(libs.plugins.com.android.geto.libraryJacoco)
     alias(libs.plugins.com.android.geto.hilt)
 }
 

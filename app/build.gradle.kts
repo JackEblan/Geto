@@ -1,7 +1,8 @@
 plugins {
     alias(libs.plugins.com.android.geto.application)
-    alias(libs.plugins.com.android.geto.application.compose)
+    alias(libs.plugins.com.android.geto.applicationCompose)
     alias(libs.plugins.com.android.geto.hilt)
+    alias(libs.plugins.com.android.geto.sortBaseline)
 }
 
 android {
@@ -54,5 +55,3 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
 }
-
-apply(from = "fix-profm.gradle")
