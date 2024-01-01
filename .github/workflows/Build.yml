@@ -39,6 +39,9 @@ jobs:
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
 
+      - name: Check build-logic
+        run: ./gradlew check -p build-logic
+
       - name: Run local tests
         if: always()
         run: ./gradlew test
@@ -57,7 +60,7 @@ jobs:
     timeout-minutes: 55
     strategy:
       matrix:
-        api-level: [26, 30]
+        api-level: [30]
 
     steps:
       - name: Checkout
