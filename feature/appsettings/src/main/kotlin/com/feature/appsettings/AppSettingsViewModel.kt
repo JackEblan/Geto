@@ -6,8 +6,8 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.core.domain.repository.AppSettingsRepository
-import com.core.domain.repository.SettingsRepository
-import com.core.domain.usecase.ValidateSettingsList
+import com.core.domain.usecase.ApplyAppSettingsUseCase
+import com.core.domain.usecase.RevertAppSettingsUseCase
 import com.feature.appsettings.navigation.NAV_KEY_APP_NAME
 import com.feature.appsettings.navigation.NAV_KEY_PACKAGE_NAME
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,7 +25,8 @@ class AppSettingsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val appSettingsRepository: AppSettingsRepository,
     private val packageManager: PackageManager,
-    private val validateSettingsList: ValidateSettingsList
+    private val applyAppSettingsUseCase: ApplyAppSettingsUseCase,
+    private val revertAppSettingsUseCase: RevertAppSettingsUseCase
 ) : ViewModel() {
     private var _showSnackBar = MutableStateFlow<String?>(null)
 
@@ -56,7 +57,7 @@ class AppSettingsViewModel @Inject constructor(
         when (event) {
             is AppSettingsEvent.OnLaunchApp -> {
                 viewModelScope.launch {
-                    validateSettingsList(event.appSettingsList).onSuccess {
+                    applyAppSettingsUseCase(event.appSettingsList).onSuccess {
                         val appIntent = packageManager.getLaunchIntentForPackage(packageName)
                         _launchAppIntent.value = appIntent
                     }.onFailure {
@@ -67,7 +68,7 @@ class AppSettingsViewModel @Inject constructor(
 
             is AppSettingsEvent.OnRevertSettings -> {
                 viewModelScope.launch {
-                    validateSettingsList(event.appSettingsList).onSuccess {
+                    revertAppSettingsUseCase(event.appSettingsList).onSuccess {
                         _showSnackBar.value = it
                     }.onFailure {
                         _showSnackBar.value = it.message

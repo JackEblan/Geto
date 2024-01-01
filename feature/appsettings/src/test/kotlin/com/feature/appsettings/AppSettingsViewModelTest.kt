@@ -3,7 +3,8 @@ package com.feature.appsettings
 import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.lifecycle.SavedStateHandle
-import com.core.domain.usecase.ValidateSettingsList
+import com.core.domain.usecase.ApplyAppSettingsUseCase
+import com.core.domain.usecase.RevertAppSettingsUseCase
 import com.core.testing.data.appSettingsTestData
 import com.core.testing.repository.TestAppSettingsRepository
 import com.core.testing.repository.TestSettingsRepository
@@ -61,7 +62,8 @@ class AppSettingsViewModelTest {
             savedStateHandle = savedStateHandle,
             appSettingsRepository = appSettingsRepository,
             packageManager = mockPackageManager,
-            validateSettingsList = ValidateSettingsList(settingsRepository)
+            applyAppSettingsUseCase = ApplyAppSettingsUseCase(settingsRepository),
+            revertAppSettingsUseCase = RevertAppSettingsUseCase(settingsRepository)
         )
     }
 

@@ -9,8 +9,8 @@ import org.junit.Test
 import kotlin.test.assertIs
 import kotlin.test.assertTrue
 
-class ValidateSettingsListTest {
-    private lateinit var validateSettingsList: ValidateSettingsList
+class RevertAppSettingsUseCaseTest {
+    private lateinit var revertAppSettingsUseCase: RevertAppSettingsUseCase
 
     private lateinit var settingsRepository: TestSettingsRepository
 
@@ -18,20 +18,20 @@ class ValidateSettingsListTest {
     fun setup() {
         settingsRepository = TestSettingsRepository()
 
-        validateSettingsList = ValidateSettingsList(settingsRepository)
+        revertAppSettingsUseCase = RevertAppSettingsUseCase(settingsRepository)
     }
 
     @Test
     fun `When appSettingsList is empty or no enabled items then return Result failure`() = runTest {
-        val result = validateSettingsList(emptyList())
+        val result = revertAppSettingsUseCase(emptyList())
 
         assertTrue { result.isFailure }
     }
 
     @Test
-    fun `When appSettingsList is not empty or atleast one item is enabled then return settingsRepository applySettings as Result`() =
+    fun `When appSettingsList is not empty or atleast one item is enabled then return settingsRepository revertSettings as Result`() =
         runTest {
-            val result = validateSettingsList(appSettingsTestData)
+            val result = revertAppSettingsUseCase(appSettingsTestData)
 
             assertIs<Result<SettingsResultMessage>>(result)
         }
