@@ -40,7 +40,7 @@ jobs:
         uses: gradle/gradle-build-action@v2
 
       - name: Check build-logic
-        run: ./gradlew check -p build-logic
+        run: chmod +x ./gradlew check -p build-logic
 
       - name: Run local tests
         if: always()
