@@ -5,8 +5,9 @@ import android.content.pm.PackageManager
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.core.domain.repository.SettingsRepository
 import com.core.domain.repository.AppSettingsRepository
+import com.core.domain.repository.SettingsRepository
+import com.core.domain.usecase.ValidateSettingsList
 import com.feature.appsettings.navigation.NAV_KEY_APP_NAME
 import com.feature.appsettings.navigation.NAV_KEY_PACKAGE_NAME
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,8 +24,8 @@ import javax.inject.Inject
 class AppSettingsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val appSettingsRepository: AppSettingsRepository,
-    private val settingsRepository: SettingsRepository,
-    private val packageManager: PackageManager
+    private val packageManager: PackageManager,
+    private val validateSettingsList: ValidateSettingsList
 ) : ViewModel() {
     private var _showSnackBar = MutableStateFlow<String?>(null)
 
@@ -54,16 +55,8 @@ class AppSettingsViewModel @Inject constructor(
     fun onEvent(event: AppSettingsEvent) {
         when (event) {
             is AppSettingsEvent.OnLaunchApp -> {
-                if (event.userAppSettingsList.isEmpty()) {
-                    viewModelScope.launch {
-                        _showSnackBar.value = "Please enable at least one of your settings"
-                    }
-
-                    return
-                }
-
                 viewModelScope.launch {
-                    settingsRepository.applySettings(event.userAppSettingsList).onSuccess {
+                    validateSettingsList(event.appSettingsList).onSuccess {
                         val appIntent = packageManager.getLaunchIntentForPackage(packageName)
                         _launchAppIntent.value = appIntent
                     }.onFailure {
@@ -73,17 +66,8 @@ class AppSettingsViewModel @Inject constructor(
             }
 
             is AppSettingsEvent.OnRevertSettings -> {
-
-                if (event.userAppSettingsList.isEmpty()) {
-                    viewModelScope.launch {
-                        _showSnackBar.value = "Please enable at least one of your settings"
-                    }
-
-                    return
-                }
-
                 viewModelScope.launch {
-                    settingsRepository.revertSettings(event.userAppSettingsList).onSuccess {
+                    validateSettingsList(event.appSettingsList).onSuccess {
                         _showSnackBar.value = it
                     }.onFailure {
                         _showSnackBar.value = it.message
@@ -108,12 +92,11 @@ class AppSettingsViewModel @Inject constructor(
 
             is AppSettingsEvent.OnDeleteAppSettingsItem -> {
                 viewModelScope.launch {
-                    appSettingsRepository.deleteUserAppSettings(event.userAppSettings)
-                        .onSuccess {
-                            _showSnackBar.value = it
-                        }.onFailure {
-                            _showSnackBar.value = it.localizedMessage
-                        }
+                    appSettingsRepository.deleteUserAppSettings(event.userAppSettings).onSuccess {
+                        _showSnackBar.value = it
+                    }.onFailure {
+                        _showSnackBar.value = it.localizedMessage
+                    }
                 }
             }
         }

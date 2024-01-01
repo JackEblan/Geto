@@ -3,10 +3,10 @@ package com.feature.appsettings
 import com.core.model.UserAppSettings
 
 sealed class AppSettingsEvent {
-    data class OnRevertSettings(val userAppSettingsList: List<UserAppSettings>) :
+    data class OnRevertSettings(val appSettingsList: List<UserAppSettings>) :
         AppSettingsEvent()
 
-    data class OnLaunchApp(val userAppSettingsList: List<UserAppSettings>) :
+    data class OnLaunchApp(val appSettingsList: List<UserAppSettings>) :
         AppSettingsEvent()
 
     data class OnAppSettingsItemCheckBoxChange(

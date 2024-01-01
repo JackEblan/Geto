@@ -1,6 +1,6 @@
 package com.core.testing.repository
 
-import com.core.domain.repository.ApplySettingsResultMessage
+import com.core.domain.repository.SettingsResultMessage
 import com.core.domain.repository.SettingsRepository
 import com.core.model.SettingsType
 import com.core.model.UserAppSettings
@@ -11,7 +11,7 @@ class TestSettingsRepository : SettingsRepository {
 
     private val settingsMap = ConcurrentHashMap<String, String>()
 
-    override suspend fun applySettings(userAppSettingsList: List<UserAppSettings>): Result<ApplySettingsResultMessage> {
+    override suspend fun applySettings(userAppSettingsList: List<UserAppSettings>): Result<SettingsResultMessage> {
         return runCatching {
             userAppSettingsList.filter { it.enabled }.forEach { userAppSettingsItem ->
 
@@ -34,7 +34,7 @@ class TestSettingsRepository : SettingsRepository {
         }
     }
 
-    override suspend fun revertSettings(userAppSettingsList: List<UserAppSettings>): Result<ApplySettingsResultMessage> {
+    override suspend fun revertSettings(userAppSettingsList: List<UserAppSettings>): Result<SettingsResultMessage> {
         return runCatching {
             userAppSettingsList.filter { it.enabled }.forEach { userAppSettingsItem ->
 

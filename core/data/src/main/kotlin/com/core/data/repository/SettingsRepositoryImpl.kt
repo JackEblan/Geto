@@ -1,7 +1,7 @@
 package com.core.data.repository
 
 import com.core.domain.util.WriteSecureSettingsPermission
-import com.core.domain.repository.ApplySettingsResultMessage
+import com.core.domain.repository.SettingsResultMessage
 import com.core.domain.repository.SettingsRepository
 import com.core.model.UserAppSettings
 import javax.inject.Inject
@@ -9,7 +9,7 @@ import javax.inject.Inject
 class SettingsRepositoryImpl @Inject constructor(
     private val writeSecureSettingsPermission: WriteSecureSettingsPermission
 ) : SettingsRepository {
-    override suspend fun applySettings(userAppSettingsList: List<UserAppSettings>): Result<ApplySettingsResultMessage> {
+    override suspend fun applySettings(userAppSettingsList: List<UserAppSettings>): Result<SettingsResultMessage> {
         return runCatching {
             userAppSettingsList.filter { it.enabled }.forEach { userAppSettingsItem ->
                 val successful = writeSecureSettingsPermission.canWriteSecureSettings(
@@ -24,7 +24,7 @@ class SettingsRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun revertSettings(userAppSettingsList: List<UserAppSettings>): Result<ApplySettingsResultMessage> {
+    override suspend fun revertSettings(userAppSettingsList: List<UserAppSettings>): Result<SettingsResultMessage> {
         return runCatching {
             userAppSettingsList.filter { it.enabled }.forEach { userAppSettingsItem ->
                 val successful = writeSecureSettingsPermission.canWriteSecureSettings(

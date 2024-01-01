@@ -25,8 +25,7 @@ class AppListViewModel @Inject constructor(
         when (event) {
             AppListEvent.GetAppList -> {
                 viewModelScope.launch {
-                    _uIState.value =
-                        AppListUiState.Success(packageRepository.getNonSystemApps())
+                    _uIState.value = AppListUiState.Success(packageRepository.getNonSystemApps())
                 }
             }
         }

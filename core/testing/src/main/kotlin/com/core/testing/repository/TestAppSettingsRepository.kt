@@ -1,6 +1,6 @@
 package com.core.testing.repository
 
-import com.core.domain.repository.AddUserAppSettingsResultMessage
+import com.core.domain.repository.AppSettingsResultMessage
 import com.core.domain.repository.AppSettingsRepository
 import com.core.model.UserAppSettings
 import kotlinx.coroutines.channels.BufferOverflow
@@ -14,7 +14,7 @@ class TestAppSettingsRepository : AppSettingsRepository {
         replay = 1, extraBufferCapacity = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST
     )
 
-    override suspend fun upsertUserAppSettings(userAppSettings: UserAppSettings): Result<AddUserAppSettingsResultMessage> {
+    override suspend fun upsertUserAppSettings(userAppSettings: UserAppSettings): Result<AppSettingsResultMessage> {
         val updatedList =
             _userAppSettingsFlow.replayCache.lastOrNull()?.toMutableList() ?: mutableListOf()
 
@@ -25,7 +25,7 @@ class TestAppSettingsRepository : AppSettingsRepository {
         return Result.success("${userAppSettings.label} saved successfully")
     }
 
-    override suspend fun upsertUserAppSettingsEnabled(userAppSettings: UserAppSettings): Result<AddUserAppSettingsResultMessage> {
+    override suspend fun upsertUserAppSettingsEnabled(userAppSettings: UserAppSettings): Result<AppSettingsResultMessage> {
         val updatedList =
             _userAppSettingsFlow.replayCache.lastOrNull()?.toMutableList() ?: mutableListOf()
 
@@ -42,7 +42,7 @@ class TestAppSettingsRepository : AppSettingsRepository {
         return Result.success("${userAppSettings.label} ${if (userAppSettings.enabled) "enabled" else "disabled"}")
     }
 
-    override suspend fun deleteUserAppSettings(userAppSettings: UserAppSettings): Result<AddUserAppSettingsResultMessage> {
+    override suspend fun deleteUserAppSettings(userAppSettings: UserAppSettings): Result<AppSettingsResultMessage> {
         val updatedList =
             _userAppSettingsFlow.replayCache.lastOrNull()?.toMutableList() ?: mutableListOf()
 

@@ -3,9 +3,10 @@ package com.feature.appsettings
 import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.lifecycle.SavedStateHandle
+import com.core.domain.usecase.ValidateSettingsList
 import com.core.testing.data.appSettingsTestData
-import com.core.testing.repository.TestSettingsRepository
 import com.core.testing.repository.TestAppSettingsRepository
+import com.core.testing.repository.TestSettingsRepository
 import com.core.testing.util.MainDispatcherRule
 import com.feature.appsettings.navigation.NAV_KEY_APP_NAME
 import com.feature.appsettings.navigation.NAV_KEY_PACKAGE_NAME
@@ -59,8 +60,8 @@ class AppSettingsViewModelTest {
         viewModel = AppSettingsViewModel(
             savedStateHandle = savedStateHandle,
             appSettingsRepository = appSettingsRepository,
-            settingsRepository = settingsRepository,
-            packageManager = mockPackageManager
+            packageManager = mockPackageManager,
+            validateSettingsList = ValidateSettingsList(settingsRepository)
         )
     }
 

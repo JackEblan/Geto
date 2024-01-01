@@ -5,7 +5,7 @@ import com.core.common.GetoDispatchers.Default
 import com.core.common.GetoDispatchers.IO
 import com.core.database.dao.AppSettingsDao
 import com.core.database.model.AppSettingsItemEntity
-import com.core.domain.repository.AddUserAppSettingsResultMessage
+import com.core.domain.repository.AppSettingsResultMessage
 import com.core.domain.repository.AppSettingsRepository
 import com.core.model.UserAppSettings
 import kotlinx.coroutines.CoroutineDispatcher
@@ -20,7 +20,7 @@ class AppSettingsRepositoryImpl @Inject constructor(
     private val appSettingsDao: AppSettingsDao
 ) : AppSettingsRepository {
 
-    override suspend fun upsertUserAppSettings(userAppSettings: UserAppSettings): Result<AddUserAppSettingsResultMessage> {
+    override suspend fun upsertUserAppSettings(userAppSettings: UserAppSettings): Result<AppSettingsResultMessage> {
         return runCatching {
             withContext(ioDispatcher) {
                 appSettingsDao.upsert(userAppSettings.toSettingsItemEntity())
@@ -29,7 +29,7 @@ class AppSettingsRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun upsertUserAppSettingsEnabled(userAppSettings: UserAppSettings): Result<AddUserAppSettingsResultMessage> {
+    override suspend fun upsertUserAppSettingsEnabled(userAppSettings: UserAppSettings): Result<AppSettingsResultMessage> {
         return runCatching {
             withContext(ioDispatcher) {
                 val enabled = if (userAppSettings.enabled) "enabled" else "disabled"
@@ -39,7 +39,7 @@ class AppSettingsRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun deleteUserAppSettings(userAppSettings: UserAppSettings): Result<AddUserAppSettingsResultMessage> {
+    override suspend fun deleteUserAppSettings(userAppSettings: UserAppSettings): Result<AppSettingsResultMessage> {
         return runCatching {
             withContext(ioDispatcher) {
                 appSettingsDao.delete(userAppSettings.toSettingsItemEntity())
