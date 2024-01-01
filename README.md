@@ -18,6 +18,11 @@ once the Developer Options is modified. So basically, you have to grant this app
 
 # Installation
 
+Download the Geto APK
+  from [releases](https://github.com/JackEblan/Geto/releases). You
+  can also download the app-debug APK
+  from [GitHub actions](https://github.com/JackEblan/Geto/actions).
+
 This guide is only for Android 11+ without using computer.
 For Android 10 and below, [This Youtube tutorial](https://www.youtube.com/watch?v=k4k297qItY4) can
 help you.
