@@ -1,0 +1,99 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test_and_apk:
+    name: "Local tests and APKs"
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate Gradle Wrapper
+        uses: gradle/wrapper-validation-action@v1
+
+      - name: Copy CI gradle.properties
+        run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: 17
+
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+
+      - name: Check build-logic
+        run: ./gradlew check -p build-logic
+
+      - name: Run local tests
+        if: always()
+        run: ./gradlew test
+
+      - name: Build debug
+        run: ./gradlew :app:assembleDebug
+
+      - name: Upload debug build output (APK)
+        uses: actions/upload-artifact@v4
+        with:
+          name: APK
+          path: 'app/build/outputs/apk/debug/*.apk'
+
+  androidTest:
+    runs-on: macOS-latest # enables hardware acceleration in the virtual machine
+    timeout-minutes: 55
+    strategy:
+      matrix:
+        api-level: [26, 30]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Copy CI gradle.properties
+        run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: 17
+
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+
+      - name: Build projects before running emulator
+        run: ./gradlew packageDebug packageDebugAndroidTest
+
+      - name: Run instrumentation tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api-level }}
+          arch: x86_64
+          disable-animations: true
+          disk-size: 6000M
+          heap-size: 600M
+          script: ./gradlew connectedAndroidTest
+
+      - name: Upload test reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports-${{ matrix.api-level }}
+          path: '**/build/reports/androidTests'
