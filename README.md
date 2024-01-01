@@ -4,7 +4,7 @@ Geto
 ==================
 [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" height="80">](https://f-droid.org/en/packages/com.android.geto/)
 
-### The architecture and modularization of this project are inspired by [Now in Android](https://github.com/android/nowinandroid)
+The architecture and modularization of this project are inspired by [Now in Android](https://github.com/android/nowinandroid)
 
 The only reason I created this app is to turn off that damn Developer Options when using a banking
 app. The only annoying thing about it is you have to go to the Settings app. When you turn off that
