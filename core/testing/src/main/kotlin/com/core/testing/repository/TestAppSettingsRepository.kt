@@ -1,7 +1,7 @@
 package com.core.testing.repository
 
-import com.core.domain.repository.AppSettingsResultMessage
 import com.core.domain.repository.AppSettingsRepository
+import com.core.domain.repository.AppSettingsResultMessage
 import com.core.model.UserAppSettings
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow

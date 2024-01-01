@@ -3,6 +3,8 @@ package com.feature.appsettings
 import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.lifecycle.SavedStateHandle
+import com.core.domain.repository.SettingsRepository.Companion.REVERT_SETTINGS_SUCCESS_MESSAGE
+import com.core.domain.repository.SettingsRepository.Companion.TEST_PERMISSION_NOT_GRANTED_FAILED_MESSAGE
 import com.core.domain.usecase.ApplyAppSettingsUseCase
 import com.core.domain.usecase.RevertAppSettingsUseCase
 import com.core.testing.data.appSettingsTestData
@@ -101,14 +103,16 @@ class AppSettingsViewModelTest {
         }
 
     @Test
-    fun `OnEvent LaunchApp then return Result failure with show snackbar message as not null`() =
+    fun `OnEvent LaunchApp then return Result failure with show error snackbar message`() =
         runTest {
             settingsRepository.setWriteSecureSettings(false)
 
             viewModel.onEvent(AppSettingsEvent.OnLaunchApp(appSettingsTestData))
 
-            assertTrue { viewModel.showSnackBar.value != null }
-
+            assertEquals(
+                expected = TEST_PERMISSION_NOT_GRANTED_FAILED_MESSAGE,
+                actual = viewModel.showSnackBar.value
+            )
         }
 
     @Test
@@ -118,19 +122,23 @@ class AppSettingsViewModelTest {
 
             viewModel.onEvent(AppSettingsEvent.OnRevertSettings(appSettingsTestData))
 
-            assertTrue { viewModel.showSnackBar.value != null }
+            assertEquals(
+                expected = REVERT_SETTINGS_SUCCESS_MESSAGE, actual = viewModel.showSnackBar.value
+            )
 
         }
 
     @Test
-    fun `OnEvent OnRevertSettings then return Result failure with show snackbar message as not null`() =
+    fun `OnEvent OnRevertSettings then return Result failure with show error snackbar message`() =
         runTest {
             settingsRepository.setWriteSecureSettings(false)
 
             viewModel.onEvent(AppSettingsEvent.OnLaunchApp(appSettingsTestData))
 
-            assertTrue { viewModel.showSnackBar.value != null }
-
+            assertEquals(
+                expected = TEST_PERMISSION_NOT_GRANTED_FAILED_MESSAGE,
+                actual = viewModel.showSnackBar.value
+            )
         }
 
     @Test

@@ -1,6 +1,6 @@
 package com.core.domain.usecase
 
-import com.core.domain.repository.SettingsResultMessage
+import com.core.domain.repository.RevertSettingsResultMessage
 import com.core.testing.data.appSettingsTestData
 import com.core.testing.repository.TestSettingsRepository
 import kotlinx.coroutines.test.runTest
@@ -33,6 +33,6 @@ class RevertAppSettingsUseCaseTest {
         runTest {
             val result = revertAppSettingsUseCase(appSettingsTestData)
 
-            assertIs<Result<SettingsResultMessage>>(result)
+            assertIs<Result<RevertSettingsResultMessage>>(result)
         }
 }
