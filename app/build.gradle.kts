@@ -2,7 +2,6 @@ plugins {
     alias(libs.plugins.com.android.geto.application)
     alias(libs.plugins.com.android.geto.applicationCompose)
     alias(libs.plugins.com.android.geto.hilt)
-    alias(libs.plugins.com.android.geto.sortBaseline)
 }
 
 android {

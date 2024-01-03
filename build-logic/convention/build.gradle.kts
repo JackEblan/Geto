@@ -2,7 +2,6 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     `kotlin-dsl`
-    `java-gradle-plugin`
 }
 
 group = "com.android.geto.buildlogic"
@@ -76,11 +75,6 @@ gradlePlugin {
         register("jvmLibrary") {
             id = "com.android.geto.jvmLibrary"
             implementationClass = "JvmLibraryConventionPlugin"
-        }
-
-        create("sortBaselineConventionPlugin") {
-            id = "com.android.geto.sortBaseline"
-            implementationClass = "SortBaselineConventionPlugin"
         }
     }
 }
