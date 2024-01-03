@@ -1,5 +1,6 @@
 package com.core.testing.util
 
+import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
@@ -17,5 +18,9 @@ class TestPackageManagerWrapper : PackageManagerWrapper {
 
     override fun getApplicationIcon(applicationInfo: ApplicationInfo): Drawable {
         return ColorDrawable()
+    }
+
+    override fun getLaunchIntentForPackage(packageName: String): Intent? {
+        return Intent()
     }
 }

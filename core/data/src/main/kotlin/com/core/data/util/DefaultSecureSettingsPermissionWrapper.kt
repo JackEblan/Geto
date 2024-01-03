@@ -7,9 +7,9 @@ import androidx.core.database.getStringOrNull
 import com.core.common.Dispatcher
 import com.core.common.GetoDispatchers
 import com.core.domain.util.SecureSettingsPermissionWrapper
+import com.core.model.AppSettings
 import com.core.model.SecureSettings
 import com.core.model.SettingsType
-import com.core.model.AppSettings
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -75,7 +75,7 @@ class DefaultSecureSettingsPermissionWrapper @Inject constructor(
                     SecureSettings(
                         id = id, name = name, value = value
                     )
-                }.toList().sortedBy { it.name }
+                }.sortedBy { it.name }.toList()
             } ?: emptyList()
         }
     }

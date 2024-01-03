@@ -1,5 +1,6 @@
 package com.core.data.util
 
+import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
@@ -18,5 +19,9 @@ class DefaultPackageManagerWrapper @Inject constructor(private val packageManage
 
     override fun getApplicationIcon(applicationInfo: ApplicationInfo): Drawable {
         return packageManager.getApplicationIcon(applicationInfo.packageName)
+    }
+
+    override fun getLaunchIntentForPackage(packageName: String): Intent? {
+        return packageManager.getLaunchIntentForPackage(packageName)
     }
 }

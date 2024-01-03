@@ -1,13 +1,13 @@
 package com.feature.appsettings
 
 import android.content.Intent
-import android.content.pm.PackageManager
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.core.domain.repository.AppSettingsRepository
 import com.core.domain.usecase.ApplyAppSettingsUseCase
 import com.core.domain.usecase.RevertAppSettingsUseCase
+import com.core.domain.util.PackageManagerWrapper
 import com.feature.appsettings.navigation.NAV_KEY_APP_NAME
 import com.feature.appsettings.navigation.NAV_KEY_PACKAGE_NAME
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,7 +24,7 @@ import javax.inject.Inject
 class AppSettingsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val appSettingsRepository: AppSettingsRepository,
-    private val packageManager: PackageManager,
+    private val packageManagerWrapper: PackageManagerWrapper,
     private val applyAppSettingsUseCase: ApplyAppSettingsUseCase,
     private val revertAppSettingsUseCase: RevertAppSettingsUseCase
 ) : ViewModel() {
@@ -58,7 +58,7 @@ class AppSettingsViewModel @Inject constructor(
             is AppSettingsEvent.OnLaunchApp -> {
                 viewModelScope.launch {
                     applyAppSettingsUseCase(event.appSettingsList).onSuccess {
-                        val appIntent = packageManager.getLaunchIntentForPackage(packageName)
+                        val appIntent = packageManagerWrapper.getLaunchIntentForPackage(packageName)
                         _launchAppIntent.value = appIntent
                     }.onFailure {
                         _showSnackBar.value = it.message
@@ -78,8 +78,7 @@ class AppSettingsViewModel @Inject constructor(
 
             is AppSettingsEvent.OnAppSettingsItemCheckBoxChange -> {
                 viewModelScope.launch {
-                    val updatedUserAppSettingsItem =
-                        event.appSettings.copy(enabled = event.checked)
+                    val updatedUserAppSettingsItem = event.appSettings.copy(enabled = event.checked)
 
                     appSettingsRepository.upsertUserAppSettingsEnabled(
                         updatedUserAppSettingsItem

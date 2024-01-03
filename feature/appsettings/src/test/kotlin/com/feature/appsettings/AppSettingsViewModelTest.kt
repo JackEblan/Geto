@@ -1,7 +1,5 @@
 package com.feature.appsettings
 
-import android.content.Intent
-import android.content.pm.PackageManager
 import androidx.lifecycle.SavedStateHandle
 import com.core.domain.repository.SettingsRepository.Companion.REVERT_SETTINGS_SUCCESS_MESSAGE
 import com.core.domain.repository.SettingsRepository.Companion.TEST_PERMISSION_NOT_GRANTED_FAILED_MESSAGE
@@ -13,6 +11,7 @@ import com.core.testing.data.packageNameTest
 import com.core.testing.repository.TestAppSettingsRepository
 import com.core.testing.repository.TestSettingsRepository
 import com.core.testing.util.MainDispatcherRule
+import com.core.testing.util.TestPackageManagerWrapper
 import com.feature.appsettings.navigation.NAV_KEY_APP_NAME
 import com.feature.appsettings.navigation.NAV_KEY_PACKAGE_NAME
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -23,23 +22,18 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 import org.mockito.Mock
-import org.mockito.Mockito.`when`
-import org.mockito.junit.MockitoJUnitRunner
-import org.mockito.kotlin.mock
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
 import kotlin.test.assertTrue
 
 @OptIn(ExperimentalCoroutinesApi::class)
-@RunWith(MockitoJUnitRunner::class)
 class AppSettingsViewModelTest {
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
     @Mock
-    private lateinit var mockPackageManager: PackageManager
+    private lateinit var packageManagerWrapper: TestPackageManagerWrapper
 
     private lateinit var appSettingsRepository: TestAppSettingsRepository
 
@@ -56,7 +50,7 @@ class AppSettingsViewModelTest {
 
         settingsRepository = TestSettingsRepository()
 
-        mockPackageManager = mock()
+        packageManagerWrapper = TestPackageManagerWrapper()
 
         savedStateHandle[NAV_KEY_PACKAGE_NAME] = packageNameTest
 
@@ -65,7 +59,7 @@ class AppSettingsViewModelTest {
         viewModel = AppSettingsViewModel(
             savedStateHandle = savedStateHandle,
             appSettingsRepository = appSettingsRepository,
-            packageManager = mockPackageManager,
+            packageManagerWrapper = TestPackageManagerWrapper(),
             applyAppSettingsUseCase = ApplyAppSettingsUseCase(settingsRepository),
             revertAppSettingsUseCase = RevertAppSettingsUseCase(settingsRepository)
         )
@@ -93,10 +87,6 @@ class AppSettingsViewModelTest {
     fun `OnEvent LaunchApp then return Result success with launch app intent as not null`() =
         runTest {
             settingsRepository.setWriteSecureSettings(true)
-
-            `when`(mockPackageManager.getLaunchIntentForPackage(appSettingsTestData.first().packageName)).thenReturn(
-                Intent()
-            )
 
             viewModel.onEvent(AppSettingsEvent.OnLaunchApp(appSettingsTestData))
 
