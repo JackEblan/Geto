@@ -13,8 +13,10 @@ import androidx.navigation.compose.rememberNavController
 import com.core.designsystem.theme.GetoTheme
 import com.feature.applist.navigation.APP_LIST_NAVIGATION_ROUTE
 import com.feature.applist.navigation.appListScreen
-import com.feature.appsettings.navigation.navigateToUserAppSettings
-import com.feature.appsettings.navigation.userAppSettingsScreen
+import com.feature.appsettings.navigation.appSettingsScreen
+import com.feature.appsettings.navigation.navigateToAppSettings
+import com.feature.securesettingslist.navigation.navigateToSecureSettingsList
+import com.feature.securesettingslist.navigation.secureSettingsListScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -30,16 +32,21 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
 
                     NavHost(
-                        navController = navController,
-                        startDestination = APP_LIST_NAVIGATION_ROUTE
+                        navController = navController, startDestination = APP_LIST_NAVIGATION_ROUTE
                     ) {
                         appListScreen(onItemClick = { packageName, appName ->
-                            navController.navigateToUserAppSettings(
+                            navController.navigateToAppSettings(
                                 packageName = packageName, appName = appName
                             )
+                        }, onSecureSettingsClick = {
+                            navController.navigateToSecureSettingsList()
                         })
 
-                        userAppSettingsScreen(onArrowBackClick = {
+                        appSettingsScreen(onArrowBackClick = {
+                            navController.popBackStack()
+                        })
+
+                        secureSettingsListScreen(onNavigationIconClick = {
                             navController.popBackStack()
                         })
                     }

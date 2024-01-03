@@ -13,13 +13,15 @@ class AppListViewModelTest {
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
-    private val testPackageRepository = TestPackageRepository()
+    private lateinit var packageRepository: TestPackageRepository
 
     private lateinit var viewModel: AppListViewModel
 
     @Before
     fun setup() {
-        viewModel = AppListViewModel(testPackageRepository)
+        packageRepository = TestPackageRepository()
+
+        viewModel = AppListViewModel(packageRepository)
     }
 
     @Test

@@ -1,5 +1,7 @@
 package com.core.domain.repository
 
+import com.core.model.SecureSettings
+import com.core.model.SettingsType
 import com.core.model.UserAppSettings
 
 typealias ApplySettingsResultMessage = String
@@ -11,6 +13,8 @@ interface SettingsRepository {
     suspend fun applySettings(userAppSettingsList: List<UserAppSettings>): Result<ApplySettingsResultMessage>
 
     suspend fun revertSettings(userAppSettingsList: List<UserAppSettings>): Result<RevertSettingsResultMessage>
+
+    suspend fun getSecureSettings(settingsType: SettingsType): Result<List<SecureSettings>>
 
     companion object {
         const val APPLY_SETTINGS_SUCCESS_MESSAGE = "Settings applied"

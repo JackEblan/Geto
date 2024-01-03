@@ -48,7 +48,7 @@ import kotlinx.coroutines.launch
 internal fun AppSettingsRoute(
     modifier: Modifier = Modifier,
     viewModel: AppSettingsViewModel = hiltViewModel(),
-    onArrowBackClick: () -> Unit
+    onNavigationIconClick: () -> Unit
 ) {
     val context = LocalContext.current
 
@@ -87,7 +87,7 @@ internal fun AppSettingsRoute(
                       appName = { viewModel.appName },
                       uIState = { uIState },
                       onNavigationIconClick = {
-                              onArrowBackClick()
+                              onNavigationIconClick()
                           },
                       onRevertSettingsIconClick = {
                               viewModel.onEvent(

@@ -5,23 +5,24 @@ import android.content.pm.PackageManager
 import com.core.common.Dispatcher
 import com.core.common.GetoDispatchers.IO
 import com.core.domain.repository.PackageRepository
+import com.core.domain.util.PackageManagerWrapper
 import com.core.model.NonSystemApp
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class PackageRepositoryImpl @Inject constructor(
-    private val packageManager: PackageManager,
+class DefaultPackageRepository @Inject constructor(
+    private val packageManagerWrapper: PackageManagerWrapper,
     @Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher
 ) : PackageRepository {
     override suspend fun getNonSystemApps(): List<NonSystemApp> {
         return withContext(ioDispatcher) {
-            packageManager.getInstalledApplications(PackageManager.GET_META_DATA)
+            packageManagerWrapper.getInstalledApplications()
                 .filter { (it.flags and ApplicationInfo.FLAG_SYSTEM) == 0 }.map {
-                    val label = packageManager.getApplicationLabel(it).toString()
+                    val label = packageManagerWrapper.getApplicationLabel(it)
 
                     val icon = try {
-                        packageManager.getApplicationIcon(it.packageName)
+                        packageManagerWrapper.getApplicationIcon(it)
                     } catch (e: PackageManager.NameNotFoundException) {
                         null
                     }

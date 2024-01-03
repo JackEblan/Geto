@@ -3,20 +3,18 @@ package com.core.data.repository
 import com.core.domain.repository.SettingsRepository
 import com.core.model.SettingsType
 import com.core.model.UserAppSettings
-import com.core.testing.util.TestWriteSecureSettingsPermission
+import com.core.testing.util.TestSecureSettingsPermissionWrapper
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
-import kotlin.test.assertFails
-import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
 class SettingsRepositoryTest {
 
     private val testDispatcher = StandardTestDispatcher()
 
-    private lateinit var writeSecureSettingsPermission: TestWriteSecureSettingsPermission
+    private lateinit var secureSettingsPermissionWrapper: TestSecureSettingsPermissionWrapper
 
     private lateinit var subject: SettingsRepository
 
@@ -24,14 +22,14 @@ class SettingsRepositoryTest {
 
     @Before
     fun setup() {
-        writeSecureSettingsPermission = TestWriteSecureSettingsPermission()
+        secureSettingsPermissionWrapper = TestSecureSettingsPermissionWrapper()
 
-        subject = SettingsRepositoryImpl(writeSecureSettingsPermission)
+        subject = DefaultSettingsRepository(secureSettingsPermissionWrapper)
     }
 
     @Test
     fun `Apply Global settings return Result success`() = runTest(testDispatcher) {
-        writeSecureSettingsPermission.setWriteSecureSettings(true)
+        secureSettingsPermissionWrapper.setWriteSecureSettings(true)
 
         val userAppSettings = UserAppSettings(
             enabled = true,
@@ -52,7 +50,7 @@ class SettingsRepositoryTest {
 
     @Test
     fun `Apply Secure settings return Result success`() = runTest(testDispatcher) {
-        writeSecureSettingsPermission.setWriteSecureSettings(true)
+        secureSettingsPermissionWrapper.setWriteSecureSettings(true)
 
         val userAppSettings = UserAppSettings(
             enabled = true,
@@ -73,7 +71,7 @@ class SettingsRepositoryTest {
 
     @Test
     fun `Apply System settings return Result success`() = runTest(testDispatcher) {
-        writeSecureSettingsPermission.setWriteSecureSettings(true)
+        secureSettingsPermissionWrapper.setWriteSecureSettings(true)
 
         val userAppSettings = UserAppSettings(
             enabled = true,
@@ -94,7 +92,7 @@ class SettingsRepositoryTest {
 
     @Test
     fun `Revert Global settings return Result success`() = runTest(testDispatcher) {
-        writeSecureSettingsPermission.setWriteSecureSettings(true)
+        secureSettingsPermissionWrapper.setWriteSecureSettings(true)
 
         val userAppSettings = UserAppSettings(
             enabled = true,
@@ -115,7 +113,7 @@ class SettingsRepositoryTest {
 
     @Test
     fun `Revert Secure settings return Result success`() = runTest(testDispatcher) {
-        writeSecureSettingsPermission.setWriteSecureSettings(true)
+        secureSettingsPermissionWrapper.setWriteSecureSettings(true)
 
         val userAppSettings = UserAppSettings(
             enabled = true,
@@ -136,7 +134,7 @@ class SettingsRepositoryTest {
 
     @Test
     fun `Revert System settings return Result success`() = runTest(testDispatcher) {
-        writeSecureSettingsPermission.setWriteSecureSettings(true)
+        secureSettingsPermissionWrapper.setWriteSecureSettings(true)
 
         val userAppSettings = UserAppSettings(
             enabled = true,
@@ -157,7 +155,7 @@ class SettingsRepositoryTest {
 
     @Test
     fun `Apply Global settings return Result failure`() = runTest(testDispatcher) {
-        writeSecureSettingsPermission.setWriteSecureSettings(false)
+        secureSettingsPermissionWrapper.setWriteSecureSettings(false)
 
         val userAppSettings = UserAppSettings(
             enabled = true,
@@ -178,7 +176,7 @@ class SettingsRepositoryTest {
 
     @Test
     fun `Apply Secure settings return Result failure`() = runTest(testDispatcher) {
-        writeSecureSettingsPermission.setWriteSecureSettings(false)
+        secureSettingsPermissionWrapper.setWriteSecureSettings(false)
 
         val userAppSettings = UserAppSettings(
             enabled = true,
@@ -199,7 +197,7 @@ class SettingsRepositoryTest {
 
     @Test
     fun `Apply System settings return Result failure`() = runTest(testDispatcher) {
-        writeSecureSettingsPermission.setWriteSecureSettings(false)
+        secureSettingsPermissionWrapper.setWriteSecureSettings(false)
 
         val userAppSettings = UserAppSettings(
             enabled = true,
@@ -220,7 +218,7 @@ class SettingsRepositoryTest {
 
     @Test
     fun `Revert Global settings return Result failure`() = runTest(testDispatcher) {
-        writeSecureSettingsPermission.setWriteSecureSettings(false)
+        secureSettingsPermissionWrapper.setWriteSecureSettings(false)
 
         val userAppSettings = UserAppSettings(
             enabled = true,
@@ -241,7 +239,7 @@ class SettingsRepositoryTest {
 
     @Test
     fun `Revert Secure settings return Result failure`() = runTest(testDispatcher) {
-        writeSecureSettingsPermission.setWriteSecureSettings(false)
+        secureSettingsPermissionWrapper.setWriteSecureSettings(false)
 
         val userAppSettings = UserAppSettings(
             enabled = true,
@@ -262,7 +260,7 @@ class SettingsRepositoryTest {
 
     @Test
     fun `Revert System settings return Result failure`() = runTest(testDispatcher) {
-        writeSecureSettingsPermission.setWriteSecureSettings(false)
+        secureSettingsPermissionWrapper.setWriteSecureSettings(false)
 
         val userAppSettings = UserAppSettings(
             enabled = true,

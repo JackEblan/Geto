@@ -14,7 +14,10 @@ class AppListScreenTest {
     @Test
     fun state_loading_shows_LoadingPlaceHolderScreen() {
         composeTestRule.setContent {
-            AppListScreen(uIState = { AppListUiState.Loading }, onItemClick = { _, _ -> })
+            AppListScreen(
+                uIState = { AppListUiState.Loading },
+                onItemClick = { _, _ -> },
+                onSecureSettingsClick = {})
         }
 
         composeTestRule.onNodeWithTag("userapplist:loading").assertExists()
@@ -24,7 +27,8 @@ class AppListScreenTest {
     fun state_success_shows_LazyList() {
         composeTestRule.setContent {
             AppListScreen(uIState = { AppListUiState.Success(nonSystemAppsTestData) },
-                          onItemClick = { _, _ -> })
+                          onItemClick = { _, _ -> },
+                          onSecureSettingsClick = {})
         }
 
         composeTestRule.onNodeWithTag("userapplist:applist").assertExists()

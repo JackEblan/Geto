@@ -8,7 +8,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -25,12 +29,16 @@ import com.core.ui.LoadingPlaceHolderScreen
 internal fun AppListRoute(
     modifier: Modifier = Modifier,
     viewModel: AppListViewModel = hiltViewModel(),
-    onItemClick: (String, String) -> Unit
+    onItemClick: (String, String) -> Unit,
+    onSecureSettingsClick: () -> Unit
 ) {
     val uIState = viewModel.uIState.collectAsStateWithLifecycle().value
 
     AppListScreen(
-        modifier = modifier, uIState = { uIState }, onItemClick = onItemClick
+        modifier = modifier,
+        uIState = { uIState },
+        onItemClick = onItemClick,
+        onSecureSettingsClick = onSecureSettingsClick
     )
 }
 
@@ -40,11 +48,19 @@ internal fun AppListRoute(
 internal fun AppListScreen(
     modifier: Modifier = Modifier,
     uIState: () -> AppListUiState,
-    onItemClick: (String, String) -> Unit
+    onItemClick: (String, String) -> Unit,
+    onSecureSettingsClick: () -> Unit
 ) {
     Scaffold(modifier = modifier.fillMaxSize(), topBar = {
         TopAppBar(title = {
             Text(text = "Geto")
+        }, actions = {
+            IconButton(onClick = onSecureSettingsClick) {
+                Icon(
+                    imageVector = Icons.Default.Settings,
+                    contentDescription = "Secure settings icon"
+                )
+            }
         })
     }) { innerPadding ->
         Box(
@@ -60,9 +76,11 @@ internal fun AppListScreen(
                 )
 
                 is AppListUiState.Success -> {
-                    LazyColumn(modifier = Modifier
-                        .fillMaxSize()
-                        .testTag("userapplist:applist")) {
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .testTag("userapplist:applist")
+                    ) {
                         items(uIStateParam.nonSystemAppList) { nonSystemApp ->
                             AppItem(modifier = Modifier
                                 .fillMaxWidth()

@@ -1,5 +1,6 @@
 package com.android.geto.di
 
+import android.content.ClipboardManager
 import android.content.ContentResolver
 import android.content.Context
 import android.content.pm.PackageManager
@@ -22,4 +23,9 @@ object AppModule {
     @Singleton
     fun packageManager(@ApplicationContext context: Context): PackageManager =
         context.packageManager
+
+    @Provides
+    @Singleton
+    fun clipboardManager(@ApplicationContext context: Context): ClipboardManager =
+        context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
 }

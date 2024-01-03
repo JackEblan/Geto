@@ -6,8 +6,10 @@ import com.core.domain.repository.SettingsRepository
 import com.core.domain.repository.SettingsRepository.Companion.APPLY_SETTINGS_SUCCESS_MESSAGE
 import com.core.domain.repository.SettingsRepository.Companion.REVERT_SETTINGS_SUCCESS_MESSAGE
 import com.core.domain.repository.SettingsRepository.Companion.TEST_PERMISSION_NOT_GRANTED_FAILED_MESSAGE
+import com.core.model.SecureSettings
 import com.core.model.SettingsType
 import com.core.model.UserAppSettings
+import com.core.testing.data.secureSettingsTestData
 import java.util.concurrent.ConcurrentHashMap
 
 class TestSettingsRepository : SettingsRepository {
@@ -62,6 +64,12 @@ class TestSettingsRepository : SettingsRepository {
 
             REVERT_SETTINGS_SUCCESS_MESSAGE
 
+        }
+    }
+
+    override suspend fun getSecureSettings(settingsType: SettingsType): Result<List<SecureSettings>> {
+        return runCatching {
+            secureSettingsTestData
         }
     }
 

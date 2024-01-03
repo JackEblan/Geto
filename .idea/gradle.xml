@@ -36,6 +36,7 @@
             <option value="$PROJECT_DIR$/feature" />
             <option value="$PROJECT_DIR$/feature/applist" />
             <option value="$PROJECT_DIR$/feature/appsettings" />
+            <option value="$PROJECT_DIR$/feature/securesettingslist" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />

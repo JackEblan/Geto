@@ -70,12 +70,12 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun `Initial data state is UserAppSettingsUiState Loading`() = runTest {
+    fun `Initial ui state is UserAppSettingsUiState Loading`() = runTest {
         assertEquals(expected = AppSettingsUiState.Loading, actual = viewModel.uIState.value)
     }
 
     @Test
-    fun `Data state is UserAppSettingsUiState Success when data is not empty`() = runTest {
+    fun `Ui state is UserAppSettingsUiState Success when data is not empty`() = runTest {
         val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.uIState.collect() }
 
         appSettingsRepository.sendUserAppSettings(appSettingsTestData)
