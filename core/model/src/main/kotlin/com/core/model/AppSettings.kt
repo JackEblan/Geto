@@ -1,6 +1,6 @@
 package com.core.model
 
-data class UserAppSettings(
+data class AppSettings(
     val enabled: Boolean,
     val settingsType: SettingsType,
     val packageName: String,

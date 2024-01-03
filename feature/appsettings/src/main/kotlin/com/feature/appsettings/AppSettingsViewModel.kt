@@ -79,7 +79,7 @@ class AppSettingsViewModel @Inject constructor(
             is AppSettingsEvent.OnAppSettingsItemCheckBoxChange -> {
                 viewModelScope.launch {
                     val updatedUserAppSettingsItem =
-                        event.userAppSettings.copy(enabled = event.checked)
+                        event.appSettings.copy(enabled = event.checked)
 
                     appSettingsRepository.upsertUserAppSettingsEnabled(
                         updatedUserAppSettingsItem
@@ -93,7 +93,7 @@ class AppSettingsViewModel @Inject constructor(
 
             is AppSettingsEvent.OnDeleteAppSettingsItem -> {
                 viewModelScope.launch {
-                    appSettingsRepository.deleteUserAppSettings(event.userAppSettings).onSuccess {
+                    appSettingsRepository.deleteUserAppSettings(event.appSettings).onSuccess {
                         _showSnackBar.value = it
                     }.onFailure {
                         _showSnackBar.value = it.localizedMessage

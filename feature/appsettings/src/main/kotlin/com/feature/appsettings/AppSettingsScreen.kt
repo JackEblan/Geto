@@ -37,7 +37,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.core.model.UserAppSettings
+import com.core.model.AppSettings
 import com.core.ui.EmptyListPlaceHolderScreen
 import com.core.ui.LoadingPlaceHolderScreen
 import com.core.ui.UserAppSettingsItem
@@ -92,7 +92,7 @@ internal fun AppSettingsRoute(
                       onRevertSettingsIconClick = {
                               viewModel.onEvent(
                                   AppSettingsEvent.OnRevertSettings(
-                                      if (uIState is AppSettingsUiState.Success) uIState.userAppSettingsList
+                                      if (uIState is AppSettingsUiState.Success) uIState.appSettingsList
                                       else emptyList()
                                   )
                               )
@@ -100,7 +100,7 @@ internal fun AppSettingsRoute(
                       onUserAppSettingsItemCheckBoxChange = { checked, userAppSettingsItem ->
                               viewModel.onEvent(
                                   AppSettingsEvent.OnAppSettingsItemCheckBoxChange(
-                                      checked = checked, userAppSettings = userAppSettingsItem
+                                      checked = checked, appSettings = userAppSettingsItem
                                   )
                               )
                           },
@@ -111,7 +111,7 @@ internal fun AppSettingsRoute(
                       onLaunchApp = {
                               viewModel.onEvent(
                                   AppSettingsEvent.OnLaunchApp(
-                                      if (uIState is AppSettingsUiState.Success) uIState.userAppSettingsList
+                                      if (uIState is AppSettingsUiState.Success) uIState.appSettingsList
                                       else emptyList()
                                   )
                               )
@@ -138,8 +138,8 @@ internal fun AppSettingsScreen(
     uIState: () -> AppSettingsUiState,
     onNavigationIconClick: () -> Unit,
     onRevertSettingsIconClick: () -> Unit,
-    onUserAppSettingsItemCheckBoxChange: (Boolean, UserAppSettings) -> Unit,
-    onDeleteUserAppSettingsItem: (UserAppSettings) -> Unit,
+    onUserAppSettingsItemCheckBoxChange: (Boolean, AppSettings) -> Unit,
+    onDeleteUserAppSettingsItem: (AppSettings) -> Unit,
     onAddUserAppSettingsClick: () -> Unit,
     onLaunchApp: () -> Unit
 ) {
@@ -212,7 +212,7 @@ internal fun AppSettingsScreen(
                             .fillMaxSize()
                             .testTag("userappsettings:success")
                     ) {
-                        items(uIStateParam.userAppSettingsList) { userAppSettings ->
+                        items(uIStateParam.appSettingsList) { userAppSettings ->
                             UserAppSettingsItem(enabled = { userAppSettings.enabled },
                                                 label = { userAppSettings.label },
                                                 settingsTypeLabel = { userAppSettings.settingsType.label },

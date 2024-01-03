@@ -1,17 +1,17 @@
 package com.core.domain.repository
 
-import com.core.model.UserAppSettings
+import com.core.model.AppSettings
 import kotlinx.coroutines.flow.Flow
 
 typealias AppSettingsResultMessage = String
 
 interface AppSettingsRepository {
 
-    suspend fun upsertUserAppSettings(userAppSettings: UserAppSettings): Result<AppSettingsResultMessage>
+    suspend fun upsertUserAppSettings(appSettings: AppSettings): Result<AppSettingsResultMessage>
 
-    suspend fun upsertUserAppSettingsEnabled(userAppSettings: UserAppSettings): Result<AppSettingsResultMessage>
+    suspend fun upsertUserAppSettingsEnabled(appSettings: AppSettings): Result<AppSettingsResultMessage>
 
-    suspend fun deleteUserAppSettings(userAppSettings: UserAppSettings): Result<AppSettingsResultMessage>
+    suspend fun deleteUserAppSettings(appSettings: AppSettings): Result<AppSettingsResultMessage>
 
-    fun getUserAppSettingsList(packageName: String): Flow<List<UserAppSettings>>
+    fun getUserAppSettingsList(packageName: String): Flow<List<AppSettings>>
 }

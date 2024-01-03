@@ -8,7 +8,7 @@ import com.core.domain.repository.SettingsRepository.Companion.REVERT_SETTINGS_S
 import com.core.domain.repository.SettingsRepository.Companion.TEST_PERMISSION_NOT_GRANTED_FAILED_MESSAGE
 import com.core.model.SecureSettings
 import com.core.model.SettingsType
-import com.core.model.UserAppSettings
+import com.core.model.AppSettings
 import com.core.testing.data.secureSettingsTestData
 import java.util.concurrent.ConcurrentHashMap
 
@@ -17,9 +17,9 @@ class TestSettingsRepository : SettingsRepository {
 
     private val settingsMap = ConcurrentHashMap<String, String>()
 
-    override suspend fun applySettings(userAppSettingsList: List<UserAppSettings>): Result<ApplySettingsResultMessage> {
+    override suspend fun applySettings(appSettingsList: List<AppSettings>): Result<ApplySettingsResultMessage> {
         return runCatching {
-            userAppSettingsList.filter { it.enabled }.forEach { userAppSettingsItem ->
+            appSettingsList.filter { it.enabled }.forEach { userAppSettingsItem ->
 
                 if (!writeSecureSettings) throw SecurityException(
                     TEST_PERMISSION_NOT_GRANTED_FAILED_MESSAGE
@@ -42,9 +42,9 @@ class TestSettingsRepository : SettingsRepository {
         }
     }
 
-    override suspend fun revertSettings(userAppSettingsList: List<UserAppSettings>): Result<RevertSettingsResultMessage> {
+    override suspend fun revertSettings(appSettingsList: List<AppSettings>): Result<RevertSettingsResultMessage> {
         return runCatching {
-            userAppSettingsList.filter { it.enabled }.forEach { userAppSettingsItem ->
+            appSettingsList.filter { it.enabled }.forEach { userAppSettingsItem ->
 
                 if (!writeSecureSettings) throw SecurityException(
                     TEST_PERMISSION_NOT_GRANTED_FAILED_MESSAGE

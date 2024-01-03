@@ -130,7 +130,8 @@ internal fun SecureSettingsScreen(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         RadioButton(
-                            selected = (index == selectedRadioOptionIndex()), onClick = null
+                            selected = (index == selectedRadioOptionIndex()), onClick = null,
+                            modifier = Modifier.testTag("securesettingslist:rb$index")
                         )
                         Text(
                             text = text,

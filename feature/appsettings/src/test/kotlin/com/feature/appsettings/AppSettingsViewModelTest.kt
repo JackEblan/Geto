@@ -7,7 +7,9 @@ import com.core.domain.repository.SettingsRepository.Companion.REVERT_SETTINGS_S
 import com.core.domain.repository.SettingsRepository.Companion.TEST_PERMISSION_NOT_GRANTED_FAILED_MESSAGE
 import com.core.domain.usecase.ApplyAppSettingsUseCase
 import com.core.domain.usecase.RevertAppSettingsUseCase
+import com.core.testing.data.appNameTest
 import com.core.testing.data.appSettingsTestData
+import com.core.testing.data.packageNameTest
 import com.core.testing.repository.TestAppSettingsRepository
 import com.core.testing.repository.TestSettingsRepository
 import com.core.testing.util.MainDispatcherRule
@@ -56,9 +58,9 @@ class AppSettingsViewModelTest {
 
         mockPackageManager = mock()
 
-        savedStateHandle[NAV_KEY_PACKAGE_NAME] = "test"
+        savedStateHandle[NAV_KEY_PACKAGE_NAME] = packageNameTest
 
-        savedStateHandle[NAV_KEY_APP_NAME] = "test"
+        savedStateHandle[NAV_KEY_APP_NAME] = appNameTest
 
         viewModel = AppSettingsViewModel(
             savedStateHandle = savedStateHandle,
@@ -146,7 +148,7 @@ class AppSettingsViewModelTest {
         runTest {
             viewModel.onEvent(
                 AppSettingsEvent.OnAppSettingsItemCheckBoxChange(
-                    checked = true, userAppSettings = appSettingsTestData.first()
+                    checked = true, appSettings = appSettingsTestData.first()
                 )
             )
 

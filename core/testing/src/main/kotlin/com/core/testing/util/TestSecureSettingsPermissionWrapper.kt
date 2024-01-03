@@ -3,14 +3,14 @@ package com.core.testing.util
 import com.core.domain.util.SecureSettingsPermissionWrapper
 import com.core.model.SecureSettings
 import com.core.model.SettingsType
-import com.core.model.UserAppSettings
+import com.core.model.AppSettings
 import com.core.testing.data.secureSettingsTestData
 
 class TestSecureSettingsPermissionWrapper : SecureSettingsPermissionWrapper {
 
     private var writeSecureSettings = false
     override suspend fun canWriteSecureSettings(
-        userAppSettings: UserAppSettings, valueSelector: (UserAppSettings) -> String
+        appSettings: AppSettings, valueSelector: (AppSettings) -> String
     ): Boolean {
         return writeSecureSettings
     }

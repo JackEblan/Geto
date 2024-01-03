@@ -2,7 +2,6 @@ package com.feature.securesettingslist
 
 import androidx.activity.ComponentActivity
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.ui.test.assertTextContains
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
@@ -54,7 +53,7 @@ class SecureSettingsScreenTest {
                                  uIState = { SecureSettingsUiState.Success(secureSettingsTestData) })
         }
 
-        composeTestRule.onNodeWithText("name").performClick()
+        composeTestRule.onNodeWithText("${secureSettingsTestData.first().name}").performClick()
 
         composeTestRule.onNodeWithTag("securesettingslist:snackbar").assertExists()
     }

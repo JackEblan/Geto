@@ -2,7 +2,7 @@ package com.core.testing.repository
 
 import com.core.domain.repository.AppSettingsRepository
 import com.core.domain.repository.AppSettingsResultMessage
-import com.core.model.UserAppSettings
+import com.core.model.AppSettings
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -10,57 +10,57 @@ import kotlinx.coroutines.flow.filter
 
 class TestAppSettingsRepository : AppSettingsRepository {
 
-    private val _userAppSettingsFlow = MutableSharedFlow<List<UserAppSettings>>(
+    private val _AppSettingsFlow = MutableSharedFlow<List<AppSettings>>(
         replay = 1, extraBufferCapacity = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST
     )
 
-    override suspend fun upsertUserAppSettings(userAppSettings: UserAppSettings): Result<AppSettingsResultMessage> {
+    override suspend fun upsertUserAppSettings(appSettings: AppSettings): Result<AppSettingsResultMessage> {
         val updatedList =
-            _userAppSettingsFlow.replayCache.lastOrNull()?.toMutableList() ?: mutableListOf()
+            _AppSettingsFlow.replayCache.lastOrNull()?.toMutableList() ?: mutableListOf()
 
-        updatedList.add(userAppSettings)
+        updatedList.add(appSettings)
 
-        _userAppSettingsFlow.emit(updatedList)
+        _AppSettingsFlow.emit(updatedList)
 
-        return Result.success("${userAppSettings.label} saved successfully")
+        return Result.success("${appSettings.label} saved successfully")
     }
 
-    override suspend fun upsertUserAppSettingsEnabled(userAppSettings: UserAppSettings): Result<AppSettingsResultMessage> {
+    override suspend fun upsertUserAppSettingsEnabled(appSettings: AppSettings): Result<AppSettingsResultMessage> {
         val updatedList =
-            _userAppSettingsFlow.replayCache.lastOrNull()?.toMutableList() ?: mutableListOf()
+            _AppSettingsFlow.replayCache.lastOrNull()?.toMutableList() ?: mutableListOf()
 
-        val index = updatedList.indexOfFirst { it.key == userAppSettings.key }
+        val index = updatedList.indexOfFirst { it.key == appSettings.key }
 
         if (index != -1) {
-            updatedList[index] = userAppSettings
+            updatedList[index] = appSettings
         } else {
-            updatedList.add(userAppSettings)
+            updatedList.add(appSettings)
         }
 
-        _userAppSettingsFlow.emit(updatedList)
+        _AppSettingsFlow.emit(updatedList)
 
-        return Result.success("${userAppSettings.label} ${if (userAppSettings.enabled) "enabled" else "disabled"}")
+        return Result.success("${appSettings.label} ${if (appSettings.enabled) "enabled" else "disabled"}")
     }
 
-    override suspend fun deleteUserAppSettings(userAppSettings: UserAppSettings): Result<AppSettingsResultMessage> {
+    override suspend fun deleteUserAppSettings(appSettings: AppSettings): Result<AppSettingsResultMessage> {
         val updatedList =
-            _userAppSettingsFlow.replayCache.lastOrNull()?.toMutableList() ?: mutableListOf()
+            _AppSettingsFlow.replayCache.lastOrNull()?.toMutableList() ?: mutableListOf()
 
-        updatedList.removeIf { it.key == userAppSettings.key }
+        updatedList.removeIf { it.key == appSettings.key }
 
-        _userAppSettingsFlow.emit(updatedList)
+        _AppSettingsFlow.emit(updatedList)
 
-        return Result.success("${userAppSettings.label} deleted successfully")
+        return Result.success("${appSettings.label} deleted successfully")
     }
 
-    override fun getUserAppSettingsList(packageName: String): Flow<List<UserAppSettings>> {
-        return _userAppSettingsFlow.filter { it.any { setting -> setting.packageName == packageName } }
+    override fun getUserAppSettingsList(packageName: String): Flow<List<AppSettings>> {
+        return _AppSettingsFlow.filter { it.any { setting -> setting.packageName == packageName } }
     }
 
     /**
      * A test-only API to allow setting of user data directly.
      */
-    fun sendUserAppSettings(userAppSettingsList: List<UserAppSettings>) {
-        _userAppSettingsFlow.tryEmit(userAppSettingsList)
+    fun sendUserAppSettings(appSettingsList: List<AppSettings>) {
+        _AppSettingsFlow.tryEmit(appSettingsList)
     }
 }

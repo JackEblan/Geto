@@ -9,7 +9,7 @@ import com.core.common.GetoDispatchers
 import com.core.domain.util.SecureSettingsPermissionWrapper
 import com.core.model.SecureSettings
 import com.core.model.SettingsType
-import com.core.model.UserAppSettings
+import com.core.model.AppSettings
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -26,21 +26,21 @@ class DefaultSecureSettingsPermissionWrapper @Inject constructor(
     )
 
     override suspend fun canWriteSecureSettings(
-        userAppSettings: UserAppSettings,
-        valueSelector: (UserAppSettings) -> String,
+        appSettings: AppSettings,
+        valueSelector: (AppSettings) -> String,
     ): Boolean {
         return withContext(ioDispatcher) {
-            when (userAppSettings.settingsType) {
+            when (appSettings.settingsType) {
                 SettingsType.SYSTEM -> Settings.System.putString(
-                    contentResolver, userAppSettings.key, valueSelector(userAppSettings)
+                    contentResolver, appSettings.key, valueSelector(appSettings)
                 )
 
                 SettingsType.SECURE -> Settings.Secure.putString(
-                    contentResolver, userAppSettings.key, valueSelector(userAppSettings)
+                    contentResolver, appSettings.key, valueSelector(appSettings)
                 )
 
                 SettingsType.GLOBAL -> Settings.Global.putString(
-                    contentResolver, userAppSettings.key, valueSelector(userAppSettings)
+                    contentResolver, appSettings.key, valueSelector(appSettings)
                 )
             }
         }

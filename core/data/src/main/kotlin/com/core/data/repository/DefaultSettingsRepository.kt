@@ -8,17 +8,17 @@ import com.core.domain.repository.SettingsRepository.Companion.REVERT_SETTINGS_S
 import com.core.domain.util.SecureSettingsPermissionWrapper
 import com.core.model.SecureSettings
 import com.core.model.SettingsType
-import com.core.model.UserAppSettings
+import com.core.model.AppSettings
 import javax.inject.Inject
 
 class DefaultSettingsRepository @Inject constructor(
     private val secureSettingsPermissionWrapper: SecureSettingsPermissionWrapper
 ) : SettingsRepository {
-    override suspend fun applySettings(userAppSettingsList: List<UserAppSettings>): Result<ApplySettingsResultMessage> {
+    override suspend fun applySettings(appSettingsList: List<AppSettings>): Result<ApplySettingsResultMessage> {
         return runCatching {
-            userAppSettingsList.filter { it.enabled }.forEach { userAppSettingsItem ->
+            appSettingsList.filter { it.enabled }.forEach { userAppSettingsItem ->
                 val successful =
-                    secureSettingsPermissionWrapper.canWriteSecureSettings(userAppSettings = userAppSettingsItem,
+                    secureSettingsPermissionWrapper.canWriteSecureSettings(appSettings = userAppSettingsItem,
                                                                            valueSelector = { userAppSettingsItem.valueOnLaunch })
 
                 check(successful) { "${userAppSettingsItem.key} failed to apply" }
@@ -29,11 +29,11 @@ class DefaultSettingsRepository @Inject constructor(
         }
     }
 
-    override suspend fun revertSettings(userAppSettingsList: List<UserAppSettings>): Result<RevertSettingsResultMessage> {
+    override suspend fun revertSettings(appSettingsList: List<AppSettings>): Result<RevertSettingsResultMessage> {
         return runCatching {
-            userAppSettingsList.filter { it.enabled }.forEach { userAppSettingsItem ->
+            appSettingsList.filter { it.enabled }.forEach { userAppSettingsItem ->
                 val successful =
-                    secureSettingsPermissionWrapper.canWriteSecureSettings(userAppSettings = userAppSettingsItem,
+                    secureSettingsPermissionWrapper.canWriteSecureSettings(appSettings = userAppSettingsItem,
                                                                            valueSelector = { userAppSettingsItem.valueOnRevert })
 
                 check(successful) { "${userAppSettingsItem.key} failed to apply" }

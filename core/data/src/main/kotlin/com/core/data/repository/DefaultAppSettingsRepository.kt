@@ -7,7 +7,7 @@ import com.core.database.dao.AppSettingsDao
 import com.core.database.model.AppSettingsItemEntity
 import com.core.domain.repository.AppSettingsResultMessage
 import com.core.domain.repository.AppSettingsRepository
-import com.core.model.UserAppSettings
+import com.core.model.AppSettings
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -20,44 +20,44 @@ class DefaultAppSettingsRepository @Inject constructor(
     private val appSettingsDao: AppSettingsDao
 ) : AppSettingsRepository {
 
-    override suspend fun upsertUserAppSettings(userAppSettings: UserAppSettings): Result<AppSettingsResultMessage> {
+    override suspend fun upsertUserAppSettings(appSettings: AppSettings): Result<AppSettingsResultMessage> {
         return runCatching {
             withContext(ioDispatcher) {
-                appSettingsDao.upsert(userAppSettings.toSettingsItemEntity())
-                "${userAppSettings.label} saved successfully"
+                appSettingsDao.upsert(appSettings.toSettingsItemEntity())
+                "${appSettings.label} saved successfully"
             }
         }
     }
 
-    override suspend fun upsertUserAppSettingsEnabled(userAppSettings: UserAppSettings): Result<AppSettingsResultMessage> {
+    override suspend fun upsertUserAppSettingsEnabled(appSettings: AppSettings): Result<AppSettingsResultMessage> {
         return runCatching {
             withContext(ioDispatcher) {
-                val enabled = if (userAppSettings.enabled) "enabled" else "disabled"
-                appSettingsDao.upsert(userAppSettings.toSettingsItemEntity())
-                "${userAppSettings.label} $enabled"
+                val enabled = if (appSettings.enabled) "enabled" else "disabled"
+                appSettingsDao.upsert(appSettings.toSettingsItemEntity())
+                "${appSettings.label} $enabled"
             }
         }
     }
 
-    override suspend fun deleteUserAppSettings(userAppSettings: UserAppSettings): Result<AppSettingsResultMessage> {
+    override suspend fun deleteUserAppSettings(appSettings: AppSettings): Result<AppSettingsResultMessage> {
         return runCatching {
             withContext(ioDispatcher) {
-                appSettingsDao.delete(userAppSettings.toSettingsItemEntity())
-                "${userAppSettings.label} deleted successfully"
+                appSettingsDao.delete(appSettings.toSettingsItemEntity())
+                "${appSettings.label} deleted successfully"
             }
         }
     }
 
-    override fun getUserAppSettingsList(packageName: String): Flow<List<UserAppSettings>> {
+    override fun getUserAppSettingsList(packageName: String): Flow<List<AppSettings>> {
         return appSettingsDao.getUserAppSettingsList(packageName).map {
             it.toSettingsItemList()
         }
     }
 
-    private suspend fun List<AppSettingsItemEntity>.toSettingsItemList(): List<UserAppSettings> {
+    private suspend fun List<AppSettingsItemEntity>.toSettingsItemList(): List<AppSettings> {
         return withContext(defaultDispatcher) {
             map { entity ->
-                UserAppSettings(
+                AppSettings(
                     enabled = entity.enabled,
                     settingsType = entity.settingsType,
                     packageName = entity.packageName,
@@ -70,7 +70,7 @@ class DefaultAppSettingsRepository @Inject constructor(
         }
     }
 
-    private fun UserAppSettings.toSettingsItemEntity(): AppSettingsItemEntity {
+    private fun AppSettings.toSettingsItemEntity(): AppSettingsItemEntity {
         return AppSettingsItemEntity(
             enabled = enabled,
             settingsType = settingsType,
