@@ -22,7 +22,6 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.Mock
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
 import kotlin.test.assertTrue
@@ -32,7 +31,6 @@ class AppSettingsViewModelTest {
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
-    @Mock
     private lateinit var packageManagerWrapper: TestPackageManagerWrapper
 
     private lateinit var appSettingsRepository: TestAppSettingsRepository
@@ -42,7 +40,6 @@ class AppSettingsViewModelTest {
     private val savedStateHandle = SavedStateHandle()
 
     private lateinit var viewModel: AppSettingsViewModel
-
 
     @Before
     fun setup() {
