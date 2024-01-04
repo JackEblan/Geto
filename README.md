@@ -1,8 +1,19 @@
-![Geto](docs/images/geto-splash.jpg "Geto")
+<br/>
+<p align="center">
+  <a href="https://github.com/JackEblan/Geto">
+    <img src="https://github.com/JackEblan/Geto/blob/master/app/src/main/ic_launcher-playstore.png" alt="Logo" width="80" height="80">
+  </a>
 
-Geto
+<h3 align="center">Geto</h3>
+
+  <p align="center">
+    Apply settings to your apps
+  </p>
+
+  <p align="center"><a href="https://f-droid.org/en/packages/com.android.geto/"><img src="https://fdroid.gitlab.io/artwork/badge/get-it-on-en.svg" alt="Get it on F-Droid" height=80/></a></p>
+
+About The Project
 ==================
-[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" height="80">](https://f-droid.org/en/packages/com.android.geto/)
 
 The architecture and modularization of this project are inspired by [Now in Android](https://github.com/android/nowinandroid)
 
@@ -13,43 +24,44 @@ that when you modify your settings through its Shared Preferences, you won't los
 once the Developer Options is modified. So basically, you have to grant this app with **android.permission.WRITE_SECURE_SETTINGS** in order for it to modify your Settings values.
 
 ## Screenshots
-
-![Screenshot showing User App List screen, User App Settings and Add Setting Dialog](docs/images/screenshots.jpg "Screenshot showing For You screen, Interests screen and Topic detail screen")
+<pre>
+<img src="https://github.com/JackEblan/Geto/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" width="140" height="280" />  <img src="https://github.com/JackEblan/Geto/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" width="140" height="280" />  <img src="https://github.com/JackEblan/Geto/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/3.png" width="140" height="280" /> <img src="https://github.com/JackEblan/Geto/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/4.png" width="140" height="280" /> <img src="https://github.com/JackEblan/Geto/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/5.png" width="140" height="280" /> <img src="https://github.com/JackEblan/Geto/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/6.png" width="140" height="280" /> <img src="https://github.com/JackEblan/Geto/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/7.png" width="140" height="280" />
+</pre>
 
 # Installation
 
 Download the Geto APK
-  from [releases](https://github.com/JackEblan/Geto/releases). You
-  can also download the app-debug APK
-  from [GitHub actions](https://github.com/JackEblan/Geto/actions).
+from [releases](https://github.com/JackEblan/Geto/releases). You
+can also download the app-debug APK
+from [GitHub actions](https://github.com/JackEblan/Geto/actions).
 
 This guide is only for Android 11+ without using computer.
 For Android 10 and below, [This Youtube tutorial](https://www.youtube.com/watch?v=k4k297qItY4) can
 help you.
 
 1. **Install Shizuku and aShell:**
-    - Download and
-      install [Shizuku](https://play.google.com/store/apps/details?id=moe.shizuku.privileged.api&hl=en&gl=US)
-      and [aShell](https://play.google.com/store/apps/details?id=in.sunilpaulmathew.ashell&hl=en&gl=US&pli=1)
-      from the Google Play Store.
+   - Download and
+     install [Shizuku](https://play.google.com/store/apps/details?id=moe.shizuku.privileged.api&hl=en&gl=US)
+     and [aShell](https://play.google.com/store/apps/details?id=in.sunilpaulmathew.ashell&hl=en&gl=US&pli=1)
+     from the Google Play Store.
 
 2. **Set Up Shizuku:**
-    - Refer to the Shizuku documentation or follow the
-      guidelines [here](https://shizuku.rikka.app/guide/setup/) to properly configure Shizuku.
+   - Refer to the Shizuku documentation or follow the
+     guidelines [here](https://shizuku.rikka.app/guide/setup/) to properly configure Shizuku.
 
 3. **Open aShell:**
-    - Launch aShell on your device. If the app does not show any errors then Shizuku service is
-      working properly.
+   - Launch aShell on your device. If the app does not show any errors then Shizuku service is
+     working properly.
 
 4. **Grant Necessary Permissions:**
-    - In the aShell command box, enter the following command and press Enter:
-      ```bash
-      pm grant com.android.geto android.permission.WRITE_SECURE_SETTINGS
-      ```
-    - Ensure that no errors are reported during the execution of the command.
+   - In the aShell command box, enter the following command and press Enter:
+     ```bash
+     pm grant com.android.geto android.permission.WRITE_SECURE_SETTINGS
+     ```
+   - Ensure that no errors are reported during the execution of the command.
 
 5. **Start Using Geto:**
-    - If the permission is granted successfully, you can now start using Geto without any issues.
+   - If the permission is granted successfully, you can now start using Geto without any issues.
 
 # Geto Settings
 
@@ -61,12 +73,19 @@ that I can incorporate them into this list. Your contributions are appreciated!
 To apply your settings to a specific app, click **Launch App**. Remember to reset your preferences
 after exiting the app by clicking the **Refresh** button.
 
-1. **Hide developer options detection in any apps:**
-    - Type **Global**
-    - Settings label **Hide Developer Options**
-    - Settings key **development_settings_enabled**
-    - Settings value on launch **0**
-    - Settings value on revert **1**
+1. **Hide Developer Options detection in any apps:**
+   - Type `Global`
+   - Settings label `Hide Developer Options`
+   - Settings key `development_settings_enabled`
+   - Settings value on launch `0`
+   - Settings value on revert `1`
+
+2. **Hide Accessibility Settings detection in any apps:**
+   - Type `Secure`
+   - Settings label `Hide Accessibility Settings`
+   - Settings key `accessibility_enabled`
+   - Settings value on launch `0`
+   - Settings value on revert `1`
 
 # License
 
