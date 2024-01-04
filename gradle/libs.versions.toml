@@ -14,21 +14,17 @@ androidxTestExt = "1.1.5"
 androidxTestRules = "1.5.0"
 androidxTestRunner = "1.5.2"
 coil = "2.5.0"
-room = "2.6.0"
+firebaseBom = "32.7.0"
+firebaseCrashlyticsPlugin = "2.9.9"
+gmsPlugin = "4.4.0"
 hilt = "2.48.1"
 jacoco = "0.8.7"
 kotlinxCoroutines = "1.7.3"
-kotlinxImmutableCollections = "0.3.6"
 kotlinGradlePlugin = "1.9.10"
 junit4 = "4.13.2"
 ksp = "1.9.10-1.0.13"
+room = "2.6.0"
 robolectric = "4.11.1"
-mockito = "5.7.0"
-mockitoKotlin = "5.1.0"
-mockitoInline = "5.2.0"
-junit = "1.1.5"
-appcompat = "1.6.1"
-material = "1.11.0"
 
 [libraries]
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidxActivity" }
@@ -58,6 +54,9 @@ androidx-test-rules = { group = "androidx.test", name = "rules", version.ref = "
 androidx-test-runner = { group = "androidx.test", name = "runner", version.ref = "androidxTestRunner" }
 coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 dagger-compiler = { group = "com.google.dagger", name = "dagger-compiler", version.ref = "hilt" }
+firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
+firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics" }
+firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics" }
 hilt-android-gradle-plugin = { group = "com.google.dagger", name = "hilt-android-gradle-plugin", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
 hilt-android-testing = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt" }
@@ -67,10 +66,6 @@ junit-junit = { group = "junit", name = "junit", version.ref = "junit4" }
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }
 kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
-kotlinx-collections-immutable = { group = "org.jetbrains.kotlinx", name = "kotlinx-collections-immutable", version.ref = "kotlinxImmutableCollections" }
-mockito-core = { group = "org.mockito", name = "mockito-core", version.ref = "mockito" }
-mockito-kotlin = { group = "org.mockito.kotlin", name = "mockito-kotlin", version.ref = "mockitoKotlin" }
-mockito-inline = { group = "org.mockito", name = "mockito-inline", version.ref = "mockitoInline" }
 robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
@@ -79,16 +74,16 @@ room-testing = { group = "androidx.room", name = "room-testing", version.ref = "
 
 # Dependencies of the included build-logic
 android-gradle-plugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
+firebase-crashlytics-gradlePlugin = { group = "com.google.firebase", name = "firebase-crashlytics-gradle", version.ref = "firebaseCrashlyticsPlugin" }
 kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlinGradlePlugin" }
 ksp-gradle-plugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junit" }
-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 com-android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
 org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlinGradlePlugin" }
+firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebaseCrashlyticsPlugin" }
+gms = { id = "com.google.gms.google-services", version.ref = "gmsPlugin" }
 com-google-dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 com-google-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 
@@ -102,4 +97,4 @@ com-android-geto-libraryJacoco = { id = "com.android.geto.libraryJacoco", versio
 com-android-geto-feature = { id = "com.android.geto.feature", version = "unspecified" }
 com-android-geto-hilt = { id = "com.android.geto.hilt", version = "unspecified" }
 com-android-geto-room = { id = "com.android.geto.room", version = "unspecified" }
-com-android-geto-sortBaseline = { id = "com.android.geto.sortBaseline", version = "unspecified" }
+com-android-geto-applicationFirebase = { id = "com.android.geto.applicationFirebase", version = "unspecified" }

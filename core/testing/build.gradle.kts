@@ -11,9 +11,6 @@ android {
 dependencies {
     api(kotlin("test"))
     api(libs.androidx.compose.ui.test)
-    api(libs.mockito.core)
-    api(libs.mockito.kotlin)
-    api(libs.mockito.inline)
     api(projects.core.domain)
     api(projects.core.model)
 

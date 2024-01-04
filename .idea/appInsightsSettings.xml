@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.android.geto" />
+                  <option name="mobileSdkAppId" value="1:398736951728:android:3ecc43dad54c0bb8372e75" />
+                  <option name="projectId" value="geto-e5a85" />
+                  <option name="projectNumber" value="398736951728" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
