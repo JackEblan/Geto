@@ -5,6 +5,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.core.domain.repository.AppSettingsRepository
+import com.core.domain.repository.ClipboardRepository
 import com.core.domain.usecase.ApplyAppSettingsUseCase
 import com.core.domain.usecase.RevertAppSettingsUseCase
 import com.core.domain.util.PackageManagerWrapper
@@ -26,13 +27,18 @@ class AppSettingsViewModel @Inject constructor(
     private val appSettingsRepository: AppSettingsRepository,
     private val packageManagerWrapper: PackageManagerWrapper,
     private val applyAppSettingsUseCase: ApplyAppSettingsUseCase,
-    private val revertAppSettingsUseCase: RevertAppSettingsUseCase
+    private val revertAppSettingsUseCase: RevertAppSettingsUseCase,
+    private val clipboardRepository: ClipboardRepository
 ) : ViewModel() {
     private var _showSnackBar = MutableStateFlow<String?>(null)
+
+    private var _showSnackBarException = MutableStateFlow<Throwable?>(null)
 
     private var _launchAppIntent = MutableStateFlow<Intent?>(null)
 
     val showSnackBar = _showSnackBar.asStateFlow()
+
+    val showSnackBarException = _showSnackBarException.asStateFlow()
 
     val launchAppIntent = _launchAppIntent.asStateFlow()
 
@@ -61,7 +67,7 @@ class AppSettingsViewModel @Inject constructor(
                         val appIntent = packageManagerWrapper.getLaunchIntentForPackage(packageName)
                         _launchAppIntent.value = appIntent
                     }.onFailure {
-                        _showSnackBar.value = it.message
+                        _showSnackBarException.value = it
                     }
                 }
             }
@@ -99,11 +105,21 @@ class AppSettingsViewModel @Inject constructor(
                     }
                 }
             }
+
+            AppSettingsEvent.CopyCommand -> {
+                clipboardRepository.putTextToClipboard("pm grant com.android.geto android.permission.WRITE_SECURE_SETTINGS")
+                    .onSuccess {
+                        _showSnackBar.value = it
+                    }.onFailure {
+                    _showSnackBar.value = it.localizedMessage
+                }
+            }
         }
     }
 
     fun clearState() {
         _showSnackBar.value = null
+        _showSnackBarException.value = null
         _launchAppIntent.value = null
     }
 }

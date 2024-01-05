@@ -22,6 +22,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -66,12 +67,36 @@ internal fun AppSettingsRoute(
 
     val showSnackBar = viewModel.showSnackBar.collectAsStateWithLifecycle().value
 
+    val showSnackBarException = viewModel.showSnackBarException.collectAsStateWithLifecycle().value
+
     val launchAppIntent = viewModel.launchAppIntent.collectAsStateWithLifecycle().value
 
     LaunchedEffect(key1 = showSnackBar) {
         showSnackBar?.let {
             snackbarHostState.showSnackbar(message = it)
             viewModel.clearState()
+        }
+    }
+
+    LaunchedEffect(key1 = showSnackBarException) {
+        showSnackBarException?.let { throwable ->
+            val snackbarResult = if (throwable is SecurityException) {
+                snackbarHostState.showSnackbar(
+                    message = "Please grant Geto with android.permission.WRITE_SECURE_SETTINGS. You may copy this command and paste it to your terminal.",
+                    actionLabel = "Copy"
+                )
+            } else {
+                snackbarHostState.showSnackbar(
+                    message = throwable.localizedMessage!!, actionLabel = "Copy"
+                )
+            }
+
+            when (snackbarResult) {
+                SnackbarResult.Dismissed -> viewModel.clearState()
+                SnackbarResult.ActionPerformed -> {
+                    viewModel.onEvent(AppSettingsEvent.CopyCommand)
+                }
+            }
         }
     }
 
@@ -87,35 +112,35 @@ internal fun AppSettingsRoute(
                       appName = { viewModel.appName },
                       uIState = { uIState },
                       onNavigationIconClick = {
-                              onNavigationIconClick()
-                          },
+                          onNavigationIconClick()
+                      },
                       onRevertSettingsIconClick = {
-                              viewModel.onEvent(
-                                  AppSettingsEvent.OnRevertSettings(
-                                      if (uIState is AppSettingsUiState.Success) uIState.appSettingsList
-                                      else emptyList()
-                                  )
+                          viewModel.onEvent(
+                              AppSettingsEvent.OnRevertSettings(
+                                  if (uIState is AppSettingsUiState.Success) uIState.appSettingsList
+                                  else emptyList()
                               )
-                          },
+                          )
+                      },
                       onUserAppSettingsItemCheckBoxChange = { checked, userAppSettingsItem ->
-                              viewModel.onEvent(
-                                  AppSettingsEvent.OnAppSettingsItemCheckBoxChange(
-                                      checked = checked, appSettings = userAppSettingsItem
-                                  )
+                          viewModel.onEvent(
+                              AppSettingsEvent.OnAppSettingsItemCheckBoxChange(
+                                  checked = checked, appSettings = userAppSettingsItem
                               )
-                          },
+                          )
+                      },
                       onDeleteUserAppSettingsItem = {
-                              viewModel.onEvent(AppSettingsEvent.OnDeleteAppSettingsItem(it))
-                          },
+                          viewModel.onEvent(AppSettingsEvent.OnDeleteAppSettingsItem(it))
+                      },
                       onAddUserAppSettingsClick = { openAddSettingsDialog = true },
                       onLaunchApp = {
-                              viewModel.onEvent(
-                                  AppSettingsEvent.OnLaunchApp(
-                                      if (uIState is AppSettingsUiState.Success) uIState.appSettingsList
-                                      else emptyList()
-                                  )
+                          viewModel.onEvent(
+                              AppSettingsEvent.OnLaunchApp(
+                                  if (uIState is AppSettingsUiState.Success) uIState.appSettingsList
+                                  else emptyList()
                               )
-                          })
+                          )
+                      })
 
     if (openAddSettingsDialog) {
         AddSettingsDialog(packageName = viewModel.packageName,

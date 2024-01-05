@@ -4,7 +4,7 @@ typealias CopySettingsResultMessage = String
 
 interface ClipboardRepository {
 
-    fun putSecureSettingsToClipboard(secureSettings: String): Result<CopySettingsResultMessage?>
+    fun putTextToClipboard(secureSettings: String): Result<CopySettingsResultMessage?>
 
     companion object {
 

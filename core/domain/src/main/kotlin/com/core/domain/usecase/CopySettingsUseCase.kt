@@ -15,6 +15,6 @@ class CopySettingsUseCase @Inject constructor(
             return Result.failure(CopySettingsException(NO_TEXT_TO_COPY_ERROR_MESSAGE))
         }
 
-        return clipboardRepository.putSecureSettingsToClipboard(secureSettings)
+        return clipboardRepository.putTextToClipboard(secureSettings)
     }
 }

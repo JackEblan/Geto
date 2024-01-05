@@ -5,7 +5,7 @@ import com.core.domain.repository.CopySettingsResultMessage
 
 class TestClipboardRepository : ClipboardRepository {
     private var isAndroidTwelveBelow = false
-    override fun putSecureSettingsToClipboard(secureSettings: String): Result<CopySettingsResultMessage?> {
+    override fun putTextToClipboard(secureSettings: String): Result<CopySettingsResultMessage?> {
         return if (isAndroidTwelveBelow) {
             Result.success("$secureSettings copied to clipboard")
         } else Result.success(null)

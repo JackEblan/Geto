@@ -29,7 +29,7 @@ class ClipboardRepositoryTest {
     fun `setPrimaryClip returns Result success with message if build version is Android 12 below`() {
         buildVersionWrapper.setAndroidTwelveBelow(true)
 
-        val result = subject.putSecureSettingsToClipboard("Text")
+        val result = subject.putTextToClipboard("Text")
 
         assertTrue { result.getOrNull() != null }
     }
@@ -38,7 +38,7 @@ class ClipboardRepositoryTest {
     fun `setPrimaryClip returns Result success with null message if build version is Android 12 above`() {
         buildVersionWrapper.setAndroidTwelveBelow(false)
 
-        val result = subject.putSecureSettingsToClipboard("Text")
+        val result = subject.putTextToClipboard("Text")
 
         assertTrue { result.getOrNull() == null }
     }

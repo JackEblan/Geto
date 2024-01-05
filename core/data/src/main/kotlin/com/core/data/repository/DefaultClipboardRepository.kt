@@ -11,7 +11,7 @@ class DefaultClipboardRepository @Inject constructor(
     private val clipboardManagerWrapper: ClipboardManagerWrapper,
     private val buildVersionWrapper: BuildVersionWrapper
 ) : ClipboardRepository {
-    override fun putSecureSettingsToClipboard(secureSettings: String): Result<CopySettingsResultMessage?> {
+    override fun putTextToClipboard(secureSettings: String): Result<CopySettingsResultMessage?> {
         clipboardManagerWrapper.setPrimaryClip(secureSettings)
 
         return if (buildVersionWrapper.isAndroidTwelveBelow()) {

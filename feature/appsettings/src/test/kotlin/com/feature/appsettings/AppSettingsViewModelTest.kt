@@ -2,13 +2,13 @@ package com.feature.appsettings
 
 import androidx.lifecycle.SavedStateHandle
 import com.core.domain.repository.SettingsRepository.Companion.REVERT_SETTINGS_SUCCESS_MESSAGE
-import com.core.domain.repository.SettingsRepository.Companion.TEST_PERMISSION_NOT_GRANTED_FAILED_MESSAGE
 import com.core.domain.usecase.ApplyAppSettingsUseCase
 import com.core.domain.usecase.RevertAppSettingsUseCase
 import com.core.testing.data.appNameTest
 import com.core.testing.data.appSettingsTestData
 import com.core.testing.data.packageNameTest
 import com.core.testing.repository.TestAppSettingsRepository
+import com.core.testing.repository.TestClipboardRepository
 import com.core.testing.repository.TestSettingsRepository
 import com.core.testing.util.MainDispatcherRule
 import com.core.testing.util.TestPackageManagerWrapper
@@ -37,6 +37,8 @@ class AppSettingsViewModelTest {
 
     private lateinit var settingsRepository: TestSettingsRepository
 
+    private lateinit var clipboardRepository: TestClipboardRepository
+
     private val savedStateHandle = SavedStateHandle()
 
     private lateinit var viewModel: AppSettingsViewModel
@@ -49,6 +51,8 @@ class AppSettingsViewModelTest {
 
         packageManagerWrapper = TestPackageManagerWrapper()
 
+        clipboardRepository = TestClipboardRepository()
+
         savedStateHandle[NAV_KEY_PACKAGE_NAME] = packageNameTest
 
         savedStateHandle[NAV_KEY_APP_NAME] = appNameTest
@@ -58,7 +62,8 @@ class AppSettingsViewModelTest {
             appSettingsRepository = appSettingsRepository,
             packageManagerWrapper = TestPackageManagerWrapper(),
             applyAppSettingsUseCase = ApplyAppSettingsUseCase(settingsRepository),
-            revertAppSettingsUseCase = RevertAppSettingsUseCase(settingsRepository)
+            revertAppSettingsUseCase = RevertAppSettingsUseCase(settingsRepository),
+            clipboardRepository = clipboardRepository
         )
     }
 
@@ -92,16 +97,13 @@ class AppSettingsViewModelTest {
         }
 
     @Test
-    fun `OnEvent LaunchApp then return Result failure with show error snackbar message`() =
+    fun `OnEvent LaunchApp then return Result failure with show snackbar exception message as not null`() =
         runTest {
             settingsRepository.setWriteSecureSettings(false)
 
             viewModel.onEvent(AppSettingsEvent.OnLaunchApp(appSettingsTestData))
 
-            assertEquals(
-                expected = TEST_PERMISSION_NOT_GRANTED_FAILED_MESSAGE,
-                actual = viewModel.showSnackBar.value
-            )
+            assertTrue { viewModel.showSnackBarException.value != null }
         }
 
     @Test
@@ -118,16 +120,13 @@ class AppSettingsViewModelTest {
         }
 
     @Test
-    fun `OnEvent OnRevertSettings then return Result failure with show error snackbar message`() =
+    fun `OnEvent OnRevertSettings then return Result failure show snackbar exception message as not null`() =
         runTest {
             settingsRepository.setWriteSecureSettings(false)
 
             viewModel.onEvent(AppSettingsEvent.OnLaunchApp(appSettingsTestData))
 
-            assertEquals(
-                expected = TEST_PERMISSION_NOT_GRANTED_FAILED_MESSAGE,
-                actual = viewModel.showSnackBar.value
-            )
+            assertTrue { viewModel.showSnackBarException.value != null }
         }
 
     @Test
@@ -152,5 +151,29 @@ class AppSettingsViewModelTest {
             )
 
             assertTrue { viewModel.showSnackBar.value != null }
+        }
+
+    @Test
+    fun `OnEvent CopyCommand then return Result success with show snackbar message as not null if Android version is below 12`() =
+        runTest {
+            clipboardRepository.setAndroidTwelveBelow(true)
+
+            viewModel.onEvent(
+                AppSettingsEvent.CopyCommand
+            )
+
+            assertTrue { viewModel.showSnackBar.value != null }
+        }
+
+    @Test
+    fun `OnEvent CopyCommand then return Result success with show snackbar message as null if Android version is above 12`() =
+        runTest {
+            clipboardRepository.setAndroidTwelveBelow(false)
+
+            viewModel.onEvent(
+                AppSettingsEvent.CopyCommand
+            )
+
+            assertTrue { viewModel.showSnackBar.value == null }
         }
 }
