@@ -22,7 +22,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -42,7 +41,8 @@ import com.core.model.AppSettings
 import com.core.ui.EmptyListPlaceHolderScreen
 import com.core.ui.LoadingPlaceHolderScreen
 import com.core.ui.UserAppSettingsItem
-import com.feature.appsettings.components.dialog.AddSettingsDialog
+import com.feature.appsettings.components.addsettingsdialog.AddSettingsDialog
+import com.feature.appsettings.components.copypermissioncommanddialog.CopyPermissionCommandDialog
 import kotlinx.coroutines.launch
 
 @Composable
@@ -63,11 +63,16 @@ internal fun AppSettingsRoute(
         mutableStateOf(false)
     }
 
+    var openCopyPermissionCommandDialog by rememberSaveable {
+        mutableStateOf(false)
+    }
+
     val uIState = viewModel.uIState.collectAsStateWithLifecycle().value
 
     val showSnackBar = viewModel.showSnackBar.collectAsStateWithLifecycle().value
 
-    val showSnackBarException = viewModel.showSnackBarException.collectAsStateWithLifecycle().value
+    val secureSettingsException =
+        viewModel.secureSettingsException.collectAsStateWithLifecycle().value
 
     val launchAppIntent = viewModel.launchAppIntent.collectAsStateWithLifecycle().value
 
@@ -78,24 +83,16 @@ internal fun AppSettingsRoute(
         }
     }
 
-    LaunchedEffect(key1 = showSnackBarException) {
-        showSnackBarException?.let { throwable ->
-            val snackbarResult = if (throwable is SecurityException) {
-                snackbarHostState.showSnackbar(
-                    message = "Please grant Geto with android.permission.WRITE_SECURE_SETTINGS. You may copy this command and paste it to your terminal.",
-                    actionLabel = "Copy"
-                )
+    LaunchedEffect(key1 = secureSettingsException) {
+        secureSettingsException?.let { throwable ->
+            if (throwable is SecurityException) {
+                openCopyPermissionCommandDialog = true
             } else {
                 snackbarHostState.showSnackbar(
-                    message = throwable.localizedMessage!!, actionLabel = "Copy"
+                    message = throwable.localizedMessage!!
                 )
-            }
 
-            when (snackbarResult) {
-                SnackbarResult.Dismissed -> viewModel.clearState()
-                SnackbarResult.ActionPerformed -> {
-                    viewModel.onEvent(AppSettingsEvent.CopyCommand)
-                }
+                viewModel.clearState()
             }
         }
     }
@@ -150,6 +147,15 @@ internal fun AppSettingsRoute(
                                   snackbarHostState.showSnackbar(message = message)
                               }
                           })
+    }
+
+    if (openCopyPermissionCommandDialog) {
+        CopyPermissionCommandDialog(onDismissRequest = { openCopyPermissionCommandDialog = false },
+                                    onShowSnackbar = { message ->
+                                        coroutineScope.launch {
+                                            snackbarHostState.showSnackbar(message = message)
+                                        }
+                                    })
     }
 }
 

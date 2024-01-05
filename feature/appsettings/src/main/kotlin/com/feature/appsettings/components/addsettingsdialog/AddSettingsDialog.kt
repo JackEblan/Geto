@@ -1,4 +1,4 @@
-package com.feature.appsettings.components.dialog
+package com.feature.appsettings.components.addsettingsdialog
 
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.ScrollState
@@ -40,7 +40,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 @Composable
-fun AddSettingsDialog(
+internal fun AddSettingsDialog(
     modifier: Modifier = Modifier,
     viewModel: AddSettingsDialogViewModel = hiltViewModel(),
     packageName: String,
@@ -186,7 +186,7 @@ internal fun AddSettingsDialogScreen(
                     Text(
                         modifier = Modifier
                             .padding(horizontal = 5.dp)
-                            .testTag(":appsettings:dialog:selectedRadioOptionIndexError"),
+                            .testTag(":appsettings:addsettingsdialog:selectedRadioOptionIndexError"),
                         text = selectedRadioOptionIndexError(),
                         color = MaterialTheme.colorScheme.error,
                         style = MaterialTheme.typography.bodySmall
@@ -234,7 +234,7 @@ internal fun AddSettingsDialogScreen(
                     supportingText = {
                         if (labelError().isNotBlank()) Text(
                             text = labelError(),
-                            modifier = Modifier.testTag(":appsettings:dialog:labelError")
+                            modifier = Modifier.testTag(":appsettings:addsettingsdialog:labelError")
                         )
                     },
                     singleLine = true,
@@ -254,7 +254,7 @@ internal fun AddSettingsDialogScreen(
                     supportingText = {
                         if (keyError().isNotBlank()) Text(
                             text = keyError(),
-                            modifier = Modifier.testTag(":appsettings:dialog:keyError")
+                            modifier = Modifier.testTag(":appsettings:addsettingsdialog:keyError")
                         )
                     },
                     singleLine = true,
@@ -274,7 +274,7 @@ internal fun AddSettingsDialogScreen(
                     supportingText = {
                         if (valueOnLaunchError().isNotBlank()) Text(
                             text = valueOnLaunchError(),
-                            modifier = Modifier.testTag(":appsettings:dialog:valueOnLaunchError")
+                            modifier = Modifier.testTag(":appsettings:addsettingsdialog:valueOnLaunchError")
                         )
                     },
                     singleLine = true,
@@ -294,7 +294,7 @@ internal fun AddSettingsDialogScreen(
                     supportingText = {
                         if (valueOnRevertError().isNotBlank()) Text(
                             text = valueOnRevertError(),
-                            modifier = Modifier.testTag(":appsettings:dialog:valueOnRevertError")
+                            modifier = Modifier.testTag(":appsettings:addsettingsdialog:valueOnRevertError")
                         )
                     },
                     singleLine = true,
@@ -315,7 +315,7 @@ internal fun AddSettingsDialogScreen(
                         onClick = { onAddSettings() },
                         modifier = Modifier
                             .padding(5.dp)
-                            .testTag(":appsettings:dialog:add"),
+                            .testTag(":appsettings:addsettingsdialog:add"),
                     ) {
                         Text("Add")
                     }

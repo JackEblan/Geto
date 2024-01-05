@@ -134,6 +134,20 @@
             </AndroidTestResultsTableState>
           </value>
         </entry>
+        <entry key="-207205772">
+          <value>
+            <AndroidTestResultsTableState>
+              <option name="preferredColumnWidths">
+                <map>
+                  <entry key="Duration" value="90" />
+                  <entry key="Lite_Emu_API_34" value="120" />
+                  <entry key="TECNO MOBILE LIMITED TECNO CH6n" value="120" />
+                  <entry key="Tests" value="360" />
+                </map>
+              </option>
+            </AndroidTestResultsTableState>
+          </value>
+        </entry>
         <entry key="-163430359">
           <value>
             <AndroidTestResultsTableState>

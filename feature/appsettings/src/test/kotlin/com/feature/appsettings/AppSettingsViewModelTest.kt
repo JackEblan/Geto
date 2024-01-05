@@ -8,7 +8,6 @@ import com.core.testing.data.appNameTest
 import com.core.testing.data.appSettingsTestData
 import com.core.testing.data.packageNameTest
 import com.core.testing.repository.TestAppSettingsRepository
-import com.core.testing.repository.TestClipboardRepository
 import com.core.testing.repository.TestSettingsRepository
 import com.core.testing.util.MainDispatcherRule
 import com.core.testing.util.TestPackageManagerWrapper
@@ -37,8 +36,6 @@ class AppSettingsViewModelTest {
 
     private lateinit var settingsRepository: TestSettingsRepository
 
-    private lateinit var clipboardRepository: TestClipboardRepository
-
     private val savedStateHandle = SavedStateHandle()
 
     private lateinit var viewModel: AppSettingsViewModel
@@ -51,7 +48,7 @@ class AppSettingsViewModelTest {
 
         packageManagerWrapper = TestPackageManagerWrapper()
 
-        clipboardRepository = TestClipboardRepository()
+
 
         savedStateHandle[NAV_KEY_PACKAGE_NAME] = packageNameTest
 
@@ -62,8 +59,7 @@ class AppSettingsViewModelTest {
             appSettingsRepository = appSettingsRepository,
             packageManagerWrapper = TestPackageManagerWrapper(),
             applyAppSettingsUseCase = ApplyAppSettingsUseCase(settingsRepository),
-            revertAppSettingsUseCase = RevertAppSettingsUseCase(settingsRepository),
-            clipboardRepository = clipboardRepository
+            revertAppSettingsUseCase = RevertAppSettingsUseCase(settingsRepository)
         )
     }
 
@@ -103,7 +99,7 @@ class AppSettingsViewModelTest {
 
             viewModel.onEvent(AppSettingsEvent.OnLaunchApp(appSettingsTestData))
 
-            assertTrue { viewModel.showSnackBarException.value != null }
+            assertTrue { viewModel.secureSettingsException.value != null }
         }
 
     @Test
@@ -126,7 +122,7 @@ class AppSettingsViewModelTest {
 
             viewModel.onEvent(AppSettingsEvent.OnLaunchApp(appSettingsTestData))
 
-            assertTrue { viewModel.showSnackBarException.value != null }
+            assertTrue { viewModel.secureSettingsException.value != null }
         }
 
     @Test
@@ -151,29 +147,5 @@ class AppSettingsViewModelTest {
             )
 
             assertTrue { viewModel.showSnackBar.value != null }
-        }
-
-    @Test
-    fun `OnEvent CopyCommand then return Result success with show snackbar message as not null if Android version is below 12`() =
-        runTest {
-            clipboardRepository.setAndroidTwelveBelow(true)
-
-            viewModel.onEvent(
-                AppSettingsEvent.CopyCommand
-            )
-
-            assertTrue { viewModel.showSnackBar.value != null }
-        }
-
-    @Test
-    fun `OnEvent CopyCommand then return Result success with show snackbar message as null if Android version is above 12`() =
-        runTest {
-            clipboardRepository.setAndroidTwelveBelow(false)
-
-            viewModel.onEvent(
-                AppSettingsEvent.CopyCommand
-            )
-
-            assertTrue { viewModel.showSnackBar.value == null }
         }
 }

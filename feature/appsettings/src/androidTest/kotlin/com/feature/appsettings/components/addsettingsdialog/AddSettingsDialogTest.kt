@@ -1,4 +1,4 @@
-package com.feature.appsettings.components.dialog
+package com.feature.appsettings.components.addsettingsdialog
 
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.rememberScrollState
@@ -21,7 +21,7 @@ class AddSettingsDialogTest {
     fun selected_radio_option_index_error_shows_when_there_is_no_selected_radio_option_index() {
         composeTestRule.setContent {
 
-            var selectedRadioOptionIndex by rememberSaveable { mutableIntStateOf(-1) }
+            val selectedRadioOptionIndex by rememberSaveable { mutableIntStateOf(-1) }
 
             var selectedRadioOptionIndexError by rememberSaveable { mutableStateOf("") }
 
@@ -56,10 +56,10 @@ class AddSettingsDialogTest {
                                     })
         }
 
-        composeTestRule.onNodeWithTag(":appsettings:dialog:add").performClick()
+        composeTestRule.onNodeWithTag(":appsettings:addsettingsdialog:add").performClick()
 
         composeTestRule.onNodeWithTag(
-            testTag = ":appsettings:dialog:selectedRadioOptionIndexError"
+            testTag = ":appsettings:addsettingsdialog:selectedRadioOptionIndexError"
         ).assertExists()
     }
 
@@ -104,10 +104,10 @@ class AddSettingsDialogTest {
                                     })
         }
 
-        composeTestRule.onNodeWithTag(":appsettings:dialog:add").performClick()
+        composeTestRule.onNodeWithTag(":appsettings:addsettingsdialog:add").performClick()
 
         composeTestRule.onNodeWithTag(
-            testTag = ":appsettings:dialog:labelError", useUnmergedTree = true
+            testTag = ":appsettings:addsettingsdialog:labelError", useUnmergedTree = true
         ).assertExists()
     }
 
@@ -150,10 +150,10 @@ class AddSettingsDialogTest {
                                     })
         }
 
-        composeTestRule.onNodeWithTag(":appsettings:dialog:add").performClick()
+        composeTestRule.onNodeWithTag(":appsettings:addsettingsdialog:add").performClick()
 
         composeTestRule.onNodeWithTag(
-            testTag = ":appsettings:dialog:keyError", useUnmergedTree = true
+            testTag = ":appsettings:addsettingsdialog:keyError", useUnmergedTree = true
         ).assertExists()
     }
 
@@ -196,10 +196,10 @@ class AddSettingsDialogTest {
                                     })
         }
 
-        composeTestRule.onNodeWithTag(":appsettings:dialog:add").performClick()
+        composeTestRule.onNodeWithTag(":appsettings:addsettingsdialog:add").performClick()
 
         composeTestRule.onNodeWithTag(
-            testTag = ":appsettings:dialog:valueOnLaunchError", useUnmergedTree = true
+            testTag = ":appsettings:addsettingsdialog:valueOnLaunchError", useUnmergedTree = true
         ).assertExists()
     }
 
@@ -242,10 +242,10 @@ class AddSettingsDialogTest {
                                     })
         }
 
-        composeTestRule.onNodeWithTag(":appsettings:dialog:add").performClick()
+        composeTestRule.onNodeWithTag(":appsettings:addsettingsdialog:add").performClick()
 
         composeTestRule.onNodeWithTag(
-            testTag = ":appsettings:dialog:valueOnRevertError", useUnmergedTree = true
+            testTag = ":appsettings:addsettingsdialog:valueOnRevertError", useUnmergedTree = true
         ).assertExists()
     }
 }

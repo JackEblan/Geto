@@ -1,4 +1,4 @@
-package com.feature.appsettings.components.dialog
+package com.feature.appsettings.components.addsettingsdialog
 
 sealed class AddSettingsDialogEvent {
     data class AddSettings(

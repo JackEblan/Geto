@@ -14,6 +14,4 @@ sealed class AppSettingsEvent {
     data class OnDeleteAppSettingsItem(
         val appSettings: AppSettings
     ) : AppSettingsEvent()
-
-    data object CopyCommand : AppSettingsEvent()
 }
