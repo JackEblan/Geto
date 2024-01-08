@@ -1,6 +1,5 @@
 package com.core.ui
 
-import android.graphics.drawable.Drawable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -18,7 +17,7 @@ import coil.compose.AsyncImage
 @Composable
 fun AppItem(
     modifier: Modifier = Modifier,
-    icon: () -> Drawable?,
+    icon: () -> ByteArray?,
     packageName: () -> String,
     label: () -> String
 ) {

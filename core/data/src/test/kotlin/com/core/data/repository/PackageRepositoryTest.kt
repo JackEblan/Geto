@@ -1,6 +1,7 @@
 package com.core.data.repository
 
 import com.core.domain.repository.PackageRepository
+import com.core.testing.util.TestByteArrayOutputStreamWrapper
 import com.core.testing.util.TestPackageManagerWrapper
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
@@ -11,6 +12,8 @@ import kotlin.test.assertTrue
 class PackageRepositoryTest {
     private lateinit var packageManagerWrapper: TestPackageManagerWrapper
 
+    private lateinit var byteArrayIconWrapper: TestByteArrayOutputStreamWrapper
+
     private lateinit var subject: PackageRepository
 
     private val testDispatcher = StandardTestDispatcher()
@@ -19,8 +22,12 @@ class PackageRepositoryTest {
     fun setUp() {
         packageManagerWrapper = TestPackageManagerWrapper()
 
+        byteArrayIconWrapper = TestByteArrayOutputStreamWrapper()
+
         subject = DefaultPackageRepository(
-            packageManagerWrapper = packageManagerWrapper, ioDispatcher = testDispatcher
+            packageManagerWrapper = packageManagerWrapper,
+            defaultDispatcher = testDispatcher,
+            byteArrayOutputStreamWrapper = byteArrayIconWrapper
         )
     }
 

@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -38,11 +39,11 @@ import androidx.compose.ui.platform.testTag
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.core.model.AppSettings
+import com.core.ui.AppSettingsItem
 import com.core.ui.EmptyListPlaceHolderScreen
 import com.core.ui.LoadingPlaceHolderScreen
-import com.core.ui.UserAppSettingsItem
-import com.feature.appsettings.components.addsettingsdialog.AddSettingsDialog
-import com.feature.appsettings.components.copypermissioncommanddialog.CopyPermissionCommandDialog
+import com.feature.appsettings.component.addsettingsdialog.AddSettingsDialog
+import com.feature.appsettings.component.copypermissioncommanddialog.CopyPermissionCommandDialog
 import kotlinx.coroutines.launch
 
 @Composable
@@ -119,17 +120,17 @@ internal fun AppSettingsRoute(
                               )
                           )
                       },
-                      onUserAppSettingsItemCheckBoxChange = { checked, userAppSettingsItem ->
+                      onAppSettingsItemCheckBoxChange = { checked, userAppSettingsItem ->
                           viewModel.onEvent(
                               AppSettingsEvent.OnAppSettingsItemCheckBoxChange(
                                   checked = checked, appSettings = userAppSettingsItem
                               )
                           )
                       },
-                      onDeleteUserAppSettingsItem = {
+                      onDeleteAppSettingsItem = {
                           viewModel.onEvent(AppSettingsEvent.OnDeleteAppSettingsItem(it))
                       },
-                      onAddUserAppSettingsClick = { openAddSettingsDialog = true },
+                      onAddAppSettingsClick = { openAddSettingsDialog = true },
                       onLaunchApp = {
                           viewModel.onEvent(
                               AppSettingsEvent.OnLaunchApp(
@@ -169,9 +170,9 @@ internal fun AppSettingsScreen(
     uIState: () -> AppSettingsUiState,
     onNavigationIconClick: () -> Unit,
     onRevertSettingsIconClick: () -> Unit,
-    onUserAppSettingsItemCheckBoxChange: (Boolean, AppSettings) -> Unit,
-    onDeleteUserAppSettingsItem: (AppSettings) -> Unit,
-    onAddUserAppSettingsClick: () -> Unit,
+    onAppSettingsItemCheckBoxChange: (Boolean, AppSettings) -> Unit,
+    onDeleteAppSettingsItem: (AppSettings) -> Unit,
+    onAddAppSettingsClick: () -> Unit,
     onLaunchApp: () -> Unit
 ) {
     Scaffold(modifier = modifier.fillMaxSize(), topBar = {
@@ -191,7 +192,7 @@ internal fun AppSettingsScreen(
                     imageVector = Icons.Default.Refresh, contentDescription = "Revert icon"
                 )
             }
-            IconButton(onClick = onAddUserAppSettingsClick) {
+            IconButton(onClick = onAddAppSettingsClick) {
                 Icon(
                     Icons.Filled.Add,
                     contentDescription = "Add icon",
@@ -243,23 +244,37 @@ internal fun AppSettingsScreen(
                             .fillMaxSize()
                             .testTag("userappsettings:success")
                     ) {
-                        items(uIStateParam.appSettingsList) { userAppSettings ->
-                            UserAppSettingsItem(enabled = { userAppSettings.enabled },
-                                                label = { userAppSettings.label },
-                                                settingsTypeLabel = { userAppSettings.settingsType.label },
-                                                key = { userAppSettings.key },
-                                                onUserAppSettingsItemCheckBoxChange = { check ->
-                                                    onUserAppSettingsItemCheckBoxChange(
-                                                        check, userAppSettings
-                                                    )
-                                                },
-                                                onDeleteUserAppSettingsItem = {
-                                                    onDeleteUserAppSettingsItem(userAppSettings)
-                                                })
-                        }
+                        appSettings(
+                            appSettingsList = uIStateParam.appSettingsList,
+                            onAppSettingsItemCheckBoxChange = onAppSettingsItemCheckBoxChange,
+                            onDeleteAppSettingsItem = onDeleteAppSettingsItem
+                        )
                     }
                 }
             }
         }
+    }
+}
+
+private fun LazyListScope.appSettings(
+    modifier: Modifier = Modifier,
+    appSettingsList: List<AppSettings>,
+    onAppSettingsItemCheckBoxChange: (Boolean, AppSettings) -> Unit,
+    onDeleteAppSettingsItem: (AppSettings) -> Unit,
+) {
+    items(appSettingsList) { appSettings ->
+        AppSettingsItem(modifier = modifier,
+                        enabled = { appSettings.enabled },
+                        label = { appSettings.label },
+                        settingsTypeLabel = { appSettings.settingsType.label },
+                        key = { appSettings.key },
+                        onUserAppSettingsItemCheckBoxChange = { check ->
+                            onAppSettingsItemCheckBoxChange(
+                                check, appSettings
+                            )
+                        },
+                        onDeleteUserAppSettingsItem = {
+                            onDeleteAppSettingsItem(appSettings)
+                        })
     }
 }

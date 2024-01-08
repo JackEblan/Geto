@@ -9,6 +9,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import java.io.ByteArrayOutputStream
 import javax.inject.Singleton
 
 @Module
@@ -28,4 +29,8 @@ object AppModule {
     @Singleton
     fun clipboardManager(@ApplicationContext context: Context): ClipboardManager =
         context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+
+    @Provides
+    @Singleton
+    fun byteArrayOutputStream(): ByteArrayOutputStream = ByteArrayOutputStream()
 }

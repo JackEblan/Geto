@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
@@ -39,6 +40,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.core.model.SecureSettings
 import com.core.ui.LoadingPlaceHolderScreen
 
 @Composable
@@ -130,7 +132,8 @@ internal fun SecureSettingsScreen(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         RadioButton(
-                            selected = (index == selectedRadioOptionIndex()), onClick = null,
+                            selected = (index == selectedRadioOptionIndex()),
+                            onClick = null,
                             modifier = Modifier.testTag("securesettingslist:rb$index")
                         )
                         Text(
@@ -155,28 +158,37 @@ internal fun SecureSettingsScreen(
                             .fillMaxSize()
                             .testTag("securesettingslist:success")
                     ) {
-                        items(uIStateParam.secureSettingsList) { secureSetting ->
-                            Column(modifier = Modifier
-                                .clickable { onItemClick(secureSetting.name) }
-                                .padding(10.dp)
-                                .fillMaxWidth()) {
-                                Text(
-                                    text = secureSetting.name.toString(),
-                                    style = MaterialTheme.typography.bodyLarge
-                                )
-
-                                Spacer(modifier = Modifier.height(5.dp))
-
-                                Text(
-                                    text = secureSetting.value.toString(),
-                                    style = MaterialTheme.typography.bodySmall
-                                )
-                            }
-                        }
+                        secureSettingItems(
+                            modifier = modifier,
+                            secureSettingsList = uIStateParam.secureSettingsList,
+                            onItemClick = onItemClick
+                        )
                     }
-
                 }
             }
+        }
+    }
+}
+
+private fun LazyListScope.secureSettingItems(
+    modifier: Modifier = Modifier,
+    secureSettingsList: List<SecureSettings>,
+    onItemClick: (String?) -> Unit,
+) {
+    items(secureSettingsList) { secureSetting ->
+        Column(modifier = modifier
+            .clickable { onItemClick(secureSetting.name) }
+            .padding(10.dp)
+            .fillMaxWidth()) {
+            Text(
+                text = secureSetting.name.toString(), style = MaterialTheme.typography.bodyLarge
+            )
+
+            Spacer(modifier = Modifier.height(5.dp))
+
+            Text(
+                text = secureSetting.value.toString(), style = MaterialTheme.typography.bodySmall
+            )
         }
     }
 }

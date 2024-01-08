@@ -9,8 +9,8 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             with(pluginManager) {
-                apply("com.android.geto.library")
-                apply("com.android.geto.hilt")
+                apply(libs.plugins.com.android.geto.library.get().pluginId)
+                apply(libs.plugins.com.android.geto.hilt.get().pluginId)
             }
 
             extensions.configure<LibraryExtension> {
@@ -23,10 +23,10 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                 add("implementation", project(":core:designsystem"))
                 add("implementation", project(":core:ui"))
 
-                add("implementation", libs.findLibrary("androidx.hilt.navigation.compose").get())
-                add("implementation", libs.findLibrary("androidx.lifecycle.runtime.compose").get())
+                add("implementation", libs.androidx.hilt.navigation.compose)
+                add("implementation", libs.androidx.lifecycle.runtime.compose)
                 add(
-                    "implementation", libs.findLibrary("androidx.lifecycle.viewmodel.compose").get()
+                    "implementation", libs.androidx.lifecycle.viewmodel.compose
                 )
             }
         }

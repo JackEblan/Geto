@@ -1,4 +1,4 @@
-package com.feature.appsettings.components.addsettingsdialog
+package com.feature.appsettings.component.addsettingsdialog
 
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.ScrollState
@@ -11,15 +11,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.selection.selectable
-import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -29,15 +26,14 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.core.designsystem.component.GetoRadioButton
 
 @Composable
 internal fun AddSettingsDialog(
@@ -121,7 +117,7 @@ internal fun AddSettingsDialog(
                                 valueOnRevertError =
                                     if (valueOnRevert.isBlank()) "Settings value on revert is blank" else ""
 
-                                if (labelError.isBlank() && keyError.isBlank() && valueOnLaunchError.isBlank() && valueOnRevertError.isBlank()) {
+                                if (selectedRadioOptionIndexError.isBlank() && labelError.isBlank() && keyError.isBlank() && valueOnLaunchError.isBlank() && valueOnRevertError.isBlank()) {
                                     viewModel.onEvent(
                                         AddSettingsDialogEvent.AddSettings(
                                             packageName = packageName,
@@ -171,6 +167,7 @@ internal fun AddSettingsDialogScreen(
                 modifier = Modifier
                     .verticalScroll(scrollState())
                     .padding(10.dp)
+                    .testTag(":appsettings:addsettingsdialog:dialog")
             ) {
                 Spacer(modifier = Modifier.height(10.dp))
 
@@ -193,31 +190,11 @@ internal fun AddSettingsDialogScreen(
                     )
                 }
 
-                Column(Modifier.selectableGroup()) {
-                    listOf("System", "Secure", "Global").forEachIndexed { index, text ->
-                        Row(
-                            Modifier
-                                .fillMaxWidth()
-                                .padding(vertical = 10.dp)
-                                .selectable(
-                                    selected = (index == selectedRadioOptionIndex()),
-                                    onClick = { onRadioOptionSelected(index) },
-                                    role = Role.RadioButton
-                                )
-                                .padding(horizontal = 16.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            RadioButton(
-                                selected = (index == selectedRadioOptionIndex()), onClick = null
-                            )
-                            Text(
-                                text = text,
-                                style = MaterialTheme.typography.bodyLarge,
-                                modifier = Modifier.padding(start = 10.dp)
-                            )
-                        }
-                    }
-                }
+                GetoRadioButton(
+                    items = listOf("System", "Secure", "Global"),
+                    selectedRadioOptionIndex = { selectedRadioOptionIndex() },
+                    onRadioOptionSelected = onRadioOptionSelected
+                )
 
                 Spacer(modifier = Modifier.height(10.dp))
 

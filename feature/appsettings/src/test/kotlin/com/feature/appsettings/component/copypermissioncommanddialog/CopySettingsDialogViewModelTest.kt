@@ -1,4 +1,4 @@
-package com.feature.appsettings.components.copypermissioncommanddialog
+package com.feature.appsettings.component.copypermissioncommanddialog
 
 import com.core.testing.repository.TestClipboardRepository
 import com.core.testing.util.MainDispatcherRule
