@@ -23,9 +23,9 @@ class AppSettingsScreenTest {
                               uIState = { AppSettingsUiState.Loading },
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
-                              onUserAppSettingsItemCheckBoxChange = { _, _ -> },
-                              onDeleteUserAppSettingsItem = {},
-                              onAddUserAppSettingsClick = {},
+                              onAppSettingsItemCheckBoxChange = { _, _ -> },
+                              onDeleteAppSettingsItem = {},
+                              onAddAppSettingsClick = {},
                               onLaunchApp = {})
         }
 
@@ -40,9 +40,9 @@ class AppSettingsScreenTest {
                               uIState = { AppSettingsUiState.Empty },
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
-                              onUserAppSettingsItemCheckBoxChange = { _, _ -> },
-                              onDeleteUserAppSettingsItem = {},
-                              onAddUserAppSettingsClick = {},
+                              onAppSettingsItemCheckBoxChange = { _, _ -> },
+                              onDeleteAppSettingsItem = {},
+                              onAddAppSettingsClick = {},
                               onLaunchApp = {})
         }
 
@@ -57,9 +57,9 @@ class AppSettingsScreenTest {
                               uIState = { AppSettingsUiState.Success(appSettingsTestData) },
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
-                              onUserAppSettingsItemCheckBoxChange = { _, _ -> },
-                              onDeleteUserAppSettingsItem = {},
-                              onAddUserAppSettingsClick = {},
+                              onAppSettingsItemCheckBoxChange = { _, _ -> },
+                              onDeleteAppSettingsItem = {},
+                              onAddAppSettingsClick = {},
                               onLaunchApp = {})
         }
 
@@ -78,9 +78,9 @@ class AppSettingsScreenTest {
                               uIState = { AppSettingsUiState.Empty },
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
-                              onUserAppSettingsItemCheckBoxChange = { _, _ -> },
-                              onDeleteUserAppSettingsItem = {},
-                              onAddUserAppSettingsClick = {},
+                              onAppSettingsItemCheckBoxChange = { _, _ -> },
+                              onDeleteAppSettingsItem = {},
+                              onAddAppSettingsClick = {},
                               onLaunchApp = {})
         }
 
@@ -101,9 +101,9 @@ class AppSettingsScreenTest {
                               uIState = { AppSettingsUiState.Empty },
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
-                              onUserAppSettingsItemCheckBoxChange = { _, _ -> },
-                              onDeleteUserAppSettingsItem = {},
-                              onAddUserAppSettingsClick = {},
+                              onAppSettingsItemCheckBoxChange = { _, _ -> },
+                              onDeleteAppSettingsItem = {},
+                              onAddAppSettingsClick = {},
                               onLaunchApp = {})
         }
 

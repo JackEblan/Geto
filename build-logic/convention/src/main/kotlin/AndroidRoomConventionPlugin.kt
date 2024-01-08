@@ -14,17 +14,17 @@ class AndroidRoomConventionPlugin : Plugin<Project> {
 
     override fun apply(target: Project) {
         with(target) {
-            pluginManager.apply("com.google.devtools.ksp")
+            pluginManager.apply(libs.plugins.com.google.devtools.ksp.get().pluginId)
 
             extensions.configure<KspExtension> {
                 arg(RoomSchemaArgProvider(File(projectDir, "schemas")))
             }
 
             dependencies {
-                add("implementation", libs.findLibrary("room.runtime").get())
-                add("implementation", libs.findLibrary("room.ktx").get())
-                add("ksp", libs.findLibrary("room.compiler").get())
-                add("androidTestImplementation", libs.findLibrary("room.testing").get())
+                add("implementation", libs.room.runtime)
+                add("implementation", libs.room.ktx)
+                add("ksp", libs.room.compiler)
+                add("androidTestImplementation", libs.room.testing)
             }
         }
     }

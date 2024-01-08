@@ -5,6 +5,7 @@ import com.core.data.repository.DefaultClipboardRepository
 import com.core.data.repository.DefaultPackageRepository
 import com.core.data.repository.DefaultSettingsRepository
 import com.core.data.util.DefaultBuildVersionWrapper
+import com.core.data.util.DefaultByteArrayOutputStreamWrapper
 import com.core.data.util.DefaultClipboardManagerWrapper
 import com.core.data.util.DefaultPackageManagerWrapper
 import com.core.data.util.DefaultSecureSettingsPermissionWrapper
@@ -13,6 +14,7 @@ import com.core.domain.repository.ClipboardRepository
 import com.core.domain.repository.PackageRepository
 import com.core.domain.repository.SettingsRepository
 import com.core.domain.util.BuildVersionWrapper
+import com.core.domain.util.ByteArrayOutputStreamWrapper
 import com.core.domain.util.ClipboardManagerWrapper
 import com.core.domain.util.PackageManagerWrapper
 import com.core.domain.util.SecureSettingsPermissionWrapper
@@ -53,6 +55,10 @@ interface DataModule {
     @Binds
     @Singleton
     fun clipboardManagerWrapper(impl: DefaultClipboardManagerWrapper): ClipboardManagerWrapper
+
+    @Binds
+    @Singleton
+    fun byteArrayOutputStreamWrapper(impl: DefaultByteArrayOutputStreamWrapper): ByteArrayOutputStreamWrapper
 
     @Binds
     @Singleton

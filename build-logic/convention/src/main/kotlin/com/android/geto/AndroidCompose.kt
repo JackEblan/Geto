@@ -13,8 +13,7 @@ internal fun Project.configureAndroidCompose(
         }
 
         composeOptions {
-            kotlinCompilerExtensionVersion =
-                libs.findVersion("androidxComposeCompiler").get().toString()
+            kotlinCompilerExtensionVersion = libs.versions.androidxComposeCompiler.get().toString()
         }
 
         packaging {
@@ -24,10 +23,10 @@ internal fun Project.configureAndroidCompose(
         }
 
         dependencies {
-            val bom = libs.findLibrary("androidx-compose-bom").get()
+            val bom = libs.androidx.compose.bom
             add("implementation", platform(bom))
             add("androidTestImplementation", platform(bom))
-            add("debugImplementation", libs.findLibrary("androidx.compose.ui.test.manifest").get())
+            add("debugImplementation", libs.androidx.compose.ui.test.manifest)
         }
     }
 }

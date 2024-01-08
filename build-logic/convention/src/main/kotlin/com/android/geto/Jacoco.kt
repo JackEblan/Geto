@@ -24,7 +24,7 @@ internal fun Project.configureJacoco(
     androidComponentsExtension: AndroidComponentsExtension<*, *, *>,
 ) {
     configure<JacocoPluginExtension> {
-        toolVersion = libs.findVersion("jacoco").get().toString()
+        toolVersion = libs.versions.jacoco.get().toString()
     }
 
     val jacocoTestReport = tasks.create("jacocoTestReport")

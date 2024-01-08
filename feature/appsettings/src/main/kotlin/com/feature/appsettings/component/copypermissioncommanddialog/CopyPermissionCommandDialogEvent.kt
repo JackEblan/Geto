@@ -1,4 +1,4 @@
-package com.feature.appsettings.components.copypermissioncommanddialog
+package com.feature.appsettings.component.copypermissioncommanddialog
 
 sealed class CopyPermissionCommandDialogEvent {
     data object CopyPermissionCommandKey : CopyPermissionCommandDialogEvent()

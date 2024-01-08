@@ -18,7 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun UserAppSettingsItem(
+fun AppSettingsItem(
     modifier: Modifier = Modifier,
     enabled: () -> Boolean,
     label: () -> String,

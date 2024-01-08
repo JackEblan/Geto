@@ -11,8 +11,8 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             with(pluginManager) {
-                apply("com.android.library")
-                apply("org.jetbrains.kotlin.android")
+                apply(libs.plugins.com.android.library.get().pluginId)
+                apply(libs.plugins.org.jetbrains.kotlin.android.get().pluginId)
             }
 
             extensions.configure<LibraryExtension> {
@@ -25,7 +25,7 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
                 add("androidTestImplementation", kotlin("test"))
                 add("androidTestImplementation", project(":core:testing"))
 
-                add("implementation", libs.findLibrary("kotlinx.coroutines.android").get())
+                add("implementation", libs.kotlinx.coroutines.android)
             }
         }
     }
