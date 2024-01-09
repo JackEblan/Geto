@@ -1,5 +1,6 @@
 package com.core.designsystem.component
 
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -10,6 +11,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
@@ -22,18 +24,25 @@ fun GetoRadioButton(
     selectedRadioOptionIndex: () -> Int,
     onRadioOptionSelected: (Int) -> Unit
 ) {
-    Column(modifier.selectableGroup()) {
+    val interactionSource = remember { MutableInteractionSource() }
+
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .selectableGroup()
+    ) {
         items.forEachIndexed { index, text ->
             Row(
                 Modifier
-                    .fillMaxWidth()
                     .padding(vertical = 10.dp)
-                    .selectable(
-                        selected = (index == selectedRadioOptionIndex()),
-                        onClick = { onRadioOptionSelected(index) },
-                        role = Role.RadioButton
-                    )
-                    .padding(horizontal = 16.dp), verticalAlignment = Alignment.CenterVertically
+                    .selectable(selected = (index == selectedRadioOptionIndex()),
+                                role = Role.RadioButton,
+                                interactionSource = interactionSource,
+                                indication = null,
+                                enabled = true,
+                                onClick = { onRadioOptionSelected(index) })
+                    .padding(horizontal = 16.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 RadioButton(
                     selected = (index == selectedRadioOptionIndex()), onClick = null

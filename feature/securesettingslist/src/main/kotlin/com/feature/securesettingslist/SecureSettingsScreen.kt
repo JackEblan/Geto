@@ -3,8 +3,10 @@ package com.feature.securesettingslist
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -84,7 +86,7 @@ internal fun SecureSettingsRoute(
                          uIState = { uIState })
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
 @Composable
 internal fun SecureSettingsScreen(
@@ -112,58 +114,29 @@ internal fun SecureSettingsScreen(
             modifier = Modifier.testTag("securesettingslist:snackbar")
         )
     }) { innerPadding ->
+        when (val uIStateParam = uIState()) {
+            SecureSettingsUiState.Loading -> LoadingPlaceHolderScreen(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .testTag("securesettingslist:loading")
+            )
 
-        Column(
-            modifier = Modifier
-                .padding(innerPadding)
-                .fillMaxSize()
-        ) {
-            Row(Modifier.selectableGroup()) {
-                listOf("System", "Secure", "Global").forEachIndexed { index, text ->
-                    Row(
-                        Modifier
-                            .padding(vertical = 10.dp)
-                            .selectable(
-                                selected = (index == selectedRadioOptionIndex()),
-                                onClick = { onRadioOptionSelected(index) },
-                                role = Role.RadioButton
-                            )
-                            .padding(horizontal = 16.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        RadioButton(
-                            selected = (index == selectedRadioOptionIndex()),
-                            onClick = null,
-                            modifier = Modifier.testTag("securesettingslist:rb$index")
-                        )
-                        Text(
-                            text = text,
-                            style = MaterialTheme.typography.bodyLarge,
-                            modifier = Modifier.padding(start = 10.dp)
-                        )
-                    }
-                }
-            }
-
-            when (val uIStateParam = uIState()) {
-                SecureSettingsUiState.Loading -> LoadingPlaceHolderScreen(
+            is SecureSettingsUiState.Success -> {
+                LazyColumn(
                     modifier = Modifier
                         .fillMaxSize()
-                        .testTag("securesettingslist:loading")
-                )
+                        .consumeWindowInsets(innerPadding)
+                        .testTag("securesettingslist:success"), contentPadding = innerPadding
+                ) {
+                    settingsTypeFilterItem(
+                        selectedRadioOptionIndex = selectedRadioOptionIndex,
+                        onRadioOptionSelected = onRadioOptionSelected
+                    )
 
-                is SecureSettingsUiState.Success -> {
-                    LazyColumn(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .testTag("securesettingslist:success")
-                    ) {
-                        secureSettingItems(
-                            modifier = modifier,
-                            secureSettingsList = uIStateParam.secureSettingsList,
-                            onItemClick = onItemClick
-                        )
-                    }
+                    secureSettingItems(
+                        secureSettingsList = uIStateParam.secureSettingsList,
+                        onItemClick = onItemClick
+                    )
                 }
             }
         }
@@ -189,6 +162,44 @@ private fun LazyListScope.secureSettingItems(
             Text(
                 text = secureSetting.value.toString(), style = MaterialTheme.typography.bodySmall
             )
+        }
+    }
+}
+
+private fun LazyListScope.settingsTypeFilterItem(
+    modifier: Modifier = Modifier, selectedRadioOptionIndex: () -> Int,
+    onRadioOptionSelected: (Int) -> Unit,
+) {
+    item {
+        Row(
+            modifier = modifier
+                .fillMaxWidth()
+                .selectableGroup()
+        ) {
+            listOf("System", "Secure", "Global").forEachIndexed { index, text ->
+                Row(
+                    Modifier
+                        .padding(vertical = 10.dp)
+                        .selectable(
+                            selected = (index == selectedRadioOptionIndex()),
+                            onClick = { onRadioOptionSelected(index) },
+                            role = Role.RadioButton
+                        )
+                        .padding(horizontal = 16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    RadioButton(
+                        selected = (index == selectedRadioOptionIndex()),
+                        onClick = null,
+                        modifier = Modifier.testTag("securesettingslist:rb$index")
+                    )
+                    Text(
+                        text = text,
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.padding(start = 10.dp)
+                    )
+                }
+            }
         }
     }
 }
