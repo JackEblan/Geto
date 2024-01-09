@@ -3,6 +3,8 @@ package com.feature.applist
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -45,7 +47,7 @@ internal fun AppListRoute(
 }
 
 @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 internal fun AppListScreen(
     modifier: Modifier = Modifier,
@@ -66,9 +68,7 @@ internal fun AppListScreen(
         })
     }) { innerPadding ->
         Box(
-            modifier = Modifier
-                .padding(innerPadding)
-                .fillMaxSize()
+            modifier = Modifier.fillMaxSize()
         ) {
             when (val uIStateParam = uIState()) {
                 AppListUiState.Loading -> LoadingPlaceHolderScreen(
@@ -81,7 +81,8 @@ internal fun AppListScreen(
                     LazyColumn(
                         modifier = Modifier
                             .fillMaxSize()
-                            .testTag("userapplist:applist")
+                            .consumeWindowInsets(innerPadding)
+                            .testTag("userapplist:applist"), contentPadding = innerPadding
                     ) {
                         appItems(
                             modifier = modifier,

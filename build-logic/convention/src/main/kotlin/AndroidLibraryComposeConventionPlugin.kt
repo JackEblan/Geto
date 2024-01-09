@@ -8,7 +8,9 @@ import org.gradle.kotlin.dsl.configure
 class AndroidLibraryComposeConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
-            pluginManager.apply(libs.plugins.com.android.geto.library.get().pluginId)
+            with(pluginManager) {
+                apply(libs.plugins.com.android.geto.library.get().pluginId)
+            }
 
             extensions.configure<LibraryExtension>() {
                 configureAndroidCompose(this)

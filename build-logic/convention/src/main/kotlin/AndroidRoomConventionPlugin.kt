@@ -14,7 +14,9 @@ class AndroidRoomConventionPlugin : Plugin<Project> {
 
     override fun apply(target: Project) {
         with(target) {
-            pluginManager.apply(libs.plugins.com.google.devtools.ksp.get().pluginId)
+            with(pluginManager) {
+                apply(libs.plugins.com.google.devtools.ksp.get().pluginId)
+            }
 
             extensions.configure<KspExtension> {
                 arg(RoomSchemaArgProvider(File(projectDir, "schemas")))

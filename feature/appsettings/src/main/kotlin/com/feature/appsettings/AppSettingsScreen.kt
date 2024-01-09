@@ -2,8 +2,9 @@ package com.feature.appsettings
 
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
@@ -161,7 +162,7 @@ internal fun AppSettingsRoute(
 }
 
 @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 internal fun AppSettingsScreen(
     modifier: Modifier = Modifier,
@@ -213,9 +214,7 @@ internal fun AppSettingsScreen(
         )
     }) { innerPadding ->
         Box(
-            modifier = modifier
-                .padding(innerPadding)
-                .fillMaxSize()
+            modifier = modifier.fillMaxSize()
         ) {
 
             when (val uIStateParam = uIState()) {
@@ -242,7 +241,8 @@ internal fun AppSettingsScreen(
                     LazyColumn(
                         modifier = Modifier
                             .fillMaxSize()
-                            .testTag("userappsettings:success")
+                            .consumeWindowInsets(innerPadding)
+                            .testTag("userappsettings:success"), contentPadding = innerPadding
                     ) {
                         appSettings(
                             appSettingsList = uIStateParam.appSettingsList,
