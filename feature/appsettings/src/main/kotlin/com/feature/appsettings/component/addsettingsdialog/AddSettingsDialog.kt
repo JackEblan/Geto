@@ -33,7 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.core.designsystem.component.GetoRadioButton
+import com.core.designsystem.component.GetoVerticalRadioButton
 
 @Composable
 internal fun AddSettingsDialog(
@@ -190,7 +190,7 @@ internal fun AddSettingsDialogScreen(
                     )
                 }
 
-                GetoRadioButton(
+                GetoVerticalRadioButton(
                     items = listOf("System", "Secure", "Global"),
                     selectedRadioOptionIndex = { selectedRadioOptionIndex() },
                     onRadioOptionSelected = onRadioOptionSelected
