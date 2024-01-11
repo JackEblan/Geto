@@ -72,7 +72,7 @@ class AppSettingsViewModelTest {
     fun `Ui state is UserAppSettingsUiState Success when data is not empty`() = runTest {
         val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.uIState.collect() }
 
-        appSettingsRepository.sendUserAppSettings(appSettingsTestData)
+        appSettingsRepository.sendAppSettings(appSettingsTestData)
 
         val item = viewModel.uIState.value
 

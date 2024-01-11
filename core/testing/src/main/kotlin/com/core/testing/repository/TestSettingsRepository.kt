@@ -6,9 +6,9 @@ import com.core.domain.repository.SettingsRepository
 import com.core.domain.repository.SettingsRepository.Companion.APPLY_SETTINGS_SUCCESS_MESSAGE
 import com.core.domain.repository.SettingsRepository.Companion.REVERT_SETTINGS_SUCCESS_MESSAGE
 import com.core.domain.repository.SettingsRepository.Companion.TEST_PERMISSION_NOT_GRANTED_FAILED_MESSAGE
+import com.core.model.AppSettings
 import com.core.model.SecureSettings
 import com.core.model.SettingsType
-import com.core.model.AppSettings
 import com.core.testing.data.secureSettingsTestData
 import java.util.concurrent.ConcurrentHashMap
 
@@ -74,7 +74,7 @@ class TestSettingsRepository : SettingsRepository {
     }
 
     /**
-     * A test-only API to allow change WRITE_SECURE_SETTINGS_PERMISSION.
+     * A test-only API to set WRITE_SECURE_SETTINGS_PERMISSION.
      */
     fun setWriteSecureSettings(value: Boolean) {
         writeSecureSettings = value

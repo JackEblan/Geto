@@ -1,4 +1,4 @@
-package com.feature.appsettings.component.copypermissioncommanddialog
+package com.feature.appsettings.dialog.copypermissioncommanddialog
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

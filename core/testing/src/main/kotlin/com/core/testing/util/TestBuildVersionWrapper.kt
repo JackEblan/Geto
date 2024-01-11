@@ -9,6 +9,9 @@ class TestBuildVersionWrapper : BuildVersionWrapper {
         return isAndroidTwelveBelow
     }
 
+    /**
+     * A test-only API to set Android 12 version
+     */
     fun setAndroidTwelveBelow(value: Boolean) {
         isAndroidTwelveBelow = value
     }

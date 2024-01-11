@@ -4,7 +4,7 @@ import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import androidx.core.graphics.drawable.toBitmap
 import com.core.common.Dispatcher
-import com.core.common.GetoDispatchers
+import com.core.common.GetoDispatchers.Default
 import com.core.domain.util.ByteArrayOutputStreamWrapper
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 class DefaultByteArrayOutputStreamWrapper @Inject constructor(
     private val byteArrayOutputStream: ByteArrayOutputStream,
-    @Dispatcher(GetoDispatchers.Default) private val defaultDispatcher: CoroutineDispatcher
+    @Dispatcher(Default) private val defaultDispatcher: CoroutineDispatcher
 ) : ByteArrayOutputStreamWrapper {
     override suspend fun drawableToByteArray(
         drawable: Drawable?

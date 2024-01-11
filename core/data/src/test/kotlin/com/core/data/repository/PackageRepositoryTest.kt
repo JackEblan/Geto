@@ -12,7 +12,7 @@ import kotlin.test.assertTrue
 class PackageRepositoryTest {
     private lateinit var packageManagerWrapper: TestPackageManagerWrapper
 
-    private lateinit var byteArrayIconWrapper: TestByteArrayOutputStreamWrapper
+    private lateinit var byteArrayOutputStreamWrapper: TestByteArrayOutputStreamWrapper
 
     private lateinit var subject: PackageRepository
 
@@ -22,12 +22,12 @@ class PackageRepositoryTest {
     fun setUp() {
         packageManagerWrapper = TestPackageManagerWrapper()
 
-        byteArrayIconWrapper = TestByteArrayOutputStreamWrapper()
+        byteArrayOutputStreamWrapper = TestByteArrayOutputStreamWrapper()
 
         subject = DefaultPackageRepository(
             packageManagerWrapper = packageManagerWrapper,
             defaultDispatcher = testDispatcher,
-            byteArrayOutputStreamWrapper = byteArrayIconWrapper
+            byteArrayOutputStreamWrapper = byteArrayOutputStreamWrapper
         )
     }
 

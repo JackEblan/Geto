@@ -1,12 +1,9 @@
 package com.core.designsystem.component
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.selection.selectable
-import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
@@ -18,7 +15,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun GetoVerticalRadioButton(
+fun GetoLabeledRadioButton(
     modifier: Modifier = Modifier,
     items: List<String>,
     selectedRadioOptionIndex: () -> Int,
@@ -26,73 +23,27 @@ fun GetoVerticalRadioButton(
 ) {
     val interactionSource = remember { MutableInteractionSource() }
 
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .selectableGroup()
-    ) {
-        items.forEachIndexed { index, text ->
-            Row(
-                Modifier
-                    .padding(vertical = 10.dp)
-                    .selectable(selected = (index == selectedRadioOptionIndex()),
-                                role = Role.RadioButton,
-                                interactionSource = interactionSource,
-                                indication = null,
-                                enabled = true,
-                                onClick = { onRadioOptionSelected(index) })
-                    .padding(horizontal = 16.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                RadioButton(
-                    selected = (index == selectedRadioOptionIndex()), onClick = null
-                )
-                Text(
-                    text = text,
-                    style = MaterialTheme.typography.bodyLarge,
-                    modifier = Modifier.padding(start = 10.dp)
-                )
-            }
-        }
-    }
-}
-
-@Composable
-fun GetoHorizontalRadioButton(
-    modifier: Modifier = Modifier,
-    items: List<String>,
-    selectedRadioOptionIndex: () -> Int,
-    onRadioOptionSelected: (Int) -> Unit
-) {
-    val interactionSource = remember { MutableInteractionSource() }
-
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .selectableGroup()
-    ) {
-        items.forEachIndexed { index, text ->
-            Row(
-                Modifier
-                    .padding(vertical = 10.dp)
-                    .selectable(selected = (index == selectedRadioOptionIndex()),
-                                role = Role.RadioButton,
-                                interactionSource = interactionSource,
-                                indication = null,
-                                enabled = true,
-                                onClick = { onRadioOptionSelected(index) })
-                    .padding(horizontal = 16.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                RadioButton(
-                    selected = (index == selectedRadioOptionIndex()), onClick = null
-                )
-                Text(
-                    text = text,
-                    style = MaterialTheme.typography.bodyLarge,
-                    modifier = Modifier.padding(start = 10.dp)
-                )
-            }
+    items.forEachIndexed { index, text ->
+        Row(
+            modifier
+                .padding(vertical = 10.dp)
+                .selectable(selected = (index == selectedRadioOptionIndex()),
+                            role = Role.RadioButton,
+                            interactionSource = interactionSource,
+                            indication = null,
+                            enabled = true,
+                            onClick = { onRadioOptionSelected(index) })
+                .padding(horizontal = 16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            RadioButton(
+                selected = (index == selectedRadioOptionIndex()), onClick = null
+            )
+            Text(
+                text = text,
+                style = MaterialTheme.typography.bodyLarge,
+                modifier = Modifier.padding(start = 10.dp)
+            )
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.feature.appsettings.component.addsettingsdialog
+package com.feature.appsettings.dialog.addsettingsdialog
 
 import com.core.testing.repository.TestAppSettingsRepository
 import com.core.testing.util.MainDispatcherRule

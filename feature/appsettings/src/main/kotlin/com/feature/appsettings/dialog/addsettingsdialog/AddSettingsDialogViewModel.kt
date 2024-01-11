@@ -1,10 +1,10 @@
-package com.feature.appsettings.component.addsettingsdialog
+package com.feature.appsettings.dialog.addsettingsdialog
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.core.domain.repository.AppSettingsRepository
-import com.core.model.SettingsType
 import com.core.model.AppSettings
+import com.core.model.SettingsType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

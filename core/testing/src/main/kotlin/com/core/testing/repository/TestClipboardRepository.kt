@@ -12,7 +12,7 @@ class TestClipboardRepository : ClipboardRepository {
     }
 
     /**
-     * A test-only API to allow Android Version 12 compatibility.
+     * A test-only API to set Android 12 version.
      */
     fun setAndroidTwelveBelow(value: Boolean) {
         isAndroidTwelveBelow = value

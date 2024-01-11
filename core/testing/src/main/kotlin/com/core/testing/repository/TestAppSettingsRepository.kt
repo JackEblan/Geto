@@ -60,7 +60,7 @@ class TestAppSettingsRepository : AppSettingsRepository {
     /**
      * A test-only API to allow setting of user data directly.
      */
-    fun sendUserAppSettings(appSettingsList: List<AppSettings>) {
+    fun sendAppSettings(appSettingsList: List<AppSettings>) {
         _AppSettingsFlow.tryEmit(appSettingsList)
     }
 }

@@ -5,7 +5,7 @@ import android.provider.Settings
 import androidx.core.database.getLongOrNull
 import androidx.core.database.getStringOrNull
 import com.core.common.Dispatcher
-import com.core.common.GetoDispatchers
+import com.core.common.GetoDispatchers.IO
 import com.core.domain.util.SecureSettingsPermissionWrapper
 import com.core.model.AppSettings
 import com.core.model.SecureSettings
@@ -15,7 +15,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class DefaultSecureSettingsPermissionWrapper @Inject constructor(
-    @Dispatcher(GetoDispatchers.IO) private val ioDispatcher: CoroutineDispatcher,
+    @Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher,
     private val contentResolver: ContentResolver
 ) : SecureSettingsPermissionWrapper {
 

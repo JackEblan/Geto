@@ -1,4 +1,4 @@
-package com.feature.appsettings.component.copypermissioncommanddialog
+package com.feature.appsettings.dialog.copypermissioncommanddialog
 
 import androidx.lifecycle.ViewModel
 import com.core.domain.repository.ClipboardRepository

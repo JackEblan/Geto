@@ -1,4 +1,4 @@
-package com.feature.appsettings.component.addsettingsdialog
+package com.feature.appsettings.dialog.addsettingsdialog
 
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.ScrollState
@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
@@ -33,7 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.core.designsystem.component.GetoVerticalRadioButton
+import com.core.designsystem.component.GetoLabeledRadioButton
 
 @Composable
 internal fun AddSettingsDialog(
@@ -190,11 +191,17 @@ internal fun AddSettingsDialogScreen(
                     )
                 }
 
-                GetoVerticalRadioButton(
-                    items = listOf("System", "Secure", "Global"),
-                    selectedRadioOptionIndex = { selectedRadioOptionIndex() },
-                    onRadioOptionSelected = onRadioOptionSelected
-                )
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .selectableGroup()
+                ) {
+                    GetoLabeledRadioButton(
+                        items = listOf("System", "Secure", "Global"),
+                        selectedRadioOptionIndex = { selectedRadioOptionIndex() },
+                        onRadioOptionSelected = onRadioOptionSelected
+                    )
+                }
 
                 Spacer(modifier = Modifier.height(10.dp))
 

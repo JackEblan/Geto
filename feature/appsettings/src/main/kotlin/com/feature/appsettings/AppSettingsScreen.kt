@@ -43,8 +43,8 @@ import com.core.model.AppSettings
 import com.core.ui.AppSettingsItem
 import com.core.ui.EmptyListPlaceHolderScreen
 import com.core.ui.LoadingPlaceHolderScreen
-import com.feature.appsettings.component.addsettingsdialog.AddSettingsDialog
-import com.feature.appsettings.component.copypermissioncommanddialog.CopyPermissionCommandDialog
+import com.feature.appsettings.dialog.addsettingsdialog.AddSettingsDialog
+import com.feature.appsettings.dialog.copypermissioncommanddialog.CopyPermissionCommandDialog
 import kotlinx.coroutines.launch
 
 @Composable

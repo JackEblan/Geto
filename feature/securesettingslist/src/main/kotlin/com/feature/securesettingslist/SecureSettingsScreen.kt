@@ -2,11 +2,14 @@ package com.feature.securesettingslist
 
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -28,7 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.core.designsystem.component.GetoHorizontalRadioButton
+import com.core.designsystem.component.GetoLabeledRadioButton
 import com.core.model.SecureSettings
 import com.core.ui.LoadingPlaceHolderScreen
 import com.core.ui.SecureSettingsItem
@@ -148,12 +151,17 @@ private fun LazyListScope.settingsTypeFilterItem(
     onRadioOptionSelected: (Int) -> Unit,
 ) {
     item {
-        GetoHorizontalRadioButton(
-            modifier = modifier,
-            items = listOf("System", "Secure", "Global"),
-            selectedRadioOptionIndex = { selectedRadioOptionIndex() },
-            onRadioOptionSelected = onRadioOptionSelected
-        )
+        Row(
+            modifier = modifier
+                .fillMaxWidth()
+                .selectableGroup()
+        ) {
+            GetoLabeledRadioButton(
+                items = listOf("System", "Secure", "Global"),
+                selectedRadioOptionIndex = { selectedRadioOptionIndex() },
+                onRadioOptionSelected = onRadioOptionSelected
+            )
+        }
     }
 }
 
