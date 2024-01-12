@@ -10,6 +10,10 @@ android {
     defaultConfig {
         testInstrumentationRunner = "com.core.testing.HiltTestRunner"
     }
+
+    sourceSets {
+        getByName("androidTest").assets.srcDir("$projectDir/schemas")
+    }
 }
 
 dependencies {

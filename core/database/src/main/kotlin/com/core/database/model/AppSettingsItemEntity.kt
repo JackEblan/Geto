@@ -6,11 +6,12 @@ import com.core.model.SettingsType
 
 @Entity
 data class AppSettingsItemEntity(
+    @PrimaryKey val id: Int? = null,
     val enabled: Boolean,
     val settingsType: SettingsType,
     val packageName: String,
     val label: String,
-    @PrimaryKey val key: String,
+    val key: String,
     val valueOnLaunch: String,
     val valueOnRevert: String
 )
