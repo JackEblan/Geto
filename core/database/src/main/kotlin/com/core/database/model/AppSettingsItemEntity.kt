@@ -7,7 +7,7 @@ import com.core.model.SettingsType
 
 @Entity
 data class AppSettingsItemEntity(
-    @PrimaryKey val id: Int?,
+    @PrimaryKey val id: Int? = null,
     val enabled: Boolean,
     val settingsType: SettingsType,
     val packageName: String,
