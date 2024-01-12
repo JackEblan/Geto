@@ -1,10 +1,12 @@
 package com.core.domain.usecase
 
+import com.core.domain.repository.CopySettingsResultMessage
 import com.core.testing.repository.TestClipboardRepository
 import com.core.testing.util.TestBuildVersionWrapper
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
+import kotlin.test.assertIs
 import kotlin.test.assertTrue
 
 class CopySettingsUseCaseTest {
@@ -29,5 +31,12 @@ class CopySettingsUseCaseTest {
         val result = copySettingsUseCase(secureSettings = null)
 
         assertTrue { result.isFailure }
+    }
+
+    @Test
+    fun `When secureSettings is not null then return Result of clipboardRepository`() = runTest {
+        val result = copySettingsUseCase(secureSettings = "secure settings")
+
+        assertIs<Result<CopySettingsResultMessage>>(result)
     }
 }
