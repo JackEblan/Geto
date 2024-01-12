@@ -24,21 +24,20 @@ class AddSettingsDialogViewModelTest {
     }
 
     @Test
-    fun `On Event Add UserAppSettingsItem then return Result success with show snackbar message not null`() =
-        runTest {
-            viewModel.onEvent(
-                AddSettingsDialogEvent.AddSettings(
-                    packageName = "com.android.geto",
-                    selectedRadioOptionIndex = 0,
-                    label = "label",
-                    key = "key",
-                    valueOnLaunch = "value",
-                    valueOnRevert = "value"
-                )
+    fun `On Event Add UserAppSettingsItem then dismissDialogState becomes true`() = runTest {
+        viewModel.onEvent(
+            AddSettingsDialogEvent.AddSettings(
+                packageName = "com.android.geto",
+                selectedRadioOptionIndex = 0,
+                label = "label",
+                key = "key",
+                valueOnLaunch = "value",
+                valueOnRevert = "value"
+            )
             )
 
             assertTrue {
-                viewModel.showSnackBar.value != null
+                viewModel.dismissDialogState.value
             }
         }
 }

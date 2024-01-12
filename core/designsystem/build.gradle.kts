@@ -14,9 +14,16 @@ dependencies {
     api(libs.androidx.compose.foundation.layout)
     api(libs.androidx.compose.material)
     api(libs.androidx.compose.material3)
+    api(libs.androidx.compose.material.iconsExtended)
     api(libs.androidx.compose.runtime)
     api(libs.androidx.compose.ui.tooling.preview)
     api(libs.androidx.compose.ui.util)
 
     debugApi(libs.androidx.compose.ui.tooling)
+
+    testImplementation(libs.androidx.compose.ui.test)
+    testImplementation(projects.core.testing)
+
+    androidTestImplementation(libs.androidx.compose.ui.test)
+    androidTestImplementation(projects.core.testing)
 }

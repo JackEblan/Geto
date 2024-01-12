@@ -1,7 +1,6 @@
 package com.core.database
 
 import androidx.room.testing.MigrationTestHelper
-import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import org.junit.Rule
@@ -15,9 +14,7 @@ class MigrationTest {
 
     @get:Rule
     val helper: MigrationTestHelper = MigrationTestHelper(
-        InstrumentationRegistry.getInstrumentation(),
-        AppDatabase::class.java.canonicalName!!,
-        FrameworkSQLiteOpenHelperFactory()
+        InstrumentationRegistry.getInstrumentation(), AppDatabase::class.java
     )
 
     @Test

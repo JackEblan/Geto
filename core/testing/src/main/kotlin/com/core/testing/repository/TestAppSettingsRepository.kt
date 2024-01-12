@@ -1,7 +1,6 @@
 package com.core.testing.repository
 
 import com.core.domain.repository.AppSettingsRepository
-import com.core.domain.repository.AppSettingsResultMessage
 import com.core.model.AppSettings
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
@@ -10,24 +9,22 @@ import kotlinx.coroutines.flow.filter
 
 class TestAppSettingsRepository : AppSettingsRepository {
 
-    private val _AppSettingsFlow = MutableSharedFlow<List<AppSettings>>(
+    private val _appSettingsFlow = MutableSharedFlow<List<AppSettings>>(
         replay = 1, extraBufferCapacity = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST
     )
 
-    override suspend fun upsertUserAppSettings(appSettings: AppSettings): Result<AppSettingsResultMessage> {
+    override suspend fun upsertUserAppSettings(appSettings: AppSettings) {
         val updatedList =
-            _AppSettingsFlow.replayCache.lastOrNull()?.toMutableList() ?: mutableListOf()
+            _appSettingsFlow.replayCache.lastOrNull()?.toMutableList() ?: mutableListOf()
 
         updatedList.add(appSettings)
 
-        _AppSettingsFlow.emit(updatedList)
-
-        return Result.success("${appSettings.label} saved successfully")
+        _appSettingsFlow.emit(updatedList)
     }
 
-    override suspend fun upsertUserAppSettingsEnabled(appSettings: AppSettings): Result<AppSettingsResultMessage> {
+    override suspend fun upsertUserAppSettingsEnabled(appSettings: AppSettings) {
         val updatedList =
-            _AppSettingsFlow.replayCache.lastOrNull()?.toMutableList() ?: mutableListOf()
+            _appSettingsFlow.replayCache.lastOrNull()?.toMutableList() ?: mutableListOf()
 
         val index = updatedList.indexOfFirst { it.key == appSettings.key }
 
@@ -37,30 +34,26 @@ class TestAppSettingsRepository : AppSettingsRepository {
             updatedList.add(appSettings)
         }
 
-        _AppSettingsFlow.emit(updatedList)
-
-        return Result.success("${appSettings.label} ${if (appSettings.enabled) "enabled" else "disabled"}")
+        _appSettingsFlow.emit(updatedList)
     }
 
-    override suspend fun deleteUserAppSettings(appSettings: AppSettings): Result<AppSettingsResultMessage> {
+    override suspend fun deleteUserAppSettings(appSettings: AppSettings) {
         val updatedList =
-            _AppSettingsFlow.replayCache.lastOrNull()?.toMutableList() ?: mutableListOf()
+            _appSettingsFlow.replayCache.lastOrNull()?.toMutableList() ?: mutableListOf()
 
         updatedList.removeIf { it.key == appSettings.key }
 
-        _AppSettingsFlow.emit(updatedList)
-
-        return Result.success("${appSettings.label} deleted successfully")
+        _appSettingsFlow.emit(updatedList)
     }
 
     override fun getUserAppSettingsList(packageName: String): Flow<List<AppSettings>> {
-        return _AppSettingsFlow.filter { it.any { setting -> setting.packageName == packageName } }
+        return _appSettingsFlow.filter { it.any { setting -> setting.packageName == packageName } }
     }
 
     /**
      * A test-only API to allow setting of user data directly.
      */
     fun sendAppSettings(appSettingsList: List<AppSettings>) {
-        _AppSettingsFlow.tryEmit(appSettingsList)
+        _appSettingsFlow.tryEmit(appSettingsList)
     }
 }

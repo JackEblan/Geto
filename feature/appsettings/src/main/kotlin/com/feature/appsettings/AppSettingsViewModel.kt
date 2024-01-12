@@ -86,21 +86,13 @@ class AppSettingsViewModel @Inject constructor(
 
                     appSettingsRepository.upsertUserAppSettingsEnabled(
                         updatedUserAppSettingsItem
-                    ).onSuccess {
-                        _showSnackBar.value = it
-                    }.onFailure {
-                        _showSnackBar.value = it.localizedMessage
-                    }
+                    )
                 }
             }
 
             is AppSettingsEvent.OnDeleteAppSettingsItem -> {
                 viewModelScope.launch {
-                    appSettingsRepository.deleteUserAppSettings(event.appSettings).onSuccess {
-                        _showSnackBar.value = it
-                    }.onFailure {
-                        _showSnackBar.value = it.localizedMessage
-                    }
+                    appSettingsRepository.deleteUserAppSettings(event.appSettings)
                 }
             }
         }

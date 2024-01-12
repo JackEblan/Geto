@@ -5,7 +5,6 @@ import com.core.common.GetoDispatchers.IO
 import com.core.database.dao.AppSettingsDao
 import com.core.database.model.asExternalModel
 import com.core.domain.repository.AppSettingsRepository
-import com.core.domain.repository.AppSettingsResultMessage
 import com.core.model.AppSettings
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
@@ -18,31 +17,21 @@ class DefaultAppSettingsRepository @Inject constructor(
     private val appSettingsDao: AppSettingsDao
 ) : AppSettingsRepository {
 
-    override suspend fun upsertUserAppSettings(appSettings: AppSettings): Result<AppSettingsResultMessage> {
-        return runCatching {
-            withContext(ioDispatcher) {
-                appSettingsDao.upsert(appSettings.asExternalModel())
-                "${appSettings.label} saved successfully"
-            }
+    override suspend fun upsertUserAppSettings(appSettings: AppSettings) {
+        return withContext(ioDispatcher) {
+            appSettingsDao.upsert(appSettings.asExternalModel())
         }
     }
 
-    override suspend fun upsertUserAppSettingsEnabled(appSettings: AppSettings): Result<AppSettingsResultMessage> {
-        return runCatching {
-            withContext(ioDispatcher) {
-                val enabled = if (appSettings.enabled) "enabled" else "disabled"
-                appSettingsDao.upsert(appSettings.asExternalModel())
-                "${appSettings.label} $enabled"
-            }
+    override suspend fun upsertUserAppSettingsEnabled(appSettings: AppSettings) {
+        return withContext(ioDispatcher) {
+            appSettingsDao.upsert(appSettings.asExternalModel())
         }
     }
 
-    override suspend fun deleteUserAppSettings(appSettings: AppSettings): Result<AppSettingsResultMessage> {
-        return runCatching {
-            withContext(ioDispatcher) {
-                appSettingsDao.delete(appSettings.asExternalModel())
-                "${appSettings.label} deleted successfully"
-            }
+    override suspend fun deleteUserAppSettings(appSettings: AppSettings) {
+        return withContext(ioDispatcher) {
+            appSettingsDao.delete(appSettings.asExternalModel())
         }
     }
 
@@ -50,9 +39,7 @@ class DefaultAppSettingsRepository @Inject constructor(
         return appSettingsDao.getUserAppSettingsList(packageName).map {
             it.map { entity ->
                 AppSettings(
-                    id = entity.id,
-                    enabled = entity.enabled,
-                    settingsType = entity.settingsType,
+                    id = entity.id, enabled = entity.enabled, settingsType = entity.settingsType,
                     packageName = entity.packageName,
                     label = entity.label,
                     key = entity.key,

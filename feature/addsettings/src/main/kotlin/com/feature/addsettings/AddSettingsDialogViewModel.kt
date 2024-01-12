@@ -15,9 +15,9 @@ import javax.inject.Inject
 class AddSettingsDialogViewModel @Inject constructor(
     private val appSettingsRepository: AppSettingsRepository
 ) : ViewModel() {
-    private var _showSnackBar = MutableStateFlow<String?>(null)
+    private var _dismissDialogState = MutableStateFlow(false)
 
-    val showSnackBar = _showSnackBar.asStateFlow()
+    val dismissDialogState = _dismissDialogState.asStateFlow()
 
     fun onEvent(event: AddSettingsDialogEvent) {
         when (event) {
@@ -43,15 +43,15 @@ class AddSettingsDialogViewModel @Inject constructor(
                             valueOnLaunch = event.valueOnLaunch,
                             valueOnRevert = event.valueOnRevert
                         )
-                    ).onSuccess {
-                        _showSnackBar.value = it
-                    }
+                    )
+                    _dismissDialogState.value = true
+
                 }
             }
         }
     }
 
     fun clearState() {
-        _showSnackBar.value = null
+        _dismissDialogState.value = false
     }
 }

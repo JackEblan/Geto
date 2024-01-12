@@ -65,10 +65,10 @@ fun AddSettingsDialog(
 
     val scrollState = rememberScrollState()
 
-    val showSnackBar = viewModel.showSnackBar.collectAsStateWithLifecycle().value
+    val dismiss = viewModel.dismissDialogState.collectAsStateWithLifecycle().value
 
-    LaunchedEffect(key1 = showSnackBar) {
-        showSnackBar?.let {
+    LaunchedEffect(key1 = dismiss) {
+        if (dismiss) {
             onDismissRequest()
             viewModel.clearState()
         }

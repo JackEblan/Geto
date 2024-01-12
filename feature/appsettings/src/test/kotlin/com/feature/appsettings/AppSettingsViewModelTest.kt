@@ -124,28 +124,4 @@ class AppSettingsViewModelTest {
 
             assertTrue { viewModel.secureSettingsException.value != null }
         }
-
-    @Test
-    fun `OnEvent OnUserAppSettingsItemCheckBoxChange then return Result success with show snackbar message as not null`() =
-        runTest {
-            viewModel.onEvent(
-                AppSettingsEvent.OnAppSettingsItemCheckBoxChange(
-                    checked = true, appSettings = appSettingsTestData.first()
-                )
-            )
-
-            assertTrue { viewModel.showSnackBar.value != null }
-        }
-
-    @Test
-    fun `OnEvent OnDeleteUserAppSettingsItem then return Result success with show snackbar message as not null`() =
-        runTest {
-            viewModel.onEvent(
-                AppSettingsEvent.OnDeleteAppSettingsItem(
-                    appSettingsTestData.first()
-                )
-            )
-
-            assertTrue { viewModel.showSnackBar.value != null }
-        }
 }
