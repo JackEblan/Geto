@@ -34,8 +34,10 @@
             <option value="$PROJECT_DIR$/core/testing" />
             <option value="$PROJECT_DIR$/core/ui" />
             <option value="$PROJECT_DIR$/feature" />
+            <option value="$PROJECT_DIR$/feature/addsettings" />
             <option value="$PROJECT_DIR$/feature/applist" />
             <option value="$PROJECT_DIR$/feature/appsettings" />
+            <option value="$PROJECT_DIR$/feature/copypermissioncommand" />
             <option value="$PROJECT_DIR$/feature/securesettingslist" />
           </set>
         </option>

@@ -28,12 +28,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
@@ -43,30 +38,19 @@ import com.core.model.AppSettings
 import com.core.ui.AppSettingsItem
 import com.core.ui.EmptyListPlaceHolderScreen
 import com.core.ui.LoadingPlaceHolderScreen
-import com.feature.appsettings.dialog.addsettingsdialog.AddSettingsDialog
-import com.feature.appsettings.dialog.copypermissioncommanddialog.CopyPermissionCommandDialog
-import kotlinx.coroutines.launch
 
 @Composable
 internal fun AppSettingsRoute(
     modifier: Modifier = Modifier,
     viewModel: AppSettingsViewModel = hiltViewModel(),
-    onNavigationIconClick: () -> Unit
+    onNavigationIconClick: () -> Unit,
+    onOpenAddSettingsDialog: (String) -> Unit,
+    onOpenCopyPermissionCommandDialog: () -> Unit
 ) {
     val context = LocalContext.current
 
-    val coroutineScope = rememberCoroutineScope()
-
     val snackbarHostState = remember {
         SnackbarHostState()
-    }
-
-    var openAddSettingsDialog by rememberSaveable {
-        mutableStateOf(false)
-    }
-
-    var openCopyPermissionCommandDialog by rememberSaveable {
-        mutableStateOf(false)
     }
 
     val uIState = viewModel.uIState.collectAsStateWithLifecycle().value
@@ -88,7 +72,7 @@ internal fun AppSettingsRoute(
     LaunchedEffect(key1 = secureSettingsException) {
         secureSettingsException?.let { throwable ->
             if (throwable is SecurityException) {
-                openCopyPermissionCommandDialog = true
+                onOpenCopyPermissionCommandDialog()
             } else {
                 snackbarHostState.showSnackbar(
                     message = throwable.localizedMessage!!
@@ -131,7 +115,7 @@ internal fun AppSettingsRoute(
                       onDeleteAppSettingsItem = {
                           viewModel.onEvent(AppSettingsEvent.OnDeleteAppSettingsItem(it))
                       },
-                      onAddAppSettingsClick = { openAddSettingsDialog = true },
+                      onAddAppSettingsClick = { onOpenAddSettingsDialog(viewModel.packageName) },
                       onLaunchApp = {
                           viewModel.onEvent(
                               AppSettingsEvent.OnLaunchApp(
@@ -140,25 +124,6 @@ internal fun AppSettingsRoute(
                               )
                           )
                       })
-
-    if (openAddSettingsDialog) {
-        AddSettingsDialog(packageName = viewModel.packageName,
-                          onDismissRequest = { openAddSettingsDialog = false },
-                          onShowSnackbar = { message ->
-                              coroutineScope.launch {
-                                  snackbarHostState.showSnackbar(message = message)
-                              }
-                          })
-    }
-
-    if (openCopyPermissionCommandDialog) {
-        CopyPermissionCommandDialog(onDismissRequest = { openCopyPermissionCommandDialog = false },
-                                    onShowSnackbar = { message ->
-                                        coroutineScope.launch {
-                                            snackbarHostState.showSnackbar(message = message)
-                                        }
-                                    })
-    }
 }
 
 @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)

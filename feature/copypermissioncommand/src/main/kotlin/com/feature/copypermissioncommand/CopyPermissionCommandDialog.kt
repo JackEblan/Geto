@@ -1,4 +1,4 @@
-package com.feature.appsettings.dialog.copypermissioncommanddialog
+package com.feature.copypermissioncommand
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -23,17 +23,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 @Composable
-internal fun CopyPermissionCommandDialog(
+fun CopyPermissionCommandDialog(
     modifier: Modifier = Modifier,
     viewModel: CopyPermissionCommandDialogViewModel = hiltViewModel(),
-    onDismissRequest: () -> Unit,
-    onShowSnackbar: (String) -> Unit
+    onDismissRequest: () -> Unit
 ) {
     val copyResultState = viewModel.showSnackBar.collectAsStateWithLifecycle().value
 
     LaunchedEffect(key1 = copyResultState) {
         copyResultState?.let {
-            onShowSnackbar(it)
             onDismissRequest()
             viewModel.clearState()
         }

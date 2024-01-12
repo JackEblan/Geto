@@ -1,4 +1,4 @@
-package com.feature.appsettings.dialog.addsettingsdialog
+package com.feature.addsettings
 
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.rememberScrollState

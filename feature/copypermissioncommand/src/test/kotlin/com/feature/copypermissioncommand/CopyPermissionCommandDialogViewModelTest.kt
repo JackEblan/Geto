@@ -1,4 +1,4 @@
-package com.feature.appsettings.dialog.copypermissioncommanddialog
+package com.feature.copypermissioncommand
 
 import com.core.testing.repository.TestClipboardRepository
 import com.core.testing.util.MainDispatcherRule
@@ -8,7 +8,7 @@ import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertTrue
 
-class CopySettingsDialogViewModelTest {
+class CopyPermissionCommandDialogViewModelTest {
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 

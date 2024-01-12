@@ -1,4 +1,4 @@
-package com.feature.appsettings.dialog.addsettingsdialog
+package com.feature.addsettings
 
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.ScrollState
@@ -37,12 +37,11 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.core.designsystem.component.GetoLabeledRadioButton
 
 @Composable
-internal fun AddSettingsDialog(
+fun AddSettingsDialog(
     modifier: Modifier = Modifier,
     viewModel: AddSettingsDialogViewModel = hiltViewModel(),
     packageName: String,
-    onDismissRequest: () -> Unit,
-    onShowSnackbar: (String) -> Unit
+    onDismissRequest: () -> Unit
 ) {
     var selectedRadioOptionIndex by rememberSaveable { mutableIntStateOf(-1) }
 
@@ -70,7 +69,6 @@ internal fun AddSettingsDialog(
 
     LaunchedEffect(key1 = showSnackBar) {
         showSnackBar?.let {
-            onShowSnackbar(it)
             onDismissRequest()
             viewModel.clearState()
         }
