@@ -1,6 +1,7 @@
 package com.core.model
 
 data class AppSettings(
+    val id: Int? = null,
     val enabled: Boolean,
     val settingsType: SettingsType,
     val packageName: String,

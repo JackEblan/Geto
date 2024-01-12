@@ -22,6 +22,7 @@ class AppSettingsRepositoryTest {
     @Test
     fun `get AppSettings upsert AppSettingsItemEntity returns not empty`() = runTest {
         val entity = AppSettingsItemEntity(
+            id = 0,
             enabled = false,
             settingsType = SettingsType.SYSTEM,
             packageName = "com.android.geto",
@@ -40,6 +41,7 @@ class AppSettingsRepositoryTest {
     fun `get AppSettings upsert AppSettingsItemEntity with enabled property returns not empty`() =
         runTest {
             val entity = AppSettingsItemEntity(
+                id = 0,
                 enabled = true,
                 settingsType = SettingsType.SYSTEM,
                 packageName = "com.android.geto",
@@ -57,6 +59,7 @@ class AppSettingsRepositoryTest {
     @Test
     fun `get AppSettings delete AppSettingsItemEntity returns item not exist`() = runTest {
         val entity = AppSettingsItemEntity(
+            id = 0,
             enabled = false,
             settingsType = SettingsType.SYSTEM,
             packageName = "com.android.geto",
@@ -74,6 +77,7 @@ class AppSettingsRepositoryTest {
     @Test
     fun `get AppSettings filter by package name returns not empty`() = runTest {
         val entity = AppSettingsItemEntity(
+            id = 0,
             enabled = false,
             settingsType = SettingsType.SYSTEM,
             packageName = "com.android.geto",
