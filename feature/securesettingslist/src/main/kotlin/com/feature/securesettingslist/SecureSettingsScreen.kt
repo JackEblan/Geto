@@ -10,8 +10,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.selection.selectableGroup
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -32,6 +30,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.core.designsystem.component.GetoLabeledRadioButton
+import com.core.designsystem.icon.GetoIcons
 import com.core.model.SecureSettings
 import com.core.ui.LoadingPlaceHolderScreen
 import com.core.ui.SecureSettingsItem
@@ -95,7 +94,7 @@ internal fun SecureSettingsScreen(
         }, navigationIcon = {
             IconButton(onClick = onNavigationIconClick) {
                 Icon(
-                    imageVector = Icons.Default.ArrowBack, contentDescription = "Navigation icon"
+                    imageVector = GetoIcons.Back, contentDescription = "Navigation icon"
                 )
             }
         })

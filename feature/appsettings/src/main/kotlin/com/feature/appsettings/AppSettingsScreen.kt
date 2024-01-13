@@ -8,12 +8,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Android
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.HourglassEmpty
-import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -34,6 +28,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.core.designsystem.icon.GetoIcons
 import com.core.model.AppSettings
 import com.core.ui.AppSettingsItem
 import com.core.ui.EmptyListPlaceHolderScreen
@@ -147,7 +142,7 @@ internal fun AppSettingsScreen(
         }, navigationIcon = {
             IconButton(onClick = onNavigationIconClick) {
                 Icon(
-                    imageVector = Icons.Default.ArrowBack, contentDescription = "Navigation icon"
+                    imageVector = GetoIcons.Back, contentDescription = "Navigation icon"
                 )
             }
         })
@@ -155,12 +150,12 @@ internal fun AppSettingsScreen(
         BottomAppBar(actions = {
             IconButton(onClick = onRevertSettingsIconClick) {
                 Icon(
-                    imageVector = Icons.Default.Refresh, contentDescription = "Revert icon"
+                    imageVector = GetoIcons.Refresh, contentDescription = "Revert icon"
                 )
             }
             IconButton(onClick = onAddAppSettingsClick) {
                 Icon(
-                    Icons.Filled.Add,
+                    GetoIcons.Add,
                     contentDescription = "Add icon",
                 )
             }
@@ -170,7 +165,7 @@ internal fun AppSettingsScreen(
                 containerColor = BottomAppBarDefaults.bottomAppBarFabColor,
                 elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
             ) {
-                Icon(imageVector = Icons.Default.Android, contentDescription = "Launch icon")
+                Icon(imageVector = GetoIcons.Android, contentDescription = "Launch icon")
             }
         })
     }, snackbarHost = {
@@ -188,7 +183,7 @@ internal fun AppSettingsScreen(
                         modifier = Modifier
                             .fillMaxSize()
                             .testTag("userappsettings:empty"),
-                        icon = Icons.Default.HourglassEmpty,
+                        icon = GetoIcons.Empty,
                         text = "Nothing is here"
                     )
                 }
