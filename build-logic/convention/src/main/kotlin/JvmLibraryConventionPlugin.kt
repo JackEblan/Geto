@@ -1,5 +1,4 @@
 import com.android.geto.configureKotlinJvm
-import com.android.geto.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
@@ -8,7 +7,7 @@ class JvmLibraryConventionPlugin : Plugin<Project> {
         with(target) {
 
             with(pluginManager) {
-                apply(libs.plugins.org.jetbrains.kotlin.jvm.get().pluginId)
+                apply("org.jetbrains.kotlin.jvm")
             }
             configureKotlinJvm()
         }

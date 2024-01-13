@@ -14,9 +14,6 @@ androidxTestExt = "1.1.5"
 androidxTestRules = "1.5.0"
 androidxTestRunner = "1.5.2"
 coil = "2.5.0"
-firebaseBom = "32.7.0"
-firebaseCrashlyticsPlugin = "2.9.9"
-gmsPlugin = "4.4.0"
 hilt = "2.48.1"
 jacoco = "0.8.7"
 kotlinxCoroutines = "1.7.3"
@@ -55,9 +52,6 @@ androidx-test-rules = { group = "androidx.test", name = "rules", version.ref = "
 androidx-test-runner = { group = "androidx.test", name = "runner", version.ref = "androidxTestRunner" }
 coil-kt-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 dagger-compiler = { group = "com.google.dagger", name = "dagger-compiler", version.ref = "hilt" }
-firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
-firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics" }
-firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics" }
 hilt-android-gradle-plugin = { group = "com.google.dagger", name = "hilt-android-gradle-plugin", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
 hilt-android-testing = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt" }
@@ -75,7 +69,6 @@ room-testing = { group = "androidx.room", name = "room-testing", version.ref = "
 
 # Dependencies of the included build-logic
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
-firebase-crashlytics-gradlePlugin = { group = "com.google.firebase", name = "firebase-crashlytics-gradle", version.ref = "firebaseCrashlyticsPlugin" }
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlinGradlePlugin" }
 ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
 
@@ -83,12 +76,8 @@ ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devto
 com-android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 com-android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
 org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlinGradlePlugin" }
-firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebaseCrashlyticsPlugin" }
-gms = { id = "com.google.gms.google-services", version.ref = "gmsPlugin" }
 com-google-dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 com-google-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
-jacoco = { id = "jacoco", version = "unspecified" }
-org-jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version = "unspecified" }
 
 # Plugins defined by this project
 com-android-geto-application = { id = "com.android.geto.application", version = "unspecified" }
@@ -100,4 +89,3 @@ com-android-geto-libraryJacoco = { id = "com.android.geto.libraryJacoco", versio
 com-android-geto-feature = { id = "com.android.geto.feature", version = "unspecified" }
 com-android-geto-hilt = { id = "com.android.geto.hilt", version = "unspecified" }
 com-android-geto-room = { id = "com.android.geto.room", version = "unspecified" }
-com-android-geto-applicationFirebase = { id = "com.android.geto.applicationFirebase", version = "unspecified" }

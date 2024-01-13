@@ -10,10 +10,10 @@ import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Android
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.HourglassEmpty
 import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.material.icons.outlined.Create
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -170,7 +170,7 @@ internal fun AppSettingsScreen(
                 containerColor = BottomAppBarDefaults.bottomAppBarFabColor,
                 elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
             ) {
-                Icon(imageVector = Icons.Default.PlayArrow, contentDescription = "Launch icon")
+                Icon(imageVector = Icons.Default.Android, contentDescription = "Launch icon")
             }
         })
     }, snackbarHost = {
@@ -188,7 +188,7 @@ internal fun AppSettingsScreen(
                         modifier = Modifier
                             .fillMaxSize()
                             .testTag("userappsettings:empty"),
-                        icon = Icons.Outlined.Create,
+                        icon = Icons.Default.HourglassEmpty,
                         text = "Nothing is here"
                     )
                 }
