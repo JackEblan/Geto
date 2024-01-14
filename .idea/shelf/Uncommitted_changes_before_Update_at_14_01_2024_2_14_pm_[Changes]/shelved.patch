@@ -1,0 +1,81 @@
+Index: app/build.gradle.kts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>plugins {\r\n    alias(libs.plugins.com.android.geto.application)\r\n    alias(libs.plugins.com.android.geto.applicationCompose)\r\n    alias(libs.plugins.com.android.geto.applicationFirebase)\r\n    alias(libs.plugins.com.android.geto.hilt)\r\n}\r\n\r\nandroid {\r\n    namespace = \"com.android.geto\"\r\n\r\n    defaultConfig {\r\n        applicationId = \"com.android.geto\"\r\n        versionCode = 9\r\n        versionName = \"1.9\"\r\n\r\n        testInstrumentationRunner = \"androidx.test.runner.AndroidJUnitRunner\"\r\n        vectorDrawables {\r\n            useSupportLibrary = true\r\n        }\r\n    }\r\n\r\n    buildTypes {\r\n        release {\r\n            isMinifyEnabled = false\r\n            isShrinkResources = false\r\n            proguardFiles(\r\n                getDefaultProguardFile(\"proguard-android-optimize.txt\"), \"proguard-rules.pro\"\r\n            )\r\n        }\r\n    }\r\n\r\n    packaging {\r\n        resources {\r\n            excludes += \"/META-INF/{AL2.0,LGPL2.1}\"\r\n        }\r\n    }\r\n}\r\n\r\ndependencies {\r\n    implementation(projects.core.common)\r\n    implementation(projects.core.designsystem)\r\n    implementation(projects.feature.applist)\r\n    implementation(projects.feature.appsettings)\r\n    implementation(projects.feature.securesettingslist)\r\n    implementation(projects.feature.addsettings)\r\n    implementation(projects.feature.copypermissioncommand)\r\n\r\n    implementation(libs.androidx.activity.ktx)\r\n    implementation(libs.androidx.lifecycle.viewmodel.compose)\r\n    implementation(libs.androidx.navigation.compose)\r\n\r\n    androidTestImplementation(projects.core.testing)\r\n    testImplementation(projects.core.testing)\r\n\r\n    implementation(libs.kotlinx.coroutines.core)\r\n    implementation(libs.kotlinx.coroutines.android)\r\n\r\n    implementation(libs.androidx.lifecycle.viewmodel.ktx)\r\n    implementation(libs.androidx.lifecycle.runtime.ktx)\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/build.gradle.kts b/app/build.gradle.kts
+--- a/app/build.gradle.kts	
++++ b/app/build.gradle.kts	
+@@ -1,7 +1,7 @@
+ plugins {
+     alias(libs.plugins.com.android.geto.application)
+     alias(libs.plugins.com.android.geto.applicationCompose)
+-    alias(libs.plugins.com.android.geto.applicationFirebase)
++    alias(libs.plugins.com.android.geto.applicationFlavors)
+     alias(libs.plugins.com.android.geto.hilt)
+ }
+ 
+Index: gradle/libs.versions.toml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>[versions]\r\nandroidxActivity = \"1.8.1\"\r\nandroidxComposeBom = \"2023.10.01\"\r\nandroidxCoreKtx = \"1.12.0\"\r\nandroidxComposeCompiler = \"1.5.3\"\r\nandroidxEspresso = \"3.5.1\"\r\nandroidGradlePlugin = \"8.2.0\"\r\nandroidxHiltNavigationCompose = \"1.1.0\"\r\nandroidxLifeCycle = \"2.6.2\"\r\nandroidxLifecycleViewmodelCompose = \"2.7.0-rc01\"\r\nandroidxNavigationCompose = \"2.7.5\"\r\nandroidxTestCore = \"1.5.0\"\r\nandroidxTestExt = \"1.1.5\"\r\nandroidxTestRules = \"1.5.0\"\r\nandroidxTestRunner = \"1.5.2\"\r\ncoil = \"2.5.0\"\r\nfirebaseBom = \"32.7.0\"\r\nfirebaseCrashlyticsPlugin = \"2.9.9\"\r\ngmsPlugin = \"4.4.0\"\r\nhilt = \"2.48.1\"\r\njacoco = \"0.8.7\"\r\nkotlinxCoroutines = \"1.7.3\"\r\nkotlinGradlePlugin = \"1.9.10\"\r\njunit4 = \"4.13.2\"\r\nksp = \"1.9.10-1.0.13\"\r\nroom = \"2.6.0\"\r\nrobolectric = \"4.11.1\"\r\n\r\n[libraries]\r\nandroidx-activity-compose = { group = \"androidx.activity\", name = \"activity-compose\", version.ref = \"androidxActivity\" }\r\nandroidx-activity-ktx = { group = \"androidx.activity\", name = \"activity-ktx\", version.ref = \"androidxActivity\" }\r\nandroidx-compose-bom = { group = \"androidx.compose\", name = \"compose-bom\", version.ref = \"androidxComposeBom\" }\r\nandroidx-compose-foundation = { group = \"androidx.compose.foundation\", name = \"foundation\" }\r\nandroidx-compose-foundation-layout = { group = \"androidx.compose.foundation\", name = \"foundation-layout\" }\r\nandroidx-compose-material = { group = \"androidx.compose.material\", name = \"material\" }\r\nandroidx-compose-material3 = { group = \"androidx.compose.material3\", name = \"material3\" }\r\nandroidx-compose-material-iconsExtended = { group = \"androidx.compose.material\", name = \"material-icons-extended\" }\r\nandroidx-compose-runtime = { group = \"androidx.compose.runtime\", name = \"runtime\" }\r\nandroidx-compose-ui-tooling = { group = \"androidx.compose.ui\", name = \"ui-tooling\" }\r\nandroidx-compose-ui-tooling-preview = { group = \"androidx.compose.ui\", name = \"ui-tooling-preview\" }\r\nandroidx-compose-ui-util = { group = \"androidx.compose.ui\", name = \"ui-util\" }\r\nandroidx-compose-ui-test = { group = \"androidx.compose.ui\", name = \"ui-test-junit4\" }\r\nandroidx-compose-ui-test-manifest = { group = \"androidx.compose.ui\", name = \"ui-test-manifest\" }\r\nandroidx-core-ktx = { group = \"androidx.core\", name = \"core-ktx\", version.ref = \"androidxCoreKtx\" }\r\nandroidx-hilt-navigation-compose = { group = \"androidx.hilt\", name = \"hilt-navigation-compose\", version.ref = \"androidxHiltNavigationCompose\" }\r\nandroidx-lifecycle-viewmodel-compose = { group = \"androidx.lifecycle\", name = \"lifecycle-viewmodel-compose\", version.ref = \"androidxLifecycleViewmodelCompose\" }\r\nandroidx-lifecycle-viewmodel-ktx = { group = \"androidx.lifecycle\", name = \"lifecycle-viewmodel-ktx\", version.ref = \"androidxLifeCycle\" }\r\nandroidx-lifecycle-runtime-ktx = { group = \"androidx.lifecycle\", name = \"lifecycle-runtime-ktx\", version.ref = \"androidxLifeCycle\" }\r\nandroidx-lifecycle-runtime-compose = { group = \"androidx.lifecycle\", name = \"lifecycle-runtime-compose\", version.ref = \"androidxLifeCycle\" }\r\nandroidx-navigation-compose = { group = \"androidx.navigation\", name = \"navigation-compose\", version.ref = \"androidxNavigationCompose\" }\r\nandroidx-test-core = { group = \"androidx.test\", name = \"core\", version.ref = \"androidxTestCore\" }\r\nandroidx-test-espresso-core = { group = \"androidx.test.espresso\", name = \"espresso-core\", version.ref = \"androidxEspresso\" }\r\nandroidx-test-ext = { group = \"androidx.test.ext\", name = \"junit-ktx\", version.ref = \"androidxTestExt\" }\r\nandroidx-test-rules = { group = \"androidx.test\", name = \"rules\", version.ref = \"androidxTestRules\" }\r\nandroidx-test-runner = { group = \"androidx.test\", name = \"runner\", version.ref = \"androidxTestRunner\" }\r\ncoil-kt-compose = { group = \"io.coil-kt\", name = \"coil-compose\", version.ref = \"coil\" }\r\ndagger-compiler = { group = \"com.google.dagger\", name = \"dagger-compiler\", version.ref = \"hilt\" }\r\nfirebase-bom = { group = \"com.google.firebase\", name = \"firebase-bom\", version.ref = \"firebaseBom\" }\r\nfirebase-analytics = { group = \"com.google.firebase\", name = \"firebase-analytics\" }\r\nfirebase-crashlytics = { group = \"com.google.firebase\", name = \"firebase-crashlytics\" }\r\nhilt-android-gradle-plugin = { group = \"com.google.dagger\", name = \"hilt-android-gradle-plugin\", version.ref = \"hilt\" }\r\nhilt-compiler = { group = \"com.google.dagger\", name = \"hilt-compiler\", version.ref = \"hilt\" }\r\nhilt-android-testing = { group = \"com.google.dagger\", name = \"hilt-android-testing\", version.ref = \"hilt\" }\r\nhilt-android = { group = \"com.google.dagger\", name = \"hilt-android\", version.ref = \"hilt\" }\r\njavax-inject = { module = \"javax.inject:javax.inject\", version = \"1\" }\r\njunit-junit = { group = \"junit\", name = \"junit\", version.ref = \"junit4\" }\r\nkotlinx-coroutines-test = { group = \"org.jetbrains.kotlinx\", name = \"kotlinx-coroutines-test\", version.ref = \"kotlinxCoroutines\" }\r\nkotlinx-coroutines-core = { group = \"org.jetbrains.kotlinx\", name = \"kotlinx-coroutines-core\", version.ref = \"kotlinxCoroutines\" }\r\nkotlinx-coroutines-android = { group = \"org.jetbrains.kotlinx\", name = \"kotlinx-coroutines-android\", version.ref = \"kotlinxCoroutines\" }\r\nrobolectric = { group = \"org.robolectric\", name = \"robolectric\", version.ref = \"robolectric\" }\r\nroom-compiler = { group = \"androidx.room\", name = \"room-compiler\", version.ref = \"room\" }\r\nroom-ktx = { group = \"androidx.room\", name = \"room-ktx\", version.ref = \"room\" }\r\nroom-runtime = { group = \"androidx.room\", name = \"room-runtime\", version.ref = \"room\" }\r\nroom-testing = { group = \"androidx.room\", name = \"room-testing\", version.ref = \"room\" }\r\n\r\n# Dependencies of the included build-logic\r\nandroid-gradlePlugin = { group = \"com.android.tools.build\", name = \"gradle\", version.ref = \"androidGradlePlugin\" }\r\nfirebase-crashlytics-gradlePlugin = { group = \"com.google.firebase\", name = \"firebase-crashlytics-gradle\", version.ref = \"firebaseCrashlyticsPlugin\" }\r\nkotlin-gradlePlugin = { group = \"org.jetbrains.kotlin\", name = \"kotlin-gradle-plugin\", version.ref = \"kotlinGradlePlugin\" }\r\nksp-gradlePlugin = { group = \"com.google.devtools.ksp\", name = \"com.google.devtools.ksp.gradle.plugin\", version.ref = \"ksp\" }\r\n\r\n[plugins]\r\ncom-android-application = { id = \"com.android.application\", version.ref = \"androidGradlePlugin\" }\r\ncom-android-library = { id = \"com.android.library\", version.ref = \"androidGradlePlugin\" }\r\norg-jetbrains-kotlin-android = { id = \"org.jetbrains.kotlin.android\", version.ref = \"kotlinGradlePlugin\" }\r\nfirebase-crashlytics = { id = \"com.google.firebase.crashlytics\", version.ref = \"firebaseCrashlyticsPlugin\" }\r\ngms = { id = \"com.google.gms.google-services\", version.ref = \"gmsPlugin\" }\r\ncom-google-dagger-hilt-android = { id = \"com.google.dagger.hilt.android\", version.ref = \"hilt\" }\r\ncom-google-devtools-ksp = { id = \"com.google.devtools.ksp\", version.ref = \"ksp\" }\r\njacoco = { id = \"jacoco\", version = \"unspecified\" }\r\norg-jetbrains-kotlin-jvm = { id = \"org.jetbrains.kotlin.jvm\", version = \"unspecified\" }\r\n\r\n# Plugins defined by this project\r\ncom-android-geto-application = { id = \"com.android.geto.application\", version = \"unspecified\" }\r\ncom-android-geto-applicationCompose = { id = \"com.android.geto.applicationCompose\", version = \"unspecified\" }\r\ncom-android-geto-library = { id = \"com.android.geto.library\", version = \"unspecified\" }\r\ncom-android-geto-jvmLibrary = { id = \"com.android.geto.jvmLibrary\", version = \"unspecified\" }\r\ncom-android-geto-libraryCompose = { id = \"com.android.geto.libraryCompose\", version = \"unspecified\" }\r\ncom-android-geto-libraryJacoco = { id = \"com.android.geto.libraryJacoco\", version = \"unspecified\" }\r\ncom-android-geto-feature = { id = \"com.android.geto.feature\", version = \"unspecified\" }\r\ncom-android-geto-hilt = { id = \"com.android.geto.hilt\", version = \"unspecified\" }\r\ncom-android-geto-room = { id = \"com.android.geto.room\", version = \"unspecified\" }\r\ncom-android-geto-applicationFirebase = { id = \"com.android.geto.applicationFirebase\", version = \"unspecified\" }\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/gradle/libs.versions.toml b/gradle/libs.versions.toml
+--- a/gradle/libs.versions.toml	
++++ b/gradle/libs.versions.toml	
+@@ -101,3 +101,4 @@
+ com-android-geto-hilt = { id = "com.android.geto.hilt", version = "unspecified" }
+ com-android-geto-room = { id = "com.android.geto.room", version = "unspecified" }
+ com-android-geto-applicationFirebase = { id = "com.android.geto.applicationFirebase", version = "unspecified" }
++com-android-geto-applicationFlavors = { id = "com.android.geto.applicationFlavors", version = "unspecified" }
+Index: gradle.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>## For more details on how to configure your build environment visit\r\n# http://www.gradle.org/docs/current/userguide/build_environment.html\r\n#\r\n# Specifies the JVM arguments used for the daemon process.\r\n# The setting is particularly useful for tweaking memory settings.\r\n# Default value: -Xmx1024m -XX:MaxPermSize=256m\r\n# org.gradle.jvmargs=-Xmx2048m -XX:MaxPermSize=512m -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8\r\n#\r\n# When configured, Gradle will run in incubating parallel mode.\r\n# This option should only be used with decoupled projects. More details, visit\r\n# http://www.gradle.org/docs/current/userguide/multi_project_builds.html#sec:decoupled_projects\r\n# org.gradle.parallel=true\r\n#Thu Nov 23 08:01:59 PST 2023\r\nandroid.nonTransitiveRClass=true\r\nandroid.useAndroidX=true\r\nkotlin.code.style=official\r\norg.gradle.jvmargs=-Xmx1024M -Dkotlin.daemon.jvm.options\\=\"-Xmx1024M\" -Dfile.encoding\\=UTF-8\r\norg.gradle.parallel=true\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>ISO-8859-1
+===================================================================
+diff --git a/gradle.properties b/gradle.properties
+--- a/gradle.properties	
++++ b/gradle.properties	
+@@ -11,8 +11,33 @@
+ # http://www.gradle.org/docs/current/userguide/multi_project_builds.html#sec:decoupled_projects
+ # org.gradle.parallel=true
+ #Thu Nov 23 08:01:59 PST 2023
+-android.nonTransitiveRClass=true
++org.gradle.jvmargs=-Xmx1024M -Dkotlin.daemon.jvm.options\="-Xmx1024M" -Dfile.encoding\=UTF-8
++# When configured, Gradle will run in incubating parallel mode.
++# This option should only be used with decoupled projects. More details, visit
++# http://www.gradle.org/docs/current/userguide/multi_project_builds.html#sec:decoupled_projects
++org.gradle.parallel=false
++
++# Not encouraged by Gradle and can produce weird results. Wait for isolated projects instead.
++org.gradle.configureondemand=false
++
++# Enable caching between builds.
++org.gradle.caching=true
++
++# Enable configuration caching between builds.
++org.gradle.configuration-cache=true
++# This option is set because of https://github.com/google/play-services-plugins/issues/246
++# to generate the Configuration Cache regardless of incompatible tasks.
++# See https://github.com/android/nowinandroid/issues/1022 before using it.
++org.gradle.configuration-cache.problems=warn
++
++# AndroidX package structure to make it clearer which packages are bundled with the
++# Android operating system, and which are packaged with your app"s APK
++# https://developer.android.com/topic/libraries/support-library/androidx-rn
+ android.useAndroidX=true
++# Kotlin code style for this project: "official" or "obsolete":
+ kotlin.code.style=official
+-org.gradle.jvmargs=-Xmx1024M -Dkotlin.daemon.jvm.options\="-Xmx1024M" -Dfile.encoding\=UTF-8
+-org.gradle.parallel=true
++
++# Disable build features that are enabled by default,
++# https://developer.android.com/build/releases/gradle-plugin#default-changes
++android.defaults.buildfeatures.resvalues=false
++android.defaults.buildfeatures.shaders=false

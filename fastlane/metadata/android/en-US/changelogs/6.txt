@@ -1,0 +1,2 @@
+Enhancements:
+-Faster loading for fetching your apps

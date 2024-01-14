@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="deploymentTargetDropDown">
+    <value>
+      <entry key="UserAppSettingsDaoTest">
+        <State />
+      </entry>
+      <entry key="app">
+        <State />
+      </entry>
+      <entry key="migrate2To3()">
+        <State />
+      </entry>
+      <entry key="userAppSettingsDao_filters_items_by_package_name()">
+        <State />
+      </entry>
+    </value>
+  </component>
+</project>

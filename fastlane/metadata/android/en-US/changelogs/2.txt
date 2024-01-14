@@ -1,0 +1,3 @@
+Settings will be automatically reverted when going back to Geto
+Removed revert icon button
+Added an App Icon

@@ -1,0 +1,31 @@
+Index: app/fdroid/release/output-metadata.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/fdroid/release/output-metadata.json b/app/fdroid/release/output-metadata.json
+new file mode 100644
+--- /dev/null	(date 1705218830688)
++++ b/app/fdroid/release/output-metadata.json	(date 1705218830688)
+@@ -0,0 +1,20 @@
++{
++  "version": 3,
++  "artifactType": {
++    "type": "APK",
++    "kind": "Directory"
++  },
++  "applicationId": "com.android.geto",
++  "variantName": "fdroidRelease",
++  "elements": [
++    {
++      "type": "SINGLE",
++      "filters": [],
++      "attributes": [],
++      "versionCode": 9,
++      "versionName": "1.9",
++      "outputFile": "app-fdroid-release.apk"
++    }
++  ],
++  "elementType": "File"
++}
+\ No newline at end of file
