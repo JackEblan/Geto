@@ -13,7 +13,7 @@ import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
 
-class UserAppSettingsDaoTest {
+class AppSettingsDaoTest {
     private lateinit var appSettingsDao: AppSettingsDao
 
     private lateinit var db: AppDatabase
