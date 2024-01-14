@@ -2,16 +2,19 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="UserAppSettingsDaoTest">
+      <entry key="MigrationTest">
         <State />
       </entry>
       <entry key="app">
         <State />
       </entry>
+      <entry key="migrate1To3()">
+        <State />
+      </entry>
       <entry key="migrate2To3()">
         <State />
       </entry>
-      <entry key="userAppSettingsDao_filters_items_by_package_name()">
+      <entry key="migrateAll()">
         <State />
       </entry>
     </value>

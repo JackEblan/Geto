@@ -3,7 +3,8 @@ package com.core.database.di
 import android.content.Context
 import androidx.room.Room
 import com.core.database.AppDatabase
-import com.core.database.MIGRATION_2_3
+import com.core.database.migration.Migration1To3
+import com.core.database.migration.Migration2To3
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,7 +19,5 @@ object DatabaseModule {
     @Provides
     fun appDatabase(@ApplicationContext context: Context): AppDatabase = Room.databaseBuilder(
         context, AppDatabase::class.java, AppDatabase.DATABASE_NAME
-    ).addMigrations(MIGRATION_2_3).build()
-
-
+    ).addMigrations(Migration1To3(), Migration2To3()).build()
 }
