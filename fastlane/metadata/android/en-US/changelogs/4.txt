@@ -1,3 +1,0 @@
-Enhancements:
--Improve Performance
--Added indicator for empty settings list

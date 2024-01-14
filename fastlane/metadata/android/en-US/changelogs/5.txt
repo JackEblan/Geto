@@ -1,4 +1,0 @@
-Enhancements:
--Improve Performance
--Replaced linear progress bar with swipeable refresh layout
--Use bottom bar

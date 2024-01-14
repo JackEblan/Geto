@@ -1,1 +1,0 @@
-Hide Developer Options detection in any apps without root access.
