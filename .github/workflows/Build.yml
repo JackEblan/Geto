@@ -24,6 +24,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Grant execute permission to Gradle wrapper
+        run: chmod +x ./gradlew
+
       - name: Validate Gradle Wrapper
         uses: gradle/wrapper-validation-action@v1
 
@@ -60,7 +63,7 @@ jobs:
     timeout-minutes: 55
     strategy:
       matrix:
-        api-level: [30]
+        api-level: [ 30 ]
 
     steps:
       - name: Checkout
