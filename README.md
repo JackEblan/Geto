@@ -31,7 +31,7 @@ once the Developer Options is modified. So basically, you have to grant this app
 # Installation
 
 Download the Geto APK
-from [releases](https://github.com/JackEblan/Geto/releases). You
+from [Releases](https://github.com/JackEblan/Geto/releases). You
 can also download the app-debug APK
 from [GitHub actions](https://github.com/JackEblan/Geto/actions).
 
