@@ -28,7 +28,9 @@ fun EmptyListPlaceHolderScreen(
             imageVector = icon,
             contentDescription = null,
             modifier = Modifier.size(100.dp),
-            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface)
+            colorFilter = ColorFilter.tint(
+                MaterialTheme.colorScheme.onSurface
+            )
         )
 
         Spacer(modifier = Modifier.height(10.dp))
