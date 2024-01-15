@@ -2,19 +2,19 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="MigrationTest">
+      <entry key="All Tests">
+        <State />
+      </entry>
+      <entry key="AppSettingsScreenTest">
+        <State />
+      </entry>
+      <entry key="SecureSettingsListScreenTest">
         <State />
       </entry>
       <entry key="app">
         <State />
       </entry>
-      <entry key="migrate1To3()">
-        <State />
-      </entry>
-      <entry key="migrate2To3()">
-        <State />
-      </entry>
-      <entry key="migrateAll()">
+      <entry key="on_item_click_shows_Snackbar_copied_settings_key()">
         <State />
       </entry>
     </value>

@@ -17,34 +17,37 @@ class DefaultAppSettingsRepository @Inject constructor(
     private val appSettingsDao: AppSettingsDao
 ) : AppSettingsRepository {
 
-    override suspend fun upsertUserAppSettings(appSettings: AppSettings) {
+    override suspend fun upsertAppSettings(appSettings: AppSettings) {
         return withContext(ioDispatcher) {
             appSettingsDao.upsert(appSettings.asExternalModel())
         }
     }
 
-    override suspend fun upsertUserAppSettingsEnabled(appSettings: AppSettings) {
+    override suspend fun upsertAppSettingsEnabled(appSettings: AppSettings) {
         return withContext(ioDispatcher) {
             appSettingsDao.upsert(appSettings.asExternalModel())
         }
     }
 
-    override suspend fun deleteUserAppSettings(appSettings: AppSettings) {
+    override suspend fun deleteAppSettings(appSettings: AppSettings) {
         return withContext(ioDispatcher) {
             appSettingsDao.delete(appSettings.asExternalModel())
         }
     }
 
-    override fun getUserAppSettingsList(packageName: String): Flow<List<AppSettings>> {
+    override fun getAppSettingsList(packageName: String): Flow<List<AppSettings>> {
         return appSettingsDao.getUserAppSettingsList(packageName).map {
             it.map { entity ->
                 AppSettings(
-                    id = entity.id, enabled = entity.enabled, settingsType = entity.settingsType,
+                    id = entity.id,
+                    enabled = entity.enabled,
+                    settingsType = entity.settingsType,
                     packageName = entity.packageName,
                     label = entity.label,
                     key = entity.key,
                     valueOnLaunch = entity.valueOnLaunch,
-                    valueOnRevert = entity.valueOnRevert
+                    valueOnRevert = entity.valueOnRevert,
+                    safeToWrite = entity.safeToWrite
                 )
             }
         }

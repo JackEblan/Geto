@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.core.domain.repository.AppSettingsRepository
 import com.core.domain.usecase.ApplyAppSettingsUseCase
+import com.core.domain.usecase.GetAppSettingsListUseCase
 import com.core.domain.usecase.RevertAppSettingsUseCase
 import com.core.domain.util.PackageManagerWrapper
 import com.feature.appsettings.navigation.NAV_KEY_APP_NAME
@@ -26,7 +27,8 @@ class AppSettingsViewModel @Inject constructor(
     private val appSettingsRepository: AppSettingsRepository,
     private val packageManagerWrapper: PackageManagerWrapper,
     private val applyAppSettingsUseCase: ApplyAppSettingsUseCase,
-    private val revertAppSettingsUseCase: RevertAppSettingsUseCase
+    private val revertAppSettingsUseCase: RevertAppSettingsUseCase,
+    getAppSettingsListUseCase: GetAppSettingsListUseCase
 ) : ViewModel() {
     private var _showSnackBar = MutableStateFlow<String?>(null)
 
@@ -45,7 +47,7 @@ class AppSettingsViewModel @Inject constructor(
     val appName = savedStateHandle.get<String>(NAV_KEY_APP_NAME) ?: ""
 
     val uIState: StateFlow<AppSettingsUiState> =
-        appSettingsRepository.getUserAppSettingsList(packageName).map { list ->
+        getAppSettingsListUseCase(packageName).map { list ->
             if (list.isNotEmpty()) {
                 AppSettingsUiState.Success(list)
             } else {
@@ -84,7 +86,7 @@ class AppSettingsViewModel @Inject constructor(
                 viewModelScope.launch {
                     val updatedUserAppSettingsItem = event.appSettings.copy(enabled = event.checked)
 
-                    appSettingsRepository.upsertUserAppSettingsEnabled(
+                    appSettingsRepository.upsertAppSettingsEnabled(
                         updatedUserAppSettingsItem
                     )
                 }
@@ -92,7 +94,7 @@ class AppSettingsViewModel @Inject constructor(
 
             is AppSettingsEvent.OnDeleteAppSettingsItem -> {
                 viewModelScope.launch {
-                    appSettingsRepository.deleteUserAppSettings(event.appSettings)
+                    appSettingsRepository.deleteAppSettings(event.appSettings)
                 }
             }
         }

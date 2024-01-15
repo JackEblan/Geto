@@ -38,7 +38,8 @@ class SettingsRepositoryTest {
             label = "Test",
             key = "test",
             valueOnLaunch = "0",
-            valueOnRevert = "1"
+            valueOnRevert = "1",
+            safeToWrite = false
         )
 
         appSettingsList.add(appSettings)
@@ -59,7 +60,8 @@ class SettingsRepositoryTest {
             label = "Test",
             key = "test",
             valueOnLaunch = "0",
-            valueOnRevert = "1"
+            valueOnRevert = "1",
+            safeToWrite = false
         )
 
         appSettingsList.add(appSettings)
@@ -80,7 +82,8 @@ class SettingsRepositoryTest {
             label = "Test",
             key = "test",
             valueOnLaunch = "0",
-            valueOnRevert = "1"
+            valueOnRevert = "1",
+            safeToWrite = false
         )
 
         appSettingsList.add(appSettings)
@@ -101,7 +104,8 @@ class SettingsRepositoryTest {
             label = "Test",
             key = "test",
             valueOnLaunch = "0",
-            valueOnRevert = "1"
+            valueOnRevert = "1",
+            safeToWrite = false
         )
 
         appSettingsList.add(appSettings)
@@ -122,7 +126,8 @@ class SettingsRepositoryTest {
             label = "Test",
             key = "test",
             valueOnLaunch = "0",
-            valueOnRevert = "1"
+            valueOnRevert = "1",
+            safeToWrite = false
         )
 
         appSettingsList.add(appSettings)
@@ -143,7 +148,8 @@ class SettingsRepositoryTest {
             label = "Test",
             key = "test",
             valueOnLaunch = "0",
-            valueOnRevert = "1"
+            valueOnRevert = "1",
+            safeToWrite = false
         )
 
         appSettingsList.add(appSettings)
@@ -164,7 +170,8 @@ class SettingsRepositoryTest {
             label = "Test",
             key = "test",
             valueOnLaunch = "0",
-            valueOnRevert = "1"
+            valueOnRevert = "1",
+            safeToWrite = false
         )
 
         appSettingsList.add(appSettings)
@@ -185,7 +192,8 @@ class SettingsRepositoryTest {
             label = "Test",
             key = "test",
             valueOnLaunch = "0",
-            valueOnRevert = "1"
+            valueOnRevert = "1",
+            safeToWrite = false
         )
 
         appSettingsList.add(appSettings)
@@ -206,7 +214,8 @@ class SettingsRepositoryTest {
             label = "Test",
             key = "test",
             valueOnLaunch = "0",
-            valueOnRevert = "1"
+            valueOnRevert = "1",
+            safeToWrite = false
         )
 
         appSettingsList.add(appSettings)
@@ -227,7 +236,8 @@ class SettingsRepositoryTest {
             label = "Test",
             key = "test",
             valueOnLaunch = "0",
-            valueOnRevert = "1"
+            valueOnRevert = "1",
+            safeToWrite = false
         )
 
         appSettingsList.add(appSettings)
@@ -248,7 +258,8 @@ class SettingsRepositoryTest {
             label = "Test",
             key = "test",
             valueOnLaunch = "0",
-            valueOnRevert = "1"
+            valueOnRevert = "1",
+            safeToWrite = false
         )
 
         appSettingsList.add(appSettings)
@@ -269,7 +280,8 @@ class SettingsRepositoryTest {
             label = "Test",
             key = "test",
             valueOnLaunch = "0",
-            valueOnRevert = "1"
+            valueOnRevert = "1",
+            safeToWrite = false
         )
 
         appSettingsList.add(appSettings)

@@ -33,7 +33,7 @@ class AddSettingsDialogViewModel @Inject constructor(
                         else -> SettingsType.SYSTEM
                     }
 
-                    appSettingsRepository.upsertUserAppSettings(
+                    appSettingsRepository.upsertAppSettings(
                         AppSettings(
                             enabled = true,
                             settingsType = settingsType,
@@ -41,7 +41,8 @@ class AddSettingsDialogViewModel @Inject constructor(
                             label = event.label,
                             key = event.key,
                             valueOnLaunch = event.valueOnLaunch,
-                            valueOnRevert = event.valueOnRevert
+                            valueOnRevert = event.valueOnRevert,
+                            safeToWrite = false
                         )
                     )
                     _dismissDialogState.value = true

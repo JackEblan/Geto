@@ -1,5 +1,6 @@
 package com.core.database.model
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.core.model.AppSettings
@@ -14,7 +15,8 @@ data class AppSettingsItemEntity(
     val label: String,
     val key: String,
     val valueOnLaunch: String,
-    val valueOnRevert: String
+    val valueOnRevert: String,
+    @ColumnInfo(name = "safeToWrite", defaultValue = "0") val safeToWrite: Boolean
 )
 
 fun AppSettings.asExternalModel(): AppSettingsItemEntity {
@@ -26,6 +28,7 @@ fun AppSettings.asExternalModel(): AppSettingsItemEntity {
         label = label,
         key = key,
         valueOnLaunch = valueOnLaunch,
-        valueOnRevert = valueOnRevert
+        valueOnRevert = valueOnRevert,
+        safeToWrite = safeToWrite
     )
 }

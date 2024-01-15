@@ -12,7 +12,7 @@ import org.junit.Test
 import kotlin.test.assertIs
 import kotlin.test.assertTrue
 
-class SecureSettingsViewModelTest {
+class SecureSettingsListViewModelTest {
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
@@ -22,7 +22,7 @@ class SecureSettingsViewModelTest {
 
     private lateinit var copySettingsUseCase: CopySettingsUseCase
 
-    private lateinit var viewModel: SecureSettingsViewModel
+    private lateinit var viewModel: SecureSettingsListViewModel
 
     @Before
     fun setUp() {
@@ -32,7 +32,7 @@ class SecureSettingsViewModelTest {
 
         copySettingsUseCase = CopySettingsUseCase(clipboardRepository)
 
-        viewModel = SecureSettingsViewModel(
+        viewModel = SecureSettingsListViewModel(
             settingsRepository = settingsRepository, copySettingsUseCase = copySettingsUseCase
         )
     }
@@ -40,31 +40,31 @@ class SecureSettingsViewModelTest {
     @Test
     fun `OnEvent GetSecureSettings System returns not empty list with SecureSettingsUiState as Success`() =
         runTest {
-            viewModel.onEvent(SecureSettingsEvent.GetSecureSettings(0))
+            viewModel.onEvent(SecureSettingsListEvent.GetSecureSettingsList(0))
 
             val item = viewModel.uIState.value
 
-            assertIs<SecureSettingsUiState.Success>(item)
+            assertIs<SecureSettingsListUiState.Success>(item)
         }
 
     @Test
     fun `OnEvent GetSecureSettings Secure returns not empty list with SecureSettingsUiState as Success`() =
         runTest {
-            viewModel.onEvent(SecureSettingsEvent.GetSecureSettings(1))
+            viewModel.onEvent(SecureSettingsListEvent.GetSecureSettingsList(1))
 
             val item = viewModel.uIState.value
 
-            assertIs<SecureSettingsUiState.Success>(item)
+            assertIs<SecureSettingsListUiState.Success>(item)
         }
 
     @Test
     fun `OnEvent GetSecureSettings Global returns not empty list with SecureSettingsUiState as Success`() =
         runTest {
-            viewModel.onEvent(SecureSettingsEvent.GetSecureSettings(2))
+            viewModel.onEvent(SecureSettingsListEvent.GetSecureSettingsList(2))
 
             val item = viewModel.uIState.value
 
-            assertIs<SecureSettingsUiState.Success>(item)
+            assertIs<SecureSettingsListUiState.Success>(item)
         }
 
     @Test
@@ -72,7 +72,7 @@ class SecureSettingsViewModelTest {
         runTest {
             clipboardRepository.setAndroidTwelveBelow(true)
 
-            viewModel.onEvent(SecureSettingsEvent.OnCopySecureSettings("Hi"))
+            viewModel.onEvent(SecureSettingsListEvent.OnCopySecureSettingsList("Hi"))
 
             assertTrue { viewModel.showSnackBar.value == "Hi $COPIED_TO_CLIPBOARD_MESSAGE" }
         }
@@ -82,7 +82,7 @@ class SecureSettingsViewModelTest {
         runTest {
             clipboardRepository.setAndroidTwelveBelow(false)
 
-            viewModel.onEvent(SecureSettingsEvent.OnCopySecureSettings("Hi"))
+            viewModel.onEvent(SecureSettingsListEvent.OnCopySecureSettingsList("Hi"))
 
             assertTrue { viewModel.showSnackBar.value == null }
         }

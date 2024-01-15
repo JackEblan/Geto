@@ -1,5 +1,6 @@
 package com.feature.applist
 
+import com.core.model.NonSystemApp
 import com.core.testing.repository.TestPackageRepository
 import com.core.testing.util.MainDispatcherRule
 import kotlinx.coroutines.test.runTest
@@ -27,6 +28,8 @@ class AppListViewModelTest {
     @Test
     fun `OnEvent GetNonSystemApps returns not empty list with UserAppListUiState as Success`() =
         runTest {
+            packageRepository.sendNonSystemApps(nonSystemAppsTestData)
+
             viewModel.onEvent(AppListEvent.GetAppList)
 
             val item = viewModel.uIState.value
@@ -34,3 +37,9 @@ class AppListViewModelTest {
             assertIs<AppListUiState.Success>(item)
         }
 }
+
+private val nonSystemAppsTestData = listOf(
+    NonSystemApp(packageName = "com.android.geto", label = "Geto"),
+    NonSystemApp(packageName = "com.android.geto1", label = "Geto1"),
+    NonSystemApp(packageName = "com.android.geto2", label = "Geto2")
+)

@@ -9,32 +9,19 @@ import com.core.domain.repository.SettingsRepository.Companion.TEST_PERMISSION_N
 import com.core.model.AppSettings
 import com.core.model.SecureSettings
 import com.core.model.SettingsType
-import com.core.testing.data.secureSettingsTestData
-import java.util.concurrent.ConcurrentHashMap
 
 class TestSettingsRepository : SettingsRepository {
     private var writeSecureSettings = false
 
-    private val settingsMap = ConcurrentHashMap<String, String>()
+    private var secureSettingsList: List<SecureSettings> = emptyList()
 
     override suspend fun applySettings(appSettingsList: List<AppSettings>): Result<ApplySettingsResultMessage> {
         return runCatching {
-            appSettingsList.filter { it.enabled }.forEach { userAppSettingsItem ->
+            appSettingsList.filter { it.enabled }.forEach { _ ->
 
                 if (!writeSecureSettings) throw SecurityException(
                     TEST_PERMISSION_NOT_GRANTED_FAILED_MESSAGE
                 )
-
-                when (userAppSettingsItem.settingsType) {
-                    SettingsType.SYSTEM -> settingsMap[userAppSettingsItem.key] =
-                        userAppSettingsItem.valueOnLaunch
-
-                    SettingsType.SECURE -> settingsMap[userAppSettingsItem.key] =
-                        userAppSettingsItem.valueOnLaunch
-
-                    SettingsType.GLOBAL -> settingsMap[userAppSettingsItem.key] =
-                        userAppSettingsItem.valueOnLaunch
-                }
             }
 
             APPLY_SETTINGS_SUCCESS_MESSAGE
@@ -44,22 +31,11 @@ class TestSettingsRepository : SettingsRepository {
 
     override suspend fun revertSettings(appSettingsList: List<AppSettings>): Result<RevertSettingsResultMessage> {
         return runCatching {
-            appSettingsList.filter { it.enabled }.forEach { userAppSettingsItem ->
+            appSettingsList.filter { it.enabled }.forEach { _ ->
 
                 if (!writeSecureSettings) throw SecurityException(
                     TEST_PERMISSION_NOT_GRANTED_FAILED_MESSAGE
                 )
-
-                when (userAppSettingsItem.settingsType) {
-                    SettingsType.SYSTEM -> settingsMap[userAppSettingsItem.key] =
-                        userAppSettingsItem.valueOnRevert
-
-                    SettingsType.SECURE -> settingsMap[userAppSettingsItem.key] =
-                        userAppSettingsItem.valueOnRevert
-
-                    SettingsType.GLOBAL -> settingsMap[userAppSettingsItem.key] =
-                        userAppSettingsItem.valueOnRevert
-                }
             }
 
             REVERT_SETTINGS_SUCCESS_MESSAGE
@@ -69,7 +45,7 @@ class TestSettingsRepository : SettingsRepository {
 
     override suspend fun getSecureSettings(settingsType: SettingsType): Result<List<SecureSettings>> {
         return runCatching {
-            secureSettingsTestData
+            secureSettingsList
         }
     }
 
@@ -78,5 +54,12 @@ class TestSettingsRepository : SettingsRepository {
      */
     fun setWriteSecureSettings(value: Boolean) {
         writeSecureSettings = value
+    }
+
+    /**
+     * A test-only API to add secureSettingsList data.
+     */
+    fun sendSecureSettings(value: List<SecureSettings>) {
+        secureSettingsList = value
     }
 }

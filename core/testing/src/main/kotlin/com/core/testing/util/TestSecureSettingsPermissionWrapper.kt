@@ -4,7 +4,6 @@ import com.core.domain.util.SecureSettingsPermissionWrapper
 import com.core.model.AppSettings
 import com.core.model.SecureSettings
 import com.core.model.SettingsType
-import com.core.testing.data.secureSettingsTestData
 
 class TestSecureSettingsPermissionWrapper : SecureSettingsPermissionWrapper {
 
@@ -16,7 +15,15 @@ class TestSecureSettingsPermissionWrapper : SecureSettingsPermissionWrapper {
     }
 
     override suspend fun getSecureSettings(settingsType: SettingsType): List<SecureSettings> {
-        return secureSettingsTestData.sortedBy { it.name }
+        return listOf(
+            SecureSettings(
+                id = 0, name = "system", value = "value"
+            ), SecureSettings(
+                id = 1, name = "secure", value = "value"
+            ), SecureSettings(
+                id = 2, name = "global", value = "value"
+            )
+        ).sortedBy { it.name }
     }
 
     /**

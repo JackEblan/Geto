@@ -235,6 +235,7 @@ private fun LazyListScope.appSettings(
                         },
                         onDeleteUserAppSettingsItem = {
                             onDeleteAppSettingsItem(appSettings)
-                        })
+                        },
+                        safeToWrite = { appSettings.safeToWrite })
     }
 }

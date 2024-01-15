@@ -29,7 +29,8 @@ class AppSettingsRepositoryTest {
             label = "Geto",
             key = "geto",
             valueOnLaunch = "0",
-            valueOnRevert = "1"
+            valueOnRevert = "1",
+            safeToWrite = false
         )
 
         appSettingsDao.upsert(entity)
@@ -48,7 +49,8 @@ class AppSettingsRepositoryTest {
                 label = "Geto",
                 key = "geto1",
                 valueOnLaunch = "0",
-                valueOnRevert = "1"
+                valueOnRevert = "1",
+                safeToWrite = false
             )
 
             appSettingsDao.upsert(entity)
@@ -66,7 +68,8 @@ class AppSettingsRepositoryTest {
             label = "Geto",
             key = "geto1",
             valueOnLaunch = "0",
-            valueOnRevert = "1"
+            valueOnRevert = "1",
+            safeToWrite = false
         )
 
         appSettingsDao.delete(entity)
@@ -84,7 +87,8 @@ class AppSettingsRepositoryTest {
             label = "",
             key = "key1",
             valueOnLaunch = "",
-            valueOnRevert = ""
+            valueOnRevert = "",
+            safeToWrite = false
         )
 
         appSettingsDao.upsert(entity)

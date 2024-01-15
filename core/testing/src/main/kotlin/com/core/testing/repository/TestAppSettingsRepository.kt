@@ -13,7 +13,7 @@ class TestAppSettingsRepository : AppSettingsRepository {
         replay = 1, extraBufferCapacity = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST
     )
 
-    override suspend fun upsertUserAppSettings(appSettings: AppSettings) {
+    override suspend fun upsertAppSettings(appSettings: AppSettings) {
         val updatedList =
             _appSettingsFlow.replayCache.lastOrNull()?.toMutableList() ?: mutableListOf()
 
@@ -22,7 +22,7 @@ class TestAppSettingsRepository : AppSettingsRepository {
         _appSettingsFlow.emit(updatedList)
     }
 
-    override suspend fun upsertUserAppSettingsEnabled(appSettings: AppSettings) {
+    override suspend fun upsertAppSettingsEnabled(appSettings: AppSettings) {
         val updatedList =
             _appSettingsFlow.replayCache.lastOrNull()?.toMutableList() ?: mutableListOf()
 
@@ -37,7 +37,7 @@ class TestAppSettingsRepository : AppSettingsRepository {
         _appSettingsFlow.emit(updatedList)
     }
 
-    override suspend fun deleteUserAppSettings(appSettings: AppSettings) {
+    override suspend fun deleteAppSettings(appSettings: AppSettings) {
         val updatedList =
             _appSettingsFlow.replayCache.lastOrNull()?.toMutableList() ?: mutableListOf()
 
@@ -46,12 +46,12 @@ class TestAppSettingsRepository : AppSettingsRepository {
         _appSettingsFlow.emit(updatedList)
     }
 
-    override fun getUserAppSettingsList(packageName: String): Flow<List<AppSettings>> {
+    override fun getAppSettingsList(packageName: String): Flow<List<AppSettings>> {
         return _appSettingsFlow.filter { it.any { setting -> setting.packageName == packageName } }
     }
 
     /**
-     * A test-only API to allow setting of user data directly.
+     * A test-only API to add appSettingsList data.
      */
     fun sendAppSettings(appSettingsList: List<AppSettings>) {
         _appSettingsFlow.tryEmit(appSettingsList)

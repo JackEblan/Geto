@@ -1,12 +1,11 @@
 package com.feature.appsettings
 
 import androidx.lifecycle.SavedStateHandle
-import com.core.domain.repository.SettingsRepository.Companion.REVERT_SETTINGS_SUCCESS_MESSAGE
 import com.core.domain.usecase.ApplyAppSettingsUseCase
+import com.core.domain.usecase.GetAppSettingsListUseCase
 import com.core.domain.usecase.RevertAppSettingsUseCase
-import com.core.testing.data.appNameTest
-import com.core.testing.data.appSettingsTestData
-import com.core.testing.data.packageNameTest
+import com.core.model.AppSettings
+import com.core.model.SettingsType
 import com.core.testing.repository.TestAppSettingsRepository
 import com.core.testing.repository.TestSettingsRepository
 import com.core.testing.util.MainDispatcherRule
@@ -23,6 +22,7 @@ import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
+import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -39,6 +39,10 @@ class AppSettingsViewModelTest {
     private val savedStateHandle = SavedStateHandle()
 
     private lateinit var viewModel: AppSettingsViewModel
+
+    private val packageNameTest = "packageNameTest"
+
+    private val appNameTest = "appNameTest"
 
     @Before
     fun setup() {
@@ -59,7 +63,11 @@ class AppSettingsViewModelTest {
             appSettingsRepository = appSettingsRepository,
             packageManagerWrapper = TestPackageManagerWrapper(),
             applyAppSettingsUseCase = ApplyAppSettingsUseCase(settingsRepository),
-            revertAppSettingsUseCase = RevertAppSettingsUseCase(settingsRepository)
+            revertAppSettingsUseCase = RevertAppSettingsUseCase(settingsRepository),
+            getAppSettingsListUseCase = GetAppSettingsListUseCase(
+                settingsRepository = settingsRepository,
+                appSettingsRepository = appSettingsRepository
+            )
         )
     }
 
@@ -72,7 +80,21 @@ class AppSettingsViewModelTest {
     fun `Ui state is UserAppSettingsUiState Success when data is not empty`() = runTest {
         val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.uIState.collect() }
 
-        appSettingsRepository.sendAppSettings(appSettingsTestData)
+        appSettingsRepository.sendAppSettings(
+            listOf(
+                AppSettings(
+                    id = 0,
+                    enabled = true,
+                    settingsType = SettingsType.SYSTEM,
+                    packageName = packageNameTest,
+                    label = "system",
+                    key = "key",
+                    valueOnLaunch = "test",
+                    valueOnRevert = "test",
+                    safeToWrite = true
+                )
+            )
+        )
 
         val item = viewModel.uIState.value
 
@@ -82,45 +104,161 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun `OnEvent LaunchApp then return Result success with launch app intent as not null`() =
+    fun `OnEvent LaunchApp with WRITE_SECURE_SETTINGS permission and items have safeToWrite to true then launchAppIntent is not null`() =
         runTest {
             settingsRepository.setWriteSecureSettings(true)
 
-            viewModel.onEvent(AppSettingsEvent.OnLaunchApp(appSettingsTestData))
-
-            assertTrue { viewModel.launchAppIntent.value != null }
-
-        }
-
-    @Test
-    fun `OnEvent LaunchApp then return Result failure with show snackbar exception message as not null`() =
-        runTest {
-            settingsRepository.setWriteSecureSettings(false)
-
-            viewModel.onEvent(AppSettingsEvent.OnLaunchApp(appSettingsTestData))
-
-            assertTrue { viewModel.secureSettingsException.value != null }
-        }
-
-    @Test
-    fun `OnEvent OnRevertSettings then return Result success with show snack bar message as not null`() =
-        runTest {
-            settingsRepository.setWriteSecureSettings(true)
-
-            viewModel.onEvent(AppSettingsEvent.OnRevertSettings(appSettingsTestData))
-
-            assertEquals(
-                expected = REVERT_SETTINGS_SUCCESS_MESSAGE, actual = viewModel.showSnackBar.value
+            viewModel.onEvent(
+                AppSettingsEvent.OnLaunchApp(
+                    listOf(
+                        AppSettings(
+                            id = 0,
+                            enabled = true,
+                            settingsType = SettingsType.SYSTEM,
+                            packageName = packageNameTest,
+                            label = "system",
+                            key = "key",
+                            valueOnLaunch = "test",
+                            valueOnRevert = "test",
+                            safeToWrite = true
+                        )
+                    )
+                )
             )
 
+            assertNotNull(viewModel.launchAppIntent.value)
+
         }
 
     @Test
-    fun `OnEvent OnRevertSettings then return Result failure show snackbar exception message as not null`() =
+    fun `OnEvent LaunchApp with WRITE_SECURE_SETTINGS permission and items have safeToWrite to false then secureSettingsException is not null`() =
+        runTest {
+            settingsRepository.setWriteSecureSettings(true)
+
+            viewModel.onEvent(
+                AppSettingsEvent.OnLaunchApp(
+                    listOf(
+                        AppSettings(
+                            id = 0,
+                            enabled = true,
+                            settingsType = SettingsType.SYSTEM,
+                            packageName = packageNameTest,
+                            label = "system",
+                            key = "key",
+                            valueOnLaunch = "test",
+                            valueOnRevert = "test",
+                            safeToWrite = false
+                        )
+                    )
+                )
+            )
+
+            assertNotNull(viewModel.secureSettingsException.value)
+
+        }
+
+    @Test
+    fun `OnEvent LaunchApp with no WRITE_SECURE_SETTINGS permission then secureSettingsException is not null`() =
         runTest {
             settingsRepository.setWriteSecureSettings(false)
 
-            viewModel.onEvent(AppSettingsEvent.OnLaunchApp(appSettingsTestData))
+            viewModel.onEvent(
+                AppSettingsEvent.OnLaunchApp(
+                    listOf(
+                        AppSettings(
+                            id = 0,
+                            enabled = true,
+                            settingsType = SettingsType.SYSTEM,
+                            packageName = packageNameTest,
+                            label = "system",
+                            key = "key",
+                            valueOnLaunch = "test",
+                            valueOnRevert = "test",
+                            safeToWrite = true
+                        )
+                    )
+                )
+            )
+
+            assertNotNull(viewModel.secureSettingsException.value)
+        }
+
+    @Test
+    fun `OnEvent RevertSettings with WRITE_SECURE_SETTINGS permission and items have safeToWrite to true then showSnackbar is not null`() =
+        runTest {
+            settingsRepository.setWriteSecureSettings(true)
+
+            viewModel.onEvent(
+                AppSettingsEvent.OnRevertSettings(
+                    listOf(
+                        AppSettings(
+                            id = 0,
+                            enabled = true,
+                            settingsType = SettingsType.SYSTEM,
+                            packageName = packageNameTest,
+                            label = "system",
+                            key = "key",
+                            valueOnLaunch = "test",
+                            valueOnRevert = "test",
+                            safeToWrite = true
+                        )
+                    )
+                )
+            )
+
+            assertNotNull(viewModel.showSnackBar.value)
+
+        }
+
+    @Test
+    fun `OnEvent RevertSettings with WRITE_SECURE_SETTINGS permission and items have safeToWrite to false then secureSettingsException is not null`() =
+        runTest {
+            settingsRepository.setWriteSecureSettings(true)
+
+            viewModel.onEvent(
+                AppSettingsEvent.OnRevertSettings(
+                    listOf(
+                        AppSettings(
+                            id = 0,
+                            enabled = true,
+                            settingsType = SettingsType.SYSTEM,
+                            packageName = packageNameTest,
+                            label = "system",
+                            key = "key",
+                            valueOnLaunch = "test",
+                            valueOnRevert = "test",
+                            safeToWrite = false
+                        )
+                    )
+                )
+            )
+
+            assertNotNull(viewModel.secureSettingsException.value)
+
+        }
+
+    @Test
+    fun `OnEvent RevertSettings with no WRITE_SECURE_SETTINGS permission then secureSettingsException is not null`() =
+        runTest {
+            settingsRepository.setWriteSecureSettings(false)
+
+            viewModel.onEvent(
+                AppSettingsEvent.OnRevertSettings(
+                    listOf(
+                        AppSettings(
+                            id = 0,
+                            enabled = true,
+                            settingsType = SettingsType.SYSTEM,
+                            packageName = packageNameTest,
+                            label = "system",
+                            key = "key",
+                            valueOnLaunch = "test",
+                            valueOnRevert = "test",
+                            safeToWrite = true
+                        )
+                    )
+                )
+            )
 
             assertTrue { viewModel.secureSettingsException.value != null }
         }

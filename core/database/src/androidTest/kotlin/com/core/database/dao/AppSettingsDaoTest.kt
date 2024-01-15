@@ -44,7 +44,8 @@ class AppSettingsDaoTest {
             label = "Geto",
             key = "0",
             valueOnLaunch = "0",
-            valueOnRevert = "1"
+            valueOnRevert = "1",
+            safeToWrite = false
         )
 
         val appSettingsItemEntity2 = AppSettingsItemEntity(
@@ -54,7 +55,8 @@ class AppSettingsDaoTest {
             label = "Settings",
             key = "1",
             valueOnLaunch = "0",
-            valueOnRevert = "1"
+            valueOnRevert = "1",
+            safeToWrite = false
         )
 
         appSettingsDao.upsert(appSettingsItemEntity1)

@@ -12,12 +12,13 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SecureSettingsViewModel @Inject constructor(
+class SecureSettingsListViewModel @Inject constructor(
     private val settingsRepository: SettingsRepository,
     private val copySettingsUseCase: CopySettingsUseCase
 ) : ViewModel() {
 
-    private val _uIState = MutableStateFlow<SecureSettingsUiState>(SecureSettingsUiState.Loading)
+    private val _uIState =
+        MutableStateFlow<SecureSettingsListUiState>(SecureSettingsListUiState.Loading)
 
     private var _showSnackBar = MutableStateFlow<String?>(null)
 
@@ -26,12 +27,12 @@ class SecureSettingsViewModel @Inject constructor(
     val uIState = _uIState.asStateFlow()
 
     init {
-        onEvent(SecureSettingsEvent.GetSecureSettings(0))
+        onEvent(SecureSettingsListEvent.GetSecureSettingsList(0))
     }
 
-    fun onEvent(event: SecureSettingsEvent) {
+    fun onEvent(event: SecureSettingsListEvent) {
         when (event) {
-            is SecureSettingsEvent.GetSecureSettings -> {
+            is SecureSettingsListEvent.GetSecureSettingsList -> {
                 val settingsType = when (event.selectedRadioOptionIndex) {
                     0 -> SettingsType.SYSTEM
 
@@ -44,12 +45,12 @@ class SecureSettingsViewModel @Inject constructor(
 
                 viewModelScope.launch {
                     settingsRepository.getSecureSettings(settingsType).onSuccess { secureSettings ->
-                        _uIState.value = SecureSettingsUiState.Success(secureSettings)
+                        _uIState.value = SecureSettingsListUiState.Success(secureSettings)
                     }
                 }
             }
 
-            is SecureSettingsEvent.OnCopySecureSettings -> {
+            is SecureSettingsListEvent.OnCopySecureSettingsList -> {
                 copySettingsUseCase(event.secureSettings).onSuccess {
                     _showSnackBar.value = it
                 }.onFailure {

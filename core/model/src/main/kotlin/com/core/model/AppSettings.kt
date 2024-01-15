@@ -8,7 +8,8 @@ data class AppSettings(
     val label: String,
     val key: String,
     val valueOnLaunch: String,
-    val valueOnRevert: String
+    val valueOnRevert: String,
+    val safeToWrite: Boolean
 )
 
 enum class SettingsType(val label: String) {

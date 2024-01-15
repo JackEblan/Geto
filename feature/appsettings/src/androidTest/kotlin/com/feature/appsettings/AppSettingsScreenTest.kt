@@ -7,7 +7,8 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
-import com.core.testing.data.appSettingsTestData
+import com.core.model.AppSettings
+import com.core.model.SettingsType
 import org.junit.Rule
 import org.junit.Test
 
@@ -54,7 +55,23 @@ class AppSettingsScreenTest {
         composeTestRule.setContent {
             AppSettingsScreen(snackbarHostState = { SnackbarHostState() },
                               appName = { "Geto" },
-                              uIState = { AppSettingsUiState.Success(appSettingsTestData) },
+                              uIState = {
+                                  AppSettingsUiState.Success(
+                                      listOf(
+                                          AppSettings(
+                                              id = 0,
+                                              enabled = true,
+                                              settingsType = SettingsType.SYSTEM,
+                                              packageName = "packageNameTest",
+                                              label = "system",
+                                              key = "key",
+                                              valueOnLaunch = "test",
+                                              valueOnRevert = "test",
+                                              safeToWrite = true
+                                          )
+                                      )
+                                  )
+                              },
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
                               onAppSettingsItemCheckBoxChange = { _, _ -> },

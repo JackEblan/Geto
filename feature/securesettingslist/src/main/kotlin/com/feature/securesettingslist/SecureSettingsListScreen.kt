@@ -36,9 +36,9 @@ import com.core.ui.LoadingPlaceHolderScreen
 import com.core.ui.SecureSettingsItem
 
 @Composable
-internal fun SecureSettingsRoute(
+internal fun SecureSettingsListRoute(
     modifier: Modifier = Modifier,
-    viewModel: SecureSettingsViewModel = hiltViewModel(),
+    viewModel: SecureSettingsListViewModel = hiltViewModel(),
     onNavigationIconClick: () -> Unit
 ) {
     val uIState = viewModel.uIState.collectAsStateWithLifecycle().value
@@ -58,35 +58,43 @@ internal fun SecureSettingsRoute(
         }
     }
 
-    SecureSettingsScreen(modifier = modifier,
-                         snackbarHostState = { snackbarHostState },
-                         selectedRadioOptionIndex = {
-                             selectedRadioOptionIndex
-                         },
-                         onRadioOptionSelected = { index ->
-                             selectedRadioOptionIndex = index
+    SecureSettingsListScreen(modifier = modifier,
+                             snackbarHostState = { snackbarHostState },
+                             selectedRadioOptionIndex = {
+                                 selectedRadioOptionIndex
+                             },
+                             onRadioOptionSelected = { index ->
+                                 selectedRadioOptionIndex = index
 
-                             viewModel.onEvent(SecureSettingsEvent.GetSecureSettings(index))
+                                 viewModel.onEvent(
+                                     SecureSettingsListEvent.GetSecureSettingsList(
+                                         index
+                                     )
+                                 )
 
-                         },
-                         onItemClick = { uri ->
-                             viewModel.onEvent(SecureSettingsEvent.OnCopySecureSettings(uri))
-                         },
-                         onNavigationIconClick = onNavigationIconClick,
-                         uIState = { uIState })
+                             },
+                             onItemClick = { uri ->
+                                 viewModel.onEvent(
+                                     SecureSettingsListEvent.OnCopySecureSettingsList(
+                                         uri
+                                     )
+                                 )
+                             },
+                             onNavigationIconClick = onNavigationIconClick,
+                             uIState = { uIState })
 }
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
 @Composable
-internal fun SecureSettingsScreen(
+internal fun SecureSettingsListScreen(
     modifier: Modifier = Modifier,
     snackbarHostState: () -> SnackbarHostState,
     selectedRadioOptionIndex: () -> Int,
     onRadioOptionSelected: (Int) -> Unit,
     onItemClick: (String?) -> Unit,
     onNavigationIconClick: () -> Unit,
-    uIState: () -> SecureSettingsUiState
+    uIState: () -> SecureSettingsListUiState
 ) {
     Scaffold(modifier = modifier.fillMaxSize(), topBar = {
         TopAppBar(title = {
@@ -105,13 +113,13 @@ internal fun SecureSettingsScreen(
         )
     }) { innerPadding ->
         when (val uIStateParam = uIState()) {
-            SecureSettingsUiState.Loading -> LoadingPlaceHolderScreen(
+            SecureSettingsListUiState.Loading -> LoadingPlaceHolderScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .testTag("securesettingslist:loading")
             )
 
-            is SecureSettingsUiState.Success -> {
+            is SecureSettingsListUiState.Success -> {
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxSize()

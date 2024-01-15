@@ -5,7 +5,9 @@ import androidx.room.testing.MigrationTestHelper
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.core.database.migration.Migration1To3
+import com.core.database.migration.Migration1To4
 import com.core.database.migration.Migration2To3
+import com.core.database.migration.Migration3To4
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -16,7 +18,7 @@ class MigrationTest {
     private val testDb = "migration-test"
 
     private val allMigrations = arrayOf(
-        Migration1To3(), Migration2To3()
+        Migration1To3(), Migration1To4(), Migration2To3(), Migration3To4()
     )
 
     @get:Rule
@@ -42,6 +44,16 @@ class MigrationTest {
             close()
         }
         db = helper.runMigrationsAndValidate(testDb, 3, true, Migration2To3())
+    }
+
+    @Test
+    @Throws(IOException::class)
+    fun migrate3To4() {
+        var db = helper.createDatabase(testDb, 3).apply {
+            execSQL("INSERT OR REPLACE INTO AppSettingsItemEntity (id, enabled, settingsType, packageName, label, key, valueOnLaunch, valueOnRevert) VALUES (0, true, 'GLOBAL', 'com.android.geto', 'label', 'key', 'valueOnLaunch', 'valueOnRevert')")
+            close()
+        }
+        db = helper.runMigrationsAndValidate(testDb, 4, true, Migration3To4())
     }
 
     @Test
