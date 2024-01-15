@@ -16,7 +16,7 @@ data class AppSettingsItemEntity(
     val key: String,
     val valueOnLaunch: String,
     val valueOnRevert: String,
-    @ColumnInfo(name = "safeToWrite", defaultValue = "0") val safeToWrite: Boolean
+    @ColumnInfo(name = "safeToWrite", defaultValue = "1") val safeToWrite: Boolean
 )
 
 fun AppSettings.asExternalModel(): AppSettingsItemEntity {
