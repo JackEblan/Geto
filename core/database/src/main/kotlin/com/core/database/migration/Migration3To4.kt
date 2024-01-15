@@ -17,7 +17,7 @@ class Migration3To4 : Migration(3, 4) {
                key TEXT NOT NULL,
                valueOnLaunch TEXT NOT NULL,
                valueOnRevert TEXT NOT NULL,
-               safeToWrite INTEGER NOT NULL DEFAULT 0
+               safeToWrite INTEGER NOT NULL DEFAULT 1
            )
        """.trimIndent()
         )
