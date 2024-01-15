@@ -27,30 +27,32 @@ class AddSettingsDialogTest {
 
             val scrollState = rememberScrollState()
 
-            AddSettingsDialogScreen(selectedRadioOptionIndex = { selectedRadioOptionIndex },
-                                    selectedRadioOptionIndexError = { selectedRadioOptionIndexError },
-                                    key = { "" },
-                                    label = { "" },
-                                    valueOnLaunch = { "" },
-                                    valueOnRevert = { "" },
-                                    keyError = { "" },
-                                    labelError = { "" },
-                                    valueOnLaunchError = { "" },
-                                    valueOnRevertError = { "" },
-                                    scrollState = { scrollState },
-                                    onRadioOptionSelected = {},
-                                    onDismissRequest = {},
-                                    onTypingLabel = {},
-                                    onTypingKey = {
+            AddSettingsDialogScreen(
+                selectedRadioOptionIndex = { selectedRadioOptionIndex },
+                selectedRadioOptionIndexError = { selectedRadioOptionIndexError },
+                buttonEnabled = { true },
+                key = { "" },
+                label = { "" },
+                valueOnLaunch = { "" },
+                valueOnRevert = { "" },
+                keyError = { "" },
+                labelError = { "" },
+                valueOnLaunchError = { "" },
+                valueOnRevertError = { "" },
+                scrollState = { scrollState },
+                onRadioOptionSelected = {},
+                onDismissRequest = {},
+                onTypingLabel = {},
+                onTypingKey = {
 
                                     },
-                                    onTypingValueOnLaunch = {
+                onTypingValueOnLaunch = {
 
                                     },
-                                    onTypingValueOnRevert = {
+                onTypingValueOnRevert = {
 
                                     },
-                                    onAddSettings = {
+                onAddSettings = {
                                         selectedRadioOptionIndexError =
                                             if (selectedRadioOptionIndex == -1) "Please select a Settings type" else ""
                                     })
@@ -73,32 +75,34 @@ class AddSettingsDialogTest {
 
             val scrollState = rememberScrollState()
 
-            AddSettingsDialogScreen(selectedRadioOptionIndex = { -1 },
-                                    selectedRadioOptionIndexError = { "" },
-                                    key = { "" },
-                                    label = { label },
-                                    valueOnLaunch = { "" },
-                                    valueOnRevert = { "" },
-                                    keyError = { "" },
-                                    labelError = { labelError },
-                                    valueOnLaunchError = { "" },
-                                    valueOnRevertError = { "" },
-                                    scrollState = { scrollState },
-                                    onRadioOptionSelected = {},
-                                    onDismissRequest = {},
-                                    onTypingLabel = {
+            AddSettingsDialogScreen(
+                selectedRadioOptionIndex = { -1 },
+                selectedRadioOptionIndexError = { "" },
+                buttonEnabled = { true },
+                key = { "" },
+                label = { label },
+                valueOnLaunch = { "" },
+                valueOnRevert = { "" },
+                keyError = { "" },
+                labelError = { labelError },
+                valueOnLaunchError = { "" },
+                valueOnRevertError = { "" },
+                scrollState = { scrollState },
+                onRadioOptionSelected = {},
+                onDismissRequest = {},
+                onTypingLabel = {
                                         label = it
                                     },
-                                    onTypingKey = {
+                onTypingKey = {
 
                                     },
-                                    onTypingValueOnLaunch = {
+                onTypingValueOnLaunch = {
 
                                     },
-                                    onTypingValueOnRevert = {
+                onTypingValueOnRevert = {
 
                                     },
-                                    onAddSettings = {
+                onAddSettings = {
                                         labelError =
                                             if (label.isBlank()) "Settings label is blank" else ""
                                     })
@@ -121,30 +125,32 @@ class AddSettingsDialogTest {
 
             val scrollState = rememberScrollState()
 
-            AddSettingsDialogScreen(selectedRadioOptionIndex = { -1 },
-                                    selectedRadioOptionIndexError = { "" },
-                                    key = { key },
-                                    label = { "" },
-                                    valueOnLaunch = { "" },
-                                    valueOnRevert = { "" },
-                                    keyError = { keyError },
-                                    labelError = { "" },
-                                    valueOnLaunchError = { "" },
-                                    valueOnRevertError = { "" },
-                                    scrollState = { scrollState },
-                                    onRadioOptionSelected = {},
-                                    onDismissRequest = {},
-                                    onTypingLabel = {},
-                                    onTypingKey = {
+            AddSettingsDialogScreen(
+                selectedRadioOptionIndex = { -1 },
+                selectedRadioOptionIndexError = { "" },
+                buttonEnabled = { true },
+                key = { key },
+                label = { "" },
+                valueOnLaunch = { "" },
+                valueOnRevert = { "" },
+                keyError = { keyError },
+                labelError = { "" },
+                valueOnLaunchError = { "" },
+                valueOnRevertError = { "" },
+                scrollState = { scrollState },
+                onRadioOptionSelected = {},
+                onDismissRequest = {},
+                onTypingLabel = {},
+                onTypingKey = {
 
                                     },
-                                    onTypingValueOnLaunch = {
+                onTypingValueOnLaunch = {
 
                                     },
-                                    onTypingValueOnRevert = {
+                onTypingValueOnRevert = {
 
                                     },
-                                    onAddSettings = {
+                onAddSettings = {
                                         keyError =
                                             if (key.isBlank()) "Settings key is blank" else ""
                                     })
@@ -167,30 +173,32 @@ class AddSettingsDialogTest {
 
             val scrollState = rememberScrollState()
 
-            AddSettingsDialogScreen(selectedRadioOptionIndex = { -1 },
-                                    selectedRadioOptionIndexError = { "" },
-                                    key = { "" },
-                                    label = { "" },
-                                    valueOnLaunch = { valueOnLaunch },
-                                    valueOnRevert = { "" },
-                                    keyError = { "" },
-                                    labelError = { "" },
-                                    valueOnLaunchError = { valueOnLaunchError },
-                                    valueOnRevertError = { "" },
-                                    scrollState = { scrollState },
-                                    onRadioOptionSelected = {},
-                                    onDismissRequest = {},
-                                    onTypingLabel = {},
-                                    onTypingKey = {
+            AddSettingsDialogScreen(
+                selectedRadioOptionIndex = { -1 },
+                selectedRadioOptionIndexError = { "" },
+                buttonEnabled = { true },
+                key = { "" },
+                label = { "" },
+                valueOnLaunch = { valueOnLaunch },
+                valueOnRevert = { "" },
+                keyError = { "" },
+                labelError = { "" },
+                valueOnLaunchError = { valueOnLaunchError },
+                valueOnRevertError = { "" },
+                scrollState = { scrollState },
+                onRadioOptionSelected = {},
+                onDismissRequest = {},
+                onTypingLabel = {},
+                onTypingKey = {
 
                                     },
-                                    onTypingValueOnLaunch = {
+                onTypingValueOnLaunch = {
 
                                     },
-                                    onTypingValueOnRevert = {
+                onTypingValueOnRevert = {
 
                                     },
-                                    onAddSettings = {
+                onAddSettings = {
                                         valueOnLaunchError =
                                             if (valueOnLaunch.isBlank()) "Settings value on launch is blank" else ""
                                     })
@@ -213,30 +221,32 @@ class AddSettingsDialogTest {
 
             val scrollState = rememberScrollState()
 
-            AddSettingsDialogScreen(selectedRadioOptionIndex = { -1 },
-                                    selectedRadioOptionIndexError = { "" },
-                                    key = { "" },
-                                    label = { "" },
-                                    valueOnLaunch = { "" },
-                                    valueOnRevert = { valueOnRevert },
-                                    keyError = { "" },
-                                    labelError = { "" },
-                                    valueOnLaunchError = { "" },
-                                    valueOnRevertError = { valueOnRevertError },
-                                    scrollState = { scrollState },
-                                    onRadioOptionSelected = {},
-                                    onDismissRequest = {},
-                                    onTypingLabel = {},
-                                    onTypingKey = {
+            AddSettingsDialogScreen(
+                selectedRadioOptionIndex = { -1 },
+                selectedRadioOptionIndexError = { "" },
+                buttonEnabled = { true },
+                key = { "" },
+                label = { "" },
+                valueOnLaunch = { "" },
+                valueOnRevert = { valueOnRevert },
+                keyError = { "" },
+                labelError = { "" },
+                valueOnLaunchError = { "" },
+                valueOnRevertError = { valueOnRevertError },
+                scrollState = { scrollState },
+                onRadioOptionSelected = {},
+                onDismissRequest = {},
+                onTypingLabel = {},
+                onTypingKey = {
 
                                     },
-                                    onTypingValueOnLaunch = {
+                onTypingValueOnLaunch = {
 
                                     },
-                                    onTypingValueOnRevert = {
+                onTypingValueOnRevert = {
 
                                     },
-                                    onAddSettings = {
+                onAddSettings = {
                                         valueOnRevertError =
                                             if (valueOnRevert.isBlank()) "Settings value on revert is blank" else ""
                                     })

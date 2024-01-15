@@ -2,7 +2,9 @@ package com.feature.addsettings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.core.domain.usecase.AddAppSettingsUseCase
+import com.core.domain.usecase.AddAppSettingsWithSettingsTypeGlobalUseCase
+import com.core.domain.usecase.AddAppSettingsWithSettingsTypeSecureUseCase
+import com.core.domain.usecase.AddAppSettingsWithSettingsTypeSystemUseCase
 import com.core.model.AppSettings
 import com.core.model.SettingsType
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,40 +15,82 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddSettingsDialogViewModel @Inject constructor(
-    private val addAppSettingsUseCase: AddAppSettingsUseCase
+    private val addAppSettingsWithSettingsTypeSystemUseCase: AddAppSettingsWithSettingsTypeSystemUseCase,
+    private val addAppSettingsWithSettingsTypeSecureUseCase: AddAppSettingsWithSettingsTypeSecureUseCase,
+    private val addAppSettingsWithSettingsTypeGlobalUseCase: AddAppSettingsWithSettingsTypeGlobalUseCase
 ) : ViewModel() {
     private var _dismissDialogState = MutableStateFlow(false)
 
     val dismissDialogState = _dismissDialogState.asStateFlow()
 
+    private var _buttonEnabledState = MutableStateFlow(true)
+
+    val buttonEnabledState = _buttonEnabledState.asStateFlow()
+
     fun onEvent(event: AddSettingsDialogEvent) {
         when (event) {
             is AddSettingsDialogEvent.AddSettings -> {
                 viewModelScope.launch {
-                    val settingsType = when (event.selectedRadioOptionIndex) {
-                        0 -> SettingsType.SYSTEM
+                    _buttonEnabledState.value = false
 
-                        1 -> SettingsType.SECURE
+                    when (event.selectedRadioOptionIndex) {
+                        0 -> {
+                            addAppSettingsWithSettingsTypeSystemUseCase(
+                                appSettings = AppSettings(
+                                    enabled = true,
+                                    settingsType = SettingsType.SYSTEM,
+                                    packageName = event.packageName,
+                                    label = event.label,
+                                    key = event.key,
+                                    valueOnLaunch = event.valueOnLaunch,
+                                    valueOnRevert = event.valueOnRevert,
+                                    safeToWrite = false
+                                ), settingsType = SettingsType.SYSTEM
+                            ).onSuccess {
+                                _dismissDialogState.value = true
+                            }.onFailure {
+                                _buttonEnabledState.value = true
+                            }
+                        }
 
-                        2 -> SettingsType.GLOBAL
+                        1 -> {
+                            addAppSettingsWithSettingsTypeSecureUseCase(
+                                appSettings = AppSettings(
+                                    enabled = true,
+                                    settingsType = SettingsType.SECURE,
+                                    packageName = event.packageName,
+                                    label = event.label,
+                                    key = event.key,
+                                    valueOnLaunch = event.valueOnLaunch,
+                                    valueOnRevert = event.valueOnRevert,
+                                    safeToWrite = false
+                                ), settingsType = SettingsType.SECURE
+                            ).onSuccess {
+                                _dismissDialogState.value = true
+                            }.onFailure {
+                                _buttonEnabledState.value = true
+                            }
+                        }
 
-                        else -> SettingsType.SYSTEM
+                        2 -> {
+                            addAppSettingsWithSettingsTypeGlobalUseCase(
+                                appSettings = AppSettings(
+                                    enabled = true,
+                                    settingsType = SettingsType.GLOBAL,
+                                    packageName = event.packageName,
+                                    label = event.label,
+                                    key = event.key,
+                                    valueOnLaunch = event.valueOnLaunch,
+                                    valueOnRevert = event.valueOnRevert,
+                                    safeToWrite = false
+                                ), settingsType = SettingsType.GLOBAL
+                            ).onSuccess {
+                                _dismissDialogState.value = true
+                            }.onFailure {
+                                _buttonEnabledState.value = true
+                            }
+                        }
                     }
-
-                    addAppSettingsUseCase(
-                        AppSettings(
-                            enabled = true,
-                            settingsType = settingsType,
-                            packageName = event.packageName,
-                            label = event.label,
-                            key = event.key,
-                            valueOnLaunch = event.valueOnLaunch,
-                            valueOnRevert = event.valueOnRevert,
-                            safeToWrite = false
-                        )
-                    )
-                    _dismissDialogState.value = true
-
                 }
             }
         }

@@ -44,7 +44,7 @@ class DefaultSettingsRepository @Inject constructor(
         }
     }
 
-    override suspend fun getSecureSettings(settingsType: SettingsType): Result<List<SecureSettings>> {
-        return runCatching { secureSettingsPermissionWrapper.getSecureSettings(settingsType) }
+    override suspend fun getSecureSettings(settingsType: SettingsType): List<SecureSettings> {
+        return secureSettingsPermissionWrapper.getSecureSettings(settingsType)
     }
 }

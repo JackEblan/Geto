@@ -14,7 +14,7 @@ interface SettingsRepository {
 
     suspend fun revertSettings(appSettingsList: List<AppSettings>): Result<RevertSettingsResultMessage>
 
-    suspend fun getSecureSettings(settingsType: SettingsType): Result<List<SecureSettings>>
+    suspend fun getSecureSettings(settingsType: SettingsType): List<SecureSettings>
 
     companion object {
         const val APPLY_SETTINGS_SUCCESS_MESSAGE = "Settings applied"

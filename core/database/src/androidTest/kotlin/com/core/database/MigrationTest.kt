@@ -38,6 +38,16 @@ class MigrationTest {
 
     @Test
     @Throws(IOException::class)
+    fun migrate1To4() {
+        var db = helper.createDatabase(testDb, 1).apply {
+            execSQL("INSERT OR REPLACE INTO AppSettingsItemEntity (enabled, settingsType, packageName, label, key, valueOnLaunch, valueOnRevert) VALUES (true, 'GLOBAL', 'com.android.geto', 'label', 'key', 'valueOnLaunch', 'valueOnRevert')")
+            close()
+        }
+        db = helper.runMigrationsAndValidate(testDb, 4, true, Migration1To4())
+    }
+
+    @Test
+    @Throws(IOException::class)
     fun migrate2To3() {
         var db = helper.createDatabase(testDb, 2).apply {
             execSQL("INSERT OR REPLACE INTO AppSettingsItemEntity (enabled, settingsType, packageName, label, key, valueOnLaunch, valueOnRevert) VALUES (true, 'GLOBAL', 'com.android.geto', 'label', 'key', 'valueOnLaunch', 'valueOnRevert')")

@@ -43,10 +43,8 @@ class TestSettingsRepository : SettingsRepository {
         }
     }
 
-    override suspend fun getSecureSettings(settingsType: SettingsType): Result<List<SecureSettings>> {
-        return runCatching {
-            secureSettingsList
-        }
+    override suspend fun getSecureSettings(settingsType: SettingsType): List<SecureSettings> {
+        return secureSettingsList
     }
 
     /**

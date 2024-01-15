@@ -44,9 +44,9 @@ class SecureSettingsListViewModel @Inject constructor(
                 }
 
                 viewModelScope.launch {
-                    settingsRepository.getSecureSettings(settingsType).onSuccess { secureSettings ->
-                        _uIState.value = SecureSettingsListUiState.Success(secureSettings)
-                    }
+                    _uIState.value = SecureSettingsListUiState.Success(
+                        settingsRepository.getSecureSettings(settingsType)
+                    )
                 }
             }
 

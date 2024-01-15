@@ -67,6 +67,8 @@ fun AddSettingsDialog(
 
     val dismiss = viewModel.dismissDialogState.collectAsStateWithLifecycle().value
 
+    val buttonEnabled = viewModel.buttonEnabledState.collectAsStateWithLifecycle().value
+
     LaunchedEffect(key1 = dismiss) {
         if (dismiss) {
             onDismissRequest()
@@ -77,6 +79,7 @@ fun AddSettingsDialog(
     AddSettingsDialogScreen(modifier = modifier,
                             selectedRadioOptionIndex = { selectedRadioOptionIndex },
                             selectedRadioOptionIndexError = { selectedRadioOptionIndexError },
+                            buttonEnabled = { buttonEnabled },
                             key = { key },
                             label = { label },
                             valueOnLaunch = { valueOnLaunch },
@@ -137,6 +140,7 @@ internal fun AddSettingsDialogScreen(
     modifier: Modifier = Modifier,
     selectedRadioOptionIndex: () -> Int,
     selectedRadioOptionIndexError: () -> String,
+    buttonEnabled: () -> Boolean,
     key: () -> String,
     label: () -> String,
     valueOnLaunch: () -> String,
@@ -289,7 +293,7 @@ internal fun AddSettingsDialogScreen(
                 ) {
                     TextButton(
                         onClick = { onDismissRequest() },
-                        modifier = Modifier.padding(5.dp),
+                        modifier = Modifier.padding(5.dp), enabled = buttonEnabled()
                     ) {
                         Text("Cancel")
                     }
@@ -298,6 +302,7 @@ internal fun AddSettingsDialogScreen(
                         modifier = Modifier
                             .padding(5.dp)
                             .testTag(":appsettings:addsettingsdialog:add"),
+                        enabled = buttonEnabled()
                     ) {
                         Text("Add")
                     }

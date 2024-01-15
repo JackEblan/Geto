@@ -2,16 +2,13 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="AppSettingsScreenTest">
-        <State />
-      </entry>
-      <entry key="SecureSettingsListScreenTest">
+      <entry key="MigrationTest">
         <State />
       </entry>
       <entry key="app">
         <State />
       </entry>
-      <entry key="on_item_click_shows_Snackbar_copied_settings_key()">
+      <entry key="migrate1To4()">
         <State />
       </entry>
     </value>
