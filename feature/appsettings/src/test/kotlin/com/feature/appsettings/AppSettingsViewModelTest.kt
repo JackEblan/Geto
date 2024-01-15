@@ -2,7 +2,6 @@ package com.feature.appsettings
 
 import androidx.lifecycle.SavedStateHandle
 import com.core.domain.usecase.ApplyAppSettingsUseCase
-import com.core.domain.usecase.GetAppSettingsListUseCase
 import com.core.domain.usecase.RevertAppSettingsUseCase
 import com.core.model.AppSettings
 import com.core.model.SettingsType
@@ -52,8 +51,6 @@ class AppSettingsViewModelTest {
 
         packageManagerWrapper = TestPackageManagerWrapper()
 
-
-
         savedStateHandle[NAV_KEY_PACKAGE_NAME] = packageNameTest
 
         savedStateHandle[NAV_KEY_APP_NAME] = appNameTest
@@ -63,11 +60,7 @@ class AppSettingsViewModelTest {
             appSettingsRepository = appSettingsRepository,
             packageManagerWrapper = TestPackageManagerWrapper(),
             applyAppSettingsUseCase = ApplyAppSettingsUseCase(settingsRepository),
-            revertAppSettingsUseCase = RevertAppSettingsUseCase(settingsRepository),
-            getAppSettingsListUseCase = GetAppSettingsListUseCase(
-                settingsRepository = settingsRepository,
-                appSettingsRepository = appSettingsRepository
-            )
+            revertAppSettingsUseCase = RevertAppSettingsUseCase(settingsRepository)
         )
     }
 

@@ -15,12 +15,12 @@ class RevertAppSettingsUseCase @Inject constructor(private val settingsRepositor
 
         if (appSettingsList.all { !it.enabled }) {
 
-            return Result.failure(AppSettingsException("Please enable atleast one settings"))
+            return Result.failure(AppSettingsException("Please enable atleast one setting"))
         }
 
         if (appSettingsList.any { !it.safeToWrite }) {
 
-            return Result.failure(AppSettingsException("Reverting settings that doesn't exist in your settings is prohibited. Please remove items highlighted as red"))
+            return Result.failure(AppSettingsException("Reverting settings that don't exist is prohibited. Please remove items highlighted as red"))
         }
 
         return settingsRepository.revertSettings(appSettingsList)

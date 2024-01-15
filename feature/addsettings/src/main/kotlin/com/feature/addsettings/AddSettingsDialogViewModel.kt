@@ -2,7 +2,7 @@ package com.feature.addsettings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.core.domain.repository.AppSettingsRepository
+import com.core.domain.usecase.AddAppSettingsUseCase
 import com.core.model.AppSettings
 import com.core.model.SettingsType
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddSettingsDialogViewModel @Inject constructor(
-    private val appSettingsRepository: AppSettingsRepository
+    private val addAppSettingsUseCase: AddAppSettingsUseCase
 ) : ViewModel() {
     private var _dismissDialogState = MutableStateFlow(false)
 
@@ -33,7 +33,7 @@ class AddSettingsDialogViewModel @Inject constructor(
                         else -> SettingsType.SYSTEM
                     }
 
-                    appSettingsRepository.upsertAppSettings(
+                    addAppSettingsUseCase(
                         AppSettings(
                             enabled = true,
                             settingsType = settingsType,

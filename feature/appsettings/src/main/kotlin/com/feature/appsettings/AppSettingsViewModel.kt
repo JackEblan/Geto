@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.core.domain.repository.AppSettingsRepository
 import com.core.domain.usecase.ApplyAppSettingsUseCase
-import com.core.domain.usecase.GetAppSettingsListUseCase
 import com.core.domain.usecase.RevertAppSettingsUseCase
 import com.core.domain.util.PackageManagerWrapper
 import com.feature.appsettings.navigation.NAV_KEY_APP_NAME
@@ -27,8 +26,7 @@ class AppSettingsViewModel @Inject constructor(
     private val appSettingsRepository: AppSettingsRepository,
     private val packageManagerWrapper: PackageManagerWrapper,
     private val applyAppSettingsUseCase: ApplyAppSettingsUseCase,
-    private val revertAppSettingsUseCase: RevertAppSettingsUseCase,
-    getAppSettingsListUseCase: GetAppSettingsListUseCase
+    private val revertAppSettingsUseCase: RevertAppSettingsUseCase
 ) : ViewModel() {
     private var _showSnackBar = MutableStateFlow<String?>(null)
 
@@ -47,7 +45,7 @@ class AppSettingsViewModel @Inject constructor(
     val appName = savedStateHandle.get<String>(NAV_KEY_APP_NAME) ?: ""
 
     val uIState: StateFlow<AppSettingsUiState> =
-        getAppSettingsListUseCase(packageName).map { list ->
+        appSettingsRepository.getAppSettingsList(packageName).map { list ->
             if (list.isNotEmpty()) {
                 AppSettingsUiState.Success(list)
             } else {
