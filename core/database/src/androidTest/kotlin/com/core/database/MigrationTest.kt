@@ -87,7 +87,7 @@ class MigrationTest {
     @Throws(IOException::class)
     fun migrate4To5() {
         var db = helper.createDatabase(testDb, 4).apply {
-            execSQL("INSERT OR REPLACE INTO AppSettingsItemEntity (id, enabled, settingsType, packageName, label, key, valueOnLaunch, valueOnRevert) VALUES (0, true, 'GLOBAL', 'com.android.geto', 'label', 'key', 'valueOnLaunch', 'valueOnRevert')")
+            execSQL("INSERT OR REPLACE INTO AppSettingsItemEntity (id, enabled, settingsType, packageName, label, key, valueOnLaunch, valueOnRevert, safeToWrite) VALUES (0, true, 'GLOBAL', 'com.android.geto', 'label', 'key', 'valueOnLaunch', 'valueOnRevert', 1)")
             close()
         }
         db = helper.runMigrationsAndValidate(testDb, 5, true, Migration4To5())
