@@ -11,9 +11,9 @@ class AddAppSettingsWithSettingsTypeGlobalUseCase @Inject constructor(
     private val appSettingsRepository: AppSettingsRepository
 ) {
     suspend operator fun invoke(
-        appSettings: AppSettings, settingsType: SettingsType
+        appSettings: AppSettings
     ): Result<Unit> {
-        if (appSettings.settingsType == SettingsType.GLOBAL && settingsType == SettingsType.GLOBAL) {
+        if (appSettings.settingsType == SettingsType.GLOBAL) {
             val safeToWrite =
                 appSettings.key in settingsRepository.getSecureSettings(SettingsType.GLOBAL)
                     .map { it.name }

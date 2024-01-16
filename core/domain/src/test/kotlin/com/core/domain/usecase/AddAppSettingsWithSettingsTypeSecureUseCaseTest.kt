@@ -40,7 +40,7 @@ class AddAppSettingsWithSettingsTypeSecureUseCaseTest {
                 valueOnLaunch = "valueOnLaunch",
                 valueOnRevert = "valueOnRevert",
                 safeToWrite = false
-            ), settingsType = SettingsType.SECURE
+            )
         )
 
         assertTrue { result.isSuccess }
@@ -60,7 +60,7 @@ class AddAppSettingsWithSettingsTypeSecureUseCaseTest {
                     valueOnLaunch = "valueOnLaunch",
                     valueOnRevert = "valueOnRevert",
                     safeToWrite = false
-                ), settingsType = SettingsType.GLOBAL
+                )
             )
 
             assertTrue { result.isFailure }

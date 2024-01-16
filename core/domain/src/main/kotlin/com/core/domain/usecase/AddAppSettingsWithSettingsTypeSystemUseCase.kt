@@ -11,9 +11,9 @@ class AddAppSettingsWithSettingsTypeSystemUseCase @Inject constructor(
     private val appSettingsRepository: AppSettingsRepository
 ) {
     suspend operator fun invoke(
-        appSettings: AppSettings, settingsType: SettingsType
+        appSettings: AppSettings
     ): Result<Unit> {
-        if (appSettings.settingsType == SettingsType.SYSTEM && settingsType == SettingsType.SYSTEM) {
+        if (appSettings.settingsType == SettingsType.SYSTEM) {
             val safeToWrite =
                 appSettings.key in settingsRepository.getSecureSettings(SettingsType.SYSTEM)
                     .map { it.name }

@@ -45,7 +45,7 @@ class AddSettingsDialogViewModel @Inject constructor(
                                     valueOnLaunch = event.valueOnLaunch,
                                     valueOnRevert = event.valueOnRevert,
                                     safeToWrite = false
-                                ), settingsType = SettingsType.SYSTEM
+                                )
                             ).onSuccess {
                                 _dismissDialogState.value = true
                             }.onFailure {
@@ -64,7 +64,7 @@ class AddSettingsDialogViewModel @Inject constructor(
                                     valueOnLaunch = event.valueOnLaunch,
                                     valueOnRevert = event.valueOnRevert,
                                     safeToWrite = false
-                                ), settingsType = SettingsType.SECURE
+                                )
                             ).onSuccess {
                                 _dismissDialogState.value = true
                             }.onFailure {
@@ -83,7 +83,7 @@ class AddSettingsDialogViewModel @Inject constructor(
                                     valueOnLaunch = event.valueOnLaunch,
                                     valueOnRevert = event.valueOnRevert,
                                     safeToWrite = false
-                                ), settingsType = SettingsType.GLOBAL
+                                )
                             ).onSuccess {
                                 _dismissDialogState.value = true
                             }.onFailure {
