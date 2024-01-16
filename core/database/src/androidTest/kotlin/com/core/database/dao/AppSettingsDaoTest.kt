@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import com.core.database.AppDatabase
-import com.core.database.model.AppSettingsItemEntity
+import com.core.database.model.AppSettingsEntity
 import com.core.model.SettingsType
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
@@ -37,7 +37,7 @@ class AppSettingsDaoTest {
 
     @Test
     fun userAppSettingsDao_filters_items_by_package_name() = runTest {
-        val appSettingsItemEntity1 = AppSettingsItemEntity(
+        val appSettingsEntity1 = AppSettingsEntity(
             enabled = false,
             settingsType = SettingsType.GLOBAL,
             packageName = "com.android.geto",
@@ -48,7 +48,7 @@ class AppSettingsDaoTest {
             safeToWrite = false
         )
 
-        val appSettingsItemEntity2 = AppSettingsItemEntity(
+        val appSettingsEntity2 = AppSettingsEntity(
             enabled = false,
             settingsType = SettingsType.GLOBAL,
             packageName = "com.android.settings",
@@ -59,12 +59,11 @@ class AppSettingsDaoTest {
             safeToWrite = false
         )
 
-        appSettingsDao.upsert(appSettingsItemEntity1)
+        appSettingsDao.upsert(appSettingsEntity1)
 
-        appSettingsDao.upsert(appSettingsItemEntity2)
+        appSettingsDao.upsert(appSettingsEntity2)
 
-        val userAppSettingsList =
-            appSettingsDao.getUserAppSettingsList("com.android.geto").first()
+        val userAppSettingsList = appSettingsDao.getAppSettingsList("com.android.geto").first()
 
         assertEquals(expected = listOf("com.android.geto"),
                      actual = userAppSettingsList.map { it.packageName })

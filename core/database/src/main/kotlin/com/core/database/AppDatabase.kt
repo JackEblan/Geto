@@ -1,12 +1,18 @@
 package com.core.database
 
+import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.core.database.dao.AppSettingsDao
-import com.core.database.model.AppSettingsItemEntity
+import com.core.database.migration.RenamedTableFromAppSettingsItemEntityToAppSettingsEntityAutoMigration
+import com.core.database.model.AppSettingsEntity
 
 @Database(
-    entities = [AppSettingsItemEntity::class], version = 4, exportSchema = true
+    entities = [AppSettingsEntity::class], version = 5, autoMigrations = [AutoMigration(
+        from = 4,
+        to = 5,
+        spec = RenamedTableFromAppSettingsItemEntityToAppSettingsEntityAutoMigration::class
+    )], exportSchema = true
 )
 abstract class AppDatabase : RoomDatabase() {
 

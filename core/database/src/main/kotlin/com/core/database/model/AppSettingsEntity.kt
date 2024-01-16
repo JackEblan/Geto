@@ -7,7 +7,7 @@ import com.core.model.AppSettings
 import com.core.model.SettingsType
 
 @Entity
-data class AppSettingsItemEntity(
+data class AppSettingsEntity(
     @PrimaryKey val id: Int? = null,
     val enabled: Boolean,
     val settingsType: SettingsType,
@@ -19,8 +19,22 @@ data class AppSettingsItemEntity(
     @ColumnInfo(name = "safeToWrite", defaultValue = "1") val safeToWrite: Boolean
 )
 
-fun AppSettings.asExternalModel(): AppSettingsItemEntity {
-    return AppSettingsItemEntity(
+fun AppSettingsEntity.asExternalModel(): AppSettings {
+    return AppSettings(
+        id = id,
+        enabled = enabled,
+        settingsType = settingsType,
+        packageName = packageName,
+        label = label,
+        key = key,
+        valueOnLaunch = valueOnLaunch,
+        valueOnRevert = valueOnRevert,
+        safeToWrite = safeToWrite
+    )
+}
+
+fun AppSettings.asEntity(): AppSettingsEntity {
+    return AppSettingsEntity(
         id = id,
         enabled = enabled,
         settingsType = settingsType,
