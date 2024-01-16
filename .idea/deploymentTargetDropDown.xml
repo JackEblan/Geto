@@ -11,10 +11,10 @@
       <entry key="app">
         <State />
       </entry>
-      <entry key="migrate1To4()">
+      <entry key="migrate1To2()">
         <State />
       </entry>
-      <entry key="migrate4To5()">
+      <entry key="migrate1To4()">
         <State />
       </entry>
     </value>

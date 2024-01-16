@@ -3,13 +3,12 @@ package com.core.database.migration
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
-class Migration1To5 : Migration(1, 5) {
+class Migration1To2 : Migration(1, 2) {
     override fun migrate(db: SupportSQLiteDatabase) {
-        // Create a new table with the same structure but with an added safeToWrite column
+        // Create a new table with the same structure but with an added id column
         db.execSQL(
             """
            CREATE TABLE IF NOT EXISTS new_table (
-               id INTEGER PRIMARY KEY AUTOINCREMENT,
                enabled INTEGER NOT NULL,
                settingsType TEXT NOT NULL,
                packageName TEXT NOT NULL,
@@ -17,7 +16,7 @@ class Migration1To5 : Migration(1, 5) {
                key TEXT NOT NULL,
                valueOnLaunch TEXT NOT NULL,
                valueOnRevert TEXT NOT NULL,
-               safeToWrite INTEGER NOT NULL DEFAULT 1
+               PRIMARY KEY(key)
            )
        """.trimIndent()
         )
@@ -29,6 +28,6 @@ class Migration1To5 : Migration(1, 5) {
         db.execSQL("DROP TABLE UserAppSettingsItemEntity")
 
         // Rename the new table to the old table name
-        db.execSQL("ALTER TABLE new_table RENAME TO AppSettingsEntity")
+        db.execSQL("ALTER TABLE new_table RENAME TO AppSettingsItemEntity")
     }
 }

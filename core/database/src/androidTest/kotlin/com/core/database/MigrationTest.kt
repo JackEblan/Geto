@@ -4,6 +4,7 @@ import androidx.room.Room
 import androidx.room.testing.MigrationTestHelper
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import com.core.database.migration.Migration1To2
 import com.core.database.migration.Migration1To3
 import com.core.database.migration.Migration1To4
 import com.core.database.migration.Migration1To5
@@ -20,6 +21,7 @@ class MigrationTest {
     private val testDb = "migration-test"
 
     private val allMigrations = arrayOf(
+        Migration1To2(),
         Migration1To3(),
         Migration1To4(),
         Migration1To5(),
@@ -35,9 +37,19 @@ class MigrationTest {
 
     @Test
     @Throws(IOException::class)
+    fun migrate1To2() {
+        var db = helper.createDatabase(testDb, 1).apply {
+            execSQL("INSERT OR REPLACE INTO UserAppSettingsItemEntity (enabled, settingsType, packageName, label, key, valueOnLaunch, valueOnRevert) VALUES (true, 'GLOBAL', 'com.android.geto', 'label', 'key', 'valueOnLaunch', 'valueOnRevert')")
+            close()
+        }
+        db = helper.runMigrationsAndValidate(testDb, 2, true, Migration1To2())
+    }
+
+    @Test
+    @Throws(IOException::class)
     fun migrate1To3() {
         var db = helper.createDatabase(testDb, 1).apply {
-            execSQL("INSERT OR REPLACE INTO AppSettingsItemEntity (enabled, settingsType, packageName, label, key, valueOnLaunch, valueOnRevert) VALUES (true, 'GLOBAL', 'com.android.geto', 'label', 'key', 'valueOnLaunch', 'valueOnRevert')")
+            execSQL("INSERT OR REPLACE INTO UserAppSettingsItemEntity (enabled, settingsType, packageName, label, key, valueOnLaunch, valueOnRevert) VALUES (true, 'GLOBAL', 'com.android.geto', 'label', 'key', 'valueOnLaunch', 'valueOnRevert')")
             close()
         }
         db = helper.runMigrationsAndValidate(testDb, 3, true, Migration1To3())
@@ -47,7 +59,7 @@ class MigrationTest {
     @Throws(IOException::class)
     fun migrate1To4() {
         var db = helper.createDatabase(testDb, 1).apply {
-            execSQL("INSERT OR REPLACE INTO AppSettingsItemEntity (enabled, settingsType, packageName, label, key, valueOnLaunch, valueOnRevert) VALUES (true, 'GLOBAL', 'com.android.geto', 'label', 'key', 'valueOnLaunch', 'valueOnRevert')")
+            execSQL("INSERT OR REPLACE INTO UserAppSettingsItemEntity (enabled, settingsType, packageName, label, key, valueOnLaunch, valueOnRevert) VALUES (true, 'GLOBAL', 'com.android.geto', 'label', 'key', 'valueOnLaunch', 'valueOnRevert')")
             close()
         }
         db = helper.runMigrationsAndValidate(testDb, 4, true, Migration1To4())
@@ -57,7 +69,7 @@ class MigrationTest {
     @Throws(IOException::class)
     fun migrate1To5() {
         var db = helper.createDatabase(testDb, 1).apply {
-            execSQL("INSERT OR REPLACE INTO AppSettingsItemEntity (enabled, settingsType, packageName, label, key, valueOnLaunch, valueOnRevert) VALUES (true, 'GLOBAL', 'com.android.geto', 'label', 'key', 'valueOnLaunch', 'valueOnRevert')")
+            execSQL("INSERT OR REPLACE INTO UserAppSettingsItemEntity (enabled, settingsType, packageName, label, key, valueOnLaunch, valueOnRevert) VALUES (true, 'GLOBAL', 'com.android.geto', 'label', 'key', 'valueOnLaunch', 'valueOnRevert')")
             close()
         }
         db = helper.runMigrationsAndValidate(testDb, 5, true, Migration1To5())

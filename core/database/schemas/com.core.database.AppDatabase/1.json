@@ -5,7 +5,7 @@
     "identityHash": "c7e5779604edc843a1b9e281e73375ad",
     "entities": [
       {
-        "tableName": "AppSettingsItemEntity",
+        "tableName": "UserAppSettingsItemEntity",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`enabled` INTEGER NOT NULL, `settingsType` TEXT NOT NULL, `packageName` TEXT NOT NULL, `label` TEXT NOT NULL, `key` TEXT NOT NULL, `valueOnLaunch` TEXT NOT NULL, `valueOnRevert` TEXT NOT NULL, PRIMARY KEY(`key`))",
         "fields": [
           {
