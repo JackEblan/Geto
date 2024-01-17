@@ -165,7 +165,9 @@ internal fun AppSettingsScreen(
                 containerColor = BottomAppBarDefaults.bottomAppBarFabColor,
                 elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
             ) {
-                Icon(imageVector = GetoIcons.Android, contentDescription = "Launch icon")
+                Icon(
+                    imageVector = GetoIcons.Android, contentDescription = "Launch icon"
+                )
             }
         })
     }, snackbarHost = {
