@@ -18,7 +18,7 @@ class AddSettingsDialogTest {
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     @Test
-    fun selected_radio_option_index_error_shows_when_there_is_no_selected_radio_option_index() {
+    fun testShowsSelectedRadioOptionIndexError_whenNoIndexSelected() {
         composeTestRule.setContent {
 
             val selectedRadioOptionIndex by rememberSaveable { mutableIntStateOf(-1) }
@@ -66,7 +66,7 @@ class AddSettingsDialogTest {
     }
 
     @Test
-    fun settings_label_error_shows_when_settings_label_textfield_is_blank() {
+    fun testShowsSettingsLabelError_whenLabelTextFieldIsBlank() {
         composeTestRule.setContent {
 
             var label by rememberSaveable { mutableStateOf("") }
@@ -116,7 +116,7 @@ class AddSettingsDialogTest {
     }
 
     @Test
-    fun settings_key_error_shows_when_settings_key_textfield_is_blank() {
+    fun testShowsSettingsKeyError_whenKeyTextFieldIsBlank() {
         composeTestRule.setContent {
 
             val key by rememberSaveable { mutableStateOf("") }
@@ -164,7 +164,7 @@ class AddSettingsDialogTest {
     }
 
     @Test
-    fun settings_value_on_launch_error_shows_when_settings_value_on_launch_textfield_is_blank() {
+    fun testShowsSettingsValueOnLaunchError_whenValueOnLaunchTextFieldIsBlank() {
         composeTestRule.setContent {
 
             val valueOnLaunch by rememberSaveable { mutableStateOf("") }
@@ -212,7 +212,7 @@ class AddSettingsDialogTest {
     }
 
     @Test
-    fun settings_value_on_revert_error_shows_when_settings_value_on_revert_textfield_is_blank() {
+    fun testShowsSettingsValueOnRevertError_whenValueOnRevertTextFieldIsBlank() {
         composeTestRule.setContent {
 
             val valueOnRevert by rememberSaveable { mutableStateOf("") }

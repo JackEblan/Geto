@@ -3,12 +3,18 @@ package com.feature.applist
 import com.core.model.NonSystemApp
 import com.core.testing.repository.TestPackageRepository
 import com.core.testing.util.MainDispatcherRule
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertIs
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class AppListViewModelTest {
 
     @get:Rule
@@ -26,16 +32,22 @@ class AppListViewModelTest {
     }
 
     @Test
-    fun `OnEvent GetNonSystemApps returns not empty list with UserAppListUiState as Success`() =
-        runTest {
-            packageRepository.sendNonSystemApps(nonSystemAppsTestData)
+    fun getNonSystemApps_appListUiState_isSuccess() = runTest {
+        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.uIState.collect() }
 
-            viewModel.onEvent(AppListEvent.GetAppList)
+        packageRepository.sendNonSystemApps(nonSystemAppsTestData)
 
-            val item = viewModel.uIState.value
+        val item = viewModel.uIState.value
 
-            assertIs<AppListUiState.Success>(item)
-        }
+        assertIs<AppListUiState.Success>(item)
+
+        collectJob.cancel()
+    }
+
+    @Test
+    fun initialAppListUiState_isLoading() = runTest {
+        assertEquals(expected = AppListUiState.Loading, actual = viewModel.uIState.value)
+    }
 }
 
 private val nonSystemAppsTestData = listOf(

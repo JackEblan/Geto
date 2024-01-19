@@ -109,7 +109,7 @@ private fun LazyListScope.appItems(
                 )
             }
             .padding(10.dp),
-                icon = { nonSystemApp.byteArrayIcon },
+                icon = { nonSystemApp.icon },
                 packageName = { nonSystemApp.packageName },
                 label = { nonSystemApp.label })
     }

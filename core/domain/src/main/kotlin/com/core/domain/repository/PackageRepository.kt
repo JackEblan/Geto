@@ -1,7 +1,8 @@
 package com.core.domain.repository
 
 import com.core.model.NonSystemApp
+import kotlinx.coroutines.flow.Flow
 
 interface PackageRepository {
-    suspend fun getNonSystemApps(): List<NonSystemApp>
+    fun getNonSystemApps(): Flow<NonSystemApp>
 }

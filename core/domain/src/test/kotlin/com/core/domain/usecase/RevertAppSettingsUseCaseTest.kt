@@ -3,7 +3,7 @@ package com.core.domain.usecase
 import com.core.domain.repository.RevertSettingsResultMessage
 import com.core.model.AppSettings
 import com.core.model.SettingsType
-import com.core.testing.repository.TestSettingsRepository
+import com.core.testing.repository.TestSecureSettingsRepository
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
@@ -13,32 +13,45 @@ import kotlin.test.assertTrue
 class RevertAppSettingsUseCaseTest {
     private lateinit var revertAppSettingsUseCase: RevertAppSettingsUseCase
 
-    private lateinit var settingsRepository: TestSettingsRepository
+    private lateinit var settingsRepository: TestSecureSettingsRepository
 
     @Before
     fun setup() {
-        settingsRepository = TestSettingsRepository()
+        settingsRepository = TestSecureSettingsRepository()
 
         revertAppSettingsUseCase = RevertAppSettingsUseCase(settingsRepository)
     }
 
     @Test
-    fun `When appSettingsList is not empty then return settingsRepository revertSettings as Result`() =
-        runTest {
-            val result = revertAppSettingsUseCase(emptyList())
+    fun revertAppSettings_appSettingsListNotEmpty_returnsRepositoryResult() = runTest {
+        val result = revertAppSettingsUseCase(
+            listOf(
+                AppSettings(
+                    id = 0,
+                    enabled = true,
+                    settingsType = SettingsType.GLOBAL,
+                    packageName = "packageName",
+                    label = "label",
+                    key = "key",
+                    valueOnLaunch = "valueOnLaunch",
+                    valueOnRevert = "valueOnRevert",
+                    safeToWrite = true
+                )
+            )
+        )
 
-            assertIs<Result<RevertSettingsResultMessage>>(result)
-        }
+        assertIs<Result<RevertSettingsResultMessage>>(result)
+    }
 
     @Test
-    fun `When appSettingsList is empty then return Result failure`() = runTest {
+    fun revertAppSettings_appSettingsListEmpty_returnsFailure() = runTest {
         val result = revertAppSettingsUseCase(emptyList())
 
         assertTrue { result.isFailure }
     }
 
     @Test
-    fun `When appSettingsList is not empty and atleast one item is enabled then return settingsRepository revertSettings as Result`() =
+    fun revertAppSettings_appSettingsListNotEmptyAndItemsEnabled_returnsRepositoryResult() =
         runTest {
             val result = revertAppSettingsUseCase(
                 listOf(
@@ -60,29 +73,28 @@ class RevertAppSettingsUseCaseTest {
         }
 
     @Test
-    fun `When appSettingsList is not empty and no item is enabled then return Result failure`() =
-        runTest {
-            val result = revertAppSettingsUseCase(
-                listOf(
-                    AppSettings(
-                        id = 0,
-                        enabled = true,
-                        settingsType = SettingsType.SYSTEM,
-                        packageName = "packageNameTest",
-                        label = "system",
-                        key = "key",
-                        valueOnLaunch = "test",
-                        valueOnRevert = "test",
-                        safeToWrite = false
-                    )
+    fun revertAppSettings_appSettingsListNotEmptyAndNoItemsEnabled_returnsFailure() = runTest {
+        val result = revertAppSettingsUseCase(
+            listOf(
+                AppSettings(
+                    id = 0,
+                    enabled = false,
+                    settingsType = SettingsType.SYSTEM,
+                    packageName = "packageNameTest",
+                    label = "system",
+                    key = "key",
+                    valueOnLaunch = "test",
+                    valueOnRevert = "test",
+                    safeToWrite = false
                 )
             )
+        )
 
-            assertTrue { result.isFailure }
-        }
+        assertTrue { result.isFailure }
+    }
 
     @Test
-    fun `When appSettingsList is not empty and atleast one item is enabled and is safe to write is true then return settingsRepository applySettings as Result`() =
+    fun revertAppSettings_appSettingsListNotEmpty_itemsEnabled_safeToWrite_returnsRepositoryResult() =
         runTest {
             val result = revertAppSettingsUseCase(
                 listOf(
@@ -104,7 +116,7 @@ class RevertAppSettingsUseCaseTest {
         }
 
     @Test
-    fun `When appSettingsList is not empty and atleast one item is enabled and is safe to write is false then return Result failure`() =
+    fun revertAppSettings_appSettingsListNotEmpty_itemsEnabled_notSafeToWrite_returnsFailure() =
         runTest {
             val result = revertAppSettingsUseCase(
                 listOf(

@@ -3,31 +3,24 @@ package com.feature.applist
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.core.domain.repository.PackageRepository
+import com.core.model.NonSystemApp
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.scan
+import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 @HiltViewModel
 class AppListViewModel @Inject constructor(
-    private val packageRepository: PackageRepository
+    packageRepository: PackageRepository
 ) : ViewModel() {
-    private val _uIState = MutableStateFlow<AppListUiState>(AppListUiState.Loading)
-
-    val uIState = _uIState.asStateFlow()
-
-    init {
-        onEvent(AppListEvent.GetAppList)
-    }
-
-    fun onEvent(event: AppListEvent) {
-        when (event) {
-            AppListEvent.GetAppList -> {
-                viewModelScope.launch {
-                    _uIState.value = AppListUiState.Success(packageRepository.getNonSystemApps())
-                }
-            }
-        }
-    }
+    val uIState: StateFlow<AppListUiState> = packageRepository.getNonSystemApps()
+        .scan(emptyList<NonSystemApp>()) { list, item -> list + item }.map(AppListUiState::Success)
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = AppListUiState.Loading
+        )
 }

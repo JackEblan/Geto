@@ -1,18 +1,16 @@
 package com.core.data.repository
 
 import com.core.domain.repository.PackageRepository
-import com.core.testing.util.TestByteArrayOutputStreamWrapper
 import com.core.testing.util.TestPackageManagerWrapper
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
-import kotlin.test.assertTrue
+import kotlin.test.assertNotNull
 
 class PackageRepositoryTest {
     private lateinit var packageManagerWrapper: TestPackageManagerWrapper
-
-    private lateinit var byteArrayOutputStreamWrapper: TestByteArrayOutputStreamWrapper
 
     private lateinit var subject: PackageRepository
 
@@ -22,17 +20,13 @@ class PackageRepositoryTest {
     fun setUp() {
         packageManagerWrapper = TestPackageManagerWrapper()
 
-        byteArrayOutputStreamWrapper = TestByteArrayOutputStreamWrapper()
-
         subject = DefaultPackageRepository(
-            packageManagerWrapper = packageManagerWrapper,
-            defaultDispatcher = testDispatcher,
-            byteArrayOutputStreamWrapper = byteArrayOutputStreamWrapper
+            packageManagerWrapper = packageManagerWrapper, defaultDispatcher = testDispatcher
         )
     }
 
     @Test
-    fun `filter non-system apps with app icon return not empty`() = runTest(testDispatcher) {
-        assertTrue { subject.getNonSystemApps().isNotEmpty() }
+    fun getNonSystemApps_returnsFirstItemNotNull() = runTest(testDispatcher) {
+        assertNotNull(subject.getNonSystemApps().first())
     }
 }

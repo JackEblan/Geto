@@ -8,18 +8,18 @@ typealias ApplySettingsResultMessage = String
 
 typealias RevertSettingsResultMessage = String
 
-interface SettingsRepository {
+interface SecureSettingsRepository {
 
-    suspend fun applySettings(appSettingsList: List<AppSettings>): Result<ApplySettingsResultMessage>
+    suspend fun applySecureSettings(appSettingsList: List<AppSettings>): Result<ApplySettingsResultMessage>
 
-    suspend fun revertSettings(appSettingsList: List<AppSettings>): Result<RevertSettingsResultMessage>
+    suspend fun revertSecureSettings(appSettingsList: List<AppSettings>): Result<RevertSettingsResultMessage>
 
     suspend fun getSecureSettings(settingsType: SettingsType): List<SecureSettings>
 
     companion object {
-        const val APPLY_SETTINGS_SUCCESS_MESSAGE = "Settings applied"
+        const val APPLY_SECURE_SETTINGS_SUCCESS_MESSAGE = "Settings applied"
 
-        const val REVERT_SETTINGS_SUCCESS_MESSAGE = "Settings reverted"
+        const val REVERT_SECURE_SETTINGS_SUCCESS_MESSAGE = "Settings reverted"
 
         /**
          * A test-only message when WRITE_SECURE_SETTINGS permission was not granted

@@ -27,14 +27,14 @@ class CopySettingsUseCaseTest {
     }
 
     @Test
-    fun `When secureSettings is null then return Result failure`() = runTest {
+    fun copySettings_secureSettingsNull_returnsFailure() = runTest {
         val result = copySettingsUseCase(secureSettings = null)
 
         assertTrue { result.isFailure }
     }
 
     @Test
-    fun `When secureSettings is not null then return Result of clipboardRepository`() = runTest {
+    fun copySettings_secureSettingsNotNull_returnsRepositoryResult() = runTest {
         val result = copySettingsUseCase(secureSettings = "secure settings")
 
         assertIs<Result<CopySettingsResultMessage>>(result)

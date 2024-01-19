@@ -2,9 +2,10 @@ package com.core.data.repository
 
 import com.core.testing.util.TestBuildVersionWrapper
 import com.core.testing.util.TestClipboardManagerWrapper
+import junit.framework.TestCase.assertNull
 import org.junit.Before
 import org.junit.Test
-import kotlin.test.assertTrue
+import kotlin.test.assertNotNull
 
 class ClipboardRepositoryTest {
     private lateinit var buildVersionWrapper: TestBuildVersionWrapper
@@ -26,21 +27,21 @@ class ClipboardRepositoryTest {
     }
 
     @Test
-    fun `setPrimaryClip returns Result success with message if build version is Android 12 below`() {
+    fun putTextToClipboard_buildVersionBelowAndroid12_returnsSuccessWithMessage() {
         buildVersionWrapper.setAndroidTwelveBelow(true)
 
         val result = subject.putTextToClipboard("Text")
 
-        assertTrue { result.getOrNull() != null }
+        assertNotNull(result.getOrNull())
     }
 
     @Test
-    fun `setPrimaryClip returns Result success with null message if build version is Android 12 above`() {
+    fun putTextToClipboard_buildVersionAndroid12OrAbove_returnsSuccessWithNullMessage() {
         buildVersionWrapper.setAndroidTwelveBelow(false)
 
         val result = subject.putTextToClipboard("Text")
 
-        assertTrue { result.getOrNull() == null }
+        assertNull(result.getOrNull())
     }
 
 }

@@ -2,11 +2,12 @@ package com.feature.copypermissioncommand
 
 import com.core.testing.repository.TestClipboardRepository
 import com.core.testing.util.MainDispatcherRule
+import junit.framework.TestCase.assertNotNull
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import kotlin.test.assertTrue
+import kotlin.test.assertNull
 
 class CopyPermissionCommandDialogViewModelTest {
     @get:Rule
@@ -24,26 +25,24 @@ class CopyPermissionCommandDialogViewModelTest {
     }
 
     @Test
-    fun `OnEvent CopySettingsKey then return Result success with show snackbar message as not null if Android version is below 12`() =
-        runTest {
-            clipboardRepository.setAndroidTwelveBelow(true)
+    fun copyPermissionCommandKey_androidBelow12_showSnackBarNotNull() = runTest {
+        clipboardRepository.setAndroidTwelveBelow(true)
 
-            viewModel.onEvent(
-                CopyPermissionCommandDialogEvent.CopyPermissionCommandKey
-            )
+        viewModel.onEvent(
+            CopyPermissionCommandDialogEvent.CopyPermissionCommandKey
+        )
 
-            assertTrue { viewModel.showSnackBar.value != null }
-        }
+        assertNotNull(viewModel.showSnackBar.value)
+    }
 
     @Test
-    fun `OnEvent CopySettingsKey then return Result success with show snackbar message as null if Android version is above 12`() =
-        runTest {
-            clipboardRepository.setAndroidTwelveBelow(false)
+    fun copyPermissionCommandKey_androidAbove12_showSnackBarNull() = runTest {
+        clipboardRepository.setAndroidTwelveBelow(false)
 
-            viewModel.onEvent(
-                CopyPermissionCommandDialogEvent.CopyPermissionCommandKey
-            )
+        viewModel.onEvent(
+            CopyPermissionCommandDialogEvent.CopyPermissionCommandKey
+        )
 
-            assertTrue { viewModel.showSnackBar.value == null }
-        }
+        assertNull(viewModel.showSnackBar.value)
+    }
 }

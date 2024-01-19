@@ -15,7 +15,7 @@ class SecureSettingsListScreenTest {
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     @Test
-    fun state_loading_shows_LoadingPlaceHolderScreen() {
+    fun testShowsLoadingPlaceHolderScreen_SecureSettingsListUiStateLoading() {
         composeTestRule.setContent {
             SecureSettingsListScreen(snackbarHostState = { SnackbarHostState() },
                                      selectedRadioOptionIndex = { -1 },
@@ -29,7 +29,7 @@ class SecureSettingsListScreenTest {
     }
 
     @Test
-    fun state_success_shows_LazyColumn() {
+    fun testShowsLazyColumn_SecureSettingsListUiStateSuccess() {
         composeTestRule.setContent {
             SecureSettingsListScreen(snackbarHostState = { SnackbarHostState() },
                                      selectedRadioOptionIndex = { -1 },
@@ -49,7 +49,7 @@ class SecureSettingsListScreenTest {
     }
 
     @Test
-    fun on_item_click_shows_Snackbar_copied_settings_key() {
+    fun testShowsSnackbar_onItemClick() {
         val secureSettingsItemKeyToTest = "Key"
 
         composeTestRule.setContent {

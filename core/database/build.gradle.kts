@@ -8,7 +8,7 @@ android {
     namespace = "com.core.database"
 
     defaultConfig {
-        testInstrumentationRunner = "com.core.testing.HiltTestRunner"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     sourceSets {

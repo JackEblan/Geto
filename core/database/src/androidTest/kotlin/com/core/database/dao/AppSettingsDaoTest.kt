@@ -36,7 +36,7 @@ class AppSettingsDaoTest {
     }
 
     @Test
-    fun userAppSettingsDao_filters_items_by_package_name() = runTest {
+    fun appSettingsDao_filterByPackageName_returnsFilteredList() = runTest {
         val appSettingsEntity1 = AppSettingsEntity(
             enabled = false,
             settingsType = SettingsType.GLOBAL,

@@ -2,19 +2,19 @@ package com.core.data.repository
 
 import com.core.domain.repository.ApplySettingsResultMessage
 import com.core.domain.repository.RevertSettingsResultMessage
-import com.core.domain.repository.SettingsRepository
-import com.core.domain.repository.SettingsRepository.Companion.APPLY_SETTINGS_SUCCESS_MESSAGE
-import com.core.domain.repository.SettingsRepository.Companion.REVERT_SETTINGS_SUCCESS_MESSAGE
+import com.core.domain.repository.SecureSettingsRepository
+import com.core.domain.repository.SecureSettingsRepository.Companion.APPLY_SECURE_SETTINGS_SUCCESS_MESSAGE
+import com.core.domain.repository.SecureSettingsRepository.Companion.REVERT_SECURE_SETTINGS_SUCCESS_MESSAGE
 import com.core.domain.util.SecureSettingsPermissionWrapper
 import com.core.model.AppSettings
 import com.core.model.SecureSettings
 import com.core.model.SettingsType
 import javax.inject.Inject
 
-class DefaultSettingsRepository @Inject constructor(
+class DefaultSecureSettingsRepository @Inject constructor(
     private val secureSettingsPermissionWrapper: SecureSettingsPermissionWrapper
-) : SettingsRepository {
-    override suspend fun applySettings(appSettingsList: List<AppSettings>): Result<ApplySettingsResultMessage> {
+) : SecureSettingsRepository {
+    override suspend fun applySecureSettings(appSettingsList: List<AppSettings>): Result<ApplySettingsResultMessage> {
         return runCatching {
             appSettingsList.filter { it.enabled }.forEach { userAppSettingsItem ->
                 val successful =
@@ -24,12 +24,12 @@ class DefaultSettingsRepository @Inject constructor(
                 check(successful) { "${userAppSettingsItem.key} failed to apply" }
             }
 
-            APPLY_SETTINGS_SUCCESS_MESSAGE
+            APPLY_SECURE_SETTINGS_SUCCESS_MESSAGE
 
         }
     }
 
-    override suspend fun revertSettings(appSettingsList: List<AppSettings>): Result<RevertSettingsResultMessage> {
+    override suspend fun revertSecureSettings(appSettingsList: List<AppSettings>): Result<RevertSettingsResultMessage> {
         return runCatching {
             appSettingsList.filter { it.enabled }.forEach { userAppSettingsItem ->
                 val successful =
@@ -39,7 +39,7 @@ class DefaultSettingsRepository @Inject constructor(
                 check(successful) { "${userAppSettingsItem.key} failed to apply" }
             }
 
-            REVERT_SETTINGS_SUCCESS_MESSAGE
+            REVERT_SECURE_SETTINGS_SUCCESS_MESSAGE
 
         }
     }

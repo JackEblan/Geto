@@ -1,11 +1,11 @@
 package com.core.domain.usecase
 
 import com.core.domain.repository.RevertSettingsResultMessage
-import com.core.domain.repository.SettingsRepository
+import com.core.domain.repository.SecureSettingsRepository
 import com.core.model.AppSettings
 import javax.inject.Inject
 
-class RevertAppSettingsUseCase @Inject constructor(private val settingsRepository: SettingsRepository) {
+class RevertAppSettingsUseCase @Inject constructor(private val secureSettingsRepository: SecureSettingsRepository) {
 
     suspend operator fun invoke(appSettingsList: List<AppSettings>): Result<RevertSettingsResultMessage> {
         if (appSettingsList.isEmpty()) {
@@ -23,6 +23,6 @@ class RevertAppSettingsUseCase @Inject constructor(private val settingsRepositor
             return Result.failure(AppSettingsException("Reverting settings that don't exist is prohibited. Please remove items highlighted as red"))
         }
 
-        return settingsRepository.revertSettings(appSettingsList)
+        return secureSettingsRepository.revertSecureSettings(appSettingsList)
     }
 }

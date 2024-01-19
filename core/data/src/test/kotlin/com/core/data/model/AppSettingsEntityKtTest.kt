@@ -9,7 +9,7 @@ import kotlin.test.assertEquals
 class AppSettingsEntityKtTest {
 
     @Test
-    fun app_settings_can_be_mapped_to_app_settings_entity() {
+    fun appSettings_canBeMappedToEntity() {
         val appSettings = AppSettings(
             id = 1,
             enabled = false,

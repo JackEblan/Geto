@@ -1,11 +1,11 @@
 package com.core.domain.usecase
 
 import com.core.domain.repository.ApplySettingsResultMessage
-import com.core.domain.repository.SettingsRepository
+import com.core.domain.repository.SecureSettingsRepository
 import com.core.model.AppSettings
 import javax.inject.Inject
 
-class ApplyAppSettingsUseCase @Inject constructor(private val settingsRepository: SettingsRepository) {
+class ApplyAppSettingsUseCase @Inject constructor(private val secureSettingsRepository: SecureSettingsRepository) {
 
     suspend operator fun invoke(appSettingsList: List<AppSettings>): Result<ApplySettingsResultMessage> {
         if (appSettingsList.isEmpty()) {
@@ -23,6 +23,6 @@ class ApplyAppSettingsUseCase @Inject constructor(private val settingsRepository
             return Result.failure(AppSettingsException("Applying settings that don't exist is prohibited. Please remove items highlighted as red"))
         }
 
-        return settingsRepository.applySettings(appSettingsList)
+        return secureSettingsRepository.applySecureSettings(appSettingsList)
     }
 }

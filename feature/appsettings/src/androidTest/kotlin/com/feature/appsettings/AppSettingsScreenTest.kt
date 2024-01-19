@@ -17,7 +17,7 @@ class AppSettingsScreenTest {
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     @Test
-    fun state_loading_shows_LoadingPlaceHolderScreen() {
+    fun testShowsLoadingPlaceHolderScreen_AppSettingsUiStateLoading() {
         composeTestRule.setContent {
             AppSettingsScreen(snackbarHostState = { SnackbarHostState() },
                               appName = { "Geto" },
@@ -34,7 +34,7 @@ class AppSettingsScreenTest {
     }
 
     @Test
-    fun state_empty_shows_EmptyListPlaceHolderScreen() {
+    fun testShowsEmptyListPlaceHolderScreen_AppSettingsUiStateEmpty() {
         composeTestRule.setContent {
             AppSettingsScreen(snackbarHostState = { SnackbarHostState() },
                               appName = { "Geto" },
@@ -51,7 +51,7 @@ class AppSettingsScreenTest {
     }
 
     @Test
-    fun state_success_shows_LazyColumn() {
+    fun testShowsLazyColumn_AppSettingsUiStateSuccess() {
         composeTestRule.setContent {
             AppSettingsScreen(snackbarHostState = { SnackbarHostState() },
                               appName = { "Geto" },
@@ -84,7 +84,7 @@ class AppSettingsScreenTest {
     }
 
     @Test
-    fun revert_icon_clicked_when_state_is_empty_shows_SnackBar() {
+    fun testShowsSnackbar_whenRevertIconClicked_inAppSettingsUiStateEmpty() {
         composeTestRule.setContent {
             val snackbarHostState = remember {
                 SnackbarHostState()
@@ -107,7 +107,7 @@ class AppSettingsScreenTest {
     }
 
     @Test
-    fun launch_icon_clicked_when_state_is_empty_shows_SnackBar() {
+    fun testShowsSnackbar_whenLaunchIconClicked_inAppSettingsUiStateEmpty() {
         composeTestRule.setContent {
             val snackbarHostState = remember {
                 SnackbarHostState()

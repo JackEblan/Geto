@@ -2,7 +2,7 @@ package com.feature.securesettingslist
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.core.domain.repository.SettingsRepository
+import com.core.domain.repository.SecureSettingsRepository
 import com.core.domain.usecase.CopySettingsUseCase
 import com.core.model.SettingsType
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SecureSettingsListViewModel @Inject constructor(
-    private val settingsRepository: SettingsRepository,
+    private val secureSettingsRepository: SecureSettingsRepository,
     private val copySettingsUseCase: CopySettingsUseCase
 ) : ViewModel() {
 
@@ -45,7 +45,7 @@ class SecureSettingsListViewModel @Inject constructor(
 
                 viewModelScope.launch {
                     _uIState.value = SecureSettingsListUiState.Success(
-                        settingsRepository.getSecureSettings(settingsType)
+                        secureSettingsRepository.getSecureSettings(settingsType)
                     )
                 }
             }
