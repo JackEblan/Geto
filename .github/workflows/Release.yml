@@ -30,7 +30,7 @@ jobs:
           java-version: 17
 
       - name: Build Github Release APK
-        run: ./gradlew assembleRelease
+        run: ./gradlew assembleGithubRelease
 
       - name: Sign Github Release APK
         uses: r0adkll/sign-android-release@v1
