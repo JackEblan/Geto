@@ -1,4 +1,4 @@
-name: GitHub Release with APKs
+name: Release
 
 on:
   push:
@@ -32,19 +32,38 @@ jobs:
       - name: Build Github Release APK
         run: ./gradlew assembleGithubRelease
 
+      - name: Build Fdroid Release APK
+        run: ./gradlew assembleFdroidRelease
+
       - name: Sign Github Release APK
         uses: r0adkll/sign-android-release@v1
-        id: sign_github_release_apk
+        id: sign-github-release-apk
         with:
-          releaseDirectory: app/github/release
+          releaseDirectory: app/build/outputs/apk/github/release
           signingKeyBase64: ${{ secrets.SIGNING_KEY_BASE64 }}
           alias: ${{ secrets.SIGNING_KEY_ALIAS }}
-          keyStorePassword: ${{ secrets.SIGNING_KEY_STORE_ALIAS }}
+          keyStorePassword: ${{ secrets.SIGNING_KEY_STORE_PASSWORD }}
           keyPassword: ${{ secrets.SIGNING_KEY_PASSWORD }}
+        env:
+          BUILD_TOOLS_VERSION: "34.0.0"
 
-      - name: Create Github Release
-        id: create_github_release
+      - name: Sign Fdroid Release APK
+        uses: r0adkll/sign-android-release@v1
+        id: sign-fdroid-release-apk
+        with:
+          releaseDirectory: app/build/outputs/apk/fdroid/release
+          signingKeyBase64: ${{ secrets.SIGNING_KEY_BASE64 }}
+          alias: ${{ secrets.SIGNING_KEY_ALIAS }}
+          keyStorePassword: ${{ secrets.SIGNING_KEY_STORE_PASSWORD }}
+          keyPassword: ${{ secrets.SIGNING_KEY_PASSWORD }}
+        env:
+          BUILD_TOOLS_VERSION: "34.0.0"
+
+      - name: Create Release
+        id: create-release
         uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ github.ref }}
           release_name: ${{ github.ref }}
@@ -53,8 +72,20 @@ jobs:
 
       - name: Upload Github Release APK
         uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: app/github/release/app-github-release.apk
+          upload_url: ${{ steps.create-release.outputs.upload_url }}
+          asset_path: ${{steps.sign-github-release-apk.outputs.signedReleaseFile}}
           asset_name: app-github-release.apk
+          asset_content_type: application/vnd.android.package-archive
+
+      - name: Upload Fdroid Release APK
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create-release.outputs.upload_url }}
+          asset_path: ${{steps.sign-fdroid-release-apk.outputs.signedReleaseFile}}
+          asset_name: app-fdroid-release.apk
           asset_content_type: application/vnd.android.package-archive
