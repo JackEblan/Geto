@@ -40,9 +40,11 @@ class AddAppSettingsWithSettingsTypeGlobalUseCaseTest {
                 key = "key",
                 valueOnLaunch = "valueOnLaunch",
                 valueOnRevert = "valueOnRevert",
-                safeToWrite = false
+                safeToWrite = true
             )
         )
+
+        println(result)
 
         assertTrue { result.isSuccess }
     }
@@ -58,11 +60,11 @@ class AddAppSettingsWithSettingsTypeGlobalUseCaseTest {
                 label = "label",
                 key = "key",
                 valueOnLaunch = "valueOnLaunch",
-                    valueOnRevert = "valueOnRevert",
-                    safeToWrite = false
-                )
+                valueOnRevert = "valueOnRevert",
+                safeToWrite = false
             )
+        )
 
-            assertTrue { result.isFailure }
-        }
+        assertTrue { result.isFailure }
+    }
 }

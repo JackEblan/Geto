@@ -18,10 +18,13 @@ class SecureSettingsListScreenTest {
     fun testShowsLoadingPlaceHolderScreen_SecureSettingsListUiStateLoading() {
         composeTestRule.setContent {
             SecureSettingsListScreen(snackbarHostState = { SnackbarHostState() },
-                                     selectedRadioOptionIndex = { -1 },
-                                     onRadioOptionSelected = {},
+                                     dropDownExpanded = { false },
+                                     onDropDownExpanded = { },
                                      onItemClick = {},
                                      onNavigationIconClick = {},
+                                     onSystemDropdownMenuItemClick = {},
+                                     onSecureDropdownMenuItemClick = { },
+                                     onGlobalDropdownMenuItemClick = {},
                                      uIState = { SecureSettingsListUiState.Loading })
         }
 
@@ -32,10 +35,13 @@ class SecureSettingsListScreenTest {
     fun testShowsLazyColumn_SecureSettingsListUiStateSuccess() {
         composeTestRule.setContent {
             SecureSettingsListScreen(snackbarHostState = { SnackbarHostState() },
-                                     selectedRadioOptionIndex = { -1 },
-                                     onRadioOptionSelected = {},
+                                     dropDownExpanded = { false },
+                                     onDropDownExpanded = { },
                                      onItemClick = {},
                                      onNavigationIconClick = {},
+                                     onSystemDropdownMenuItemClick = {},
+                                     onSecureDropdownMenuItemClick = { },
+                                     onGlobalDropdownMenuItemClick = {},
                                      uIState = {
                                          SecureSettingsListUiState.Success(
                                              listOf(
@@ -54,10 +60,13 @@ class SecureSettingsListScreenTest {
 
         composeTestRule.setContent {
             SecureSettingsListScreen(snackbarHostState = { SnackbarHostState() },
-                                     selectedRadioOptionIndex = { 0 },
-                                     onRadioOptionSelected = {},
+                                     dropDownExpanded = { false },
+                                     onDropDownExpanded = { },
                                      onItemClick = {},
                                      onNavigationIconClick = {},
+                                     onSystemDropdownMenuItemClick = {},
+                                     onSecureDropdownMenuItemClick = { },
+                                     onGlobalDropdownMenuItemClick = {},
                                      uIState = {
                                          SecureSettingsListUiState.Success(
                                              listOf(

@@ -18,17 +18,13 @@ class SecureSettingsListViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _uIState =
-        MutableStateFlow<SecureSettingsListUiState>(SecureSettingsListUiState.Loading)
+        MutableStateFlow<SecureSettingsListUiState>(SecureSettingsListUiState.Empty)
 
     private var _showSnackBar = MutableStateFlow<String?>(null)
 
     val showSnackBar = _showSnackBar.asStateFlow()
 
     val uIState = _uIState.asStateFlow()
-
-    init {
-        onEvent(SecureSettingsListEvent.GetSecureSettingsList(0))
-    }
 
     fun onEvent(event: SecureSettingsListEvent) {
         when (event) {
@@ -44,6 +40,8 @@ class SecureSettingsListViewModel @Inject constructor(
                 }
 
                 viewModelScope.launch {
+                    _uIState.value = SecureSettingsListUiState.Loading
+
                     _uIState.value = SecureSettingsListUiState.Success(
                         secureSettingsRepository.getSecureSettings(settingsType)
                     )

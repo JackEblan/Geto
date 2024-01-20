@@ -6,4 +6,5 @@ sealed interface SecureSettingsListUiState {
     data class Success(val secureSettingsList: List<SecureSettings>) : SecureSettingsListUiState
 
     data object Loading : SecureSettingsListUiState
+    data object Empty : SecureSettingsListUiState
 }

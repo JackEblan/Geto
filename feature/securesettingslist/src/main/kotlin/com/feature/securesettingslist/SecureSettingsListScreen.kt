@@ -2,14 +2,13 @@ package com.feature.securesettingslist
 
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -21,17 +20,16 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.core.designsystem.component.GetoLabeledRadioButton
 import com.core.designsystem.icon.GetoIcons
 import com.core.model.SecureSettings
+import com.core.ui.EmptyListPlaceHolderScreen
 import com.core.ui.LoadingPlaceHolderScreen
 import com.core.ui.SecureSettingsItem
 
@@ -49,7 +47,7 @@ internal fun SecureSettingsListRoute(
         SnackbarHostState()
     }
 
-    var selectedRadioOptionIndex by rememberSaveable { mutableIntStateOf(0) }
+    var dropDownExpanded by remember { mutableStateOf(false) }
 
     LaunchedEffect(key1 = showSnackBar) {
         showSnackBar?.let {
@@ -60,19 +58,7 @@ internal fun SecureSettingsListRoute(
 
     SecureSettingsListScreen(modifier = modifier,
                              snackbarHostState = { snackbarHostState },
-                             selectedRadioOptionIndex = {
-                                 selectedRadioOptionIndex
-                             },
-                             onRadioOptionSelected = { index ->
-                                 selectedRadioOptionIndex = index
-
-                                 viewModel.onEvent(
-                                     SecureSettingsListEvent.GetSecureSettingsList(
-                                         index
-                                     )
-                                 )
-
-                             },
+                             dropDownExpanded = { dropDownExpanded },
                              onItemClick = { uri ->
                                  viewModel.onEvent(
                                      SecureSettingsListEvent.OnCopySecureSettingsList(
@@ -81,6 +67,34 @@ internal fun SecureSettingsListRoute(
                                  )
                              },
                              onNavigationIconClick = onNavigationIconClick,
+                             onDropDownExpanded = { dropDownExpanded = it },
+                             onSystemDropdownMenuItemClick = {
+                                 viewModel.onEvent(
+                                     SecureSettingsListEvent.GetSecureSettingsList(
+                                         0
+                                     )
+                                 )
+
+                                 dropDownExpanded = false
+                             },
+                             onSecureDropdownMenuItemClick = {
+                                 viewModel.onEvent(
+                                     SecureSettingsListEvent.GetSecureSettingsList(
+                                         1
+                                     )
+                                 )
+
+                                 dropDownExpanded = false
+                             },
+                             onGlobalDropdownMenuItemClick = {
+                                 viewModel.onEvent(
+                                     SecureSettingsListEvent.GetSecureSettingsList(
+                                         2
+                                     )
+                                 )
+
+                                 dropDownExpanded = false
+                             },
                              uIState = { uIState })
 }
 
@@ -90,20 +104,38 @@ internal fun SecureSettingsListRoute(
 internal fun SecureSettingsListScreen(
     modifier: Modifier = Modifier,
     snackbarHostState: () -> SnackbarHostState,
-    selectedRadioOptionIndex: () -> Int,
-    onRadioOptionSelected: (Int) -> Unit,
+    dropDownExpanded: () -> Boolean,
     onItemClick: (String?) -> Unit,
     onNavigationIconClick: () -> Unit,
+    onDropDownExpanded: (Boolean) -> Unit,
+    onSystemDropdownMenuItemClick: () -> Unit,
+    onSecureDropdownMenuItemClick: () -> Unit,
+    onGlobalDropdownMenuItemClick: () -> Unit,
     uIState: () -> SecureSettingsListUiState
 ) {
     Scaffold(modifier = modifier.fillMaxSize(), topBar = {
         TopAppBar(title = {
-            Text(text = "Settings")
+            Text(text = "Settings Database")
         }, navigationIcon = {
             IconButton(onClick = onNavigationIconClick) {
                 Icon(
                     imageVector = GetoIcons.Back, contentDescription = "Navigation icon"
                 )
+            }
+        }, actions = {
+            IconButton(onClick = { onDropDownExpanded(true) }) {
+                Icon(
+                    imageVector = GetoIcons.Menu, contentDescription = "Navigation icon"
+                )
+            }
+
+            DropdownMenu(expanded = dropDownExpanded(),
+                         onDismissRequest = { onDropDownExpanded(false) }) {
+                DropdownMenuItem(text = { Text("System") }, onClick = onSystemDropdownMenuItemClick)
+
+                DropdownMenuItem(text = { Text("Secure") }, onClick = onSecureDropdownMenuItemClick)
+
+                DropdownMenuItem(text = { Text("Global") }, onClick = onGlobalDropdownMenuItemClick)
             }
         })
     }, snackbarHost = {
@@ -126,10 +158,6 @@ internal fun SecureSettingsListScreen(
                         .consumeWindowInsets(innerPadding)
                         .testTag("securesettingslist:success"), contentPadding = innerPadding
                 ) {
-                    settingsTypeFilterItem(
-                        selectedRadioOptionIndex = selectedRadioOptionIndex,
-                        onRadioOptionSelected = onRadioOptionSelected
-                    )
 
                     secureSettingItems(
                         secureSettingsList = uIStateParam.secureSettingsList,
@@ -137,6 +165,14 @@ internal fun SecureSettingsListScreen(
                     )
                 }
             }
+
+            SecureSettingsListUiState.Empty -> EmptyListPlaceHolderScreen(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .testTag("securesettingslist:empty"),
+                icon = GetoIcons.Settings,
+                text = "Filter Settings by type"
+            )
         }
     }
 }
@@ -152,23 +188,3 @@ private fun LazyListScope.secureSettingItems(
         )
     }
 }
-
-private fun LazyListScope.settingsTypeFilterItem(
-    modifier: Modifier = Modifier, selectedRadioOptionIndex: () -> Int,
-    onRadioOptionSelected: (Int) -> Unit,
-) {
-    item {
-        Row(
-            modifier = modifier
-                .fillMaxWidth()
-                .selectableGroup()
-        ) {
-            GetoLabeledRadioButton(
-                items = listOf("System", "Secure", "Global"),
-                selectedRadioOptionIndex = { selectedRadioOptionIndex() },
-                onRadioOptionSelected = onRadioOptionSelected
-            )
-        }
-    }
-}
-

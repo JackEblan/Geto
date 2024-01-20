@@ -7,6 +7,7 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.HourglassEmpty
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Sort
 
 object GetoIcons {
     val Add = Icons.Default.Add
@@ -15,4 +16,5 @@ object GetoIcons {
     val Empty = Icons.Default.HourglassEmpty
     val Refresh = Icons.Default.Refresh
     val Settings = Icons.Default.Settings
+    val Menu = Icons.Default.Sort
 }

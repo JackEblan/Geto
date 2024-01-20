@@ -5,6 +5,10 @@ import com.core.testing.repository.TestClipboardRepository
 import com.core.testing.repository.TestSecureSettingsRepository
 import com.core.testing.util.MainDispatcherRule
 import junit.framework.TestCase.assertNotNull
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
@@ -12,6 +16,7 @@ import org.junit.Test
 import kotlin.test.assertIs
 import kotlin.test.assertNull
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class SecureSettingsListViewModelTest {
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
@@ -39,38 +44,54 @@ class SecureSettingsListViewModelTest {
 
     @Test
     fun getSecureSettingsList_selectedRadioOptionIndex0_secureSettingsUiStateSuccess() = runTest {
+        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.uIState.collect() }
+
         viewModel.onEvent(SecureSettingsListEvent.GetSecureSettingsList(0))
 
         val item = viewModel.uIState.value
 
         assertIs<SecureSettingsListUiState.Success>(item)
+
+        collectJob.cancel()
     }
 
     @Test
     fun getSecureSettingsList_selectedRadioOptionIndex1_secureSettingsUiStateSuccess() = runTest {
+        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.uIState.collect() }
+
         viewModel.onEvent(SecureSettingsListEvent.GetSecureSettingsList(1))
 
         val item = viewModel.uIState.value
 
         assertIs<SecureSettingsListUiState.Success>(item)
+
+        collectJob.cancel()
     }
 
     @Test
     fun getSecureSettingsList_selectedRadioOptionIndex2_secureSettingsUiStateSuccess() = runTest {
+        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.uIState.collect() }
+
         viewModel.onEvent(SecureSettingsListEvent.GetSecureSettingsList(2))
 
         val item = viewModel.uIState.value
 
         assertIs<SecureSettingsListUiState.Success>(item)
+
+        collectJob.cancel()
     }
 
     @Test
     fun onCopySecureSettings_androidBelow12_showSnackBarNotNull() = runTest {
+        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.uIState.collect() }
+
         clipboardRepository.setAndroidTwelveBelow(true)
 
         viewModel.onEvent(SecureSettingsListEvent.OnCopySecureSettingsList("Hi"))
 
         assertNotNull(viewModel.showSnackBar.value)
+
+        collectJob.cancel()
     }
 
     @Test

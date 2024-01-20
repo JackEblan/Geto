@@ -98,5 +98,6 @@ class AddSettingsDialogViewModel @Inject constructor(
 
     fun clearState() {
         _dismissDialogState.value = false
+        _buttonEnabledState.value = true
     }
 }
