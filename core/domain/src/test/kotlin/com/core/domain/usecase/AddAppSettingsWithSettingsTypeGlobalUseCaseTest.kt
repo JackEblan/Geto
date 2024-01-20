@@ -44,8 +44,6 @@ class AddAppSettingsWithSettingsTypeGlobalUseCaseTest {
             )
         )
 
-        println(result)
-
         assertTrue { result.isSuccess }
     }
 
