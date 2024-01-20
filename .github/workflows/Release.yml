@@ -77,7 +77,7 @@ jobs:
         with:
           upload_url: ${{ steps.create-release.outputs.upload_url }}
           asset_path: ${{steps.sign-github-release-apk.outputs.signedReleaseFile}}
-          asset_name: geto-github-${{ github.ref }}.apk
+          asset_name: geto-github-${{ github.ref_name }}.apk
           asset_content_type: application/vnd.android.package-archive
 
       - name: Upload Fdroid Release APK
@@ -87,5 +87,5 @@ jobs:
         with:
           upload_url: ${{ steps.create-release.outputs.upload_url }}
           asset_path: ${{steps.sign-fdroid-release-apk.outputs.signedReleaseFile}}
-          asset_name: geto-fdroid-${{ github.ref }}.apk
+          asset_name: geto-fdroid-${{ github.ref_name }}.apk
           asset_content_type: application/vnd.android.package-archive
