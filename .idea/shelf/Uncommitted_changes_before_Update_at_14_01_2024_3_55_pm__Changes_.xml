@@ -1,9 +1,0 @@
-<changelist name="Uncommitted_changes_before_Update_at_14_01_2024_3_55_pm_[Changes]" date="1705218933604" recycled="true" deleted="true">
-  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_14_01_2024_3_55_pm_[Changes]/shelved.patch" />
-  <option name="DESCRIPTION" value="Uncommitted changes before Update at 14/01/2024 3:55 pm [Changes]" />
-  <binary>
-    <option name="BEFORE_PATH" />
-    <option name="AFTER_PATH" value="app/fdroid/release/app-fdroid-release.apk" />
-    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_14_01_2024_3_55_pm_[Changes]/app-fdroid-release.apk" />
-  </binary>
-</changelist>

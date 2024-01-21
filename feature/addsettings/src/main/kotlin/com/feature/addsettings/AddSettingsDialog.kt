@@ -35,6 +35,12 @@ import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.core.designsystem.component.GetoLabeledRadioButton
+import com.feature.addsettings.AddSettingsValidation.validateAddSettings
+import com.feature.addsettings.AddSettingsValidation.validateKey
+import com.feature.addsettings.AddSettingsValidation.validateLabel
+import com.feature.addsettings.AddSettingsValidation.validateValueOnLaunch
+import com.feature.addsettings.AddSettingsValidation.validateValueOnRevert
+import com.feature.addsettings.AddSettingsValidation.validateselectedRadioOptionIndex
 
 @Composable
 fun AddSettingsDialog(
@@ -106,31 +112,35 @@ fun AddSettingsDialog(
                                 valueOnRevert = it
                             },
                             onAddSettings = {
-                                selectedRadioOptionIndexError =
-                                    if (selectedRadioOptionIndex == -1) "Please select a Settings type" else ""
+                                selectedRadioOptionIndexError = validateselectedRadioOptionIndex(
+                                    selectedRadioOptionIndex
+                                )
 
-                                labelError = if (label.isBlank()) "Settings label is blank" else ""
+                                labelError = validateLabel(label)
 
-                                keyError = if (key.isBlank()) "Settings key is blank" else ""
+                                keyError = validateKey(key)
 
-                                valueOnLaunchError =
-                                    if (valueOnLaunch.isBlank()) "Settings value on launch is blank" else ""
+                                valueOnLaunchError = validateValueOnLaunch(valueOnLaunch)
 
-                                valueOnRevertError =
-                                    if (valueOnRevert.isBlank()) "Settings value on revert is blank" else ""
+                                valueOnRevertError = validateValueOnRevert(valueOnRevert)
 
-                                if (selectedRadioOptionIndexError.isBlank() && labelError.isBlank() && keyError.isBlank() && valueOnLaunchError.isBlank() && valueOnRevertError.isBlank()) {
-                                    viewModel.onEvent(
-                                        AddSettingsDialogEvent.AddSettings(
-                                            packageName = packageName,
-                                            selectedRadioOptionIndex = selectedRadioOptionIndex,
-                                            label = label,
-                                            key = key,
-                                            valueOnLaunch = valueOnLaunch,
-                                            valueOnRevert = valueOnRevert
-                                        )
-                                    )
-                                }
+                                validateAddSettings(selectedRadioOptionIndexError = selectedRadioOptionIndexError,
+                                                    labelError = labelError,
+                                                    keyError = keyError,
+                                                    valueOnLaunchError = valueOnLaunchError,
+                                                    valueOnRevertError = valueOnRevertError,
+                                                    onValidated = {
+                                                        viewModel.onEvent(
+                                                            AddSettingsDialogEvent.AddSettings(
+                                                                packageName = packageName,
+                                                                selectedRadioOptionIndex = selectedRadioOptionIndex,
+                                                                label = label,
+                                                                key = key,
+                                                                valueOnLaunch = valueOnLaunch,
+                                                                valueOnRevert = valueOnRevert
+                                                            )
+                                                        )
+                                                    })
                             })
 }
 
@@ -293,7 +303,8 @@ internal fun AddSettingsDialogScreen(
                 ) {
                     TextButton(
                         onClick = { onDismissRequest() },
-                        modifier = Modifier.padding(5.dp), enabled = buttonEnabled()
+                        modifier = Modifier.padding(5.dp),
+                        enabled = buttonEnabled()
                     ) {
                         Text("Cancel")
                     }
