@@ -20,11 +20,5 @@ interface SecureSettingsRepository {
         const val APPLY_SECURE_SETTINGS_SUCCESS_MESSAGE = "Settings applied"
 
         const val REVERT_SECURE_SETTINGS_SUCCESS_MESSAGE = "Settings reverted"
-
-        /**
-         * A test-only message when WRITE_SECURE_SETTINGS permission was not granted
-         */
-        const val TEST_PERMISSION_NOT_GRANTED_FAILED_MESSAGE = "Permission not granted"
-
     }
 }

@@ -5,7 +5,6 @@ import com.core.domain.repository.RevertSettingsResultMessage
 import com.core.domain.repository.SecureSettingsRepository
 import com.core.domain.repository.SecureSettingsRepository.Companion.APPLY_SECURE_SETTINGS_SUCCESS_MESSAGE
 import com.core.domain.repository.SecureSettingsRepository.Companion.REVERT_SECURE_SETTINGS_SUCCESS_MESSAGE
-import com.core.domain.repository.SecureSettingsRepository.Companion.TEST_PERMISSION_NOT_GRANTED_FAILED_MESSAGE
 import com.core.model.AppSettings
 import com.core.model.SecureSettings
 import com.core.model.SettingsType
@@ -17,12 +16,7 @@ class TestSecureSettingsRepository : SecureSettingsRepository {
 
     override suspend fun applySecureSettings(appSettingsList: List<AppSettings>): Result<ApplySettingsResultMessage> {
         return runCatching {
-            appSettingsList.filter { it.enabled }.forEach { _ ->
-
-                if (!writeSecureSettings) throw SecurityException(
-                    TEST_PERMISSION_NOT_GRANTED_FAILED_MESSAGE
-                )
-            }
+            if (!writeSecureSettings) throw SecurityException()
 
             APPLY_SECURE_SETTINGS_SUCCESS_MESSAGE
 
@@ -31,12 +25,7 @@ class TestSecureSettingsRepository : SecureSettingsRepository {
 
     override suspend fun revertSecureSettings(appSettingsList: List<AppSettings>): Result<RevertSettingsResultMessage> {
         return runCatching {
-            appSettingsList.filter { it.enabled }.forEach { _ ->
-
-                if (!writeSecureSettings) throw SecurityException(
-                    TEST_PERMISSION_NOT_GRANTED_FAILED_MESSAGE
-                )
-            }
+            if (!writeSecureSettings) throw SecurityException()
 
             REVERT_SECURE_SETTINGS_SUCCESS_MESSAGE
 
