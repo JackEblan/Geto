@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - master
+    paths-ignore:
+      - '**.md'
+      - 'fastlane/**'
   pull_request:
 
 concurrency:

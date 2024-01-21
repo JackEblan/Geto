@@ -59,6 +59,11 @@ jobs:
         env:
           BUILD_TOOLS_VERSION: "34.0.0"
 
+      - name: Rename Signed APKs
+        run: |
+          mv ${{steps.sign-github-release-apk.outputs.signedReleaseFile}} app/build/outputs/apk/github/release/geto-github-${{ github.ref_name }}.apk
+          mv ${{steps.sign-fdroid-release-apk.outputs.signedReleaseFile}} app/build/outputs/apk/fdroid/release/geto-fdroid-${{ github.ref_name }}.apk
+
       - name: Create Release
         id: create-release
         uses: actions/create-release@v1
@@ -70,22 +75,9 @@ jobs:
           draft: false
           prerelease: false
 
-      - name: Upload Github Release APK
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload APKs
+        uses: softprops/action-gh-release@v1
         with:
-          upload_url: ${{ steps.create-release.outputs.upload_url }}
-          asset_path: ${{steps.sign-github-release-apk.outputs.signedReleaseFile}}
-          asset_name: geto-github-${{ github.ref_name }}.apk
-          asset_content_type: application/vnd.android.package-archive
-
-      - name: Upload Fdroid Release APK
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create-release.outputs.upload_url }}
-          asset_path: ${{steps.sign-fdroid-release-apk.outputs.signedReleaseFile}}
-          asset_name: geto-fdroid-${{ github.ref_name }}.apk
-          asset_content_type: application/vnd.android.package-archive
+          files: |
+            app/build/outputs/apk/github/release/geto-github-${{ github.ref_name }}.apk
+            app/build/outputs/apk/fdroid/release/geto-fdroid-${{ github.ref_name }}.apk
