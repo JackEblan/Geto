@@ -8,6 +8,15 @@
       <entry key="app">
         <State />
       </entry>
+      <entry key="testShowsBUttonDisabled_whenAddSettingsButtonClicked()">
+        <State />
+      </entry>
+      <entry key="testShowsButtonDisabled_whenAddSettingsButtonClicked()">
+        <State />
+      </entry>
+      <entry key="testShowsSettingsValueOnLaunchError_whenValueOnLaunchTextFieldIsBlank()">
+        <State />
+      </entry>
     </value>
   </component>
 </project>

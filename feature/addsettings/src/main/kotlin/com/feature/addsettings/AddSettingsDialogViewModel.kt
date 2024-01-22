@@ -23,16 +23,10 @@ class AddSettingsDialogViewModel @Inject constructor(
 
     val dismissDialogState = _dismissDialogState.asStateFlow()
 
-    private var _buttonEnabledState = MutableStateFlow(true)
-
-    val buttonEnabledState = _buttonEnabledState.asStateFlow()
-
     fun onEvent(event: AddSettingsDialogEvent) {
         when (event) {
             is AddSettingsDialogEvent.AddSettings -> {
                 viewModelScope.launch {
-                    _buttonEnabledState.value = false
-
                     when (event.selectedRadioOptionIndex) {
                         0 -> {
                             addAppSettingsWithSettingsTypeSystemUseCase(
@@ -48,8 +42,6 @@ class AddSettingsDialogViewModel @Inject constructor(
                                 )
                             ).onSuccess {
                                 _dismissDialogState.value = true
-                            }.onFailure {
-                                _buttonEnabledState.value = true
                             }
                         }
 
@@ -67,8 +59,6 @@ class AddSettingsDialogViewModel @Inject constructor(
                                 )
                             ).onSuccess {
                                 _dismissDialogState.value = true
-                            }.onFailure {
-                                _buttonEnabledState.value = true
                             }
                         }
 
@@ -86,8 +76,6 @@ class AddSettingsDialogViewModel @Inject constructor(
                                 )
                             ).onSuccess {
                                 _dismissDialogState.value = true
-                            }.onFailure {
-                                _buttonEnabledState.value = true
                             }
                         }
                     }
@@ -98,6 +86,5 @@ class AddSettingsDialogViewModel @Inject constructor(
 
     fun clearState() {
         _dismissDialogState.value = false
-        _buttonEnabledState.value = true
     }
 }
