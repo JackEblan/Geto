@@ -20,8 +20,8 @@ class AppSettingsScreenTest {
     fun testShowsLoadingPlaceHolderScreen_AppSettingsUiStateLoading() {
         composeTestRule.setContent {
             AppSettingsScreen(snackbarHostState = { SnackbarHostState() },
-                              appName = { "Geto" },
-                              uIState = { AppSettingsUiState.Loading },
+                              appNameProvider = { "Geto" },
+                              appSettingsUiStateProvider = { AppSettingsUiState.Loading },
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
                               onAppSettingsItemCheckBoxChange = { _, _ -> },
@@ -37,8 +37,8 @@ class AppSettingsScreenTest {
     fun testShowsEmptyListPlaceHolderScreen_AppSettingsUiStateEmpty() {
         composeTestRule.setContent {
             AppSettingsScreen(snackbarHostState = { SnackbarHostState() },
-                              appName = { "Geto" },
-                              uIState = { AppSettingsUiState.Empty },
+                              appNameProvider = { "Geto" },
+                              appSettingsUiStateProvider = { AppSettingsUiState.Empty },
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
                               onAppSettingsItemCheckBoxChange = { _, _ -> },
@@ -54,8 +54,8 @@ class AppSettingsScreenTest {
     fun testShowsLazyColumn_AppSettingsUiStateSuccess() {
         composeTestRule.setContent {
             AppSettingsScreen(snackbarHostState = { SnackbarHostState() },
-                              appName = { "Geto" },
-                              uIState = {
+                              appNameProvider = { "Geto" },
+                              appSettingsUiStateProvider = {
                                   AppSettingsUiState.Success(
                                       listOf(
                                           AppSettings(
@@ -91,8 +91,8 @@ class AppSettingsScreenTest {
             }
 
             AppSettingsScreen(snackbarHostState = { snackbarHostState },
-                              appName = { "Geto" },
-                              uIState = { AppSettingsUiState.Empty },
+                              appNameProvider = { "Geto" },
+                              appSettingsUiStateProvider = { AppSettingsUiState.Empty },
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
                               onAppSettingsItemCheckBoxChange = { _, _ -> },
@@ -114,8 +114,8 @@ class AppSettingsScreenTest {
             }
 
             AppSettingsScreen(snackbarHostState = { snackbarHostState },
-                              appName = { "Geto" },
-                              uIState = { AppSettingsUiState.Empty },
+                              appNameProvider = { "Geto" },
+                              appSettingsUiStateProvider = { AppSettingsUiState.Empty },
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
                               onAppSettingsItemCheckBoxChange = { _, _ -> },

@@ -14,7 +14,7 @@ class AppListScreenTest {
     @Test
     fun testShowsLoadingPlaceHolderScreen_AppListUiStateLoading() {
         composeTestRule.setContent {
-            AppListScreen(uIState = { AppListUiState.Loading },
+            AppListScreen(appListUiStateProvider = { AppListUiState.Loading },
                           onItemClick = { _, _ -> },
                           onSecureSettingsClick = {})
         }
@@ -25,7 +25,7 @@ class AppListScreenTest {
     @Test
     fun testShowsLazyColumn_AppListUiStateSuccess() {
         composeTestRule.setContent {
-            AppListScreen(uIState = { AppListUiState.Success(nonSystemAppsTestData) },
+            AppListScreen(appListUiStateProvider = { AppListUiState.Success(nonSystemAppsTestData) },
                           onItemClick = { _, _ -> },
                           onSecureSettingsClick = {})
         }

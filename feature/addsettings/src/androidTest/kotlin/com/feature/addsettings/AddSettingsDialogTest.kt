@@ -21,17 +21,16 @@ class AddSettingsDialogTest {
 
             val addSettingsDialogState = rememberAddSettingsDialogState()
 
-            AddSettingsDialogScreen(
-                addSettingsDialogState = { addSettingsDialogState },
-                scrollState = { ScrollState(0) },
-                onRadioOptionSelected = {},
-                onDismissRequest = {},
-                onTypingLabel = {},
-                onTypingKey = {},
-                onTypingValueOnLaunch = {},
-                onTypingValueOnRevert = {},
-                onAddSettings = {
-                    addSettingsDialogState.updateSelectedRadioOptionIndex(-1)
+            AddSettingsDialogScreen(addSettingsDialogStateProvider = { addSettingsDialogState },
+                                    scrollStateProvider = { ScrollState(0) },
+                                    onRadioOptionSelected = {},
+                                    onDismissRequest = {},
+                                    onTypingLabel = {},
+                                    onTypingKey = {},
+                                    onTypingValueOnLaunch = {},
+                                    onTypingValueOnRevert = {},
+                                    onAddSettings = {
+                                        addSettingsDialogState.updateSelectedRadioOptionIndex(-1)
 
                                         assertFalse { addSettingsDialogState.validateAddSettings() }
                                     })
@@ -50,19 +49,18 @@ class AddSettingsDialogTest {
 
             val addSettingsDialogTextFieldState = rememberAddSettingsDialogState()
 
-            AddSettingsDialogScreen(
-                addSettingsDialogState = { addSettingsDialogTextFieldState },
-                scrollState = { ScrollState(0) },
-                onRadioOptionSelected = {},
-                onDismissRequest = {},
-                onTypingLabel = {},
-                onTypingKey = {},
-                onTypingValueOnLaunch = {},
-                onTypingValueOnRevert = {},
-                onAddSettings = {
-                    addSettingsDialogTextFieldState.updateLabel("")
-                    assertFalse { addSettingsDialogTextFieldState.validateAddSettings() }
-                })
+            AddSettingsDialogScreen(addSettingsDialogStateProvider = { addSettingsDialogTextFieldState },
+                                    scrollStateProvider = { ScrollState(0) },
+                                    onRadioOptionSelected = {},
+                                    onDismissRequest = {},
+                                    onTypingLabel = {},
+                                    onTypingKey = {},
+                                    onTypingValueOnLaunch = {},
+                                    onTypingValueOnRevert = {},
+                                    onAddSettings = {
+                                        addSettingsDialogTextFieldState.updateLabel("")
+                                        assertFalse { addSettingsDialogTextFieldState.validateAddSettings() }
+                                    })
         }
 
         composeTestRule.onNodeWithTag(":appsettings:addsettingsdialog:add").performClick()
@@ -78,18 +76,17 @@ class AddSettingsDialogTest {
 
             val addSettingsDialogState = rememberAddSettingsDialogState()
 
-            AddSettingsDialogScreen(
-                addSettingsDialogState = { addSettingsDialogState },
-                scrollState = { ScrollState(0) },
-                onRadioOptionSelected = {},
-                onDismissRequest = {},
-                onTypingLabel = {},
-                onTypingKey = {},
-                onTypingValueOnLaunch = {},
-                onTypingValueOnRevert = {},
-                onAddSettings = {
-                    addSettingsDialogState.updateKey("")
-                    assertFalse { addSettingsDialogState.validateAddSettings() }
+            AddSettingsDialogScreen(addSettingsDialogStateProvider = { addSettingsDialogState },
+                                    scrollStateProvider = { ScrollState(0) },
+                                    onRadioOptionSelected = {},
+                                    onDismissRequest = {},
+                                    onTypingLabel = {},
+                                    onTypingKey = {},
+                                    onTypingValueOnLaunch = {},
+                                    onTypingValueOnRevert = {},
+                                    onAddSettings = {
+                                        addSettingsDialogState.updateKey("")
+                                        assertFalse { addSettingsDialogState.validateAddSettings() }
                                     })
         }
 
@@ -106,18 +103,17 @@ class AddSettingsDialogTest {
 
             val addSettingsDialogState = rememberAddSettingsDialogState()
 
-            AddSettingsDialogScreen(
-                addSettingsDialogState = { addSettingsDialogState },
-                scrollState = { ScrollState(0) },
-                onRadioOptionSelected = {},
-                onDismissRequest = {},
-                onTypingLabel = {},
-                onTypingKey = {},
-                onTypingValueOnLaunch = {},
-                onTypingValueOnRevert = {},
-                onAddSettings = {
-                    addSettingsDialogState.updateValueOnLaunch("")
-                    assertFalse { addSettingsDialogState.validateAddSettings() }
+            AddSettingsDialogScreen(addSettingsDialogStateProvider = { addSettingsDialogState },
+                                    scrollStateProvider = { ScrollState(0) },
+                                    onRadioOptionSelected = {},
+                                    onDismissRequest = {},
+                                    onTypingLabel = {},
+                                    onTypingKey = {},
+                                    onTypingValueOnLaunch = {},
+                                    onTypingValueOnRevert = {},
+                                    onAddSettings = {
+                                        addSettingsDialogState.updateValueOnLaunch("")
+                                        assertFalse { addSettingsDialogState.validateAddSettings() }
                                     })
         }
 
@@ -134,18 +130,17 @@ class AddSettingsDialogTest {
 
             val addSettingsDialogState = rememberAddSettingsDialogState()
 
-            AddSettingsDialogScreen(
-                addSettingsDialogState = { addSettingsDialogState },
-                scrollState = { ScrollState(0) },
-                onRadioOptionSelected = {},
-                onDismissRequest = {},
-                onTypingLabel = {},
-                onTypingKey = {},
-                onTypingValueOnLaunch = {},
-                onTypingValueOnRevert = {},
-                onAddSettings = {
-                    addSettingsDialogState.updateValueOnRevert("")
-                    assertFalse { addSettingsDialogState.validateAddSettings() }
+            AddSettingsDialogScreen(addSettingsDialogStateProvider = { addSettingsDialogState },
+                                    scrollStateProvider = { ScrollState(0) },
+                                    onRadioOptionSelected = {},
+                                    onDismissRequest = {},
+                                    onTypingLabel = {},
+                                    onTypingKey = {},
+                                    onTypingValueOnLaunch = {},
+                                    onTypingValueOnRevert = {},
+                                    onAddSettings = {
+                                        addSettingsDialogState.updateValueOnRevert("")
+                                        assertFalse { addSettingsDialogState.validateAddSettings() }
                                     })
         }
 
@@ -162,17 +157,16 @@ class AddSettingsDialogTest {
 
             val addSettingsDialogState = rememberAddSettingsDialogState()
 
-            AddSettingsDialogScreen(
-                addSettingsDialogState = { addSettingsDialogState },
-                scrollState = { ScrollState(0) },
-                onRadioOptionSelected = {},
-                onDismissRequest = {},
-                onTypingLabel = {},
-                onTypingKey = {},
-                onTypingValueOnLaunch = {},
-                onTypingValueOnRevert = {},
-                onAddSettings = {
-                    addSettingsDialogState.updateButtonEnabled(false)
+            AddSettingsDialogScreen(addSettingsDialogStateProvider = { addSettingsDialogState },
+                                    scrollStateProvider = { ScrollState(0) },
+                                    onRadioOptionSelected = {},
+                                    onDismissRequest = {},
+                                    onTypingLabel = {},
+                                    onTypingKey = {},
+                                    onTypingValueOnLaunch = {},
+                                    onTypingValueOnRevert = {},
+                                    onAddSettings = {
+                                        addSettingsDialogState.updateButtonEnabled(false)
 
                                         addSettingsDialogState.updateSelectedRadioOptionIndex(1)
 

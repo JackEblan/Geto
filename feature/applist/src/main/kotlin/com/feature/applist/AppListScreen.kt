@@ -39,7 +39,7 @@ internal fun AppListRoute(
 
     AppListScreen(
         modifier = modifier,
-        uIState = { uIState },
+        appListUiStateProvider = { uIState },
         onItemClick = onItemClick,
         onSecureSettingsClick = onSecureSettingsClick
     )
@@ -50,10 +50,12 @@ internal fun AppListRoute(
 @Composable
 internal fun AppListScreen(
     modifier: Modifier = Modifier,
-    uIState: () -> AppListUiState,
+    appListUiStateProvider: () -> AppListUiState,
     onItemClick: (String, String) -> Unit,
     onSecureSettingsClick: () -> Unit
 ) {
+    val appListUiState = appListUiStateProvider()
+
     Scaffold(modifier = modifier.fillMaxSize(), topBar = {
         TopAppBar(title = {
             Text(text = "Geto")
@@ -68,7 +70,7 @@ internal fun AppListScreen(
         Box(
             modifier = Modifier.fillMaxSize()
         ) {
-            when (val uIStateParam = uIState()) {
+            when (appListUiState) {
                 AppListUiState.Loading -> LoadingPlaceHolderScreen(
                     modifier = Modifier
                         .fillMaxSize()
@@ -84,7 +86,7 @@ internal fun AppListScreen(
                     ) {
                         appItems(
                             modifier = modifier,
-                            nonSystemAppList = uIStateParam.nonSystemAppList,
+                            nonSystemAppListProvider = { appListUiState.nonSystemAppList },
                             onItemClick = onItemClick
                         )
                     }
@@ -97,9 +99,11 @@ internal fun AppListScreen(
 
 private fun LazyListScope.appItems(
     modifier: Modifier = Modifier,
-    nonSystemAppList: List<NonSystemApp>,
+    nonSystemAppListProvider: () -> List<NonSystemApp>,
     onItemClick: (String, String) -> Unit,
 ) {
+    val nonSystemAppList = nonSystemAppListProvider()
+
     items(nonSystemAppList) { nonSystemApp ->
         AppItem(modifier = modifier
             .fillMaxWidth()

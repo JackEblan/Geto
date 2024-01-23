@@ -56,32 +56,31 @@ internal fun SecureSettingsListRoute(
         }
     }
 
-    SecureSettingsListScreen(
-        modifier = modifier,
-        snackbarHostState = { snackbarHostState },
-        dropDownExpanded = { dropDownExpanded },
-        onItemClick = { uri ->
-            viewModel.onEvent(
-                SecureSettingsListEvent.OnCopySecureSettingsList(
-                    uri
-                )
-            )
-        },
-        onNavigationIconClick = onNavigationIconClick,
-        onDropDownExpanded = { dropDownExpanded = it },
-        onSystemDropdownMenuItemClick = {
-            viewModel.onEvent(
-                SecureSettingsListEvent.GetSecureSettingsList(
-                    0
-                )
-            )
+    SecureSettingsListScreen(modifier = modifier,
+                             snackbarHostState = { snackbarHostState },
+                             dropDownExpanded = { dropDownExpanded },
+                             onItemClick = { uri ->
+                                 viewModel.onEvent(
+                                     SecureSettingsListEvent.OnCopySecureSettingsList(
+                                         uri
+                                     )
+                                 )
+                             },
+                             onNavigationIconClick = onNavigationIconClick,
+                             onDropDownExpanded = { dropDownExpanded = it },
+                             onSystemDropdownMenuItemClick = {
+                                 viewModel.onEvent(
+                                     SecureSettingsListEvent.GetSecureSettingsList(
+                                         0
+                                     )
+                                 )
 
-            dropDownExpanded = false
-        },
-        onSecureDropdownMenuItemClick = {
-            viewModel.onEvent(
-                SecureSettingsListEvent.GetSecureSettingsList(
-                    1
+                                 dropDownExpanded = false
+                             },
+                             onSecureDropdownMenuItemClick = {
+                                 viewModel.onEvent(
+                                     SecureSettingsListEvent.GetSecureSettingsList(
+                                         1
                                      )
                                  )
 
@@ -96,7 +95,7 @@ internal fun SecureSettingsListRoute(
 
                                  dropDownExpanded = false
                              },
-                             uIState = { uIState })
+                             secureSettingsListUiStateProvider = { uIState })
 }
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
@@ -112,8 +111,10 @@ internal fun SecureSettingsListScreen(
     onSystemDropdownMenuItemClick: () -> Unit,
     onSecureDropdownMenuItemClick: () -> Unit,
     onGlobalDropdownMenuItemClick: () -> Unit,
-    uIState: () -> SecureSettingsListUiState
+    secureSettingsListUiStateProvider: () -> SecureSettingsListUiState
 ) {
+    val secureSettingsListUiState = secureSettingsListUiStateProvider()
+
     Scaffold(modifier = modifier.fillMaxSize(), topBar = {
         TopAppBar(title = {
             Text(text = "Settings Database")
@@ -145,7 +146,7 @@ internal fun SecureSettingsListScreen(
             modifier = Modifier.testTag("securesettingslist:snackbar")
         )
     }) { innerPadding ->
-        when (val uIStateParam = uIState()) {
+        when (secureSettingsListUiState) {
             SecureSettingsListUiState.Loading -> LoadingPlaceHolderScreen(
                 modifier = Modifier
                     .fillMaxSize()
@@ -161,7 +162,7 @@ internal fun SecureSettingsListScreen(
                 ) {
 
                     secureSettingItems(
-                        secureSettingsList = uIStateParam.secureSettingsList,
+                        secureSettingsListProvider = { secureSettingsListUiState.secureSettingsList },
                         onItemClick = onItemClick
                     )
                 }
@@ -180,9 +181,11 @@ internal fun SecureSettingsListScreen(
 
 private fun LazyListScope.secureSettingItems(
     modifier: Modifier = Modifier,
-    secureSettingsList: List<SecureSettings>,
+    secureSettingsListProvider: () -> List<SecureSettings>,
     onItemClick: (String?) -> Unit,
 ) {
+    val secureSettingsList = secureSettingsListProvider()
+
     items(secureSettingsList) { secureSetting ->
         SecureSettingsItem(
             modifier = modifier, secureSetting = { secureSetting }, onItemClick = onItemClick

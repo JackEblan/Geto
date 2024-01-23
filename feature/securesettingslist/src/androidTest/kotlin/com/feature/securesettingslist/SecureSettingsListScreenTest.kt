@@ -25,7 +25,7 @@ class SecureSettingsListScreenTest {
                                      onSystemDropdownMenuItemClick = {},
                                      onSecureDropdownMenuItemClick = { },
                                      onGlobalDropdownMenuItemClick = {},
-                                     uIState = { SecureSettingsListUiState.Loading })
+                                     secureSettingsListUiStateProvider = { SecureSettingsListUiState.Loading })
         }
 
         composeTestRule.onNodeWithTag("securesettingslist:loading").assertExists()
@@ -42,7 +42,7 @@ class SecureSettingsListScreenTest {
                                      onSystemDropdownMenuItemClick = {},
                                      onSecureDropdownMenuItemClick = { },
                                      onGlobalDropdownMenuItemClick = {},
-                                     uIState = {
+                                     secureSettingsListUiStateProvider = {
                                          SecureSettingsListUiState.Success(
                                              listOf(
                                                  SecureSettings(id = 0, name = "Key", value = "0")
@@ -67,7 +67,7 @@ class SecureSettingsListScreenTest {
                                      onSystemDropdownMenuItemClick = {},
                                      onSecureDropdownMenuItemClick = { },
                                      onGlobalDropdownMenuItemClick = {},
-                                     uIState = {
+                                     secureSettingsListUiStateProvider = {
                                          SecureSettingsListUiState.Success(
                                              listOf(
                                                  SecureSettings(

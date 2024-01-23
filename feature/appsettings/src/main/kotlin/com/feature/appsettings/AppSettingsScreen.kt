@@ -85,34 +85,33 @@ internal fun AppSettingsRoute(
         }
     }
 
-    AppSettingsScreen(
-        modifier = modifier,
-        snackbarHostState = { snackbarHostState },
-        appName = { viewModel.appName },
-        uIState = { uIState },
-        onNavigationIconClick = {
-            onNavigationIconClick()
-        },
-        onRevertSettingsIconClick = {
-            viewModel.onEvent(
-                AppSettingsEvent.OnRevertSettings(
-                    if (uIState is AppSettingsUiState.Success) uIState.appSettingsList
-                    else emptyList()
-                )
-            )
-        },
-        onAppSettingsItemCheckBoxChange = { checked, userAppSettingsItem ->
-            viewModel.onEvent(
-                AppSettingsEvent.OnAppSettingsItemCheckBoxChange(
-                    checked = checked, appSettings = userAppSettingsItem
-                )
-            )
-        },
-        onDeleteAppSettingsItem = {
-            viewModel.onEvent(AppSettingsEvent.OnDeleteAppSettingsItem(it))
-        },
-        onAddAppSettingsClick = { onOpenAddSettingsDialog(viewModel.packageName) },
-        onLaunchApp = {
+    AppSettingsScreen(modifier = modifier,
+                      snackbarHostState = { snackbarHostState },
+                      appNameProvider = { viewModel.appName },
+                      appSettingsUiStateProvider = { uIState },
+                      onNavigationIconClick = {
+                          onNavigationIconClick()
+                      },
+                      onRevertSettingsIconClick = {
+                          viewModel.onEvent(
+                              AppSettingsEvent.OnRevertSettings(
+                                  if (uIState is AppSettingsUiState.Success) uIState.appSettingsList
+                                  else emptyList()
+                              )
+                          )
+                      },
+                      onAppSettingsItemCheckBoxChange = { checked, userAppSettingsItem ->
+                          viewModel.onEvent(
+                              AppSettingsEvent.OnAppSettingsItemCheckBoxChange(
+                                  checked = checked, appSettings = userAppSettingsItem
+                              )
+                          )
+                      },
+                      onDeleteAppSettingsItem = {
+                          viewModel.onEvent(AppSettingsEvent.OnDeleteAppSettingsItem(it))
+                      },
+                      onAddAppSettingsClick = { onOpenAddSettingsDialog(viewModel.packageName) },
+                      onLaunchApp = {
                           viewModel.onEvent(
                               AppSettingsEvent.OnLaunchApp(
                                   if (uIState is AppSettingsUiState.Success) uIState.appSettingsList
@@ -128,8 +127,8 @@ internal fun AppSettingsRoute(
 internal fun AppSettingsScreen(
     modifier: Modifier = Modifier,
     snackbarHostState: () -> SnackbarHostState,
-    appName: () -> String,
-    uIState: () -> AppSettingsUiState,
+    appNameProvider: () -> String,
+    appSettingsUiStateProvider: () -> AppSettingsUiState,
     onNavigationIconClick: () -> Unit,
     onRevertSettingsIconClick: () -> Unit,
     onAppSettingsItemCheckBoxChange: (Boolean, AppSettings) -> Unit,
@@ -137,9 +136,13 @@ internal fun AppSettingsScreen(
     onAddAppSettingsClick: () -> Unit,
     onLaunchApp: () -> Unit
 ) {
+    val appName = appNameProvider()
+
+    val appSettingsUiState = appSettingsUiStateProvider()
+
     Scaffold(modifier = modifier.fillMaxSize(), topBar = {
         TopAppBar(title = {
-            Text(text = appName(), maxLines = 1)
+            Text(text = appName, maxLines = 1)
         }, navigationIcon = {
             IconButton(onClick = onNavigationIconClick) {
                 Icon(
@@ -180,7 +183,7 @@ internal fun AppSettingsScreen(
             modifier = modifier.fillMaxSize()
         ) {
 
-            when (val uIStateParam = uIState()) {
+            when (appSettingsUiState) {
                 AppSettingsUiState.Empty -> {
                     EmptyListPlaceHolderScreen(
                         modifier = Modifier
@@ -208,7 +211,7 @@ internal fun AppSettingsScreen(
                             .testTag("userappsettings:success"), contentPadding = innerPadding
                     ) {
                         appSettings(
-                            appSettingsList = uIStateParam.appSettingsList,
+                            appSettingsListProvider = { appSettingsUiState.appSettingsList },
                             onAppSettingsItemCheckBoxChange = onAppSettingsItemCheckBoxChange,
                             onDeleteAppSettingsItem = onDeleteAppSettingsItem
                         )
@@ -221,10 +224,12 @@ internal fun AppSettingsScreen(
 
 private fun LazyListScope.appSettings(
     modifier: Modifier = Modifier,
-    appSettingsList: List<AppSettings>,
+    appSettingsListProvider: () -> List<AppSettings>,
     onAppSettingsItemCheckBoxChange: (Boolean, AppSettings) -> Unit,
     onDeleteAppSettingsItem: (AppSettings) -> Unit,
 ) {
+    val appSettingsList = appSettingsListProvider()
+
     items(appSettingsList) { appSettings ->
         AppSettingsItem(modifier = modifier,
                         enabled = { appSettings.enabled },
