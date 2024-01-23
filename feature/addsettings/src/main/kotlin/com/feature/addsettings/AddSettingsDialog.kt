@@ -59,7 +59,7 @@ fun AddSettingsDialog(
 
     AddSettingsDialogScreen(
         modifier = modifier,
-        addSettingsDialogState = addSettingsDialogState,
+        addSettingsDialogState = { addSettingsDialogState },
         scrollState = { scrollState },
         onRadioOptionSelected = addSettingsDialogState::updateSelectedRadioOptionIndex,
         onDismissRequest = onDismissRequest,
@@ -90,7 +90,7 @@ fun AddSettingsDialog(
 @Composable
 internal fun AddSettingsDialogScreen(
     modifier: Modifier = Modifier,
-    addSettingsDialogState: AddSettingsDialogState,
+    addSettingsDialogState: () -> AddSettingsDialogState,
     scrollState: () -> ScrollState,
     onRadioOptionSelected: (Int) -> Unit,
     onDismissRequest: () -> Unit,
@@ -124,12 +124,12 @@ internal fun AddSettingsDialogScreen(
 
                 Spacer(modifier = Modifier.height(10.dp))
 
-                if (addSettingsDialogState.selectedRadioOptionIndexError.isNotBlank()) {
+                if (addSettingsDialogState().selectedRadioOptionIndexError.isNotBlank()) {
                     Text(
                         modifier = Modifier
                             .padding(horizontal = 5.dp)
                             .testTag(":appsettings:addsettingsdialog:selectedRadioOptionIndexError"),
-                        text = addSettingsDialogState.selectedRadioOptionIndexError,
+                        text = addSettingsDialogState().selectedRadioOptionIndexError,
                         color = MaterialTheme.colorScheme.error,
                         style = MaterialTheme.typography.bodySmall
                     )
@@ -142,7 +142,7 @@ internal fun AddSettingsDialogScreen(
                 ) {
                     GetoLabeledRadioButton(
                         items = listOf("System", "Secure", "Global"),
-                        selectedRadioOptionIndex = { addSettingsDialogState.selectedRadioOptionIndex },
+                        selectedRadioOptionIndex = { addSettingsDialogState().selectedRadioOptionIndex },
                         onRadioOptionSelected = onRadioOptionSelected
                     )
                 }
@@ -153,15 +153,15 @@ internal fun AddSettingsDialogScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 5.dp),
-                    value = addSettingsDialogState.label,
+                    value = addSettingsDialogState().label,
                     onValueChange = onTypingLabel,
                     label = {
                         Text(text = "Settings label")
                     },
-                    isError = addSettingsDialogState.labelError.isNotBlank(),
+                    isError = addSettingsDialogState().labelError.isNotBlank(),
                     supportingText = {
-                        if (addSettingsDialogState.labelError.isNotBlank()) Text(
-                            text = addSettingsDialogState.labelError,
+                        if (addSettingsDialogState().labelError.isNotBlank()) Text(
+                            text = addSettingsDialogState().labelError,
                             modifier = Modifier.testTag(":appsettings:addsettingsdialog:labelError")
                         )
                     },
@@ -173,15 +173,15 @@ internal fun AddSettingsDialogScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 5.dp),
-                    value = addSettingsDialogState.key,
+                    value = addSettingsDialogState().key,
                     onValueChange = onTypingKey,
                     label = {
                         Text(text = "Settings key")
                     },
-                    isError = addSettingsDialogState.keyError.isNotBlank(),
+                    isError = addSettingsDialogState().keyError.isNotBlank(),
                     supportingText = {
-                        if (addSettingsDialogState.keyError.isNotBlank()) Text(
-                            text = addSettingsDialogState.keyError,
+                        if (addSettingsDialogState().keyError.isNotBlank()) Text(
+                            text = addSettingsDialogState().keyError,
                             modifier = Modifier.testTag(":appsettings:addsettingsdialog:keyError")
                         )
                     },
@@ -193,15 +193,15 @@ internal fun AddSettingsDialogScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 5.dp),
-                    value = addSettingsDialogState.valueOnLaunch,
+                    value = addSettingsDialogState().valueOnLaunch,
                     onValueChange = onTypingValueOnLaunch,
                     label = {
                         Text(text = "Settings value on launch")
                     },
-                    isError = addSettingsDialogState.valueOnLaunchError.isNotBlank(),
+                    isError = addSettingsDialogState().valueOnLaunchError.isNotBlank(),
                     supportingText = {
-                        if (addSettingsDialogState.valueOnLaunchError.isNotBlank()) Text(
-                            text = addSettingsDialogState.valueOnLaunchError,
+                        if (addSettingsDialogState().valueOnLaunchError.isNotBlank()) Text(
+                            text = addSettingsDialogState().valueOnLaunchError,
                             modifier = Modifier.testTag(":appsettings:addsettingsdialog:valueOnLaunchError")
                         )
                     },
@@ -213,15 +213,15 @@ internal fun AddSettingsDialogScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 5.dp),
-                    value = addSettingsDialogState.valueOnRevert,
+                    value = addSettingsDialogState().valueOnRevert,
                     onValueChange = onTypingValueOnRevert,
                     label = {
                         Text(text = "Settings value on revert")
                     },
-                    isError = addSettingsDialogState.valueOnRevertError.isNotBlank(),
+                    isError = addSettingsDialogState().valueOnRevertError.isNotBlank(),
                     supportingText = {
-                        if (addSettingsDialogState.valueOnRevertError.isNotBlank()) Text(
-                            text = addSettingsDialogState.valueOnRevertError,
+                        if (addSettingsDialogState().valueOnRevertError.isNotBlank()) Text(
+                            text = addSettingsDialogState().valueOnRevertError,
                             modifier = Modifier.testTag(":appsettings:addsettingsdialog:valueOnRevertError")
                         )
                     },
@@ -236,7 +236,7 @@ internal fun AddSettingsDialogScreen(
                     TextButton(
                         onClick = onDismissRequest,
                         modifier = Modifier.padding(5.dp),
-                        enabled = addSettingsDialogState.buttonEnabled
+                        enabled = addSettingsDialogState().buttonEnabled
                     ) {
                         Text("Cancel")
                     }
@@ -245,7 +245,7 @@ internal fun AddSettingsDialogScreen(
                         modifier = Modifier
                             .padding(5.dp)
                             .testTag(":appsettings:addsettingsdialog:add"),
-                        enabled = addSettingsDialogState.buttonEnabled
+                        enabled = addSettingsDialogState().buttonEnabled
                     ) {
                         Text("Add")
                     }
