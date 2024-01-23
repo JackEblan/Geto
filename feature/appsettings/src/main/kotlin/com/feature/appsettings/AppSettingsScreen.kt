@@ -50,68 +50,69 @@ internal fun AppSettingsRoute(
 
     val uIState = viewModel.uIState.collectAsStateWithLifecycle().value
 
-    val showSnackBar = viewModel.showSnackBar.collectAsStateWithLifecycle().value
-
-    val secureSettingsException =
-        viewModel.secureSettingsException.collectAsStateWithLifecycle().value
+    val snackBar = viewModel.snackBar.collectAsStateWithLifecycle().value
 
     val launchAppIntent = viewModel.launchAppIntent.collectAsStateWithLifecycle().value
 
-    LaunchedEffect(key1 = showSnackBar) {
-        showSnackBar?.let {
+    val commandPermissionDialog =
+        viewModel.commandPermissionDialog.collectAsStateWithLifecycle().value
+
+    LaunchedEffect(key1 = snackBar) {
+        snackBar?.let {
             snackbarHostState.showSnackbar(message = it)
-            viewModel.clearState()
-        }
-    }
-
-    LaunchedEffect(key1 = secureSettingsException) {
-        secureSettingsException?.let { throwable ->
-            if (throwable is SecurityException) {
-                onOpenCopyPermissionCommandDialog()
-            } else {
-                snackbarHostState.showSnackbar(
-                    message = throwable.localizedMessage!!
-                )
-
-                viewModel.clearState()
-            }
+            viewModel.clearSnackBar()
         }
     }
 
     LaunchedEffect(key1 = launchAppIntent) {
         launchAppIntent?.let {
             context.startActivity(it)
-            viewModel.clearState()
+            viewModel.clearLaunchAppIntent()
         }
     }
 
-    AppSettingsScreen(modifier = modifier,
-                      snackbarHostState = { snackbarHostState },
-                      appName = { viewModel.appName },
-                      uIState = { uIState },
-                      onNavigationIconClick = {
-                          onNavigationIconClick()
-                      },
-                      onRevertSettingsIconClick = {
-                          viewModel.onEvent(
-                              AppSettingsEvent.OnRevertSettings(
-                                  if (uIState is AppSettingsUiState.Success) uIState.appSettingsList
-                                  else emptyList()
-                              )
-                          )
-                      },
-                      onAppSettingsItemCheckBoxChange = { checked, userAppSettingsItem ->
-                          viewModel.onEvent(
-                              AppSettingsEvent.OnAppSettingsItemCheckBoxChange(
-                                  checked = checked, appSettings = userAppSettingsItem
-                              )
-                          )
-                      },
-                      onDeleteAppSettingsItem = {
-                          viewModel.onEvent(AppSettingsEvent.OnDeleteAppSettingsItem(it))
-                      },
-                      onAddAppSettingsClick = { onOpenAddSettingsDialog(viewModel.packageName) },
-                      onLaunchApp = {
+    LaunchedEffect(key1 = launchAppIntent) {
+        launchAppIntent?.let {
+            context.startActivity(it)
+            viewModel.clearLaunchAppIntent()
+        }
+    }
+
+    LaunchedEffect(key1 = commandPermissionDialog) {
+        if (commandPermissionDialog) {
+            onOpenCopyPermissionCommandDialog()
+            viewModel.clearCommandPermissionDialog()
+        }
+    }
+
+    AppSettingsScreen(
+        modifier = modifier,
+        snackbarHostState = { snackbarHostState },
+        appName = { viewModel.appName },
+        uIState = { uIState },
+        onNavigationIconClick = {
+            onNavigationIconClick()
+        },
+        onRevertSettingsIconClick = {
+            viewModel.onEvent(
+                AppSettingsEvent.OnRevertSettings(
+                    if (uIState is AppSettingsUiState.Success) uIState.appSettingsList
+                    else emptyList()
+                )
+            )
+        },
+        onAppSettingsItemCheckBoxChange = { checked, userAppSettingsItem ->
+            viewModel.onEvent(
+                AppSettingsEvent.OnAppSettingsItemCheckBoxChange(
+                    checked = checked, appSettings = userAppSettingsItem
+                )
+            )
+        },
+        onDeleteAppSettingsItem = {
+            viewModel.onEvent(AppSettingsEvent.OnDeleteAppSettingsItem(it))
+        },
+        onAddAppSettingsClick = { onOpenAddSettingsDialog(viewModel.packageName) },
+        onLaunchApp = {
                           viewModel.onEvent(
                               AppSettingsEvent.OnLaunchApp(
                                   if (uIState is AppSettingsUiState.Success) uIState.appSettingsList

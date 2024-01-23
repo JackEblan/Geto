@@ -41,7 +41,7 @@ internal fun SecureSettingsListRoute(
 ) {
     val uIState = viewModel.uIState.collectAsStateWithLifecycle().value
 
-    val showSnackBar = viewModel.showSnackBar.collectAsStateWithLifecycle().value
+    val snackBar = viewModel.snackBar.collectAsStateWithLifecycle().value
 
     val snackbarHostState = remember {
         SnackbarHostState()
@@ -49,38 +49,39 @@ internal fun SecureSettingsListRoute(
 
     var dropDownExpanded by remember { mutableStateOf(false) }
 
-    LaunchedEffect(key1 = showSnackBar) {
-        showSnackBar?.let {
+    LaunchedEffect(key1 = snackBar) {
+        snackBar?.let {
             snackbarHostState.showSnackbar(message = it)
             viewModel.clearState()
         }
     }
 
-    SecureSettingsListScreen(modifier = modifier,
-                             snackbarHostState = { snackbarHostState },
-                             dropDownExpanded = { dropDownExpanded },
-                             onItemClick = { uri ->
-                                 viewModel.onEvent(
-                                     SecureSettingsListEvent.OnCopySecureSettingsList(
-                                         uri
-                                     )
-                                 )
-                             },
-                             onNavigationIconClick = onNavigationIconClick,
-                             onDropDownExpanded = { dropDownExpanded = it },
-                             onSystemDropdownMenuItemClick = {
-                                 viewModel.onEvent(
-                                     SecureSettingsListEvent.GetSecureSettingsList(
-                                         0
-                                     )
-                                 )
+    SecureSettingsListScreen(
+        modifier = modifier,
+        snackbarHostState = { snackbarHostState },
+        dropDownExpanded = { dropDownExpanded },
+        onItemClick = { uri ->
+            viewModel.onEvent(
+                SecureSettingsListEvent.OnCopySecureSettingsList(
+                    uri
+                )
+            )
+        },
+        onNavigationIconClick = onNavigationIconClick,
+        onDropDownExpanded = { dropDownExpanded = it },
+        onSystemDropdownMenuItemClick = {
+            viewModel.onEvent(
+                SecureSettingsListEvent.GetSecureSettingsList(
+                    0
+                )
+            )
 
-                                 dropDownExpanded = false
-                             },
-                             onSecureDropdownMenuItemClick = {
-                                 viewModel.onEvent(
-                                     SecureSettingsListEvent.GetSecureSettingsList(
-                                         1
+            dropDownExpanded = false
+        },
+        onSecureDropdownMenuItemClick = {
+            viewModel.onEvent(
+                SecureSettingsListEvent.GetSecureSettingsList(
+                    1
                                      )
                                  )
 

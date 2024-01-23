@@ -70,7 +70,7 @@ class AddSettingsDialogViewModelTest {
             )
 
             assertTrue {
-                viewModel.dismissDialogState.value
+                viewModel.dismissDialog.value
             }
         }
 
@@ -88,7 +88,7 @@ class AddSettingsDialogViewModelTest {
             )
 
             assertTrue {
-                viewModel.dismissDialogState.value
+                viewModel.dismissDialog.value
             }
         }
 
@@ -106,7 +106,7 @@ class AddSettingsDialogViewModelTest {
             )
 
             assertTrue {
-                viewModel.dismissDialogState.value
+                viewModel.dismissDialog.value
             }
         }
 }

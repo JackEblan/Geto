@@ -10,6 +10,7 @@ import com.core.model.SettingsType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,9 +20,9 @@ class AddSettingsDialogViewModel @Inject constructor(
     private val addAppSettingsWithSettingsTypeSecureUseCase: AddAppSettingsWithSettingsTypeSecureUseCase,
     private val addAppSettingsWithSettingsTypeGlobalUseCase: AddAppSettingsWithSettingsTypeGlobalUseCase
 ) : ViewModel() {
-    private var _dismissDialogState = MutableStateFlow(false)
+    private var _dismissDialog = MutableStateFlow(false)
 
-    val dismissDialogState = _dismissDialogState.asStateFlow()
+    val dismissDialog = _dismissDialog.asStateFlow()
 
     fun onEvent(event: AddSettingsDialogEvent) {
         when (event) {
@@ -41,7 +42,7 @@ class AddSettingsDialogViewModel @Inject constructor(
                                     safeToWrite = false
                                 )
                             ).onSuccess {
-                                _dismissDialogState.value = true
+                                _dismissDialog.update { true }
                             }
                         }
 
@@ -58,7 +59,7 @@ class AddSettingsDialogViewModel @Inject constructor(
                                     safeToWrite = false
                                 )
                             ).onSuccess {
-                                _dismissDialogState.value = true
+                                _dismissDialog.update { true }
                             }
                         }
 
@@ -75,7 +76,7 @@ class AddSettingsDialogViewModel @Inject constructor(
                                     safeToWrite = false
                                 )
                             ).onSuccess {
-                                _dismissDialogState.value = true
+                                _dismissDialog.update { true }
                             }
                         }
                     }
@@ -84,7 +85,7 @@ class AddSettingsDialogViewModel @Inject constructor(
         }
     }
 
-    fun clearState() {
-        _dismissDialogState.value = false
+    fun clearDismissDialog() {
+        _dismissDialog.value = false
     }
 }

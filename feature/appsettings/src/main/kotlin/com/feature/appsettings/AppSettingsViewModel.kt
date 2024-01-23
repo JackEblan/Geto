@@ -17,6 +17,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -28,17 +29,17 @@ class AppSettingsViewModel @Inject constructor(
     private val applyAppSettingsUseCase: ApplyAppSettingsUseCase,
     private val revertAppSettingsUseCase: RevertAppSettingsUseCase
 ) : ViewModel() {
-    private var _showSnackBar = MutableStateFlow<String?>(null)
-
-    private var _secureSettingsException = MutableStateFlow<Throwable?>(null)
+    private var _snackBar = MutableStateFlow<String?>(null)
 
     private var _launchAppIntent = MutableStateFlow<Intent?>(null)
 
-    val showSnackBar = _showSnackBar.asStateFlow()
+    private var _commandPermissionDialog = MutableStateFlow(false)
 
-    val secureSettingsException = _secureSettingsException.asStateFlow()
+    val snackBar = _snackBar.asStateFlow()
 
     val launchAppIntent = _launchAppIntent.asStateFlow()
+
+    val commandPermissionDialog = _commandPermissionDialog.asStateFlow()
 
     val packageName = savedStateHandle.get<String>(NAV_KEY_PACKAGE_NAME) ?: ""
 
@@ -63,19 +64,27 @@ class AppSettingsViewModel @Inject constructor(
                 viewModelScope.launch {
                     applyAppSettingsUseCase(event.appSettingsList).onSuccess {
                         val appIntent = packageManagerWrapper.getLaunchIntentForPackage(packageName)
-                        _launchAppIntent.value = appIntent
-                    }.onFailure {
-                        _secureSettingsException.value = it
+                        _launchAppIntent.update { appIntent }
+                    }.onFailure { t ->
+                        if (t is SecurityException) {
+                            _commandPermissionDialog.update { true }
+                        } else {
+                            _snackBar.update { t.localizedMessage }
+                        }
                     }
                 }
             }
 
             is AppSettingsEvent.OnRevertSettings -> {
                 viewModelScope.launch {
-                    revertAppSettingsUseCase(event.appSettingsList).onSuccess {
-                        _showSnackBar.value = it
-                    }.onFailure {
-                        _secureSettingsException.value = it
+                    revertAppSettingsUseCase(event.appSettingsList).onSuccess { result ->
+                        _snackBar.update { result }
+                    }.onFailure { t ->
+                        if (t is SecurityException) {
+                            _commandPermissionDialog.update { true }
+                        } else {
+                            _snackBar.update { t.localizedMessage }
+                        }
                     }
                 }
             }
@@ -98,9 +107,15 @@ class AppSettingsViewModel @Inject constructor(
         }
     }
 
-    fun clearState() {
-        _showSnackBar.value = null
-        _secureSettingsException.value = null
-        _launchAppIntent.value = null
+    fun clearSnackBar() {
+        _snackBar.update { null }
+    }
+
+    fun clearLaunchAppIntent() {
+        _launchAppIntent.update { null }
+    }
+
+    fun clearCommandPermissionDialog() {
+        _commandPermissionDialog.update { false }
     }
 }

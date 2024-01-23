@@ -48,12 +48,12 @@ fun AddSettingsDialog(
 
     val scrollState = rememberScrollState()
 
-    val dismiss = viewModel.dismissDialogState.collectAsStateWithLifecycle().value
+    val dismissDialog = viewModel.dismissDialog.collectAsStateWithLifecycle().value
 
-    LaunchedEffect(key1 = dismiss) {
-        if (dismiss) {
+    LaunchedEffect(key1 = dismissDialog) {
+        if (dismissDialog) {
             onDismissRequest()
-            viewModel.clearState()
+            viewModel.clearDismissDialog()
         }
     }
 

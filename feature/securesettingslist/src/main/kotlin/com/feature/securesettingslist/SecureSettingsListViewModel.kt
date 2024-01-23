@@ -8,6 +8,7 @@ import com.core.model.SettingsType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,9 +21,9 @@ class SecureSettingsListViewModel @Inject constructor(
     private val _uIState =
         MutableStateFlow<SecureSettingsListUiState>(SecureSettingsListUiState.Empty)
 
-    private var _showSnackBar = MutableStateFlow<String?>(null)
+    private var _snackBar = MutableStateFlow<String?>(null)
 
-    val showSnackBar = _showSnackBar.asStateFlow()
+    val snackBar = _snackBar.asStateFlow()
 
     val uIState = _uIState.asStateFlow()
 
@@ -40,25 +41,27 @@ class SecureSettingsListViewModel @Inject constructor(
                 }
 
                 viewModelScope.launch {
-                    _uIState.value = SecureSettingsListUiState.Loading
+                    _uIState.update { SecureSettingsListUiState.Loading }
 
-                    _uIState.value = SecureSettingsListUiState.Success(
-                        secureSettingsRepository.getSecureSettings(settingsType)
-                    )
+                    _uIState.update {
+                        SecureSettingsListUiState.Success(
+                            secureSettingsRepository.getSecureSettings(settingsType)
+                        )
+                    }
                 }
             }
 
             is SecureSettingsListEvent.OnCopySecureSettingsList -> {
-                copySettingsUseCase(event.secureSettings).onSuccess {
-                    _showSnackBar.value = it
-                }.onFailure {
-                    _showSnackBar.value = it.localizedMessage
+                copySettingsUseCase(event.secureSettings).onSuccess { result ->
+                    _snackBar.update { result }
+                }.onFailure { e ->
+                    _snackBar.update { e.localizedMessage }
                 }
             }
         }
     }
 
     fun clearState() {
-        _showSnackBar.value = null
+        _snackBar.value = null
     }
 }

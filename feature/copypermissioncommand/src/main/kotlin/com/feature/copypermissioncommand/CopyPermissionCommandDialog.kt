@@ -28,21 +28,19 @@ fun CopyPermissionCommandDialog(
     viewModel: CopyPermissionCommandDialogViewModel = hiltViewModel(),
     onDismissRequest: () -> Unit
 ) {
-    val copyResultState = viewModel.showSnackBar.collectAsStateWithLifecycle().value
+    val dismissDialog = viewModel.dismissDialog.collectAsStateWithLifecycle().value
 
-    LaunchedEffect(key1 = copyResultState) {
-        copyResultState?.let {
+    LaunchedEffect(key1 = dismissDialog) {
+        if (dismissDialog) {
             onDismissRequest()
-            viewModel.clearState()
         }
     }
 
-    CopyPermissionCommandDialogScreen(
-        modifier = modifier,
-        onDismissRequest = onDismissRequest,
-        onCopySettings = {
-            viewModel.onEvent(CopyPermissionCommandDialogEvent.CopyPermissionCommandKey)
-        })
+    CopyPermissionCommandDialogScreen(modifier = modifier,
+                                      onDismissRequest = onDismissRequest,
+                                      onCopySettings = {
+                                          viewModel.onEvent(CopyPermissionCommandDialogEvent.CopyPermissionCommandKey)
+                                      })
 }
 
 @Composable

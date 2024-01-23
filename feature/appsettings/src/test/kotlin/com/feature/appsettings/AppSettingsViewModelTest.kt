@@ -22,7 +22,6 @@ import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
 import kotlin.test.assertNotNull
-import kotlin.test.assertTrue
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class AppSettingsViewModelTest {
@@ -123,32 +122,33 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun onLaunchApp_writeSecureSettingsTrue_safeToWritefalse_secureSettingsExceptionNotNull() =
-        runTest {
-            settingsRepository.setWriteSecureSettings(true)
+    fun onLaunchApp_writeSecureSettingsTrue_safeToWritefalse_snackBarNotNull() = runTest {
+        settingsRepository.setWriteSecureSettings(true)
 
-            viewModel.onEvent(
-                AppSettingsEvent.OnLaunchApp(
-                    listOf(
-                        AppSettings(
-                            id = 0, enabled = true, settingsType = SettingsType.SYSTEM,
-                            packageName = packageNameTest,
-                            label = "system",
-                            key = "key",
-                            valueOnLaunch = "test",
-                            valueOnRevert = "test",
-                            safeToWrite = false
-                        )
+        viewModel.onEvent(
+            AppSettingsEvent.OnLaunchApp(
+                listOf(
+                    AppSettings(
+                        id = 0,
+                        enabled = true,
+                        settingsType = SettingsType.SYSTEM,
+                        packageName = packageNameTest,
+                        label = "system",
+                        key = "key",
+                        valueOnLaunch = "test",
+                        valueOnRevert = "test",
+                        safeToWrite = false
                     )
                 )
             )
+        )
 
-            assertNotNull(viewModel.secureSettingsException.value)
+        assertNotNull(viewModel.snackBar.value)
 
-        }
+    }
 
     @Test
-    fun onLaunchApp_writeSecureSettingsFalse_secureSettingsExceptionNotNull() = runTest {
+    fun onLaunchApp_writeSecureSettingsFalse_commandPermissionDialogNotNull() = runTest {
         settingsRepository.setWriteSecureSettings(false)
 
         viewModel.onEvent(
@@ -169,11 +169,11 @@ class AppSettingsViewModelTest {
             )
         )
 
-        assertNotNull(viewModel.secureSettingsException.value)
+        assertNotNull(viewModel.commandPermissionDialog.value)
     }
 
     @Test
-    fun onRevertSettings_writeSecureSettingsTrue_safeToWriteTrue_showSnackBarNotNull() = runTest {
+    fun onRevertSettings_writeSecureSettingsTrue_safeToWriteTrue_snackBarNotNull() = runTest {
         settingsRepository.setWriteSecureSettings(true)
 
         viewModel.onEvent(
@@ -194,37 +194,38 @@ class AppSettingsViewModelTest {
             )
         )
 
-        assertNotNull(viewModel.showSnackBar.value)
+        assertNotNull(viewModel.snackBar.value)
 
     }
 
     @Test
-    fun onRevertSettings_writeSecureSettingsTrue_safeToWritefalse_secureSettingsExceptionNotNull() =
-        runTest {
-            settingsRepository.setWriteSecureSettings(true)
+    fun onRevertSettings_writeSecureSettingsTrue_safeToWritefalse_snackBarNotNull() = runTest {
+        settingsRepository.setWriteSecureSettings(true)
 
-            viewModel.onEvent(
-                AppSettingsEvent.OnRevertSettings(
-                    listOf(
-                        AppSettings(
-                            id = 0, enabled = true, settingsType = SettingsType.SYSTEM,
-                            packageName = packageNameTest,
-                            label = "system",
-                            key = "key",
-                            valueOnLaunch = "test",
-                            valueOnRevert = "test",
-                            safeToWrite = false
-                        )
+        viewModel.onEvent(
+            AppSettingsEvent.OnRevertSettings(
+                listOf(
+                    AppSettings(
+                        id = 0,
+                        enabled = true,
+                        settingsType = SettingsType.SYSTEM,
+                        packageName = packageNameTest,
+                        label = "system",
+                        key = "key",
+                        valueOnLaunch = "test",
+                        valueOnRevert = "test",
+                        safeToWrite = false
                     )
                 )
             )
+        )
 
-            assertNotNull(viewModel.secureSettingsException.value)
+        assertNotNull(viewModel.snackBar.value)
 
-        }
+    }
 
     @Test
-    fun onRevertSettings_writeSecureSettingsFalse_secureSettingsExceptionNotNull() = runTest {
+    fun onRevertSettings_writeSecureSettingsFalse_commandPermissionDialogNotNull() = runTest {
         settingsRepository.setWriteSecureSettings(false)
 
         viewModel.onEvent(
@@ -245,6 +246,6 @@ class AppSettingsViewModelTest {
             )
         )
 
-        assertTrue { viewModel.secureSettingsException.value != null }
+        assertNotNull(viewModel.commandPermissionDialog.value)
     }
 }

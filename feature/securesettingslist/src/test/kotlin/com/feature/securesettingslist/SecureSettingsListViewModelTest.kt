@@ -82,24 +82,24 @@ class SecureSettingsListViewModelTest {
     }
 
     @Test
-    fun onCopySecureSettings_androidBelow12_showSnackBarNotNull() = runTest {
+    fun onCopySecureSettings_androidBelow12_snackBarNotNull() = runTest {
         val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.uIState.collect() }
 
         clipboardRepository.setAndroidTwelveBelow(true)
 
         viewModel.onEvent(SecureSettingsListEvent.OnCopySecureSettingsList("Hi"))
 
-        assertNotNull(viewModel.showSnackBar.value)
+        assertNotNull(viewModel.snackBar.value)
 
         collectJob.cancel()
     }
 
     @Test
-    fun onCopySecureSettings_androidBelow12_showSnackBarNull() = runTest {
+    fun onCopySecureSettings_androidBelow12_snackBarNull() = runTest {
         clipboardRepository.setAndroidTwelveBelow(false)
 
         viewModel.onEvent(SecureSettingsListEvent.OnCopySecureSettingsList("Hi"))
 
-        assertNull(viewModel.showSnackBar.value)
+        assertNull(viewModel.snackBar.value)
     }
 }

@@ -2,22 +2,10 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="AddSettingsDialogTest">
+      <entry key="AppSettingsScreenTest">
         <State />
       </entry>
       <entry key="app">
-        <State />
-      </entry>
-      <entry key="testShowsBUttonDisabled_whenAddSettingsButtonClicked()">
-        <State />
-      </entry>
-      <entry key="testShowsButtonDisabled_allInputsAreValid_whenAddSettingsButtonClicked()">
-        <State />
-      </entry>
-      <entry key="testShowsButtonDisabled_whenAddSettingsButtonClicked()">
-        <State />
-      </entry>
-      <entry key="testShowsSettingsValueOnLaunchError_whenValueOnLaunchTextFieldIsBlank()">
         <State />
       </entry>
     </value>
