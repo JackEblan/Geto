@@ -42,7 +42,7 @@ class AppListViewModelTest {
     }
 
     @Test
-    fun stateIsSuccess_whenAppListEventIsGetNonSystemApps() = runTest {
+    fun stateIsSuccess_whenEventIsGetNonSystemApps() = runTest {
         val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.appListUiState.collect() }
 
         packageRepository.sendNonSystemApps(nonSystemAppsTestData)
