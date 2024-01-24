@@ -1,26 +1,37 @@
 package com.feature.applist
 
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.core.domain.repository.PackageRepository
-import com.core.model.NonSystemApp
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.scan
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class AppListViewModel @Inject constructor(
-    packageRepository: PackageRepository
+    private val packageRepository: PackageRepository
 ) : ViewModel() {
-    val uIState: StateFlow<AppListUiState> = packageRepository.getNonSystemApps()
-        .scan(emptyList<NonSystemApp>()) { list, item -> list + item }.map(AppListUiState::Success)
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5_000),
-            initialValue = AppListUiState.Loading
-        )
+    private val _appListUiState = MutableStateFlow<AppListUiState>(AppListUiState.Loading)
+
+    val appListUiState = _appListUiState.asStateFlow()
+
+    @VisibleForTesting(VisibleForTesting.PRIVATE)
+    val loadingDelay = 500L
+
+    fun onEvent(event: AppListEvent) {
+        when (event) {
+            AppListEvent.GetNonSystemApps -> {
+                viewModelScope.launch {
+                    delay(loadingDelay)
+
+                    _appListUiState.update { AppListUiState.Success(packageRepository.getNonSystemApps()) }
+                }
+            }
+        }
+    }
 }

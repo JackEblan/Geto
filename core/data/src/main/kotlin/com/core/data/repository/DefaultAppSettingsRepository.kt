@@ -28,8 +28,9 @@ class DefaultAppSettingsRepository @Inject constructor(
     }
 
     override fun getAppSettingsList(packageName: String): Flow<List<AppSettings>> {
-        return appSettingsDao.getAppSettingsList(packageName).distinctUntilChanged().map {
-            it.map(AppSettingsEntity::asExternalModel)
-        }
+        return appSettingsDao.getAppSettingsList(packageName).distinctUntilChanged()
+            .map { entities ->
+                entities.map(AppSettingsEntity::asExternalModel)
+            }
     }
 }

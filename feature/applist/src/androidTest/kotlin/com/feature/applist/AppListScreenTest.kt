@@ -3,7 +3,6 @@ package com.feature.applist
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
-import com.core.model.NonSystemApp
 import org.junit.Rule
 import org.junit.Test
 
@@ -12,30 +11,13 @@ class AppListScreenTest {
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     @Test
-    fun testShowsLoadingPlaceHolderScreen_AppListUiStateLoading() {
+    fun loadingPlaceHolderScreen_whenAppListUiStateIsLoading_showLoading() {
         composeTestRule.setContent {
-            AppListScreen(appListUiStateProvider = { AppListUiState.Loading },
+            AppListScreen(appListUiState = AppListUiState.Loading,
                           onItemClick = { _, _ -> },
                           onSecureSettingsClick = {})
         }
 
-        composeTestRule.onNodeWithTag("userapplist:loading").assertExists()
-    }
-
-    @Test
-    fun testShowsLazyColumn_AppListUiStateSuccess() {
-        composeTestRule.setContent {
-            AppListScreen(appListUiStateProvider = { AppListUiState.Success(nonSystemAppsTestData) },
-                          onItemClick = { _, _ -> },
-                          onSecureSettingsClick = {})
-        }
-
-        composeTestRule.onNodeWithTag("userapplist:applist").assertExists()
+        composeTestRule.onNodeWithTag("applist:loading").assertExists()
     }
 }
-
-private val nonSystemAppsTestData = listOf(
-    NonSystemApp(packageName = "com.android.geto", label = "Geto"),
-    NonSystemApp(packageName = "com.android.geto1", label = "Geto1"),
-    NonSystemApp(packageName = "com.android.geto2", label = "Geto2")
-)

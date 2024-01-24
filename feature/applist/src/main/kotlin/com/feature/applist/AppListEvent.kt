@@ -1,5 +1,5 @@
 package com.feature.applist
 
 sealed class AppListEvent {
-    data object GetAppList : AppListEvent()
+    data object GetNonSystemApps : AppListEvent()
 }

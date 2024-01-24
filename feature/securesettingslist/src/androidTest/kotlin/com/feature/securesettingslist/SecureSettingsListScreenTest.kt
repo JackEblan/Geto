@@ -15,43 +15,22 @@ class SecureSettingsListScreenTest {
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     @Test
-    fun testShowsLoadingPlaceHolderScreen_SecureSettingsListUiStateLoading() {
+    fun loadingPlaceHolderScreen_whenSecureSettingsListUiStateIsLoading_showLoading() {
         composeTestRule.setContent {
-            SecureSettingsListScreen(snackbarHostState = { SnackbarHostState() },
-                                     dropDownExpanded = { false },
-                                     onDropDownExpanded = { },
-                                     onItemClick = {},
-                                     onNavigationIconClick = {},
-                                     onSystemDropdownMenuItemClick = {},
-                                     onSecureDropdownMenuItemClick = { },
-                                     onGlobalDropdownMenuItemClick = {},
-                                     secureSettingsListUiStateProvider = { SecureSettingsListUiState.Loading })
+            SecureSettingsListScreen(
+                snackbarHostState = SnackbarHostState(),
+                dropDownExpanded = false,
+                onDropDownExpanded = { },
+                onItemClick = {},
+                onNavigationIconClick = {},
+                onSystemDropdownMenuItemClick = {},
+                onSecureDropdownMenuItemClick = { },
+                onGlobalDropdownMenuItemClick = {},
+                secureSettingsListUiState = SecureSettingsListUiState.Loading
+            )
         }
 
-        composeTestRule.onNodeWithTag("securesettingslist:loading").assertExists()
-    }
-
-    @Test
-    fun testShowsLazyColumn_SecureSettingsListUiStateSuccess() {
-        composeTestRule.setContent {
-            SecureSettingsListScreen(snackbarHostState = { SnackbarHostState() },
-                                     dropDownExpanded = { false },
-                                     onDropDownExpanded = { },
-                                     onItemClick = {},
-                                     onNavigationIconClick = {},
-                                     onSystemDropdownMenuItemClick = {},
-                                     onSecureDropdownMenuItemClick = { },
-                                     onGlobalDropdownMenuItemClick = {},
-                                     secureSettingsListUiStateProvider = {
-                                         SecureSettingsListUiState.Success(
-                                             listOf(
-                                                 SecureSettings(id = 0, name = "Key", value = "0")
-                                             )
-                                         )
-                                     })
-        }
-
-        composeTestRule.onNodeWithTag("securesettingslist:success").assertExists()
+        composeTestRule.onNodeWithTag("securesettingslist:loadingPlaceHolderScreen").assertExists()
     }
 
     @Test
@@ -59,25 +38,23 @@ class SecureSettingsListScreenTest {
         val secureSettingsItemKeyToTest = "Key"
 
         composeTestRule.setContent {
-            SecureSettingsListScreen(snackbarHostState = { SnackbarHostState() },
-                                     dropDownExpanded = { false },
-                                     onDropDownExpanded = { },
-                                     onItemClick = {},
-                                     onNavigationIconClick = {},
-                                     onSystemDropdownMenuItemClick = {},
-                                     onSecureDropdownMenuItemClick = { },
-                                     onGlobalDropdownMenuItemClick = {},
-                                     secureSettingsListUiStateProvider = {
-                                         SecureSettingsListUiState.Success(
-                                             listOf(
-                                                 SecureSettings(
-                                                     id = 0,
-                                                     name = secureSettingsItemKeyToTest,
-                                                     value = "0"
-                                                 )
-                                             )
-                                         )
-                                     })
+            SecureSettingsListScreen(
+                snackbarHostState = SnackbarHostState(),
+                dropDownExpanded = false,
+                onDropDownExpanded = { },
+                onItemClick = {},
+                onNavigationIconClick = {},
+                onSystemDropdownMenuItemClick = {},
+                onSecureDropdownMenuItemClick = { },
+                onGlobalDropdownMenuItemClick = {},
+                secureSettingsListUiState = SecureSettingsListUiState.Success(
+                    listOf(
+                        SecureSettings(
+                            id = 0, name = secureSettingsItemKeyToTest, value = "0"
+                        )
+                    )
+                )
+            )
         }
 
         composeTestRule.onNodeWithText(secureSettingsItemKeyToTest).performClick()

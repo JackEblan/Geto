@@ -57,7 +57,7 @@ class AddSettingsDialogViewModelTest {
     }
 
     @Test
-    fun addAppSettings_systemSettingsType_dismissDialogStateTrue() = runTest {
+    fun dismissDialogIsTrue_whenEventIsAddSettingsWithSystemSettingsType() = runTest {
         viewModel.onEvent(
             AddSettingsDialogEvent.AddSettings(
                 packageName = "com.android.geto",
@@ -67,7 +67,7 @@ class AddSettingsDialogViewModelTest {
                 valueOnLaunch = "value",
                 valueOnRevert = "value"
             )
-            )
+        )
 
             assertTrue {
                 viewModel.dismissDialog.value
@@ -75,7 +75,7 @@ class AddSettingsDialogViewModelTest {
         }
 
     @Test
-    fun addSettings_secureSettingsType_dismissDialogStateTrue() = runTest {
+    fun dismissDialogIsTrue_whenEventIsAddSettingsWithSecureSettingsType() = runTest {
         viewModel.onEvent(
             AddSettingsDialogEvent.AddSettings(
                 packageName = "com.android.geto",
@@ -85,7 +85,7 @@ class AddSettingsDialogViewModelTest {
                 valueOnLaunch = "value",
                 valueOnRevert = "value"
             )
-            )
+        )
 
             assertTrue {
                 viewModel.dismissDialog.value
@@ -93,7 +93,7 @@ class AddSettingsDialogViewModelTest {
         }
 
     @Test
-    fun addSettings_globalSettingsType_dismissDialogStateTrue() = runTest {
+    fun dismissDialogIsTrue_whenEventIsAddSettingsWithGlobalSettingsType() = runTest {
         viewModel.onEvent(
             AddSettingsDialogEvent.AddSettings(
                 packageName = "com.android.geto",
@@ -103,7 +103,7 @@ class AddSettingsDialogViewModelTest {
                 valueOnLaunch = "value",
                 valueOnRevert = "value"
             )
-            )
+        )
 
             assertTrue {
                 viewModel.dismissDialog.value

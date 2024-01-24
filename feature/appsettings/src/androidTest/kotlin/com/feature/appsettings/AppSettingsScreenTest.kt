@@ -2,13 +2,10 @@ package com.feature.appsettings
 
 import androidx.activity.ComponentActivity
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.runtime.remember
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
-import com.core.model.AppSettings
-import com.core.model.SettingsType
 import org.junit.Rule
 import org.junit.Test
 
@@ -17,11 +14,11 @@ class AppSettingsScreenTest {
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     @Test
-    fun testShowsLoadingPlaceHolderScreen_AppSettingsUiStateLoading() {
+    fun loadingPlaceHolderScreen_whenAppSettingsUiStateIsLoading_showLoading() {
         composeTestRule.setContent {
-            AppSettingsScreen(snackbarHostState = { SnackbarHostState() },
-                              appNameProvider = { "Geto" },
-                              appSettingsUiStateProvider = { AppSettingsUiState.Loading },
+            AppSettingsScreen(snackbarHostState = SnackbarHostState(),
+                              appName = "Geto",
+                              appSettingsUiState = AppSettingsUiState.Loading,
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
                               onAppSettingsItemCheckBoxChange = { _, _ -> },
@@ -30,15 +27,15 @@ class AppSettingsScreenTest {
                               onLaunchApp = {})
         }
 
-        composeTestRule.onNodeWithTag("userappsettings:loading").assertExists()
+        composeTestRule.onNodeWithTag("appsettings:loadingPlaceHolderScreen").assertExists()
     }
 
     @Test
-    fun testShowsEmptyListPlaceHolderScreen_AppSettingsUiStateEmpty() {
+    fun emptyListPlaceHolderScreen_whenAppSettingsUiStateIsEmpty_showEmptyScreen() {
         composeTestRule.setContent {
-            AppSettingsScreen(snackbarHostState = { SnackbarHostState() },
-                              appNameProvider = { "Geto" },
-                              appSettingsUiStateProvider = { AppSettingsUiState.Empty },
+            AppSettingsScreen(snackbarHostState = SnackbarHostState(),
+                              appName = "Geto",
+                              appSettingsUiState = AppSettingsUiState.Empty,
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
                               onAppSettingsItemCheckBoxChange = { _, _ -> },
@@ -47,52 +44,15 @@ class AppSettingsScreenTest {
                               onLaunchApp = {})
         }
 
-        composeTestRule.onNodeWithTag("userappsettings:empty").assertExists()
+        composeTestRule.onNodeWithTag("appsettings:emptyListPlaceHolderScreen").assertExists()
     }
 
     @Test
-    fun testShowsLazyColumn_AppSettingsUiStateSuccess() {
+    fun snackbar_whenRevertIconClicked_inAppSettingsUiStateEmpty_showMessage() {
         composeTestRule.setContent {
-            AppSettingsScreen(snackbarHostState = { SnackbarHostState() },
-                              appNameProvider = { "Geto" },
-                              appSettingsUiStateProvider = {
-                                  AppSettingsUiState.Success(
-                                      listOf(
-                                          AppSettings(
-                                              id = 0,
-                                              enabled = true,
-                                              settingsType = SettingsType.SYSTEM,
-                                              packageName = "packageNameTest",
-                                              label = "system",
-                                              key = "key",
-                                              valueOnLaunch = "test",
-                                              valueOnRevert = "test",
-                                              safeToWrite = true
-                                          )
-                                      )
-                                  )
-                              },
-                              onNavigationIconClick = {},
-                              onRevertSettingsIconClick = {},
-                              onAppSettingsItemCheckBoxChange = { _, _ -> },
-                              onDeleteAppSettingsItem = {},
-                              onAddAppSettingsClick = {},
-                              onLaunchApp = {})
-        }
-
-        composeTestRule.onNodeWithTag("userappsettings:success").assertExists()
-    }
-
-    @Test
-    fun testShowsSnackbar_whenRevertIconClicked_inAppSettingsUiStateEmpty() {
-        composeTestRule.setContent {
-            val snackbarHostState = remember {
-                SnackbarHostState()
-            }
-
-            AppSettingsScreen(snackbarHostState = { snackbarHostState },
-                              appNameProvider = { "Geto" },
-                              appSettingsUiStateProvider = { AppSettingsUiState.Empty },
+            AppSettingsScreen(snackbarHostState = SnackbarHostState(),
+                              appName = "Geto",
+                              appSettingsUiState = AppSettingsUiState.Empty,
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
                               onAppSettingsItemCheckBoxChange = { _, _ -> },
@@ -103,19 +63,16 @@ class AppSettingsScreenTest {
 
         composeTestRule.onNodeWithContentDescription("Revert icon").performClick()
 
-        composeTestRule.onNodeWithTag("userappsettings:snackbar").assertExists()
+        composeTestRule.onNodeWithTag("appsettings:snackbar").assertExists()
     }
 
     @Test
-    fun testShowsSnackbar_whenLaunchIconClicked_inAppSettingsUiStateEmpty() {
+    fun snackbar_whenLaunchIconClicked_inAppSettingsUiStateEmpty_showMessage() {
         composeTestRule.setContent {
-            val snackbarHostState = remember {
-                SnackbarHostState()
-            }
 
-            AppSettingsScreen(snackbarHostState = { snackbarHostState },
-                              appNameProvider = { "Geto" },
-                              appSettingsUiStateProvider = { AppSettingsUiState.Empty },
+            AppSettingsScreen(snackbarHostState = SnackbarHostState(),
+                              appName = "Geto",
+                              appSettingsUiState = AppSettingsUiState.Empty,
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
                               onAppSettingsItemCheckBoxChange = { _, _ -> },
@@ -126,6 +83,6 @@ class AppSettingsScreenTest {
 
         composeTestRule.onNodeWithContentDescription("Launch icon").performClick()
 
-        composeTestRule.onNodeWithTag("userappsettings:snackbar").assertExists()
+        composeTestRule.onNodeWithTag("appsettings:snackbar").assertExists()
     }
 }

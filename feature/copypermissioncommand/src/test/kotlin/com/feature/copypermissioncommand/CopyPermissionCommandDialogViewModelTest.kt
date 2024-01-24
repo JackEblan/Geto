@@ -24,7 +24,7 @@ class CopyPermissionCommandDialogViewModelTest {
     }
 
     @Test
-    fun copyPermissionCommandKey_dismissDialog() = runTest {
+    fun dismissDialogIsTrue_whenEventIsCopyPermissionCommandKey() = runTest {
         viewModel.onEvent(
             CopyPermissionCommandDialogEvent.CopyPermissionCommandKey
         )

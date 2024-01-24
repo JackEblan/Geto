@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Android
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -18,7 +20,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -35,11 +39,15 @@ internal fun AppListRoute(
     onItemClick: (String, String) -> Unit,
     onSecureSettingsClick: () -> Unit
 ) {
-    val uIState = viewModel.uIState.collectAsStateWithLifecycle().value
+    val appListUiState = viewModel.appListUiState.collectAsStateWithLifecycle().value
+
+    LaunchedEffect(key1 = true) {
+        viewModel.onEvent(AppListEvent.GetNonSystemApps)
+    }
 
     AppListScreen(
         modifier = modifier,
-        appListUiStateProvider = { uIState },
+        appListUiState = appListUiState,
         onItemClick = onItemClick,
         onSecureSettingsClick = onSecureSettingsClick
     )
@@ -50,11 +58,11 @@ internal fun AppListRoute(
 @Composable
 internal fun AppListScreen(
     modifier: Modifier = Modifier,
-    appListUiStateProvider: () -> AppListUiState,
+    appListUiState: AppListUiState,
     onItemClick: (String, String) -> Unit,
     onSecureSettingsClick: () -> Unit
 ) {
-    val appListUiState = appListUiStateProvider()
+    val placeholder = rememberVectorPainter(image = Icons.Default.Android)
 
     Scaffold(modifier = modifier.fillMaxSize(), topBar = {
         TopAppBar(title = {
@@ -74,19 +82,19 @@ internal fun AppListScreen(
                 AppListUiState.Loading -> LoadingPlaceHolderScreen(
                     modifier = Modifier
                         .fillMaxSize()
-                        .testTag("userapplist:loading")
+                        .testTag("applist:loading")
                 )
 
                 is AppListUiState.Success -> {
                     LazyColumn(
                         modifier = Modifier
                             .fillMaxSize()
-                            .consumeWindowInsets(innerPadding)
-                            .testTag("userapplist:applist"), contentPadding = innerPadding
+                            .consumeWindowInsets(innerPadding),
+                        contentPadding = innerPadding
                     ) {
                         appItems(
                             modifier = modifier,
-                            nonSystemAppListProvider = { appListUiState.nonSystemAppList },
+                            nonSystemAppList = appListUiState.nonSystemAppList,
                             onItemClick = onItemClick
                         )
                     }
@@ -99,11 +107,8 @@ internal fun AppListScreen(
 
 private fun LazyListScope.appItems(
     modifier: Modifier = Modifier,
-    nonSystemAppListProvider: () -> List<NonSystemApp>,
-    onItemClick: (String, String) -> Unit,
+    nonSystemAppList: List<NonSystemApp>, onItemClick: (String, String) -> Unit
 ) {
-    val nonSystemAppList = nonSystemAppListProvider()
-
     items(nonSystemAppList) { nonSystemApp ->
         AppItem(modifier = modifier
             .fillMaxWidth()
@@ -113,8 +118,8 @@ private fun LazyListScope.appItems(
                 )
             }
             .padding(10.dp),
-                icon = { nonSystemApp.icon },
-                packageName = { nonSystemApp.packageName },
-                label = { nonSystemApp.label })
+                icon = nonSystemApp.icon,
+                packageName = nonSystemApp.packageName,
+                label = nonSystemApp.label)
     }
 }

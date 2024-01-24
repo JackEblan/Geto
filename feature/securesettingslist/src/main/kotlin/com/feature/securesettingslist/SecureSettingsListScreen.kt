@@ -29,7 +29,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.core.designsystem.icon.GetoIcons
 import com.core.model.SecureSettings
-import com.core.ui.EmptyListPlaceHolderScreen
 import com.core.ui.LoadingPlaceHolderScreen
 import com.core.ui.SecureSettingsItem
 
@@ -39,7 +38,8 @@ internal fun SecureSettingsListRoute(
     viewModel: SecureSettingsListViewModel = hiltViewModel(),
     onNavigationIconClick: () -> Unit
 ) {
-    val uIState = viewModel.uIState.collectAsStateWithLifecycle().value
+    val secureSettingsListUiState =
+        viewModel.secureSettingsListUiState.collectAsStateWithLifecycle().value
 
     val snackBar = viewModel.snackBar.collectAsStateWithLifecycle().value
 
@@ -49,53 +49,59 @@ internal fun SecureSettingsListRoute(
 
     var dropDownExpanded by remember { mutableStateOf(false) }
 
+    LaunchedEffect(key1 = true) {
+        viewModel.onEvent(SecureSettingsListEvent.GetSecureSettingsList(0))
+    }
+
     LaunchedEffect(key1 = snackBar) {
         snackBar?.let {
             snackbarHostState.showSnackbar(message = it)
-            viewModel.clearState()
+            viewModel.clearSnackBar()
         }
     }
 
-    SecureSettingsListScreen(modifier = modifier,
-                             snackbarHostState = { snackbarHostState },
-                             dropDownExpanded = { dropDownExpanded },
-                             onItemClick = { uri ->
-                                 viewModel.onEvent(
-                                     SecureSettingsListEvent.OnCopySecureSettingsList(
-                                         uri
-                                     )
-                                 )
-                             },
-                             onNavigationIconClick = onNavigationIconClick,
-                             onDropDownExpanded = { dropDownExpanded = it },
-                             onSystemDropdownMenuItemClick = {
-                                 viewModel.onEvent(
-                                     SecureSettingsListEvent.GetSecureSettingsList(
-                                         0
-                                     )
-                                 )
+    SecureSettingsListScreen(
+        modifier = modifier,
+        snackbarHostState = snackbarHostState,
+        dropDownExpanded = dropDownExpanded,
+        onItemClick = { uri ->
+            viewModel.onEvent(
+                SecureSettingsListEvent.OnCopySecureSettingsList(
+                    uri
+                )
+            )
+        },
+        onNavigationIconClick = onNavigationIconClick,
+        onDropDownExpanded = { dropDownExpanded = it },
+        onSystemDropdownMenuItemClick = {
+            viewModel.onEvent(
+                SecureSettingsListEvent.GetSecureSettingsList(
+                    0
+                )
+            )
 
-                                 dropDownExpanded = false
-                             },
-                             onSecureDropdownMenuItemClick = {
-                                 viewModel.onEvent(
-                                     SecureSettingsListEvent.GetSecureSettingsList(
-                                         1
-                                     )
-                                 )
+            dropDownExpanded = false
+        },
+        onSecureDropdownMenuItemClick = {
+            viewModel.onEvent(
+                SecureSettingsListEvent.GetSecureSettingsList(
+                    1
+                )
+            )
 
-                                 dropDownExpanded = false
-                             },
-                             onGlobalDropdownMenuItemClick = {
-                                 viewModel.onEvent(
-                                     SecureSettingsListEvent.GetSecureSettingsList(
-                                         2
-                                     )
-                                 )
+            dropDownExpanded = false
+        },
+        onGlobalDropdownMenuItemClick = {
+            viewModel.onEvent(
+                SecureSettingsListEvent.GetSecureSettingsList(
+                    2
+                )
+            )
 
-                                 dropDownExpanded = false
-                             },
-                             secureSettingsListUiStateProvider = { uIState })
+            dropDownExpanded = false
+        },
+        secureSettingsListUiState = secureSettingsListUiState
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
@@ -103,18 +109,16 @@ internal fun SecureSettingsListRoute(
 @Composable
 internal fun SecureSettingsListScreen(
     modifier: Modifier = Modifier,
-    snackbarHostState: () -> SnackbarHostState,
-    dropDownExpanded: () -> Boolean,
+    snackbarHostState: SnackbarHostState,
+    dropDownExpanded: Boolean,
     onItemClick: (String?) -> Unit,
     onNavigationIconClick: () -> Unit,
     onDropDownExpanded: (Boolean) -> Unit,
     onSystemDropdownMenuItemClick: () -> Unit,
     onSecureDropdownMenuItemClick: () -> Unit,
     onGlobalDropdownMenuItemClick: () -> Unit,
-    secureSettingsListUiStateProvider: () -> SecureSettingsListUiState
+    secureSettingsListUiState: SecureSettingsListUiState
 ) {
-    val secureSettingsListUiState = secureSettingsListUiStateProvider()
-
     Scaffold(modifier = modifier.fillMaxSize(), topBar = {
         TopAppBar(title = {
             Text(text = "Settings Database")
@@ -131,8 +135,9 @@ internal fun SecureSettingsListScreen(
                 )
             }
 
-            DropdownMenu(expanded = dropDownExpanded(),
-                         onDismissRequest = { onDropDownExpanded(false) }) {
+            DropdownMenu(
+                expanded = dropDownExpanded,
+                onDismissRequest = { onDropDownExpanded(false) }) {
                 DropdownMenuItem(text = { Text("System") }, onClick = onSystemDropdownMenuItemClick)
 
                 DropdownMenuItem(text = { Text("Secure") }, onClick = onSecureDropdownMenuItemClick)
@@ -142,7 +147,7 @@ internal fun SecureSettingsListScreen(
         })
     }, snackbarHost = {
         SnackbarHost(
-            hostState = snackbarHostState(),
+            hostState = snackbarHostState,
             modifier = Modifier.testTag("securesettingslist:snackbar")
         )
     }) { innerPadding ->
@@ -150,15 +155,15 @@ internal fun SecureSettingsListScreen(
             SecureSettingsListUiState.Loading -> LoadingPlaceHolderScreen(
                 modifier = Modifier
                     .fillMaxSize()
-                    .testTag("securesettingslist:loading")
+                    .testTag("securesettingslist:loadingPlaceHolderScreen")
             )
 
             is SecureSettingsListUiState.Success -> {
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxSize()
-                        .consumeWindowInsets(innerPadding)
-                        .testTag("securesettingslist:success"), contentPadding = innerPadding
+                        .consumeWindowInsets(innerPadding),
+                    contentPadding = innerPadding
                 ) {
 
                     secureSettingItems(
@@ -167,14 +172,6 @@ internal fun SecureSettingsListScreen(
                     )
                 }
             }
-
-            SecureSettingsListUiState.Empty -> EmptyListPlaceHolderScreen(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .testTag("securesettingslist:empty"),
-                icon = GetoIcons.Settings,
-                text = "Filter Settings by type"
-            )
         }
     }
 }

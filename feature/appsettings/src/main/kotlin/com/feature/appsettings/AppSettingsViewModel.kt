@@ -8,8 +8,7 @@ import com.core.domain.repository.AppSettingsRepository
 import com.core.domain.usecase.ApplyAppSettingsUseCase
 import com.core.domain.usecase.RevertAppSettingsUseCase
 import com.core.domain.util.PackageManagerWrapper
-import com.feature.appsettings.navigation.NAV_KEY_APP_NAME
-import com.feature.appsettings.navigation.NAV_KEY_PACKAGE_NAME
+import com.feature.appsettings.navigation.AppSettingsArgs
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -35,23 +34,22 @@ class AppSettingsViewModel @Inject constructor(
 
     private var _commandPermissionDialog = MutableStateFlow(false)
 
+    private val appSettingsArgs: AppSettingsArgs = AppSettingsArgs(savedStateHandle)
+
+    val packageName = appSettingsArgs.packageName
+
+    val appName = appSettingsArgs.appName
+
     val snackBar = _snackBar.asStateFlow()
 
     val launchAppIntent = _launchAppIntent.asStateFlow()
 
     val commandPermissionDialog = _commandPermissionDialog.asStateFlow()
 
-    val packageName = savedStateHandle.get<String>(NAV_KEY_PACKAGE_NAME) ?: ""
-
-    val appName = savedStateHandle.get<String>(NAV_KEY_APP_NAME) ?: ""
-
-    val uIState: StateFlow<AppSettingsUiState> =
-        appSettingsRepository.getAppSettingsList(packageName).map { list ->
-            if (list.isNotEmpty()) {
-                AppSettingsUiState.Success(list)
-            } else {
-                AppSettingsUiState.Empty
-            }
+    val appSettingsUiState: StateFlow<AppSettingsUiState> =
+        appSettingsRepository.getAppSettingsList(packageName).map { appSettingsList ->
+            if (appSettingsList.isNotEmpty()) AppSettingsUiState.Success(appSettingsList)
+            else AppSettingsUiState.Empty
         }.stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000),

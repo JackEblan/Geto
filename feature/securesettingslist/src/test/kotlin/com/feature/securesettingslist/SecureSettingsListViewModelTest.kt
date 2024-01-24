@@ -43,12 +43,19 @@ class SecureSettingsListViewModelTest {
     }
 
     @Test
-    fun getSecureSettingsList_selectedRadioOptionIndex0_secureSettingsUiStateSuccess() = runTest {
-        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.uIState.collect() }
+    fun stateIsSuccess_whenEventIsGetSecureSettingsListBySystem() = runTest {
+        val collectJob =
+            launch(UnconfinedTestDispatcher()) { viewModel.secureSettingsListUiState.collect() }
 
         viewModel.onEvent(SecureSettingsListEvent.GetSecureSettingsList(0))
 
-        val item = viewModel.uIState.value
+        testScheduler.runCurrent()
+
+        testScheduler.advanceTimeBy(500)
+
+        testScheduler.advanceUntilIdle()
+
+        val item = viewModel.secureSettingsListUiState.value
 
         assertIs<SecureSettingsListUiState.Success>(item)
 
@@ -56,12 +63,19 @@ class SecureSettingsListViewModelTest {
     }
 
     @Test
-    fun getSecureSettingsList_selectedRadioOptionIndex1_secureSettingsUiStateSuccess() = runTest {
-        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.uIState.collect() }
+    fun stateIsSuccess_whenEventIsGetSecureSettingsListBySecure() = runTest {
+        val collectJob =
+            launch(UnconfinedTestDispatcher()) { viewModel.secureSettingsListUiState.collect() }
 
         viewModel.onEvent(SecureSettingsListEvent.GetSecureSettingsList(1))
 
-        val item = viewModel.uIState.value
+        testScheduler.runCurrent()
+
+        testScheduler.advanceTimeBy(viewModel.loadingDelay)
+
+        testScheduler.advanceUntilIdle()
+
+        val item = viewModel.secureSettingsListUiState.value
 
         assertIs<SecureSettingsListUiState.Success>(item)
 
@@ -69,12 +83,19 @@ class SecureSettingsListViewModelTest {
     }
 
     @Test
-    fun getSecureSettingsList_selectedRadioOptionIndex2_secureSettingsUiStateSuccess() = runTest {
-        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.uIState.collect() }
+    fun stateIsSuccess_whenEventIsGetSecureSettingsListByGlobal() = runTest {
+        val collectJob =
+            launch(UnconfinedTestDispatcher()) { viewModel.secureSettingsListUiState.collect() }
 
         viewModel.onEvent(SecureSettingsListEvent.GetSecureSettingsList(2))
 
-        val item = viewModel.uIState.value
+        testScheduler.runCurrent()
+
+        testScheduler.advanceTimeBy(500)
+
+        testScheduler.advanceUntilIdle()
+
+        val item = viewModel.secureSettingsListUiState.value
 
         assertIs<SecureSettingsListUiState.Success>(item)
 
@@ -82,8 +103,9 @@ class SecureSettingsListViewModelTest {
     }
 
     @Test
-    fun onCopySecureSettings_androidBelow12_snackBarNotNull() = runTest {
-        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.uIState.collect() }
+    fun snackBarNotNull_whenEventIsOnCopySecureSettingsOnAndroidBelow12() = runTest {
+        val collectJob =
+            launch(UnconfinedTestDispatcher()) { viewModel.secureSettingsListUiState.collect() }
 
         clipboardRepository.setAndroidTwelveBelow(true)
 
@@ -95,7 +117,7 @@ class SecureSettingsListViewModelTest {
     }
 
     @Test
-    fun onCopySecureSettings_androidBelow12_snackBarNull() = runTest {
+    fun snackBarNull_whenEventIsOnCopySecureSettingsOnAndroidAbove12() = runTest {
         clipboardRepository.setAndroidTwelveBelow(false)
 
         viewModel.onEvent(SecureSettingsListEvent.OnCopySecureSettingsList("Hi"))

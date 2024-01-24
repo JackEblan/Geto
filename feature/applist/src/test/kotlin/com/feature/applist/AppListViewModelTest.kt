@@ -11,7 +11,6 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import kotlin.test.assertEquals
 import kotlin.test.assertIs
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -32,21 +31,35 @@ class AppListViewModelTest {
     }
 
     @Test
-    fun getNonSystemApps_appListUiState_isSuccess() = runTest {
-        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.uIState.collect() }
+    fun stateIsInitiallyLoading() = runTest {
+        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.appListUiState.collect() }
 
-        packageRepository.sendNonSystemApps(nonSystemAppsTestData)
+        val item = viewModel.appListUiState.value
 
-        val item = viewModel.uIState.value
-
-        assertIs<AppListUiState.Success>(item)
+        assertIs<AppListUiState.Loading>(item)
 
         collectJob.cancel()
     }
 
     @Test
-    fun initialAppListUiState_isLoading() = runTest {
-        assertEquals(expected = AppListUiState.Loading, actual = viewModel.uIState.value)
+    fun stateIsSuccess_whenAppListEventIsGetNonSystemApps() = runTest {
+        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.appListUiState.collect() }
+
+        packageRepository.sendNonSystemApps(nonSystemAppsTestData)
+
+        viewModel.onEvent(AppListEvent.GetNonSystemApps)
+
+        testScheduler.runCurrent()
+
+        testScheduler.advanceTimeBy(viewModel.loadingDelay)
+
+        testScheduler.advanceUntilIdle()
+
+        val item = viewModel.appListUiState.value
+
+        assertIs<AppListUiState.Success>(item)
+
+        collectJob.cancel()
     }
 }
 

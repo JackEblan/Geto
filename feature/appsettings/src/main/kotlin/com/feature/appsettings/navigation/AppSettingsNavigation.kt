@@ -1,22 +1,35 @@
 package com.feature.appsettings.navigation
 
+import androidx.annotation.VisibleForTesting
+import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.feature.appsettings.AppSettingsRoute
+import java.net.URLDecoder
+import kotlin.text.Charsets.UTF_8
 
 
-const val NAV_KEY_PACKAGE_NAME = "package_name"
+private val URL_CHARACTER_ENCODING = UTF_8.name()
 
-const val NAV_KEY_APP_NAME = "app_name"
+@VisibleForTesting
+internal const val PACKAGE_NAME_ARG = "package_name"
 
-private const val APP_SETTINGS_NAVIGATION_ROUTE_PREFIX = "app_settings_route"
+@VisibleForTesting
+internal const val APP_NAME_ARG = "app_name"
 
-const val APP_SETTINGS_NAVIGATION_ROUTE =
-    "$APP_SETTINGS_NAVIGATION_ROUTE_PREFIX/{$NAV_KEY_PACKAGE_NAME}/{$NAV_KEY_APP_NAME}"
+internal class AppSettingsArgs(val packageName: String, val appName: String) {
+    constructor(savedStateHandle: SavedStateHandle) : this(
+        URLDecoder.decode(
+            checkNotNull(
+                savedStateHandle[PACKAGE_NAME_ARG]
+            ), URL_CHARACTER_ENCODING
+        ), URLDecoder.decode(checkNotNull(savedStateHandle[APP_NAME_ARG]), URL_CHARACTER_ENCODING)
+    )
+}
 
 fun NavController.navigateToAppSettings(packageName: String, appName: String) {
-    this.navigate("$APP_SETTINGS_NAVIGATION_ROUTE_PREFIX/$packageName/$appName")
+    this.navigate("app_settings_route/$packageName/$appName")
 }
 
 fun NavGraphBuilder.appSettingsScreen(
@@ -25,7 +38,7 @@ fun NavGraphBuilder.appSettingsScreen(
     onOpenCopyPermissionCommandDialog: () -> Unit,
 ) {
     composable(
-        route = APP_SETTINGS_NAVIGATION_ROUTE
+        route = "app_settings_route/{$PACKAGE_NAME_ARG}/{$APP_NAME_ARG}"
     ) {
         AppSettingsRoute(
             onNavigationIconClick = onArrowBackClick,

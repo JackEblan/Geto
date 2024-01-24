@@ -5,7 +5,7 @@ import com.core.model.AppSettings
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.map
 
 class TestAppSettingsRepository : AppSettingsRepository {
 
@@ -47,7 +47,7 @@ class TestAppSettingsRepository : AppSettingsRepository {
     }
 
     override fun getAppSettingsList(packageName: String): Flow<List<AppSettings>> {
-        return _appSettingsFlow.filter { it.any { setting -> setting.packageName == packageName } }
+        return _appSettingsFlow.map { it.filter { setting -> setting.packageName == packageName } }
     }
 
     /**

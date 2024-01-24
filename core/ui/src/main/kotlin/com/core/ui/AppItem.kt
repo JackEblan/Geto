@@ -17,30 +17,27 @@ import coil.compose.AsyncImage
 
 @Composable
 fun AppItem(
-    modifier: Modifier = Modifier,
-    icon: () -> Drawable?,
-    packageName: () -> String,
-    label: () -> String
+    modifier: Modifier = Modifier, icon: Drawable?, packageName: String, label: String
 ) {
     Row(
         modifier = modifier, verticalAlignment = Alignment.CenterVertically
     ) {
 
         AsyncImage(
-            model = icon(), contentDescription = null, modifier = Modifier.size(50.dp)
+            model = icon, contentDescription = null, modifier = Modifier.size(50.dp)
         )
 
         Spacer(modifier = Modifier.width(10.dp))
 
         Column(modifier = Modifier.weight(1f)) {
             Text(
-                text = label(), style = MaterialTheme.typography.bodyLarge
+                text = label, style = MaterialTheme.typography.bodyLarge
             )
 
             Spacer(modifier = Modifier.height(5.dp))
 
             Text(
-                text = packageName(), style = MaterialTheme.typography.bodySmall
+                text = packageName, style = MaterialTheme.typography.bodySmall
             )
         }
     }

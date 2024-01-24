@@ -48,7 +48,7 @@ internal fun AppSettingsRoute(
         SnackbarHostState()
     }
 
-    val uIState = viewModel.uIState.collectAsStateWithLifecycle().value
+    val appSettingsUiState = viewModel.appSettingsUiState.collectAsStateWithLifecycle().value
 
     val snackBar = viewModel.snackBar.collectAsStateWithLifecycle().value
 
@@ -71,13 +71,6 @@ internal fun AppSettingsRoute(
         }
     }
 
-    LaunchedEffect(key1 = launchAppIntent) {
-        launchAppIntent?.let {
-            context.startActivity(it)
-            viewModel.clearLaunchAppIntent()
-        }
-    }
-
     LaunchedEffect(key1 = commandPermissionDialog) {
         if (commandPermissionDialog) {
             onOpenCopyPermissionCommandDialog()
@@ -85,36 +78,37 @@ internal fun AppSettingsRoute(
         }
     }
 
-    AppSettingsScreen(modifier = modifier,
-                      snackbarHostState = { snackbarHostState },
-                      appNameProvider = { viewModel.appName },
-                      appSettingsUiStateProvider = { uIState },
-                      onNavigationIconClick = {
-                          onNavigationIconClick()
+    AppSettingsScreen(
+        modifier = modifier,
+        snackbarHostState = snackbarHostState,
+        appName = viewModel.appName,
+        appSettingsUiState = appSettingsUiState,
+        onNavigationIconClick = {
+            onNavigationIconClick()
+        },
+        onRevertSettingsIconClick = {
+            viewModel.onEvent(
+                AppSettingsEvent.OnRevertSettings(
+                    if (appSettingsUiState is AppSettingsUiState.Success) appSettingsUiState.appSettingsList
+                    else emptyList()
+                )
+            )
                       },
-                      onRevertSettingsIconClick = {
-                          viewModel.onEvent(
-                              AppSettingsEvent.OnRevertSettings(
-                                  if (uIState is AppSettingsUiState.Success) uIState.appSettingsList
-                                  else emptyList()
-                              )
-                          )
-                      },
-                      onAppSettingsItemCheckBoxChange = { checked, userAppSettingsItem ->
+        onAppSettingsItemCheckBoxChange = { checked, userAppSettingsItem ->
                           viewModel.onEvent(
                               AppSettingsEvent.OnAppSettingsItemCheckBoxChange(
                                   checked = checked, appSettings = userAppSettingsItem
                               )
                           )
                       },
-                      onDeleteAppSettingsItem = {
+        onDeleteAppSettingsItem = {
                           viewModel.onEvent(AppSettingsEvent.OnDeleteAppSettingsItem(it))
                       },
-                      onAddAppSettingsClick = { onOpenAddSettingsDialog(viewModel.packageName) },
-                      onLaunchApp = {
+        onAddAppSettingsClick = { onOpenAddSettingsDialog(viewModel.packageName) },
+        onLaunchApp = {
                           viewModel.onEvent(
                               AppSettingsEvent.OnLaunchApp(
-                                  if (uIState is AppSettingsUiState.Success) uIState.appSettingsList
+                                  if (appSettingsUiState is AppSettingsUiState.Success) appSettingsUiState.appSettingsList
                                   else emptyList()
                               )
                           )
@@ -126,9 +120,9 @@ internal fun AppSettingsRoute(
 @Composable
 internal fun AppSettingsScreen(
     modifier: Modifier = Modifier,
-    snackbarHostState: () -> SnackbarHostState,
-    appNameProvider: () -> String,
-    appSettingsUiStateProvider: () -> AppSettingsUiState,
+    snackbarHostState: SnackbarHostState,
+    appName: String,
+    appSettingsUiState: AppSettingsUiState,
     onNavigationIconClick: () -> Unit,
     onRevertSettingsIconClick: () -> Unit,
     onAppSettingsItemCheckBoxChange: (Boolean, AppSettings) -> Unit,
@@ -136,10 +130,6 @@ internal fun AppSettingsScreen(
     onAddAppSettingsClick: () -> Unit,
     onLaunchApp: () -> Unit
 ) {
-    val appName = appNameProvider()
-
-    val appSettingsUiState = appSettingsUiStateProvider()
-
     Scaffold(modifier = modifier.fillMaxSize(), topBar = {
         TopAppBar(title = {
             Text(text = appName, maxLines = 1)
@@ -176,7 +166,7 @@ internal fun AppSettingsScreen(
         })
     }, snackbarHost = {
         SnackbarHost(
-            hostState = snackbarHostState(), modifier = Modifier.testTag("userappsettings:snackbar")
+            hostState = snackbarHostState, modifier = Modifier.testTag("appsettings:snackbar")
         )
     }) { innerPadding ->
         Box(
@@ -188,7 +178,7 @@ internal fun AppSettingsScreen(
                     EmptyListPlaceHolderScreen(
                         modifier = Modifier
                             .fillMaxSize()
-                            .testTag("userappsettings:empty"),
+                            .testTag("appsettings:emptyListPlaceHolderScreen"),
                         icon = GetoIcons.Empty,
                         text = "Nothing is here"
                     )
@@ -198,7 +188,7 @@ internal fun AppSettingsScreen(
                     LoadingPlaceHolderScreen(
                         modifier = Modifier
                             .fillMaxSize()
-                            .testTag("userappsettings:loading")
+                            .testTag("appsettings:loadingPlaceHolderScreen")
                     )
                 }
 
@@ -207,8 +197,8 @@ internal fun AppSettingsScreen(
                     LazyColumn(
                         modifier = Modifier
                             .fillMaxSize()
-                            .consumeWindowInsets(innerPadding)
-                            .testTag("userappsettings:success"), contentPadding = innerPadding
+                            .consumeWindowInsets(innerPadding),
+                        contentPadding = innerPadding
                     ) {
                         appSettings(
                             appSettingsListProvider = { appSettingsUiState.appSettingsList },
