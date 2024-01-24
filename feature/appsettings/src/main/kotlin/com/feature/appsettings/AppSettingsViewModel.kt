@@ -91,7 +91,7 @@ class AppSettingsViewModel @Inject constructor(
                 viewModelScope.launch {
                     val updatedUserAppSettingsItem = event.appSettings.copy(enabled = event.checked)
 
-                    appSettingsRepository.upsertAppSettingsEnabled(
+                    appSettingsRepository.upsertAppSettings(
                         updatedUserAppSettingsItem
                     )
                 }

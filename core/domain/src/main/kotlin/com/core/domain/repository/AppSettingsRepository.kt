@@ -7,8 +7,6 @@ interface AppSettingsRepository {
 
     suspend fun upsertAppSettings(appSettings: AppSettings)
 
-    suspend fun upsertAppSettingsEnabled(appSettings: AppSettings)
-
     suspend fun deleteAppSettings(appSettings: AppSettings)
 
     fun getAppSettingsList(packageName: String): Flow<List<AppSettings>>

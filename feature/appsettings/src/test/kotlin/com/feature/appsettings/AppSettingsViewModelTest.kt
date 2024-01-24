@@ -64,14 +64,9 @@ class AppSettingsViewModelTest {
 
     @Test
     fun stateIsInitiallyLoading() = runTest {
-        val collectJob =
-            launch(UnconfinedTestDispatcher()) { viewModel.appSettingsUiState.collect() }
-
         val item = viewModel.appSettingsUiState.value
 
         assertIs<AppSettingsUiState.Loading>(item)
-
-        collectJob.cancel()
     }
 
     @Test

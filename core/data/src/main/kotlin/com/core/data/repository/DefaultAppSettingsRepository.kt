@@ -16,15 +16,11 @@ class DefaultAppSettingsRepository @Inject constructor(
 ) : AppSettingsRepository {
 
     override suspend fun upsertAppSettings(appSettings: AppSettings) {
-        return appSettingsDao.upsert(appSettings.asEntity())
-    }
-
-    override suspend fun upsertAppSettingsEnabled(appSettings: AppSettings) {
-        return appSettingsDao.upsert(appSettings.asEntity())
+        appSettingsDao.upsert(appSettings.asEntity())
     }
 
     override suspend fun deleteAppSettings(appSettings: AppSettings) {
-        return appSettingsDao.delete(appSettings.asEntity())
+        appSettingsDao.delete(appSettings.asEntity())
     }
 
     override fun getAppSettingsList(packageName: String): Flow<List<AppSettings>> {
