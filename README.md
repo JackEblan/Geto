@@ -30,8 +30,8 @@ The only reason I created this app is to turn off that damn Developer Options wh
 app. The only annoying thing about it is you have to go to the Settings app. When you turn off that
 switch button, your Developer Options configurations will be reset to default. The good thing is
 that when you modify your settings through its Shared Preferences, you won't lose all your settings
-once the Developer Options is modified. So basically, you have to grant this app with *
-*android.permission.WRITE_SECURE_SETTINGS** in order for it to modify your Settings values.
+once the Developer Options is modified. So basically, you have to grant this app
+with `android.permission.WRITE_SECURE_SETTINGS` in order for it to modify your Settings values.
 
 ## Screenshots
 
@@ -51,28 +51,28 @@ For Android 10 and below, [This Youtube tutorial](https://www.youtube.com/watch?
 help you.
 
 1. **Install Shizuku and aShell:**
-   - Download and
-     install [Shizuku](https://play.google.com/store/apps/details?id=moe.shizuku.privileged.api&hl=en&gl=US)
-     and [aShell](https://play.google.com/store/apps/details?id=in.sunilpaulmathew.ashell&hl=en&gl=US&pli=1)
-     from the Google Play Store.
+    - Download and
+      install [Shizuku](https://play.google.com/store/apps/details?id=moe.shizuku.privileged.api&hl=en&gl=US)
+      and [aShell](https://play.google.com/store/apps/details?id=in.sunilpaulmathew.ashell&hl=en&gl=US&pli=1)
+      from the Google Play Store.
 
 2. **Set Up Shizuku:**
-   - Refer to the Shizuku documentation or follow the
-     guidelines [here](https://shizuku.rikka.app/guide/setup/) to properly configure Shizuku.
+    - Refer to the Shizuku documentation or follow the
+      guidelines [here](https://shizuku.rikka.app/guide/setup/) to properly configure Shizuku.
 
 3. **Open aShell:**
-   - Launch aShell on your device. If the app does not show any errors then Shizuku service is
-     working properly.
+    - Launch aShell on your device. If the app does not show any errors then Shizuku service is
+      working properly.
 
 4. **Grant Necessary Permissions:**
-   - In the aShell command box, enter the following command and press Enter:
-     ```bash
-     pm grant com.android.geto android.permission.WRITE_SECURE_SETTINGS
-     ```
-   - Ensure that no errors are reported during the execution of the command.
+    - In the aShell command box, enter the following command and press Enter:
+      ```bash
+      pm grant com.android.geto android.permission.WRITE_SECURE_SETTINGS
+      ```
+    - Ensure that no errors are reported during the execution of the command.
 
 5. **Start Using Geto:**
-   - If the permission is granted successfully, you can now start using Geto without any issues.
+    - If the permission is granted successfully, you can now start using Geto without any issues.
 
 # License
 

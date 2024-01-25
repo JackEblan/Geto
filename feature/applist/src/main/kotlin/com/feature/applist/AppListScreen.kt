@@ -11,8 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Android
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -22,7 +20,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -62,8 +59,6 @@ internal fun AppListScreen(
     onItemClick: (String, String) -> Unit,
     onSecureSettingsClick: () -> Unit
 ) {
-    val placeholder = rememberVectorPainter(image = Icons.Default.Android)
-
     Scaffold(modifier = modifier.fillMaxSize(), topBar = {
         TopAppBar(title = {
             Text(text = "Geto")
@@ -107,7 +102,8 @@ internal fun AppListScreen(
 
 private fun LazyListScope.appItems(
     modifier: Modifier = Modifier,
-    nonSystemAppList: List<NonSystemApp>, onItemClick: (String, String) -> Unit
+    nonSystemAppList: List<NonSystemApp>,
+    onItemClick: (String, String) -> Unit
 ) {
     items(nonSystemAppList) { nonSystemApp ->
         AppItem(modifier = modifier

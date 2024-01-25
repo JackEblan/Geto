@@ -22,16 +22,3 @@ Installation:
 
 5. Start Using Geto:
    - If the permission is granted successfully, you can now start using Geto without any issues.
-
-Geto Settings:
-
-Here are some settings you can experiment with. Simply choose an app from the list, click the Add Settings button, and proceed to fill in the provided options. Refer to the examples below for guidance. If you have unique settings that work well on different devices, please reach out to me so that I can incorporate them into this list. Your contributions are appreciated!
-
-To apply your settings to a specific app, click Launch App. Remember to reset your preferences after exiting the app by clicking the Refresh button.
-
-1. Hide developer options detection in any apps:
-   - Type is Global
-   - Settings label is Hide Developer Options
-   - Settings key is development_settings_enabled
-   - Settings value on launch is 0
-   - Settings value on revert is 1
