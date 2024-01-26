@@ -11,6 +11,11 @@ jobs:
     timeout-minutes: 120
 
     steps:
+      - name: Cancel previous runs
+        uses: styfle/cancel-workflow-action@0.12.0
+        with:
+          access_token: ${{ github.token }}
+
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -29,27 +34,12 @@ jobs:
           distribution: 'zulu'
           java-version: 17
 
-      - name: Build Github Release APK
-        run: ./gradlew assembleGithubRelease
-
-      - name: Build Fdroid Release APK
+      - name: Build Fdroid release APK
         run: ./gradlew assembleFdroidRelease
 
-      - name: Sign Github Release APK
+      - name: Sign Fdroid release APK
         uses: r0adkll/sign-android-release@v1
-        id: sign-github-release-apk
-        with:
-          releaseDirectory: app/build/outputs/apk/github/release
-          signingKeyBase64: ${{ secrets.SIGNING_KEY_BASE64 }}
-          alias: ${{ secrets.SIGNING_KEY_ALIAS }}
-          keyStorePassword: ${{ secrets.SIGNING_KEY_STORE_PASSWORD }}
-          keyPassword: ${{ secrets.SIGNING_KEY_PASSWORD }}
-        env:
-          BUILD_TOOLS_VERSION: "34.0.0"
-
-      - name: Sign Fdroid Release APK
-        uses: r0adkll/sign-android-release@v1
-        id: sign-fdroid-release-apk
+        id: sign_fdroid_release_apk
         with:
           releaseDirectory: app/build/outputs/apk/fdroid/release
           signingKeyBase64: ${{ secrets.SIGNING_KEY_BASE64 }}
@@ -59,13 +49,11 @@ jobs:
         env:
           BUILD_TOOLS_VERSION: "34.0.0"
 
-      - name: Rename Signed APKs
-        run: |
-          mv ${{steps.sign-github-release-apk.outputs.signedReleaseFile}} app/build/outputs/apk/github/release/geto-github-${{ github.ref_name }}.apk
-          mv ${{steps.sign-fdroid-release-apk.outputs.signedReleaseFile}} app/build/outputs/apk/fdroid/release/geto-fdroid-${{ github.ref_name }}.apk
+      - name: Rename signed Fdroid apk
+        run: mv ${{steps.sign_fdroid_release_apk.outputs.signedReleaseFile}} app/build/outputs/apk/fdroid/release/geto-fdroid-${{ github.ref_name }}.apk
 
-      - name: Create Release
-        id: create-release
+      - name: Create release
+        id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -75,9 +63,12 @@ jobs:
           draft: false
           prerelease: false
 
-      - name: Upload APKs
-        uses: softprops/action-gh-release@v1
+      - name: Upload release asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          files: |
-            app/build/outputs/apk/github/release/geto-github-${{ github.ref_name }}.apk
-            app/build/outputs/apk/fdroid/release/geto-fdroid-${{ github.ref_name }}.apk
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: app/build/outputs/apk/fdroid/release/geto-fdroid-${{ github.ref_name }}.apk
+          asset_name: geto-fdroid-${{ github.ref_name }}.apk
+          asset_content_type: application/vnd.android.package-archive
