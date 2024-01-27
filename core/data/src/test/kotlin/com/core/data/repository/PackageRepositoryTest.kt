@@ -1,13 +1,13 @@
 package com.core.data.repository
 
+import android.content.pm.ApplicationInfo
 import com.core.domain.repository.PackageRepository
 import com.core.testing.util.TestPackageManagerWrapper
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
-import kotlin.test.assertNotNull
+import kotlin.test.assertTrue
 
 class PackageRepositoryTest {
     private lateinit var packageManagerWrapper: TestPackageManagerWrapper
@@ -26,7 +26,22 @@ class PackageRepositoryTest {
     }
 
     @Test
-    fun getNonSystemApps_returnsFirstItemNotNull() = runTest(testDispatcher) {
-        assertNotNull(subject.getNonSystemApps().first())
+    fun getNonSystemApps_withInstalledApplications_returnsNotEmpty() = runTest(testDispatcher) {
+        packageManagerWrapper.setInstalledApplications(listOf(ApplicationInfo().apply {
+            packageName = "Test"
+            flags = 0
+        }))
+
+        assertTrue { subject.getNonSystemApps().isNotEmpty() }
+    }
+
+    @Test
+    fun getNonSystemApps_withoutInstalledApplications_returnsEmpty() = runTest(testDispatcher) {
+        packageManagerWrapper.setInstalledApplications(listOf(ApplicationInfo().apply {
+            packageName = "Test"
+            flags = 1
+        }))
+
+        assertTrue { subject.getNonSystemApps().isEmpty() }
     }
 }

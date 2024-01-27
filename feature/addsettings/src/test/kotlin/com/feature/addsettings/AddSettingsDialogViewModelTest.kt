@@ -1,8 +1,8 @@
 package com.feature.addsettings
 
-import com.core.domain.usecase.AddAppSettingsWithSettingsTypeGlobalUseCase
-import com.core.domain.usecase.AddAppSettingsWithSettingsTypeSecureUseCase
-import com.core.domain.usecase.AddAppSettingsWithSettingsTypeSystemUseCase
+import com.core.domain.usecase.AddAppSettingsUseCase
+import com.core.model.AppSettings
+import com.core.model.SettingsType
 import com.core.testing.repository.TestAppSettingsRepository
 import com.core.testing.repository.TestSecureSettingsRepository
 import com.core.testing.util.MainDispatcherRule
@@ -20,11 +20,7 @@ class AddSettingsDialogViewModelTest {
 
     private lateinit var settingsRepository: TestSecureSettingsRepository
 
-    private lateinit var addAppSettingsWithSettingsTypeSystemUseCase: AddAppSettingsWithSettingsTypeSystemUseCase
-
-    private lateinit var addAppSettingsWithSettingsTypeSecureUseCase: AddAppSettingsWithSettingsTypeSecureUseCase
-
-    private lateinit var addAppSettingsWithSettingsTypeGlobalUseCase: AddAppSettingsWithSettingsTypeGlobalUseCase
+    private lateinit var addAppSettingsUseCase: AddAppSettingsUseCase
 
     private lateinit var viewModel: AddSettingsDialogViewModel
 
@@ -34,79 +30,34 @@ class AddSettingsDialogViewModelTest {
 
         settingsRepository = TestSecureSettingsRepository()
 
-        addAppSettingsWithSettingsTypeSystemUseCase = AddAppSettingsWithSettingsTypeSystemUseCase(
+        addAppSettingsUseCase = AddAppSettingsUseCase(
             secureSettingsRepository = settingsRepository,
             appSettingsRepository = appSettingsRepository
         )
 
-        addAppSettingsWithSettingsTypeSecureUseCase = AddAppSettingsWithSettingsTypeSecureUseCase(
-            secureSettingsRepository = settingsRepository,
-            appSettingsRepository = appSettingsRepository
-        )
-
-        addAppSettingsWithSettingsTypeGlobalUseCase = AddAppSettingsWithSettingsTypeGlobalUseCase(
-            secureSettingsRepository = settingsRepository,
-            appSettingsRepository = appSettingsRepository
-        )
-
-        viewModel = AddSettingsDialogViewModel(
-            addAppSettingsWithSettingsTypeSystemUseCase = addAppSettingsWithSettingsTypeSystemUseCase,
-            addAppSettingsWithSettingsTypeSecureUseCase = addAppSettingsWithSettingsTypeSecureUseCase,
-            addAppSettingsWithSettingsTypeGlobalUseCase = addAppSettingsWithSettingsTypeGlobalUseCase
-        )
+        viewModel = AddSettingsDialogViewModel(addAppSettingsUseCase)
     }
 
     @Test
-    fun dismissDialogIsTrue_whenEventIsAddSettingsWithSystemSettingsType() = runTest {
+    fun dismissDialogIsTrue_whenEventIsAddSettings() = runTest {
         viewModel.onEvent(
             AddSettingsDialogEvent.AddSettings(
-                packageName = "com.android.geto",
-                selectedRadioOptionIndex = 0,
-                label = "label",
-                key = "key",
-                valueOnLaunch = "value",
-                valueOnRevert = "value"
+                AppSettings(
+                    id = 0,
+                    enabled = true,
+                    settingsType = SettingsType.SYSTEM,
+                    packageName = "packageName",
+                    label = "label",
+                    key = "key",
+                    valueOnLaunch = "valueOnLaunch",
+                    valueOnRevert = "valueOnRevert",
+                    safeToWrite = false
+                )
             )
         )
 
-            assertTrue {
-                viewModel.dismissDialog.value
-            }
+        assertTrue {
+            viewModel.dismissDialog.value
         }
-
-    @Test
-    fun dismissDialogIsTrue_whenEventIsAddSettingsWithSecureSettingsType() = runTest {
-        viewModel.onEvent(
-            AddSettingsDialogEvent.AddSettings(
-                packageName = "com.android.geto",
-                selectedRadioOptionIndex = 1,
-                label = "label",
-                key = "key",
-                valueOnLaunch = "value",
-                valueOnRevert = "value"
-            )
-        )
-
-            assertTrue {
-                viewModel.dismissDialog.value
-            }
-        }
-
-    @Test
-    fun dismissDialogIsTrue_whenEventIsAddSettingsWithGlobalSettingsType() = runTest {
-        viewModel.onEvent(
-            AddSettingsDialogEvent.AddSettings(
-                packageName = "com.android.geto",
-                selectedRadioOptionIndex = 2,
-                label = "label",
-                key = "key",
-                valueOnLaunch = "value",
-                valueOnRevert = "value"
-            )
-        )
-
-            assertTrue {
-                viewModel.dismissDialog.value
-            }
-        }
+    }
 }

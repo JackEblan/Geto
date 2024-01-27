@@ -64,11 +64,9 @@ internal fun SecureSettingsListRoute(
         modifier = modifier,
         snackbarHostState = snackbarHostState,
         dropDownExpanded = dropDownExpanded,
-        onItemClick = { uri ->
+        onItemClick = { key ->
             viewModel.onEvent(
-                SecureSettingsListEvent.OnCopySecureSettingsList(
-                    uri
-                )
+                SecureSettingsListEvent.OnCopySecureSettingsList(key)
             )
         },
         onNavigationIconClick = onNavigationIconClick,
@@ -111,7 +109,7 @@ internal fun SecureSettingsListScreen(
     modifier: Modifier = Modifier,
     snackbarHostState: SnackbarHostState,
     dropDownExpanded: Boolean,
-    onItemClick: (String?) -> Unit,
+    onItemClick: (String) -> Unit,
     onNavigationIconClick: () -> Unit,
     onDropDownExpanded: (Boolean) -> Unit,
     onSystemDropdownMenuItemClick: () -> Unit,
@@ -167,7 +165,7 @@ internal fun SecureSettingsListScreen(
                 ) {
 
                     secureSettingItems(
-                        secureSettingsListProvider = { secureSettingsListUiState.secureSettingsList },
+                        secureSettingsList = secureSettingsListUiState.secureSettingsList,
                         onItemClick = onItemClick
                     )
                 }
@@ -178,14 +176,12 @@ internal fun SecureSettingsListScreen(
 
 private fun LazyListScope.secureSettingItems(
     modifier: Modifier = Modifier,
-    secureSettingsListProvider: () -> List<SecureSettings>,
-    onItemClick: (String?) -> Unit,
+    secureSettingsList: List<SecureSettings>,
+    onItemClick: (String) -> Unit,
 ) {
-    val secureSettingsList = secureSettingsListProvider()
-
-    items(secureSettingsList) { secureSetting ->
+    items(secureSettingsList) { secureSettings ->
         SecureSettingsItem(
-            modifier = modifier, secureSetting = { secureSetting }, onItemClick = onItemClick
+            modifier = modifier, secureSettings = secureSettings, onItemClick = onItemClick
         )
     }
 }

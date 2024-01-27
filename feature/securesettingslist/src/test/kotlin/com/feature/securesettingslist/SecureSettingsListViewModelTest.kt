@@ -1,6 +1,5 @@
 package com.feature.securesettingslist
 
-import com.core.domain.usecase.CopySettingsUseCase
 import com.core.testing.repository.TestClipboardRepository
 import com.core.testing.repository.TestSecureSettingsRepository
 import com.core.testing.util.MainDispatcherRule
@@ -25,8 +24,6 @@ class SecureSettingsListViewModelTest {
 
     private lateinit var clipboardRepository: TestClipboardRepository
 
-    private lateinit var copySettingsUseCase: CopySettingsUseCase
-
     private lateinit var viewModel: SecureSettingsListViewModel
 
     @Before
@@ -35,10 +32,8 @@ class SecureSettingsListViewModelTest {
 
         clipboardRepository = TestClipboardRepository()
 
-        copySettingsUseCase = CopySettingsUseCase(clipboardRepository)
-
         viewModel = SecureSettingsListViewModel(
-            secureSettingsRepository = settingsRepository, copySettingsUseCase = copySettingsUseCase
+            secureSettingsRepository = settingsRepository, clipboardRepository = clipboardRepository
         )
     }
 

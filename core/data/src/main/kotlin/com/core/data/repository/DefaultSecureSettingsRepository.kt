@@ -1,10 +1,6 @@
 package com.core.data.repository
 
-import com.core.domain.repository.ApplySettingsResultMessage
-import com.core.domain.repository.RevertSettingsResultMessage
 import com.core.domain.repository.SecureSettingsRepository
-import com.core.domain.repository.SecureSettingsRepository.Companion.APPLY_SECURE_SETTINGS_SUCCESS_MESSAGE
-import com.core.domain.repository.SecureSettingsRepository.Companion.REVERT_SECURE_SETTINGS_SUCCESS_MESSAGE
 import com.core.domain.util.SecureSettingsPermissionWrapper
 import com.core.model.AppSettings
 import com.core.model.SecureSettings
@@ -14,33 +10,22 @@ import javax.inject.Inject
 class DefaultSecureSettingsRepository @Inject constructor(
     private val secureSettingsPermissionWrapper: SecureSettingsPermissionWrapper
 ) : SecureSettingsRepository {
-    override suspend fun applySecureSettings(appSettingsList: List<AppSettings>): Result<ApplySettingsResultMessage> {
+    override suspend fun applySecureSettings(appSettingsList: List<AppSettings>): Result<Boolean> {
         return runCatching {
-            appSettingsList.filter { it.enabled }.forEach { userAppSettingsItem ->
-                val successful =
-                    secureSettingsPermissionWrapper.canWriteSecureSettings(appSettings = userAppSettingsItem,
-                                                                           valueSelector = { userAppSettingsItem.valueOnLaunch })
-
-                check(successful) { "${userAppSettingsItem.key} failed to apply" }
+            appSettingsList.all { appSettings ->
+                secureSettingsPermissionWrapper.canWriteSecureSettings(appSettings = appSettings,
+                                                                       valueSelector = { appSettings.valueOnLaunch })
             }
-
-            APPLY_SECURE_SETTINGS_SUCCESS_MESSAGE
-
         }
     }
 
-    override suspend fun revertSecureSettings(appSettingsList: List<AppSettings>): Result<RevertSettingsResultMessage> {
+    override suspend fun revertSecureSettings(appSettingsList: List<AppSettings>): Result<Boolean> {
         return runCatching {
-            appSettingsList.filter { it.enabled }.forEach { userAppSettingsItem ->
-                val successful =
-                    secureSettingsPermissionWrapper.canWriteSecureSettings(appSettings = userAppSettingsItem,
-                                                                           valueSelector = { userAppSettingsItem.valueOnRevert })
-
-                check(successful) { "${userAppSettingsItem.key} failed to apply" }
+            appSettingsList.all { appSettings ->
+                secureSettingsPermissionWrapper.canWriteSecureSettings(
+                    appSettings = appSettings,
+                    valueSelector = { appSettings.valueOnRevert })
             }
-
-            REVERT_SECURE_SETTINGS_SUCCESS_MESSAGE
-
         }
     }
 

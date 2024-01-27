@@ -6,10 +6,9 @@ import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
+import junit.framework.TestCase.assertNull
 import org.junit.Rule
 import org.junit.Test
-import kotlin.test.assertFalse
-import kotlin.test.assertTrue
 
 class AddSettingsDialogTest {
     @get:Rule
@@ -33,7 +32,17 @@ class AddSettingsDialogTest {
                 onAddSettings = {
                     addSettingsDialogState.updateSelectedRadioOptionIndex(-1)
 
-                    assertFalse { addSettingsDialogState.validateAddSettings() }
+                    addSettingsDialogState.updateLabel("Test")
+
+                    addSettingsDialogState.updateKey("Test")
+
+                    addSettingsDialogState.updateValueOnLaunch("Test")
+
+                    addSettingsDialogState.updateValueOnRevert("Test")
+
+                    addSettingsDialogState.validateAddSettings(
+                        packageName = "packageName", onAppSettings = ::assertNull
+                    )
                                     })
         }
 
@@ -59,8 +68,21 @@ class AddSettingsDialogTest {
                                     onTypingValueOnLaunch = {},
                                     onTypingValueOnRevert = {},
                                     onAddSettings = {
+
+                                        addSettingsDialogState.updateSelectedRadioOptionIndex(1)
+
                                         addSettingsDialogState.updateLabel("")
-                                        assertFalse { addSettingsDialogState.validateAddSettings() }
+
+                                        addSettingsDialogState.updateKey("Test")
+
+                                        addSettingsDialogState.updateValueOnLaunch("Test")
+
+                                        addSettingsDialogState.updateValueOnRevert("Test")
+
+                                        addSettingsDialogState.validateAddSettings(
+                                            packageName = "packageName",
+                                            onAppSettings = ::assertNull
+                                        )
                                     })
         }
 
@@ -86,8 +108,20 @@ class AddSettingsDialogTest {
                                     onTypingValueOnLaunch = {},
                                     onTypingValueOnRevert = {},
                                     onAddSettings = {
+                                        addSettingsDialogState.updateSelectedRadioOptionIndex(1)
+
+                                        addSettingsDialogState.updateLabel("Test")
+
                                         addSettingsDialogState.updateKey("")
-                                        assertFalse { addSettingsDialogState.validateAddSettings() }
+
+                                        addSettingsDialogState.updateValueOnLaunch("Test")
+
+                                        addSettingsDialogState.updateValueOnRevert("Test")
+
+                                        addSettingsDialogState.validateAddSettings(
+                                            packageName = "packageName",
+                                            onAppSettings = ::assertNull
+                                        )
                                     })
         }
 
@@ -113,8 +147,20 @@ class AddSettingsDialogTest {
                                     onTypingValueOnLaunch = {},
                                     onTypingValueOnRevert = {},
                                     onAddSettings = {
+                                        addSettingsDialogState.updateSelectedRadioOptionIndex(1)
+
+                                        addSettingsDialogState.updateKey("Test")
+
+                                        addSettingsDialogState.updateLabel("Test")
+
                                         addSettingsDialogState.updateValueOnLaunch("")
-                                        assertFalse { addSettingsDialogState.validateAddSettings() }
+
+                                        addSettingsDialogState.updateValueOnRevert("Test")
+
+                                        addSettingsDialogState.validateAddSettings(
+                                            packageName = "packageName",
+                                            onAppSettings = ::assertNull
+                                        )
                                     })
         }
 
@@ -140,8 +186,21 @@ class AddSettingsDialogTest {
                                     onTypingValueOnLaunch = {},
                                     onTypingValueOnRevert = {},
                                     onAddSettings = {
+
+                                        addSettingsDialogState.updateSelectedRadioOptionIndex(1)
+
+                                        addSettingsDialogState.updateKey("Test")
+
+                                        addSettingsDialogState.updateLabel("Test")
+
+                                        addSettingsDialogState.updateValueOnLaunch("Test")
+
                                         addSettingsDialogState.updateValueOnRevert("")
-                                        assertFalse { addSettingsDialogState.validateAddSettings() }
+
+                                        addSettingsDialogState.validateAddSettings(
+                                            packageName = "packageName",
+                                            onAppSettings = ::assertNull
+                                        )
                                     })
         }
 
@@ -168,19 +227,25 @@ class AddSettingsDialogTest {
                 onTypingValueOnLaunch = {},
                 onTypingValueOnRevert = {},
                 onAddSettings = {
-                    addSettingsDialogState.updateButtonEnabled(false)
-
                     addSettingsDialogState.updateSelectedRadioOptionIndex(1)
 
-                                        addSettingsDialogState.updateLabel("Test")
+                    addSettingsDialogState.updateLabel("Test")
 
-                                        addSettingsDialogState.updateKey("Test")
+                    addSettingsDialogState.updateKey("Test")
 
-                                        addSettingsDialogState.updateValueOnLaunch("Test")
+                    addSettingsDialogState.updateValueOnLaunch("Test")
 
-                                        addSettingsDialogState.updateValueOnRevert("Test")
+                    addSettingsDialogState.updateValueOnRevert("Test")
 
-                                        assertTrue { addSettingsDialogState.validateAddSettings() }
+                    addSettingsDialogState.validateAddSettings(
+                        packageName = "packageName",
+                        onAppSettings = { appSettings ->
+                            if (appSettings != null) {
+                                addSettingsDialogState.updateButtonEnabled(
+                                    false
+                                )
+                            }
+                        })
                                     })
         }
 

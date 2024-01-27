@@ -7,11 +7,11 @@ import android.graphics.drawable.Drawable
 import com.core.domain.util.PackageManagerWrapper
 
 class TestPackageManagerWrapper : PackageManagerWrapper {
+
+    private var _installedApplications = listOf<ApplicationInfo>()
+
     override fun getInstalledApplications(): List<ApplicationInfo> {
-        return listOf(ApplicationInfo().apply {
-            packageName = ""
-            flags = 0
-        })
+        return _installedApplications
     }
 
     override fun getApplicationLabel(applicationInfo: ApplicationInfo): String {
@@ -24,5 +24,12 @@ class TestPackageManagerWrapper : PackageManagerWrapper {
 
     override fun getLaunchIntentForPackage(packageName: String): Intent? {
         return Intent()
+    }
+
+    /**
+     * A test-only API to set installed applications.
+     */
+    fun setInstalledApplications(value: List<ApplicationInfo>) {
+        _installedApplications = value
     }
 }

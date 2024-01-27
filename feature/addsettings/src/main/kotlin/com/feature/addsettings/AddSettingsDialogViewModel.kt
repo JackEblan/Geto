@@ -2,11 +2,7 @@ package com.feature.addsettings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.core.domain.usecase.AddAppSettingsWithSettingsTypeGlobalUseCase
-import com.core.domain.usecase.AddAppSettingsWithSettingsTypeSecureUseCase
-import com.core.domain.usecase.AddAppSettingsWithSettingsTypeSystemUseCase
-import com.core.model.AppSettings
-import com.core.model.SettingsType
+import com.core.domain.usecase.AddAppSettingsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -16,9 +12,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddSettingsDialogViewModel @Inject constructor(
-    private val addAppSettingsWithSettingsTypeSystemUseCase: AddAppSettingsWithSettingsTypeSystemUseCase,
-    private val addAppSettingsWithSettingsTypeSecureUseCase: AddAppSettingsWithSettingsTypeSecureUseCase,
-    private val addAppSettingsWithSettingsTypeGlobalUseCase: AddAppSettingsWithSettingsTypeGlobalUseCase
+    private val addAppSettingsUseCase: AddAppSettingsUseCase
 ) : ViewModel() {
     private var _dismissDialog = MutableStateFlow(false)
 
@@ -28,64 +22,15 @@ class AddSettingsDialogViewModel @Inject constructor(
         when (event) {
             is AddSettingsDialogEvent.AddSettings -> {
                 viewModelScope.launch {
-                    when (event.selectedRadioOptionIndex) {
-                        0 -> {
-                            addAppSettingsWithSettingsTypeSystemUseCase(
-                                appSettings = AppSettings(
-                                    enabled = true,
-                                    settingsType = SettingsType.SYSTEM,
-                                    packageName = event.packageName,
-                                    label = event.label,
-                                    key = event.key,
-                                    valueOnLaunch = event.valueOnLaunch,
-                                    valueOnRevert = event.valueOnRevert,
-                                    safeToWrite = false
-                                )
-                            ).onSuccess {
-                                _dismissDialog.update { true }
-                            }
-                        }
+                    addAppSettingsUseCase(event.appSettings)
 
-                        1 -> {
-                            addAppSettingsWithSettingsTypeSecureUseCase(
-                                appSettings = AppSettings(
-                                    enabled = true,
-                                    settingsType = SettingsType.SECURE,
-                                    packageName = event.packageName,
-                                    label = event.label,
-                                    key = event.key,
-                                    valueOnLaunch = event.valueOnLaunch,
-                                    valueOnRevert = event.valueOnRevert,
-                                    safeToWrite = false
-                                )
-                            ).onSuccess {
-                                _dismissDialog.update { true }
-                            }
-                        }
-
-                        2 -> {
-                            addAppSettingsWithSettingsTypeGlobalUseCase(
-                                appSettings = AppSettings(
-                                    enabled = true,
-                                    settingsType = SettingsType.GLOBAL,
-                                    packageName = event.packageName,
-                                    label = event.label,
-                                    key = event.key,
-                                    valueOnLaunch = event.valueOnLaunch,
-                                    valueOnRevert = event.valueOnRevert,
-                                    safeToWrite = false
-                                )
-                            ).onSuccess {
-                                _dismissDialog.update { true }
-                            }
-                        }
-                    }
+                    _dismissDialog.update { true }
                 }
             }
         }
     }
 
     fun clearDismissDialog() {
-        _dismissDialog.value = false
+        _dismissDialog.update { false }
     }
 }

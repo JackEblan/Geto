@@ -36,6 +36,8 @@ import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.core.designsystem.component.GetoLabeledRadioButton
+import com.core.model.AppSettings
+import com.core.model.SettingsType
 
 @Composable
 fun AddSettingsDialog(
@@ -57,32 +59,30 @@ fun AddSettingsDialog(
         }
     }
 
-    AddSettingsDialogScreen(
-        modifier = modifier,
-        addSettingsDialogState = addSettingsDialogState,
-        scrollState = scrollState,
-        onRadioOptionSelected = addSettingsDialogState::updateSelectedRadioOptionIndex,
-        onDismissRequest = onDismissRequest,
-        onTypingLabel = addSettingsDialogState::updateLabel,
-        onTypingKey = addSettingsDialogState::updateKey,
-        onTypingValueOnLaunch = addSettingsDialogState::updateValueOnLaunch,
-        onTypingValueOnRevert = addSettingsDialogState::updateValueOnRevert,
-        onAddSettings = {
-            if (addSettingsDialogState.validateAddSettings()) {
+    AddSettingsDialogScreen(modifier = modifier,
+                            addSettingsDialogState = addSettingsDialogState,
+                            scrollState = scrollState,
+                            onRadioOptionSelected = addSettingsDialogState::updateSelectedRadioOptionIndex,
+                            onDismissRequest = onDismissRequest,
+                            onTypingLabel = addSettingsDialogState::updateLabel,
+                            onTypingKey = addSettingsDialogState::updateKey,
+                            onTypingValueOnLaunch = addSettingsDialogState::updateValueOnLaunch,
+                            onTypingValueOnRevert = addSettingsDialogState::updateValueOnRevert,
+                            onAddSettings = {
+                                addSettingsDialogState.validateAddSettings(packageName = packageName,
+                                                                           onAppSettings = { appSettings ->
+                                                                               if (appSettings != null) {
+                                                                                   addSettingsDialogState.updateButtonEnabled(
+                                                                                       false
+                                                                                   )
 
-                addSettingsDialogState.updateButtonEnabled(false)
-
-                                    viewModel.onEvent(
-                                        AddSettingsDialogEvent.AddSettings(
-                                            packageName = packageName,
-                                            selectedRadioOptionIndex = addSettingsDialogState.selectedRadioOptionIndex,
-                                            label = addSettingsDialogState.label,
-                                            key = addSettingsDialogState.key,
-                                            valueOnLaunch = addSettingsDialogState.valueOnLaunch,
-                                            valueOnRevert = addSettingsDialogState.valueOnRevert
-                                        )
-                                    )
-                                }
+                                                                                   viewModel.onEvent(
+                                                                                       AddSettingsDialogEvent.AddSettings(
+                                                                                           appSettings
+                                                                                       )
+                                                                                   )
+                                                                               }
+                                                                           })
                             })
 }
 
@@ -320,7 +320,7 @@ internal class AddSettingsDialogState {
         valueOnRevert = value
     }
 
-    fun validateAddSettings(): Boolean {
+    fun validateAddSettings(packageName: String, onAppSettings: (AppSettings?) -> Unit) {
         selectedRadioOptionIndexError =
             if (selectedRadioOptionIndex == -1) "Please select a Settings type" else ""
 
@@ -334,7 +334,20 @@ internal class AddSettingsDialogState {
         valueOnRevertError =
             if (valueOnRevert.isBlank()) "Settings value on revert is blank" else ""
 
-        return selectedRadioOptionIndexError.isBlank() && labelError.isBlank() && keyError.isBlank() && valueOnLaunchError.isBlank() && valueOnRevertError.isBlank()
+        if (selectedRadioOptionIndexError.isBlank() && selectedRadioOptionIndexError.isBlank() && labelError.isBlank() && keyError.isBlank() && valueOnLaunchError.isBlank() && valueOnRevertError.isBlank()) {
+            AppSettings(
+                enabled = true,
+                settingsType = SettingsType.entries[selectedRadioOptionIndex],
+                packageName = packageName,
+                label = label,
+                key = key,
+                valueOnLaunch = valueOnLaunch,
+                valueOnRevert = valueOnRevert,
+                safeToWrite = false
+            ).also(onAppSettings)
+        } else {
+            onAppSettings(null)
+        }
     }
 
     companion object {

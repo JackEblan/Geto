@@ -5,8 +5,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.core.domain.repository.AppSettingsRepository
-import com.core.domain.usecase.ApplyAppSettingsUseCase
-import com.core.domain.usecase.RevertAppSettingsUseCase
+import com.core.domain.usecase.AppSettingsUseCase
 import com.core.domain.util.PackageManagerWrapper
 import com.feature.appsettings.navigation.AppSettingsArgs
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,8 +24,7 @@ class AppSettingsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val appSettingsRepository: AppSettingsRepository,
     private val packageManagerWrapper: PackageManagerWrapper,
-    private val applyAppSettingsUseCase: ApplyAppSettingsUseCase,
-    private val revertAppSettingsUseCase: RevertAppSettingsUseCase
+    private val appSettingsUseCase: AppSettingsUseCase,
 ) : ViewModel() {
     private var _snackBar = MutableStateFlow<String?>(null)
 
@@ -60,7 +58,7 @@ class AppSettingsViewModel @Inject constructor(
         when (event) {
             is AppSettingsEvent.OnLaunchApp -> {
                 viewModelScope.launch {
-                    applyAppSettingsUseCase(event.appSettingsList).onSuccess {
+                    appSettingsUseCase(packageName = event.packageName, revert = false).onSuccess {
                         val appIntent = packageManagerWrapper.getLaunchIntentForPackage(packageName)
                         _launchAppIntent.update { appIntent }
                     }.onFailure { t ->
@@ -75,8 +73,10 @@ class AppSettingsViewModel @Inject constructor(
 
             is AppSettingsEvent.OnRevertSettings -> {
                 viewModelScope.launch {
-                    revertAppSettingsUseCase(event.appSettingsList).onSuccess { result ->
-                        _snackBar.update { result }
+                    appSettingsUseCase(
+                        packageName = event.packageName, revert = true
+                    ).onSuccess {
+                        _snackBar.update { "Settings reverted" }
                     }.onFailure { t ->
                         if (t is SecurityException) {
                             _commandPermissionDialog.update { true }

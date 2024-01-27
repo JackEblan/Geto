@@ -78,39 +78,32 @@ internal fun AppSettingsRoute(
         }
     }
 
-    AppSettingsScreen(
-        modifier = modifier,
-        snackbarHostState = snackbarHostState,
-        appName = viewModel.appName,
-        appSettingsUiState = appSettingsUiState,
-        onNavigationIconClick = {
-            onNavigationIconClick()
-        },
-        onRevertSettingsIconClick = {
-            viewModel.onEvent(
-                AppSettingsEvent.OnRevertSettings(
-                    if (appSettingsUiState is AppSettingsUiState.Success) appSettingsUiState.appSettingsList
-                    else emptyList()
-                )
-            )
+    AppSettingsScreen(modifier = modifier,
+                      snackbarHostState = snackbarHostState,
+                      appName = viewModel.appName,
+                      appSettingsUiState = appSettingsUiState,
+                      onNavigationIconClick = {
+                          onNavigationIconClick()
                       },
-        onAppSettingsItemCheckBoxChange = { checked, userAppSettingsItem ->
+                      onRevertSettingsIconClick = {
+                          viewModel.onEvent(
+                              AppSettingsEvent.OnRevertSettings(viewModel.packageName)
+                          )
+                      },
+                      onAppSettingsItemCheckBoxChange = { checked, userAppSettingsItem ->
                           viewModel.onEvent(
                               AppSettingsEvent.OnAppSettingsItemCheckBoxChange(
                                   checked = checked, appSettings = userAppSettingsItem
                               )
                           )
                       },
-        onDeleteAppSettingsItem = {
+                      onDeleteAppSettingsItem = {
                           viewModel.onEvent(AppSettingsEvent.OnDeleteAppSettingsItem(it))
                       },
-        onAddAppSettingsClick = { onOpenAddSettingsDialog(viewModel.packageName) },
-        onLaunchApp = {
+                      onAddAppSettingsClick = { onOpenAddSettingsDialog(viewModel.packageName) },
+                      onLaunchApp = {
                           viewModel.onEvent(
-                              AppSettingsEvent.OnLaunchApp(
-                                  if (appSettingsUiState is AppSettingsUiState.Success) appSettingsUiState.appSettingsList
-                                  else emptyList()
-                              )
+                              AppSettingsEvent.OnLaunchApp(viewModel.packageName)
                           )
                       })
 }
@@ -201,7 +194,7 @@ internal fun AppSettingsScreen(
                         contentPadding = innerPadding
                     ) {
                         appSettings(
-                            appSettingsListProvider = { appSettingsUiState.appSettingsList },
+                            appSettingsList = appSettingsUiState.appSettingsList,
                             onAppSettingsItemCheckBoxChange = onAppSettingsItemCheckBoxChange,
                             onDeleteAppSettingsItem = onDeleteAppSettingsItem
                         )
@@ -214,26 +207,26 @@ internal fun AppSettingsScreen(
 
 private fun LazyListScope.appSettings(
     modifier: Modifier = Modifier,
-    appSettingsListProvider: () -> List<AppSettings>,
+    appSettingsList: List<AppSettings>,
     onAppSettingsItemCheckBoxChange: (Boolean, AppSettings) -> Unit,
     onDeleteAppSettingsItem: (AppSettings) -> Unit,
 ) {
-    val appSettingsList = appSettingsListProvider()
-
     items(appSettingsList) { appSettings ->
-        AppSettingsItem(modifier = modifier,
-                        enabled = { appSettings.enabled },
-                        label = { appSettings.label },
-                        settingsTypeLabel = { appSettings.settingsType.label },
-                        key = { appSettings.key },
-                        onUserAppSettingsItemCheckBoxChange = { check ->
-                            onAppSettingsItemCheckBoxChange(
-                                check, appSettings
-                            )
-                        },
-                        onDeleteUserAppSettingsItem = {
-                            onDeleteAppSettingsItem(appSettings)
-                        },
-                        safeToWrite = { appSettings.safeToWrite })
+        AppSettingsItem(
+            modifier = modifier,
+            enabled = appSettings.enabled,
+            label = appSettings.label,
+            settingsTypeLabel = appSettings.settingsType.label,
+            key = appSettings.key,
+            onUserAppSettingsItemCheckBoxChange = { check ->
+                onAppSettingsItemCheckBoxChange(
+                    check, appSettings
+                )
+            },
+            onDeleteUserAppSettingsItem = {
+                onDeleteAppSettingsItem(appSettings)
+            },
+            safeToWrite = appSettings.safeToWrite
+        )
     }
 }

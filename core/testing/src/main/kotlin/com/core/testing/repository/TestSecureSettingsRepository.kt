@@ -1,10 +1,6 @@
 package com.core.testing.repository
 
-import com.core.domain.repository.ApplySettingsResultMessage
-import com.core.domain.repository.RevertSettingsResultMessage
 import com.core.domain.repository.SecureSettingsRepository
-import com.core.domain.repository.SecureSettingsRepository.Companion.APPLY_SECURE_SETTINGS_SUCCESS_MESSAGE
-import com.core.domain.repository.SecureSettingsRepository.Companion.REVERT_SECURE_SETTINGS_SUCCESS_MESSAGE
 import com.core.model.AppSettings
 import com.core.model.SecureSettings
 import com.core.model.SettingsType
@@ -14,21 +10,17 @@ class TestSecureSettingsRepository : SecureSettingsRepository {
 
     private var secureSettingsList: List<SecureSettings> = emptyList()
 
-    override suspend fun applySecureSettings(appSettingsList: List<AppSettings>): Result<ApplySettingsResultMessage> {
+    override suspend fun applySecureSettings(appSettingsList: List<AppSettings>): Result<Boolean> {
         return runCatching {
             if (!writeSecureSettings) throw SecurityException()
-
-            APPLY_SECURE_SETTINGS_SUCCESS_MESSAGE
-
+            else true
         }
     }
 
-    override suspend fun revertSecureSettings(appSettingsList: List<AppSettings>): Result<RevertSettingsResultMessage> {
+    override suspend fun revertSecureSettings(appSettingsList: List<AppSettings>): Result<Boolean> {
         return runCatching {
             if (!writeSecureSettings) throw SecurityException()
-
-            REVERT_SECURE_SETTINGS_SUCCESS_MESSAGE
-
+            else true
         }
     }
 

@@ -16,21 +16,21 @@ import com.core.model.SecureSettings
 @Composable
 fun SecureSettingsItem(
     modifier: Modifier = Modifier,
-    secureSetting: () -> SecureSettings,
-    onItemClick: (String?) -> Unit,
+    secureSettings: SecureSettings,
+    onItemClick: (String) -> Unit,
 ) {
     Column(modifier = modifier
-        .clickable { onItemClick(secureSetting().name) }
+        .clickable { onItemClick(secureSettings.name!!) }
         .padding(10.dp)
         .fillMaxWidth()) {
         Text(
-            text = secureSetting().name.toString(), style = MaterialTheme.typography.bodyLarge
+            text = secureSettings.name!!, style = MaterialTheme.typography.bodyLarge
         )
 
         Spacer(modifier = Modifier.height(5.dp))
 
         Text(
-            text = secureSetting().value.toString(), style = MaterialTheme.typography.bodySmall
+            text = secureSettings.value ?: "", style = MaterialTheme.typography.bodySmall
         )
     }
 }

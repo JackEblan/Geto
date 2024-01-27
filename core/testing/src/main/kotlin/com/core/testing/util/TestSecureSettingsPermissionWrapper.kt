@@ -11,7 +11,7 @@ class TestSecureSettingsPermissionWrapper : SecureSettingsPermissionWrapper {
     override suspend fun canWriteSecureSettings(
         appSettings: AppSettings, valueSelector: (AppSettings) -> String
     ): Boolean {
-        return writeSecureSettings
+        return if (!writeSecureSettings) throw SecurityException() else true
     }
 
     override suspend fun getSecureSettings(settingsType: SettingsType): List<SecureSettings> {

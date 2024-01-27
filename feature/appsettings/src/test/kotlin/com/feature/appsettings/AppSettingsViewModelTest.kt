@@ -1,8 +1,7 @@
 package com.feature.appsettings
 
 import androidx.lifecycle.SavedStateHandle
-import com.core.domain.usecase.ApplyAppSettingsUseCase
-import com.core.domain.usecase.RevertAppSettingsUseCase
+import com.core.domain.usecase.AppSettingsUseCase
 import com.core.model.AppSettings
 import com.core.model.SettingsType
 import com.core.testing.repository.TestAppSettingsRepository
@@ -31,7 +30,7 @@ class AppSettingsViewModelTest {
 
     private lateinit var appSettingsRepository: TestAppSettingsRepository
 
-    private lateinit var settingsRepository: TestSecureSettingsRepository
+    private lateinit var secureSettingsRepository: TestSecureSettingsRepository
 
     private val savedStateHandle = SavedStateHandle()
 
@@ -45,7 +44,7 @@ class AppSettingsViewModelTest {
     fun setup() {
         appSettingsRepository = TestAppSettingsRepository()
 
-        settingsRepository = TestSecureSettingsRepository()
+        secureSettingsRepository = TestSecureSettingsRepository()
 
         packageManagerWrapper = TestPackageManagerWrapper()
 
@@ -57,8 +56,10 @@ class AppSettingsViewModelTest {
             savedStateHandle = savedStateHandle,
             appSettingsRepository = appSettingsRepository,
             packageManagerWrapper = TestPackageManagerWrapper(),
-            applyAppSettingsUseCase = ApplyAppSettingsUseCase(settingsRepository),
-            revertAppSettingsUseCase = RevertAppSettingsUseCase(settingsRepository)
+            appSettingsUseCase = AppSettingsUseCase(
+                appSettingsRepository = appSettingsRepository,
+                secureSettingsRepository = secureSettingsRepository
+            )
         )
     }
 
@@ -114,16 +115,13 @@ class AppSettingsViewModelTest {
     @Test
     fun launchIntentNotNull_whenEventIsOnLaunchAppWithWriteSecureSettingsTrueAndSafeToWrite() =
         runTest {
-            settingsRepository.setWriteSecureSettings(true)
-
-            viewModel.onEvent(
-                AppSettingsEvent.OnLaunchApp(
-                    listOf(
-                        AppSettings(
-                            id = 0,
-                            enabled = true,
-                            settingsType = SettingsType.SYSTEM,
-                            packageName = packageNameTest,
+            appSettingsRepository.sendAppSettings(
+                listOf(
+                    AppSettings(
+                        id = 0,
+                        enabled = true,
+                        settingsType = SettingsType.SYSTEM,
+                        packageName = packageNameTest,
                         label = "system",
                         key = "key",
                         valueOnLaunch = "test",
@@ -132,18 +130,106 @@ class AppSettingsViewModelTest {
                     )
                 )
             )
+
+            secureSettingsRepository.setWriteSecureSettings(true)
+
+            viewModel.onEvent(
+                AppSettingsEvent.OnLaunchApp(packageNameTest)
+            )
+
+            assertNotNull(viewModel.launchAppIntent.value)
+
+        }
+
+    @Test
+    fun snackBarNotNull_whenEventIsOnLaunchAppWithWriteSecureSettingsButNotSafeToWrite() = runTest {
+        appSettingsRepository.sendAppSettings(
+            listOf(
+                AppSettings(
+                    id = 0,
+                    enabled = true,
+                    settingsType = SettingsType.SYSTEM,
+                    packageName = packageNameTest,
+                    label = "system",
+                    key = "key",
+                    valueOnLaunch = "test",
+                    valueOnRevert = "test",
+                    safeToWrite = false
+                )
+            )
         )
 
-        assertNotNull(viewModel.launchAppIntent.value)
+        secureSettingsRepository.setWriteSecureSettings(true)
+
+        viewModel.onEvent(
+            AppSettingsEvent.OnLaunchApp(packageNameTest)
+        )
+
+        assertNotNull(viewModel.snackBar.value)
 
     }
 
     @Test
-    fun snackBarNotNull_whenEventIsOnLaunchAppWithWriteSecureSettingsButNotSafeToWrite() = runTest {
-        settingsRepository.setWriteSecureSettings(true)
+    fun commandPermissionDialogNotNull_whenEventIsOnLaunchAppWithoutWriteSecureSettings() =
+        runTest {
+            appSettingsRepository.sendAppSettings(
+                listOf(
+                    AppSettings(
+                        id = 0,
+                        enabled = true,
+                        settingsType = SettingsType.SYSTEM,
+                        packageName = packageNameTest,
+                        label = "system",
+                        key = "key",
+                        valueOnLaunch = "test",
+                        valueOnRevert = "test",
+                        safeToWrite = true
+                    )
+                )
+            )
 
-        viewModel.onEvent(
-            AppSettingsEvent.OnLaunchApp(
+            secureSettingsRepository.setWriteSecureSettings(false)
+
+            viewModel.onEvent(
+                AppSettingsEvent.OnLaunchApp(packageNameTest)
+            )
+
+            assertNotNull(viewModel.commandPermissionDialog.value)
+        }
+
+    @Test
+    fun snackBarNotNull_whenEventIsOnRevertSettingsWithWriteSecureSettingsAndSafeToWriteTrue() =
+        runTest {
+            appSettingsRepository.sendAppSettings(
+                listOf(
+                    AppSettings(
+                        id = 0,
+                        enabled = true,
+                        settingsType = SettingsType.SYSTEM,
+                        packageName = packageNameTest,
+                        label = "system",
+                        key = "key",
+                        valueOnLaunch = "test",
+                        valueOnRevert = "test",
+                        safeToWrite = true
+                    )
+                )
+            )
+
+            secureSettingsRepository.setWriteSecureSettings(true)
+
+            viewModel.onEvent(
+                AppSettingsEvent.OnRevertSettings(packageNameTest)
+            )
+
+            assertNotNull(viewModel.snackBar.value)
+
+        }
+
+    @Test
+    fun snackBarNotNull_whenEventIsOnRevertSettingsWithWriteSecureSettingsButNotSafeToWrite() =
+        runTest {
+            appSettingsRepository.sendAppSettings(
                 listOf(
                     AppSettings(
                         id = 0,
@@ -158,115 +244,26 @@ class AppSettingsViewModelTest {
                     )
                 )
             )
-        )
 
-        assertNotNull(viewModel.snackBar.value)
-
-    }
-
-    @Test
-    fun commandPermissionDialogNotNull_whenEventIsOnLaunchAppWithoutWriteSecureSettings() =
-        runTest {
-            settingsRepository.setWriteSecureSettings(false)
+            secureSettingsRepository.setWriteSecureSettings(true)
 
             viewModel.onEvent(
-                AppSettingsEvent.OnLaunchApp(
-                    listOf(
-                        AppSettings(
-                            id = 0,
-                            enabled = true,
-                            settingsType = SettingsType.SYSTEM,
-                            packageName = packageNameTest,
-                        label = "system",
-                        key = "key",
-                        valueOnLaunch = "test",
-                        valueOnRevert = "test",
-                        safeToWrite = true
-                    )
-                )
+                AppSettingsEvent.OnRevertSettings(packageNameTest)
             )
-        )
 
-        assertNotNull(viewModel.commandPermissionDialog.value)
-    }
+            assertNotNull(viewModel.snackBar.value)
 
-    @Test
-    fun snackBarNotNull_whenEventIsOnRevertSettingsWithWriteSecureSettingsAndSafeToWriteTrue() =
-        runTest {
-            settingsRepository.setWriteSecureSettings(true)
-
-            viewModel.onEvent(
-                AppSettingsEvent.OnRevertSettings(
-                    listOf(
-                        AppSettings(
-                            id = 0,
-                            enabled = true,
-                            settingsType = SettingsType.SYSTEM,
-                            packageName = packageNameTest,
-                        label = "system",
-                        key = "key",
-                        valueOnLaunch = "test",
-                        valueOnRevert = "test",
-                        safeToWrite = true
-                    )
-                )
-            )
-        )
-
-        assertNotNull(viewModel.snackBar.value)
-
-    }
-
-    @Test
-    fun snackBarNotNull_whenEventIsOnRevertSettingsWithWriteSecureSettingsButNotsafeToWrite() =
-        runTest {
-            settingsRepository.setWriteSecureSettings(true)
-
-            viewModel.onEvent(
-                AppSettingsEvent.OnRevertSettings(
-                    listOf(
-                        AppSettings(
-                            id = 0,
-                            enabled = true,
-                            settingsType = SettingsType.SYSTEM,
-                            packageName = packageNameTest,
-                        label = "system",
-                        key = "key",
-                        valueOnLaunch = "test",
-                        valueOnRevert = "test",
-                        safeToWrite = false
-                    )
-                )
-            )
-        )
-
-        assertNotNull(viewModel.snackBar.value)
-
-    }
+        }
 
     @Test
     fun commandPermissionDialogNotNull_whenEventIsOnRevertSettingsWithoutWriteSecureSettings() =
         runTest {
-            settingsRepository.setWriteSecureSettings(false)
+            secureSettingsRepository.setWriteSecureSettings(false)
 
             viewModel.onEvent(
-                AppSettingsEvent.OnRevertSettings(
-                    listOf(
-                        AppSettings(
-                            id = 0,
-                            enabled = true,
-                            settingsType = SettingsType.SYSTEM,
-                            packageName = packageNameTest,
-                        label = "system",
-                        key = "key",
-                        valueOnLaunch = "test",
-                        valueOnRevert = "test",
-                        safeToWrite = true
-                    )
-                )
+                AppSettingsEvent.OnRevertSettings(packageNameTest)
             )
-        )
 
-        assertNotNull(viewModel.commandPermissionDialog.value)
-    }
+            assertNotNull(viewModel.commandPermissionDialog.value)
+        }
 }
