@@ -1,11 +1,11 @@
 [versions]
 androidxActivity = "1.8.2"
-androidxComposeBom = "2023.10.01"
+androidxComposeBom = "2024.01.00"
 androidxCoreKtx = "1.12.0"
 androidxCoreSplashscreen = "1.0.1"
-androidxComposeCompiler = "1.5.3"
+androidxComposeCompiler = "1.5.8"
 androidxEspresso = "3.5.1"
-androidGradlePlugin = "8.2.0"
+androidGradlePlugin = "8.2.2"
 androidxHiltNavigationCompose = "1.1.0"
 androidxLifeCycle = "2.7.0"
 androidxLifecycleViewmodelCompose = "2.7.0"
@@ -15,16 +15,16 @@ androidxTestExt = "1.1.5"
 androidxTestRules = "1.5.0"
 androidxTestRunner = "1.5.2"
 coil = "2.5.0"
-firebaseBom = "32.7.0"
+firebaseBom = "32.7.1"
 firebaseCrashlyticsPlugin = "2.9.9"
 gmsPlugin = "4.4.0"
 hilt = "2.48.1"
 jacoco = "0.8.7"
 kotlinxCoroutines = "1.7.3"
-kotlinGradlePlugin = "1.9.10"
+kotlinGradlePlugin = "1.9.22"
 junit4 = "4.13.2"
-ksp = "1.9.10-1.0.13"
-room = "2.6.0"
+ksp = "1.9.22-1.0.17"
+room = "2.6.1"
 robolectric = "4.11.1"
 
 [libraries]
@@ -34,7 +34,7 @@ androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", versi
 androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation" }
 androidx-compose-foundation-layout = { group = "androidx.compose.foundation", name = "foundation-layout" }
 androidx-compose-material = { group = "androidx.compose.material", name = "material" }
-androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
+androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3", version = "1.2.0-rc01" }
 androidx-compose-material-iconsExtended = { group = "androidx.compose.material", name = "material-icons-extended" }
 androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime" }
 androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }

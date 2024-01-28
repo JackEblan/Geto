@@ -1,13 +1,10 @@
 package com.feature.applist
 
 import androidx.annotation.VisibleForTesting
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
@@ -21,7 +18,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.core.designsystem.icon.GetoIcons
@@ -71,29 +67,26 @@ internal fun AppListScreen(
         })
     }) { innerPadding ->
         Box(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxSize()
+                .consumeWindowInsets(innerPadding)
         ) {
             when (appListUiState) {
                 AppListUiState.Loading -> LoadingPlaceHolderScreen(
                     modifier = Modifier
                         .fillMaxSize()
-                        .testTag("applist:loading")
+                        .testTag("applist:loadingPlaceHolderScreen")
                 )
 
                 is AppListUiState.Success -> {
                     LazyColumn(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .consumeWindowInsets(innerPadding),
-                        contentPadding = innerPadding
+                        modifier = Modifier.fillMaxSize(), contentPadding = innerPadding
                     ) {
                         appItems(
-                            modifier = modifier,
                             nonSystemAppList = appListUiState.nonSystemAppList,
                             onItemClick = onItemClick
                         )
                     }
-
                 }
             }
         }
@@ -106,16 +99,12 @@ private fun LazyListScope.appItems(
     onItemClick: (String, String) -> Unit
 ) {
     items(nonSystemAppList) { nonSystemApp ->
-        AppItem(modifier = modifier
-            .fillMaxWidth()
-            .clickable {
-                onItemClick(
-                    nonSystemApp.packageName, nonSystemApp.label
-                )
-            }
-            .padding(10.dp),
-                icon = nonSystemApp.icon,
-                packageName = nonSystemApp.packageName,
-                label = nonSystemApp.label)
+        AppItem(
+            modifier = modifier,
+            icon = nonSystemApp.icon,
+            packageName = nonSystemApp.packageName,
+            label = nonSystemApp.label,
+            onItemClick = onItemClick
+        )
     }
 }

@@ -7,7 +7,7 @@
 <h3 align="center">Geto</h3>
 
   <p align="center">
-    Apply settings to your apps
+    Apply custom settings to your apps
   </p>
 
   <div align="center">

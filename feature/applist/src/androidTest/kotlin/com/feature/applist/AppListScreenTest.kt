@@ -18,6 +18,6 @@ class AppListScreenTest {
                           onSecureSettingsClick = {})
         }
 
-        composeTestRule.onNodeWithTag("applist:loading").assertExists()
+        composeTestRule.onNodeWithTag("applist:loadingPlaceHolderScreen").assertExists()
     }
 }

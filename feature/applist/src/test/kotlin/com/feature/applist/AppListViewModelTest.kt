@@ -49,12 +49,6 @@ class AppListViewModelTest {
 
         viewModel.onEvent(AppListEvent.GetNonSystemApps)
 
-        testScheduler.runCurrent()
-
-        testScheduler.advanceTimeBy(viewModel.loadingDelay)
-
-        testScheduler.advanceUntilIdle()
-
         val item = viewModel.appListUiState.value
 
         assertIs<AppListUiState.Success>(item)

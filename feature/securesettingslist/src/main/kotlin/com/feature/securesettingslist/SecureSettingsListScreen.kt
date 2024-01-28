@@ -1,6 +1,7 @@
 package com.feature.securesettingslist
 
 import androidx.annotation.VisibleForTesting
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -149,25 +150,28 @@ internal fun SecureSettingsListScreen(
             modifier = Modifier.testTag("securesettingslist:snackbar")
         )
     }) { innerPadding ->
-        when (secureSettingsListUiState) {
-            SecureSettingsListUiState.Loading -> LoadingPlaceHolderScreen(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .testTag("securesettingslist:loadingPlaceHolderScreen")
-            )
-
-            is SecureSettingsListUiState.Success -> {
-                LazyColumn(
+        Box(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            when (secureSettingsListUiState) {
+                SecureSettingsListUiState.Loading -> LoadingPlaceHolderScreen(
                     modifier = Modifier
                         .fillMaxSize()
-                        .consumeWindowInsets(innerPadding),
-                    contentPadding = innerPadding
-                ) {
+                        .testTag("securesettingslist:loadingPlaceHolderScreen")
+                )
 
-                    secureSettingItems(
-                        secureSettingsList = secureSettingsListUiState.secureSettingsList,
-                        onItemClick = onItemClick
-                    )
+                is SecureSettingsListUiState.Success -> {
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .consumeWindowInsets(innerPadding),
+                        contentPadding = innerPadding
+                    ) {
+                        secureSettingItems(
+                            secureSettingsList = secureSettingsListUiState.secureSettingsList,
+                            onItemClick = onItemClick
+                        )
+                    }
                 }
             }
         }

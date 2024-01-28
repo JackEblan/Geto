@@ -1,10 +1,13 @@
 package com.core.ui
 
 import android.graphics.drawable.Drawable
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
@@ -17,11 +20,20 @@ import coil.compose.AsyncImage
 
 @Composable
 fun AppItem(
-    modifier: Modifier = Modifier, icon: Drawable?, packageName: String, label: String
+    modifier: Modifier = Modifier,
+    icon: Drawable?,
+    packageName: String,
+    label: String,
+    onItemClick: (String, String) -> Unit
 ) {
-    Row(
-        modifier = modifier, verticalAlignment = Alignment.CenterVertically
-    ) {
+    Row(modifier = modifier
+        .fillMaxWidth()
+        .clickable {
+            onItemClick(
+                packageName, label
+            )
+        }
+        .padding(10.dp), verticalAlignment = Alignment.CenterVertically) {
 
         AsyncImage(
             model = icon, contentDescription = null, modifier = Modifier.size(50.dp)
