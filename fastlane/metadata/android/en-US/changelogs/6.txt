@@ -1,2 +1,2 @@
-Enhancements:
+What's new
 -Faster loading for fetching your apps

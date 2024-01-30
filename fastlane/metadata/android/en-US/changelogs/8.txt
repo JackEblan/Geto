@@ -1,3 +1,3 @@
-Enhancements:
+What's new
 - Added new feature called Settings Database to view and copy available Settings key from your device.
 - Improved performance
