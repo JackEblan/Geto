@@ -12,7 +12,7 @@ class DefaultClipboardRepository @Inject constructor(
     override fun setPrimaryClip(label: String, text: String): String? {
         clipboardManagerWrapper.setPrimaryClip(label = label, text = text)
 
-        return if (!buildVersionWrapper.isAtLeastApi31()) "$label copied to clipboard"
-        else null
+        return if (buildVersionWrapper.isApi31Higher()) null
+        else "$label copied to clipboard"
     }
 }

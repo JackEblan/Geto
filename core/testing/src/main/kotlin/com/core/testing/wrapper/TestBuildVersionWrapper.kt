@@ -5,7 +5,7 @@ import com.core.domain.wrapper.BuildVersionWrapper
 class TestBuildVersionWrapper : BuildVersionWrapper {
 
     private var api31 = false
-    override fun isAtLeastApi31(): Boolean {
+    override fun isApi31Higher(): Boolean {
         return api31
     }
 

@@ -5,7 +5,8 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.core.domain.repository.AppSettingsRepository
-import com.core.domain.usecase.AppSettingsUseCase
+import com.core.domain.usecase.ApplyAppSettingsUseCase
+import com.core.domain.usecase.RevertAppSettingsUseCase
 import com.core.domain.wrapper.PackageManagerWrapper
 import com.feature.appsettings.navigation.AppSettingsArgs
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,7 +25,8 @@ class AppSettingsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val appSettingsRepository: AppSettingsRepository,
     private val packageManagerWrapper: PackageManagerWrapper,
-    private val appSettingsUseCase: AppSettingsUseCase,
+    private val applyAppSettingsUseCase: ApplyAppSettingsUseCase,
+    private val revertAppSettingsUseCase: RevertAppSettingsUseCase
 ) : ViewModel() {
     private var _snackBar = MutableStateFlow<String?>(null)
 
@@ -58,32 +60,53 @@ class AppSettingsViewModel @Inject constructor(
         when (event) {
             is AppSettingsEvent.OnLaunchApp -> {
                 viewModelScope.launch {
-                    appSettingsUseCase(packageName = event.packageName, revert = false).onSuccess {
-                        val appIntent = packageManagerWrapper.getLaunchIntentForPackage(packageName)
-                        _launchAppIntent.update { appIntent }
-                    }.onFailure { t ->
-                        if (t is SecurityException) {
-                            _commandPermissionDialog.update { true }
-                        } else {
-                            _snackBar.update { t.localizedMessage }
-                        }
-                    }
+                    applyAppSettingsUseCase(packageName = packageName,
+                                            onEmptyAppSettingsList = { message ->
+                                                _snackBar.update { message }
+                                            },
+                                            onAppSettingsDisabled = { message ->
+                                                _snackBar.update { message }
+                                            },
+                                            onAppSettingsNotSafeToWrite = { message ->
+                                                _snackBar.update { message }
+                                            },
+                                            onApplied = {
+                                                val appIntent =
+                                                    packageManagerWrapper.getLaunchIntentForPackage(
+                                                        packageName
+                                                    )
+                                                _launchAppIntent.update { appIntent }
+                                            },
+                                            onSecurityException = {
+                                                _commandPermissionDialog.update { true }
+                                            },
+                                            onFailure = { message ->
+                                                _snackBar.update { message }
+                                            })
                 }
             }
 
             is AppSettingsEvent.OnRevertSettings -> {
                 viewModelScope.launch {
-                    appSettingsUseCase(
-                        packageName = event.packageName, revert = true
-                    ).onSuccess {
-                        _snackBar.update { "Settings reverted" }
-                    }.onFailure { t ->
-                        if (t is SecurityException) {
-                            _commandPermissionDialog.update { true }
-                        } else {
-                            _snackBar.update { t.localizedMessage }
-                        }
-                    }
+                    revertAppSettingsUseCase(packageName = packageName,
+                                             onEmptyAppSettingsList = { message ->
+                                                 _snackBar.update { message }
+                                             },
+                                             onAppSettingsDisabled = { message ->
+                                                 _snackBar.update { message }
+                                             },
+                                             onAppSettingsNotSafeToWrite = { message ->
+                                                 _snackBar.update { message }
+                                             },
+                                             onReverted = { message ->
+                                                 _snackBar.update { message }
+                                             },
+                                             onSecurityException = {
+                                                 _commandPermissionDialog.update { true }
+                                             },
+                                             onFailure = { message ->
+                                                 _snackBar.update { message }
+                                             })
                 }
             }
 

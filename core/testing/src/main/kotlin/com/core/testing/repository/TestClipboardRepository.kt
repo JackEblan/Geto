@@ -5,8 +5,8 @@ import com.core.domain.repository.ClipboardRepository
 class TestClipboardRepository : ClipboardRepository {
     private var api31 = false
     override fun setPrimaryClip(label: String, text: String): String? {
-        return if (!api31) "$label copied to clipboard"
-        else null
+        return if (api31) null
+        else "$label copied to clipboard"
     }
 
     /**

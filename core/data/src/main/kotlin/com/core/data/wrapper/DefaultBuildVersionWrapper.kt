@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class DefaultBuildVersionWrapper @Inject constructor() : BuildVersionWrapper {
     @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.S)
-    override fun isAtLeastApi31(): Boolean {
+    override fun isApi31Higher(): Boolean {
         return Build.VERSION.SDK_INT >= 31
     }
 }

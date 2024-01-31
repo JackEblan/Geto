@@ -2,7 +2,6 @@ package com.feature.appsettings
 
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
@@ -87,7 +86,7 @@ internal fun AppSettingsRoute(
                       },
                       onRevertSettingsIconClick = {
                           viewModel.onEvent(
-                              AppSettingsEvent.OnRevertSettings(viewModel.packageName)
+                              AppSettingsEvent.OnRevertSettings
                           )
                       },
                       onAppSettingsItemCheckBoxChange = { checked, userAppSettingsItem ->
@@ -103,13 +102,13 @@ internal fun AppSettingsRoute(
                       onAddAppSettingsClick = { onOpenAddSettingsDialog(viewModel.packageName) },
                       onLaunchApp = {
                           viewModel.onEvent(
-                              AppSettingsEvent.OnLaunchApp(viewModel.packageName)
+                              AppSettingsEvent.OnLaunchApp
                           )
                       })
 }
 
 @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun AppSettingsScreen(
     modifier: Modifier = Modifier,
