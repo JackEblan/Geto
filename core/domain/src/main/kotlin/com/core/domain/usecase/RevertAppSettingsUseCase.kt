@@ -43,9 +43,12 @@ class RevertAppSettingsUseCase @Inject constructor(
             return
         }
 
-        secureSettingsRepository.revertSecureSettings(appSettingsList).onSuccess { applied ->
-            if (applied) onReverted("Settings reverted")
-            else onFailure("Database failure")
+        secureSettingsRepository.revertSecureSettings(appSettingsList).onSuccess { reverted ->
+            if (reverted) {
+                onReverted("Settings reverted")
+            } else {
+                onFailure("Database failure")
+            }
         }.onFailure { t ->
             if (t is SecurityException) {
                 onSecurityException("Permission not granted")

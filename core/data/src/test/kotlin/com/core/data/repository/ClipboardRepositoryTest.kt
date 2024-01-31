@@ -27,8 +27,8 @@ class ClipboardRepositoryTest {
     }
 
     @Test
-    fun setPrimaryClip_api31AndHigher_returnsSuccessWithMessage() {
-        buildVersionWrapper.setApi31(true)
+    fun setPrimaryClip_api32AndHigher_returnsSuccessWithNoMessage() {
+        buildVersionWrapper.setApi32(true)
 
         val result = subject.setPrimaryClip(label = "label", text = "text")
 
@@ -36,8 +36,8 @@ class ClipboardRepositoryTest {
     }
 
     @Test
-    fun setPrimaryClip_api31AndLower_returnsSuccessWithNullMessage() {
-        buildVersionWrapper.setApi31(false)
+    fun setPrimaryClip_api32AndLower_returnsSuccessWithMessage() {
+        buildVersionWrapper.setApi32(false)
 
         val result = subject.setPrimaryClip(label = "label", text = "text")
 

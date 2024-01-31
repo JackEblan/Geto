@@ -4,15 +4,15 @@ import com.core.domain.wrapper.BuildVersionWrapper
 
 class TestBuildVersionWrapper : BuildVersionWrapper {
 
-    private var api31 = false
-    override fun isApi31Higher(): Boolean {
-        return api31
+    private var api32 = false
+    override fun isApi32Higher(): Boolean {
+        return api32
     }
 
     /**
      * A test-only API to set Api to 31
      */
-    fun setApi31(value: Boolean) {
-        api31 = value
+    fun setApi32(value: Boolean) {
+        api32 = value
     }
 }

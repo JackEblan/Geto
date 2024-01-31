@@ -1,5 +1,5 @@
 package com.core.domain.wrapper
 
 interface BuildVersionWrapper {
-    fun isApi31Higher(): Boolean
+    fun isApi32Higher(): Boolean
 }
