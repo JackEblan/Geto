@@ -1,6 +1,6 @@
-package com.core.testing.util
+package com.core.testing.wrapper
 
-import com.core.domain.util.SecureSettingsPermissionWrapper
+import com.core.domain.wrapper.SecureSettingsPermissionWrapper
 import com.core.model.AppSettings
 import com.core.model.SecureSettings
 import com.core.model.SettingsType

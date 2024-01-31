@@ -2,7 +2,7 @@ package com.core.data.repository
 
 import android.content.pm.ApplicationInfo
 import com.core.domain.repository.PackageRepository
-import com.core.testing.util.TestPackageManagerWrapper
+import com.core.testing.wrapper.TestPackageManagerWrapper
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Before

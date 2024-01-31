@@ -1,21 +1,18 @@
 package com.core.data.repository
 
 import com.core.domain.repository.ClipboardRepository
-import com.core.domain.repository.ClipboardRepository.Companion.COPIED_TO_CLIPBOARD_MESSAGE
-import com.core.domain.repository.CopySettingsResultMessage
-import com.core.domain.util.BuildVersionWrapper
-import com.core.domain.util.ClipboardManagerWrapper
+import com.core.domain.wrapper.BuildVersionWrapper
+import com.core.domain.wrapper.ClipboardManagerWrapper
 import javax.inject.Inject
 
 class DefaultClipboardRepository @Inject constructor(
     private val clipboardManagerWrapper: ClipboardManagerWrapper,
     private val buildVersionWrapper: BuildVersionWrapper
 ) : ClipboardRepository {
-    override fun putTextToClipboard(secureSettings: String): Result<CopySettingsResultMessage?> {
-        clipboardManagerWrapper.setPrimaryClip(secureSettings)
+    override fun setPrimaryClip(label: String, text: String): String? {
+        clipboardManagerWrapper.setPrimaryClip(label = label, text = text)
 
-        return if (buildVersionWrapper.isAndroidTwelveBelow()) {
-            Result.success("$secureSettings $COPIED_TO_CLIPBOARD_MESSAGE")
-        } else Result.success(null)
+        return if (!buildVersionWrapper.isAtLeastApi31()) "$label copied to clipboard"
+        else null
     }
 }

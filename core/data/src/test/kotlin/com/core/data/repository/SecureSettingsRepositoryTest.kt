@@ -3,7 +3,7 @@ package com.core.data.repository
 import com.core.domain.repository.SecureSettingsRepository
 import com.core.model.AppSettings
 import com.core.model.SettingsType
-import com.core.testing.util.TestSecureSettingsPermissionWrapper
+import com.core.testing.wrapper.TestSecureSettingsPermissionWrapper
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Before

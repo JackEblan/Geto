@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.core.domain.repository.AppSettingsRepository
 import com.core.domain.usecase.AppSettingsUseCase
-import com.core.domain.util.PackageManagerWrapper
+import com.core.domain.wrapper.PackageManagerWrapper
 import com.feature.appsettings.navigation.AppSettingsArgs
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

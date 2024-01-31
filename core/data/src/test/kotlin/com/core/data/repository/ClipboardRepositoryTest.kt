@@ -1,7 +1,7 @@
 package com.core.data.repository
 
-import com.core.testing.util.TestBuildVersionWrapper
-import com.core.testing.util.TestClipboardManagerWrapper
+import com.core.testing.wrapper.TestBuildVersionWrapper
+import com.core.testing.wrapper.TestClipboardManagerWrapper
 import junit.framework.TestCase.assertNull
 import org.junit.Before
 import org.junit.Test
@@ -27,21 +27,21 @@ class ClipboardRepositoryTest {
     }
 
     @Test
-    fun putTextToClipboard_buildVersionBelowAndroid12_returnsSuccessWithMessage() {
-        buildVersionWrapper.setAndroidTwelveBelow(true)
+    fun setPrimaryClip_api31AndHigher_returnsSuccessWithMessage() {
+        buildVersionWrapper.setApi31(true)
 
-        val result = subject.putTextToClipboard("Text")
+        val result = subject.setPrimaryClip(label = "label", text = "text")
 
-        assertNotNull(result.getOrNull())
+        assertNull(result)
     }
 
     @Test
-    fun putTextToClipboard_buildVersionAndroid12OrAbove_returnsSuccessWithNullMessage() {
-        buildVersionWrapper.setAndroidTwelveBelow(false)
+    fun setPrimaryClip_api31AndLower_returnsSuccessWithNullMessage() {
+        buildVersionWrapper.setApi31(false)
 
-        val result = subject.putTextToClipboard("Text")
+        val result = subject.setPrimaryClip(label = "label", text = "text")
 
-        assertNull(result.getOrNull())
+        assertNotNull(result)
     }
 
 }

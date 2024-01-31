@@ -1,4 +1,4 @@
-package com.core.domain.util
+package com.core.domain.wrapper
 
 import com.core.model.AppSettings
 import com.core.model.SecureSettings

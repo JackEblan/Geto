@@ -1,7 +1,7 @@
 package com.core.data.repository
 
 import com.core.domain.repository.SecureSettingsRepository
-import com.core.domain.util.SecureSettingsPermissionWrapper
+import com.core.domain.wrapper.SecureSettingsPermissionWrapper
 import com.core.model.AppSettings
 import com.core.model.SecureSettings
 import com.core.model.SettingsType

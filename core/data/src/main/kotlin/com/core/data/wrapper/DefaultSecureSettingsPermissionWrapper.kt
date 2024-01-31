@@ -1,4 +1,4 @@
-package com.core.data.util
+package com.core.data.wrapper
 
 import android.content.ContentResolver
 import android.provider.Settings
@@ -6,7 +6,7 @@ import androidx.core.database.getLongOrNull
 import androidx.core.database.getStringOrNull
 import com.core.common.Dispatcher
 import com.core.common.GetoDispatchers.IO
-import com.core.domain.util.SecureSettingsPermissionWrapper
+import com.core.domain.wrapper.SecureSettingsPermissionWrapper
 import com.core.model.AppSettings
 import com.core.model.SecureSettings
 import com.core.model.SettingsType

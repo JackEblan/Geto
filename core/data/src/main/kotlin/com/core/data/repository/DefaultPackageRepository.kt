@@ -5,7 +5,7 @@ import android.content.pm.PackageManager
 import com.core.common.Dispatcher
 import com.core.common.GetoDispatchers.Default
 import com.core.domain.repository.PackageRepository
-import com.core.domain.util.PackageManagerWrapper
+import com.core.domain.wrapper.PackageManagerWrapper
 import com.core.model.NonSystemApp
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext

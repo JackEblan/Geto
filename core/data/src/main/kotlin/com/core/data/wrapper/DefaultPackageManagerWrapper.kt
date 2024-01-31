@@ -1,10 +1,10 @@
-package com.core.data.util
+package com.core.data.wrapper
 
 import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
-import com.core.domain.util.PackageManagerWrapper
+import com.core.domain.wrapper.PackageManagerWrapper
 import javax.inject.Inject
 
 class DefaultPackageManagerWrapper @Inject constructor(private val packageManager: PackageManager) :

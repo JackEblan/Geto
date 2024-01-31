@@ -1,20 +1,18 @@
 package com.core.testing.repository
 
 import com.core.domain.repository.ClipboardRepository
-import com.core.domain.repository.CopySettingsResultMessage
 
 class TestClipboardRepository : ClipboardRepository {
-    private var isAndroidTwelveBelow = false
-    override fun putTextToClipboard(secureSettings: String): Result<CopySettingsResultMessage?> {
-        return if (isAndroidTwelveBelow) {
-            Result.success("$secureSettings copied to clipboard")
-        } else Result.success(null)
+    private var api31 = false
+    override fun setPrimaryClip(label: String, text: String): String? {
+        return if (!api31) "$label copied to clipboard"
+        else null
     }
 
     /**
-     * A test-only API to set Android 12 version.
+     * A test-only API to set Api to 31
      */
-    fun setAndroidTwelveBelow(value: Boolean) {
-        isAndroidTwelveBelow = value
+    fun setApi31(value: Boolean) {
+        api31 = value
     }
 }

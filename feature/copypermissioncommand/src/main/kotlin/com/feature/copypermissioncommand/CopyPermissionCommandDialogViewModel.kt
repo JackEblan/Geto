@@ -17,7 +17,10 @@ class CopyPermissionCommandDialogViewModel @Inject constructor(private val clipb
     fun onEvent(event: CopyPermissionCommandDialogEvent) {
         when (event) {
             CopyPermissionCommandDialogEvent.CopyPermissionCommandKey -> {
-                clipboardRepository.putTextToClipboard("pm grant com.android.geto android.permission.WRITE_SECURE_SETTINGS")
+                clipboardRepository.setPrimaryClip(
+                    label = "Command",
+                    text = "pm grant com.android.geto android.permission.WRITE_SECURE_SETTINGS"
+                )
                 _dismissDialog.update { true }
             }
         }

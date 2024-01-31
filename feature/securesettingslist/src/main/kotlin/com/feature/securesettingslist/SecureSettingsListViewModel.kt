@@ -49,11 +49,11 @@ class SecureSettingsListViewModel @Inject constructor(
             }
 
             is SecureSettingsListEvent.OnCopySecureSettingsList -> {
-                clipboardRepository.putTextToClipboard(event.secureSettings).onSuccess { result ->
-                    _snackBar.update { result }
-                }.onFailure { e ->
-                    _snackBar.update { e.localizedMessage }
-                }
+                val result = clipboardRepository.setPrimaryClip(
+                    label = "Secure Settings", text = event.secureSettings
+                )
+
+                _snackBar.update { result }
             }
         }
     }

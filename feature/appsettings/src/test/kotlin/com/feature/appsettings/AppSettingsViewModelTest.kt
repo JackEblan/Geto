@@ -7,7 +7,7 @@ import com.core.model.SettingsType
 import com.core.testing.repository.TestAppSettingsRepository
 import com.core.testing.repository.TestSecureSettingsRepository
 import com.core.testing.util.MainDispatcherRule
-import com.core.testing.util.TestPackageManagerWrapper
+import com.core.testing.wrapper.TestPackageManagerWrapper
 import com.feature.appsettings.navigation.APP_NAME_ARG
 import com.feature.appsettings.navigation.PACKAGE_NAME_ARG
 import kotlinx.coroutines.ExperimentalCoroutinesApi
