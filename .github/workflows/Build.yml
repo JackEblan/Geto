@@ -58,14 +58,14 @@ jobs:
         if: always()
         run: ./gradlew test
 
-      - name: Build Github debug APK
-        run: ./gradlew :app:assembleGithubDebug
+      - name: Build debug APK
+        run: ./gradlew assembleDebug
 
-      - name: Upload Github debug build output (APK)
+      - name: Upload debug build output (APK)
         uses: actions/upload-artifact@v4
         with:
           name: APK
-          path: 'app/build/outputs/apk/github/debug/*.apk'
+          path: 'app/build/outputs/apk/debug/*.apk'
 
   androidTest:
     runs-on: macOS-latest # enables hardware acceleration in the virtual machine
@@ -94,7 +94,7 @@ jobs:
         uses: gradle/gradle-build-action@v2
 
       - name: Build projects before running emulator
-        run: ./gradlew packageGithubDebug packageGithubDebugAndroidTest
+        run: ./gradlew packageDebug packageDebugAndroidTest
 
       - name: Run instrumentation tests
         uses: reactivecircus/android-emulator-runner@v2

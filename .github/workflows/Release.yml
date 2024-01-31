@@ -34,14 +34,14 @@ jobs:
           distribution: 'zulu'
           java-version: 17
 
-      - name: Build Fdroid release APK
-        run: ./gradlew assembleFdroidRelease
+      - name: Build release APK
+        run: ./gradlew assembleRelease
 
-      - name: Sign Fdroid release APK
+      - name: Sign release APK
         uses: r0adkll/sign-android-release@v1
-        id: sign_fdroid_release_apk
+        id: sign_release_apk
         with:
-          releaseDirectory: app/build/outputs/apk/fdroid/release
+          releaseDirectory: app/build/outputs/apk/release
           signingKeyBase64: ${{ secrets.SIGNING_KEY_BASE64 }}
           alias: ${{ secrets.SIGNING_KEY_ALIAS }}
           keyStorePassword: ${{ secrets.SIGNING_KEY_STORE_PASSWORD }}
@@ -49,8 +49,8 @@ jobs:
         env:
           BUILD_TOOLS_VERSION: "34.0.0"
 
-      - name: Rename signed Fdroid apk
-        run: mv ${{steps.sign_fdroid_release_apk.outputs.signedReleaseFile}} app/build/outputs/apk/fdroid/release/geto-fdroid-${{ github.ref_name }}.apk
+      - name: Rename signed apk
+        run: mv ${{steps.sign_release_apk.outputs.signedReleaseFile}} app/build/outputs/apk/release/geto-${{ github.ref_name }}.apk
 
       - name: Create release
         id: create_release
@@ -69,6 +69,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: app/build/outputs/apk/fdroid/release/geto-fdroid-${{ github.ref_name }}.apk
-          asset_name: geto-fdroid-${{ github.ref_name }}.apk
+          asset_path: app/build/outputs/apk/release/geto-${{ github.ref_name }}.apk
+          asset_name: geto-${{ github.ref_name }}.apk
           asset_content_type: application/vnd.android.package-archive

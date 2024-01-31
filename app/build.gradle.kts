@@ -1,7 +1,6 @@
 plugins {
     alias(libs.plugins.com.android.geto.application)
     alias(libs.plugins.com.android.geto.applicationCompose)
-    alias(libs.plugins.com.android.geto.applicationFlavors)
     alias(libs.plugins.com.android.geto.hilt)
 }
 
