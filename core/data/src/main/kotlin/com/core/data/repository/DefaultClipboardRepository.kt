@@ -13,6 +13,6 @@ class DefaultClipboardRepository @Inject constructor(
         clipboardManagerWrapper.setPrimaryClip(label = label, text = text)
 
         return if (buildVersionWrapper.isApi32Higher()) null
-        else "$label copied to clipboard"
+        else "$text copied to clipboard"
     }
 }

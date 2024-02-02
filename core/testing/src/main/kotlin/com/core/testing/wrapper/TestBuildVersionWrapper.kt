@@ -10,7 +10,7 @@ class TestBuildVersionWrapper : BuildVersionWrapper {
     }
 
     /**
-     * A test-only API to set Api to 31
+     * A test-only API to set Api to 32
      */
     fun setApi32(value: Boolean) {
         api32 = value
