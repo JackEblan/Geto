@@ -2,7 +2,6 @@ package com.feature.applist
 
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
@@ -47,7 +46,7 @@ internal fun AppListRoute(
 }
 
 @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun AppListScreen(
     modifier: Modifier = Modifier,
@@ -55,7 +54,7 @@ internal fun AppListScreen(
     onItemClick: (String, String) -> Unit,
     onSecureSettingsClick: () -> Unit
 ) {
-    Scaffold(modifier = modifier.fillMaxSize(), topBar = {
+    Scaffold(topBar = {
         TopAppBar(title = {
             Text(text = "Geto")
         }, actions = {
@@ -67,13 +66,13 @@ internal fun AppListScreen(
         })
     }) { innerPadding ->
         Box(
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxSize()
                 .consumeWindowInsets(innerPadding)
         ) {
             when (appListUiState) {
                 AppListUiState.Loading -> LoadingPlaceHolderScreen(
-                    modifier = Modifier
+                    modifier = modifier
                         .fillMaxSize()
                         .testTag("applist:loadingPlaceHolderScreen")
                 )

@@ -122,7 +122,7 @@ internal fun AppSettingsScreen(
     onAddAppSettingsClick: () -> Unit,
     onLaunchApp: () -> Unit
 ) {
-    Scaffold(modifier = modifier.fillMaxSize(), topBar = {
+    Scaffold(topBar = {
         TopAppBar(title = {
             Text(text = appName, maxLines = 1)
         }, navigationIcon = {
@@ -162,9 +162,10 @@ internal fun AppSettingsScreen(
         )
     }) { innerPadding ->
         Box(
-            modifier = modifier.fillMaxSize()
+            modifier = modifier
+                .fillMaxSize()
+                .consumeWindowInsets(innerPadding)
         ) {
-
             when (appSettingsUiState) {
                 AppSettingsUiState.Empty -> {
                     EmptyListPlaceHolderScreen(
@@ -185,12 +186,8 @@ internal fun AppSettingsScreen(
                 }
 
                 is AppSettingsUiState.Success -> {
-
                     LazyColumn(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .consumeWindowInsets(innerPadding),
-                        contentPadding = innerPadding
+                        modifier = Modifier.fillMaxSize(), contentPadding = innerPadding
                     ) {
                         appSettings(
                             appSettingsList = appSettingsUiState.appSettingsList,

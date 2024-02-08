@@ -118,7 +118,7 @@ internal fun SecureSettingsListScreen(
     onGlobalDropdownMenuItemClick: () -> Unit,
     secureSettingsListUiState: SecureSettingsListUiState
 ) {
-    Scaffold(modifier = modifier.fillMaxSize(), topBar = {
+    Scaffold(topBar = {
         TopAppBar(title = {
             Text(text = "Settings Database")
         }, navigationIcon = {
@@ -151,7 +151,9 @@ internal fun SecureSettingsListScreen(
         )
     }) { innerPadding ->
         Box(
-            modifier = Modifier.fillMaxSize()
+            modifier = modifier
+                .fillMaxSize()
+                .consumeWindowInsets(innerPadding)
         ) {
             when (secureSettingsListUiState) {
                 SecureSettingsListUiState.Loading -> LoadingPlaceHolderScreen(
@@ -162,10 +164,7 @@ internal fun SecureSettingsListScreen(
 
                 is SecureSettingsListUiState.Success -> {
                     LazyColumn(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .consumeWindowInsets(innerPadding),
-                        contentPadding = innerPadding
+                        modifier = Modifier.fillMaxSize(), contentPadding = innerPadding
                     ) {
                         secureSettingItems(
                             secureSettingsList = secureSettingsListUiState.secureSettingsList,
