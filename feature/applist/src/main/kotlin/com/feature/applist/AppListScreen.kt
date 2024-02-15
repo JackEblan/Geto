@@ -69,6 +69,7 @@ internal fun AppListScreen(
             modifier = modifier
                 .fillMaxSize()
                 .consumeWindowInsets(innerPadding)
+                .testTag("applist")
         ) {
             when (appListUiState) {
                 AppListUiState.Loading -> LoadingPlaceHolderScreen(
@@ -79,7 +80,10 @@ internal fun AppListScreen(
 
                 is AppListUiState.Success -> {
                     LazyColumn(
-                        modifier = Modifier.fillMaxSize(), contentPadding = innerPadding
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .testTag("applist:lazyColumn"),
+                        contentPadding = innerPadding
                     ) {
                         appItems(
                             nonSystemAppList = appListUiState.nonSystemAppList,

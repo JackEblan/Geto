@@ -29,7 +29,7 @@ internal class AppSettingsArgs(val packageName: String, val appName: String) {
 }
 
 fun NavController.navigateToAppSettings(packageName: String, appName: String) {
-    this.navigate("app_settings_route/$packageName/$appName")
+    navigate("app_settings_route/$packageName/$appName")
 }
 
 fun NavGraphBuilder.appSettingsScreen(

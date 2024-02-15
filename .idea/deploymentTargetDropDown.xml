@@ -5,6 +5,15 @@
       <entry key="app">
         <State />
       </entry>
+      <entry key="navHost_clickAnAppItem_navigateToAppSettingsScreen()">
+        <State />
+      </entry>
+      <entry key="navHost_clickAnAppItem_navigateToSecureSettingsScreen()">
+        <State />
+      </entry>
+      <entry key="navHost_verifyStartDestination()">
+        <State />
+      </entry>
     </value>
   </component>
 </project>

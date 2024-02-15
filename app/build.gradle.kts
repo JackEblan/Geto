@@ -12,7 +12,7 @@ android {
         versionCode = 14
         versionName = "1.14"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.core.testing.GetoTestRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -52,10 +52,15 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.navigation.compose)
-
-    androidTestImplementation(projects.core.testing)
-    testImplementation(projects.core.testing)
-
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)
+
+    debugImplementation(libs.androidx.compose.ui.test.manifest)
+
+    testImplementation(projects.core.testing)
+    testImplementation(libs.hilt.android.testing)
+
+    androidTestImplementation(projects.core.testing)
+    androidTestImplementation(libs.androidx.navigation.testing)
+    androidTestImplementation(libs.hilt.android.testing)
 }

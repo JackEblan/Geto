@@ -371,6 +371,19 @@
             </AndroidTestResultsTableState>
           </value>
         </entry>
+        <entry key="74846968">
+          <value>
+            <AndroidTestResultsTableState>
+              <option name="preferredColumnWidths">
+                <map>
+                  <entry key="Duration" value="90" />
+                  <entry key="TECNO MOBILE LIMITED TECNO CH6n" value="120" />
+                  <entry key="Tests" value="360" />
+                </map>
+              </option>
+            </AndroidTestResultsTableState>
+          </value>
+        </entry>
         <entry key="80201390">
           <value>
             <AndroidTestResultsTableState>
@@ -458,6 +471,19 @@
                   <entry key="Duration" value="90" />
                   <entry key="TECNO MOBILE LIMITED TECNO CH6n" value="120" />
                   <entry key="Tests" value="360" />
+                </map>
+              </option>
+            </AndroidTestResultsTableState>
+          </value>
+        </entry>
+        <entry key="679895283">
+          <value>
+            <AndroidTestResultsTableState>
+              <option name="preferredColumnWidths">
+                <map>
+                  <entry key="Duration" value="151" />
+                  <entry key="TECNO MOBILE LIMITED TECNO CH6n" value="181" />
+                  <entry key="Tests" value="421" />
                 </map>
               </option>
             </AndroidTestResultsTableState>
@@ -581,6 +607,19 @@
           </value>
         </entry>
         <entry key="1946372500">
+          <value>
+            <AndroidTestResultsTableState>
+              <option name="preferredColumnWidths">
+                <map>
+                  <entry key="Duration" value="90" />
+                  <entry key="TECNO MOBILE LIMITED TECNO CH6n" value="120" />
+                  <entry key="Tests" value="360" />
+                </map>
+              </option>
+            </AndroidTestResultsTableState>
+          </value>
+        </entry>
+        <entry key="1950091833">
           <value>
             <AndroidTestResultsTableState>
               <option name="preferredColumnWidths">

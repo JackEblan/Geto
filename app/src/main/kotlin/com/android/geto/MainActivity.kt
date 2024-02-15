@@ -13,17 +13,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
-import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import com.android.geto.navigation.GetoNavHost
 import com.core.designsystem.theme.GetoTheme
 import com.feature.addsettings.AddSettingsDialog
-import com.feature.applist.navigation.APP_LIST_NAVIGATION_ROUTE
-import com.feature.applist.navigation.appListScreen
-import com.feature.appsettings.navigation.appSettingsScreen
-import com.feature.appsettings.navigation.navigateToAppSettings
 import com.feature.copypermissioncommand.CopyPermissionCommandDialog
-import com.feature.securesettingslist.navigation.navigateToSecureSettingsList
-import com.feature.securesettingslist.navigation.secureSettingsListScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -51,30 +45,12 @@ class MainActivity : ComponentActivity() {
                         mutableStateOf("")
                     }
 
-                    NavHost(
-                        navController = navController, startDestination = APP_LIST_NAVIGATION_ROUTE
-                    ) {
-                        appListScreen(onItemClick = { packageName, appName ->
-                            navController.navigateToAppSettings(
-                                packageName = packageName, appName = appName
-                            )
-                        }, onSecureSettingsClick = {
-                            navController.navigateToSecureSettingsList()
-                        })
-
-                        appSettingsScreen(onArrowBackClick = {
-                            navController.popBackStack()
-                        }, onOpenAddSettingsDialog = {
-                            openAddSettingsDialog = true
-                            packageName = it
-                        }, onOpenCopyPermissionCommandDialog = {
-                            openCopyPermissionCommandDialog = true
-                        })
-
-                        secureSettingsListScreen(onNavigationIconClick = {
-                            navController.popBackStack()
-                        })
-                    }
+                    GetoNavHost(navController = navController, onOpenAddSettingsDialog = {
+                        openAddSettingsDialog = true
+                        packageName = it
+                    }, onOpenCopyPermissionCommandDialog = {
+                        openCopyPermissionCommandDialog = true
+                    })
 
                     if (openAddSettingsDialog) {
                         AddSettingsDialog(packageName = packageName,
