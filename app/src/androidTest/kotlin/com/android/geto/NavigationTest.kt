@@ -37,9 +37,7 @@ class NavigationTest {
             navController = TestNavHostController(LocalContext.current)
             navController.navigatorProvider.addNavigator(ComposeNavigator())
 
-            GetoNavHost(navController = navController,
-                        onOpenAddSettingsDialog = {},
-                        onOpenCopyPermissionCommandDialog = {})
+            GetoNavHost(navController = navController)
 
         }
     }

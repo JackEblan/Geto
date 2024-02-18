@@ -5,9 +5,12 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.core.domain.repository.AppSettingsRepository
+import com.core.domain.usecase.AddAppSettingsUseCase
 import com.core.domain.usecase.ApplyAppSettingsUseCase
 import com.core.domain.usecase.RevertAppSettingsUseCase
 import com.core.domain.wrapper.PackageManagerWrapper
+import com.feature.appsettings.dialog.addsettings.AddSettingsDialogUiState
+import com.feature.appsettings.dialog.copypermissioncommand.CopyPermissionCommandUiState
 import com.feature.appsettings.navigation.AppSettingsArgs
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,13 +29,18 @@ class AppSettingsViewModel @Inject constructor(
     private val appSettingsRepository: AppSettingsRepository,
     private val packageManagerWrapper: PackageManagerWrapper,
     private val applyAppSettingsUseCase: ApplyAppSettingsUseCase,
-    private val revertAppSettingsUseCase: RevertAppSettingsUseCase
+    private val revertAppSettingsUseCase: RevertAppSettingsUseCase,
+    private val addAppSettingsUseCase: AddAppSettingsUseCase
 ) : ViewModel() {
     private var _snackBar = MutableStateFlow<String?>(null)
 
     private var _launchAppIntent = MutableStateFlow<Intent?>(null)
 
-    private var _commandPermissionDialog = MutableStateFlow(false)
+    private var _addSettingsDialogUiState =
+        MutableStateFlow<AddSettingsDialogUiState>(AddSettingsDialogUiState.HideAddSettingsDialog)
+
+    private var _copyPermissionCommandDialogUiState =
+        MutableStateFlow<CopyPermissionCommandUiState>(CopyPermissionCommandUiState.HideCopyPermissionCommandDialog)
 
     private val appSettingsArgs: AppSettingsArgs = AppSettingsArgs(savedStateHandle)
 
@@ -44,7 +52,11 @@ class AppSettingsViewModel @Inject constructor(
 
     val launchAppIntent = _launchAppIntent.asStateFlow()
 
-    val commandPermissionDialog = _commandPermissionDialog.asStateFlow()
+    val addSettingsDialogUiState = _addSettingsDialogUiState.asStateFlow()
+
+    val copyPermissionCommandDialogUiState = _copyPermissionCommandDialogUiState.asStateFlow()
+
+    private var _dismissDialog = MutableStateFlow(false)
 
     val appSettingsUiState: StateFlow<AppSettingsUiState> =
         appSettingsRepository.getAppSettingsList(packageName).map { appSettingsList ->
@@ -78,7 +90,7 @@ class AppSettingsViewModel @Inject constructor(
                                                 _launchAppIntent.update { appIntent }
                                             },
                                             onSecurityException = {
-                                                _commandPermissionDialog.update { true }
+                                                _copyPermissionCommandDialogUiState.update { CopyPermissionCommandUiState.ShowCopyPermissionCommandDialog }
                                             },
                                             onFailure = { message ->
                                                 _snackBar.update { message }
@@ -102,7 +114,7 @@ class AppSettingsViewModel @Inject constructor(
                                                  _snackBar.update { message }
                                              },
                                              onSecurityException = {
-                                                 _commandPermissionDialog.update { true }
+                                                 _copyPermissionCommandDialogUiState.update { CopyPermissionCommandUiState.ShowCopyPermissionCommandDialog }
                                              },
                                              onFailure = { message ->
                                                  _snackBar.update { message }
@@ -125,6 +137,30 @@ class AppSettingsViewModel @Inject constructor(
                     appSettingsRepository.deleteAppSettings(event.appSettings)
                 }
             }
+
+            is AppSettingsEvent.AddSettings -> {
+                viewModelScope.launch {
+                    addAppSettingsUseCase(event.appSettings)
+
+                    _dismissDialog.update { true }
+                }
+            }
+
+            is AppSettingsEvent.ShowAddSettingsDialog -> {
+                _addSettingsDialogUiState.update { AddSettingsDialogUiState.ShowAddSettingsDialog }
+            }
+
+            AppSettingsEvent.HideAddSettingsDialog -> {
+                _addSettingsDialogUiState.update { AddSettingsDialogUiState.HideAddSettingsDialog }
+            }
+
+            AppSettingsEvent.HideCopyPermissionCommandDialog -> {
+                _copyPermissionCommandDialogUiState.update { CopyPermissionCommandUiState.HideCopyPermissionCommandDialog }
+            }
+
+            AppSettingsEvent.ShowCopyPermissionCommandDialog -> {
+                _copyPermissionCommandDialogUiState.update { CopyPermissionCommandUiState.ShowCopyPermissionCommandDialog }
+            }
         }
     }
 
@@ -134,9 +170,5 @@ class AppSettingsViewModel @Inject constructor(
 
     fun clearLaunchAppIntent() {
         _launchAppIntent.update { null }
-    }
-
-    fun clearCommandPermissionDialog() {
-        _commandPermissionDialog.update { false }
     }
 }

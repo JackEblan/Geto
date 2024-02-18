@@ -32,18 +32,10 @@ fun NavController.navigateToAppSettings(packageName: String, appName: String) {
     navigate("app_settings_route/$packageName/$appName")
 }
 
-fun NavGraphBuilder.appSettingsScreen(
-    onArrowBackClick: () -> Unit,
-    onOpenAddSettingsDialog: (String) -> Unit,
-    onOpenCopyPermissionCommandDialog: () -> Unit,
-) {
+fun NavGraphBuilder.appSettingsScreen(onArrowBackClick: () -> Unit) {
     composable(
         route = "app_settings_route/{$PACKAGE_NAME_ARG}/{$APP_NAME_ARG}"
     ) {
-        AppSettingsRoute(
-            onNavigationIconClick = onArrowBackClick,
-            onOpenAddSettingsDialog = onOpenAddSettingsDialog,
-            onOpenCopyPermissionCommandDialog = onOpenCopyPermissionCommandDialog
-        )
+        AppSettingsRoute(onNavigationIconClick = onArrowBackClick)
     }
 }

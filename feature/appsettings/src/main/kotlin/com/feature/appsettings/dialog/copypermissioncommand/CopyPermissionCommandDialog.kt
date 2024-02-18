@@ -1,4 +1,4 @@
-package com.feature.copypermissioncommand
+package com.feature.appsettings.dialog.copypermissioncommand
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,34 +14,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-
-@Composable
-fun CopyPermissionCommandDialog(
-    modifier: Modifier = Modifier,
-    viewModel: CopyPermissionCommandDialogViewModel = hiltViewModel(),
-    onDismissRequest: () -> Unit
-) {
-    val dismissDialog = viewModel.dismissDialog.collectAsStateWithLifecycle().value
-
-    LaunchedEffect(key1 = dismissDialog) {
-        if (dismissDialog) {
-            onDismissRequest()
-        }
-    }
-
-    CopyPermissionCommandDialogScreen(modifier = modifier,
-                                      onDismissRequest = onDismissRequest,
-                                      onCopySettings = {
-                                          viewModel.onEvent(CopyPermissionCommandDialogEvent.CopyPermissionCommandKey)
-                                      })
-}
 
 @Composable
 internal fun CopyPermissionCommandDialogScreen(
@@ -56,7 +32,9 @@ internal fun CopyPermissionCommandDialogScreen(
             shape = RoundedCornerShape(16.dp),
         ) {
             Column(
-                modifier = Modifier.padding(10.dp)
+                modifier = Modifier
+                    .padding(10.dp)
+                    .testTag("copyPermissionCommandDialog")
             ) {
                 Spacer(modifier = Modifier.height(10.dp))
 

@@ -1,4 +1,4 @@
-package com.feature.addsettings
+package com.feature.appsettings.dialog.addsettings
 
 import com.core.domain.usecase.AddAppSettingsUseCase
 import com.core.model.AppSettings
@@ -35,7 +35,9 @@ class AddSettingsDialogViewModelTest {
             appSettingsRepository = appSettingsRepository
         )
 
-        viewModel = AddSettingsDialogViewModel(addAppSettingsUseCase)
+        viewModel = AddSettingsDialogViewModel(
+            addAppSettingsUseCase
+        )
     }
 
     @Test

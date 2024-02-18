@@ -1,4 +1,4 @@
-package com.feature.addsettings
+package com.feature.appsettings.dialog.addsettings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

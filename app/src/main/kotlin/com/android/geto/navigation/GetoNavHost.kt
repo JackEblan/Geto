@@ -11,11 +11,7 @@ import com.feature.securesettingslist.navigation.navigateToSecureSettingsList
 import com.feature.securesettingslist.navigation.secureSettingsListScreen
 
 @Composable
-fun GetoNavHost(
-    navController: NavHostController,
-    onOpenAddSettingsDialog: (String) -> Unit,
-    onOpenCopyPermissionCommandDialog: () -> Unit
-) {
+fun GetoNavHost(navController: NavHostController) {
 
     NavHost(
         navController = navController, startDestination = APP_LIST_NAVIGATION_ROUTE
@@ -28,13 +24,7 @@ fun GetoNavHost(
             navController.navigateToSecureSettingsList()
         })
 
-        appSettingsScreen(
-            onArrowBackClick = {
-                navController.popBackStack()
-            },
-            onOpenAddSettingsDialog = onOpenAddSettingsDialog,
-            onOpenCopyPermissionCommandDialog = onOpenCopyPermissionCommandDialog
-        )
+        appSettingsScreen(onArrowBackClick = { navController.popBackStack() })
 
         secureSettingsListScreen(onNavigationIconClick = {
             navController.popBackStack()

@@ -1,12 +1,14 @@
 package com.feature.appsettings
 
 import androidx.annotation.VisibleForTesting
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -32,14 +34,17 @@ import com.core.model.AppSettings
 import com.core.ui.AppSettingsItem
 import com.core.ui.EmptyListPlaceHolderScreen
 import com.core.ui.LoadingPlaceHolderScreen
+import com.feature.appsettings.dialog.addsettings.AddSettingsDialogScreen
+import com.feature.appsettings.dialog.addsettings.AddSettingsDialogState
+import com.feature.appsettings.dialog.addsettings.AddSettingsDialogUiState
+import com.feature.appsettings.dialog.addsettings.rememberAddSettingsDialogState
+import com.feature.appsettings.dialog.copypermissioncommand.CopyPermissionCommandDialogScreen
+import com.feature.appsettings.dialog.copypermissioncommand.CopyPermissionCommandUiState
 
 @Composable
 internal fun AppSettingsRoute(
     modifier: Modifier = Modifier,
-    viewModel: AppSettingsViewModel = hiltViewModel(),
-    onNavigationIconClick: () -> Unit,
-    onOpenAddSettingsDialog: (String) -> Unit,
-    onOpenCopyPermissionCommandDialog: () -> Unit
+    viewModel: AppSettingsViewModel = hiltViewModel(), onNavigationIconClick: () -> Unit
 ) {
     val context = LocalContext.current
 
@@ -49,12 +54,19 @@ internal fun AppSettingsRoute(
 
     val appSettingsUiState = viewModel.appSettingsUiState.collectAsStateWithLifecycle().value
 
+    val addSettingsDialogUiState =
+        viewModel.addSettingsDialogUiState.collectAsStateWithLifecycle().value
+
+    val copyPermissionCommandDialogUiState =
+        viewModel.copyPermissionCommandDialogUiState.collectAsStateWithLifecycle().value
+
     val snackBar = viewModel.snackBar.collectAsStateWithLifecycle().value
 
     val launchAppIntent = viewModel.launchAppIntent.collectAsStateWithLifecycle().value
 
-    val commandPermissionDialog =
-        viewModel.commandPermissionDialog.collectAsStateWithLifecycle().value
+    val addSettingsDialogState = rememberAddSettingsDialogState()
+
+    val scrollState = rememberScrollState()
 
     LaunchedEffect(key1 = snackBar) {
         snackBar?.let {
@@ -70,17 +82,13 @@ internal fun AppSettingsRoute(
         }
     }
 
-    LaunchedEffect(key1 = commandPermissionDialog) {
-        if (commandPermissionDialog) {
-            onOpenCopyPermissionCommandDialog()
-            viewModel.clearCommandPermissionDialog()
-        }
-    }
-
     AppSettingsScreen(modifier = modifier,
                       snackbarHostState = snackbarHostState,
                       appName = viewModel.appName,
+                      packageName = viewModel.packageName,
                       appSettingsUiState = appSettingsUiState,
+                      addSettingsDialogUiState = addSettingsDialogUiState,
+                      copyPermissionCommandDialogUiState = copyPermissionCommandDialogUiState,
                       onNavigationIconClick = {
                           onNavigationIconClick()
                       },
@@ -99,12 +107,32 @@ internal fun AppSettingsRoute(
                       onDeleteAppSettingsItem = {
                           viewModel.onEvent(AppSettingsEvent.OnDeleteAppSettingsItem(it))
                       },
-                      onAddAppSettingsClick = { onOpenAddSettingsDialog(viewModel.packageName) },
+                      onAddAppSettingsClick = { viewModel.onEvent(AppSettingsEvent.ShowAddSettingsDialog) },
                       onLaunchApp = {
                           viewModel.onEvent(
                               AppSettingsEvent.OnLaunchApp
                           )
+                      },
+                      addSettingsDialogState = addSettingsDialogState,
+                      scrollState = scrollState,
+                      onDismissRequestAddSettings = {
+                          viewModel.onEvent(AppSettingsEvent.HideAddSettingsDialog)
+                      },
+                      onDismissRequestCopyPermissionCommand = {
+                          viewModel.onEvent(AppSettingsEvent.HideCopyPermissionCommandDialog)
+                      },
+                      onAddSettings = {
+                          viewModel.onEvent(
+                              AppSettingsEvent.AddSettings(it)
+                          )
+                      },
+                      onShowCopyPermissionCommandDialog = {
+                          viewModel.onEvent(
+                              AppSettingsEvent.ShowCopyPermissionCommandDialog
+                          )
                       })
+
+
 }
 
 @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
@@ -114,14 +142,56 @@ internal fun AppSettingsScreen(
     modifier: Modifier = Modifier,
     snackbarHostState: SnackbarHostState,
     appName: String,
+    packageName: String,
     appSettingsUiState: AppSettingsUiState,
+    addSettingsDialogUiState: AddSettingsDialogUiState,
+    copyPermissionCommandDialogUiState: CopyPermissionCommandUiState,
     onNavigationIconClick: () -> Unit,
     onRevertSettingsIconClick: () -> Unit,
     onAppSettingsItemCheckBoxChange: (Boolean, AppSettings) -> Unit,
     onDeleteAppSettingsItem: (AppSettings) -> Unit,
     onAddAppSettingsClick: () -> Unit,
-    onLaunchApp: () -> Unit
+    onLaunchApp: () -> Unit,
+    addSettingsDialogState: AddSettingsDialogState,
+    scrollState: ScrollState,
+    onDismissRequestAddSettings: () -> Unit,
+    onDismissRequestCopyPermissionCommand: () -> Unit,
+    onAddSettings: (appSettings: AppSettings) -> Unit,
+    onShowCopyPermissionCommandDialog: () -> Unit,
 ) {
+
+    if (addSettingsDialogUiState is AddSettingsDialogUiState.ShowAddSettingsDialog) {
+        AddSettingsDialogScreen(addSettingsDialogState = addSettingsDialogState,
+                                scrollState = scrollState,
+                                onRadioOptionSelected = addSettingsDialogState::updateSelectedRadioOptionIndex,
+                                onDismissRequest = onDismissRequestAddSettings,
+                                onTypingLabel = addSettingsDialogState::updateLabel,
+                                onTypingKey = addSettingsDialogState::updateKey,
+                                onTypingValueOnLaunch = addSettingsDialogState::updateValueOnLaunch,
+                                onTypingValueOnRevert = addSettingsDialogState::updateValueOnRevert,
+                                onAddSettings = {
+                                    addSettingsDialogState.validateAddSettings(packageName = packageName,
+                                                                               onAppSettings = { appSettings ->
+                                                                                   if (appSettings != null) {
+                                                                                       addSettingsDialogState.updateButtonEnabled(
+                                                                                           false
+                                                                                       )
+
+                                                                                       onAddSettings(
+                                                                                           appSettings
+                                                                                       )
+                                                                                   }
+                                                                               })
+                                })
+    }
+
+    if (copyPermissionCommandDialogUiState is CopyPermissionCommandUiState.ShowCopyPermissionCommandDialog) {
+        CopyPermissionCommandDialogScreen(
+            onDismissRequest = onDismissRequestCopyPermissionCommand,
+            onCopySettings = onShowCopyPermissionCommandDialog
+        )
+    }
+
     Scaffold(topBar = {
         TopAppBar(title = {
             Text(text = appName, maxLines = 1)

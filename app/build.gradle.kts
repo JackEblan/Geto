@@ -41,8 +41,6 @@ dependencies {
     implementation(projects.feature.applist)
     implementation(projects.feature.appsettings)
     implementation(projects.feature.securesettingslist)
-    implementation(projects.feature.addsettings)
-    implementation(projects.feature.copypermissioncommand)
 
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.activity.compose)
