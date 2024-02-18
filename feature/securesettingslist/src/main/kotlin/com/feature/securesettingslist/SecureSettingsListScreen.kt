@@ -164,7 +164,10 @@ internal fun SecureSettingsListScreen(
 
                 is SecureSettingsListUiState.Success -> {
                     LazyColumn(
-                        modifier = Modifier.fillMaxSize(), contentPadding = innerPadding
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .testTag("securesettingslist:lazyColumn"),
+                        contentPadding = innerPadding
                     ) {
                         secureSettingItems(
                             secureSettingsList = secureSettingsListUiState.secureSettingsList,

@@ -187,7 +187,10 @@ internal fun AppSettingsScreen(
 
                 is AppSettingsUiState.Success -> {
                     LazyColumn(
-                        modifier = Modifier.fillMaxSize(), contentPadding = innerPadding
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .testTag("appsettings:lazyColumn"),
+                        contentPadding = innerPadding
                     ) {
                         appSettings(
                             appSettingsList = appSettingsUiState.appSettingsList,
