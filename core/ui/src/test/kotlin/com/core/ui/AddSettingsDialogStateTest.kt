@@ -1,4 +1,4 @@
-package com.feature.appsettings.dialog.addsettings
+package com.core.ui
 
 import org.junit.Before
 import org.junit.Test
@@ -15,7 +15,7 @@ class AddSettingsDialogStateTest {
     }
 
     @Test
-    fun selectedRadioOptionIndexError_noSelectedRadioOptionIndex_returnsErrorMessage() {
+    fun selectedRadioOptionIndexErrorIsNotBlank_whenSelectedRadioOptionIndexIsNegative() {
         addSettingsDialogState.updateSelectedRadioOptionIndex(-1)
 
         addSettingsDialogState.validateAddSettings(packageName = "packageName", onAppSettings = {})
@@ -24,7 +24,7 @@ class AddSettingsDialogStateTest {
     }
 
     @Test
-    fun selectedRadioOptionIndexError_withSelectedRadioOptionIndex_returnsNoErrorMessage() {
+    fun selectedRadioOptionIndexErrorIsBlank_whenSelectedRadioOptionIndexIsPositive() {
         addSettingsDialogState.updateSelectedRadioOptionIndex(1)
 
         addSettingsDialogState.validateAddSettings(packageName = "packageName", onAppSettings = {})
@@ -33,7 +33,7 @@ class AddSettingsDialogStateTest {
     }
 
     @Test
-    fun labelError_labelBlank_returnsErrorMessage() {
+    fun labelErrorIsNotBlank_whenLabelIsBlank() {
         addSettingsDialogState.updateLabel("")
 
         addSettingsDialogState.validateAddSettings(packageName = "packageName", onAppSettings = {})
@@ -42,7 +42,7 @@ class AddSettingsDialogStateTest {
     }
 
     @Test
-    fun labelError_labelNotBlank_returnsNoErrorMessage() {
+    fun labelErrorIsBlank_whenLabelIsNotBlank() {
         addSettingsDialogState.updateLabel("Test")
 
         addSettingsDialogState.validateAddSettings(packageName = "packageName", onAppSettings = {})
@@ -51,7 +51,7 @@ class AddSettingsDialogStateTest {
     }
 
     @Test
-    fun keyError_keyBlank_returnsErrorMessage() {
+    fun keyErrorIsNotBlank_whenKeyIsBlank() {
         addSettingsDialogState.updateKey("")
 
         addSettingsDialogState.validateAddSettings(packageName = "packageName", onAppSettings = {})
@@ -60,7 +60,7 @@ class AddSettingsDialogStateTest {
     }
 
     @Test
-    fun keyError_keyNotBlank_returnsNoErrorMessage() {
+    fun keyErrorIsBlank_whenKeyIsNotBlank() {
         addSettingsDialogState.updateKey("Test")
 
         addSettingsDialogState.validateAddSettings(packageName = "packageName", onAppSettings = {})
@@ -69,7 +69,7 @@ class AddSettingsDialogStateTest {
     }
 
     @Test
-    fun valueOnLaunchError_valueOnLaunchBlank_returnsErrorMessage() {
+    fun valueOnLaunchErrorIsNotBlank_whenValueOnLaunchIsBlank() {
         addSettingsDialogState.updateValueOnLaunch("")
 
         addSettingsDialogState.validateAddSettings(packageName = "packageName", onAppSettings = {})
@@ -78,7 +78,7 @@ class AddSettingsDialogStateTest {
     }
 
     @Test
-    fun valueOnLaunchError_valueOnLaunchNotBlank_returnsNoErrorMessage() {
+    fun valueOnLaunchErrorIsBlank_whenValueOnLaunchIsNotBlank() {
         addSettingsDialogState.updateValueOnLaunch("Test")
 
         addSettingsDialogState.validateAddSettings(packageName = "packageName", onAppSettings = {})
@@ -87,7 +87,7 @@ class AddSettingsDialogStateTest {
     }
 
     @Test
-    fun valueOnRevertError_valueOnRevertBlank_returnsErrorMessage() {
+    fun valueOnRevertErrorIsNotBlank_whenValueOnRevertIsBlank() {
         addSettingsDialogState.updateValueOnRevert("")
 
         addSettingsDialogState.validateAddSettings(packageName = "packageName", onAppSettings = {})
@@ -96,7 +96,7 @@ class AddSettingsDialogStateTest {
     }
 
     @Test
-    fun valueOnRevertError_valueOnRevertNotBlank_returnsNoErrorMessage() {
+    fun valueOnRevertErrorIsBlank_whenValueOnRevertIsNotBlank() {
         addSettingsDialogState.updateValueOnRevert("Test")
 
         addSettingsDialogState.validateAddSettings(packageName = "packageName", onAppSettings = {})
@@ -105,7 +105,7 @@ class AddSettingsDialogStateTest {
     }
 
     @Test
-    fun validateAddSettings_allFieldsAreFilled_returnsSuccess() {
+    fun validateAddSettings_whenAllFieldsAreFilled() {
         addSettingsDialogState.updateSelectedRadioOptionIndex(1)
 
         addSettingsDialogState.updateKey("Test")

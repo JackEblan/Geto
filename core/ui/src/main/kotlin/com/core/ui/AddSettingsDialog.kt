@@ -1,6 +1,5 @@
-package com.feature.appsettings.dialog.addsettings
+package com.core.ui
 
-import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -35,9 +34,8 @@ import com.core.designsystem.component.GetoLabeledRadioButton
 import com.core.model.AppSettings
 import com.core.model.SettingsType
 
-@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
 @Composable
-internal fun AddSettingsDialogScreen(
+fun AddSettingsDialog(
     modifier: Modifier = Modifier,
     addSettingsDialogState: AddSettingsDialogState,
     scrollState: ScrollState,
@@ -183,9 +181,7 @@ internal fun AddSettingsDialogScreen(
                     horizontalArrangement = Arrangement.End,
                 ) {
                     TextButton(
-                        onClick = onDismissRequest,
-                        modifier = Modifier.padding(5.dp),
-                        enabled = addSettingsDialogState.buttonEnabled
+                        onClick = onDismissRequest, modifier = Modifier.padding(5.dp)
                     ) {
                         Text("Cancel")
                     }
@@ -193,8 +189,7 @@ internal fun AddSettingsDialogScreen(
                         onClick = onAddSettings,
                         modifier = Modifier
                             .padding(5.dp)
-                            .testTag("addSettingsDialog:add"),
-                        enabled = addSettingsDialogState.buttonEnabled
+                            .testTag("addSettingsDialog:add")
                     ) {
                         Text("Add")
                     }
@@ -205,14 +200,14 @@ internal fun AddSettingsDialogScreen(
 }
 
 @Composable
-internal fun rememberAddSettingsDialogState(): AddSettingsDialogState {
+fun rememberAddSettingsDialogState(): AddSettingsDialogState {
     return rememberSaveable(saver = AddSettingsDialogState.Saver) {
         AddSettingsDialogState()
     }
 }
 
-internal class AddSettingsDialogState {
-    var buttonEnabled by mutableStateOf(true)
+class AddSettingsDialogState {
+    var showDialog by mutableStateOf(false)
         private set
 
     var selectedRadioOptionIndex by mutableIntStateOf(-1)
@@ -245,8 +240,8 @@ internal class AddSettingsDialogState {
     var valueOnRevertError by mutableStateOf("")
         private set
 
-    fun updateButtonEnabled(value: Boolean) {
-        buttonEnabled = value
+    fun updateShowDialog(value: Boolean) {
+        showDialog = value
     }
 
     fun updateSelectedRadioOptionIndex(value: Int) {
@@ -294,6 +289,8 @@ internal class AddSettingsDialogState {
                 valueOnRevert = valueOnRevert,
                 safeToWrite = false
             ).also(onAppSettings)
+
+            showDialog = false
         } else {
             onAppSettings(null)
         }
@@ -302,6 +299,7 @@ internal class AddSettingsDialogState {
     companion object {
         val Saver = listSaver<AddSettingsDialogState, Any>(save = { state ->
             listOf(
+                state.showDialog,
                 state.selectedRadioOptionIndex,
                 state.selectedRadioOptionIndexError,
                 state.label,
@@ -315,25 +313,27 @@ internal class AddSettingsDialogState {
             )
         }, restore = {
             AddSettingsDialogState().apply {
-                selectedRadioOptionIndex = it[0] as Int
+                showDialog = it[0] as Boolean
 
-                selectedRadioOptionIndexError = it[1] as String
+                selectedRadioOptionIndex = it[1] as Int
 
-                label = it[2] as String
+                selectedRadioOptionIndexError = it[2] as String
 
-                labelError = it[3] as String
+                label = it[3] as String
 
-                key = it[4] as String
+                labelError = it[4] as String
 
-                keyError = it[5] as String
+                key = it[5] as String
 
-                valueOnLaunch = it[6] as String
+                keyError = it[6] as String
 
-                valueOnLaunchError = it[7] as String
+                valueOnLaunch = it[7] as String
 
-                valueOnRevert = it[8] as String
+                valueOnLaunchError = it[8] as String
 
-                valueOnRevertError = it[9] as String
+                valueOnRevert = it[9] as String
+
+                valueOnRevertError = it[10] as String
             }
         })
     }

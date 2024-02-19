@@ -1,4 +1,4 @@
-package com.feature.appsettings.dialog.copypermissioncommand
+package com.core.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 
 @Composable
-internal fun CopyPermissionCommandDialogScreen(
+fun CopyPermissionCommandDialogScreen(
     modifier: Modifier = Modifier, onDismissRequest: () -> Unit, onCopySettings: () -> Unit
 ) {
     Dialog(onDismissRequest = { onDismissRequest() }) {

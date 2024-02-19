@@ -11,18 +11,12 @@ import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.testing.TestNavHostController
 import com.android.geto.navigation.GetoNavHost
 import com.feature.securesettingslist.navigation.SECURE_SETTINGS_LIST_NAVIGATION_ROUTE
-import dagger.hilt.android.testing.HiltAndroidRule
-import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertEquals
 
-@HiltAndroidTest
 class NavigationTest {
-
-    @get:Rule
-    val hiltRule = HiltAndroidRule(this)
 
     @get:Rule
     val composeTestRule = createAndroidComposeRule<MainActivity>()
@@ -31,8 +25,6 @@ class NavigationTest {
 
     @Before
     fun setUp() {
-        hiltRule.inject()
-
         composeTestRule.activity.setContent {
             navController = TestNavHostController(LocalContext.current)
             navController.navigatorProvider.addNavigator(ComposeNavigator())
@@ -48,19 +40,11 @@ class NavigationTest {
     }
 
     @Test
-    fun navHost_clickSettingsIcon_navigateToSecureSettingsScreen() {
+    fun navigateToSecureSettingsScreen_whenSettingsIconIsClicked() {
         composeTestRule.onNodeWithContentDescription(label = "Secure settings icon").performClick()
 
         val route = navController.currentDestination?.route
 
         assertEquals(expected = SECURE_SETTINGS_LIST_NAVIGATION_ROUTE, actual = route)
-    }
-
-    @Test
-    fun navHost_clickAnAppItem_navigateToAppSettingsScreen() {/*
-        I don't know this part.
-        Have no idea how to make a test for lazy list,
-        click it and pass the required arguments
-        */
     }
 }

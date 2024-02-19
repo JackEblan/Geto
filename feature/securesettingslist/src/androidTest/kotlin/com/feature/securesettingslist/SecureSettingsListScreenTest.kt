@@ -16,7 +16,7 @@ class SecureSettingsListScreenTest {
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     @Test
-    fun loadingPlaceHolderScreen_whenSecureSettingsListUiStateIsLoading_isDisplayed() {
+    fun loadingPlaceHolderScreenIsDisplayed_whenSecureSettingsListUiStateIsLoading() {
         composeTestRule.setContent {
             SecureSettingsListScreen(
                 snackbarHostState = SnackbarHostState(),
@@ -36,7 +36,7 @@ class SecureSettingsListScreenTest {
     }
 
     @Test
-    fun lazyColumn_whenSecureSettingsListUiStateIsSuccess_isDisplayed() {
+    fun lazyColumnIsDisplayed_whenSecureSettingsListUiStateIsSuccess() {
         composeTestRule.setContent {
             SecureSettingsListScreen(
                 snackbarHostState = SnackbarHostState(),
@@ -55,7 +55,7 @@ class SecureSettingsListScreenTest {
     }
 
     @Test
-    fun snackBar_whenSecureSettingsItemIsClicked_exists() {
+    fun snackBarExists_whenSecureSettingsItemIsClicked() {
         val secureSettingsItemKeyToTest = "name0"
 
         composeTestRule.setContent {

@@ -13,7 +13,7 @@ class AppListScreenTest {
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     @Test
-    fun loadingPlaceHolderScreen_whenAppListUiStateIsLoading_isDisplayed() {
+    fun loadingPlaceHolderScreenIsDisplayed_whenAppListUiStateIsLoading() {
         composeTestRule.setContent {
             AppListScreen(appListUiState = AppListUiState.Loading,
                           onItemClick = { _, _ -> },
@@ -24,7 +24,7 @@ class AppListScreenTest {
     }
 
     @Test
-    fun lazyColumn_whenAppListUiStateIsSuccess_isDisplayed() {
+    fun lazyColumnIsDisplayed_whenAppListUiStateIsSuccess() {
         composeTestRule.setContent {
             AppListScreen(appListUiState = AppListUiState.Success(testNonSystemAppList),
                           onItemClick = { _, _ -> },

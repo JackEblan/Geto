@@ -10,9 +10,7 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import com.core.model.AppSettings
 import com.core.model.SettingsType
-import com.feature.appsettings.dialog.addsettings.AddSettingsDialogUiState
-import com.feature.appsettings.dialog.addsettings.rememberAddSettingsDialogState
-import com.feature.appsettings.dialog.copypermissioncommand.CopyPermissionCommandUiState
+import com.core.ui.rememberAddSettingsDialogState
 import org.junit.Rule
 import org.junit.Test
 
@@ -21,7 +19,7 @@ class AppSettingsScreenTest {
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     @Test
-    fun loadingPlaceHolderScreen_whenAppSettingsUiStateIsLoading_isDisplayed() {
+    fun loadingPlaceHolderScreenIsDisplayed_whenAppSettingsUiStateIsLoading() {
         composeTestRule.setContent {
             val addSettingsDialogState = rememberAddSettingsDialogState()
 
@@ -31,28 +29,24 @@ class AppSettingsScreenTest {
                               appName = "Geto",
                               packageName = "Geto",
                               appSettingsUiState = AppSettingsUiState.Loading,
-                              addSettingsDialogUiState = AddSettingsDialogUiState.HideAddSettingsDialog,
-                              copyPermissionCommandDialogUiState = CopyPermissionCommandUiState.HideCopyPermissionCommandDialog,
+                              addSettingsDialogState = addSettingsDialogState,
+                              showCopyPermissionCommandDialog = false,
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
                               onAppSettingsItemCheckBoxChange = { _, _ -> },
                               onDeleteAppSettingsItem = {},
-                              onAddAppSettingsClick = {},
                               onLaunchApp = {},
-                              addSettingsDialogState = addSettingsDialogState,
                               scrollState = scrollState,
-                              onDismissRequestAddSettings = {},
-                              onDismissRequestCopyPermissionCommand = {},
-
                               onAddSettings = {},
-                              onShowCopyPermissionCommandDialog = {})
+                              onCopyPermissionCommand = {},
+                              onDismissRequestCopyPermissionCommand = {})
         }
 
         composeTestRule.onNodeWithTag("appsettings:loadingPlaceHolderScreen").assertIsDisplayed()
     }
 
     @Test
-    fun emptyListPlaceHolderScreen_whenAppSettingsUiStateIsEmpty_showEmptyScreen() {
+    fun emptyListPlaceHolderScreenIsDisplayed_whenAppSettingsUiStateIsEmpty() {
         composeTestRule.setContent {
             val addSettingsDialogState = rememberAddSettingsDialogState()
 
@@ -62,27 +56,24 @@ class AppSettingsScreenTest {
                               appName = "Geto",
                               packageName = "Geto",
                               appSettingsUiState = AppSettingsUiState.Empty,
-                              addSettingsDialogUiState = AddSettingsDialogUiState.HideAddSettingsDialog,
-                              copyPermissionCommandDialogUiState = CopyPermissionCommandUiState.HideCopyPermissionCommandDialog,
+                              addSettingsDialogState = addSettingsDialogState,
+                              showCopyPermissionCommandDialog = false,
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
                               onAppSettingsItemCheckBoxChange = { _, _ -> },
                               onDeleteAppSettingsItem = {},
-                              onAddAppSettingsClick = {},
                               onLaunchApp = {},
-                              addSettingsDialogState = addSettingsDialogState,
                               scrollState = scrollState,
-                              onDismissRequestAddSettings = {},
-                              onDismissRequestCopyPermissionCommand = {},
                               onAddSettings = {},
-                              onShowCopyPermissionCommandDialog = {})
+                              onCopyPermissionCommand = {},
+                              onDismissRequestCopyPermissionCommand = {})
         }
 
         composeTestRule.onNodeWithTag("appsettings:emptyListPlaceHolderScreen").assertIsDisplayed()
     }
 
     @Test
-    fun lazyColumn_whenAppSettingsUiStateIsSuccess_isDisplayed() {
+    fun lazyColumnIsDisplayed_whenAppSettingsUiStateIsSuccess() {
         composeTestRule.setContent {
             val addSettingsDialogState = rememberAddSettingsDialogState()
 
@@ -92,27 +83,24 @@ class AppSettingsScreenTest {
                               appName = "Geto",
                               packageName = "Geto",
                               appSettingsUiState = AppSettingsUiState.Success(testAppSettingsList),
-                              addSettingsDialogUiState = AddSettingsDialogUiState.HideAddSettingsDialog,
-                              copyPermissionCommandDialogUiState = CopyPermissionCommandUiState.HideCopyPermissionCommandDialog,
+                              addSettingsDialogState = addSettingsDialogState,
+                              showCopyPermissionCommandDialog = false,
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
                               onAppSettingsItemCheckBoxChange = { _, _ -> },
                               onDeleteAppSettingsItem = {},
-                              onAddAppSettingsClick = {},
                               onLaunchApp = {},
-                              addSettingsDialogState = addSettingsDialogState,
                               scrollState = scrollState,
-                              onDismissRequestAddSettings = {},
-                              onDismissRequestCopyPermissionCommand = {},
                               onAddSettings = {},
-                              onShowCopyPermissionCommandDialog = {})
+                              onCopyPermissionCommand = {},
+                              onDismissRequestCopyPermissionCommand = {})
         }
 
         composeTestRule.onNodeWithTag("appsettings:lazyColumn").assertIsDisplayed()
     }
 
     @Test
-    fun snackbar_whenRevertIconClicked_inAppSettingsUiStateEmpty_exists() {
+    fun snackbarExists_whenRevertIconClicked_inAppSettingsUiStateEmpty() {
         composeTestRule.setContent {
             val addSettingsDialogState = rememberAddSettingsDialogState()
 
@@ -122,20 +110,17 @@ class AppSettingsScreenTest {
                               appName = "Geto",
                               packageName = "Geto",
                               appSettingsUiState = AppSettingsUiState.Success(testAppSettingsList),
-                              addSettingsDialogUiState = AddSettingsDialogUiState.HideAddSettingsDialog,
-                              copyPermissionCommandDialogUiState = CopyPermissionCommandUiState.HideCopyPermissionCommandDialog,
+                              addSettingsDialogState = addSettingsDialogState,
+                              showCopyPermissionCommandDialog = false,
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
                               onAppSettingsItemCheckBoxChange = { _, _ -> },
                               onDeleteAppSettingsItem = {},
-                              onAddAppSettingsClick = {},
                               onLaunchApp = {},
-                              addSettingsDialogState = addSettingsDialogState,
                               scrollState = scrollState,
-                              onDismissRequestAddSettings = {},
-                              onDismissRequestCopyPermissionCommand = {},
                               onAddSettings = {},
-                              onShowCopyPermissionCommandDialog = {})
+                              onCopyPermissionCommand = {},
+                              onDismissRequestCopyPermissionCommand = {})
         }
 
         composeTestRule.onNodeWithContentDescription("Revert icon").performClick()
@@ -144,7 +129,7 @@ class AppSettingsScreenTest {
     }
 
     @Test
-    fun snackbar_whenLaunchIconClicked_inAppSettingsUiStateEmpty_exists() {
+    fun snackbarExists_whenLaunchIconClicked_inAppSettingsUiStateEmpty() {
         composeTestRule.setContent {
             val addSettingsDialogState = rememberAddSettingsDialogState()
 
@@ -154,20 +139,17 @@ class AppSettingsScreenTest {
                               appName = "Geto",
                               packageName = "Geto",
                               appSettingsUiState = AppSettingsUiState.Empty,
-                              addSettingsDialogUiState = AddSettingsDialogUiState.HideAddSettingsDialog,
-                              copyPermissionCommandDialogUiState = CopyPermissionCommandUiState.HideCopyPermissionCommandDialog,
+                              addSettingsDialogState = addSettingsDialogState,
+                              showCopyPermissionCommandDialog = false,
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
                               onAppSettingsItemCheckBoxChange = { _, _ -> },
                               onDeleteAppSettingsItem = {},
-                              onAddAppSettingsClick = {},
                               onLaunchApp = {},
-                              addSettingsDialogState = addSettingsDialogState,
                               scrollState = scrollState,
-                              onDismissRequestAddSettings = {},
-                              onDismissRequestCopyPermissionCommand = {},
                               onAddSettings = {},
-                              onShowCopyPermissionCommandDialog = {})
+                              onCopyPermissionCommand = {},
+                              onDismissRequestCopyPermissionCommand = {})
         }
 
         composeTestRule.onNodeWithContentDescription("Launch icon").performClick()
@@ -176,7 +158,7 @@ class AppSettingsScreenTest {
     }
 
     @Test
-    fun addSettingsDialog_whenAddIconIsClicked_isDisplayed() {
+    fun addSettingsDialogIsDisplayed_whenAddIconIsClicked() {
         composeTestRule.setContent {
             val addSettingsDialogState = rememberAddSettingsDialogState()
 
@@ -186,20 +168,19 @@ class AppSettingsScreenTest {
                               appName = "Geto",
                               packageName = "Geto",
                               appSettingsUiState = AppSettingsUiState.Empty,
-                              addSettingsDialogUiState = AddSettingsDialogUiState.ShowAddSettingsDialog,
-                              copyPermissionCommandDialogUiState = CopyPermissionCommandUiState.HideCopyPermissionCommandDialog,
+                              addSettingsDialogState = addSettingsDialogState,
+                              showCopyPermissionCommandDialog = false,
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
                               onAppSettingsItemCheckBoxChange = { _, _ -> },
                               onDeleteAppSettingsItem = {},
-                              onAddAppSettingsClick = {},
                               onLaunchApp = {},
-                              addSettingsDialogState = addSettingsDialogState,
                               scrollState = scrollState,
-                              onDismissRequestAddSettings = {},
-                              onDismissRequestCopyPermissionCommand = {},
-                              onAddSettings = {},
-                              onShowCopyPermissionCommandDialog = {})
+                              onAddSettings = {
+                                  addSettingsDialogState.updateShowDialog(true)
+                              },
+                              onCopyPermissionCommand = {},
+                              onDismissRequestCopyPermissionCommand = {})
         }
 
         composeTestRule.onNodeWithContentDescription("Add icon").performClick()
@@ -208,7 +189,7 @@ class AppSettingsScreenTest {
     }
 
     @Test
-    fun copyPermissionCommandDialog_copyPermissionCommandDialogUiStateIsShow_isDisplayed() {
+    fun copyPermissionCommandDialogIsDisplayed_whenCopyPermissionCommandDialogStateIsTrue() {
         composeTestRule.setContent {
             val addSettingsDialogState = rememberAddSettingsDialogState()
 
@@ -218,20 +199,17 @@ class AppSettingsScreenTest {
                               appName = "Geto",
                               packageName = "Geto",
                               appSettingsUiState = AppSettingsUiState.Empty,
-                              addSettingsDialogUiState = AddSettingsDialogUiState.ShowAddSettingsDialog,
-                              copyPermissionCommandDialogUiState = CopyPermissionCommandUiState.ShowCopyPermissionCommandDialog,
+                              addSettingsDialogState = addSettingsDialogState,
+                              showCopyPermissionCommandDialog = true,
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
                               onAppSettingsItemCheckBoxChange = { _, _ -> },
                               onDeleteAppSettingsItem = {},
-                              onAddAppSettingsClick = {},
                               onLaunchApp = {},
-                              addSettingsDialogState = addSettingsDialogState,
                               scrollState = scrollState,
-                              onDismissRequestAddSettings = {},
-                              onDismissRequestCopyPermissionCommand = {},
                               onAddSettings = {},
-                              onShowCopyPermissionCommandDialog = {})
+                              onCopyPermissionCommand = {},
+                              onDismissRequestCopyPermissionCommand = {})
         }
 
         composeTestRule.onNodeWithTag("copyPermissionCommandDialog").assertIsDisplayed()

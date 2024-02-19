@@ -31,7 +31,7 @@ class AppListViewModelTest {
     }
 
     @Test
-    fun stateIsInitiallyLoading() = runTest {
+    fun appListUiStateIsInitiallyLoading() = runTest {
         val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.appListUiState.collect() }
 
         val item = viewModel.appListUiState.value
@@ -42,7 +42,7 @@ class AppListViewModelTest {
     }
 
     @Test
-    fun stateIsSuccess_whenEventIsGetNonSystemApps() = runTest {
+    fun appListUiStateIsSuccess_whenEventIsGetNonSystemApps() = runTest {
         val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.appListUiState.collect() }
 
         packageRepository.sendNonSystemApps(nonSystemAppsTestData)

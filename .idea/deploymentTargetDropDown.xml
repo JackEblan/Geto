@@ -2,22 +2,13 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="addSettingsDialog_isDisplayed_whenAddIconIsClicked()">
-        <State />
-      </entry>
-      <entry key="addSettingsDialog_whenAddIconIsClicked_isDisplayed()">
+      <entry key="addSettingsDialogIsDisplayed_whenAddIconIsClicked()">
         <State />
       </entry>
       <entry key="app">
         <State />
       </entry>
-      <entry key="copyPermissionCommandDialog_copyPermissionCommandDialogUiStateIsShow_isDisplayed()">
-        <State />
-      </entry>
-      <entry key="keySupportingText_whenKeyTextFieldIsBlank_showError()">
-        <State />
-      </entry>
-      <entry key="snackbar_whenRevertIconClicked_inAppSettingsUiStateEmpty_exists()">
+      <entry key="copyPermissionCommandDialogIsDisplayed_whenCopyPermissionCommandDialogStateIsTrue()">
         <State />
       </entry>
     </value>
