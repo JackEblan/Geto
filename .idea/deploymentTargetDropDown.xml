@@ -5,10 +5,10 @@
       <entry key="AddSettingsDialogTest">
         <State />
       </entry>
-      <entry key="app">
+      <entry key="AppSettingsScreenTest">
         <State />
       </entry>
-      <entry key="lazyColumnIsDisplayed_whenAppListUiStateIsSuccess()">
+      <entry key="app">
         <State />
       </entry>
       <entry key="radioOptionTextIsDisplayed_whenSelectedRadioOptionIndexIsNegative()">

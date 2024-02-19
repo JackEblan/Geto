@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 fun GetoLabeledRadioButton(
     modifier: Modifier = Modifier,
     items: List<String>,
-    selectedRadioOptionIndex: () -> Int,
+    selectedRadioOptionIndex: Int,
     onRadioOptionSelected: (Int) -> Unit
 ) {
     val interactionSource = remember { MutableInteractionSource() }
@@ -27,7 +27,7 @@ fun GetoLabeledRadioButton(
         Row(
             modifier
                 .padding(vertical = 10.dp)
-                .selectable(selected = (index == selectedRadioOptionIndex()),
+                .selectable(selected = index == selectedRadioOptionIndex,
                             role = Role.RadioButton,
                             interactionSource = interactionSource,
                             indication = null,
@@ -37,7 +37,7 @@ fun GetoLabeledRadioButton(
             verticalAlignment = Alignment.CenterVertically
         ) {
             RadioButton(
-                selected = (index == selectedRadioOptionIndex()), onClick = null
+                selected = index == selectedRadioOptionIndex, onClick = null
             )
             Text(
                 text = text,

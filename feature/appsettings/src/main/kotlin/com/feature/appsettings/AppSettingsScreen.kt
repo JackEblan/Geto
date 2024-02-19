@@ -34,7 +34,7 @@ import com.core.model.AppSettings
 import com.core.ui.AddSettingsDialog
 import com.core.ui.AddSettingsDialogState
 import com.core.ui.AppSettingsItem
-import com.core.ui.CopyPermissionCommandDialogScreen
+import com.core.ui.CopyPermissionCommandDialog
 import com.core.ui.EmptyListPlaceHolderScreen
 import com.core.ui.LoadingPlaceHolderScreen
 import com.core.ui.rememberAddSettingsDialogState
@@ -168,7 +168,7 @@ internal fun AppSettingsScreen(
     }
 
     if (showCopyPermissionCommandDialog) {
-        CopyPermissionCommandDialogScreen(
+        CopyPermissionCommandDialog(
             onDismissRequest = onDismissRequestCopyPermissionCommand,
             onCopySettings = onCopyPermissionCommand
         )

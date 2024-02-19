@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 
 @Composable
-fun CopyPermissionCommandDialogScreen(
+fun CopyPermissionCommandDialog(
     modifier: Modifier = Modifier, onDismissRequest: () -> Unit, onCopySettings: () -> Unit
 ) {
     Dialog(onDismissRequest = { onDismissRequest() }) {
@@ -28,13 +28,13 @@ fun CopyPermissionCommandDialogScreen(
             modifier = modifier
                 .fillMaxWidth()
                 .wrapContentSize()
-                .padding(16.dp),
+                .padding(16.dp)
+                .testTag("copyPermissionCommandDialog"),
             shape = RoundedCornerShape(16.dp),
         ) {
             Column(
                 modifier = Modifier
                     .padding(10.dp)
-                    .testTag("copyPermissionCommandDialog")
             ) {
                 Spacer(modifier = Modifier.height(10.dp))
 

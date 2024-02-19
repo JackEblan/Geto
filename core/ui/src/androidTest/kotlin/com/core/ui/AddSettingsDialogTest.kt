@@ -1,7 +1,7 @@
 package com.core.ui
 
 import androidx.activity.ComponentActivity
-import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
@@ -20,18 +20,21 @@ class AddSettingsDialogTest {
 
             val addSettingsDialogState = rememberAddSettingsDialogState()
 
-            AddSettingsDialog(addSettingsDialogState = addSettingsDialogState,
-                              scrollState = ScrollState(0),
-                              onRadioOptionSelected = {},
-                              onDismissRequest = {},
-                              onTypingLabel = {},
-                              onTypingKey = {},
-                              onTypingValueOnLaunch = {},
-                              onTypingValueOnRevert = {},
-                              onAddSettings = {
-                                  addSettingsDialogState.updateSelectedRadioOptionIndex(-1)
+            val scrollState = rememberScrollState()
 
-                                  addSettingsDialogState.updateLabel("Test")
+            AddSettingsDialog(
+                addSettingsDialogState = addSettingsDialogState,
+                scrollState = scrollState,
+                onRadioOptionSelected = {},
+                onDismissRequest = {},
+                onTypingLabel = {},
+                onTypingKey = {},
+                onTypingValueOnLaunch = {},
+                onTypingValueOnRevert = {},
+                onAddSettings = {
+                    addSettingsDialogState.updateSelectedRadioOptionIndex(-1)
+
+                    addSettingsDialogState.updateLabel("Test")
 
                                   addSettingsDialogState.updateKey("Test")
 
@@ -58,17 +61,20 @@ class AddSettingsDialogTest {
 
             val addSettingsDialogState = rememberAddSettingsDialogState()
 
-            AddSettingsDialog(addSettingsDialogState = addSettingsDialogState,
-                              scrollState = ScrollState(0),
-                              onRadioOptionSelected = {},
-                              onDismissRequest = {},
-                              onTypingLabel = {},
-                              onTypingKey = {},
-                              onTypingValueOnLaunch = {},
-                              onTypingValueOnRevert = {},
-                              onAddSettings = {
+            val scrollState = rememberScrollState()
 
-                                  addSettingsDialogState.updateSelectedRadioOptionIndex(1)
+            AddSettingsDialog(
+                addSettingsDialogState = addSettingsDialogState,
+                scrollState = scrollState,
+                onRadioOptionSelected = {},
+                onDismissRequest = {},
+                onTypingLabel = {},
+                onTypingKey = {},
+                onTypingValueOnLaunch = {},
+                onTypingValueOnRevert = {},
+                onAddSettings = {
+
+                    addSettingsDialogState.updateSelectedRadioOptionIndex(1)
 
                                   addSettingsDialogState.updateLabel("")
 
@@ -97,18 +103,21 @@ class AddSettingsDialogTest {
 
             val addSettingsDialogState = rememberAddSettingsDialogState()
 
-            AddSettingsDialog(addSettingsDialogState = addSettingsDialogState,
-                              scrollState = ScrollState(0),
-                              onRadioOptionSelected = {},
-                              onDismissRequest = {},
-                              onTypingLabel = {},
-                              onTypingKey = {},
-                              onTypingValueOnLaunch = {},
-                              onTypingValueOnRevert = {},
-                              onAddSettings = {
-                                  addSettingsDialogState.updateSelectedRadioOptionIndex(1)
+            val scrollState = rememberScrollState()
 
-                                  addSettingsDialogState.updateLabel("Test")
+            AddSettingsDialog(
+                addSettingsDialogState = addSettingsDialogState,
+                scrollState = scrollState,
+                onRadioOptionSelected = {},
+                onDismissRequest = {},
+                onTypingLabel = {},
+                onTypingKey = {},
+                onTypingValueOnLaunch = {},
+                onTypingValueOnRevert = {},
+                onAddSettings = {
+                    addSettingsDialogState.updateSelectedRadioOptionIndex(1)
+
+                    addSettingsDialogState.updateLabel("Test")
 
                                   addSettingsDialogState.updateKey("")
 
@@ -135,18 +144,21 @@ class AddSettingsDialogTest {
 
             val addSettingsDialogState = rememberAddSettingsDialogState()
 
-            AddSettingsDialog(addSettingsDialogState = addSettingsDialogState,
-                              scrollState = ScrollState(0),
-                              onRadioOptionSelected = {},
-                              onDismissRequest = {},
-                              onTypingLabel = {},
-                              onTypingKey = {},
-                              onTypingValueOnLaunch = {},
-                              onTypingValueOnRevert = {},
-                              onAddSettings = {
-                                  addSettingsDialogState.updateSelectedRadioOptionIndex(1)
+            val scrollState = rememberScrollState()
 
-                                  addSettingsDialogState.updateKey("Test")
+            AddSettingsDialog(
+                addSettingsDialogState = addSettingsDialogState,
+                scrollState = scrollState,
+                onRadioOptionSelected = {},
+                onDismissRequest = {},
+                onTypingLabel = {},
+                onTypingKey = {},
+                onTypingValueOnLaunch = {},
+                onTypingValueOnRevert = {},
+                onAddSettings = {
+                    addSettingsDialogState.updateSelectedRadioOptionIndex(1)
+
+                    addSettingsDialogState.updateKey("Test")
 
                                   addSettingsDialogState.updateLabel("Test")
 
@@ -173,17 +185,20 @@ class AddSettingsDialogTest {
 
             val addSettingsDialogState = rememberAddSettingsDialogState()
 
-            AddSettingsDialog(addSettingsDialogState = addSettingsDialogState,
-                              scrollState = ScrollState(0),
-                              onRadioOptionSelected = {},
-                              onDismissRequest = {},
-                              onTypingLabel = {},
-                              onTypingKey = {},
-                              onTypingValueOnLaunch = {},
-                              onTypingValueOnRevert = {},
-                              onAddSettings = {
+            val scrollState = rememberScrollState()
 
-                                  addSettingsDialogState.updateSelectedRadioOptionIndex(1)
+            AddSettingsDialog(
+                addSettingsDialogState = addSettingsDialogState,
+                scrollState = scrollState,
+                onRadioOptionSelected = {},
+                onDismissRequest = {},
+                onTypingLabel = {},
+                onTypingKey = {},
+                onTypingValueOnLaunch = {},
+                onTypingValueOnRevert = {},
+                onAddSettings = {
+
+                    addSettingsDialogState.updateSelectedRadioOptionIndex(1)
 
                                   addSettingsDialogState.updateKey("Test")
 

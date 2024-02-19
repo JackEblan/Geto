@@ -52,14 +52,14 @@ fun AddSettingsDialog(
             modifier = modifier
                 .fillMaxWidth()
                 .wrapContentSize()
-                .padding(16.dp),
+                .padding(16.dp)
+                .testTag("addSettingsDialog"),
             shape = RoundedCornerShape(16.dp),
         ) {
             Column(
                 modifier = Modifier
                     .verticalScroll(scrollState)
                     .padding(10.dp)
-                    .testTag("addSettingsDialog")
             ) {
                 Spacer(modifier = Modifier.height(10.dp))
 
@@ -89,7 +89,7 @@ fun AddSettingsDialog(
                 ) {
                     GetoLabeledRadioButton(
                         items = listOf("System", "Secure", "Global"),
-                        selectedRadioOptionIndex = { addSettingsDialogState.selectedRadioOptionIndex },
+                        selectedRadioOptionIndex = addSettingsDialogState.selectedRadioOptionIndex,
                         onRadioOptionSelected = onRadioOptionSelected
                     )
                 }
