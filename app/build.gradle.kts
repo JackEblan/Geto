@@ -12,7 +12,7 @@ android {
         versionCode = 14
         versionName = "1.14"
 
-        testInstrumentationRunner = "com.core.testing.GetoTestRunner"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
         }

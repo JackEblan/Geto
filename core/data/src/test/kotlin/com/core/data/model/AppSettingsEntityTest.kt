@@ -6,7 +6,7 @@ import com.core.model.SettingsType
 import org.junit.Test
 import kotlin.test.assertEquals
 
-class AppSettingsEntityKtTest {
+class AppSettingsEntityTest {
 
     @Test
     fun appSettings_canBeMappedToEntity() {

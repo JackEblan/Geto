@@ -2,6 +2,7 @@ package com.core.ui
 
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.ScrollState
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
@@ -14,204 +15,194 @@ class AddSettingsDialogTest {
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     @Test
-    fun radioOptionText_whenNoIndexSelected_showError() {
+    fun radioOptionTextIsDisplayed_whenSelectedRadioOptionIndexIsNegative() {
         composeTestRule.setContent {
 
             val addSettingsDialogState = rememberAddSettingsDialogState()
 
-            AddSettingsDialog(
-                addSettingsDialogState = addSettingsDialogState,
-                scrollState = ScrollState(0),
-                onRadioOptionSelected = {},
-                onDismissRequest = {},
-                onTypingLabel = {},
-                onTypingKey = {},
-                onTypingValueOnLaunch = {},
-                onTypingValueOnRevert = {},
-                onAddSettings = {
-                    addSettingsDialogState.updateSelectedRadioOptionIndex(-1)
+            AddSettingsDialog(addSettingsDialogState = addSettingsDialogState,
+                              scrollState = ScrollState(0),
+                              onRadioOptionSelected = {},
+                              onDismissRequest = {},
+                              onTypingLabel = {},
+                              onTypingKey = {},
+                              onTypingValueOnLaunch = {},
+                              onTypingValueOnRevert = {},
+                              onAddSettings = {
+                                  addSettingsDialogState.updateSelectedRadioOptionIndex(-1)
 
-                    addSettingsDialogState.updateLabel("Test")
+                                  addSettingsDialogState.updateLabel("Test")
 
-                    addSettingsDialogState.updateKey("Test")
+                                  addSettingsDialogState.updateKey("Test")
 
-                    addSettingsDialogState.updateValueOnLaunch("Test")
+                                  addSettingsDialogState.updateValueOnLaunch("Test")
 
-                    addSettingsDialogState.updateValueOnRevert("Test")
+                                  addSettingsDialogState.updateValueOnRevert("Test")
 
-                                        addSettingsDialogState.validateAddSettings(
-                                            packageName = "packageName",
-                                            onAppSettings = ::assertNull
-                                        )
-                                    })
+                                  addSettingsDialogState.validateAddSettings(
+                                      packageName = "packageName", onAppSettings = ::assertNull
+                                  )
+                              })
         }
 
         composeTestRule.onNodeWithTag("addSettingsDialog:add").performClick()
 
         composeTestRule.onNodeWithTag(
             testTag = "addSettingsDialog:radioOptionText"
-        ).assertExists()
+        ).assertIsDisplayed()
     }
 
     @Test
-    fun labelSupportingText_whenLabelTextFieldIsBlank_showError() {
+    fun labelSupportingTextIsDisplayed_whenLabelTextFieldIsBlank() {
         composeTestRule.setContent {
 
             val addSettingsDialogState = rememberAddSettingsDialogState()
 
-            AddSettingsDialog(
-                addSettingsDialogState = addSettingsDialogState,
-                scrollState = ScrollState(0),
-                onRadioOptionSelected = {},
-                onDismissRequest = {},
-                onTypingLabel = {},
-                onTypingKey = {},
-                onTypingValueOnLaunch = {},
-                onTypingValueOnRevert = {},
-                onAddSettings = {
+            AddSettingsDialog(addSettingsDialogState = addSettingsDialogState,
+                              scrollState = ScrollState(0),
+                              onRadioOptionSelected = {},
+                              onDismissRequest = {},
+                              onTypingLabel = {},
+                              onTypingKey = {},
+                              onTypingValueOnLaunch = {},
+                              onTypingValueOnRevert = {},
+                              onAddSettings = {
 
-                    addSettingsDialogState.updateSelectedRadioOptionIndex(1)
+                                  addSettingsDialogState.updateSelectedRadioOptionIndex(1)
 
-                    addSettingsDialogState.updateLabel("")
+                                  addSettingsDialogState.updateLabel("")
 
-                    addSettingsDialogState.updateKey("Test")
+                                  addSettingsDialogState.updateKey("Test")
 
-                    addSettingsDialogState.updateValueOnLaunch("Test")
+                                  addSettingsDialogState.updateValueOnLaunch("Test")
 
-                    addSettingsDialogState.updateValueOnRevert("Test")
+                                  addSettingsDialogState.updateValueOnRevert("Test")
 
-                                        addSettingsDialogState.validateAddSettings(
-                                            packageName = "packageName",
-                                            onAppSettings = ::assertNull
-                                        )
-                                    })
+                                  addSettingsDialogState.validateAddSettings(
+                                      packageName = "packageName", onAppSettings = ::assertNull
+                                  )
+                              })
         }
 
         composeTestRule.onNodeWithTag("addSettingsDialog:add").performClick()
 
         composeTestRule.onNodeWithTag(
             testTag = "addSettingsDialog:labelSupportingText", useUnmergedTree = true
-        ).assertExists()
+        ).assertIsDisplayed()
     }
 
     @Test
-    fun keySupportingText_whenKeyTextFieldIsBlank_showError() {
+    fun keySupportingTextIsDisplayed_whenKeyTextFieldIsBlank() {
         composeTestRule.setContent {
 
             val addSettingsDialogState = rememberAddSettingsDialogState()
 
-            AddSettingsDialog(
-                addSettingsDialogState = addSettingsDialogState,
-                scrollState = ScrollState(0),
-                onRadioOptionSelected = {},
-                onDismissRequest = {},
-                onTypingLabel = {},
-                onTypingKey = {},
-                onTypingValueOnLaunch = {},
-                onTypingValueOnRevert = {},
-                onAddSettings = {
-                    addSettingsDialogState.updateSelectedRadioOptionIndex(1)
+            AddSettingsDialog(addSettingsDialogState = addSettingsDialogState,
+                              scrollState = ScrollState(0),
+                              onRadioOptionSelected = {},
+                              onDismissRequest = {},
+                              onTypingLabel = {},
+                              onTypingKey = {},
+                              onTypingValueOnLaunch = {},
+                              onTypingValueOnRevert = {},
+                              onAddSettings = {
+                                  addSettingsDialogState.updateSelectedRadioOptionIndex(1)
 
-                    addSettingsDialogState.updateLabel("Test")
+                                  addSettingsDialogState.updateLabel("Test")
 
-                    addSettingsDialogState.updateKey("")
+                                  addSettingsDialogState.updateKey("")
 
-                    addSettingsDialogState.updateValueOnLaunch("Test")
+                                  addSettingsDialogState.updateValueOnLaunch("Test")
 
-                    addSettingsDialogState.updateValueOnRevert("Test")
+                                  addSettingsDialogState.updateValueOnRevert("Test")
 
-                                        addSettingsDialogState.validateAddSettings(
-                                            packageName = "packageName",
-                                            onAppSettings = ::assertNull
-                                        )
-                                    })
+                                  addSettingsDialogState.validateAddSettings(
+                                      packageName = "packageName", onAppSettings = ::assertNull
+                                  )
+                              })
         }
 
         composeTestRule.onNodeWithTag("addSettingsDialog:add").performClick()
 
         composeTestRule.onNodeWithTag(
             testTag = "addSettingsDialog:keySupportingText", useUnmergedTree = true
-        ).assertExists()
+        ).assertIsDisplayed()
     }
 
     @Test
-    fun valueOnLaunchSupportingText_whenValueOnLaunchTextFieldIsBlank_showError() {
+    fun valueOnLaunchSupportingTextIsDisplayed_whenValueOnLaunchTextFieldIsBlank() {
         composeTestRule.setContent {
 
             val addSettingsDialogState = rememberAddSettingsDialogState()
 
-            AddSettingsDialog(
-                addSettingsDialogState = addSettingsDialogState,
-                scrollState = ScrollState(0),
-                onRadioOptionSelected = {},
-                onDismissRequest = {},
-                onTypingLabel = {},
-                onTypingKey = {},
-                onTypingValueOnLaunch = {},
-                onTypingValueOnRevert = {},
-                onAddSettings = {
-                    addSettingsDialogState.updateSelectedRadioOptionIndex(1)
+            AddSettingsDialog(addSettingsDialogState = addSettingsDialogState,
+                              scrollState = ScrollState(0),
+                              onRadioOptionSelected = {},
+                              onDismissRequest = {},
+                              onTypingLabel = {},
+                              onTypingKey = {},
+                              onTypingValueOnLaunch = {},
+                              onTypingValueOnRevert = {},
+                              onAddSettings = {
+                                  addSettingsDialogState.updateSelectedRadioOptionIndex(1)
 
-                    addSettingsDialogState.updateKey("Test")
+                                  addSettingsDialogState.updateKey("Test")
 
-                    addSettingsDialogState.updateLabel("Test")
+                                  addSettingsDialogState.updateLabel("Test")
 
-                    addSettingsDialogState.updateValueOnLaunch("")
+                                  addSettingsDialogState.updateValueOnLaunch("")
 
-                    addSettingsDialogState.updateValueOnRevert("Test")
+                                  addSettingsDialogState.updateValueOnRevert("Test")
 
-                                        addSettingsDialogState.validateAddSettings(
-                                            packageName = "packageName",
-                                            onAppSettings = ::assertNull
-                                        )
-                                    })
+                                  addSettingsDialogState.validateAddSettings(
+                                      packageName = "packageName", onAppSettings = ::assertNull
+                                  )
+                              })
         }
 
         composeTestRule.onNodeWithTag("addSettingsDialog:add").performClick()
 
         composeTestRule.onNodeWithTag(
             testTag = "addSettingsDialog:valueOnLaunchSupportingText", useUnmergedTree = true
-        ).assertExists()
+        ).assertIsDisplayed()
     }
 
     @Test
-    fun valueOnRevertSupportingText_whenValueOnRevertTextFieldIsBlank_showError() {
+    fun valueOnRevertSupportingTextIsDisplayed_whenValueOnRevertTextFieldIsBlank() {
         composeTestRule.setContent {
 
             val addSettingsDialogState = rememberAddSettingsDialogState()
 
-            AddSettingsDialog(
-                addSettingsDialogState = addSettingsDialogState,
-                scrollState = ScrollState(0),
-                onRadioOptionSelected = {},
-                onDismissRequest = {},
-                onTypingLabel = {},
-                onTypingKey = {},
-                onTypingValueOnLaunch = {},
-                onTypingValueOnRevert = {},
-                onAddSettings = {
+            AddSettingsDialog(addSettingsDialogState = addSettingsDialogState,
+                              scrollState = ScrollState(0),
+                              onRadioOptionSelected = {},
+                              onDismissRequest = {},
+                              onTypingLabel = {},
+                              onTypingKey = {},
+                              onTypingValueOnLaunch = {},
+                              onTypingValueOnRevert = {},
+                              onAddSettings = {
 
-                    addSettingsDialogState.updateSelectedRadioOptionIndex(1)
+                                  addSettingsDialogState.updateSelectedRadioOptionIndex(1)
 
-                    addSettingsDialogState.updateKey("Test")
+                                  addSettingsDialogState.updateKey("Test")
 
-                    addSettingsDialogState.updateLabel("Test")
+                                  addSettingsDialogState.updateLabel("Test")
 
-                    addSettingsDialogState.updateValueOnLaunch("Test")
+                                  addSettingsDialogState.updateValueOnLaunch("Test")
 
-                    addSettingsDialogState.updateValueOnRevert("")
+                                  addSettingsDialogState.updateValueOnRevert("")
 
-                                        addSettingsDialogState.validateAddSettings(
-                                            packageName = "packageName",
-                                            onAppSettings = ::assertNull
-                                        )
-                                    })
+                                  addSettingsDialogState.validateAddSettings(
+                                      packageName = "packageName", onAppSettings = ::assertNull
+                                  )
+                              })
         }
 
         composeTestRule.onNodeWithTag("addSettingsDialog:add").performClick()
 
         composeTestRule.onNodeWithTag(
             testTag = "addSettingsDialog:valueOnRevertSupportingText", useUnmergedTree = true
-        ).assertExists()
+        ).assertIsDisplayed()
     }
 }

@@ -2,13 +2,19 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="addSettingsDialogIsDisplayed_whenAddIconIsClicked()">
+      <entry key="AddSettingsDialogTest">
         <State />
       </entry>
       <entry key="app">
         <State />
       </entry>
-      <entry key="copyPermissionCommandDialogIsDisplayed_whenCopyPermissionCommandDialogStateIsTrue()">
+      <entry key="lazyColumnIsDisplayed_whenAppListUiStateIsSuccess()">
+        <State />
+      </entry>
+      <entry key="radioOptionTextIsDisplayed_whenSelectedRadioOptionIndexIsNegative()">
+        <State />
+      </entry>
+      <entry key="valueOnRevertSupportingTextIsDisplayed_whenValueOnRevertTextFieldIsBlank()">
         <State />
       </entry>
     </value>

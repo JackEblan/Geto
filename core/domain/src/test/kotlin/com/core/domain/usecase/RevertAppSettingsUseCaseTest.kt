@@ -31,22 +31,23 @@ class RevertAppSettingsUseCaseTest {
     }
 
     @Test
-    fun onEmptyAppSettingsList_showsMessage() = runTest {
+    fun onEmptyAppSettingsListIsNotBlank() = runTest {
         appSettingsRepository.sendAppSettings(emptyList())
 
-        revertAppSettingsUseCase(packageName = packageNameTest,
-                                 onEmptyAppSettingsList = {
-                                     assertTrue { it.isNotBlank() }
-                                 },
-                                 onAppSettingsDisabled = {},
-                                 onAppSettingsNotSafeToWrite = {},
-                                 onReverted = {},
-                                 onSecurityException = {},
+        revertAppSettingsUseCase(
+            packageName = packageNameTest,
+            onEmptyAppSettingsList = {
+                assertTrue { it.isNotBlank() }
+            },
+            onAppSettingsDisabled = {},
+            onAppSettingsNotSafeToWrite = {},
+            onReverted = {},
+            onSecurityException = {},
                                  onFailure = {})
     }
 
     @Test
-    fun onAppSettingsDisabled_showsMessage() = runTest {
+    fun onAppSettingsDisabledIsNotBlank() = runTest {
         appSettingsRepository.sendAppSettings(
             listOf(
                 AppSettings(
@@ -73,7 +74,7 @@ class RevertAppSettingsUseCaseTest {
     }
 
     @Test
-    fun onAppSettingsNotSafeToWrite_showsMessage() = runTest {
+    fun onAppSettingsNotSafeToWriteIsNotBlank() = runTest {
         appSettingsRepository.sendAppSettings(
             listOf(
                 AppSettings(
@@ -100,7 +101,7 @@ class RevertAppSettingsUseCaseTest {
     }
 
     @Test
-    fun onReverted_showsMessage() = runTest {
+    fun onRevertedIsNotBlank() = runTest {
         secureSettingsRepository.setWriteSecureSettings(true)
 
         appSettingsRepository.sendAppSettings(
@@ -129,7 +130,7 @@ class RevertAppSettingsUseCaseTest {
     }
 
     @Test
-    fun onSecurityException_showsMessage() = runTest {
+    fun onSecurityExceptionIsNotBlank() = runTest {
         secureSettingsRepository.setWriteSecureSettings(false)
 
         appSettingsRepository.sendAppSettings(

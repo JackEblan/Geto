@@ -5,6 +5,10 @@ plugins {
 
 android {
     namespace = "com.core.ui"
+
+    defaultConfig {
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
 }
 
 dependencies {
@@ -13,5 +17,6 @@ dependencies {
 
     implementation(libs.coil.kt.compose)
 
+    testImplementation(projects.core.testing)
     androidTestImplementation(projects.core.testing)
 }
