@@ -38,7 +38,7 @@ class SecureSettingsListViewModelTest {
     }
 
     @Test
-    fun stateIsSuccess_whenEventIsGetSecureSettingsListBySystem() = runTest {
+    fun stateIsSuccess_whenEventIsGetSecureSettingsList_selectedSettingsTypeIndexIs0() = runTest {
         val collectJob =
             launch(UnconfinedTestDispatcher()) { viewModel.secureSettingsListUiState.collect() }
 
@@ -58,7 +58,7 @@ class SecureSettingsListViewModelTest {
     }
 
     @Test
-    fun stateIsSuccess_whenEventIsGetSecureSettingsListBySecure() = runTest {
+    fun stateIsSuccess_whenEventIsGetSecureSettingsList_selectedSettingsTypeIndexIs1() = runTest {
         val collectJob =
             launch(UnconfinedTestDispatcher()) { viewModel.secureSettingsListUiState.collect() }
 
@@ -78,7 +78,7 @@ class SecureSettingsListViewModelTest {
     }
 
     @Test
-    fun stateIsSuccess_whenEventIsGetSecureSettingsListByGlobal() = runTest {
+    fun stateIsSuccess_whenGetSecureSettingsList_selectedSettingsTypeIndexIs2() = runTest {
         val collectJob =
             launch(UnconfinedTestDispatcher()) { viewModel.secureSettingsListUiState.collect() }
 
@@ -98,13 +98,13 @@ class SecureSettingsListViewModelTest {
     }
 
     @Test
-    fun snackBarNotNull_whenEventIsOnCopySecureSettings_api32AndLower() = runTest {
+    fun snackBarNotNull_whenCopySecureSettings_api32AndLower() = runTest {
         val collectJob =
             launch(UnconfinedTestDispatcher()) { viewModel.secureSettingsListUiState.collect() }
 
         clipboardRepository.setApi32(false)
 
-        viewModel.copySecureSettingsList("Hi")
+        viewModel.copySecureSettings("Hi")
 
         assertNotNull(viewModel.snackBar.value)
 
@@ -112,10 +112,10 @@ class SecureSettingsListViewModelTest {
     }
 
     @Test
-    fun snackBarNull_whenEventIsOnCopySecureSettings_api32AndHigher() = runTest {
+    fun snackBarNull_whenCopySecureSettings_api32AndHigher() = runTest {
         clipboardRepository.setApi32(true)
 
-        viewModel.copySecureSettingsList("Hi")
+        viewModel.copySecureSettings("Hi")
 
         assertNull(viewModel.snackBar.value)
     }

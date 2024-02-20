@@ -2,7 +2,6 @@ package com.feature.securesettingslist
 
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
@@ -65,7 +64,7 @@ internal fun SecureSettingsListRoute(
         modifier = modifier,
         snackbarHostState = snackbarHostState,
         dropDownExpanded = dropDownExpanded,
-        onItemClick = viewModel::copySecureSettingsList,
+        onItemClick = viewModel::copySecureSettings,
         onNavigationIconClick = onNavigationIconClick,
         onDropDownExpanded = { dropDownExpanded = it },
         onSystemDropdownMenuItemClick = {
@@ -87,7 +86,7 @@ internal fun SecureSettingsListRoute(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
 @Composable
 internal fun SecureSettingsListScreen(

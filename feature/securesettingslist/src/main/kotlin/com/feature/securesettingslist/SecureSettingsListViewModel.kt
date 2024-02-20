@@ -32,7 +32,7 @@ class SecureSettingsListViewModel @Inject constructor(
     @VisibleForTesting(VisibleForTesting.PRIVATE)
     val loadingDelay = 500L
 
-    fun getSecureSettingsList(selectedRadioOptionIndex: Int) {
+    fun getSecureSettingsList(selectedSettingsTypeIndex: Int) {
         viewModelScope.launch {
             _secureSettingsListUiState.update { SecureSettingsListUiState.Loading }
 
@@ -40,13 +40,13 @@ class SecureSettingsListViewModel @Inject constructor(
 
             _secureSettingsListUiState.update {
                 SecureSettingsListUiState.Success(
-                    secureSettingsRepository.getSecureSettings(SettingsType.entries[selectedRadioOptionIndex])
+                    secureSettingsRepository.getSecureSettings(SettingsType.entries[selectedSettingsTypeIndex])
                 )
             }
         }
     }
 
-    fun copySecureSettingsList(secureSettings: String) {
+    fun copySecureSettings(secureSettings: String) {
         val result = clipboardRepository.setPrimaryClip(
             label = "Secure Settings", text = secureSettings
         )

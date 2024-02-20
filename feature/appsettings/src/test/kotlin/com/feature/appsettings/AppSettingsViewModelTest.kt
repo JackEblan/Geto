@@ -144,7 +144,7 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun snackBarIsNotNull_whenEventIsOnLaunchApp_itemEnabledIsFalse() = runTest {
+    fun snackBarIsNotNull_whenLaunchApp_itemEnabledIsFalse() = runTest {
         appSettingsRepository.sendAppSettings(
             listOf(
                 AppSettings(
@@ -169,7 +169,7 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun snackBarIsNotNull_whenEventIsOnLaunchApp_itemSafeToWriteIsFalse() = runTest {
+    fun snackBarIsNotNull_whenLaunchApp_itemSafeToWriteIsFalse() = runTest {
         appSettingsRepository.sendAppSettings(
             listOf(
                 AppSettings(
@@ -194,7 +194,7 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun launchIntentIsNotNull_whenEventIsOnLaunchApp() = runTest {
+    fun launchIntentIsNotNull_whenLaunchApp() = runTest {
         appSettingsRepository.sendAppSettings(
             listOf(
                 AppSettings(
@@ -220,7 +220,7 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun copyPermissionDialogIsTrue_whenEventIsOnLaunchApp_writeSecureSettingsIsFalse() = runTest {
+    fun copyPermissionDialogIsTrue_whenLaunchApp_writeSecureSettingsIsFalse() = runTest {
         appSettingsRepository.sendAppSettings(
             listOf(
                 AppSettings(
@@ -247,7 +247,7 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun snackBarIsNotNull_whenEventIsOnRevertSettings_emptyAppSettings() = runTest {
+    fun snackBarIsNotNull_whenRevertSettings_emptyAppSettings() = runTest {
         appSettingsRepository.sendAppSettings(emptyList())
 
         secureSettingsRepository.setWriteSecureSettings(true)
@@ -259,7 +259,7 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun snackBarIsNotNull_whenEventIsOnRevertSettings_itemEnabledIsFalse() = runTest {
+    fun snackBarIsNotNull_whenRevertSettings_itemEnabledIsFalse() = runTest {
         appSettingsRepository.sendAppSettings(
             listOf(
                 AppSettings(
@@ -284,7 +284,7 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun snackBarIsNotNull_whenEventIsOnRevertSettings_itemSafeToWriteIsFalse() = runTest {
+    fun snackBarIsNotNull_whenRevertSettings_itemSafeToWriteIsFalse() = runTest {
         appSettingsRepository.sendAppSettings(
             listOf(
                 AppSettings(
@@ -309,7 +309,7 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun snackBarIsNotNull_whenEventIsOnRevertSettings() = runTest {
+    fun snackBarIsNotNull_whenRevertSettings() = runTest {
         appSettingsRepository.sendAppSettings(
             listOf(
                 AppSettings(
@@ -335,27 +335,26 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun copyPermissionDialogIsTrue_whenEventIsOnRevertSettings_writeSecureSettingsIsFalse() =
-        runTest {
-            appSettingsRepository.sendAppSettings(
-                listOf(
-                    AppSettings(
-                        id = 0,
-                        enabled = true,
-                        settingsType = SettingsType.SYSTEM,
-                        packageName = packageNameTest,
-                        label = "system",
-                        key = "key",
-                        valueOnLaunch = "test",
-                        valueOnRevert = "test",
-                        safeToWrite = true
-                    )
+    fun copyPermissionDialogIsTrue_whenRevertSettings_writeSecureSettingsIsFalse() = runTest {
+        appSettingsRepository.sendAppSettings(
+            listOf(
+                AppSettings(
+                    id = 0,
+                    enabled = true,
+                    settingsType = SettingsType.SYSTEM,
+                    packageName = packageNameTest,
+                    label = "system",
+                    key = "key",
+                    valueOnLaunch = "test",
+                    valueOnRevert = "test",
+                    safeToWrite = true
                 )
             )
+        )
 
-            secureSettingsRepository.setWriteSecureSettings(false)
+        secureSettingsRepository.setWriteSecureSettings(false)
 
-            viewModel.revertSettings()
+        viewModel.revertSettings()
 
             val item = viewModel.showCopyPermissionCommandDialog.value
 
@@ -363,7 +362,7 @@ class AppSettingsViewModelTest {
         }
 
     @Test
-    fun copyPermissionDialogIsFalse_whenEventIsCopyPermissionCommandKey() = runTest {
+    fun copyPermissionDialogIsFalse_whenCopyPermissionCommand() = runTest {
 
         viewModel.copyPermissionCommand()
 

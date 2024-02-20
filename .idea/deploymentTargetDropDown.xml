@@ -11,12 +11,6 @@
       <entry key="app">
         <State />
       </entry>
-      <entry key="radioOptionTextIsDisplayed_whenSelectedRadioOptionIndexIsNegative()">
-        <State />
-      </entry>
-      <entry key="valueOnRevertSupportingTextIsDisplayed_whenValueOnRevertTextFieldIsBlank()">
-        <State />
-      </entry>
     </value>
   </component>
 </project>
