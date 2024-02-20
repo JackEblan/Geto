@@ -100,17 +100,18 @@ class AppSettingsScreenTest {
     }
 
     @Test
-    fun snackbarExists_whenRevertIconClicked_inAppSettingsUiStateEmpty() {
+    fun snackbarExists_whenRevertIconIsClicked_appSettingsUiStateIsEmpty() {
         composeTestRule.setContent {
             val addSettingsDialogState = rememberAddSettingsDialogState()
 
             val scrollState = rememberScrollState()
 
-            AppSettingsScreen(snackbarHostState = SnackbarHostState(),
-                              appName = "Geto",
-                              packageName = "Geto",
-                              appSettingsUiState = AppSettingsUiState.Success(testAppSettingsList),
-                              addSettingsDialogState = addSettingsDialogState,
+            AppSettingsScreen(
+                snackbarHostState = SnackbarHostState(),
+                appName = "Geto",
+                packageName = "Geto",
+                appSettingsUiState = AppSettingsUiState.Success(testAppSettingsList),
+                addSettingsDialogState = addSettingsDialogState,
                               showCopyPermissionCommandDialog = false,
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
@@ -129,17 +130,18 @@ class AppSettingsScreenTest {
     }
 
     @Test
-    fun snackbarExists_whenLaunchIconClicked_inAppSettingsUiStateEmpty() {
+    fun snackbarExists_whenLaunchIconIsClicked_appSettingsUiStateIsEmpty() {
         composeTestRule.setContent {
             val addSettingsDialogState = rememberAddSettingsDialogState()
 
             val scrollState = rememberScrollState()
 
-            AppSettingsScreen(snackbarHostState = SnackbarHostState(),
-                              appName = "Geto",
-                              packageName = "Geto",
-                              appSettingsUiState = AppSettingsUiState.Empty,
-                              addSettingsDialogState = addSettingsDialogState,
+            AppSettingsScreen(
+                snackbarHostState = SnackbarHostState(),
+                appName = "Geto",
+                packageName = "Geto",
+                appSettingsUiState = AppSettingsUiState.Empty,
+                addSettingsDialogState = addSettingsDialogState,
                               showCopyPermissionCommandDialog = false,
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
@@ -189,17 +191,18 @@ class AppSettingsScreenTest {
     }
 
     @Test
-    fun copyPermissionCommandDialogIsDisplayed_whenCopyPermissionCommandDialogStateIsTrue() {
+    fun copyPermissionCommandDialogIsDisplayed_whenShowCopyPermissionCommandDialogIsTrue() {
         composeTestRule.setContent {
             val addSettingsDialogState = rememberAddSettingsDialogState()
 
             val scrollState = rememberScrollState()
 
-            AppSettingsScreen(snackbarHostState = SnackbarHostState(),
-                              appName = "Geto",
-                              packageName = "Geto",
-                              appSettingsUiState = AppSettingsUiState.Empty,
-                              addSettingsDialogState = addSettingsDialogState,
+            AppSettingsScreen(
+                snackbarHostState = SnackbarHostState(),
+                appName = "Geto",
+                packageName = "Geto",
+                appSettingsUiState = AppSettingsUiState.Empty,
+                addSettingsDialogState = addSettingsDialogState,
                               showCopyPermissionCommandDialog = true,
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},

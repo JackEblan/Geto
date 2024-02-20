@@ -98,7 +98,7 @@ class SecureSettingsListViewModelTest {
     }
 
     @Test
-    fun snackBarNotNull_whenEventIsOnCopySecureSettingsOnApi32AndLower() = runTest {
+    fun snackBarNotNull_whenEventIsOnCopySecureSettings_api32AndLower() = runTest {
         val collectJob =
             launch(UnconfinedTestDispatcher()) { viewModel.secureSettingsListUiState.collect() }
 
@@ -112,7 +112,7 @@ class SecureSettingsListViewModelTest {
     }
 
     @Test
-    fun snackBarNull_whenEventIsOnCopySecureSettingsOnApi32AndHigher() = runTest {
+    fun snackBarNull_whenEventIsOnCopySecureSettings_api32AndHigher() = runTest {
         clipboardRepository.setApi32(true)
 
         viewModel.onEvent(SecureSettingsListEvent.OnCopySecureSettingsList("Hi"))

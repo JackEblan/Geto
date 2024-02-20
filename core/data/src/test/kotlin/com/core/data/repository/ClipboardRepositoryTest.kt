@@ -27,7 +27,7 @@ class ClipboardRepositoryTest {
     }
 
     @Test
-    fun resultIsNull_whenSetPrimaryClipOnApi32AndHigher() {
+    fun resultIsNull_whenSetPrimaryClip_api32AndHigher() {
         buildVersionWrapper.setApi32(true)
 
         val result = subject.setPrimaryClip(label = "label", text = "text")
@@ -36,7 +36,7 @@ class ClipboardRepositoryTest {
     }
 
     @Test
-    fun resultIsNotNull_whenSetPrimaryClipOnApi32AndLower() {
+    fun resultIsNotNull_whenSetPrimaryClip_api32AndLower() {
         buildVersionWrapper.setApi32(false)
 
         val result = subject.setPrimaryClip(label = "label", text = "text")

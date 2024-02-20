@@ -28,7 +28,7 @@ class SecureSettingsRepositoryTest {
     }
 
     @Test
-    fun resultIsSuccess_whenApplySecureSettingsWithGlobalSettingsTypeAndSetWriteSecureSettingsIsTrue() =
+    fun resultIsSuccess_whenApplySecureSettings_globalSettingsType_setWriteSecureSettingsIsTrue() =
         runTest(testDispatcher) {
             secureSettingsPermissionWrapper.setWriteSecureSettings(true)
 
@@ -51,7 +51,7 @@ class SecureSettingsRepositoryTest {
         }
 
     @Test
-    fun resultIsSuccess_whenApplySecureSettingsWithSecureSettingsTypeAndSetWriteSecureSettingsIsTrue() =
+    fun resultIsSuccess_whenApplySecureSettings_secureSettingsType_setWriteSecureSettingsIsTrue() =
         runTest(testDispatcher) {
             secureSettingsPermissionWrapper.setWriteSecureSettings(true)
 
@@ -74,7 +74,7 @@ class SecureSettingsRepositoryTest {
         }
 
     @Test
-    fun resultIsSuccess_whenApplySystemSettingsWithSecureSettingsTypeAndSetWriteSecureSettingsIsTrue() =
+    fun resultIsSuccess_whenApplySystemSettings_secureSettingsType_setWriteSecureSettingsIsTrue() =
         runTest(testDispatcher) {
             secureSettingsPermissionWrapper.setWriteSecureSettings(true)
 
@@ -97,7 +97,7 @@ class SecureSettingsRepositoryTest {
         }
 
     @Test
-    fun resultIsSuccess_whenRevertSecureSettingsWithGlobalSettingsTypeAndSetWriteSecureSettingsIsTrue() =
+    fun resultIsSuccess_whenRevertSecureSettings_globalSettingsType_setWriteSecureSettingsIsTrue() =
         runTest(testDispatcher) {
             secureSettingsPermissionWrapper.setWriteSecureSettings(true)
 
@@ -120,7 +120,7 @@ class SecureSettingsRepositoryTest {
         }
 
     @Test
-    fun resultIsSuccess_whenRevertSecureSettingsWithSecureSettingsTypeAndSetWriteSecureSettingsIsTrue() =
+    fun resultIsSuccess_whenRevertSecureSettings_secureSettingsType_setWriteSecureSettingsIsTrue() =
         runTest(testDispatcher) {
             secureSettingsPermissionWrapper.setWriteSecureSettings(true)
 
@@ -143,7 +143,7 @@ class SecureSettingsRepositoryTest {
         }
 
     @Test
-    fun resultIsSuccess_whenRevertSecureSettingsWithSystemSettingsTypeAndSetWriteSecureSettingsIsTrue() =
+    fun resultIsSuccess_whenRevertSecureSettings_systemSettingsType_setWriteSecureSettingsIsTrue() =
         runTest(testDispatcher) {
             secureSettingsPermissionWrapper.setWriteSecureSettings(true)
 
@@ -166,7 +166,7 @@ class SecureSettingsRepositoryTest {
         }
 
     @Test
-    fun resultIsFailure_whenApplySecureSettingsWithGlobalSettingsTypeAndSetWriteSecureSettingsIsFalse() =
+    fun resultIsFailure_whenApplySecureSettings_globalSettingsType_setWriteSecureSettingsIsFalse() =
         runTest(testDispatcher) {
             secureSettingsPermissionWrapper.setWriteSecureSettings(false)
 
@@ -189,7 +189,7 @@ class SecureSettingsRepositoryTest {
         }
 
     @Test
-    fun resultIsFailure_whenApplySecureSettingsWithSecureSettingsTypeAndSetWriteSecureSettingsIsFalse() =
+    fun resultIsFailure_whenApplySecureSettings_secureSettingsType_setWriteSecureSettingsIsFalse() =
         runTest(testDispatcher) {
             secureSettingsPermissionWrapper.setWriteSecureSettings(false)
 
@@ -212,7 +212,7 @@ class SecureSettingsRepositoryTest {
         }
 
     @Test
-    fun resultIsFailure_whenApplySecureSettingsWithSystemSettingsTypeAndSetWriteSecureSettingsIsFalse() =
+    fun resultIsFailure_whenApplySecureSettings_systemSettingsType_setWriteSecureSettingsIsFalse() =
         runTest(testDispatcher) {
             secureSettingsPermissionWrapper.setWriteSecureSettings(false)
 
@@ -235,7 +235,7 @@ class SecureSettingsRepositoryTest {
         }
 
     @Test
-    fun resultIsFailure_whenRevertSecureSettingsWithGlobalSettingsTypeAndSetWriteSecureSettingsIsFalse() =
+    fun resultIsFailure_whenRevertSecureSettings_globalSettingsType_setWriteSecureSettingsIsFalse() =
         runTest(testDispatcher) {
             secureSettingsPermissionWrapper.setWriteSecureSettings(false)
 
@@ -258,7 +258,7 @@ class SecureSettingsRepositoryTest {
         }
 
     @Test
-    fun resultIsFailure_whenRevertSecureSettingsWithSecureSettingsTypeAndSetWriteSecureSettingsIsFalse() =
+    fun resultIsFailure_whenRevertSecureSettings_secureSettingsType_setWriteSecureSettingsIsFalse() =
         runTest(testDispatcher) {
             secureSettingsPermissionWrapper.setWriteSecureSettings(false)
 
@@ -281,7 +281,7 @@ class SecureSettingsRepositoryTest {
         }
 
     @Test
-    fun resultIsFailure_whenRevertSecureSettingsWithSystemSettingsTypeAndSetWriteSecureSettingsIsFalse() =
+    fun resultIsFailure_whenRevertSecureSettings_systemSettingsType_setWriteSecureSettingsIsFalse() =
         runTest(testDispatcher) {
             secureSettingsPermissionWrapper.setWriteSecureSettings(false)
 
