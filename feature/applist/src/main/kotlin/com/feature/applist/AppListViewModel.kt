@@ -18,13 +18,9 @@ class AppListViewModel @Inject constructor(
 
     val appListUiState = _appListUiState.asStateFlow()
 
-    fun onEvent(event: AppListEvent) {
-        when (event) {
-            AppListEvent.GetNonSystemApps -> {
-                viewModelScope.launch {
-                    _appListUiState.update { AppListUiState.Success(packageRepository.getNonSystemApps()) }
-                }
-            }
+    fun getNonSystemApps() {
+        viewModelScope.launch {
+            _appListUiState.update { AppListUiState.Success(packageRepository.getNonSystemApps()) }
         }
     }
 }

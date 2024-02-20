@@ -34,7 +34,7 @@ internal fun AppListRoute(
     val appListUiState = viewModel.appListUiState.collectAsStateWithLifecycle().value
 
     LaunchedEffect(key1 = true) {
-        viewModel.onEvent(AppListEvent.GetNonSystemApps)
+        viewModel.getNonSystemApps()
     }
 
     AppListScreen(

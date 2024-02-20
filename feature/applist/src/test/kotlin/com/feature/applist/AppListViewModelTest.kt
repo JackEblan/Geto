@@ -47,7 +47,7 @@ class AppListViewModelTest {
 
         packageRepository.sendNonSystemApps(nonSystemAppsTestData)
 
-        viewModel.onEvent(AppListEvent.GetNonSystemApps)
+        viewModel.getNonSystemApps()
 
         val item = viewModel.appListUiState.value
 

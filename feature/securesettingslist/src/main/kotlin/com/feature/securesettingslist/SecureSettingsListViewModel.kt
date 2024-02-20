@@ -32,30 +32,26 @@ class SecureSettingsListViewModel @Inject constructor(
     @VisibleForTesting(VisibleForTesting.PRIVATE)
     val loadingDelay = 500L
 
-    fun onEvent(event: SecureSettingsListEvent) {
-        when (event) {
-            is SecureSettingsListEvent.GetSecureSettingsList -> {
-                viewModelScope.launch {
-                    _secureSettingsListUiState.update { SecureSettingsListUiState.Loading }
+    fun getSecureSettingsList(selectedRadioOptionIndex: Int) {
+        viewModelScope.launch {
+            _secureSettingsListUiState.update { SecureSettingsListUiState.Loading }
 
-                    delay(loadingDelay)
+            delay(loadingDelay)
 
-                    _secureSettingsListUiState.update {
-                        SecureSettingsListUiState.Success(
-                            secureSettingsRepository.getSecureSettings(SettingsType.entries[event.selectedRadioOptionIndex])
-                        )
-                    }
-                }
-            }
-
-            is SecureSettingsListEvent.OnCopySecureSettingsList -> {
-                val result = clipboardRepository.setPrimaryClip(
-                    label = "Secure Settings", text = event.secureSettings
+            _secureSettingsListUiState.update {
+                SecureSettingsListUiState.Success(
+                    secureSettingsRepository.getSecureSettings(SettingsType.entries[selectedRadioOptionIndex])
                 )
-
-                _snackBar.update { result }
             }
         }
+    }
+
+    fun copySecureSettingsList(secureSettings: String) {
+        val result = clipboardRepository.setPrimaryClip(
+            label = "Secure Settings", text = secureSettings
+        )
+
+        _snackBar.update { result }
     }
 
     fun clearSnackBar() {

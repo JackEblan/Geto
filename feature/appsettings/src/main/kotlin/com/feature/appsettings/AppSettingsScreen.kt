@@ -78,50 +78,24 @@ internal fun AppSettingsRoute(
         }
     }
 
-    AppSettingsScreen(modifier = modifier,
-                      snackbarHostState = snackbarHostState,
-                      appName = viewModel.appName,
-                      packageName = viewModel.packageName,
-                      appSettingsUiState = appSettingsUiState,
-                      addSettingsDialogState = addSettingsDialogState,
-                      showCopyPermissionCommandDialog = showCopyPermissionCommandDialog,
-                      onNavigationIconClick = {
-                          onNavigationIconClick()
-                      },
-                      onRevertSettingsIconClick = {
-                          viewModel.onEvent(
-                              AppSettingsEvent.OnRevertSettings
-                          )
-                      },
-                      onAppSettingsItemCheckBoxChange = { checked, userAppSettingsItem ->
-                          viewModel.onEvent(
-                              AppSettingsEvent.OnAppSettingsItemCheckBoxChange(
-                                  checked = checked, appSettings = userAppSettingsItem
-                              )
-                          )
-                      },
-                      onDeleteAppSettingsItem = {
-                          viewModel.onEvent(AppSettingsEvent.OnDeleteAppSettingsItem(it))
-                      },
-                      onLaunchApp = {
-                          viewModel.onEvent(
-                              AppSettingsEvent.OnLaunchApp
-                          )
-                      },
-                      scrollState = scrollState,
-                      onAddSettings = {
-                          viewModel.onEvent(
-                              AppSettingsEvent.AddSettings(it)
-                          )
-                      },
-                      onCopyPermissionCommand = {
-                          viewModel.onEvent(
-                              AppSettingsEvent.CopyPermissionCommandKey
-                          )
-                      },
-                      onDismissRequestCopyPermissionCommand = {
-                          viewModel.clearCopyPermissionCommandDialog()
-                      })
+    AppSettingsScreen(
+        modifier = modifier,
+        snackbarHostState = snackbarHostState,
+        appName = viewModel.appName,
+        packageName = viewModel.packageName,
+        appSettingsUiState = appSettingsUiState,
+        addSettingsDialogState = addSettingsDialogState,
+        showCopyPermissionCommandDialog = showCopyPermissionCommandDialog,
+        onNavigationIconClick = onNavigationIconClick,
+        onRevertSettingsIconClick = viewModel::revertSettings,
+        onAppSettingsItemCheckBoxChange = viewModel::appSettingsItemCheckBoxChange,
+        onDeleteAppSettingsItem = viewModel::deleteAppSettingsItem,
+        onLaunchApp = viewModel::launchApp,
+        scrollState = scrollState,
+        onAddSettings = viewModel::addSettings,
+        onCopyPermissionCommand = viewModel::copyPermissionCommand,
+        onDismissRequestCopyPermissionCommand = viewModel::clearCopyPermissionCommandDialog
+    )
 }
 
 @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
@@ -145,7 +119,6 @@ internal fun AppSettingsScreen(
     onCopyPermissionCommand: () -> Unit,
     onDismissRequestCopyPermissionCommand: () -> Unit,
 ) {
-
     if (addSettingsDialogState.showDialog) {
         AddSettingsDialog(addSettingsDialogState = addSettingsDialogState,
                           scrollState = scrollState,

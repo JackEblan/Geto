@@ -42,7 +42,7 @@ class SecureSettingsListViewModelTest {
         val collectJob =
             launch(UnconfinedTestDispatcher()) { viewModel.secureSettingsListUiState.collect() }
 
-        viewModel.onEvent(SecureSettingsListEvent.GetSecureSettingsList(0))
+        viewModel.getSecureSettingsList(0)
 
         testScheduler.runCurrent()
 
@@ -62,7 +62,7 @@ class SecureSettingsListViewModelTest {
         val collectJob =
             launch(UnconfinedTestDispatcher()) { viewModel.secureSettingsListUiState.collect() }
 
-        viewModel.onEvent(SecureSettingsListEvent.GetSecureSettingsList(1))
+        viewModel.getSecureSettingsList(1)
 
         testScheduler.runCurrent()
 
@@ -82,7 +82,7 @@ class SecureSettingsListViewModelTest {
         val collectJob =
             launch(UnconfinedTestDispatcher()) { viewModel.secureSettingsListUiState.collect() }
 
-        viewModel.onEvent(SecureSettingsListEvent.GetSecureSettingsList(2))
+        viewModel.getSecureSettingsList(2)
 
         testScheduler.runCurrent()
 
@@ -104,7 +104,7 @@ class SecureSettingsListViewModelTest {
 
         clipboardRepository.setApi32(false)
 
-        viewModel.onEvent(SecureSettingsListEvent.OnCopySecureSettingsList("Hi"))
+        viewModel.copySecureSettingsList("Hi")
 
         assertNotNull(viewModel.snackBar.value)
 
@@ -115,7 +115,7 @@ class SecureSettingsListViewModelTest {
     fun snackBarNull_whenEventIsOnCopySecureSettings_api32AndHigher() = runTest {
         clipboardRepository.setApi32(true)
 
-        viewModel.onEvent(SecureSettingsListEvent.OnCopySecureSettingsList("Hi"))
+        viewModel.copySecureSettingsList("Hi")
 
         assertNull(viewModel.snackBar.value)
     }

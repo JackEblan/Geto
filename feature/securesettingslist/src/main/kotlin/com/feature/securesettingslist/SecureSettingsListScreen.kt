@@ -51,7 +51,7 @@ internal fun SecureSettingsListRoute(
     var dropDownExpanded by remember { mutableStateOf(false) }
 
     LaunchedEffect(key1 = true) {
-        viewModel.onEvent(SecureSettingsListEvent.GetSecureSettingsList(0))
+        viewModel.getSecureSettingsList(0)
     }
 
     LaunchedEffect(key1 = snackBar) {
@@ -65,37 +65,21 @@ internal fun SecureSettingsListRoute(
         modifier = modifier,
         snackbarHostState = snackbarHostState,
         dropDownExpanded = dropDownExpanded,
-        onItemClick = { key ->
-            viewModel.onEvent(
-                SecureSettingsListEvent.OnCopySecureSettingsList(key)
-            )
-        },
+        onItemClick = viewModel::copySecureSettingsList,
         onNavigationIconClick = onNavigationIconClick,
         onDropDownExpanded = { dropDownExpanded = it },
         onSystemDropdownMenuItemClick = {
-            viewModel.onEvent(
-                SecureSettingsListEvent.GetSecureSettingsList(
-                    0
-                )
-            )
+            viewModel.getSecureSettingsList(0)
 
             dropDownExpanded = false
         },
         onSecureDropdownMenuItemClick = {
-            viewModel.onEvent(
-                SecureSettingsListEvent.GetSecureSettingsList(
-                    1
-                )
-            )
+            viewModel.getSecureSettingsList(1)
 
             dropDownExpanded = false
         },
         onGlobalDropdownMenuItemClick = {
-            viewModel.onEvent(
-                SecureSettingsListEvent.GetSecureSettingsList(
-                    2
-                )
-            )
+            viewModel.getSecureSettingsList(2)
 
             dropDownExpanded = false
         },
