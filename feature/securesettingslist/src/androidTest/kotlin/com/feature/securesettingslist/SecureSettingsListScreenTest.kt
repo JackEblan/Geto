@@ -21,12 +21,10 @@ class SecureSettingsListScreenTest {
             SecureSettingsListScreen(
                 snackbarHostState = SnackbarHostState(),
                 dropDownExpanded = false,
-                onDropDownExpanded = { },
+                onDropDownMenu = { },
                 onItemClick = {},
                 onNavigationIconClick = {},
-                onSystemDropdownMenuItemClick = {},
-                onSecureDropdownMenuItemClick = { },
-                onGlobalDropdownMenuItemClick = {},
+                onDropDownMenuItemSelected = {},
                 secureSettingsListUiState = SecureSettingsListUiState.Loading
             )
         }
@@ -41,12 +39,10 @@ class SecureSettingsListScreenTest {
             SecureSettingsListScreen(
                 snackbarHostState = SnackbarHostState(),
                 dropDownExpanded = false,
-                onDropDownExpanded = { },
+                onDropDownMenu = { },
                 onItemClick = {},
                 onNavigationIconClick = {},
-                onSystemDropdownMenuItemClick = {},
-                onSecureDropdownMenuItemClick = { },
-                onGlobalDropdownMenuItemClick = {},
+                onDropDownMenuItemSelected = {},
                 secureSettingsListUiState = SecureSettingsListUiState.Success(secureSettingsList)
             )
         }
@@ -62,12 +58,10 @@ class SecureSettingsListScreenTest {
             SecureSettingsListScreen(
                 snackbarHostState = SnackbarHostState(),
                 dropDownExpanded = false,
-                onDropDownExpanded = { },
+                onDropDownMenu = { },
                 onItemClick = {},
                 onNavigationIconClick = {},
-                onSystemDropdownMenuItemClick = {},
-                onSecureDropdownMenuItemClick = { },
-                onGlobalDropdownMenuItemClick = {},
+                onDropDownMenuItemSelected = {},
                 secureSettingsListUiState = SecureSettingsListUiState.Success(secureSettingsList)
             )
         }

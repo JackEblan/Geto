@@ -7,8 +7,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -27,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.core.designsystem.component.GetoDropDownMenu
 import com.core.designsystem.icon.GetoIcons
 import com.core.model.SecureSettings
 import com.core.ui.LoadingPlaceHolderScreen
@@ -66,22 +65,8 @@ internal fun SecureSettingsListRoute(
         dropDownExpanded = dropDownExpanded,
         onItemClick = viewModel::copySecureSettings,
         onNavigationIconClick = onNavigationIconClick,
-        onDropDownExpanded = { dropDownExpanded = it },
-        onSystemDropdownMenuItemClick = {
-            viewModel.getSecureSettingsList(0)
-
-            dropDownExpanded = false
-        },
-        onSecureDropdownMenuItemClick = {
-            viewModel.getSecureSettingsList(1)
-
-            dropDownExpanded = false
-        },
-        onGlobalDropdownMenuItemClick = {
-            viewModel.getSecureSettingsList(2)
-
-            dropDownExpanded = false
-        },
+        onDropDownMenu = { dropDownExpanded = it },
+        onDropDownMenuItemSelected = viewModel::getSecureSettingsList,
         secureSettingsListUiState = secureSettingsListUiState
     )
 }
@@ -95,10 +80,8 @@ internal fun SecureSettingsListScreen(
     dropDownExpanded: Boolean,
     onItemClick: (String) -> Unit,
     onNavigationIconClick: () -> Unit,
-    onDropDownExpanded: (Boolean) -> Unit,
-    onSystemDropdownMenuItemClick: () -> Unit,
-    onSecureDropdownMenuItemClick: () -> Unit,
-    onGlobalDropdownMenuItemClick: () -> Unit,
+    onDropDownMenu: (Boolean) -> Unit,
+    onDropDownMenuItemSelected: (Int) -> Unit,
     secureSettingsListUiState: SecureSettingsListUiState
 ) {
     Scaffold(topBar = {
@@ -111,21 +94,20 @@ internal fun SecureSettingsListScreen(
                 )
             }
         }, actions = {
-            IconButton(onClick = { onDropDownExpanded(true) }) {
+            IconButton(onClick = { onDropDownMenu(true) }) {
                 Icon(
-                    imageVector = GetoIcons.Menu, contentDescription = "Navigation icon"
+                    imageVector = GetoIcons.Menu, contentDescription = "Menu icon"
                 )
             }
 
-            DropdownMenu(
-                expanded = dropDownExpanded,
-                onDismissRequest = { onDropDownExpanded(false) }) {
-                DropdownMenuItem(text = { Text("System") }, onClick = onSystemDropdownMenuItemClick)
-
-                DropdownMenuItem(text = { Text("Secure") }, onClick = onSecureDropdownMenuItemClick)
-
-                DropdownMenuItem(text = { Text("Global") }, onClick = onGlobalDropdownMenuItemClick)
-            }
+            GetoDropDownMenu(
+                dropDownExpanded = dropDownExpanded,
+                onDismissRequest = { onDropDownMenu(false) },
+                dropdownItems = listOf(
+                    "System", "Secure", "Global"
+                ),
+                onDropDownMenuItemSelected = onDropDownMenuItemSelected
+            )
         })
     }, snackbarHost = {
         SnackbarHost(

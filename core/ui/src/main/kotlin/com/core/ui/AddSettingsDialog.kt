@@ -83,7 +83,7 @@ fun AddSettingsDialog(
                         .selectableGroup()
                 ) {
                     GetoLabeledRadioButton(
-                        items = listOf("System", "Secure", "Global"),
+                        items = SettingsType.entries.map(SettingsType::name),
                         selectedRadioOptionIndex = addSettingsDialogState.selectedRadioOptionIndex,
                         onRadioOptionSelected = addSettingsDialogState::updateSelectedRadioOptionIndex
                     )
