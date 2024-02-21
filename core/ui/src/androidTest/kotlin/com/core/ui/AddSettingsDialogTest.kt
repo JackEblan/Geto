@@ -6,7 +6,6 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
-import junit.framework.TestCase.assertNull
 import org.junit.Rule
 import org.junit.Test
 
@@ -25,26 +24,19 @@ class AddSettingsDialogTest {
             AddSettingsDialog(
                 addSettingsDialogState = addSettingsDialogState,
                 scrollState = scrollState,
-                onRadioOptionSelected = {},
                 onDismissRequest = {},
-                onTypingLabel = {},
-                onTypingKey = {},
-                onTypingValueOnLaunch = {},
-                onTypingValueOnRevert = {},
                 onAddSettings = {
                     addSettingsDialogState.updateSelectedRadioOptionIndex(-1)
 
                     addSettingsDialogState.updateLabel("Test")
 
-                                  addSettingsDialogState.updateKey("Test")
+                    addSettingsDialogState.updateKey("Test")
 
-                                  addSettingsDialogState.updateValueOnLaunch("Test")
+                    addSettingsDialogState.updateValueOnLaunch("Test")
 
-                                  addSettingsDialogState.updateValueOnRevert("Test")
+                    addSettingsDialogState.updateValueOnRevert("Test")
 
-                                  addSettingsDialogState.validateAddSettings(
-                                      packageName = "packageName", onAppSettings = ::assertNull
-                                  )
+                    addSettingsDialogState.getAppSettings(packageName = "packageName")
                               })
         }
 
@@ -66,27 +58,20 @@ class AddSettingsDialogTest {
             AddSettingsDialog(
                 addSettingsDialogState = addSettingsDialogState,
                 scrollState = scrollState,
-                onRadioOptionSelected = {},
                 onDismissRequest = {},
-                onTypingLabel = {},
-                onTypingKey = {},
-                onTypingValueOnLaunch = {},
-                onTypingValueOnRevert = {},
                 onAddSettings = {
 
                     addSettingsDialogState.updateSelectedRadioOptionIndex(1)
 
-                                  addSettingsDialogState.updateLabel("")
+                    addSettingsDialogState.updateLabel("")
 
-                                  addSettingsDialogState.updateKey("Test")
+                    addSettingsDialogState.updateKey("Test")
 
-                                  addSettingsDialogState.updateValueOnLaunch("Test")
+                    addSettingsDialogState.updateValueOnLaunch("Test")
 
-                                  addSettingsDialogState.updateValueOnRevert("Test")
+                    addSettingsDialogState.updateValueOnRevert("Test")
 
-                                  addSettingsDialogState.validateAddSettings(
-                                      packageName = "packageName", onAppSettings = ::assertNull
-                                  )
+                    addSettingsDialogState.getAppSettings(packageName = "packageName")
                               })
         }
 
@@ -108,26 +93,19 @@ class AddSettingsDialogTest {
             AddSettingsDialog(
                 addSettingsDialogState = addSettingsDialogState,
                 scrollState = scrollState,
-                onRadioOptionSelected = {},
                 onDismissRequest = {},
-                onTypingLabel = {},
-                onTypingKey = {},
-                onTypingValueOnLaunch = {},
-                onTypingValueOnRevert = {},
                 onAddSettings = {
                     addSettingsDialogState.updateSelectedRadioOptionIndex(1)
 
                     addSettingsDialogState.updateLabel("Test")
 
-                                  addSettingsDialogState.updateKey("")
+                    addSettingsDialogState.updateKey("")
 
-                                  addSettingsDialogState.updateValueOnLaunch("Test")
+                    addSettingsDialogState.updateValueOnLaunch("Test")
 
-                                  addSettingsDialogState.updateValueOnRevert("Test")
+                    addSettingsDialogState.updateValueOnRevert("Test")
 
-                                  addSettingsDialogState.validateAddSettings(
-                                      packageName = "packageName", onAppSettings = ::assertNull
-                                  )
+                    addSettingsDialogState.getAppSettings(packageName = "packageName")
                               })
         }
 
@@ -149,26 +127,19 @@ class AddSettingsDialogTest {
             AddSettingsDialog(
                 addSettingsDialogState = addSettingsDialogState,
                 scrollState = scrollState,
-                onRadioOptionSelected = {},
                 onDismissRequest = {},
-                onTypingLabel = {},
-                onTypingKey = {},
-                onTypingValueOnLaunch = {},
-                onTypingValueOnRevert = {},
                 onAddSettings = {
                     addSettingsDialogState.updateSelectedRadioOptionIndex(1)
 
                     addSettingsDialogState.updateKey("Test")
 
-                                  addSettingsDialogState.updateLabel("Test")
+                    addSettingsDialogState.updateLabel("Test")
 
-                                  addSettingsDialogState.updateValueOnLaunch("")
+                    addSettingsDialogState.updateValueOnLaunch("")
 
-                                  addSettingsDialogState.updateValueOnRevert("Test")
+                    addSettingsDialogState.updateValueOnRevert("Test")
 
-                                  addSettingsDialogState.validateAddSettings(
-                                      packageName = "packageName", onAppSettings = ::assertNull
-                                  )
+                    addSettingsDialogState.getAppSettings(packageName = "packageName")
                               })
         }
 
@@ -190,27 +161,20 @@ class AddSettingsDialogTest {
             AddSettingsDialog(
                 addSettingsDialogState = addSettingsDialogState,
                 scrollState = scrollState,
-                onRadioOptionSelected = {},
                 onDismissRequest = {},
-                onTypingLabel = {},
-                onTypingKey = {},
-                onTypingValueOnLaunch = {},
-                onTypingValueOnRevert = {},
                 onAddSettings = {
 
                     addSettingsDialogState.updateSelectedRadioOptionIndex(1)
 
-                                  addSettingsDialogState.updateKey("Test")
+                    addSettingsDialogState.updateKey("Test")
 
-                                  addSettingsDialogState.updateLabel("Test")
+                    addSettingsDialogState.updateLabel("Test")
 
-                                  addSettingsDialogState.updateValueOnLaunch("Test")
+                    addSettingsDialogState.updateValueOnLaunch("Test")
 
-                                  addSettingsDialogState.updateValueOnRevert("")
+                    addSettingsDialogState.updateValueOnRevert("")
 
-                                  addSettingsDialogState.validateAddSettings(
-                                      packageName = "packageName", onAppSettings = ::assertNull
-                                  )
+                    addSettingsDialogState.getAppSettings(packageName = "packageName")
                               })
         }
 

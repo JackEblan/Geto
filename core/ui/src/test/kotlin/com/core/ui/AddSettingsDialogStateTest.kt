@@ -18,7 +18,7 @@ class AddSettingsDialogStateTest {
     fun selectedRadioOptionIndexErrorIsNotBlank_whenSelectedRadioOptionIndexIsNegative() {
         addSettingsDialogState.updateSelectedRadioOptionIndex(-1)
 
-        addSettingsDialogState.validateAddSettings(packageName = "packageName", onAppSettings = {})
+        addSettingsDialogState.getAppSettings(packageName = "packageName")
 
         assertTrue { addSettingsDialogState.selectedRadioOptionIndexError.isNotBlank() }
     }
@@ -27,7 +27,7 @@ class AddSettingsDialogStateTest {
     fun selectedRadioOptionIndexErrorIsBlank_whenSelectedRadioOptionIndexIsPositive() {
         addSettingsDialogState.updateSelectedRadioOptionIndex(1)
 
-        addSettingsDialogState.validateAddSettings(packageName = "packageName", onAppSettings = {})
+        addSettingsDialogState.getAppSettings(packageName = "packageName")
 
         assertTrue { addSettingsDialogState.selectedRadioOptionIndexError.isBlank() }
     }
@@ -36,7 +36,7 @@ class AddSettingsDialogStateTest {
     fun labelErrorIsNotBlank_whenLabelIsBlank() {
         addSettingsDialogState.updateLabel("")
 
-        addSettingsDialogState.validateAddSettings(packageName = "packageName", onAppSettings = {})
+        addSettingsDialogState.getAppSettings(packageName = "packageName")
 
         assertTrue { addSettingsDialogState.labelError.isNotBlank() }
     }
@@ -45,7 +45,7 @@ class AddSettingsDialogStateTest {
     fun labelErrorIsBlank_whenLabelIsNotBlank() {
         addSettingsDialogState.updateLabel("Test")
 
-        addSettingsDialogState.validateAddSettings(packageName = "packageName", onAppSettings = {})
+        addSettingsDialogState.getAppSettings(packageName = "packageName")
 
         assertTrue { addSettingsDialogState.labelError.isBlank() }
     }
@@ -54,7 +54,7 @@ class AddSettingsDialogStateTest {
     fun keyErrorIsNotBlank_whenKeyIsBlank() {
         addSettingsDialogState.updateKey("")
 
-        addSettingsDialogState.validateAddSettings(packageName = "packageName", onAppSettings = {})
+        addSettingsDialogState.getAppSettings(packageName = "packageName")
 
         assertTrue { addSettingsDialogState.keyError.isNotBlank() }
     }
@@ -63,7 +63,7 @@ class AddSettingsDialogStateTest {
     fun keyErrorIsBlank_whenKeyIsNotBlank() {
         addSettingsDialogState.updateKey("Test")
 
-        addSettingsDialogState.validateAddSettings(packageName = "packageName", onAppSettings = {})
+        addSettingsDialogState.getAppSettings(packageName = "packageName")
 
         assertTrue { addSettingsDialogState.keyError.isBlank() }
     }
@@ -72,7 +72,7 @@ class AddSettingsDialogStateTest {
     fun valueOnLaunchErrorIsNotBlank_whenValueOnLaunchIsBlank() {
         addSettingsDialogState.updateValueOnLaunch("")
 
-        addSettingsDialogState.validateAddSettings(packageName = "packageName", onAppSettings = {})
+        addSettingsDialogState.getAppSettings(packageName = "packageName")
 
         assertTrue { addSettingsDialogState.valueOnLaunchError.isNotBlank() }
     }
@@ -81,7 +81,7 @@ class AddSettingsDialogStateTest {
     fun valueOnLaunchErrorIsBlank_whenValueOnLaunchIsNotBlank() {
         addSettingsDialogState.updateValueOnLaunch("Test")
 
-        addSettingsDialogState.validateAddSettings(packageName = "packageName", onAppSettings = {})
+        addSettingsDialogState.getAppSettings(packageName = "packageName")
 
         assertTrue { addSettingsDialogState.valueOnLaunchError.isBlank() }
     }
@@ -90,7 +90,7 @@ class AddSettingsDialogStateTest {
     fun valueOnRevertErrorIsNotBlank_whenValueOnRevertIsBlank() {
         addSettingsDialogState.updateValueOnRevert("")
 
-        addSettingsDialogState.validateAddSettings(packageName = "packageName", onAppSettings = {})
+        addSettingsDialogState.getAppSettings(packageName = "packageName")
 
         assertTrue { addSettingsDialogState.valueOnRevertError.isNotBlank() }
     }
@@ -99,7 +99,7 @@ class AddSettingsDialogStateTest {
     fun valueOnRevertErrorIsBlank_whenValueOnRevertIsNotBlank() {
         addSettingsDialogState.updateValueOnRevert("Test")
 
-        addSettingsDialogState.validateAddSettings(packageName = "packageName", onAppSettings = {})
+        addSettingsDialogState.getAppSettings(packageName = "packageName")
 
         assertTrue { addSettingsDialogState.valueOnRevertError.isBlank() }
     }
@@ -116,10 +116,6 @@ class AddSettingsDialogStateTest {
 
         addSettingsDialogState.updateValueOnRevert("Test")
 
-        addSettingsDialogState.validateAddSettings(
-            packageName = "packageName",
-            onAppSettings = { appSettings ->
-                assertNotNull(appSettings)
-            })
+        assertNotNull(addSettingsDialogState.getAppSettings(packageName = "packageName"))
     }
 }

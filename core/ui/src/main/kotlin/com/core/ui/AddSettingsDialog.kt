@@ -39,12 +39,7 @@ fun AddSettingsDialog(
     modifier: Modifier = Modifier,
     addSettingsDialogState: AddSettingsDialogState,
     scrollState: ScrollState,
-    onRadioOptionSelected: (Int) -> Unit,
     onDismissRequest: () -> Unit,
-    onTypingLabel: (String) -> Unit,
-    onTypingKey: (String) -> Unit,
-    onTypingValueOnLaunch: (String) -> Unit,
-    onTypingValueOnRevert: (String) -> Unit,
     onAddSettings: () -> Unit
 ) {
     Dialog(onDismissRequest = { onDismissRequest() }) {
@@ -90,7 +85,7 @@ fun AddSettingsDialog(
                     GetoLabeledRadioButton(
                         items = listOf("System", "Secure", "Global"),
                         selectedRadioOptionIndex = addSettingsDialogState.selectedRadioOptionIndex,
-                        onRadioOptionSelected = onRadioOptionSelected
+                        onRadioOptionSelected = addSettingsDialogState::updateSelectedRadioOptionIndex
                     )
                 }
 
@@ -101,7 +96,7 @@ fun AddSettingsDialog(
                         .fillMaxWidth()
                         .padding(horizontal = 5.dp),
                     value = addSettingsDialogState.label,
-                    onValueChange = onTypingLabel,
+                    onValueChange = addSettingsDialogState::updateLabel,
                     label = {
                         Text(text = "Settings label")
                     },
@@ -121,7 +116,7 @@ fun AddSettingsDialog(
                         .fillMaxWidth()
                         .padding(horizontal = 5.dp),
                     value = addSettingsDialogState.key,
-                    onValueChange = onTypingKey,
+                    onValueChange = addSettingsDialogState::updateKey,
                     label = {
                         Text(text = "Settings key")
                     },
@@ -141,7 +136,7 @@ fun AddSettingsDialog(
                         .fillMaxWidth()
                         .padding(horizontal = 5.dp),
                     value = addSettingsDialogState.valueOnLaunch,
-                    onValueChange = onTypingValueOnLaunch,
+                    onValueChange = addSettingsDialogState::updateValueOnLaunch,
                     label = {
                         Text(text = "Settings value on launch")
                     },
@@ -161,7 +156,7 @@ fun AddSettingsDialog(
                         .fillMaxWidth()
                         .padding(horizontal = 5.dp),
                     value = addSettingsDialogState.valueOnRevert,
-                    onValueChange = onTypingValueOnRevert,
+                    onValueChange = addSettingsDialogState::updateValueOnRevert,
                     label = {
                         Text(text = "Settings value on revert")
                     },
@@ -264,7 +259,7 @@ class AddSettingsDialogState {
         valueOnRevert = value
     }
 
-    fun validateAddSettings(packageName: String, onAppSettings: (AppSettings?) -> Unit) {
+    fun getAppSettings(packageName: String): AppSettings? {
         selectedRadioOptionIndexError =
             if (selectedRadioOptionIndex == -1) "Please select a Settings type" else ""
 
@@ -278,7 +273,8 @@ class AddSettingsDialogState {
         valueOnRevertError =
             if (valueOnRevert.isBlank()) "Settings value on revert is blank" else ""
 
-        if (selectedRadioOptionIndexError.isBlank() && selectedRadioOptionIndexError.isBlank() && labelError.isBlank() && keyError.isBlank() && valueOnLaunchError.isBlank() && valueOnRevertError.isBlank()) {
+        return if (selectedRadioOptionIndexError.isBlank() && selectedRadioOptionIndexError.isBlank() && labelError.isBlank() && keyError.isBlank() && valueOnLaunchError.isBlank() && valueOnRevertError.isBlank()) {
+            showDialog = false
             AppSettings(
                 enabled = true,
                 settingsType = SettingsType.entries[selectedRadioOptionIndex],
@@ -288,11 +284,9 @@ class AddSettingsDialogState {
                 valueOnLaunch = valueOnLaunch,
                 valueOnRevert = valueOnRevert,
                 safeToWrite = false
-            ).also(onAppSettings)
-
-            showDialog = false
+            )
         } else {
-            onAppSettings(null)
+            null
         }
     }
 

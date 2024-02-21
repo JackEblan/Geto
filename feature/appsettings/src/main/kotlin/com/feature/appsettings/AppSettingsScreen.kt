@@ -122,21 +122,10 @@ internal fun AppSettingsScreen(
     if (addSettingsDialogState.showDialog) {
         AddSettingsDialog(addSettingsDialogState = addSettingsDialogState,
                           scrollState = scrollState,
-                          onRadioOptionSelected = addSettingsDialogState::updateSelectedRadioOptionIndex,
                           onDismissRequest = { addSettingsDialogState.updateShowDialog(false) },
-                          onTypingLabel = addSettingsDialogState::updateLabel,
-                          onTypingKey = addSettingsDialogState::updateKey,
-                          onTypingValueOnLaunch = addSettingsDialogState::updateValueOnLaunch,
-                          onTypingValueOnRevert = addSettingsDialogState::updateValueOnRevert,
                           onAddSettings = {
-                              addSettingsDialogState.validateAddSettings(packageName = packageName,
-                                                                         onAppSettings = { appSettings ->
-                                                                             if (appSettings != null) {
-                                                                                 onAddSettings(
-                                                                                     appSettings
-                                                                                 )
-                                                                             }
-                                                                         })
+                              addSettingsDialogState.getAppSettings(packageName = packageName)
+                                  ?.let(onAddSettings)
                           })
     }
 
