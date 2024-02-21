@@ -16,19 +16,14 @@ fun GetoNavHost(navController: NavHostController) {
     NavHost(
         navController = navController, startDestination = APP_LIST_NAVIGATION_ROUTE
     ) {
-        appListScreen(onItemClick = { packageName, appName ->
-            navController.navigateToAppSettings(
-                packageName = packageName, appName = appName
-            )
-        }, onSecureSettingsClick = {
-            navController.navigateToSecureSettingsList()
-        })
+        appListScreen(
+            onItemClick = navController::navigateToAppSettings,
+            navController::navigateToSecureSettingsList
+        )
 
-        appSettingsScreen(onArrowBackClick = { navController.popBackStack() })
+        appSettingsScreen(onArrowBackClick = navController::popBackStack)
 
-        secureSettingsListScreen(onNavigationIconClick = {
-            navController.popBackStack()
-        })
+        secureSettingsListScreen(onNavigationIconClick = navController::popBackStack)
     }
 
 }
