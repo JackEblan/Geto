@@ -1,3 +1,21 @@
+/*
+ *
+ *   Copyright 2023 Einstein Blanco
+ *
+ *   Licensed under the GNU General Public License v3.0 (the "License");
+ *   you may not use this file except in compliance with the License.
+ *   You may obtain a copy of the License at
+ *
+ *       https://www.gnu.org/licenses/gpl-3.0
+ *
+ *   Unless required by applicable law or agreed to in writing, software
+ *   distributed under the License is distributed on an "AS IS" BASIS,
+ *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *   See the License for the specific language governing permissions and
+ *   limitations under the License.
+ *
+ */
+
 package com.android.geto.core.ui
 
 import androidx.activity.ComponentActivity
@@ -21,22 +39,21 @@ class AddSettingsDialogTest {
 
             val scrollState = rememberScrollState()
 
-            AddSettingsDialog(
-                addSettingsDialogState = addSettingsDialogState,
-                scrollState = scrollState,
-                onDismissRequest = {},
-                onAddSettings = {
-                    addSettingsDialogState.updateSelectedRadioOptionIndex(-1)
+            AddSettingsDialog(addSettingsDialogState = addSettingsDialogState,
+                              scrollState = scrollState,
+                              onDismissRequest = {},
+                              onAddSettings = {
+                                  addSettingsDialogState.updateSelectedRadioOptionIndex(-1)
 
-                    addSettingsDialogState.updateLabel("Test")
+                                  addSettingsDialogState.updateLabel("Test")
 
-                    addSettingsDialogState.updateKey("Test")
+                                  addSettingsDialogState.updateKey("Test")
 
-                    addSettingsDialogState.updateValueOnLaunch("Test")
+                                  addSettingsDialogState.updateValueOnLaunch("Test")
 
-                    addSettingsDialogState.updateValueOnRevert("Test")
+                                  addSettingsDialogState.updateValueOnRevert("Test")
 
-                    addSettingsDialogState.getAppSettings(packageName = "packageName")
+                                  addSettingsDialogState.getAppSettings(packageName = "packageName")
                               })
         }
 
@@ -55,23 +72,22 @@ class AddSettingsDialogTest {
 
             val scrollState = rememberScrollState()
 
-            AddSettingsDialog(
-                addSettingsDialogState = addSettingsDialogState,
-                scrollState = scrollState,
-                onDismissRequest = {},
-                onAddSettings = {
+            AddSettingsDialog(addSettingsDialogState = addSettingsDialogState,
+                              scrollState = scrollState,
+                              onDismissRequest = {},
+                              onAddSettings = {
 
-                    addSettingsDialogState.updateSelectedRadioOptionIndex(1)
+                                  addSettingsDialogState.updateSelectedRadioOptionIndex(1)
 
-                    addSettingsDialogState.updateLabel("")
+                                  addSettingsDialogState.updateLabel("")
 
-                    addSettingsDialogState.updateKey("Test")
+                                  addSettingsDialogState.updateKey("Test")
 
-                    addSettingsDialogState.updateValueOnLaunch("Test")
+                                  addSettingsDialogState.updateValueOnLaunch("Test")
 
-                    addSettingsDialogState.updateValueOnRevert("Test")
+                                  addSettingsDialogState.updateValueOnRevert("Test")
 
-                    addSettingsDialogState.getAppSettings(packageName = "packageName")
+                                  addSettingsDialogState.getAppSettings(packageName = "packageName")
                               })
         }
 
@@ -90,22 +106,21 @@ class AddSettingsDialogTest {
 
             val scrollState = rememberScrollState()
 
-            AddSettingsDialog(
-                addSettingsDialogState = addSettingsDialogState,
-                scrollState = scrollState,
-                onDismissRequest = {},
-                onAddSettings = {
-                    addSettingsDialogState.updateSelectedRadioOptionIndex(1)
+            AddSettingsDialog(addSettingsDialogState = addSettingsDialogState,
+                              scrollState = scrollState,
+                              onDismissRequest = {},
+                              onAddSettings = {
+                                  addSettingsDialogState.updateSelectedRadioOptionIndex(1)
 
-                    addSettingsDialogState.updateLabel("Test")
+                                  addSettingsDialogState.updateLabel("Test")
 
-                    addSettingsDialogState.updateKey("")
+                                  addSettingsDialogState.updateKey("")
 
-                    addSettingsDialogState.updateValueOnLaunch("Test")
+                                  addSettingsDialogState.updateValueOnLaunch("Test")
 
-                    addSettingsDialogState.updateValueOnRevert("Test")
+                                  addSettingsDialogState.updateValueOnRevert("Test")
 
-                    addSettingsDialogState.getAppSettings(packageName = "packageName")
+                                  addSettingsDialogState.getAppSettings(packageName = "packageName")
                               })
         }
 
@@ -124,22 +139,21 @@ class AddSettingsDialogTest {
 
             val scrollState = rememberScrollState()
 
-            AddSettingsDialog(
-                addSettingsDialogState = addSettingsDialogState,
-                scrollState = scrollState,
-                onDismissRequest = {},
-                onAddSettings = {
-                    addSettingsDialogState.updateSelectedRadioOptionIndex(1)
+            AddSettingsDialog(addSettingsDialogState = addSettingsDialogState,
+                              scrollState = scrollState,
+                              onDismissRequest = {},
+                              onAddSettings = {
+                                  addSettingsDialogState.updateSelectedRadioOptionIndex(1)
 
-                    addSettingsDialogState.updateKey("Test")
+                                  addSettingsDialogState.updateKey("Test")
 
-                    addSettingsDialogState.updateLabel("Test")
+                                  addSettingsDialogState.updateLabel("Test")
 
-                    addSettingsDialogState.updateValueOnLaunch("")
+                                  addSettingsDialogState.updateValueOnLaunch("")
 
-                    addSettingsDialogState.updateValueOnRevert("Test")
+                                  addSettingsDialogState.updateValueOnRevert("Test")
 
-                    addSettingsDialogState.getAppSettings(packageName = "packageName")
+                                  addSettingsDialogState.getAppSettings(packageName = "packageName")
                               })
         }
 
@@ -158,23 +172,22 @@ class AddSettingsDialogTest {
 
             val scrollState = rememberScrollState()
 
-            AddSettingsDialog(
-                addSettingsDialogState = addSettingsDialogState,
-                scrollState = scrollState,
-                onDismissRequest = {},
-                onAddSettings = {
+            AddSettingsDialog(addSettingsDialogState = addSettingsDialogState,
+                              scrollState = scrollState,
+                              onDismissRequest = {},
+                              onAddSettings = {
 
-                    addSettingsDialogState.updateSelectedRadioOptionIndex(1)
+                                  addSettingsDialogState.updateSelectedRadioOptionIndex(1)
 
-                    addSettingsDialogState.updateKey("Test")
+                                  addSettingsDialogState.updateKey("Test")
 
-                    addSettingsDialogState.updateLabel("Test")
+                                  addSettingsDialogState.updateLabel("Test")
 
-                    addSettingsDialogState.updateValueOnLaunch("Test")
+                                  addSettingsDialogState.updateValueOnLaunch("Test")
 
-                    addSettingsDialogState.updateValueOnRevert("")
+                                  addSettingsDialogState.updateValueOnRevert("")
 
-                    addSettingsDialogState.getAppSettings(packageName = "packageName")
+                                  addSettingsDialogState.getAppSettings(packageName = "packageName")
                               })
         }
 
