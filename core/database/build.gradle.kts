@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.core.database"
+    namespace = "com.android.geto.core.database"
 
     defaultConfig {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

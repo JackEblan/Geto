@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.core.ui"
+    namespace = "com.android.geto.core.ui"
 
     defaultConfig {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

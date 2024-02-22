@@ -4,5 +4,5 @@ plugins {
 }
 
 android {
-    namespace = "com.core.common"
+    namespace = "com.android.geto.core.common"
 }

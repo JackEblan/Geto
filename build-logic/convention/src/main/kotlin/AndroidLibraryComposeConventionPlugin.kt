@@ -12,7 +12,7 @@ class AndroidLibraryComposeConventionPlugin : Plugin<Project> {
                 apply(libs.plugins.com.android.geto.library.get().pluginId)
             }
 
-            extensions.configure<LibraryExtension>() {
+            extensions.configure<LibraryExtension> {
                 configureAndroidCompose(this)
             }
         }

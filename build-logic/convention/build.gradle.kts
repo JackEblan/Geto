@@ -68,6 +68,11 @@ gradlePlugin {
             implementationClass = "AndroidHiltConventionPlugin"
         }
 
+        register("androidLint") {
+            id = "com.android.geto.lint"
+            implementationClass = "AndroidLintConventionPlugin"
+        }
+
         register("androidRoom") {
             id = "com.android.geto.room"
             implementationClass = "AndroidRoomConventionPlugin"

@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.feature.appsettings"
+    namespace = "com.android.geto.feature.appsettings"
 }
 
 dependencies {

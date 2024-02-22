@@ -1,4 +1,5 @@
 [versions]
+androidTools = "31.2.0"
 androidxActivity = "1.8.2"
 androidxComposeBom = "2024.01.00"
 androidxCoreKtx = "1.12.0"
@@ -17,9 +18,9 @@ androidxTestRunner = "1.5.2"
 coil = "2.5.0"
 hilt = "2.48.1"
 jacoco = "0.8.7"
-kotlinxCoroutines = "1.7.3"
-kotlinGradlePlugin = "1.9.22"
 junit4 = "4.13.2"
+kotlin = "1.9.22"
+kotlinxCoroutines = "1.7.3"
 ksp = "1.9.22-1.0.17"
 room = "2.6.1"
 robolectric = "4.11.1"
@@ -31,7 +32,7 @@ androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", versi
 androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation" }
 androidx-compose-foundation-layout = { group = "androidx.compose.foundation", name = "foundation-layout" }
 androidx-compose-material = { group = "androidx.compose.material", name = "material" }
-androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3", version = "1.2.0-rc01" }
+androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-compose-material-iconsExtended = { group = "androidx.compose.material", name = "material-icons-extended" }
 androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime" }
 androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
@@ -64,6 +65,10 @@ junit-junit = { group = "junit", name = "junit", version.ref = "junit4" }
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }
 kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
+kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib-jdk8", version.ref = "kotlin" }
+lint-api = { group = "com.android.tools.lint", name = "lint-api", version.ref = "androidTools" }
+lint-checks = { group = "com.android.tools.lint", name = "lint-checks", version.ref = "androidTools" }
+lint-tests = { group = "com.android.tools.lint", name = "lint-tests", version.ref = "androidTools" }
 robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
@@ -72,13 +77,13 @@ room-testing = { group = "androidx.room", name = "room-testing", version.ref = "
 
 # Dependencies of the included build-logic
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
-kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlinGradlePlugin" }
+kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
 
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 com-android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
-org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlinGradlePlugin" }
+org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 com-google-dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 com-google-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 
@@ -91,4 +96,5 @@ com-android-geto-libraryCompose = { id = "com.android.geto.libraryCompose", vers
 com-android-geto-libraryJacoco = { id = "com.android.geto.libraryJacoco", version = "unspecified" }
 com-android-geto-feature = { id = "com.android.geto.feature", version = "unspecified" }
 com-android-geto-hilt = { id = "com.android.geto.hilt", version = "unspecified" }
+com-android-geto-lint = { id = "com.android.geto.lint", version = "unspecified" }
 com-android-geto-room = { id = "com.android.geto.room", version = "unspecified" }

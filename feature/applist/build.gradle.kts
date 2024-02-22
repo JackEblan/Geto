@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.feature.applist"
+    namespace = "com.android.geto.feature.applist"
 }
 
 dependencies {

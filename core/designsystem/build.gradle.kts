@@ -4,10 +4,12 @@ plugins {
 }
 
 android {
-    namespace = "com.core.designsystem"
+    namespace = "com.android.geto.core.designsystem"
 }
 
 dependencies {
+    lintPublish(projects.lint)
+
     api(libs.androidx.core.ktx)
     api(libs.androidx.activity.compose)
     api(libs.androidx.compose.foundation)

@@ -9,8 +9,8 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.testing.TestNavHostController
+import com.android.geto.feature.securesettingslist.navigation.SECURE_SETTINGS_LIST_NAVIGATION_ROUTE
 import com.android.geto.navigation.GetoNavHost
-import com.feature.securesettingslist.navigation.SECURE_SETTINGS_LIST_NAVIGATION_ROUTE
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -35,7 +35,7 @@ class NavigationTest {
     }
 
     @Test
-    fun navHost_verifyStartDestination() {
+    fun test_navHost_verifyStartDestination() {
         composeTestRule.onNodeWithTag("applist").assertIsDisplayed()
     }
 

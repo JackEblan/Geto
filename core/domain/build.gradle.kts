@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.core.domain"
+    namespace = "com.android.geto.core.domain"
 }
 
 dependencies {

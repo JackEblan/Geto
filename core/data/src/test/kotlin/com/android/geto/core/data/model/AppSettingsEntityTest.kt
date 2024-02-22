@@ -1,0 +1,36 @@
+package com.android.geto.core.data.model
+
+import com.android.geto.core.database.model.asEntity
+import com.android.geto.core.model.AppSettings
+import com.android.geto.core.model.SettingsType
+import org.junit.Test
+import kotlin.test.assertEquals
+
+class AppSettingsEntityTest {
+
+    @Test
+    fun appSettings_canBeMappedToEntity() {
+        val appSettings = AppSettings(
+            id = 1,
+            enabled = false,
+            settingsType = SettingsType.SECURE,
+            packageName = "packageName",
+            label = "label",
+            key = "key",
+            valueOnLaunch = "valueOnLaunch",
+            valueOnRevert = "valueOnRevert",
+            safeToWrite = false
+        )
+
+        val entity = appSettings.asEntity()
+
+        assertEquals(1, entity.id)
+        assertEquals(false, entity.enabled)
+        assertEquals(SettingsType.SECURE, entity.settingsType)
+        assertEquals("packageName", entity.packageName)
+        assertEquals("label", entity.label)
+        assertEquals("key", entity.key)
+        assertEquals("valueOnLaunch", entity.valueOnLaunch)
+        assertEquals("valueOnRevert", entity.valueOnRevert)
+    }
+}

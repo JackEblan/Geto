@@ -3,5 +3,5 @@ plugins {
 }
 
 android {
-    namespace = "com.core.model"
+    namespace = "com.android.geto.core.model"
 }

@@ -10,8 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.navigation.compose.rememberNavController
+import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.navigation.GetoNavHost
-import com.core.designsystem.theme.GetoTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

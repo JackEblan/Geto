@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.core.testing"
+    namespace = "com.android.geto.core.testing"
 }
 
 dependencies {

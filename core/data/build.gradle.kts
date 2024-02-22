@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.core.data"
+    namespace = "com.android.geto.core.data"
 }
 
 dependencies {

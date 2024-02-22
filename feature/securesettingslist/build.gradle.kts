@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.feature.securesettingslist"
+    namespace = "com.android.geto.feature.securesettingslist"
 }
 
 dependencies {
