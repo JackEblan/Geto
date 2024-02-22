@@ -33,7 +33,7 @@ class AndroidRoomConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             with(pluginManager) {
-                apply(libs.plugins.com.google.devtools.ksp.get().pluginId)
+                apply(libs.plugins.ksp.get().pluginId)
             }
 
             extensions.configure<KspExtension> {

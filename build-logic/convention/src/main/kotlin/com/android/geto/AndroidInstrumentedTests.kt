@@ -16,23 +16,22 @@
  *
  */
 
+package com.android.geto
+
 import com.android.build.api.variant.LibraryAndroidComponentsExtension
-import com.android.geto.configureJacoco
-import com.android.geto.libs
-import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.getByType
 
-class AndroidLibraryJacocoConventionPlugin : Plugin<Project> {
-    override fun apply(target: Project) {
-        with(target) {
-            with(pluginManager) {
-                apply("jacoco")
-                apply(libs.plugins.android.library.get().pluginId)
-            }
-            val extension = extensions.getByType<LibraryAndroidComponentsExtension>()
-            configureJacoco(extension)
-        }
-    }
-
+/**
+ * Disable unnecessary Android instrumented tests for the [project] if there is no `androidTest` folder.
+ * Otherwise, these projects would be compiled, packaged, installed and ran only to end-up with the following message:
+ *
+ * > Starting 0 tests on AVD
+ *
+ * Note: this could be improved by checking other potential sourceSets based on buildTypes and flavors.
+ */
+internal fun LibraryAndroidComponentsExtension.disableUnnecessaryAndroidTests(
+    project: Project,
+) = beforeVariants {
+    it.enableAndroidTest =
+        it.enableAndroidTest && project.projectDir.resolve("src/androidTest").exists()
 }

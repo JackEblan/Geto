@@ -1,4 +1,7 @@
 [versions]
+androidDesugarJdkLibs = "2.0.4"
+# AGP and tools should be updated together
+androidGradlePlugin = "8.2.2"
 androidTools = "31.2.0"
 androidxActivity = "1.8.2"
 androidxComposeBom = "2024.01.00"
@@ -6,7 +9,6 @@ androidxCoreKtx = "1.12.0"
 androidxCoreSplashscreen = "1.0.1"
 androidxComposeCompiler = "1.5.8"
 androidxEspresso = "3.5.1"
-androidGradlePlugin = "8.2.2"
 androidxHiltNavigationCompose = "1.1.0"
 androidxLifeCycle = "2.7.0"
 androidxLifecycleViewmodelCompose = "2.7.0"
@@ -26,6 +28,7 @@ room = "2.6.1"
 robolectric = "4.11.1"
 
 [libraries]
+android-desugarJdkLibs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "androidDesugarJdkLibs" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidxActivity" }
 androidx-activity-ktx = { group = "androidx.activity", name = "activity-ktx", version.ref = "androidxActivity" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidxComposeBom" }
@@ -62,9 +65,8 @@ hilt-android-testing = { group = "com.google.dagger", name = "hilt-android-testi
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 javax-inject = { module = "javax.inject:javax.inject", version = "1" }
 junit-junit = { group = "junit", name = "junit", version.ref = "junit4" }
+kotlinx-coroutines-guava = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-guava", version.ref = "kotlinxCoroutines" }
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }
-kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
-kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
 kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib-jdk8", version.ref = "kotlin" }
 lint-api = { group = "com.android.tools.lint", name = "lint-api", version.ref = "androidTools" }
 lint-checks = { group = "com.android.tools.lint", name = "lint-checks", version.ref = "androidTools" }
@@ -81,11 +83,13 @@ kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-pl
 ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
 
 [plugins]
-com-android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
-com-android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
-org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-com-google-dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
-com-google-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
+android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+room = { id = "androidx.room", version.ref = "room" }
 
 # Plugins defined by this project
 com-android-geto-application = { id = "com.android.geto.application", version = "unspecified" }

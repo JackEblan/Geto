@@ -27,7 +27,7 @@ class AndroidApplicationComposeConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             with(pluginManager) {
-                apply(libs.plugins.com.android.application.get().pluginId)
+                apply(libs.plugins.android.application.get().pluginId)
             }
 
             val extension = extensions.getByType<ApplicationExtension>()
