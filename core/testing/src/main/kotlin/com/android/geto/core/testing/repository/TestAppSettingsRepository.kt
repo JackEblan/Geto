@@ -18,7 +18,7 @@
 
 package com.android.geto.core.testing.repository
 
-import com.android.geto.core.domain.repository.AppSettingsRepository
+import com.android.geto.core.data.repository.AppSettingsRepository
 import com.android.geto.core.model.AppSettings
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow

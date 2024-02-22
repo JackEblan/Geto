@@ -18,15 +18,13 @@
 
 package com.android.geto.core.data.repository
 
-import com.android.geto.core.testing.wrapper.TestBuildVersionWrapper
-import com.android.geto.core.testing.wrapper.TestClipboardManagerWrapper
+import com.android.geto.core.testing.clipboardmanager.TestClipboardManagerWrapper
 import junit.framework.TestCase.assertNull
 import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertNotNull
 
 class ClipboardRepositoryTest {
-    private lateinit var buildVersionWrapper: TestBuildVersionWrapper
 
     private lateinit var clipboardManagerWrapper: TestClipboardManagerWrapper
 
@@ -34,19 +32,16 @@ class ClipboardRepositoryTest {
 
     @Before
     fun setUp() {
-        buildVersionWrapper = TestBuildVersionWrapper()
-
         clipboardManagerWrapper = TestClipboardManagerWrapper()
 
         subject = DefaultClipboardRepository(
-            clipboardManagerWrapper = clipboardManagerWrapper,
-            buildVersionWrapper = buildVersionWrapper
+            clipboardManagerWrapper = clipboardManagerWrapper
         )
     }
 
     @Test
-    fun resultIsNull_whenSetPrimaryClip_api32AndHigher() {
-        buildVersionWrapper.setApi32(true)
+    fun clipboardRepository_set_primary_clip_does_not_return_a_result() {
+        clipboardManagerWrapper.setApi32(true)
 
         val result = subject.setPrimaryClip(label = "label", text = "text")
 
@@ -54,8 +49,8 @@ class ClipboardRepositoryTest {
     }
 
     @Test
-    fun resultIsNotNull_whenSetPrimaryClip_api32AndLower() {
-        buildVersionWrapper.setApi32(false)
+    fun clipboardRepository_set_primary_clip_returns_a_result() {
+        clipboardManagerWrapper.setApi32(false)
 
         val result = subject.setPrimaryClip(label = "label", text = "text")
 

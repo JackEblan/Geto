@@ -21,8 +21,8 @@ package com.android.geto.feature.securesettingslist
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.android.geto.core.domain.repository.ClipboardRepository
-import com.android.geto.core.domain.repository.SecureSettingsRepository
+import com.android.geto.core.data.repository.ClipboardRepository
+import com.android.geto.core.data.repository.SecureSettingsRepository
 import com.android.geto.core.model.SettingsType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay

@@ -21,7 +21,6 @@ package com.android.geto.feature.applist
 import com.android.geto.core.model.NonSystemApp
 import com.android.geto.core.testing.repository.TestPackageRepository
 import com.android.geto.core.testing.util.MainDispatcherRule
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -31,7 +30,6 @@ import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertIs
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class AppListViewModelTest {
 
     @get:Rule

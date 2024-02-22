@@ -18,7 +18,7 @@
 
 package com.android.geto.core.testing.repository
 
-import com.android.geto.core.domain.repository.ClipboardRepository
+import com.android.geto.core.data.repository.ClipboardRepository
 
 class TestClipboardRepository : ClipboardRepository {
     private var api32 = false

@@ -19,16 +19,16 @@
 package com.android.geto.feature.appsettings
 
 import androidx.lifecycle.SavedStateHandle
-import com.android.geto.core.domain.usecase.AddAppSettingsUseCase
-import com.android.geto.core.domain.usecase.ApplyAppSettingsUseCase
-import com.android.geto.core.domain.usecase.RevertAppSettingsUseCase
+import com.android.geto.core.domain.AddAppSettingsUseCase
+import com.android.geto.core.domain.ApplyAppSettingsUseCase
+import com.android.geto.core.domain.RevertAppSettingsUseCase
 import com.android.geto.core.model.AppSettings
 import com.android.geto.core.model.SettingsType
+import com.android.geto.core.testing.packagemanager.TestPackageManagerWrapper
 import com.android.geto.core.testing.repository.TestAppSettingsRepository
 import com.android.geto.core.testing.repository.TestClipboardRepository
 import com.android.geto.core.testing.repository.TestSecureSettingsRepository
 import com.android.geto.core.testing.util.MainDispatcherRule
-import com.android.geto.core.testing.wrapper.TestPackageManagerWrapper
 import com.android.geto.feature.appsettings.navigation.APP_NAME_ARG
 import com.android.geto.feature.appsettings.navigation.PACKAGE_NAME_ARG
 import junit.framework.TestCase.assertFalse

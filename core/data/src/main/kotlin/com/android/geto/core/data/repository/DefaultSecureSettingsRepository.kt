@@ -18,11 +18,10 @@
 
 package com.android.geto.core.data.repository
 
-import com.android.geto.core.domain.repository.SecureSettingsRepository
-import com.android.geto.core.domain.wrapper.SecureSettingsPermissionWrapper
 import com.android.geto.core.model.AppSettings
 import com.android.geto.core.model.SecureSettings
 import com.android.geto.core.model.SettingsType
+import com.android.geto.core.securesettings.SecureSettingsPermissionWrapper
 import javax.inject.Inject
 
 class DefaultSecureSettingsRepository @Inject constructor(

@@ -18,7 +18,7 @@
 
 package com.android.geto.core.testing.repository
 
-import com.android.geto.core.domain.repository.PackageRepository
+import com.android.geto.core.data.repository.PackageRepository
 import com.android.geto.core.model.NonSystemApp
 
 class TestPackageRepository : PackageRepository {

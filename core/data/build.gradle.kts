@@ -24,12 +24,24 @@ plugins {
 
 android {
     namespace = "com.android.geto.core.data"
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+            isReturnDefaultValues = true
+        }
+    }
 }
 
 dependencies {
+    api(projects.core.clipboardmanager)
+    api(projects.core.packagemanager)
+    api(projects.core.securesettings)
+
     implementation(projects.core.common)
     implementation(projects.core.database)
-    implementation(projects.core.domain)
     implementation(projects.core.model)
-    implementation(projects.core.testing)
+
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(projects.core.testing)
+
 }

@@ -19,8 +19,7 @@
 package com.android.geto.core.data.repository
 
 import android.content.pm.ApplicationInfo
-import com.android.geto.core.domain.repository.PackageRepository
-import com.android.geto.core.testing.wrapper.TestPackageManagerWrapper
+import com.android.geto.core.testing.packagemanager.TestPackageManagerWrapper
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
@@ -44,7 +43,7 @@ class PackageRepositoryTest {
     }
 
     @Test
-    fun getNonSystemAppsIsNotEmpty_whenFlagsIsZero() = runTest(testDispatcher) {
+    fun packageRepository_get_non_system_apps_is_not_empty() = runTest(testDispatcher) {
         packageManagerWrapper.setInstalledApplications(listOf(ApplicationInfo().apply {
             packageName = "Test"
             flags = 0
@@ -56,7 +55,7 @@ class PackageRepositoryTest {
     }
 
     @Test
-    fun getNonSystemAppsIsEmpty_whenFlagsIsOne() = runTest(testDispatcher) {
+    fun packageRepository_get_non_system_apps_is_empty() = runTest(testDispatcher) {
         packageManagerWrapper.setInstalledApplications(listOf(ApplicationInfo().apply {
             packageName = "Test"
             flags = 1

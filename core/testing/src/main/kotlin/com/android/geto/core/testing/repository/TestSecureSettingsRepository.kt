@@ -18,7 +18,7 @@
 
 package com.android.geto.core.testing.repository
 
-import com.android.geto.core.domain.repository.SecureSettingsRepository
+import com.android.geto.core.data.repository.SecureSettingsRepository
 import com.android.geto.core.model.AppSettings
 import com.android.geto.core.model.SecureSettings
 import com.android.geto.core.model.SettingsType

@@ -30,6 +30,7 @@ dependencies {
     implementation(projects.core.domain)
 
     testImplementation(projects.core.testing)
+    testImplementation(libs.kotlinx.coroutines.test)
 
     androidTestImplementation(projects.core.testing)
 }

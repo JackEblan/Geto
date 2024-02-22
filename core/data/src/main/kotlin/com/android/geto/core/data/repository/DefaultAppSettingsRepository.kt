@@ -22,7 +22,6 @@ import com.android.geto.core.database.dao.AppSettingsDao
 import com.android.geto.core.database.model.AppSettingsEntity
 import com.android.geto.core.database.model.asEntity
 import com.android.geto.core.database.model.asExternalModel
-import com.android.geto.core.domain.repository.AppSettingsRepository
 import com.android.geto.core.model.AppSettings
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
