@@ -36,4 +36,6 @@ android {
 
 dependencies {
     implementation(projects.core.model)
+
+    androidTestImplementation(projects.core.testing)
 }

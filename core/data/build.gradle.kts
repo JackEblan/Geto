@@ -41,7 +41,6 @@ dependencies {
     implementation(projects.core.database)
     implementation(projects.core.model)
 
-    testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(projects.core.testing)
 
 }
