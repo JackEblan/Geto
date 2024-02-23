@@ -21,9 +21,12 @@ package com.android.geto.core.ui
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import com.android.geto.core.model.SecureSettings
 import org.junit.Rule
 import org.junit.Test
 
@@ -39,17 +42,19 @@ class AddSettingsDialogTest {
 
             val scrollState = rememberScrollState()
 
-            AddSettingsDialog(addSettingsDialogState = addSettingsDialogState,
-                              scrollState = scrollState,
-                              onDismissRequest = {},
-                              onAddSettings = {
-                                  addSettingsDialogState.updateSelectedRadioOptionIndex(-1)
+            AddSettingsDialog(
+                addSettingsDialogState = addSettingsDialogState,
+                scrollState = scrollState,
+                secureSettings = emptyList(),
+                onDismissRequest = {},
+                onAddSettings = {
+                    addSettingsDialogState.updateSelectedRadioOptionIndex(-1)
 
-                                  addSettingsDialogState.updateLabel("Test")
+                    addSettingsDialogState.updateLabel("Test")
 
-                                  addSettingsDialogState.updateKey("Test")
+                    addSettingsDialogState.updateKey("Test")
 
-                                  addSettingsDialogState.updateValueOnLaunch("Test")
+                    addSettingsDialogState.updateValueOnLaunch("Test")
 
                                   addSettingsDialogState.updateValueOnRevert("Test")
 
@@ -72,18 +77,20 @@ class AddSettingsDialogTest {
 
             val scrollState = rememberScrollState()
 
-            AddSettingsDialog(addSettingsDialogState = addSettingsDialogState,
-                              scrollState = scrollState,
-                              onDismissRequest = {},
-                              onAddSettings = {
+            AddSettingsDialog(
+                addSettingsDialogState = addSettingsDialogState,
+                scrollState = scrollState,
+                secureSettings = emptyList(),
+                onDismissRequest = {},
+                onAddSettings = {
 
-                                  addSettingsDialogState.updateSelectedRadioOptionIndex(1)
+                    addSettingsDialogState.updateSelectedRadioOptionIndex(1)
 
-                                  addSettingsDialogState.updateLabel("")
+                    addSettingsDialogState.updateLabel("")
 
-                                  addSettingsDialogState.updateKey("Test")
+                    addSettingsDialogState.updateKey("Test")
 
-                                  addSettingsDialogState.updateValueOnLaunch("Test")
+                    addSettingsDialogState.updateValueOnLaunch("Test")
 
                                   addSettingsDialogState.updateValueOnRevert("Test")
 
@@ -106,17 +113,19 @@ class AddSettingsDialogTest {
 
             val scrollState = rememberScrollState()
 
-            AddSettingsDialog(addSettingsDialogState = addSettingsDialogState,
-                              scrollState = scrollState,
-                              onDismissRequest = {},
-                              onAddSettings = {
-                                  addSettingsDialogState.updateSelectedRadioOptionIndex(1)
+            AddSettingsDialog(
+                addSettingsDialogState = addSettingsDialogState,
+                scrollState = scrollState,
+                secureSettings = emptyList(),
+                onDismissRequest = {},
+                onAddSettings = {
+                    addSettingsDialogState.updateSelectedRadioOptionIndex(1)
 
-                                  addSettingsDialogState.updateLabel("Test")
+                    addSettingsDialogState.updateLabel("Test")
 
-                                  addSettingsDialogState.updateKey("")
+                    addSettingsDialogState.updateKey("")
 
-                                  addSettingsDialogState.updateValueOnLaunch("Test")
+                    addSettingsDialogState.updateValueOnLaunch("Test")
 
                                   addSettingsDialogState.updateValueOnRevert("Test")
 
@@ -139,17 +148,19 @@ class AddSettingsDialogTest {
 
             val scrollState = rememberScrollState()
 
-            AddSettingsDialog(addSettingsDialogState = addSettingsDialogState,
-                              scrollState = scrollState,
-                              onDismissRequest = {},
-                              onAddSettings = {
-                                  addSettingsDialogState.updateSelectedRadioOptionIndex(1)
+            AddSettingsDialog(
+                addSettingsDialogState = addSettingsDialogState,
+                scrollState = scrollState,
+                secureSettings = emptyList(),
+                onDismissRequest = {},
+                onAddSettings = {
+                    addSettingsDialogState.updateSelectedRadioOptionIndex(1)
 
-                                  addSettingsDialogState.updateKey("Test")
+                    addSettingsDialogState.updateKey("Test")
 
-                                  addSettingsDialogState.updateLabel("Test")
+                    addSettingsDialogState.updateLabel("Test")
 
-                                  addSettingsDialogState.updateValueOnLaunch("")
+                    addSettingsDialogState.updateValueOnLaunch("")
 
                                   addSettingsDialogState.updateValueOnRevert("Test")
 
@@ -174,6 +185,7 @@ class AddSettingsDialogTest {
 
             AddSettingsDialog(addSettingsDialogState = addSettingsDialogState,
                               scrollState = scrollState,
+                              secureSettings = emptyList(),
                               onDismissRequest = {},
                               onAddSettings = {
 
@@ -197,4 +209,82 @@ class AddSettingsDialogTest {
             testTag = "addSettingsDialog:valueOnRevertSupportingText", useUnmergedTree = true
         ).assertIsDisplayed()
     }
+
+    @Test
+    fun exposedDropdownMenuBoxIsDisplayed_whenSecureSettingsListExpandedIsTrue() {
+        composeTestRule.setContent {
+
+            val addSettingsDialogState = rememberAddSettingsDialogState()
+
+            val scrollState = rememberScrollState()
+
+            AddSettingsDialog(addSettingsDialogState = addSettingsDialogState,
+                              scrollState = scrollState,
+                              secureSettings = secureSettingsList,
+                              onDismissRequest = {},
+                              onAddSettings = {
+                                  addSettingsDialogState.updateSelectedRadioOptionIndex(1)
+
+                                  addSettingsDialogState.updateKey("Test")
+
+                                  addSettingsDialogState.updateLabel("Test")
+
+                                  addSettingsDialogState.updateValueOnLaunch("")
+
+                                  addSettingsDialogState.updateValueOnRevert("Test")
+
+                                  addSettingsDialogState.getAppSettings(packageName = "packageName")
+                              })
+        }
+
+        composeTestRule.onNodeWithTag("addSettingsDialog:keyTextField").performClick()
+
+        composeTestRule.onNodeWithTag(
+            testTag = "addSettingsDialog:exposedDropdownMenuBox"
+        ).assertIsDisplayed()
+    }
+
+    @Test
+    fun keyTextFieldValue_whenSecureSettingsListItemIsClicked() {
+        composeTestRule.setContent {
+
+            val addSettingsDialogState = rememberAddSettingsDialogState()
+
+            val scrollState = rememberScrollState()
+
+            AddSettingsDialog(addSettingsDialogState = addSettingsDialogState,
+                              scrollState = scrollState,
+                              secureSettings = secureSettingsList,
+                              onDismissRequest = {},
+                              onAddSettings = {
+                                  addSettingsDialogState.updateSelectedRadioOptionIndex(1)
+
+                                  addSettingsDialogState.updateKey("Test")
+
+                                  addSettingsDialogState.updateLabel("Test")
+
+                                  addSettingsDialogState.updateValueOnLaunch("")
+
+                                  addSettingsDialogState.updateValueOnRevert("Test")
+
+                                  addSettingsDialogState.getAppSettings(packageName = "packageName")
+                              })
+        }
+
+        composeTestRule.onNodeWithTag("addSettingsDialog:keyTextField").performClick()
+
+        composeTestRule.onNodeWithText("name0", true).performClick()
+
+        composeTestRule.onNodeWithTag(
+            testTag = "addSettingsDialog:keyTextField"
+        ).assertTextEquals("Settings key", "name0")
+
+        composeTestRule.onNodeWithTag(
+            testTag = "addSettingsDialog:valueOnRevertTextField"
+        ).assertTextEquals("Settings value on revert", "value0")
+    }
 }
+
+private val secureSettingsList = listOf(
+    SecureSettings(id = 0, name = "name0", value = "value0"),
+)

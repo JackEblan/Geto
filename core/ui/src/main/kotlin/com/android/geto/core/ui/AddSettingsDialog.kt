@@ -32,6 +32,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -50,13 +54,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.android.geto.core.designsystem.component.GetoLabeledRadioButton
 import com.android.geto.core.model.AppSettings
+import com.android.geto.core.model.SecureSettings
 import com.android.geto.core.model.SettingsType
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddSettingsDialog(
     modifier: Modifier = Modifier,
     addSettingsDialogState: AddSettingsDialogState,
     scrollState: ScrollState,
+    secureSettings: List<SecureSettings>,
     onDismissRequest: () -> Unit,
     onAddSettings: () -> Unit
 ) {
@@ -77,9 +84,7 @@ fun AddSettingsDialog(
                 Spacer(modifier = Modifier.height(10.dp))
 
                 Text(
-                    modifier = Modifier.padding(horizontal = 5.dp),
-                    text = "Add Settings",
-                    style = MaterialTheme.typography.titleLarge
+                    modifier = Modifier.padding(horizontal = 5.dp), text = "Add Settings", style = MaterialTheme.typography.titleLarge
                 )
 
                 Spacer(modifier = Modifier.height(10.dp))
@@ -129,25 +134,65 @@ fun AddSettingsDialog(
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
                 )
 
-                OutlinedTextField(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 5.dp),
-                    value = addSettingsDialogState.key,
-                    onValueChange = addSettingsDialogState::updateKey,
-                    label = {
-                        Text(text = "Settings key")
-                    },
-                    isError = addSettingsDialogState.keyError.isNotBlank(),
-                    supportingText = {
-                        if (addSettingsDialogState.keyError.isNotBlank()) Text(
-                            text = addSettingsDialogState.keyError,
-                            modifier = Modifier.testTag("addSettingsDialog:keySupportingText")
-                        )
-                    },
-                    singleLine = true,
-                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
-                )
+                ExposedDropdownMenuBox(
+                    expanded = addSettingsDialogState.secureSettingsListExpanded,
+                    onExpandedChange = addSettingsDialogState::updateSecureSettingsExpanded,
+                    modifier = Modifier.testTag("addSettingsDialog:exposedDropdownMenuBox")
+                ) {
+                    OutlinedTextField(
+                        modifier = Modifier
+                            .menuAnchor()
+                            .fillMaxWidth()
+                            .padding(horizontal = 5.dp)
+                            .testTag("addSettingsDialog:keyTextField"),
+                        value = addSettingsDialogState.key,
+                        onValueChange = addSettingsDialogState::updateKey,
+                        label = {
+                            Text(text = "Settings key")
+                        },
+                        trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = addSettingsDialogState.secureSettingsListExpanded) },
+                        colors = ExposedDropdownMenuDefaults.textFieldColors(),
+                        isError = addSettingsDialogState.keyError.isNotBlank(),
+                        supportingText = {
+                            if (addSettingsDialogState.keyError.isNotBlank()) Text(
+                                text = addSettingsDialogState.keyError,
+                                modifier = Modifier.testTag("addSettingsDialog:keySupportingText")
+                            )
+                        },
+                        singleLine = true,
+                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
+                    )
+
+                    if (secureSettings.isNotEmpty()) {
+                        ExposedDropdownMenu(
+                            expanded = addSettingsDialogState.secureSettingsListExpanded,
+                            onDismissRequest = {
+                                addSettingsDialogState.updateSecureSettingsExpanded(false)
+                            },
+                        ) {
+                            secureSettings.forEach { secureSetting ->
+                                DropdownMenuItem(
+                                    text = { Text(text = secureSetting.name ?: "null") },
+                                    onClick = {
+                                        addSettingsDialogState.updateKey(
+                                            secureSetting.name ?: "null"
+                                        )
+
+                                        addSettingsDialogState.updateValueOnRevert(
+                                            secureSetting.value ?: "null"
+                                        )
+
+                                        addSettingsDialogState.updateSecureSettingsExpanded(
+                                            false
+                                        )
+                                    },
+                                    contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
+                                )
+                            }
+
+                        }
+                    }
+                }
 
                 OutlinedTextField(
                     modifier = Modifier
@@ -172,7 +217,8 @@ fun AddSettingsDialog(
                 OutlinedTextField(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 5.dp),
+                        .padding(horizontal = 5.dp)
+                        .testTag("addSettingsDialog:valueOnRevertTextField"),
                     value = addSettingsDialogState.valueOnRevert,
                     onValueChange = addSettingsDialogState::updateValueOnRevert,
                     label = {
@@ -199,8 +245,7 @@ fun AddSettingsDialog(
                         Text("Cancel")
                     }
                     TextButton(
-                        onClick = onAddSettings,
-                        modifier = Modifier
+                        onClick = onAddSettings, modifier = Modifier
                             .padding(5.dp)
                             .testTag("addSettingsDialog:add")
                     ) {
@@ -220,10 +265,12 @@ fun rememberAddSettingsDialogState(): AddSettingsDialogState {
 }
 
 class AddSettingsDialogState {
+    var secureSettingsListExpanded by mutableStateOf(false)
+
     var showDialog by mutableStateOf(false)
         private set
 
-    var selectedRadioOptionIndex by mutableIntStateOf(-1)
+    var selectedRadioOptionIndex by mutableIntStateOf(0)
         private set
 
     var selectedRadioOptionIndexError by mutableStateOf("")
@@ -252,6 +299,10 @@ class AddSettingsDialogState {
 
     var valueOnRevertError by mutableStateOf("")
         private set
+
+    fun updateSecureSettingsExpanded(value: Boolean) {
+        secureSettingsListExpanded = value
+    }
 
     fun updateShowDialog(value: Boolean) {
         showDialog = value

@@ -23,6 +23,7 @@ import com.android.geto.core.domain.AddAppSettingsUseCase
 import com.android.geto.core.domain.ApplyAppSettingsUseCase
 import com.android.geto.core.domain.RevertAppSettingsUseCase
 import com.android.geto.core.model.AppSettings
+import com.android.geto.core.model.SecureSettings
 import com.android.geto.core.model.SettingsType
 import com.android.geto.core.testing.packagemanager.TestPackageManagerWrapper
 import com.android.geto.core.testing.repository.TestAppSettingsRepository
@@ -83,6 +84,7 @@ class AppSettingsViewModelTest {
             savedStateHandle = savedStateHandle,
             appSettingsRepository = appSettingsRepository,
             clipboardRepository = clipboardRepository,
+            secureSettingsRepository = secureSettingsRepository,
             packageManagerWrapper = TestPackageManagerWrapper(),
             applyAppSettingsUseCase = ApplyAppSettingsUseCase(
                 appSettingsRepository = appSettingsRepository,
@@ -388,4 +390,31 @@ class AppSettingsViewModelTest {
 
         assertFalse(item)
     }
+
+    @Test
+    fun secureSettingsIsNotEmpty_whenGetSecureSettings() = runTest {
+        secureSettingsRepository.sendSecureSettings(secureSettingsList)
+
+        viewModel.getSecureSettings(text = "name0", settingsType = SettingsType.GLOBAL)
+
+        val item = viewModel.secureSettings.value
+
+        assertTrue(item.isNotEmpty())
+    }
+
+    @Test
+    fun secureSettingsIsEmpty_whenGetSecureSettings() = runTest {
+        secureSettingsRepository.sendSecureSettings(secureSettingsList)
+
+        viewModel.getSecureSettings(text = "nameNotFound", settingsType = SettingsType.GLOBAL)
+
+        val item = viewModel.secureSettings.value
+
+        assertTrue(item.isEmpty())
+    }
 }
+
+private val secureSettingsList = listOf(
+    SecureSettings(id = 0L, name = "name0", value = "value0"),
+    SecureSettings(id = 1L, name = "name1", value = "value1")
+)

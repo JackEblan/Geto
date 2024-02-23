@@ -48,6 +48,7 @@ class AppSettingsScreenTest {
                               packageName = "Geto",
                               appSettingsUiState = AppSettingsUiState.Loading,
                               addSettingsDialogState = addSettingsDialogState,
+                              secureSettings = emptyList(),
                               showCopyPermissionCommandDialog = false,
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
@@ -75,6 +76,7 @@ class AppSettingsScreenTest {
                               packageName = "Geto",
                               appSettingsUiState = AppSettingsUiState.Empty,
                               addSettingsDialogState = addSettingsDialogState,
+                              secureSettings = emptyList(),
                               showCopyPermissionCommandDialog = false,
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
@@ -102,6 +104,7 @@ class AppSettingsScreenTest {
                               packageName = "Geto",
                               appSettingsUiState = AppSettingsUiState.Success(testAppSettingsList),
                               addSettingsDialogState = addSettingsDialogState,
+                              secureSettings = emptyList(),
                               showCopyPermissionCommandDialog = false,
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
@@ -129,6 +132,7 @@ class AppSettingsScreenTest {
                               packageName = "Geto",
                               appSettingsUiState = AppSettingsUiState.Success(testAppSettingsList),
                               addSettingsDialogState = addSettingsDialogState,
+                              secureSettings = emptyList(),
                               showCopyPermissionCommandDialog = false,
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
@@ -158,6 +162,7 @@ class AppSettingsScreenTest {
                               packageName = "Geto",
                               appSettingsUiState = AppSettingsUiState.Empty,
                               addSettingsDialogState = addSettingsDialogState,
+                              secureSettings = emptyList(),
                               showCopyPermissionCommandDialog = false,
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
@@ -182,23 +187,25 @@ class AppSettingsScreenTest {
 
             val scrollState = rememberScrollState()
 
-            AppSettingsScreen(snackbarHostState = SnackbarHostState(),
-                              appName = "Geto",
-                              packageName = "Geto",
-                              appSettingsUiState = AppSettingsUiState.Empty,
-                              addSettingsDialogState = addSettingsDialogState,
-                              showCopyPermissionCommandDialog = false,
-                              onNavigationIconClick = {},
-                              onRevertSettingsIconClick = {},
-                              onAppSettingsItemCheckBoxChange = { _, _ -> },
-                              onDeleteAppSettingsItem = {},
-                              onLaunchApp = {},
-                              scrollState = scrollState,
-                              onAddSettings = {
-                                  addSettingsDialogState.updateShowDialog(true)
-                              },
-                              onCopyPermissionCommand = {},
-                              onDismissRequestCopyPermissionCommand = {})
+            AppSettingsScreen(
+                snackbarHostState = SnackbarHostState(),
+                appName = "Geto",
+                packageName = "Geto",
+                appSettingsUiState = AppSettingsUiState.Empty,
+                addSettingsDialogState = addSettingsDialogState,
+                secureSettings = emptyList(),
+                showCopyPermissionCommandDialog = false,
+                onNavigationIconClick = {},
+                onRevertSettingsIconClick = {},
+                onAppSettingsItemCheckBoxChange = { _, _ -> },
+                onDeleteAppSettingsItem = {},
+                onLaunchApp = {},
+                scrollState = scrollState,
+                onAddSettings = {
+                    addSettingsDialogState.updateShowDialog(true)
+                },
+                onCopyPermissionCommand = {},
+                onDismissRequestCopyPermissionCommand = {})
         }
 
         composeTestRule.onNodeWithContentDescription("Add icon").performClick()
@@ -218,6 +225,7 @@ class AppSettingsScreenTest {
                               packageName = "Geto",
                               appSettingsUiState = AppSettingsUiState.Empty,
                               addSettingsDialogState = addSettingsDialogState,
+                              secureSettings = emptyList(),
                               showCopyPermissionCommandDialog = true,
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},

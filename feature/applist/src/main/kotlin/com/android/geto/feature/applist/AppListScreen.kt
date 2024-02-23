@@ -26,8 +26,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -37,7 +35,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.android.geto.core.designsystem.icon.GetoIcons
 import com.android.geto.core.model.NonSystemApp
 import com.android.geto.core.ui.AppItem
 import com.android.geto.core.ui.LoadingPlaceHolderScreen
@@ -46,8 +43,7 @@ import com.android.geto.core.ui.LoadingPlaceHolderScreen
 internal fun AppListRoute(
     modifier: Modifier = Modifier,
     viewModel: AppListViewModel = hiltViewModel(),
-    onItemClick: (String, String) -> Unit,
-    onSecureSettingsClick: () -> Unit
+    onItemClick: (String, String) -> Unit
 ) {
     val appListUiState = viewModel.appListUiState.collectAsStateWithLifecycle().value
 
@@ -56,10 +52,7 @@ internal fun AppListRoute(
     }
 
     AppListScreen(
-        modifier = modifier,
-        appListUiState = appListUiState,
-        onItemClick = onItemClick,
-        onSecureSettingsClick = onSecureSettingsClick
+        modifier = modifier, appListUiState = appListUiState, onItemClick = onItemClick
     )
 }
 
@@ -68,19 +61,11 @@ internal fun AppListRoute(
 @Composable
 internal fun AppListScreen(
     modifier: Modifier = Modifier,
-    appListUiState: AppListUiState,
-    onItemClick: (String, String) -> Unit,
-    onSecureSettingsClick: () -> Unit
+    appListUiState: AppListUiState, onItemClick: (String, String) -> Unit
 ) {
     Scaffold(topBar = {
         TopAppBar(title = {
             Text(text = "Geto")
-        }, actions = {
-            IconButton(onClick = onSecureSettingsClick) {
-                Icon(
-                    imageVector = GetoIcons.Settings, contentDescription = "Secure settings icon"
-                )
-            }
         })
     }) { innerPadding ->
         Box(

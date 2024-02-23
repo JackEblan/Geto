@@ -49,6 +49,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.android.geto.core.designsystem.icon.GetoIcons
 import com.android.geto.core.model.AppSettings
+import com.android.geto.core.model.SecureSettings
+import com.android.geto.core.model.SettingsType
 import com.android.geto.core.ui.AddSettingsDialog
 import com.android.geto.core.ui.AddSettingsDialogState
 import com.android.geto.core.ui.AppSettingsItem
@@ -78,6 +80,8 @@ internal fun AppSettingsRoute(
 
     val launchAppIntent = viewModel.launchAppIntent.collectAsStateWithLifecycle().value
 
+    val secureSettings = viewModel.secureSettings.collectAsStateWithLifecycle().value
+
     val addSettingsDialogState = rememberAddSettingsDialogState()
 
     val scrollState = rememberScrollState()
@@ -96,6 +100,12 @@ internal fun AppSettingsRoute(
         }
     }
 
+    LaunchedEffect(key1 = addSettingsDialogState.key) {
+        val settingsType = SettingsType.entries[addSettingsDialogState.selectedRadioOptionIndex]
+
+        viewModel.getSecureSettings(text = addSettingsDialogState.key, settingsType = settingsType)
+    }
+
     AppSettingsScreen(
         modifier = modifier,
         snackbarHostState = snackbarHostState,
@@ -103,6 +113,7 @@ internal fun AppSettingsRoute(
         packageName = viewModel.packageName,
         appSettingsUiState = appSettingsUiState,
         addSettingsDialogState = addSettingsDialogState,
+        secureSettings = secureSettings,
         showCopyPermissionCommandDialog = showCopyPermissionCommandDialog,
         onNavigationIconClick = onNavigationIconClick,
         onRevertSettingsIconClick = viewModel::revertSettings,
@@ -126,6 +137,7 @@ internal fun AppSettingsScreen(
     packageName: String,
     appSettingsUiState: AppSettingsUiState,
     addSettingsDialogState: AddSettingsDialogState,
+    secureSettings: List<SecureSettings>,
     showCopyPermissionCommandDialog: Boolean,
     onNavigationIconClick: () -> Unit,
     onRevertSettingsIconClick: () -> Unit,
@@ -140,6 +152,7 @@ internal fun AppSettingsScreen(
     if (addSettingsDialogState.showDialog) {
         AddSettingsDialog(addSettingsDialogState = addSettingsDialogState,
                           scrollState = scrollState,
+                          secureSettings = secureSettings,
                           onDismissRequest = { addSettingsDialogState.updateShowDialog(false) },
                           onAddSettings = {
                               addSettingsDialogState.getAppSettings(packageName = packageName)

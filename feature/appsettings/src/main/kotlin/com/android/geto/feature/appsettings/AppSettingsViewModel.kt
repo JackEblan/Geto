@@ -25,10 +25,13 @@ import androidx.lifecycle.viewModelScope
 import com.android.geto.core.clipboardmanager.PackageManagerWrapper
 import com.android.geto.core.data.repository.AppSettingsRepository
 import com.android.geto.core.data.repository.ClipboardRepository
+import com.android.geto.core.data.repository.SecureSettingsRepository
 import com.android.geto.core.domain.AddAppSettingsUseCase
 import com.android.geto.core.domain.ApplyAppSettingsUseCase
 import com.android.geto.core.domain.RevertAppSettingsUseCase
 import com.android.geto.core.model.AppSettings
+import com.android.geto.core.model.SecureSettings
+import com.android.geto.core.model.SettingsType
 import com.android.geto.feature.appsettings.navigation.AppSettingsArgs
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -46,6 +49,7 @@ class AppSettingsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val appSettingsRepository: AppSettingsRepository,
     private val clipboardRepository: ClipboardRepository,
+    private val secureSettingsRepository: SecureSettingsRepository,
     private val packageManagerWrapper: PackageManagerWrapper,
     private val applyAppSettingsUseCase: ApplyAppSettingsUseCase,
     private val revertAppSettingsUseCase: RevertAppSettingsUseCase,
@@ -62,6 +66,10 @@ class AppSettingsViewModel @Inject constructor(
     private var _showCopyPermissionCommandDialog = MutableStateFlow(false)
 
     val showCopyPermissionCommandDialog = _showCopyPermissionCommandDialog.asStateFlow()
+
+    private var _secureSettings = MutableStateFlow<List<SecureSettings>>(emptyList())
+
+    val secureSettings = _secureSettings.asStateFlow()
 
     private val appSettingsArgs: AppSettingsArgs = AppSettingsArgs(savedStateHandle)
 
@@ -133,26 +141,34 @@ class AppSettingsViewModel @Inject constructor(
 
     fun revertSettings() {
         viewModelScope.launch {
-            revertAppSettingsUseCase(
-                packageName = packageName,
-                onEmptyAppSettingsList = { message ->
-                    _snackBar.update { message }
-                },
-                onAppSettingsDisabled = { message ->
-                    _snackBar.update { message }
-                },
-                onAppSettingsNotSafeToWrite = { message ->
-                    _snackBar.update { message }
-                },
-                onReverted = { message ->
-                    _snackBar.update { message }
-                },
-                onSecurityException = {
-                    _showCopyPermissionCommandDialog.update { true }
-                },
-                onFailure = { message ->
-                    _snackBar.update { message }
-                })
+            revertAppSettingsUseCase(packageName = packageName,
+                                     onEmptyAppSettingsList = { message ->
+                                         _snackBar.update { message }
+                                     },
+                                     onAppSettingsDisabled = { message ->
+                                         _snackBar.update { message }
+                                     },
+                                     onAppSettingsNotSafeToWrite = { message ->
+                                         _snackBar.update { message }
+                                     },
+                                     onReverted = { message ->
+                                         _snackBar.update { message }
+                                     },
+                                     onSecurityException = {
+                                         _showCopyPermissionCommandDialog.update { true }
+                                     },
+                                     onFailure = { message ->
+                                         _snackBar.update { message }
+                                     })
+        }
+    }
+
+    fun getSecureSettings(text: String, settingsType: SettingsType) {
+        viewModelScope.launch {
+            val filteredSecureSettings = secureSettingsRepository.getSecureSettings(settingsType)
+                .filter { it.name!!.contains(text) }.take(10)
+
+            _secureSettings.update { filteredSecureSettings }
         }
     }
 
