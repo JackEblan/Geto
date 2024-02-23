@@ -29,7 +29,7 @@ class DefaultClipboardManagerWrapper @Inject constructor(
     override fun setPrimaryClip(label: String, text: String): String? {
         clipboardManager.setPrimaryClip(ClipData.newPlainText(label, text))
 
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) null
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S_V2) null
         else "$text copied to clipboard"
     }
 }

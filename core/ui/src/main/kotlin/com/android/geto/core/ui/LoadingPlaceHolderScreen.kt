@@ -32,6 +32,6 @@ fun LoadingPlaceHolderScreen(modifier: Modifier = Modifier) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        CircularProgressIndicator(progress = 0.0F)
+        CircularProgressIndicator()
     }
 }

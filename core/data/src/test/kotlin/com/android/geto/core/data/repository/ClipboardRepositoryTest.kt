@@ -40,7 +40,7 @@ class ClipboardRepositoryTest {
     }
 
     @Test
-    fun clipboardRepository_set_primary_clip_does_not_return_a_result() {
+    fun clipboardRepository_set_primary_clip_no_result() {
         clipboardManagerWrapper.setApi32(true)
 
         val result = subject.setPrimaryClip(label = "label", text = "text")
@@ -49,7 +49,7 @@ class ClipboardRepositoryTest {
     }
 
     @Test
-    fun clipboardRepository_set_primary_clip_returns_a_result() {
+    fun clipboardRepository_set_primary_clip_show_result() {
         clipboardManagerWrapper.setApi32(false)
 
         val result = subject.setPrimaryClip(label = "label", text = "text")
