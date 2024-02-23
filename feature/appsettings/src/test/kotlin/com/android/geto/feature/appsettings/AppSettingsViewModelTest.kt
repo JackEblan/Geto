@@ -19,7 +19,6 @@
 package com.android.geto.feature.appsettings
 
 import androidx.lifecycle.SavedStateHandle
-import com.android.geto.core.domain.AddAppSettingsUseCase
 import com.android.geto.core.domain.ApplyAppSettingsUseCase
 import com.android.geto.core.domain.RevertAppSettingsUseCase
 import com.android.geto.core.model.AppSettings
@@ -93,10 +92,6 @@ class AppSettingsViewModelTest {
             revertAppSettingsUseCase = RevertAppSettingsUseCase(
                 appSettingsRepository = appSettingsRepository,
                 secureSettingsRepository = secureSettingsRepository
-            ),
-            addAppSettingsUseCase = AddAppSettingsUseCase(
-                secureSettingsRepository = secureSettingsRepository,
-                appSettingsRepository = appSettingsRepository
             )
         )
     }
@@ -123,8 +118,7 @@ class AppSettingsViewModelTest {
                     label = "system",
                     key = "key",
                     valueOnLaunch = "test",
-                    valueOnRevert = "test",
-                    safeToWrite = true
+                    valueOnRevert = "test"
                 )
             )
         )
@@ -174,34 +168,7 @@ class AppSettingsViewModelTest {
                     packageName = packageNameTest,
                     label = "system",
                     key = "key",
-                    valueOnLaunch = "test",
-                    valueOnRevert = "test",
-                    safeToWrite = true
-                )
-            )
-        )
-
-        secureSettingsRepository.setWriteSecureSettings(true)
-
-        viewModel.launchApp()
-
-        assertNotNull(viewModel.snackBar.value)
-    }
-
-    @Test
-    fun snackBarIsNotNull_whenLaunchApp_itemSafeToWriteIsFalse() = runTest {
-        appSettingsRepository.sendAppSettings(
-            listOf(
-                AppSettings(
-                    id = 0,
-                    enabled = true,
-                    settingsType = SettingsType.SYSTEM,
-                    packageName = packageNameTest,
-                    label = "system",
-                    key = "key",
-                    valueOnLaunch = "test",
-                    valueOnRevert = "test",
-                    safeToWrite = false
+                    valueOnLaunch = "test", valueOnRevert = "test"
                 )
             )
         )
@@ -224,9 +191,7 @@ class AppSettingsViewModelTest {
                     packageName = packageNameTest,
                     label = "system",
                     key = "key",
-                    valueOnLaunch = "test",
-                    valueOnRevert = "test",
-                    safeToWrite = true
+                    valueOnLaunch = "test", valueOnRevert = "test"
                 )
             )
         )
@@ -250,9 +215,7 @@ class AppSettingsViewModelTest {
                     packageName = packageNameTest,
                     label = "system",
                     key = "key",
-                    valueOnLaunch = "test",
-                    valueOnRevert = "test",
-                    safeToWrite = true
+                    valueOnLaunch = "test", valueOnRevert = "test"
                 )
             )
         )
@@ -289,34 +252,7 @@ class AppSettingsViewModelTest {
                     packageName = packageNameTest,
                     label = "system",
                     key = "key",
-                    valueOnLaunch = "test",
-                    valueOnRevert = "test",
-                    safeToWrite = true
-                )
-            )
-        )
-
-        secureSettingsRepository.setWriteSecureSettings(true)
-
-        viewModel.revertSettings()
-
-        assertNotNull(viewModel.snackBar.value)
-    }
-
-    @Test
-    fun snackBarIsNotNull_whenRevertSettings_itemSafeToWriteIsFalse() = runTest {
-        appSettingsRepository.sendAppSettings(
-            listOf(
-                AppSettings(
-                    id = 0,
-                    enabled = true,
-                    settingsType = SettingsType.SYSTEM,
-                    packageName = packageNameTest,
-                    label = "system",
-                    key = "key",
-                    valueOnLaunch = "test",
-                    valueOnRevert = "test",
-                    safeToWrite = false
+                    valueOnLaunch = "test", valueOnRevert = "test"
                 )
             )
         )
@@ -339,9 +275,7 @@ class AppSettingsViewModelTest {
                     packageName = packageNameTest,
                     label = "system",
                     key = "key",
-                    valueOnLaunch = "test",
-                    valueOnRevert = "test",
-                    safeToWrite = true
+                    valueOnLaunch = "test", valueOnRevert = "test"
                 )
             )
         )
@@ -365,9 +299,7 @@ class AppSettingsViewModelTest {
                     packageName = packageNameTest,
                     label = "system",
                     key = "key",
-                    valueOnLaunch = "test",
-                    valueOnRevert = "test",
-                    safeToWrite = true
+                    valueOnLaunch = "test", valueOnRevert = "test"
                 )
             )
         )

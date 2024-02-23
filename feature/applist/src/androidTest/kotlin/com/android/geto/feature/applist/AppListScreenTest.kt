@@ -33,9 +33,7 @@ class AppListScreenTest {
     @Test
     fun loadingPlaceHolderScreenIsDisplayed_whenAppListUiStateIsLoading() {
         composeTestRule.setContent {
-            AppListScreen(appListUiState = AppListUiState.Loading,
-                          onItemClick = { _, _ -> },
-                          onSecureSettingsClick = {})
+            AppListScreen(appListUiState = AppListUiState.Loading, onItemClick = { _, _ -> })
         }
 
         composeTestRule.onNodeWithTag("applist:loadingPlaceHolderScreen").assertIsDisplayed()
@@ -45,8 +43,7 @@ class AppListScreenTest {
     fun lazyColumnIsDisplayed_whenAppListUiStateIsSuccess() {
         composeTestRule.setContent {
             AppListScreen(appListUiState = AppListUiState.Success(testNonSystemAppList),
-                          onItemClick = { _, _ -> },
-                          onSecureSettingsClick = {})
+                          onItemClick = { _, _ -> })
         }
 
         composeTestRule.onNodeWithTag("applist:lazyColumn").assertIsDisplayed()

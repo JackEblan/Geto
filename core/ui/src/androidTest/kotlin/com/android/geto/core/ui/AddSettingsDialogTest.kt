@@ -127,6 +127,42 @@ class AddSettingsDialogTest {
 
                     addSettingsDialogState.updateValueOnLaunch("Test")
 
+                    addSettingsDialogState.updateValueOnRevert("Test")
+
+                    addSettingsDialogState.getAppSettings(packageName = "packageName")
+                })
+        }
+
+        composeTestRule.onNodeWithTag("addSettingsDialog:add").performClick()
+
+        composeTestRule.onNodeWithTag(
+            testTag = "addSettingsDialog:keySupportingText", useUnmergedTree = true
+        ).assertIsDisplayed()
+    }
+
+    @Test
+    fun settingsKeyNotFoundSupportingTextIsDisplayed_whenSettingsKeyNotFound() {
+        composeTestRule.setContent {
+
+            val addSettingsDialogState = rememberAddSettingsDialogState()
+
+            val scrollState = rememberScrollState()
+
+            AddSettingsDialog(addSettingsDialogState = addSettingsDialogState,
+                              scrollState = scrollState,
+                              secureSettings = emptyList(),
+                              onDismissRequest = {},
+                              onAddSettings = {
+                                  addSettingsDialogState.updateSecureSettings(testSecureSettingsList)
+
+                                  addSettingsDialogState.updateSelectedRadioOptionIndex(1)
+
+                                  addSettingsDialogState.updateLabel("Test")
+
+                                  addSettingsDialogState.updateKey("nameNotFound")
+
+                                  addSettingsDialogState.updateValueOnLaunch("Test")
+
                                   addSettingsDialogState.updateValueOnRevert("Test")
 
                                   addSettingsDialogState.getAppSettings(packageName = "packageName")
@@ -136,7 +172,7 @@ class AddSettingsDialogTest {
         composeTestRule.onNodeWithTag("addSettingsDialog:add").performClick()
 
         composeTestRule.onNodeWithTag(
-            testTag = "addSettingsDialog:keySupportingText", useUnmergedTree = true
+            testTag = "addSettingsDialog:settingsKeyNotFoundSupportingText", useUnmergedTree = true
         ).assertIsDisplayed()
     }
 
@@ -218,22 +254,23 @@ class AddSettingsDialogTest {
 
             val scrollState = rememberScrollState()
 
-            AddSettingsDialog(addSettingsDialogState = addSettingsDialogState,
-                              scrollState = scrollState,
-                              secureSettings = secureSettingsList,
-                              onDismissRequest = {},
-                              onAddSettings = {
-                                  addSettingsDialogState.updateSelectedRadioOptionIndex(1)
+            AddSettingsDialog(
+                addSettingsDialogState = addSettingsDialogState,
+                scrollState = scrollState,
+                secureSettings = testSecureSettingsList,
+                onDismissRequest = {},
+                onAddSettings = {
+                    addSettingsDialogState.updateSelectedRadioOptionIndex(1)
 
-                                  addSettingsDialogState.updateKey("Test")
+                    addSettingsDialogState.updateKey("Test")
 
-                                  addSettingsDialogState.updateLabel("Test")
+                    addSettingsDialogState.updateLabel("Test")
 
-                                  addSettingsDialogState.updateValueOnLaunch("")
+                    addSettingsDialogState.updateValueOnLaunch("")
 
-                                  addSettingsDialogState.updateValueOnRevert("Test")
+                    addSettingsDialogState.updateValueOnRevert("Test")
 
-                                  addSettingsDialogState.getAppSettings(packageName = "packageName")
+                    addSettingsDialogState.getAppSettings(packageName = "packageName")
                               })
         }
 
@@ -252,22 +289,23 @@ class AddSettingsDialogTest {
 
             val scrollState = rememberScrollState()
 
-            AddSettingsDialog(addSettingsDialogState = addSettingsDialogState,
-                              scrollState = scrollState,
-                              secureSettings = secureSettingsList,
-                              onDismissRequest = {},
-                              onAddSettings = {
-                                  addSettingsDialogState.updateSelectedRadioOptionIndex(1)
+            AddSettingsDialog(
+                addSettingsDialogState = addSettingsDialogState,
+                scrollState = scrollState,
+                secureSettings = testSecureSettingsList,
+                onDismissRequest = {},
+                onAddSettings = {
+                    addSettingsDialogState.updateSelectedRadioOptionIndex(1)
 
-                                  addSettingsDialogState.updateKey("Test")
+                    addSettingsDialogState.updateKey("Test")
 
-                                  addSettingsDialogState.updateLabel("Test")
+                    addSettingsDialogState.updateLabel("Test")
 
-                                  addSettingsDialogState.updateValueOnLaunch("")
+                    addSettingsDialogState.updateValueOnLaunch("")
 
-                                  addSettingsDialogState.updateValueOnRevert("Test")
+                    addSettingsDialogState.updateValueOnRevert("Test")
 
-                                  addSettingsDialogState.getAppSettings(packageName = "packageName")
+                    addSettingsDialogState.getAppSettings(packageName = "packageName")
                               })
         }
 
@@ -285,6 +323,6 @@ class AddSettingsDialogTest {
     }
 }
 
-private val secureSettingsList = listOf(
+private val testSecureSettingsList = listOf(
     SecureSettings(id = 0, name = "name0", value = "value0"),
 )

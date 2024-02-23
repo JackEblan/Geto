@@ -34,7 +34,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -44,7 +43,6 @@ fun AppSettingsItem(
     label: String,
     settingsTypeLabel: String,
     key: String,
-    safeToWrite: Boolean,
     onUserAppSettingsItemCheckBoxChange: (Boolean) -> Unit,
     onDeleteUserAppSettingsItem: () -> Unit,
 ) {
@@ -60,9 +58,7 @@ fun AppSettingsItem(
 
         Column(modifier = Modifier.weight(1f)) {
             Text(
-                text = label,
-                color = if (safeToWrite) Color.Unspecified else MaterialTheme.colorScheme.error,
-                style = MaterialTheme.typography.bodyLarge
+                text = label, style = MaterialTheme.typography.bodyLarge
             )
 
             Spacer(modifier = Modifier.height(5.dp))

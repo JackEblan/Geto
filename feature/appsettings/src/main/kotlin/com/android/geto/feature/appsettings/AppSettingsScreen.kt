@@ -155,6 +155,8 @@ internal fun AppSettingsScreen(
                           secureSettings = secureSettings,
                           onDismissRequest = { addSettingsDialogState.updateShowDialog(false) },
                           onAddSettings = {
+                              addSettingsDialogState.updateSecureSettings(secureSettings)
+
                               addSettingsDialogState.getAppSettings(packageName = packageName)
                                   ?.let(onAddSettings)
                           })
@@ -258,21 +260,18 @@ private fun LazyListScope.appSettings(
     onDeleteAppSettingsItem: (AppSettings) -> Unit,
 ) {
     items(appSettingsList) { appSettings ->
-        AppSettingsItem(
-            modifier = modifier,
-            enabled = appSettings.enabled,
-            label = appSettings.label,
-            settingsTypeLabel = appSettings.settingsType.label,
-            key = appSettings.key,
-            onUserAppSettingsItemCheckBoxChange = { check ->
-                onAppSettingsItemCheckBoxChange(
-                    check, appSettings
-                )
-            },
-            onDeleteUserAppSettingsItem = {
-                onDeleteAppSettingsItem(appSettings)
-            },
-            safeToWrite = appSettings.safeToWrite
-        )
+        AppSettingsItem(modifier = modifier,
+                        enabled = appSettings.enabled,
+                        label = appSettings.label,
+                        settingsTypeLabel = appSettings.settingsType.label,
+                        key = appSettings.key,
+                        onUserAppSettingsItemCheckBoxChange = { check ->
+                            onAppSettingsItemCheckBoxChange(
+                                check, appSettings
+                            )
+                        },
+                        onDeleteUserAppSettingsItem = {
+                            onDeleteAppSettingsItem(appSettings)
+                        })
     }
 }

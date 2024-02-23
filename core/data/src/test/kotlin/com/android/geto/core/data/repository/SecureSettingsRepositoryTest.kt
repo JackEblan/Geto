@@ -55,8 +55,7 @@ class SecureSettingsRepositoryTest {
             label = "Test",
             key = "test",
             valueOnLaunch = "0",
-            valueOnRevert = "1",
-            safeToWrite = false
+            valueOnRevert = "1"
         )
 
         appSettingsList.add(appSettings)
@@ -77,16 +76,15 @@ class SecureSettingsRepositoryTest {
             label = "Test",
             key = "test",
             valueOnLaunch = "0",
-                valueOnRevert = "1",
-                safeToWrite = false
-            )
+            valueOnRevert = "1"
+        )
 
-            appSettingsList.add(appSettings)
+        appSettingsList.add(appSettings)
 
-            val result = subject.applySecureSettings(appSettingsList)
+        val result = subject.applySecureSettings(appSettingsList)
 
-            assertTrue { result.isSuccess }
-        }
+        assertTrue { result.isSuccess }
+    }
 
     @Test
     fun secureSettingsRepository_applied_system_settings() = runTest(testDispatcher) {
@@ -99,16 +97,15 @@ class SecureSettingsRepositoryTest {
             label = "Test",
             key = "test",
             valueOnLaunch = "0",
-                valueOnRevert = "1",
-                safeToWrite = false
-            )
+            valueOnRevert = "1"
+        )
 
-            appSettingsList.add(appSettings)
+        appSettingsList.add(appSettings)
 
-            val result = subject.applySecureSettings(appSettingsList)
+        val result = subject.applySecureSettings(appSettingsList)
 
-            assertTrue { result.isSuccess }
-        }
+        assertTrue { result.isSuccess }
+    }
 
     @Test
     fun secureSettingsRepository_reverted_global_settings() = runTest(testDispatcher) {
@@ -121,16 +118,15 @@ class SecureSettingsRepositoryTest {
             label = "Test",
             key = "test",
             valueOnLaunch = "0",
-                valueOnRevert = "1",
-                safeToWrite = false
-            )
+            valueOnRevert = "1"
+        )
 
-            appSettingsList.add(appSettings)
+        appSettingsList.add(appSettings)
 
-            val result = subject.revertSecureSettings(appSettingsList)
+        val result = subject.revertSecureSettings(appSettingsList)
 
-            assertTrue { result.isSuccess }
-        }
+        assertTrue { result.isSuccess }
+    }
 
     @Test
     fun secureSettingsRepository_reverted_secure_settings() = runTest(testDispatcher) {
@@ -143,16 +139,15 @@ class SecureSettingsRepositoryTest {
             label = "Test",
             key = "test",
             valueOnLaunch = "0",
-                valueOnRevert = "1",
-                safeToWrite = false
-            )
+            valueOnRevert = "1"
+        )
 
-            appSettingsList.add(appSettings)
+        appSettingsList.add(appSettings)
 
-            val result = subject.revertSecureSettings(appSettingsList)
+        val result = subject.revertSecureSettings(appSettingsList)
 
-            assertTrue { result.isSuccess }
-        }
+        assertTrue { result.isSuccess }
+    }
 
     @Test
     fun secureSettingsRepository_reverted_system_settings() = runTest(testDispatcher) {
@@ -165,16 +160,15 @@ class SecureSettingsRepositoryTest {
             label = "Test",
             key = "test",
             valueOnLaunch = "0",
-                valueOnRevert = "1",
-                safeToWrite = false
-            )
+            valueOnRevert = "1"
+        )
 
-            appSettingsList.add(appSettings)
+        appSettingsList.add(appSettings)
 
-            val result = subject.revertSecureSettings(appSettingsList)
+        val result = subject.revertSecureSettings(appSettingsList)
 
-            assertTrue { result.isSuccess }
-        }
+        assertTrue { result.isSuccess }
+    }
 
     @Test
     fun secureSettingsRepository_failed_to_apply_global_settings() = runTest(testDispatcher) {
@@ -187,16 +181,15 @@ class SecureSettingsRepositoryTest {
             label = "Test",
             key = "test",
             valueOnLaunch = "0",
-                valueOnRevert = "1",
-                safeToWrite = false
-            )
+            valueOnRevert = "1"
+        )
 
-            appSettingsList.add(appSettings)
+        appSettingsList.add(appSettings)
 
-            val result = subject.applySecureSettings(appSettingsList)
+        val result = subject.applySecureSettings(appSettingsList)
 
-            assertTrue { result.isFailure }
-        }
+        assertTrue { result.isFailure }
+    }
 
     @Test
     fun secureSettingsRepository_failed_to_apply_secure_settings() = runTest(testDispatcher) {
@@ -209,16 +202,15 @@ class SecureSettingsRepositoryTest {
             label = "Test",
             key = "test",
             valueOnLaunch = "0",
-                valueOnRevert = "1",
-                safeToWrite = false
-            )
+            valueOnRevert = "1"
+        )
 
-            appSettingsList.add(appSettings)
+        appSettingsList.add(appSettings)
 
-            val result = subject.applySecureSettings(appSettingsList)
+        val result = subject.applySecureSettings(appSettingsList)
 
-            assertTrue { result.isFailure }
-        }
+        assertTrue { result.isFailure }
+    }
 
     @Test
     fun secureSettingsRepository_failed_to_apply_system_settings() = runTest(testDispatcher) {
@@ -231,16 +223,15 @@ class SecureSettingsRepositoryTest {
             label = "Test",
             key = "test",
             valueOnLaunch = "0",
-                valueOnRevert = "1",
-                safeToWrite = false
-            )
+            valueOnRevert = "1"
+        )
 
-            appSettingsList.add(appSettings)
+        appSettingsList.add(appSettings)
 
-            val result = subject.applySecureSettings(appSettingsList)
+        val result = subject.applySecureSettings(appSettingsList)
 
-            assertTrue { result.isFailure }
-        }
+        assertTrue { result.isFailure }
+    }
 
     @Test
     fun secureSettingsRepository_failed_to_revert_global_settings() = runTest(testDispatcher) {
@@ -253,16 +244,15 @@ class SecureSettingsRepositoryTest {
             label = "Test",
             key = "test",
             valueOnLaunch = "0",
-                valueOnRevert = "1",
-                safeToWrite = false
-            )
+            valueOnRevert = "1"
+        )
 
-            appSettingsList.add(appSettings)
+        appSettingsList.add(appSettings)
 
-            val result = subject.revertSecureSettings(appSettingsList)
+        val result = subject.revertSecureSettings(appSettingsList)
 
-            assertTrue { result.isFailure }
-        }
+        assertTrue { result.isFailure }
+    }
 
     @Test
     fun secureSettingsRepository_failed_to_revert_secure_settings() = runTest(testDispatcher) {
@@ -275,16 +265,15 @@ class SecureSettingsRepositoryTest {
             label = "Test",
             key = "test",
             valueOnLaunch = "0",
-                valueOnRevert = "1",
-                safeToWrite = false
-            )
+            valueOnRevert = "1"
+        )
 
-            appSettingsList.add(appSettings)
+        appSettingsList.add(appSettings)
 
-            val result = subject.revertSecureSettings(appSettingsList)
+        val result = subject.revertSecureSettings(appSettingsList)
 
-            assertTrue { result.isFailure }
-        }
+        assertTrue { result.isFailure }
+    }
 
     @Test
     fun secureSettingsRepository_failed_to_revert_system_settings() = runTest(testDispatcher) {
@@ -297,14 +286,13 @@ class SecureSettingsRepositoryTest {
             label = "Test",
             key = "test",
             valueOnLaunch = "0",
-                valueOnRevert = "1",
-                safeToWrite = false
-            )
+            valueOnRevert = "1"
+        )
 
-            appSettingsList.add(appSettings)
+        appSettingsList.add(appSettings)
 
-            val result = subject.revertSecureSettings(appSettingsList)
+        val result = subject.revertSecureSettings(appSettingsList)
 
-            assertTrue { result.isFailure }
-        }
+        assertTrue { result.isFailure }
+    }
 }

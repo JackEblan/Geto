@@ -23,7 +23,6 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 
 class Migration4To5 : Migration(4, 5) {
     override fun migrate(db: SupportSQLiteDatabase) {
-        // Create a new table with the same structure but with an added safeToWrite column
         db.execSQL(
             """
            CREATE TABLE IF NOT EXISTS new_table (

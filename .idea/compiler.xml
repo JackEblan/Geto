@@ -3,6 +3,7 @@
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel target="11">
       <module name="Geto.core.domani" target="17" />
+      <module name="Geto.feature.securesettingslist" target="17" />
     </bytecodeTargetLevel>
   </component>
 </project>

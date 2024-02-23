@@ -84,7 +84,9 @@ fun AddSettingsDialog(
                 Spacer(modifier = Modifier.height(10.dp))
 
                 Text(
-                    modifier = Modifier.padding(horizontal = 5.dp), text = "Add Settings", style = MaterialTheme.typography.titleLarge
+                    modifier = Modifier.padding(horizontal = 5.dp),
+                    text = "Add Settings",
+                    style = MaterialTheme.typography.titleLarge
                 )
 
                 Spacer(modifier = Modifier.height(10.dp))
@@ -135,7 +137,7 @@ fun AddSettingsDialog(
                 )
 
                 ExposedDropdownMenuBox(
-                    expanded = addSettingsDialogState.secureSettingsListExpanded,
+                    expanded = addSettingsDialogState.secureSettingsExpanded,
                     onExpandedChange = addSettingsDialogState::updateSecureSettingsExpanded,
                     modifier = Modifier.testTag("addSettingsDialog:exposedDropdownMenuBox")
                 ) {
@@ -150,13 +152,18 @@ fun AddSettingsDialog(
                         label = {
                             Text(text = "Settings key")
                         },
-                        trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = addSettingsDialogState.secureSettingsListExpanded) },
+                        trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = addSettingsDialogState.secureSettingsExpanded) },
                         colors = ExposedDropdownMenuDefaults.textFieldColors(),
-                        isError = addSettingsDialogState.keyError.isNotBlank(),
+                        isError = addSettingsDialogState.keyError.isNotBlank() || addSettingsDialogState.settingsKeyNotFoundError.isNotBlank(),
                         supportingText = {
                             if (addSettingsDialogState.keyError.isNotBlank()) Text(
                                 text = addSettingsDialogState.keyError,
                                 modifier = Modifier.testTag("addSettingsDialog:keySupportingText")
+                            )
+
+                            if (addSettingsDialogState.settingsKeyNotFoundError.isNotBlank()) Text(
+                                text = addSettingsDialogState.settingsKeyNotFoundError,
+                                modifier = Modifier.testTag("addSettingsDialog:settingsKeyNotFoundSupportingText")
                             )
                         },
                         singleLine = true,
@@ -165,7 +172,7 @@ fun AddSettingsDialog(
 
                     if (secureSettings.isNotEmpty()) {
                         ExposedDropdownMenu(
-                            expanded = addSettingsDialogState.secureSettingsListExpanded,
+                            expanded = addSettingsDialogState.secureSettingsExpanded,
                             onDismissRequest = {
                                 addSettingsDialogState.updateSecureSettingsExpanded(false)
                             },
@@ -245,7 +252,8 @@ fun AddSettingsDialog(
                         Text("Cancel")
                     }
                     TextButton(
-                        onClick = onAddSettings, modifier = Modifier
+                        onClick = onAddSettings,
+                        modifier = Modifier
                             .padding(5.dp)
                             .testTag("addSettingsDialog:add")
                     ) {
@@ -265,7 +273,9 @@ fun rememberAddSettingsDialogState(): AddSettingsDialogState {
 }
 
 class AddSettingsDialogState {
-    var secureSettingsListExpanded by mutableStateOf(false)
+    private var secureSettings by mutableStateOf<List<SecureSettings>>(emptyList())
+
+    var secureSettingsExpanded by mutableStateOf(false)
 
     var showDialog by mutableStateOf(false)
         private set
@@ -288,6 +298,9 @@ class AddSettingsDialogState {
     var keyError by mutableStateOf("")
         private set
 
+    var settingsKeyNotFoundError by mutableStateOf("")
+        private set
+
     var valueOnLaunch by mutableStateOf("")
         private set
 
@@ -300,8 +313,12 @@ class AddSettingsDialogState {
     var valueOnRevertError by mutableStateOf("")
         private set
 
+    fun updateSecureSettings(value: List<SecureSettings>) {
+        secureSettings = value
+    }
+
     fun updateSecureSettingsExpanded(value: Boolean) {
-        secureSettingsListExpanded = value
+        secureSettingsExpanded = value
     }
 
     fun updateShowDialog(value: Boolean) {
@@ -334,7 +351,12 @@ class AddSettingsDialogState {
 
         labelError = if (label.isBlank()) "Settings label is blank" else ""
 
-        keyError = if (key.isBlank()) "Settings key is blank" else ""
+        keyError = if (key.isBlank()) "Settings key is blank"
+        else ""
+
+        settingsKeyNotFoundError = if (key.isNotBlank() && !secureSettings.mapNotNull { it.name }
+                .contains(key)) "Settings key not found"
+        else ""
 
         valueOnLaunchError =
             if (valueOnLaunch.isBlank()) "Settings value on launch is blank" else ""
@@ -342,7 +364,8 @@ class AddSettingsDialogState {
         valueOnRevertError =
             if (valueOnRevert.isBlank()) "Settings value on revert is blank" else ""
 
-        return if (selectedRadioOptionIndexError.isBlank() && selectedRadioOptionIndexError.isBlank() && labelError.isBlank() && keyError.isBlank() && valueOnLaunchError.isBlank() && valueOnRevertError.isBlank()) {
+        return if (selectedRadioOptionIndexError.isBlank() && selectedRadioOptionIndexError.isBlank() && labelError.isBlank() && settingsKeyNotFoundError.isBlank() && keyError.isBlank() && valueOnLaunchError.isBlank() && valueOnRevertError.isBlank()) {
+
             showDialog = false
             AppSettings(
                 enabled = true,
@@ -351,8 +374,7 @@ class AddSettingsDialogState {
                 label = label,
                 key = key,
                 valueOnLaunch = valueOnLaunch,
-                valueOnRevert = valueOnRevert,
-                safeToWrite = false
+                valueOnRevert = valueOnRevert
             )
         } else {
             null

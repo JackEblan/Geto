@@ -22,17 +22,18 @@ import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.android.geto.core.database.dao.AppSettingsDao
-import com.android.geto.core.database.migration.AutoMigrationAppSettingsItemEntityToAppSettingsEntity
-import com.android.geto.core.database.migration.AutoMigrationUserAppSettingsItemEntityToAppSettingsItemEntity
+import com.android.geto.core.database.migration.DeleteColumnSafeToWrite
+import com.android.geto.core.database.migration.RenameAppSettingsItemEntityToAppSettingsEntity
+import com.android.geto.core.database.migration.RenameUserAppSettingsItemEntityToAppSettingsItemEntity
 import com.android.geto.core.database.model.AppSettingsEntity
 
 @Database(
-    entities = [AppSettingsEntity::class], version = 5, autoMigrations = [AutoMigration(
-        from = 1,
-        to = 2,
-        spec = AutoMigrationUserAppSettingsItemEntityToAppSettingsItemEntity::class
+    entities = [AppSettingsEntity::class], version = 6, autoMigrations = [AutoMigration(
+        from = 1, to = 2, spec = RenameUserAppSettingsItemEntityToAppSettingsItemEntity::class
     ), AutoMigration(
-        from = 4, to = 5, spec = AutoMigrationAppSettingsItemEntityToAppSettingsEntity::class
+        from = 4, to = 5, spec = RenameAppSettingsItemEntityToAppSettingsEntity::class
+    ), AutoMigration(
+        from = 5, to = 6, spec = DeleteColumnSafeToWrite::class
     )], exportSchema = true
 )
 abstract class AppDatabase : RoomDatabase() {

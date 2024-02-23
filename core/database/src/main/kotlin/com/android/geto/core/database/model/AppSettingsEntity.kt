@@ -18,7 +18,6 @@
 
 package com.android.geto.core.database.model
 
-import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.android.geto.core.model.AppSettings
@@ -33,8 +32,7 @@ data class AppSettingsEntity(
     val label: String,
     val key: String,
     val valueOnLaunch: String,
-    val valueOnRevert: String,
-    @ColumnInfo(name = "safeToWrite", defaultValue = "1") val safeToWrite: Boolean
+    val valueOnRevert: String
 )
 
 fun AppSettingsEntity.asExternalModel(): AppSettings {
@@ -46,8 +44,7 @@ fun AppSettingsEntity.asExternalModel(): AppSettings {
         label = label,
         key = key,
         valueOnLaunch = valueOnLaunch,
-        valueOnRevert = valueOnRevert,
-        safeToWrite = safeToWrite
+        valueOnRevert = valueOnRevert
     )
 }
 
@@ -60,7 +57,6 @@ fun AppSettings.asEntity(): AppSettingsEntity {
         label = label,
         key = key,
         valueOnLaunch = valueOnLaunch,
-        valueOnRevert = valueOnRevert,
-        safeToWrite = safeToWrite
+        valueOnRevert = valueOnRevert
     )
 }

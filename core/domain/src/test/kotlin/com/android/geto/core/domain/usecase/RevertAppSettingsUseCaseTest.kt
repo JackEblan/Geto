@@ -53,15 +53,9 @@ class RevertAppSettingsUseCaseTest {
     fun onEmptyAppSettingsListIsNotBlank() = runTest {
         appSettingsRepository.sendAppSettings(emptyList())
 
-        revertAppSettingsUseCase(packageName = packageNameTest,
-                                 onEmptyAppSettingsList = {
-                                     assertTrue { it.isNotBlank() }
-                                 },
-                                 onAppSettingsDisabled = {},
-                                 onAppSettingsNotSafeToWrite = {},
-                                 onReverted = {},
-                                 onSecurityException = {},
-                                 onFailure = {})
+        revertAppSettingsUseCase(packageName = packageNameTest, onEmptyAppSettingsList = {
+            assertTrue { it.isNotBlank() }
+        }, onAppSettingsDisabled = {}, onReverted = {}, onSecurityException = {}, onFailure = {})
     }
 
     @Test
@@ -76,8 +70,7 @@ class RevertAppSettingsUseCaseTest {
                     label = "system",
                     key = "key",
                     valueOnLaunch = "test",
-                    valueOnRevert = "test",
-                    safeToWrite = true
+                    valueOnRevert = "test"
                 )
             )
         )
@@ -85,7 +78,6 @@ class RevertAppSettingsUseCaseTest {
         revertAppSettingsUseCase(packageName = packageNameTest,
                                  onEmptyAppSettingsList = {},
                                  onAppSettingsDisabled = { assertTrue { it.isNotBlank() } },
-                                 onAppSettingsNotSafeToWrite = {},
                                  onReverted = {},
                                  onSecurityException = {},
                                  onFailure = {})
@@ -103,8 +95,7 @@ class RevertAppSettingsUseCaseTest {
                     label = "system",
                     key = "key",
                     valueOnLaunch = "test",
-                    valueOnRevert = "test",
-                    safeToWrite = false
+                    valueOnRevert = "test"
                 )
             )
         )
@@ -112,7 +103,6 @@ class RevertAppSettingsUseCaseTest {
         revertAppSettingsUseCase(packageName = packageNameTest,
                                  onEmptyAppSettingsList = {},
                                  onAppSettingsDisabled = { },
-                                 onAppSettingsNotSafeToWrite = { assertTrue { it.isNotBlank() } },
                                  onReverted = {},
                                  onSecurityException = {},
                                  onFailure = {})
@@ -132,8 +122,7 @@ class RevertAppSettingsUseCaseTest {
                     label = "system",
                     key = "key",
                     valueOnLaunch = "test",
-                    valueOnRevert = "test",
-                    safeToWrite = true
+                    valueOnRevert = "test"
                 )
             )
         )
@@ -141,7 +130,6 @@ class RevertAppSettingsUseCaseTest {
         revertAppSettingsUseCase(packageName = packageNameTest,
                                  onEmptyAppSettingsList = {},
                                  onAppSettingsDisabled = {},
-                                 onAppSettingsNotSafeToWrite = {},
                                  onReverted = { assertTrue { it.isNotBlank() } },
                                  onSecurityException = {},
                                  onFailure = {})
@@ -161,8 +149,7 @@ class RevertAppSettingsUseCaseTest {
                     label = "system",
                     key = "key",
                     valueOnLaunch = "test",
-                    valueOnRevert = "test",
-                    safeToWrite = true
+                    valueOnRevert = "test"
                 )
             )
         )
@@ -170,7 +157,6 @@ class RevertAppSettingsUseCaseTest {
         revertAppSettingsUseCase(packageName = packageNameTest,
                                  onEmptyAppSettingsList = {},
                                  onAppSettingsDisabled = { },
-                                 onAppSettingsNotSafeToWrite = { },
                                  onReverted = {},
                                  onSecurityException = { assertTrue { it.isNotBlank() } },
                                  onFailure = {})

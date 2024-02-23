@@ -26,7 +26,6 @@ import com.android.geto.core.clipboardmanager.PackageManagerWrapper
 import com.android.geto.core.data.repository.AppSettingsRepository
 import com.android.geto.core.data.repository.ClipboardRepository
 import com.android.geto.core.data.repository.SecureSettingsRepository
-import com.android.geto.core.domain.AddAppSettingsUseCase
 import com.android.geto.core.domain.ApplyAppSettingsUseCase
 import com.android.geto.core.domain.RevertAppSettingsUseCase
 import com.android.geto.core.model.AppSettings
@@ -52,8 +51,7 @@ class AppSettingsViewModel @Inject constructor(
     private val secureSettingsRepository: SecureSettingsRepository,
     private val packageManagerWrapper: PackageManagerWrapper,
     private val applyAppSettingsUseCase: ApplyAppSettingsUseCase,
-    private val revertAppSettingsUseCase: RevertAppSettingsUseCase,
-    private val addAppSettingsUseCase: AddAppSettingsUseCase
+    private val revertAppSettingsUseCase: RevertAppSettingsUseCase
 ) : ViewModel() {
     private var _snackBar = MutableStateFlow<String?>(null)
 
@@ -93,8 +91,6 @@ class AppSettingsViewModel @Inject constructor(
                 _snackBar.update { message }
             }, onAppSettingsDisabled = { message ->
                 _snackBar.update { message }
-            }, onAppSettingsNotSafeToWrite = { message ->
-                _snackBar.update { message }
             }, onApplied = {
                 val appIntent = packageManagerWrapper.getLaunchIntentForPackage(
                     packageName
@@ -126,7 +122,7 @@ class AppSettingsViewModel @Inject constructor(
 
     fun addSettings(appSettings: AppSettings) {
         viewModelScope.launch {
-            addAppSettingsUseCase(appSettings)
+            appSettingsRepository.upsertAppSettings(appSettings)
         }
     }
 
@@ -146,9 +142,6 @@ class AppSettingsViewModel @Inject constructor(
                                          _snackBar.update { message }
                                      },
                                      onAppSettingsDisabled = { message ->
-                                         _snackBar.update { message }
-                                     },
-                                     onAppSettingsNotSafeToWrite = { message ->
                                          _snackBar.update { message }
                                      },
                                      onReverted = { message ->

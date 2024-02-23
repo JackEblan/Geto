@@ -39,7 +39,6 @@
             <option value="$PROJECT_DIR$/feature" />
             <option value="$PROJECT_DIR$/feature/applist" />
             <option value="$PROJECT_DIR$/feature/appsettings" />
-            <option value="$PROJECT_DIR$/feature/securesettingslist" />
             <option value="$PROJECT_DIR$/lint" />
           </set>
         </option>

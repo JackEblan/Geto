@@ -32,7 +32,6 @@ class RevertAppSettingsUseCase @Inject constructor(
         packageName: String,
         onEmptyAppSettingsList: (String) -> Unit,
         onAppSettingsDisabled: (String) -> Unit,
-        onAppSettingsNotSafeToWrite: (String) -> Unit,
         onReverted: (String) -> Unit,
         onSecurityException: (String) -> Unit,
         onFailure: (String?) -> Unit
@@ -50,13 +49,6 @@ class RevertAppSettingsUseCase @Inject constructor(
         if (appSettingsList.any { !it.enabled }) {
 
             onAppSettingsDisabled("Please enable atleast one setting")
-
-            return
-        }
-
-        if (appSettingsList.any { !it.safeToWrite }) {
-
-            onAppSettingsNotSafeToWrite("Reverting settings that don't exist is not allowed. Please remove items highlighted as red")
 
             return
         }

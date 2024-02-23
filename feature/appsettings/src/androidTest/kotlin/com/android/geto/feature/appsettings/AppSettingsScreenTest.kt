@@ -251,8 +251,7 @@ private val testAppSettingsList = listOf(
         label = "label0",
         key = "key0",
         valueOnLaunch = "valueOnLaunch0",
-        valueOnRevert = "valueOnRevert0",
-        safeToWrite = true
+        valueOnRevert = "valueOnRevert0"
     ), AppSettings(
         id = 1,
         enabled = true,
@@ -260,8 +259,6 @@ private val testAppSettingsList = listOf(
         packageName = "packageName1",
         label = "label1",
         key = "key1",
-        valueOnLaunch = "valueOnLaunch1",
-        valueOnRevert = "valueOnRevert1",
-        safeToWrite = true
+        valueOnLaunch = "valueOnLaunch1", valueOnRevert = "valueOnRevert1"
     )
 )

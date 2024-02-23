@@ -18,6 +18,7 @@
 
 package com.android.geto.core.ui
 
+import com.android.geto.core.model.SecureSettings
 import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertNotNull
@@ -30,6 +31,14 @@ class AddSettingsDialogStateTest {
     @Before
     fun setup() {
         addSettingsDialogState = AddSettingsDialogState()
+
+        addSettingsDialogState.updateSecureSettings(
+            listOf(
+                SecureSettings(
+                    id = 0, name = "name0", value = "value0"
+                )
+            )
+        )
     }
 
     @Test
@@ -79,11 +88,29 @@ class AddSettingsDialogStateTest {
 
     @Test
     fun keyErrorIsBlank_whenKeyIsNotBlank() {
-        addSettingsDialogState.updateKey("Test")
+        addSettingsDialogState.updateKey("test")
 
         addSettingsDialogState.getAppSettings(packageName = "packageName")
 
         assertTrue { addSettingsDialogState.keyError.isBlank() }
+    }
+
+    @Test
+    fun settingsKeyNotFoundErrorIsNotBlank_whenSettingsKeyNotFound() {
+        addSettingsDialogState.updateKey("keyNotFound")
+
+        addSettingsDialogState.getAppSettings(packageName = "packageName")
+
+        assertTrue { addSettingsDialogState.settingsKeyNotFoundError.isNotBlank() }
+    }
+
+    @Test
+    fun settingsKeyNotFoundErrorIsBlank_whenSettingsKeyFound() {
+        addSettingsDialogState.updateKey("name0")
+
+        addSettingsDialogState.getAppSettings(packageName = "packageName")
+
+        assertTrue { addSettingsDialogState.settingsKeyNotFoundError.isBlank() }
     }
 
     @Test
@@ -123,10 +150,10 @@ class AddSettingsDialogStateTest {
     }
 
     @Test
-    fun validateAddSettings_whenAllFieldsAreFilled() {
+    fun getAppSettings_whenAllFieldsAreFilled() {
         addSettingsDialogState.updateSelectedRadioOptionIndex(1)
 
-        addSettingsDialogState.updateKey("Test")
+        addSettingsDialogState.updateKey("name0")
 
         addSettingsDialogState.updateLabel("Test")
 

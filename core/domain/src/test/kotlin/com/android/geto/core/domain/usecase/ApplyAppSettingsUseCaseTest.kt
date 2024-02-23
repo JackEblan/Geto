@@ -53,15 +53,9 @@ class ApplyAppSettingsUseCaseTest {
     fun test_onEmptyAppSettingsListIsNotBlank() = runTest {
         appSettingsRepository.sendAppSettings(emptyList())
 
-        applyAppSettingsUseCase(packageName = packageNameTest,
-                                onEmptyAppSettingsList = {
-                                    assertTrue { it.isNotBlank() }
-                                },
-                                onAppSettingsDisabled = {},
-                                onAppSettingsNotSafeToWrite = {},
-                                onApplied = {},
-                                onSecurityException = {},
-                                onFailure = {})
+        applyAppSettingsUseCase(packageName = packageNameTest, onEmptyAppSettingsList = {
+            assertTrue { it.isNotBlank() }
+        }, onAppSettingsDisabled = {}, onApplied = {}, onSecurityException = {}, onFailure = {})
     }
 
 
@@ -77,8 +71,7 @@ class ApplyAppSettingsUseCaseTest {
                     label = "system",
                     key = "key",
                     valueOnLaunch = "test",
-                    valueOnRevert = "test",
-                    safeToWrite = true
+                    valueOnRevert = "test"
                 )
             )
         )
@@ -86,35 +79,7 @@ class ApplyAppSettingsUseCaseTest {
         applyAppSettingsUseCase(packageName = packageNameTest,
                                 onEmptyAppSettingsList = {},
                                 onAppSettingsDisabled = { assertTrue { it.isNotBlank() } },
-                                onAppSettingsNotSafeToWrite = {},
                                 onApplied = { },
-                                onSecurityException = {},
-                                onFailure = {})
-    }
-
-    @Test
-    fun onAppSettingsNotSafeToWriteIsNotBlank() = runTest {
-        appSettingsRepository.sendAppSettings(
-            listOf(
-                AppSettings(
-                    id = 0,
-                    enabled = true,
-                    settingsType = SettingsType.SYSTEM,
-                    packageName = packageNameTest,
-                    label = "system",
-                    key = "key",
-                    valueOnLaunch = "test",
-                    valueOnRevert = "test",
-                    safeToWrite = false
-                )
-            )
-        )
-
-        applyAppSettingsUseCase(packageName = packageNameTest,
-                                onEmptyAppSettingsList = {},
-                                onAppSettingsDisabled = { },
-                                onAppSettingsNotSafeToWrite = { assertTrue { it.isNotBlank() } },
-                                onApplied = {},
                                 onSecurityException = {},
                                 onFailure = {})
     }
@@ -133,8 +98,7 @@ class ApplyAppSettingsUseCaseTest {
                     label = "system",
                     key = "key",
                     valueOnLaunch = "test",
-                    valueOnRevert = "test",
-                    safeToWrite = true
+                    valueOnRevert = "test"
                 )
             )
         )
@@ -142,7 +106,6 @@ class ApplyAppSettingsUseCaseTest {
         applyAppSettingsUseCase(packageName = packageNameTest,
                                 onEmptyAppSettingsList = {},
                                 onAppSettingsDisabled = {},
-                                onAppSettingsNotSafeToWrite = {},
                                 onApplied = { assertTrue { it.isNotBlank() } },
                                 onSecurityException = {},
                                 onFailure = {})
@@ -162,8 +125,7 @@ class ApplyAppSettingsUseCaseTest {
                     label = "system",
                     key = "key",
                     valueOnLaunch = "test",
-                    valueOnRevert = "test",
-                    safeToWrite = true
+                    valueOnRevert = "test"
                 )
             )
         )
@@ -171,7 +133,6 @@ class ApplyAppSettingsUseCaseTest {
         applyAppSettingsUseCase(packageName = packageNameTest,
                                 onEmptyAppSettingsList = {},
                                 onAppSettingsDisabled = { },
-                                onAppSettingsNotSafeToWrite = { },
                                 onApplied = {},
                                 onSecurityException = { assertTrue { it.isNotBlank() } },
                                 onFailure = {})
