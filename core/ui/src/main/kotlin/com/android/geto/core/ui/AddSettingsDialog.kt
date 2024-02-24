@@ -91,17 +91,6 @@ fun AddSettingsDialog(
 
                 Spacer(modifier = Modifier.height(10.dp))
 
-                if (addSettingsDialogState.selectedRadioOptionIndexError.isNotBlank()) {
-                    Text(
-                        modifier = Modifier
-                            .padding(horizontal = 5.dp)
-                            .testTag("addSettingsDialog:radioOptionText"),
-                        text = addSettingsDialogState.selectedRadioOptionIndexError,
-                        color = MaterialTheme.colorScheme.error,
-                        style = MaterialTheme.typography.bodySmall
-                    )
-                }
-
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -283,9 +272,6 @@ class AddSettingsDialogState {
     var selectedRadioOptionIndex by mutableIntStateOf(0)
         private set
 
-    var selectedRadioOptionIndexError by mutableStateOf("")
-        private set
-
     var label by mutableStateOf("")
         private set
 
@@ -345,10 +331,17 @@ class AddSettingsDialogState {
         valueOnRevert = value
     }
 
-    fun getAppSettings(packageName: String): AppSettings? {
-        selectedRadioOptionIndexError =
-            if (selectedRadioOptionIndex == -1) "Please select a Settings type" else ""
+    fun resetState() {
+        secureSettingsExpanded = false
+        secureSettings = emptyList()
+        showDialog = false
+        key = ""
+        label = ""
+        valueOnLaunch = ""
+        valueOnRevert = ""
+    }
 
+    fun getAppSettings(packageName: String): AppSettings? {
         labelError = if (label.isBlank()) "Settings label is blank" else ""
 
         keyError = if (key.isBlank()) "Settings key is blank"
@@ -364,9 +357,7 @@ class AddSettingsDialogState {
         valueOnRevertError =
             if (valueOnRevert.isBlank()) "Settings value on revert is blank" else ""
 
-        return if (selectedRadioOptionIndexError.isBlank() && selectedRadioOptionIndexError.isBlank() && labelError.isBlank() && settingsKeyNotFoundError.isBlank() && keyError.isBlank() && valueOnLaunchError.isBlank() && valueOnRevertError.isBlank()) {
-
-            showDialog = false
+        return if (labelError.isBlank() && settingsKeyNotFoundError.isBlank() && keyError.isBlank() && valueOnLaunchError.isBlank() && valueOnRevertError.isBlank()) {
             AppSettings(
                 enabled = true,
                 settingsType = SettingsType.entries[selectedRadioOptionIndex],
@@ -386,7 +377,6 @@ class AddSettingsDialogState {
             listOf(
                 state.showDialog,
                 state.selectedRadioOptionIndex,
-                state.selectedRadioOptionIndexError,
                 state.label,
                 state.labelError,
                 state.key,
@@ -402,23 +392,21 @@ class AddSettingsDialogState {
 
                 selectedRadioOptionIndex = it[1] as Int
 
-                selectedRadioOptionIndexError = it[2] as String
+                label = it[2] as String
 
-                label = it[3] as String
+                labelError = it[3] as String
 
-                labelError = it[4] as String
+                key = it[4] as String
 
-                key = it[5] as String
+                keyError = it[5] as String
 
-                keyError = it[6] as String
+                valueOnLaunch = it[6] as String
 
-                valueOnLaunch = it[7] as String
+                valueOnLaunchError = it[7] as String
 
-                valueOnLaunchError = it[8] as String
+                valueOnRevert = it[8] as String
 
-                valueOnRevert = it[9] as String
-
-                valueOnRevertError = it[10] as String
+                valueOnRevertError = it[9] as String
             }
         })
     }

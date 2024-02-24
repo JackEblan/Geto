@@ -100,7 +100,9 @@ internal fun AppSettingsRoute(
         }
     }
 
-    LaunchedEffect(key1 = addSettingsDialogState.key) {
+    LaunchedEffect(
+        key1 = addSettingsDialogState.selectedRadioOptionIndex, key2 = addSettingsDialogState.key
+    ) {
         val settingsType = SettingsType.entries[addSettingsDialogState.selectedRadioOptionIndex]
 
         viewModel.getSecureSettings(text = addSettingsDialogState.key, settingsType = settingsType)
@@ -158,7 +160,10 @@ internal fun AppSettingsScreen(
                               addSettingsDialogState.updateSecureSettings(secureSettings)
 
                               addSettingsDialogState.getAppSettings(packageName = packageName)
-                                  ?.let(onAddSettings)
+                                  ?.let {
+                                      onAddSettings(it)
+                                      addSettingsDialogState.resetState()
+                                  }
                           })
     }
 

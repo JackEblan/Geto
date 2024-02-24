@@ -42,24 +42,6 @@ class AddSettingsDialogStateTest {
     }
 
     @Test
-    fun selectedRadioOptionIndexErrorIsNotBlank_whenSelectedRadioOptionIndexIsNegative() {
-        addSettingsDialogState.updateSelectedRadioOptionIndex(-1)
-
-        addSettingsDialogState.getAppSettings(packageName = "packageName")
-
-        assertTrue { addSettingsDialogState.selectedRadioOptionIndexError.isNotBlank() }
-    }
-
-    @Test
-    fun selectedRadioOptionIndexErrorIsBlank_whenSelectedRadioOptionIndexIsPositive() {
-        addSettingsDialogState.updateSelectedRadioOptionIndex(1)
-
-        addSettingsDialogState.getAppSettings(packageName = "packageName")
-
-        assertTrue { addSettingsDialogState.selectedRadioOptionIndexError.isBlank() }
-    }
-
-    @Test
     fun labelErrorIsNotBlank_whenLabelIsBlank() {
         addSettingsDialogState.updateLabel("")
 

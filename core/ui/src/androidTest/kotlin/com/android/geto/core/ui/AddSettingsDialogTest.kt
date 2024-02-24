@@ -35,41 +35,6 @@ class AddSettingsDialogTest {
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     @Test
-    fun radioOptionTextIsDisplayed_whenSelectedRadioOptionIndexIsNegative() {
-        composeTestRule.setContent {
-
-            val addSettingsDialogState = rememberAddSettingsDialogState()
-
-            val scrollState = rememberScrollState()
-
-            AddSettingsDialog(
-                addSettingsDialogState = addSettingsDialogState,
-                scrollState = scrollState,
-                secureSettings = emptyList(),
-                onDismissRequest = {},
-                onAddSettings = {
-                    addSettingsDialogState.updateSelectedRadioOptionIndex(-1)
-
-                    addSettingsDialogState.updateLabel("Test")
-
-                    addSettingsDialogState.updateKey("Test")
-
-                    addSettingsDialogState.updateValueOnLaunch("Test")
-
-                                  addSettingsDialogState.updateValueOnRevert("Test")
-
-                                  addSettingsDialogState.getAppSettings(packageName = "packageName")
-                              })
-        }
-
-        composeTestRule.onNodeWithTag("addSettingsDialog:add").performClick()
-
-        composeTestRule.onNodeWithTag(
-            testTag = "addSettingsDialog:radioOptionText"
-        ).assertIsDisplayed()
-    }
-
-    @Test
     fun labelSupportingTextIsDisplayed_whenLabelTextFieldIsBlank() {
         composeTestRule.setContent {
 
