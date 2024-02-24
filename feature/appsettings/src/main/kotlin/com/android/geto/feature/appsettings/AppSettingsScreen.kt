@@ -261,24 +261,23 @@ internal fun AppSettingsScreen(
 }
 
 private fun LazyListScope.appSettings(
-    modifier: Modifier = Modifier,
     appSettingsList: List<AppSettings>,
     onAppSettingsItemCheckBoxChange: (Boolean, AppSettings) -> Unit,
     onDeleteAppSettingsItem: (AppSettings) -> Unit,
 ) {
     items(appSettingsList) { appSettings ->
-        AppSettingsItem(modifier = modifier,
-                        enabled = appSettings.enabled,
-                        label = appSettings.label,
-                        settingsTypeLabel = appSettings.settingsType.label,
-                        key = appSettings.key,
-                        onUserAppSettingsItemCheckBoxChange = { check ->
-                            onAppSettingsItemCheckBoxChange(
-                                check, appSettings
-                            )
-                        },
-                        onDeleteUserAppSettingsItem = {
-                            onDeleteAppSettingsItem(appSettings)
+        AppSettingsItem(
+            enabled = appSettings.enabled,
+            label = appSettings.label,
+            settingsTypeLabel = appSettings.settingsType.label,
+            key = appSettings.key,
+            onUserAppSettingsItemCheckBoxChange = { check ->
+                onAppSettingsItemCheckBoxChange(
+                    check, appSettings
+                )
+            },
+            onDeleteUserAppSettingsItem = {
+                onDeleteAppSettingsItem(appSettings)
                         })
     }
 }
