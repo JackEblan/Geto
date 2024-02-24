@@ -41,6 +41,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -264,6 +265,7 @@ fun rememberAddSettingsDialogState(): AddSettingsDialogState {
     }
 }
 
+@Stable
 class AddSettingsDialogState {
     private var secureSettings by mutableStateOf<List<SecureSettings>>(emptyList())
 
@@ -356,15 +358,12 @@ class AddSettingsDialogState {
         keyError = if (key.isBlank()) "Settings key is blank"
         else ""
 
-        settingsKeyNotFoundError = if (key.isNotBlank() && !secureSettings.mapNotNull { it.name }
-                .contains(key)) "Settings key not found"
+        settingsKeyNotFoundError = if (key.isNotBlank() && !secureSettings.mapNotNull { it.name }.contains(key)) "Settings key not found"
         else ""
 
-        valueOnLaunchError =
-            if (valueOnLaunch.isBlank()) "Settings value on launch is blank" else ""
+        valueOnLaunchError = if (valueOnLaunch.isBlank()) "Settings value on launch is blank" else ""
 
-        valueOnRevertError =
-            if (valueOnRevert.isBlank()) "Settings value on revert is blank" else ""
+        valueOnRevertError = if (valueOnRevert.isBlank()) "Settings value on revert is blank" else ""
 
         return if (labelError.isBlank() && settingsKeyNotFoundError.isBlank() && keyError.isBlank() && valueOnLaunchError.isBlank() && valueOnRevertError.isBlank()) {
             AppSettings(
@@ -390,6 +389,7 @@ class AddSettingsDialogState {
                 state.labelError,
                 state.key,
                 state.keyError,
+                state.settingsKeyNotFoundError,
                 state.valueOnLaunch,
                 state.valueOnLaunchError,
                 state.valueOnRevert,
@@ -409,13 +409,15 @@ class AddSettingsDialogState {
 
                 keyError = it[5] as String
 
-                valueOnLaunch = it[6] as String
+                settingsKeyNotFoundError = it[6] as String
 
-                valueOnLaunchError = it[7] as String
+                valueOnLaunch = it[7] as String
 
-                valueOnRevert = it[8] as String
+                valueOnLaunchError = it[8] as String
 
-                valueOnRevertError = it[9] as String
+                valueOnRevert = it[9] as String
+
+                valueOnRevertError = it[10] as String
             }
         })
     }
