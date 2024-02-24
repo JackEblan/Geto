@@ -1,0 +1,5 @@
+What's new
+- Set Minimum SDK to 21
+- Merge Settings Database feature to AddSettingsDialog
+- Verify Settings Key before adding it to AppSettings
+- Add Settings key suggestions

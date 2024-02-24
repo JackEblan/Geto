@@ -21,12 +21,11 @@ package com.android.geto.core.database.di
 import android.content.Context
 import androidx.room.Room
 import com.android.geto.core.database.AppDatabase
-import com.android.geto.core.database.migration.Migration1To3
-import com.android.geto.core.database.migration.Migration1To4
-import com.android.geto.core.database.migration.Migration1To5
+import com.android.geto.core.database.migration.Migration1To2
 import com.android.geto.core.database.migration.Migration2To3
 import com.android.geto.core.database.migration.Migration3To4
 import com.android.geto.core.database.migration.Migration4To5
+import com.android.geto.core.database.migration.Migration5To6
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -42,11 +41,6 @@ object DatabaseModule {
     fun appDatabase(@ApplicationContext context: Context): AppDatabase = Room.databaseBuilder(
         context, AppDatabase::class.java, AppDatabase.DATABASE_NAME
     ).addMigrations(
-        Migration1To3(),
-        Migration1To4(),
-        Migration1To5(),
-        Migration2To3(),
-        Migration3To4(),
-        Migration4To5()
+        Migration1To2(), Migration2To3(), Migration3To4(), Migration4To5(), Migration5To6()
     ).build()
 }

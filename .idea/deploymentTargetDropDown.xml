@@ -5,7 +5,13 @@
       <entry key="AppSettingsScreenTest">
         <State />
       </entry>
+      <entry key="MigrationTest">
+        <State />
+      </entry>
       <entry key="app">
+        <State />
+      </entry>
+      <entry key="migrate1To2()">
         <State />
       </entry>
       <entry key="settingsKeyNotFoundSupportingTextIsDisplayed_whenSettingsKeyNotFound()">
