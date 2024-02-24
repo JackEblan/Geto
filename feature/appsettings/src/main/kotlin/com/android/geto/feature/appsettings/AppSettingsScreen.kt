@@ -84,6 +84,8 @@ internal fun AppSettingsRoute(
 
     val addSettingsDialogState = rememberAddSettingsDialogState()
 
+    val keyDebounce = addSettingsDialogState.keyDebounce.collectAsStateWithLifecycle("").value
+
     val scrollState = rememberScrollState()
 
     LaunchedEffect(key1 = snackBar) {
@@ -101,7 +103,7 @@ internal fun AppSettingsRoute(
     }
 
     LaunchedEffect(
-        key1 = addSettingsDialogState.selectedRadioOptionIndex, key2 = addSettingsDialogState.key
+        key1 = addSettingsDialogState.selectedRadioOptionIndex, key2 = keyDebounce
     ) {
         val settingsType = SettingsType.entries[addSettingsDialogState.selectedRadioOptionIndex]
 

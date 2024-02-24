@@ -56,6 +56,9 @@ import com.android.geto.core.designsystem.component.GetoLabeledRadioButton
 import com.android.geto.core.model.AppSettings
 import com.android.geto.core.model.SecureSettings
 import com.android.geto.core.model.SettingsType
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.debounce
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -299,6 +302,11 @@ class AddSettingsDialogState {
     var valueOnRevertError by mutableStateOf("")
         private set
 
+    private val _keyDebounce = MutableStateFlow("")
+
+    @OptIn(FlowPreview::class)
+    val keyDebounce = _keyDebounce.debounce(500)
+
     fun updateSecureSettings(value: List<SecureSettings>) {
         secureSettings = value
     }
@@ -321,6 +329,7 @@ class AddSettingsDialogState {
 
     fun updateKey(value: String) {
         key = value
+        _keyDebounce.value = value
     }
 
     fun updateValueOnLaunch(value: String) {
