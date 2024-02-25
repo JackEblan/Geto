@@ -66,7 +66,7 @@ fun CopyPermissionCommandDialog(
                 Text(
                     modifier = Modifier.padding(horizontal = 5.dp),
                     text = "Geto is not allowed to modify your settings database. Please allow WRITE_SECURE_SETTINGS in your terminal and execute it. You can copy the command here.",
-                    style = MaterialTheme.typography.bodySmall
+                    style = MaterialTheme.typography.bodyLarge
                 )
 
                 Spacer(modifier = Modifier.height(10.dp))

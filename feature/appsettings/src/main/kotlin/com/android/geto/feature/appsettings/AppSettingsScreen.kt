@@ -49,7 +49,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.android.geto.core.designsystem.icon.GetoIcons
 import com.android.geto.core.model.AppSettings
-import com.android.geto.core.model.SecureSettings
 import com.android.geto.core.model.SettingsType
 import com.android.geto.core.ui.AddSettingsDialog
 import com.android.geto.core.ui.AddSettingsDialogState
@@ -110,6 +109,10 @@ internal fun AppSettingsRoute(
         viewModel.getSecureSettings(text = addSettingsDialogState.key, settingsType = settingsType)
     }
 
+    LaunchedEffect(key1 = secureSettings) {
+        addSettingsDialogState.updateSecureSettings(secureSettings)
+    }
+
     AppSettingsScreen(
         modifier = modifier,
         snackbarHostState = snackbarHostState,
@@ -117,7 +120,6 @@ internal fun AppSettingsRoute(
         packageName = viewModel.packageName,
         appSettingsUiState = appSettingsUiState,
         addSettingsDialogState = addSettingsDialogState,
-        secureSettings = secureSettings,
         showCopyPermissionCommandDialog = showCopyPermissionCommandDialog,
         onNavigationIconClick = onNavigationIconClick,
         onRevertSettingsIconClick = viewModel::revertSettings,
@@ -141,7 +143,6 @@ internal fun AppSettingsScreen(
     packageName: String,
     appSettingsUiState: AppSettingsUiState,
     addSettingsDialogState: AddSettingsDialogState,
-    secureSettings: List<SecureSettings>,
     showCopyPermissionCommandDialog: Boolean,
     onNavigationIconClick: () -> Unit,
     onRevertSettingsIconClick: () -> Unit,
@@ -156,11 +157,8 @@ internal fun AppSettingsScreen(
     if (addSettingsDialogState.showDialog) {
         AddSettingsDialog(addSettingsDialogState = addSettingsDialogState,
                           scrollState = scrollState,
-                          secureSettings = secureSettings,
                           onDismissRequest = { addSettingsDialogState.updateShowDialog(false) },
                           onAddSettings = {
-                              addSettingsDialogState.updateSecureSettings(secureSettings)
-
                               addSettingsDialogState.getAppSettings(packageName = packageName)
                                   ?.let {
                                       onAddSettings(it)
@@ -266,18 +264,17 @@ private fun LazyListScope.appSettings(
     onDeleteAppSettingsItem: (AppSettings) -> Unit,
 ) {
     items(appSettingsList) { appSettings ->
-        AppSettingsItem(
-            enabled = appSettings.enabled,
-            label = appSettings.label,
-            settingsTypeLabel = appSettings.settingsType.label,
-            key = appSettings.key,
-            onUserAppSettingsItemCheckBoxChange = { check ->
-                onAppSettingsItemCheckBoxChange(
-                    check, appSettings
-                )
-            },
-            onDeleteUserAppSettingsItem = {
-                onDeleteAppSettingsItem(appSettings)
+        AppSettingsItem(enabled = appSettings.enabled,
+                        label = appSettings.label,
+                        settingsTypeLabel = appSettings.settingsType.label,
+                        key = appSettings.key,
+                        onUserAppSettingsItemCheckBoxChange = { check ->
+                            onAppSettingsItemCheckBoxChange(
+                                check, appSettings
+                            )
+                        },
+                        onDeleteUserAppSettingsItem = {
+                            onDeleteAppSettingsItem(appSettings)
                         })
     }
 }

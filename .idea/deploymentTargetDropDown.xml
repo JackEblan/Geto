@@ -2,6 +2,9 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
+      <entry key="AddSettingsDialogTest">
+        <State />
+      </entry>
       <entry key="AppSettingsScreenTest">
         <State />
       </entry>
@@ -12,9 +15,6 @@
         <State />
       </entry>
       <entry key="migrate1To2()">
-        <State />
-      </entry>
-      <entry key="settingsKeyNotFoundSupportingTextIsDisplayed_whenSettingsKeyNotFound()">
         <State />
       </entry>
     </value>

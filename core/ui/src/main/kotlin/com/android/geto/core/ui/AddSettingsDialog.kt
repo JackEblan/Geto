@@ -67,7 +67,6 @@ fun AddSettingsDialog(
     modifier: Modifier = Modifier,
     addSettingsDialogState: AddSettingsDialogState,
     scrollState: ScrollState,
-    secureSettings: List<SecureSettings>,
     onDismissRequest: () -> Unit,
     onAddSettings: () -> Unit
 ) {
@@ -163,14 +162,14 @@ fun AddSettingsDialog(
                         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
                     )
 
-                    if (secureSettings.isNotEmpty()) {
+                    if (addSettingsDialogState.secureSettings.isNotEmpty()) {
                         ExposedDropdownMenu(
                             expanded = addSettingsDialogState.secureSettingsExpanded,
                             onDismissRequest = {
                                 addSettingsDialogState.updateSecureSettingsExpanded(false)
                             },
                         ) {
-                            secureSettings.forEach { secureSetting ->
+                            addSettingsDialogState.secureSettings.forEach { secureSetting ->
                                 DropdownMenuItem(
                                     text = { Text(text = secureSetting.name ?: "null") },
                                     onClick = {
@@ -267,7 +266,7 @@ fun rememberAddSettingsDialogState(): AddSettingsDialogState {
 
 @Stable
 class AddSettingsDialogState {
-    private var secureSettings by mutableStateOf<List<SecureSettings>>(emptyList())
+    var secureSettings by mutableStateOf<List<SecureSettings>>(emptyList())
 
     var secureSettingsExpanded by mutableStateOf(false)
 
@@ -358,12 +357,15 @@ class AddSettingsDialogState {
         keyError = if (key.isBlank()) "Settings key is blank"
         else ""
 
-        settingsKeyNotFoundError = if (key.isNotBlank() && !secureSettings.mapNotNull { it.name }.contains(key)) "Settings key not found"
+        settingsKeyNotFoundError = if (key.isNotBlank() && !secureSettings.mapNotNull { it.name }
+                .contains(key)) "Settings key not found"
         else ""
 
-        valueOnLaunchError = if (valueOnLaunch.isBlank()) "Settings value on launch is blank" else ""
+        valueOnLaunchError =
+            if (valueOnLaunch.isBlank()) "Settings value on launch is blank" else ""
 
-        valueOnRevertError = if (valueOnRevert.isBlank()) "Settings value on revert is blank" else ""
+        valueOnRevertError =
+            if (valueOnRevert.isBlank()) "Settings value on revert is blank" else ""
 
         return if (labelError.isBlank() && settingsKeyNotFoundError.isBlank() && keyError.isBlank() && valueOnLaunchError.isBlank() && valueOnRevertError.isBlank()) {
             AppSettings(
