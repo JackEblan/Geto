@@ -100,13 +100,11 @@ internal fun AppListScreen(
 }
 
 private fun LazyListScope.appItems(
-    modifier: Modifier = Modifier,
     nonSystemAppList: List<NonSystemApp>,
     onItemClick: (String, String) -> Unit
 ) {
     items(nonSystemAppList) { nonSystemApp ->
         AppItem(
-            modifier = modifier,
             icon = nonSystemApp.icon,
             packageName = nonSystemApp.packageName,
             label = nonSystemApp.label,
