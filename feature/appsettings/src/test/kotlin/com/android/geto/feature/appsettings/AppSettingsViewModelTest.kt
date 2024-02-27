@@ -22,11 +22,12 @@ import androidx.lifecycle.SavedStateHandle
 import com.android.geto.core.domain.ApplyAppSettingsUseCase
 import com.android.geto.core.domain.RevertAppSettingsUseCase
 import com.android.geto.core.model.AppSettings
+import com.android.geto.core.model.NonSystemApp
 import com.android.geto.core.model.SecureSettings
 import com.android.geto.core.model.SettingsType
-import com.android.geto.core.testing.packagemanager.TestPackageManagerWrapper
 import com.android.geto.core.testing.repository.TestAppSettingsRepository
 import com.android.geto.core.testing.repository.TestClipboardRepository
+import com.android.geto.core.testing.repository.TestPackageRepository
 import com.android.geto.core.testing.repository.TestSecureSettingsRepository
 import com.android.geto.core.testing.repository.TestShortcutRepository
 import com.android.geto.core.testing.util.MainDispatcherRule
@@ -50,7 +51,7 @@ class AppSettingsViewModelTest {
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
-    private lateinit var packageManagerWrapper: TestPackageManagerWrapper
+    private lateinit var packageRepository: TestPackageRepository
 
     private lateinit var appSettingsRepository: TestAppSettingsRepository
 
@@ -76,7 +77,7 @@ class AppSettingsViewModelTest {
 
         clipboardRepository = TestClipboardRepository()
 
-        packageManagerWrapper = TestPackageManagerWrapper()
+        packageRepository = TestPackageRepository()
 
         shortcutRepository = TestShortcutRepository()
 
@@ -90,7 +91,7 @@ class AppSettingsViewModelTest {
             clipboardRepository = clipboardRepository,
             secureSettingsRepository = secureSettingsRepository,
             shortcutRepository = shortcutRepository,
-            packageManagerWrapper = TestPackageManagerWrapper(),
+            packageRepository = packageRepository,
             applyAppSettingsUseCase = ApplyAppSettingsUseCase(
                 appSettingsRepository = appSettingsRepository,
                 secureSettingsRepository = secureSettingsRepository
@@ -189,6 +190,14 @@ class AppSettingsViewModelTest {
 
     @Test
     fun launchIntentIsNotNull_whenLaunchApp() = runTest {
+        packageRepository.sendNonSystemApps(
+            listOf(
+                NonSystemApp(
+                    packageName = packageNameTest, label = "label"
+                )
+            )
+        )
+
         appSettingsRepository.sendAppSettings(
             listOf(
                 AppSettings(
@@ -210,6 +219,38 @@ class AppSettingsViewModelTest {
 
         assertNotNull(viewModel.launchAppIntent.value)
 
+    }
+
+    @Test
+    fun applicationIconIsNotNull_whenGetApplicationIcon() = runTest {
+        packageRepository.sendNonSystemApps(
+            listOf(
+                NonSystemApp(
+                    packageName = packageNameTest, label = "label"
+                )
+            )
+        )
+
+        appSettingsRepository.sendAppSettings(
+            listOf(
+                AppSettings(
+                    id = 0,
+                    enabled = true,
+                    settingsType = SettingsType.SYSTEM,
+                    packageName = packageNameTest,
+                    label = "system",
+                    key = "key",
+                    valueOnLaunch = "test",
+                    valueOnRevert = "test"
+                )
+            )
+        )
+
+        secureSettingsRepository.setWriteSecureSettings(true)
+
+        viewModel.getApplicationIcon()
+
+        assertNotNull(viewModel.icon.value)
     }
 
     @Test

@@ -21,8 +21,10 @@ package com.android.geto.core.shortcutmanager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
+import androidx.core.graphics.drawable.IconCompat
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
@@ -40,11 +42,16 @@ class DefaultShortcutManagerCompatWrapper @Inject constructor(@ApplicationContex
     }
 
     override fun requestPinShortcut(
-        id: String, shortLabel: String, longLabel: String, intent: Intent
+        icon: Bitmap?, id: String, shortLabel: String, longLabel: String, intent: Intent
     ): Boolean {
         return if (ShortcutManagerCompat.isRequestPinShortcutSupported(context)) {
-            val shortcutInfo = ShortcutInfoCompat.Builder(context, id).setShortLabel(shortLabel)
-                .setLongLabel(longLabel).setIntent(intent).build()
+            val shortcutInfo = if (icon != null) {
+                ShortcutInfoCompat.Builder(context, id).setIcon(IconCompat.createWithBitmap(icon))
+                    .setShortLabel(shortLabel).setLongLabel(longLabel).setIntent(intent).build()
+            } else {
+                ShortcutInfoCompat.Builder(context, id).setShortLabel(shortLabel)
+                    .setLongLabel(longLabel).setIntent(intent).build()
+            }
 
             val shortcutCallbackIntent =
                 ShortcutManagerCompat.createShortcutResultIntent(context, shortcutInfo)

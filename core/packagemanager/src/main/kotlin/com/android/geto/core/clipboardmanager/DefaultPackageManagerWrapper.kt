@@ -30,12 +30,28 @@ class DefaultPackageManagerWrapper @Inject constructor(private val packageManage
         return packageManager.getInstalledApplications(PackageManager.GET_META_DATA)
     }
 
-    override fun getApplicationLabel(applicationInfo: ApplicationInfo): String {
-        return packageManager.getApplicationLabel(applicationInfo).toString()
+    override fun getApplicationLabel(applicationInfo: ApplicationInfo): String? {
+        return try {
+            packageManager.getApplicationLabel(applicationInfo).toString()
+        } catch (e: PackageManager.NameNotFoundException) {
+            null
+        }
     }
 
-    override fun getApplicationIcon(applicationInfo: ApplicationInfo): Drawable {
-        return packageManager.getApplicationIcon(applicationInfo.packageName)
+    override fun getApplicationIcon(applicationInfo: ApplicationInfo): Drawable? {
+        return try {
+            packageManager.getApplicationIcon(applicationInfo.packageName)
+        } catch (e: PackageManager.NameNotFoundException) {
+            null
+        }
+    }
+
+    override fun getApplicationIcon(packageName: String): Drawable? {
+        return try {
+            packageManager.getApplicationIcon(packageName)
+        } catch (e: PackageManager.NameNotFoundException) {
+            null
+        }
     }
 
     override fun getLaunchIntentForPackage(packageName: String): Intent? {

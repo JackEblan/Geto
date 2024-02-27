@@ -24,6 +24,8 @@ import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
+import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 class PackageRepositoryTest {
@@ -38,7 +40,7 @@ class PackageRepositoryTest {
         packageManagerWrapper = TestPackageManagerWrapper()
 
         subject = DefaultPackageRepository(
-            packageManagerWrapper = packageManagerWrapper, defaultDispatcher = testDispatcher
+            packageManagerWrapper = packageManagerWrapper, ioDispatcher = testDispatcher
         )
     }
 
@@ -64,5 +66,53 @@ class PackageRepositoryTest {
         val nonSystemApps = subject.getNonSystemApps()
 
         assertTrue { nonSystemApps.isEmpty() }
+    }
+
+    @Test
+    fun packageRepository_get_application_icon_not_found() = runTest(testDispatcher) {
+        packageManagerWrapper.setInstalledApplications(listOf(ApplicationInfo().apply {
+            packageName = "Test"
+            flags = 0
+        }))
+
+        val applicationIcon = subject.getApplicationIcon("")
+
+        assertNull(applicationIcon)
+    }
+
+    @Test
+    fun packageRepository_get_application_icon_found() = runTest(testDispatcher) {
+        packageManagerWrapper.setInstalledApplications(listOf(ApplicationInfo().apply {
+            packageName = "Test"
+            flags = 0
+        }))
+
+        val applicationIcon = subject.getApplicationIcon("Test")
+
+        assertNotNull(applicationIcon)
+    }
+
+    @Test
+    fun packageRepository_get_launch_intent_for_package_not_found() = runTest(testDispatcher) {
+        packageManagerWrapper.setInstalledApplications(listOf(ApplicationInfo().apply {
+            packageName = "Test"
+            flags = 0
+        }))
+
+        val applicationIcon = subject.getLaunchIntentForPackage("")
+
+        assertNull(applicationIcon)
+    }
+
+    @Test
+    fun packageRepository_get_launch_intent_for_package_found() = runTest(testDispatcher) {
+        packageManagerWrapper.setInstalledApplications(listOf(ApplicationInfo().apply {
+            packageName = "Test"
+            flags = 0
+        }))
+
+        val applicationIcon = subject.getLaunchIntentForPackage("Test")
+
+        assertNotNull(applicationIcon)
     }
 }

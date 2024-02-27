@@ -28,6 +28,7 @@ class DefaultShortcutRepository @Inject constructor(
 
     override fun requestPinShortcut(shortcut: Shortcut): Boolean {
         return shortcutManagerCompatWrapper.requestPinShortcut(
+            icon = shortcut.icon,
             id = shortcut.id,
             shortLabel = shortcut.shortLabel,
             longLabel = shortcut.longLabel,

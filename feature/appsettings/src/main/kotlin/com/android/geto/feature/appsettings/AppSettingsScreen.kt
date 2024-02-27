@@ -87,6 +87,8 @@ internal fun AppSettingsRoute(
 
     val secureSettings = viewModel.secureSettings.collectAsStateWithLifecycle().value
 
+    val applicationIcon = viewModel.icon.collectAsStateWithLifecycle().value
+
     val addSettingsDialogState = rememberAddSettingsDialogState()
 
     val addShortcutDialogState = rememberAddShortcutDialogState()
@@ -121,6 +123,10 @@ internal fun AppSettingsRoute(
         addSettingsDialogState.updateSecureSettings(secureSettings)
     }
 
+    LaunchedEffect(key1 = applicationIcon) {
+        addShortcutDialogState.updateIcon(applicationIcon)
+    }
+
     AppSettingsScreen(
         modifier = modifier,
         snackbarHostState = snackbarHostState,
@@ -137,6 +143,13 @@ internal fun AppSettingsRoute(
         showCopyPermissionCommandDialog = showCopyPermissionCommandDialog,
         onNavigationIconClick = onNavigationIconClick,
         onRevertSettingsIconClick = viewModel::revertSettings,
+        onAddSettingsIconClick = {
+            addSettingsDialogState.updateShowDialog(true)
+        },
+        onAddShortcutIconClick = {
+            viewModel.getApplicationIcon()
+            addShortcutDialogState.updateShowDialog(true)
+        },
         onAppSettingsItemCheckBoxChange = viewModel::appSettingsItemCheckBoxChange,
         onDeleteAppSettingsItem = viewModel::deleteAppSettingsItem,
         onLaunchApp = viewModel::launchApp,
@@ -163,6 +176,8 @@ internal fun AppSettingsScreen(
     showCopyPermissionCommandDialog: Boolean,
     onNavigationIconClick: () -> Unit,
     onRevertSettingsIconClick: () -> Unit,
+    onAddSettingsIconClick: () -> Unit,
+    onAddShortcutIconClick: () -> Unit,
     onAppSettingsItemCheckBoxChange: (Boolean, AppSettings) -> Unit,
     onDeleteAppSettingsItem: (AppSettings) -> Unit,
     onLaunchApp: () -> Unit,
@@ -223,18 +238,14 @@ internal fun AppSettingsScreen(
                 )
             }
 
-            IconButton(onClick = {
-                addSettingsDialogState.updateShowDialog(true)
-            }) {
+            IconButton(onClick = onAddSettingsIconClick) {
                 Icon(
                     GetoIcons.Settings,
-                    contentDescription = "Add icon",
+                    contentDescription = "Add settings icon",
                 )
             }
 
-            IconButton(onClick = {
-                addShortcutDialogState.updateShowDialog(true)
-            }) {
+            IconButton(onClick = onAddShortcutIconClick) {
                 Icon(
                     GetoIcons.Shortcut,
                     contentDescription = "Add shortcut icon",

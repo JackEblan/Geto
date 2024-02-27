@@ -57,6 +57,8 @@ class AppSettingsScreenTest {
                               showCopyPermissionCommandDialog = false,
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
+                              onAddSettingsIconClick = {},
+                              onAddShortcutIconClick = {},
                               onAppSettingsItemCheckBoxChange = { _, _ -> },
                               onDeleteAppSettingsItem = {},
                               onLaunchApp = {},
@@ -89,6 +91,8 @@ class AppSettingsScreenTest {
                               showCopyPermissionCommandDialog = false,
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
+                              onAddSettingsIconClick = {},
+                              onAddShortcutIconClick = {},
                               onAppSettingsItemCheckBoxChange = { _, _ -> },
                               onDeleteAppSettingsItem = {},
                               onLaunchApp = {},
@@ -121,6 +125,8 @@ class AppSettingsScreenTest {
                               showCopyPermissionCommandDialog = false,
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
+                              onAddSettingsIconClick = {},
+                              onAddShortcutIconClick = {},
                               onAppSettingsItemCheckBoxChange = { _, _ -> },
                               onDeleteAppSettingsItem = {},
                               onLaunchApp = {},
@@ -153,6 +159,8 @@ class AppSettingsScreenTest {
                               showCopyPermissionCommandDialog = false,
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
+                              onAddSettingsIconClick = {},
+                              onAddShortcutIconClick = {},
                               onAppSettingsItemCheckBoxChange = { _, _ -> },
                               onDeleteAppSettingsItem = {},
                               onLaunchApp = {},
@@ -187,6 +195,8 @@ class AppSettingsScreenTest {
                               showCopyPermissionCommandDialog = false,
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
+                              onAddSettingsIconClick = {},
+                              onAddShortcutIconClick = {},
                               onAppSettingsItemCheckBoxChange = { _, _ -> },
                               onDeleteAppSettingsItem = {},
                               onLaunchApp = {},
@@ -221,6 +231,10 @@ class AppSettingsScreenTest {
                               showCopyPermissionCommandDialog = false,
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
+                              onAddSettingsIconClick = {
+                                  addSettingsDialogState.updateShowDialog(true)
+                              },
+                              onAddShortcutIconClick = {},
                               onAppSettingsItemCheckBoxChange = { _, _ -> },
                               onDeleteAppSettingsItem = {},
                               onLaunchApp = {},
@@ -233,7 +247,7 @@ class AppSettingsScreenTest {
                               onDismissRequestCopyPermissionCommand = {})
         }
 
-        composeTestRule.onNodeWithContentDescription("Add icon").performClick()
+        composeTestRule.onNodeWithContentDescription("Add settings icon").performClick()
 
         composeTestRule.onNodeWithTag("addSettingsDialog").assertIsDisplayed()
     }
@@ -257,6 +271,8 @@ class AppSettingsScreenTest {
                               showCopyPermissionCommandDialog = true,
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
+                              onAddSettingsIconClick = {},
+                              onAddShortcutIconClick = {},
                               onAppSettingsItemCheckBoxChange = { _, _ -> },
                               onDeleteAppSettingsItem = {},
                               onLaunchApp = {},
@@ -289,6 +305,10 @@ class AppSettingsScreenTest {
                               showCopyPermissionCommandDialog = true,
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
+                              onAddSettingsIconClick = {},
+                              onAddShortcutIconClick = {
+                                  addShortcutDialogState.updateShowDialog(true)
+                              },
                               onAppSettingsItemCheckBoxChange = { _, _ -> },
                               onDeleteAppSettingsItem = {},
                               onLaunchApp = {},

@@ -19,6 +19,7 @@
 package com.android.geto.core.testing.shortcutmanager
 
 import android.content.Intent
+import android.graphics.Bitmap
 import androidx.core.content.pm.ShortcutInfoCompat
 import com.android.geto.core.shortcutmanager.ShortcutManagerCompatWrapper
 
@@ -36,7 +37,7 @@ class TestShortcutManagerCompatWrapper : ShortcutManagerCompatWrapper {
     }
 
     override fun requestPinShortcut(
-        id: String, shortLabel: String, longLabel: String, intent: Intent
+        icon: Bitmap?, id: String, shortLabel: String, longLabel: String, intent: Intent
     ): Boolean {
         return requestPinShortcut
     }

@@ -32,16 +32,20 @@ class TestPackageManagerWrapper : PackageManagerWrapper {
         return _installedApplications
     }
 
-    override fun getApplicationLabel(applicationInfo: ApplicationInfo): String {
-        return "Application"
+    override fun getApplicationLabel(applicationInfo: ApplicationInfo): String? {
+        return if (applicationInfo in _installedApplications) "Application" else null
     }
 
-    override fun getApplicationIcon(applicationInfo: ApplicationInfo): Drawable {
-        return ColorDrawable()
+    override fun getApplicationIcon(applicationInfo: ApplicationInfo): Drawable? {
+        return if (applicationInfo in _installedApplications) ColorDrawable() else null
+    }
+
+    override fun getApplicationIcon(packageName: String): Drawable? {
+        return if (packageName in _installedApplications.map { it.packageName }) ColorDrawable() else null
     }
 
     override fun getLaunchIntentForPackage(packageName: String): Intent? {
-        return Intent()
+        return if (packageName in _installedApplications.map { it.packageName }) Intent() else null
     }
 
     /**

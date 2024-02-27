@@ -18,6 +18,9 @@
 
 package com.android.geto.core.testing.repository
 
+import android.content.Intent
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import com.android.geto.core.data.repository.PackageRepository
 import com.android.geto.core.model.NonSystemApp
 
@@ -25,6 +28,14 @@ class TestPackageRepository : PackageRepository {
     private var nonSystemAppsTestData: List<NonSystemApp> = emptyList()
     override suspend fun getNonSystemApps(): List<NonSystemApp> {
         return nonSystemAppsTestData
+    }
+
+    override suspend fun getApplicationIcon(packageName: String): Drawable? {
+        return if (packageName in nonSystemAppsTestData.map { it.packageName }) ColorDrawable() else null
+    }
+
+    override fun getLaunchIntentForPackage(packageName: String): Intent? {
+        return if (packageName in nonSystemAppsTestData.map { it.packageName }) Intent() else null
     }
 
     /**

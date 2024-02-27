@@ -19,7 +19,12 @@
 package com.android.geto.core.model
 
 import android.content.Intent
+import android.graphics.Bitmap
 
 data class Shortcut(
-    val id: String, val shortLabel: String, val longLabel: String, val intent: Intent
+    val icon: Bitmap?,
+    val id: String,
+    val shortLabel: String,
+    val longLabel: String,
+    val intent: Intent
 )

@@ -19,12 +19,13 @@
 package com.android.geto.feature.appsettings
 
 import android.content.Intent
+import android.graphics.drawable.Drawable
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.android.geto.core.clipboardmanager.PackageManagerWrapper
 import com.android.geto.core.data.repository.AppSettingsRepository
 import com.android.geto.core.data.repository.ClipboardRepository
+import com.android.geto.core.data.repository.PackageRepository
 import com.android.geto.core.data.repository.SecureSettingsRepository
 import com.android.geto.core.data.repository.ShortcutRepository
 import com.android.geto.core.domain.ApplyAppSettingsUseCase
@@ -52,7 +53,7 @@ class AppSettingsViewModel @Inject constructor(
     private val clipboardRepository: ClipboardRepository,
     private val secureSettingsRepository: SecureSettingsRepository,
     private val shortcutRepository: ShortcutRepository,
-    private val packageManagerWrapper: PackageManagerWrapper,
+    private val packageRepository: PackageRepository,
     private val applyAppSettingsUseCase: ApplyAppSettingsUseCase,
     private val revertAppSettingsUseCase: RevertAppSettingsUseCase
 ) : ViewModel() {
@@ -71,6 +72,10 @@ class AppSettingsViewModel @Inject constructor(
     private var _secureSettings = MutableStateFlow<List<SecureSettings>>(emptyList())
 
     val secureSettings = _secureSettings.asStateFlow()
+
+    private var _icon = MutableStateFlow<Drawable?>(null)
+
+    val icon = _icon.asStateFlow()
 
     private val appSettingsArgs: AppSettingsArgs = AppSettingsArgs(savedStateHandle)
 
@@ -95,7 +100,7 @@ class AppSettingsViewModel @Inject constructor(
             }, onAppSettingsDisabled = { message ->
                 _snackBar.update { message }
             }, onApplied = {
-                val appIntent = packageManagerWrapper.getLaunchIntentForPackage(
+                val appIntent = packageRepository.getLaunchIntentForPackage(
                     packageName
                 )
                 _launchAppIntent.update { appIntent }
@@ -152,16 +157,21 @@ class AppSettingsViewModel @Inject constructor(
                                      },
                                      onSecurityException = {
                                          _showCopyPermissionCommandDialog.update { true }
-                                     },
-                                     onFailure = { message ->
-                                         _snackBar.update { message }
-                                     })
+                                     }, onFailure = { message ->
+                    _snackBar.update { message }
+                })
         }
     }
 
     fun requestPinShortcut(shortcut: Shortcut) {
         viewModelScope.launch {
-            (shortcutRepository.requestPinShortcut(shortcut))
+            shortcutRepository.requestPinShortcut(shortcut)
+        }
+    }
+
+    fun getApplicationIcon() {
+        viewModelScope.launch {
+            _icon.update { packageRepository.getApplicationIcon(packageName) }
         }
     }
 

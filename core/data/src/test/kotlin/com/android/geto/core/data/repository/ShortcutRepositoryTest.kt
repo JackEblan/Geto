@@ -49,7 +49,11 @@ class ShortcutRepositoryTest {
 
         val result = subject.requestPinShortcut(
             Shortcut(
-                id = "id", shortLabel = "shortLabel", longLabel = "longLabel", intent = Intent()
+                icon = null,
+                id = "id",
+                shortLabel = "shortLabel",
+                longLabel = "longLabel",
+                intent = Intent()
             )
         )
 
@@ -62,7 +66,11 @@ class ShortcutRepositoryTest {
 
         val result = subject.requestPinShortcut(
             Shortcut(
-                id = "id", shortLabel = "shortLabel", longLabel = "longLabel", intent = Intent()
+                icon = null,
+                id = "id",
+                shortLabel = "shortLabel",
+                longLabel = "longLabel",
+                intent = Intent()
             )
         )
 

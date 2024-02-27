@@ -26,9 +26,11 @@ interface PackageManagerWrapper {
 
     fun getInstalledApplications(): List<ApplicationInfo>
 
-    fun getApplicationLabel(applicationInfo: ApplicationInfo): String
+    fun getApplicationLabel(applicationInfo: ApplicationInfo): String?
 
-    fun getApplicationIcon(applicationInfo: ApplicationInfo): Drawable
+    fun getApplicationIcon(applicationInfo: ApplicationInfo): Drawable?
+
+    fun getApplicationIcon(packageName: String): Drawable?
 
     fun getLaunchIntentForPackage(packageName: String): Intent?
 }

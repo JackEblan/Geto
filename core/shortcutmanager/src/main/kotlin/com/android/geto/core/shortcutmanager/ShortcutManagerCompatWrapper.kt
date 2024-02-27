@@ -19,6 +19,7 @@
 package com.android.geto.core.shortcutmanager
 
 import android.content.Intent
+import android.graphics.Bitmap
 import androidx.core.content.pm.ShortcutInfoCompat
 
 interface ShortcutManagerCompatWrapper {
@@ -26,6 +27,6 @@ interface ShortcutManagerCompatWrapper {
     fun createShortcutResultIntent(shortcutInfoCompat: ShortcutInfoCompat): Intent
 
     fun requestPinShortcut(
-        id: String, shortLabel: String, longLabel: String, intent: Intent
+        icon: Bitmap?, id: String, shortLabel: String, longLabel: String, intent: Intent
     ): Boolean
 }
