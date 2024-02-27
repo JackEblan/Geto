@@ -44,10 +44,12 @@ include(":core:domain")
 include(":core:model")
 include(":core:packagemanager")
 include(":core:securesettings")
+include(":core:shortcutmanager")
 include(":core:testing")
 include(":core:ui")
 
 include(":feature:applist")
 include(":feature:appsettings")
+include(":feature:shortcut")
 
 include(":lint")

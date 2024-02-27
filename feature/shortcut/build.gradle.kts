@@ -17,31 +17,22 @@
  */
 
 plugins {
-    alias(libs.plugins.com.android.geto.library)
+    alias(libs.plugins.com.android.geto.feature)
+    alias(libs.plugins.com.android.geto.libraryCompose)
     alias(libs.plugins.com.android.geto.libraryJacoco)
-    alias(libs.plugins.com.android.geto.hilt)
 }
 
 android {
-    namespace = "com.android.geto.core.data"
-    testOptions {
-        unitTests {
-            isIncludeAndroidResources = true
-            isReturnDefaultValues = true
-        }
-    }
+    namespace = "com.android.geto.feature.shortcut"
 }
 
 dependencies {
-    api(projects.core.clipboardmanager)
-    api(projects.core.packagemanager)
-    api(projects.core.securesettings)
-    api(projects.core.shortcutmanager)
+    implementation(projects.core.domain)
 
-    implementation(projects.core.common)
-    implementation(projects.core.database)
-    implementation(projects.core.model)
+    implementation(libs.androidx.core.splashscreen)
 
     testImplementation(projects.core.testing)
+    testImplementation(libs.kotlinx.coroutines.test)
 
+    androidTestImplementation(projects.core.testing)
 }

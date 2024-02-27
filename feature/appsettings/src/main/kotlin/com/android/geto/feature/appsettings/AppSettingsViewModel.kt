@@ -26,11 +26,13 @@ import com.android.geto.core.clipboardmanager.PackageManagerWrapper
 import com.android.geto.core.data.repository.AppSettingsRepository
 import com.android.geto.core.data.repository.ClipboardRepository
 import com.android.geto.core.data.repository.SecureSettingsRepository
+import com.android.geto.core.data.repository.ShortcutRepository
 import com.android.geto.core.domain.ApplyAppSettingsUseCase
 import com.android.geto.core.domain.RevertAppSettingsUseCase
 import com.android.geto.core.model.AppSettings
 import com.android.geto.core.model.SecureSettings
 import com.android.geto.core.model.SettingsType
+import com.android.geto.core.model.Shortcut
 import com.android.geto.feature.appsettings.navigation.AppSettingsArgs
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -49,6 +51,7 @@ class AppSettingsViewModel @Inject constructor(
     private val appSettingsRepository: AppSettingsRepository,
     private val clipboardRepository: ClipboardRepository,
     private val secureSettingsRepository: SecureSettingsRepository,
+    private val shortcutRepository: ShortcutRepository,
     private val packageManagerWrapper: PackageManagerWrapper,
     private val applyAppSettingsUseCase: ApplyAppSettingsUseCase,
     private val revertAppSettingsUseCase: RevertAppSettingsUseCase
@@ -153,6 +156,12 @@ class AppSettingsViewModel @Inject constructor(
                                      onFailure = { message ->
                                          _snackBar.update { message }
                                      })
+        }
+    }
+
+    fun requestPinShortcut(shortcut: Shortcut) {
+        viewModelScope.launch {
+            (shortcutRepository.requestPinShortcut(shortcut))
         }
     }
 

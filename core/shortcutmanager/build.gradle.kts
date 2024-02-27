@@ -23,25 +23,5 @@ plugins {
 }
 
 android {
-    namespace = "com.android.geto.core.data"
-    testOptions {
-        unitTests {
-            isIncludeAndroidResources = true
-            isReturnDefaultValues = true
-        }
-    }
-}
-
-dependencies {
-    api(projects.core.clipboardmanager)
-    api(projects.core.packagemanager)
-    api(projects.core.securesettings)
-    api(projects.core.shortcutmanager)
-
-    implementation(projects.core.common)
-    implementation(projects.core.database)
-    implementation(projects.core.model)
-
-    testImplementation(projects.core.testing)
-
+    namespace = "com.android.geto.core.shortcutmanager"
 }

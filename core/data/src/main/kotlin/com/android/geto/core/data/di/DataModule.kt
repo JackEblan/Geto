@@ -24,8 +24,10 @@ import com.android.geto.core.data.repository.DefaultAppSettingsRepository
 import com.android.geto.core.data.repository.DefaultClipboardRepository
 import com.android.geto.core.data.repository.DefaultPackageRepository
 import com.android.geto.core.data.repository.DefaultSecureSettingsRepository
+import com.android.geto.core.data.repository.DefaultShortcutRepository
 import com.android.geto.core.data.repository.PackageRepository
 import com.android.geto.core.data.repository.SecureSettingsRepository
+import com.android.geto.core.data.repository.ShortcutRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -51,4 +53,8 @@ interface DataModule {
     @Binds
     @Singleton
     fun clipboardRepository(impl: DefaultClipboardRepository): ClipboardRepository
+
+    @Binds
+    @Singleton
+    fun shortcutRepository(impl: DefaultShortcutRepository): ShortcutRepository
 }

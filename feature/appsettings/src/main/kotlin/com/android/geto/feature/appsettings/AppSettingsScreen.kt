@@ -18,6 +18,7 @@
 
 package com.android.geto.feature.appsettings
 
+import android.content.Intent
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Box
@@ -50,19 +51,24 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.android.geto.core.designsystem.icon.GetoIcons
 import com.android.geto.core.model.AppSettings
 import com.android.geto.core.model.SettingsType
+import com.android.geto.core.model.Shortcut
 import com.android.geto.core.ui.AddSettingsDialog
 import com.android.geto.core.ui.AddSettingsDialogState
+import com.android.geto.core.ui.AddShortcutDialog
+import com.android.geto.core.ui.AddShortcutDialogState
 import com.android.geto.core.ui.AppSettingsItem
 import com.android.geto.core.ui.CopyPermissionCommandDialog
 import com.android.geto.core.ui.EmptyListPlaceHolderScreen
 import com.android.geto.core.ui.LoadingPlaceHolderScreen
 import com.android.geto.core.ui.rememberAddSettingsDialogState
+import com.android.geto.core.ui.rememberAddShortcutDialogState
 
 @Composable
 internal fun AppSettingsRoute(
     modifier: Modifier = Modifier,
     viewModel: AppSettingsViewModel = hiltViewModel(),
-    onNavigationIconClick: () -> Unit
+    onNavigationIconClick: () -> Unit,
+    shortcutIntent: Intent
 ) {
     val context = LocalContext.current
 
@@ -82,6 +88,8 @@ internal fun AppSettingsRoute(
     val secureSettings = viewModel.secureSettings.collectAsStateWithLifecycle().value
 
     val addSettingsDialogState = rememberAddSettingsDialogState()
+
+    val addShortcutDialogState = rememberAddShortcutDialogState()
 
     val keyDebounce = addSettingsDialogState.keyDebounce.collectAsStateWithLifecycle("").value
 
@@ -118,8 +126,14 @@ internal fun AppSettingsRoute(
         snackbarHostState = snackbarHostState,
         appName = viewModel.appName,
         packageName = viewModel.packageName,
+        intent = shortcutIntent.apply {
+            action = Intent.ACTION_VIEW
+            flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+            putExtra("packageName", viewModel.packageName)
+        },
         appSettingsUiState = appSettingsUiState,
         addSettingsDialogState = addSettingsDialogState,
+        addShortcutDialogState = addShortcutDialogState,
         showCopyPermissionCommandDialog = showCopyPermissionCommandDialog,
         onNavigationIconClick = onNavigationIconClick,
         onRevertSettingsIconClick = viewModel::revertSettings,
@@ -128,6 +142,7 @@ internal fun AppSettingsRoute(
         onLaunchApp = viewModel::launchApp,
         scrollState = scrollState,
         onAddSettings = viewModel::addSettings,
+        onAddShortcut = viewModel::requestPinShortcut,
         onCopyPermissionCommand = viewModel::copyPermissionCommand,
         onDismissRequestCopyPermissionCommand = viewModel::clearCopyPermissionCommandDialog
     )
@@ -141,8 +156,10 @@ internal fun AppSettingsScreen(
     snackbarHostState: SnackbarHostState,
     appName: String,
     packageName: String,
+    intent: Intent,
     appSettingsUiState: AppSettingsUiState,
     addSettingsDialogState: AddSettingsDialogState,
+    addShortcutDialogState: AddShortcutDialogState,
     showCopyPermissionCommandDialog: Boolean,
     onNavigationIconClick: () -> Unit,
     onRevertSettingsIconClick: () -> Unit,
@@ -151,6 +168,7 @@ internal fun AppSettingsScreen(
     onLaunchApp: () -> Unit,
     scrollState: ScrollState,
     onAddSettings: (appSettings: AppSettings) -> Unit,
+    onAddShortcut: (shortcut: Shortcut) -> Unit,
     onCopyPermissionCommand: () -> Unit,
     onDismissRequestCopyPermissionCommand: () -> Unit,
 ) {
@@ -174,6 +192,19 @@ internal fun AppSettingsScreen(
         )
     }
 
+    if (addShortcutDialogState.showDialog) {
+        AddShortcutDialog(addShortcutDialogState = addShortcutDialogState,
+                          onDismissRequest = { addShortcutDialogState.updateShowDialog(false) },
+                          onAddShortcut = {
+                              addShortcutDialogState.getShortcut(
+                                  packageName = packageName, intent = intent
+                              )?.let {
+                                  onAddShortcut(it)
+                                  addShortcutDialogState.resetState()
+                              }
+                          })
+    }
+
     Scaffold(topBar = {
         TopAppBar(title = {
             Text(text = appName, maxLines = 1)
@@ -191,12 +222,22 @@ internal fun AppSettingsScreen(
                     imageVector = GetoIcons.Refresh, contentDescription = "Revert icon"
                 )
             }
+
             IconButton(onClick = {
                 addSettingsDialogState.updateShowDialog(true)
             }) {
                 Icon(
-                    GetoIcons.Add,
+                    GetoIcons.Settings,
                     contentDescription = "Add icon",
+                )
+            }
+
+            IconButton(onClick = {
+                addShortcutDialogState.updateShowDialog(true)
+            }) {
+                Icon(
+                    GetoIcons.Shortcut,
+                    contentDescription = "Add shortcut icon",
                 )
             }
         }, floatingActionButton = {

@@ -18,6 +18,7 @@
 
 package com.android.geto.feature.appsettings
 
+import android.content.Intent
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.SnackbarHostState
@@ -29,6 +30,7 @@ import androidx.compose.ui.test.performClick
 import com.android.geto.core.model.AppSettings
 import com.android.geto.core.model.SettingsType
 import com.android.geto.core.ui.rememberAddSettingsDialogState
+import com.android.geto.core.ui.rememberAddShortcutDialogState
 import org.junit.Rule
 import org.junit.Test
 
@@ -41,13 +43,17 @@ class AppSettingsScreenTest {
         composeTestRule.setContent {
             val addSettingsDialogState = rememberAddSettingsDialogState()
 
+            val addShortcutDialogState = rememberAddShortcutDialogState()
+
             val scrollState = rememberScrollState()
 
             AppSettingsScreen(snackbarHostState = SnackbarHostState(),
                               appName = "Geto",
                               packageName = "Geto",
+                              intent = Intent(),
                               appSettingsUiState = AppSettingsUiState.Loading,
                               addSettingsDialogState = addSettingsDialogState,
+                              addShortcutDialogState = addShortcutDialogState,
                               showCopyPermissionCommandDialog = false,
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
@@ -56,6 +62,7 @@ class AppSettingsScreenTest {
                               onLaunchApp = {},
                               scrollState = scrollState,
                               onAddSettings = {},
+                              onAddShortcut = {},
                               onCopyPermissionCommand = {},
                               onDismissRequestCopyPermissionCommand = {})
         }
@@ -68,13 +75,17 @@ class AppSettingsScreenTest {
         composeTestRule.setContent {
             val addSettingsDialogState = rememberAddSettingsDialogState()
 
+            val addShortcutDialogState = rememberAddShortcutDialogState()
+
             val scrollState = rememberScrollState()
 
             AppSettingsScreen(snackbarHostState = SnackbarHostState(),
                               appName = "Geto",
                               packageName = "Geto",
+                              intent = Intent(),
                               appSettingsUiState = AppSettingsUiState.Empty,
                               addSettingsDialogState = addSettingsDialogState,
+                              addShortcutDialogState = addShortcutDialogState,
                               showCopyPermissionCommandDialog = false,
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
@@ -83,6 +94,7 @@ class AppSettingsScreenTest {
                               onLaunchApp = {},
                               scrollState = scrollState,
                               onAddSettings = {},
+                              onAddShortcut = {},
                               onCopyPermissionCommand = {},
                               onDismissRequestCopyPermissionCommand = {})
         }
@@ -95,13 +107,17 @@ class AppSettingsScreenTest {
         composeTestRule.setContent {
             val addSettingsDialogState = rememberAddSettingsDialogState()
 
+            val addShortcutDialogState = rememberAddShortcutDialogState()
+
             val scrollState = rememberScrollState()
 
             AppSettingsScreen(snackbarHostState = SnackbarHostState(),
                               appName = "Geto",
                               packageName = "Geto",
+                              intent = Intent(),
                               appSettingsUiState = AppSettingsUiState.Success(testAppSettingsList),
                               addSettingsDialogState = addSettingsDialogState,
+                              addShortcutDialogState = addShortcutDialogState,
                               showCopyPermissionCommandDialog = false,
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
@@ -110,6 +126,7 @@ class AppSettingsScreenTest {
                               onLaunchApp = {},
                               scrollState = scrollState,
                               onAddSettings = {},
+                              onAddShortcut = {},
                               onCopyPermissionCommand = {},
                               onDismissRequestCopyPermissionCommand = {})
         }
@@ -122,13 +139,17 @@ class AppSettingsScreenTest {
         composeTestRule.setContent {
             val addSettingsDialogState = rememberAddSettingsDialogState()
 
+            val addShortcutDialogState = rememberAddShortcutDialogState()
+
             val scrollState = rememberScrollState()
 
             AppSettingsScreen(snackbarHostState = SnackbarHostState(),
                               appName = "Geto",
                               packageName = "Geto",
+                              intent = Intent(),
                               appSettingsUiState = AppSettingsUiState.Success(testAppSettingsList),
                               addSettingsDialogState = addSettingsDialogState,
+                              addShortcutDialogState = addShortcutDialogState,
                               showCopyPermissionCommandDialog = false,
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
@@ -137,6 +158,7 @@ class AppSettingsScreenTest {
                               onLaunchApp = {},
                               scrollState = scrollState,
                               onAddSettings = {},
+                              onAddShortcut = {},
                               onCopyPermissionCommand = {},
                               onDismissRequestCopyPermissionCommand = {})
         }
@@ -151,13 +173,17 @@ class AppSettingsScreenTest {
         composeTestRule.setContent {
             val addSettingsDialogState = rememberAddSettingsDialogState()
 
+            val addShortcutDialogState = rememberAddShortcutDialogState()
+
             val scrollState = rememberScrollState()
 
             AppSettingsScreen(snackbarHostState = SnackbarHostState(),
                               appName = "Geto",
                               packageName = "Geto",
+                              intent = Intent(),
                               appSettingsUiState = AppSettingsUiState.Empty,
                               addSettingsDialogState = addSettingsDialogState,
+                              addShortcutDialogState = addShortcutDialogState,
                               showCopyPermissionCommandDialog = false,
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
@@ -166,6 +192,7 @@ class AppSettingsScreenTest {
                               onLaunchApp = {},
                               scrollState = scrollState,
                               onAddSettings = {},
+                              onAddShortcut = {},
                               onCopyPermissionCommand = {},
                               onDismissRequestCopyPermissionCommand = {})
         }
@@ -180,26 +207,30 @@ class AppSettingsScreenTest {
         composeTestRule.setContent {
             val addSettingsDialogState = rememberAddSettingsDialogState()
 
+            val addShortcutDialogState = rememberAddShortcutDialogState()
+
             val scrollState = rememberScrollState()
 
-            AppSettingsScreen(
-                snackbarHostState = SnackbarHostState(),
-                appName = "Geto",
-                packageName = "Geto",
-                appSettingsUiState = AppSettingsUiState.Empty,
-                addSettingsDialogState = addSettingsDialogState,
-                showCopyPermissionCommandDialog = false,
-                onNavigationIconClick = {},
-                onRevertSettingsIconClick = {},
-                onAppSettingsItemCheckBoxChange = { _, _ -> },
-                onDeleteAppSettingsItem = {},
-                onLaunchApp = {},
-                scrollState = scrollState,
-                onAddSettings = {
-                    addSettingsDialogState.updateShowDialog(true)
-                },
-                onCopyPermissionCommand = {},
-                onDismissRequestCopyPermissionCommand = {})
+            AppSettingsScreen(snackbarHostState = SnackbarHostState(),
+                              appName = "Geto",
+                              packageName = "Geto",
+                              intent = Intent(),
+                              appSettingsUiState = AppSettingsUiState.Empty,
+                              addSettingsDialogState = addSettingsDialogState,
+                              addShortcutDialogState = addShortcutDialogState,
+                              showCopyPermissionCommandDialog = false,
+                              onNavigationIconClick = {},
+                              onRevertSettingsIconClick = {},
+                              onAppSettingsItemCheckBoxChange = { _, _ -> },
+                              onDeleteAppSettingsItem = {},
+                              onLaunchApp = {},
+                              scrollState = scrollState,
+                              onAddSettings = {
+                                  addSettingsDialogState.updateShowDialog(true)
+                              },
+                              onAddShortcut = {},
+                              onCopyPermissionCommand = {},
+                              onDismissRequestCopyPermissionCommand = {})
         }
 
         composeTestRule.onNodeWithContentDescription("Add icon").performClick()
@@ -208,17 +239,21 @@ class AppSettingsScreenTest {
     }
 
     @Test
-    fun copyPermissionCommandDialogIsDisplayed_whenShowCopyPermissionCommandDialogIsTrue() {
+    fun copyPermissionCommandDialogIsDisplayed_whenAddShortcutIsClicked() {
         composeTestRule.setContent {
             val addSettingsDialogState = rememberAddSettingsDialogState()
+
+            val addShortcutDialogState = rememberAddShortcutDialogState()
 
             val scrollState = rememberScrollState()
 
             AppSettingsScreen(snackbarHostState = SnackbarHostState(),
                               appName = "Geto",
                               packageName = "Geto",
+                              intent = Intent(),
                               appSettingsUiState = AppSettingsUiState.Empty,
                               addSettingsDialogState = addSettingsDialogState,
+                              addShortcutDialogState = addShortcutDialogState,
                               showCopyPermissionCommandDialog = true,
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
@@ -227,11 +262,48 @@ class AppSettingsScreenTest {
                               onLaunchApp = {},
                               scrollState = scrollState,
                               onAddSettings = {},
+                              onAddShortcut = {},
                               onCopyPermissionCommand = {},
                               onDismissRequestCopyPermissionCommand = {})
         }
 
         composeTestRule.onNodeWithTag("copyPermissionCommandDialog").assertIsDisplayed()
+    }
+
+    @Test
+    fun addShortcutDialogIsDisplayed_whenShowCopyPermissionCommandDialogIsTrue() {
+        composeTestRule.setContent {
+            val addSettingsDialogState = rememberAddSettingsDialogState()
+
+            val addShortcutDialogState = rememberAddShortcutDialogState()
+
+            val scrollState = rememberScrollState()
+
+            AppSettingsScreen(snackbarHostState = SnackbarHostState(),
+                              appName = "Geto",
+                              packageName = "Geto",
+                              intent = Intent(),
+                              appSettingsUiState = AppSettingsUiState.Empty,
+                              addSettingsDialogState = addSettingsDialogState,
+                              addShortcutDialogState = addShortcutDialogState,
+                              showCopyPermissionCommandDialog = true,
+                              onNavigationIconClick = {},
+                              onRevertSettingsIconClick = {},
+                              onAppSettingsItemCheckBoxChange = { _, _ -> },
+                              onDeleteAppSettingsItem = {},
+                              onLaunchApp = {},
+                              scrollState = scrollState,
+                              onAddSettings = {},
+                              onAddShortcut = {
+                                  addShortcutDialogState.updateShowDialog(true)
+                              },
+                              onCopyPermissionCommand = {},
+                              onDismissRequestCopyPermissionCommand = {})
+        }
+
+        composeTestRule.onNodeWithContentDescription("Add shortcut icon").performClick()
+
+        composeTestRule.onNodeWithTag("addShortcutDialog").assertIsDisplayed()
     }
 }
 
@@ -252,6 +324,7 @@ private val testAppSettingsList = listOf(
         packageName = "packageName1",
         label = "label1",
         key = "key1",
-        valueOnLaunch = "valueOnLaunch1", valueOnRevert = "valueOnRevert1"
+        valueOnLaunch = "valueOnLaunch1",
+        valueOnRevert = "valueOnRevert1"
     )
 )

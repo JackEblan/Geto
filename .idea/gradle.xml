@@ -34,11 +34,13 @@
             <option value="$PROJECT_DIR$/core/model" />
             <option value="$PROJECT_DIR$/core/packagemanager" />
             <option value="$PROJECT_DIR$/core/securesettings" />
+            <option value="$PROJECT_DIR$/core/shortcutmanager" />
             <option value="$PROJECT_DIR$/core/testing" />
             <option value="$PROJECT_DIR$/core/ui" />
             <option value="$PROJECT_DIR$/feature" />
             <option value="$PROJECT_DIR$/feature/applist" />
             <option value="$PROJECT_DIR$/feature/appsettings" />
+            <option value="$PROJECT_DIR$/feature/shortcut" />
             <option value="$PROJECT_DIR$/lint" />
           </set>
         </option>

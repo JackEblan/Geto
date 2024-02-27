@@ -28,6 +28,7 @@ import com.android.geto.core.testing.packagemanager.TestPackageManagerWrapper
 import com.android.geto.core.testing.repository.TestAppSettingsRepository
 import com.android.geto.core.testing.repository.TestClipboardRepository
 import com.android.geto.core.testing.repository.TestSecureSettingsRepository
+import com.android.geto.core.testing.repository.TestShortcutRepository
 import com.android.geto.core.testing.util.MainDispatcherRule
 import com.android.geto.feature.appsettings.navigation.APP_NAME_ARG
 import com.android.geto.feature.appsettings.navigation.PACKAGE_NAME_ARG
@@ -57,6 +58,8 @@ class AppSettingsViewModelTest {
 
     private lateinit var clipboardRepository: TestClipboardRepository
 
+    private lateinit var shortcutRepository: TestShortcutRepository
+
     private val savedStateHandle = SavedStateHandle()
 
     private lateinit var viewModel: AppSettingsViewModel
@@ -75,6 +78,8 @@ class AppSettingsViewModelTest {
 
         packageManagerWrapper = TestPackageManagerWrapper()
 
+        shortcutRepository = TestShortcutRepository()
+
         savedStateHandle[PACKAGE_NAME_ARG] = packageNameTest
 
         savedStateHandle[APP_NAME_ARG] = appNameTest
@@ -84,6 +89,7 @@ class AppSettingsViewModelTest {
             appSettingsRepository = appSettingsRepository,
             clipboardRepository = clipboardRepository,
             secureSettingsRepository = secureSettingsRepository,
+            shortcutRepository = shortcutRepository,
             packageManagerWrapper = TestPackageManagerWrapper(),
             applyAppSettingsUseCase = ApplyAppSettingsUseCase(
                 appSettingsRepository = appSettingsRepository,
@@ -168,7 +174,8 @@ class AppSettingsViewModelTest {
                     packageName = packageNameTest,
                     label = "system",
                     key = "key",
-                    valueOnLaunch = "test", valueOnRevert = "test"
+                    valueOnLaunch = "test",
+                    valueOnRevert = "test"
                 )
             )
         )
@@ -191,7 +198,8 @@ class AppSettingsViewModelTest {
                     packageName = packageNameTest,
                     label = "system",
                     key = "key",
-                    valueOnLaunch = "test", valueOnRevert = "test"
+                    valueOnLaunch = "test",
+                    valueOnRevert = "test"
                 )
             )
         )
@@ -215,7 +223,8 @@ class AppSettingsViewModelTest {
                     packageName = packageNameTest,
                     label = "system",
                     key = "key",
-                    valueOnLaunch = "test", valueOnRevert = "test"
+                    valueOnLaunch = "test",
+                    valueOnRevert = "test"
                 )
             )
         )
@@ -252,7 +261,8 @@ class AppSettingsViewModelTest {
                     packageName = packageNameTest,
                     label = "system",
                     key = "key",
-                    valueOnLaunch = "test", valueOnRevert = "test"
+                    valueOnLaunch = "test",
+                    valueOnRevert = "test"
                 )
             )
         )
@@ -275,7 +285,8 @@ class AppSettingsViewModelTest {
                     packageName = packageNameTest,
                     label = "system",
                     key = "key",
-                    valueOnLaunch = "test", valueOnRevert = "test"
+                    valueOnLaunch = "test",
+                    valueOnRevert = "test"
                 )
             )
         )
@@ -299,7 +310,8 @@ class AppSettingsViewModelTest {
                     packageName = packageNameTest,
                     label = "system",
                     key = "key",
-                    valueOnLaunch = "test", valueOnRevert = "test"
+                    valueOnLaunch = "test",
+                    valueOnRevert = "test"
                 )
             )
         )
