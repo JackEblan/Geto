@@ -65,7 +65,7 @@ import kotlinx.coroutines.flow.debounce
 @Composable
 fun AddSettingsDialog(
     modifier: Modifier = Modifier,
-    addSettingsDialogState: AddSettingsDialogState,
+    addSettingsDialogState: SettingsDialogState,
     scrollState: ScrollState,
     onDismissRequest: () -> Unit,
     onAddSettings: () -> Unit
@@ -258,14 +258,14 @@ fun AddSettingsDialog(
 }
 
 @Composable
-fun rememberAddSettingsDialogState(): AddSettingsDialogState {
-    return rememberSaveable(saver = AddSettingsDialogState.Saver) {
-        AddSettingsDialogState()
+fun rememberAddSettingsDialogState(): SettingsDialogState {
+    return rememberSaveable(saver = SettingsDialogState.Saver) {
+        SettingsDialogState()
     }
 }
 
 @Stable
-class AddSettingsDialogState {
+class SettingsDialogState {
     var secureSettings by mutableStateOf<List<SecureSettings>>(emptyList())
 
     var secureSettingsExpanded by mutableStateOf(false)
@@ -383,7 +383,7 @@ class AddSettingsDialogState {
     }
 
     companion object {
-        val Saver = listSaver<AddSettingsDialogState, Any>(save = { state ->
+        val Saver = listSaver<SettingsDialogState, Any>(save = { state ->
             listOf(
                 state.showDialog,
                 state.selectedRadioOptionIndex,
@@ -398,7 +398,7 @@ class AddSettingsDialogState {
                 state.valueOnRevertError
             )
         }, restore = {
-            AddSettingsDialogState().apply {
+            SettingsDialogState().apply {
                 showDialog = it[0] as Boolean
 
                 selectedRadioOptionIndex = it[1] as Int

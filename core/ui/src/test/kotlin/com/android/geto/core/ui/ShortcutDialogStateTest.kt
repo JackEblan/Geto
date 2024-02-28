@@ -24,58 +24,58 @@ import org.junit.Test
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
-class AddShortcutDialogStateTest {
-    private lateinit var addShortcutDialogState: AddShortcutDialogState
+class ShortcutDialogStateTest {
+    private lateinit var shortcutDialogState: ShortcutDialogState
 
     @Before
     fun setup() {
-        addShortcutDialogState = AddShortcutDialogState()
+        shortcutDialogState = ShortcutDialogState()
     }
 
     @Test
     fun shortLabelErrorIsNotBlank_whenShortLabelIsBlank() {
-        addShortcutDialogState.updateShortLabel("")
+        shortcutDialogState.updateShortLabel("")
 
-        addShortcutDialogState.getShortcut(packageName = "packageName", intent = Intent())
+        shortcutDialogState.getShortcut(packageName = "packageName", intent = Intent())
 
-        assertTrue { addShortcutDialogState.shortLabelError.isNotBlank() }
+        assertTrue { shortcutDialogState.shortLabelError.isNotBlank() }
     }
 
     @Test
     fun shortLabelErrorIsBlank_whenShortLabelIsNotBlank() {
-        addShortcutDialogState.updateShortLabel("Test")
+        shortcutDialogState.updateShortLabel("Test")
 
-        addShortcutDialogState.getShortcut(packageName = "packageName", intent = Intent())
+        shortcutDialogState.getShortcut(packageName = "packageName", intent = Intent())
 
-        assertTrue { addShortcutDialogState.shortLabelError.isBlank() }
+        assertTrue { shortcutDialogState.shortLabelError.isBlank() }
     }
 
     @Test
     fun longLabelErrorIsNotBlank_whenLongLabelIsBlank() {
-        addShortcutDialogState.updateLongLabel("")
+        shortcutDialogState.updateLongLabel("")
 
-        addShortcutDialogState.getShortcut(packageName = "packageName", intent = Intent())
+        shortcutDialogState.getShortcut(packageName = "packageName", intent = Intent())
 
-        assertTrue { addShortcutDialogState.longLabelError.isNotBlank() }
+        assertTrue { shortcutDialogState.longLabelError.isNotBlank() }
     }
 
     @Test
     fun longLabelErrorIsBlank_whenLongLabelIsNotBlank() {
-        addShortcutDialogState.updateLongLabel("Test")
+        shortcutDialogState.updateLongLabel("Test")
 
-        addShortcutDialogState.getShortcut(packageName = "packageName", intent = Intent())
+        shortcutDialogState.getShortcut(packageName = "packageName", intent = Intent())
 
-        assertTrue { addShortcutDialogState.longLabelError.isBlank() }
+        assertTrue { shortcutDialogState.longLabelError.isBlank() }
     }
 
     @Test
     fun getShortcut_whenAllFieldsAreFilled() {
-        addShortcutDialogState.updateShortLabel("Test")
+        shortcutDialogState.updateShortLabel("Test")
 
-        addShortcutDialogState.updateLongLabel("Test")
+        shortcutDialogState.updateLongLabel("Test")
 
         assertNotNull(
-            addShortcutDialogState.getShortcut(
+            shortcutDialogState.getShortcut(
                 packageName = "packageName", intent = Intent()
             )
         )

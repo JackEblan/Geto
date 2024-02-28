@@ -31,6 +31,7 @@ import com.android.geto.core.model.AppSettings
 import com.android.geto.core.model.SettingsType
 import com.android.geto.core.ui.rememberAddSettingsDialogState
 import com.android.geto.core.ui.rememberAddShortcutDialogState
+import com.android.geto.core.ui.rememberUpdateShortcutDialogState
 import org.junit.Rule
 import org.junit.Test
 
@@ -45,6 +46,8 @@ class AppSettingsScreenTest {
 
             val addShortcutDialogState = rememberAddShortcutDialogState()
 
+            val updateShortcutDialogState = rememberUpdateShortcutDialogState()
+
             val scrollState = rememberScrollState()
 
             AppSettingsScreen(snackbarHostState = SnackbarHostState(),
@@ -54,17 +57,19 @@ class AppSettingsScreenTest {
                               appSettingsUiState = AppSettingsUiState.Loading,
                               addSettingsDialogState = addSettingsDialogState,
                               addShortcutDialogState = addShortcutDialogState,
+                              updateShortcutDialogState = updateShortcutDialogState,
                               showCopyPermissionCommandDialog = false,
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
-                              onAddSettingsIconClick = {},
-                              onAddShortcutIconClick = {},
+                              onSettingsIconClick = {},
+                              onShortcutIconClick = {},
                               onAppSettingsItemCheckBoxChange = { _, _ -> },
                               onDeleteAppSettingsItem = {},
                               onLaunchApp = {},
                               scrollState = scrollState,
                               onAddSettings = {},
                               onAddShortcut = {},
+                              onUpdateShortcut = {},
                               onCopyPermissionCommand = {},
                               onDismissRequestCopyPermissionCommand = {})
         }
@@ -79,6 +84,8 @@ class AppSettingsScreenTest {
 
             val addShortcutDialogState = rememberAddShortcutDialogState()
 
+            val updateShortcutDialogState = rememberUpdateShortcutDialogState()
+
             val scrollState = rememberScrollState()
 
             AppSettingsScreen(snackbarHostState = SnackbarHostState(),
@@ -88,17 +95,19 @@ class AppSettingsScreenTest {
                               appSettingsUiState = AppSettingsUiState.Empty,
                               addSettingsDialogState = addSettingsDialogState,
                               addShortcutDialogState = addShortcutDialogState,
+                              updateShortcutDialogState = updateShortcutDialogState,
                               showCopyPermissionCommandDialog = false,
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
-                              onAddSettingsIconClick = {},
-                              onAddShortcutIconClick = {},
+                              onSettingsIconClick = {},
+                              onShortcutIconClick = {},
                               onAppSettingsItemCheckBoxChange = { _, _ -> },
                               onDeleteAppSettingsItem = {},
                               onLaunchApp = {},
                               scrollState = scrollState,
                               onAddSettings = {},
                               onAddShortcut = {},
+                              onUpdateShortcut = {},
                               onCopyPermissionCommand = {},
                               onDismissRequestCopyPermissionCommand = {})
         }
@@ -113,6 +122,8 @@ class AppSettingsScreenTest {
 
             val addShortcutDialogState = rememberAddShortcutDialogState()
 
+            val updateShortcutDialogState = rememberUpdateShortcutDialogState()
+
             val scrollState = rememberScrollState()
 
             AppSettingsScreen(snackbarHostState = SnackbarHostState(),
@@ -122,17 +133,19 @@ class AppSettingsScreenTest {
                               appSettingsUiState = AppSettingsUiState.Success(testAppSettingsList),
                               addSettingsDialogState = addSettingsDialogState,
                               addShortcutDialogState = addShortcutDialogState,
+                              updateShortcutDialogState = updateShortcutDialogState,
                               showCopyPermissionCommandDialog = false,
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
-                              onAddSettingsIconClick = {},
-                              onAddShortcutIconClick = {},
+                              onSettingsIconClick = {},
+                              onShortcutIconClick = {},
                               onAppSettingsItemCheckBoxChange = { _, _ -> },
                               onDeleteAppSettingsItem = {},
                               onLaunchApp = {},
                               scrollState = scrollState,
                               onAddSettings = {},
                               onAddShortcut = {},
+                              onUpdateShortcut = {},
                               onCopyPermissionCommand = {},
                               onDismissRequestCopyPermissionCommand = {})
         }
@@ -147,6 +160,8 @@ class AppSettingsScreenTest {
 
             val addShortcutDialogState = rememberAddShortcutDialogState()
 
+            val updateShortcutDialogState = rememberUpdateShortcutDialogState()
+
             val scrollState = rememberScrollState()
 
             AppSettingsScreen(snackbarHostState = SnackbarHostState(),
@@ -156,17 +171,19 @@ class AppSettingsScreenTest {
                               appSettingsUiState = AppSettingsUiState.Success(testAppSettingsList),
                               addSettingsDialogState = addSettingsDialogState,
                               addShortcutDialogState = addShortcutDialogState,
+                              updateShortcutDialogState = updateShortcutDialogState,
                               showCopyPermissionCommandDialog = false,
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
-                              onAddSettingsIconClick = {},
-                              onAddShortcutIconClick = {},
+                              onSettingsIconClick = {},
+                              onShortcutIconClick = {},
                               onAppSettingsItemCheckBoxChange = { _, _ -> },
                               onDeleteAppSettingsItem = {},
                               onLaunchApp = {},
                               scrollState = scrollState,
                               onAddSettings = {},
                               onAddShortcut = {},
+                              onUpdateShortcut = {},
                               onCopyPermissionCommand = {},
                               onDismissRequestCopyPermissionCommand = {})
         }
@@ -183,6 +200,8 @@ class AppSettingsScreenTest {
 
             val addShortcutDialogState = rememberAddShortcutDialogState()
 
+            val updateShortcutDialogState = rememberUpdateShortcutDialogState()
+
             val scrollState = rememberScrollState()
 
             AppSettingsScreen(snackbarHostState = SnackbarHostState(),
@@ -192,17 +211,19 @@ class AppSettingsScreenTest {
                               appSettingsUiState = AppSettingsUiState.Empty,
                               addSettingsDialogState = addSettingsDialogState,
                               addShortcutDialogState = addShortcutDialogState,
+                              updateShortcutDialogState = updateShortcutDialogState,
                               showCopyPermissionCommandDialog = false,
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
-                              onAddSettingsIconClick = {},
-                              onAddShortcutIconClick = {},
+                              onSettingsIconClick = {},
+                              onShortcutIconClick = {},
                               onAppSettingsItemCheckBoxChange = { _, _ -> },
                               onDeleteAppSettingsItem = {},
                               onLaunchApp = {},
                               scrollState = scrollState,
                               onAddSettings = {},
                               onAddShortcut = {},
+                              onUpdateShortcut = {},
                               onCopyPermissionCommand = {},
                               onDismissRequestCopyPermissionCommand = {})
         }
@@ -213,11 +234,13 @@ class AppSettingsScreenTest {
     }
 
     @Test
-    fun addSettingsDialogIsDisplayed_whenAddIconIsClicked() {
+    fun addSettingsDialogIsDisplayed_whenSettingsIconIsClicked() {
         composeTestRule.setContent {
             val addSettingsDialogState = rememberAddSettingsDialogState()
 
             val addShortcutDialogState = rememberAddShortcutDialogState()
+
+            val updateShortcutDialogState = rememberUpdateShortcutDialogState()
 
             val scrollState = rememberScrollState()
 
@@ -228,57 +251,61 @@ class AppSettingsScreenTest {
                               appSettingsUiState = AppSettingsUiState.Empty,
                               addSettingsDialogState = addSettingsDialogState,
                               addShortcutDialogState = addShortcutDialogState,
+                              updateShortcutDialogState = updateShortcutDialogState,
                               showCopyPermissionCommandDialog = false,
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
-                              onAddSettingsIconClick = {
+                              onSettingsIconClick = {
                                   addSettingsDialogState.updateShowDialog(true)
                               },
-                              onAddShortcutIconClick = {},
-                              onAppSettingsItemCheckBoxChange = { _, _ -> },
-                              onDeleteAppSettingsItem = {},
-                              onLaunchApp = {},
-                              scrollState = scrollState,
-                              onAddSettings = {
-                                  addSettingsDialogState.updateShowDialog(true)
-                              },
-                              onAddShortcut = {},
-                              onCopyPermissionCommand = {},
-                              onDismissRequestCopyPermissionCommand = {})
-        }
-
-        composeTestRule.onNodeWithContentDescription("Add settings icon").performClick()
-
-        composeTestRule.onNodeWithTag("addSettingsDialog").assertIsDisplayed()
-    }
-
-    @Test
-    fun copyPermissionCommandDialogIsDisplayed_whenAddShortcutIsClicked() {
-        composeTestRule.setContent {
-            val addSettingsDialogState = rememberAddSettingsDialogState()
-
-            val addShortcutDialogState = rememberAddShortcutDialogState()
-
-            val scrollState = rememberScrollState()
-
-            AppSettingsScreen(snackbarHostState = SnackbarHostState(),
-                              appName = "Geto",
-                              packageName = "Geto",
-                              intent = Intent(),
-                              appSettingsUiState = AppSettingsUiState.Empty,
-                              addSettingsDialogState = addSettingsDialogState,
-                              addShortcutDialogState = addShortcutDialogState,
-                              showCopyPermissionCommandDialog = true,
-                              onNavigationIconClick = {},
-                              onRevertSettingsIconClick = {},
-                              onAddSettingsIconClick = {},
-                              onAddShortcutIconClick = {},
+                              onShortcutIconClick = {},
                               onAppSettingsItemCheckBoxChange = { _, _ -> },
                               onDeleteAppSettingsItem = {},
                               onLaunchApp = {},
                               scrollState = scrollState,
                               onAddSettings = {},
                               onAddShortcut = {},
+                              onUpdateShortcut = {},
+                              onCopyPermissionCommand = {},
+                              onDismissRequestCopyPermissionCommand = {})
+        }
+
+        composeTestRule.onNodeWithContentDescription("Settings icon").performClick()
+
+        composeTestRule.onNodeWithTag("addSettingsDialog").assertIsDisplayed()
+    }
+
+    @Test
+    fun copyPermissionCommandDialogIsDisplayed_whenShowCopyPermissionCommandDialogIsTrue() {
+        composeTestRule.setContent {
+            val addSettingsDialogState = rememberAddSettingsDialogState()
+
+            val addShortcutDialogState = rememberAddShortcutDialogState()
+
+            val updateShortcutDialogState = rememberUpdateShortcutDialogState()
+
+            val scrollState = rememberScrollState()
+
+            AppSettingsScreen(snackbarHostState = SnackbarHostState(),
+                              appName = "Geto",
+                              packageName = "Geto",
+                              intent = Intent(),
+                              appSettingsUiState = AppSettingsUiState.Empty,
+                              addSettingsDialogState = addSettingsDialogState,
+                              addShortcutDialogState = addShortcutDialogState,
+                              updateShortcutDialogState = updateShortcutDialogState,
+                              showCopyPermissionCommandDialog = true,
+                              onNavigationIconClick = {},
+                              onRevertSettingsIconClick = {},
+                              onSettingsIconClick = {},
+                              onShortcutIconClick = {},
+                              onAppSettingsItemCheckBoxChange = { _, _ -> },
+                              onDeleteAppSettingsItem = {},
+                              onLaunchApp = {},
+                              scrollState = scrollState,
+                              onAddSettings = {},
+                              onAddShortcut = {},
+                              onUpdateShortcut = {},
                               onCopyPermissionCommand = {},
                               onDismissRequestCopyPermissionCommand = {})
         }
@@ -287,11 +314,13 @@ class AppSettingsScreenTest {
     }
 
     @Test
-    fun addShortcutDialogIsDisplayed_whenShowCopyPermissionCommandDialogIsTrue() {
+    fun addShortcutDialogIsDisplayed_whenShortcutIconIsClicked() {
         composeTestRule.setContent {
             val addSettingsDialogState = rememberAddSettingsDialogState()
 
             val addShortcutDialogState = rememberAddShortcutDialogState()
+
+            val updateShortcutDialogState = rememberUpdateShortcutDialogState()
 
             val scrollState = rememberScrollState()
 
@@ -302,11 +331,12 @@ class AppSettingsScreenTest {
                               appSettingsUiState = AppSettingsUiState.Empty,
                               addSettingsDialogState = addSettingsDialogState,
                               addShortcutDialogState = addShortcutDialogState,
-                              showCopyPermissionCommandDialog = true,
+                              updateShortcutDialogState = updateShortcutDialogState,
+                              showCopyPermissionCommandDialog = false,
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
-                              onAddSettingsIconClick = {},
-                              onAddShortcutIconClick = {
+                              onSettingsIconClick = {},
+                              onShortcutIconClick = {
                                   addShortcutDialogState.updateShowDialog(true)
                               },
                               onAppSettingsItemCheckBoxChange = { _, _ -> },
@@ -314,16 +344,57 @@ class AppSettingsScreenTest {
                               onLaunchApp = {},
                               scrollState = scrollState,
                               onAddSettings = {},
-                              onAddShortcut = {
-                                  addShortcutDialogState.updateShowDialog(true)
-                              },
+                              onAddShortcut = {},
+                              onUpdateShortcut = {},
                               onCopyPermissionCommand = {},
                               onDismissRequestCopyPermissionCommand = {})
         }
 
-        composeTestRule.onNodeWithContentDescription("Add shortcut icon").performClick()
+        composeTestRule.onNodeWithContentDescription("Shortcut icon").performClick()
 
         composeTestRule.onNodeWithTag("addShortcutDialog").assertIsDisplayed()
+    }
+
+    @Test
+    fun updateShortcutDialogIsDisplayed_whenShortcutIconIsClicked() {
+        composeTestRule.setContent {
+            val addSettingsDialogState = rememberAddSettingsDialogState()
+
+            val addShortcutDialogState = rememberAddShortcutDialogState()
+
+            val updateShortcutDialogState = rememberUpdateShortcutDialogState()
+
+            val scrollState = rememberScrollState()
+
+            AppSettingsScreen(snackbarHostState = SnackbarHostState(),
+                              appName = "Geto",
+                              packageName = "Geto",
+                              intent = Intent(),
+                              appSettingsUiState = AppSettingsUiState.Empty,
+                              addSettingsDialogState = addSettingsDialogState,
+                              addShortcutDialogState = addShortcutDialogState,
+                              updateShortcutDialogState = updateShortcutDialogState,
+                              showCopyPermissionCommandDialog = false,
+                              onNavigationIconClick = {},
+                              onRevertSettingsIconClick = {},
+                              onSettingsIconClick = {},
+                              onShortcutIconClick = {
+                                  updateShortcutDialogState.updateShowDialog(true)
+                              },
+                              onAppSettingsItemCheckBoxChange = { _, _ -> },
+                              onDeleteAppSettingsItem = {},
+                              onLaunchApp = {},
+                              scrollState = scrollState,
+                              onAddSettings = {},
+                              onAddShortcut = {},
+                              onUpdateShortcut = {},
+                              onCopyPermissionCommand = {},
+                              onDismissRequestCopyPermissionCommand = {})
+        }
+
+        composeTestRule.onNodeWithContentDescription("Shortcut icon").performClick()
+
+        composeTestRule.onNodeWithTag("updateShortcutDialog").assertIsDisplayed()
     }
 }
 

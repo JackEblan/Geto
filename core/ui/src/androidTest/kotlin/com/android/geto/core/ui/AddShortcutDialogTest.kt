@@ -21,14 +21,13 @@ package com.android.geto.core.ui
 import android.content.Intent
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import org.junit.Rule
 import org.junit.Test
 
-class AddShortcutDialogKtTest {
+class AddShortcutDialogTest {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
@@ -38,7 +37,7 @@ class AddShortcutDialogKtTest {
 
             val addShortcutDialogState = rememberAddShortcutDialogState()
 
-            AddShortcutDialog(addShortcutDialogState = addShortcutDialogState,
+            AddShortcutDialog(shortcutDialogState = addShortcutDialogState,
                               onDismissRequest = {},
                               onAddShortcut = {
                                   addShortcutDialogState.updateShortLabel("")
@@ -64,7 +63,7 @@ class AddShortcutDialogKtTest {
 
             val addShortcutDialogState = rememberAddShortcutDialogState()
 
-            AddShortcutDialog(addShortcutDialogState = addShortcutDialogState,
+            AddShortcutDialog(shortcutDialogState = addShortcutDialogState,
                               onDismissRequest = {},
                               onAddShortcut = {
                                   addShortcutDialogState.updateShortLabel("Test")
@@ -82,41 +81,5 @@ class AddShortcutDialogKtTest {
         composeTestRule.onNodeWithTag(
             testTag = "addShortcutDialog:longLabelSupportingText", useUnmergedTree = true
         ).assertIsDisplayed()
-    }
-
-    @Test
-    fun updateTextTitleIsDisplayed_whenDialogTitleIsUpdate() {
-        composeTestRule.setContent {
-
-            val addShortcutDialogState = rememberAddShortcutDialogState()
-
-            addShortcutDialogState.updateDialogTitle("Update")
-
-            AddShortcutDialog(addShortcutDialogState = addShortcutDialogState,
-                              onDismissRequest = {},
-                              onAddShortcut = {})
-        }
-
-        composeTestRule.onNodeWithTag(
-            testTag = "addShortcutDialog:title"
-        ).assertTextEquals("Update Shortcut")
-    }
-
-    @Test
-    fun addTextTitleIsDisplayed_whenDialogTitleIsAdd() {
-        composeTestRule.setContent {
-
-            val addShortcutDialogState = rememberAddShortcutDialogState()
-
-            addShortcutDialogState.updateDialogTitle("Add")
-
-            AddShortcutDialog(addShortcutDialogState = addShortcutDialogState,
-                              onDismissRequest = {},
-                              onAddShortcut = {})
-        }
-
-        composeTestRule.onNodeWithTag(
-            testTag = "addShortcutDialog:title"
-        ).assertTextEquals("Add Shortcut")
     }
 }
