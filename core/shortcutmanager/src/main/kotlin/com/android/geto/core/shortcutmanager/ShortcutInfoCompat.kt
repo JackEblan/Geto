@@ -16,23 +16,18 @@
  *
  */
 
-plugins {
-    alias(libs.plugins.com.android.geto.feature)
-    alias(libs.plugins.com.android.geto.libraryCompose)
-    alias(libs.plugins.com.android.geto.libraryJacoco)
-}
+package com.android.geto.core.shortcutmanager
 
-android {
-    namespace = "com.android.geto.feature.shortcut"
-}
+import androidx.core.content.pm.ShortcutInfoCompat
+import com.android.geto.core.model.Shortcut
 
-dependencies {
-    implementation(projects.core.domain)
-
-    implementation(libs.androidx.core.splashscreen)
-
-    testImplementation(projects.core.testing)
-    testImplementation(libs.kotlinx.coroutines.test)
-
-    androidTestImplementation(projects.core.testing)
+/**
+ * We have to map the ShortcutInfoCompat to Shortcut so we can test this since we cannot make objects out of it.
+ */
+fun ShortcutInfoCompat.asShortcut(): Shortcut {
+    return Shortcut(
+        id = id,
+        shortLabel = shortLabel.toString(),
+        longLabel = longLabel.toString(),
+    )
 }

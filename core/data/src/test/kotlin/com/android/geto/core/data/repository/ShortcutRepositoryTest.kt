@@ -24,6 +24,8 @@ import com.android.geto.core.testing.shortcutmanager.TestShortcutManagerCompatWr
 import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertFalse
+import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 class ShortcutRepositoryTest {
@@ -75,5 +77,39 @@ class ShortcutRepositoryTest {
         )
 
         assertFalse(result)
+    }
+
+    @Test
+    fun shortcutRepository_shortcut_not_found() {
+        shortcutManagerCompatWrapper.setRequestPinShortcutSupported(true)
+
+        shortcutManagerCompatWrapper.sendShortcuts(
+            listOf(
+                Shortcut(
+                    id = "TestId", shortLabel = "shortLabel", longLabel = "longLabel"
+                )
+            )
+        )
+
+        val result = subject.getShortcut("TestIdNotFound")
+
+        assertNull(result)
+    }
+
+    @Test
+    fun shortcutRepository_shortcut_found() {
+        shortcutManagerCompatWrapper.setRequestPinShortcutSupported(true)
+
+        shortcutManagerCompatWrapper.sendShortcuts(
+            listOf(
+                Shortcut(
+                    id = "TestId", shortLabel = "shortLabel", longLabel = "longLabel"
+                )
+            )
+        )
+
+        val result = subject.getShortcut("TestId")
+
+        assertNotNull(result)
     }
 }

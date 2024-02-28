@@ -25,6 +25,7 @@ import android.graphics.Bitmap
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
+import com.android.geto.core.model.Shortcut
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
@@ -44,15 +45,20 @@ class DefaultShortcutManagerCompatWrapper @Inject constructor(@ApplicationContex
     override fun requestPinShortcut(
         icon: Bitmap?, id: String, shortLabel: String, longLabel: String, intent: Intent
     ): Boolean {
-        return if (ShortcutManagerCompat.isRequestPinShortcutSupported(context)) {
-            val shortcutInfo = if (icon != null) {
-                ShortcutInfoCompat.Builder(context, id).setIcon(IconCompat.createWithBitmap(icon))
-                    .setShortLabel(shortLabel).setLongLabel(longLabel).setIntent(intent).build()
-            } else {
-                ShortcutInfoCompat.Builder(context, id).setShortLabel(shortLabel)
-                    .setLongLabel(longLabel).setIntent(intent).build()
-            }
+        val shortcutInfo = if (icon != null) {
+            ShortcutInfoCompat.Builder(context, id).setIcon(IconCompat.createWithBitmap(icon))
+                .setShortLabel(shortLabel).setLongLabel(longLabel).setIntent(intent).build()
+        } else {
+            ShortcutInfoCompat.Builder(context, id).setShortLabel(shortLabel)
+                .setLongLabel(longLabel).setIntent(intent).build()
+        }
 
+        return if (id in ShortcutManagerCompat.getShortcuts(
+                context, ShortcutManagerCompat.FLAG_MATCH_PINNED
+            ).map { it.id }
+        ) {
+            ShortcutManagerCompat.updateShortcuts(context, listOf(shortcutInfo))
+        } else {
             val shortcutCallbackIntent =
                 ShortcutManagerCompat.createShortcutResultIntent(context, shortcutInfo)
 
@@ -60,10 +66,15 @@ class DefaultShortcutManagerCompatWrapper @Inject constructor(@ApplicationContex
                 context, 0, shortcutCallbackIntent, PendingIntent.FLAG_IMMUTABLE
             )
 
-            ShortcutManagerCompat.requestPinShortcut(
+            return ShortcutManagerCompat.requestPinShortcut(
                 context, shortcutInfo, successCallback?.intentSender
             )
+        }
+    }
 
-        } else false
+    override fun getShortcuts(matchFlags: Int): List<Shortcut> {
+        return ShortcutManagerCompat.getShortcuts(
+            context, matchFlags
+        ).map(ShortcutInfoCompat::asShortcut)
     }
 }

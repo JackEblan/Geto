@@ -22,4 +22,6 @@ import com.android.geto.core.model.Shortcut
 
 interface ShortcutRepository {
     fun requestPinShortcut(shortcut: Shortcut): Boolean
+
+    fun getShortcut(id: String): Shortcut?
 }

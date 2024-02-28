@@ -46,6 +46,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
+import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.android.geto.core.designsystem.icon.GetoIcons
@@ -89,6 +90,8 @@ internal fun AppSettingsRoute(
 
     val applicationIcon = viewModel.icon.collectAsStateWithLifecycle().value
 
+    val shortcut = viewModel.shortcut.collectAsStateWithLifecycle().value
+
     val addSettingsDialogState = rememberAddSettingsDialogState()
 
     val addShortcutDialogState = rememberAddShortcutDialogState()
@@ -127,6 +130,14 @@ internal fun AppSettingsRoute(
         addShortcutDialogState.updateIcon(applicationIcon)
     }
 
+    LaunchedEffect(key1 = shortcut) {
+        shortcut?.let {
+            addShortcutDialogState.updateDialogTitle("Update")
+            addShortcutDialogState.updateShortLabel(shortcut.shortLabel!!)
+            addShortcutDialogState.updateLongLabel(shortcut.longLabel!!)
+        }
+    }
+
     AppSettingsScreen(
         modifier = modifier,
         snackbarHostState = snackbarHostState,
@@ -134,8 +145,8 @@ internal fun AppSettingsRoute(
         packageName = viewModel.packageName,
         intent = shortcutIntent.apply {
             action = Intent.ACTION_VIEW
-            flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-            putExtra("packageName", viewModel.packageName)
+            data =
+                "https://www.android.geto.com/${viewModel.packageName}/${viewModel.appName}".toUri()
         },
         appSettingsUiState = appSettingsUiState,
         addSettingsDialogState = addSettingsDialogState,
@@ -148,6 +159,7 @@ internal fun AppSettingsRoute(
         },
         onAddShortcutIconClick = {
             viewModel.getApplicationIcon()
+            viewModel.getShortcut(viewModel.packageName)
             addShortcutDialogState.updateShowDialog(true)
         },
         onAppSettingsItemCheckBoxChange = viewModel::appSettingsItemCheckBoxChange,

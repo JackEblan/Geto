@@ -21,6 +21,7 @@ package com.android.geto.core.testing.shortcutmanager
 import android.content.Intent
 import android.graphics.Bitmap
 import androidx.core.content.pm.ShortcutInfoCompat
+import com.android.geto.core.model.Shortcut
 import com.android.geto.core.shortcutmanager.ShortcutManagerCompatWrapper
 
 class TestShortcutManagerCompatWrapper : ShortcutManagerCompatWrapper {
@@ -28,6 +29,9 @@ class TestShortcutManagerCompatWrapper : ShortcutManagerCompatWrapper {
     private var requestPinShortcutSupported = false
 
     private var requestPinShortcut = false
+
+    private var shortcuts = listOf<Shortcut>()
+
     override fun isRequestPinShortcutSupported(): Boolean {
         return requestPinShortcutSupported
     }
@@ -42,6 +46,10 @@ class TestShortcutManagerCompatWrapper : ShortcutManagerCompatWrapper {
         return requestPinShortcut
     }
 
+    override fun getShortcuts(matchFlags: Int): List<Shortcut> {
+        return shortcuts
+    }
+
     /**
      * A test-only API to set isRequestPinShortcutSupported
      */
@@ -54,5 +62,12 @@ class TestShortcutManagerCompatWrapper : ShortcutManagerCompatWrapper {
      */
     fun setRequestPinShortcut(value: Boolean) {
         requestPinShortcut = value
+    }
+
+    /**
+     * A test-only API to set set shortcuts
+     */
+    fun sendShortcuts(value: List<Shortcut>) {
+        shortcuts = value
     }
 }

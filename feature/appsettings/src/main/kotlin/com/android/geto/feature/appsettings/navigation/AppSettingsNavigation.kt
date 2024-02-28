@@ -24,6 +24,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import androidx.navigation.navDeepLink
 import com.android.geto.feature.appsettings.AppSettingsRoute
 import java.net.URLDecoder
 import kotlin.text.Charsets.UTF_8
@@ -36,6 +37,8 @@ internal const val PACKAGE_NAME_ARG = "package_name"
 
 @VisibleForTesting
 internal const val APP_NAME_ARG = "app_name"
+
+internal const val deepLinkUri = "https://www.android.geto.com"
 
 internal class AppSettingsArgs(val packageName: String, val appName: String) {
     constructor(savedStateHandle: SavedStateHandle) : this(
@@ -55,7 +58,10 @@ fun NavGraphBuilder.appSettingsScreen(
     onNavigationIconClick: () -> Unit, shortcutIntent: Intent
 ) {
     composable(
-        route = "app_settings_route/{$PACKAGE_NAME_ARG}/{$APP_NAME_ARG}"
+        route = "app_settings_route/{$PACKAGE_NAME_ARG}/{$APP_NAME_ARG}",
+        deepLinks = listOf(navDeepLink {
+            uriPattern = "$deepLinkUri/{$PACKAGE_NAME_ARG}/{$APP_NAME_ARG}"
+        })
     ) {
         AppSettingsRoute(
             onNavigationIconClick = onNavigationIconClick, shortcutIntent = shortcutIntent

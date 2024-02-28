@@ -26,6 +26,7 @@ import com.android.geto.core.model.NonSystemApp
 
 class TestPackageRepository : PackageRepository {
     private var nonSystemAppsTestData: List<NonSystemApp> = emptyList()
+
     override suspend fun getNonSystemApps(): List<NonSystemApp> {
         return nonSystemAppsTestData
     }

@@ -25,6 +25,7 @@ import com.android.geto.core.model.AppSettings
 import com.android.geto.core.model.NonSystemApp
 import com.android.geto.core.model.SecureSettings
 import com.android.geto.core.model.SettingsType
+import com.android.geto.core.model.Shortcut
 import com.android.geto.core.testing.repository.TestAppSettingsRepository
 import com.android.geto.core.testing.repository.TestClipboardRepository
 import com.android.geto.core.testing.repository.TestPackageRepository
@@ -44,6 +45,7 @@ import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertIs
 import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -378,7 +380,7 @@ class AppSettingsViewModelTest {
 
     @Test
     fun secureSettingsIsNotEmpty_whenGetSecureSettings() = runTest {
-        secureSettingsRepository.sendSecureSettings(secureSettingsList)
+        secureSettingsRepository.sendSecureSettings(testSecureSettingsList)
 
         viewModel.getSecureSettings(text = "name0", settingsType = SettingsType.GLOBAL)
 
@@ -389,7 +391,7 @@ class AppSettingsViewModelTest {
 
     @Test
     fun secureSettingsIsEmpty_whenGetSecureSettings() = runTest {
-        secureSettingsRepository.sendSecureSettings(secureSettingsList)
+        secureSettingsRepository.sendSecureSettings(testSecureSettingsList)
 
         viewModel.getSecureSettings(text = "nameNotFound", settingsType = SettingsType.GLOBAL)
 
@@ -397,9 +399,36 @@ class AppSettingsViewModelTest {
 
         assertTrue(item.isEmpty())
     }
+
+    @Test
+    fun shortcutIsNull_whenGetShortcut() = runTest {
+        shortcutRepository.sendShortcuts(testShortcutsList)
+
+        viewModel.getShortcut("idNotFound")
+
+        val item = viewModel.shortcut.value
+
+        assertNull(item)
+    }
+
+    @Test
+    fun shortcutIsNotNull_whenGetShortcut() = runTest {
+        shortcutRepository.sendShortcuts(testShortcutsList)
+
+        viewModel.getShortcut("id0")
+
+        val item = viewModel.shortcut.value
+
+        assertNotNull(item)
+    }
 }
 
-private val secureSettingsList = listOf(
+private val testSecureSettingsList = listOf(
     SecureSettings(id = 0L, name = "name0", value = "value0"),
     SecureSettings(id = 1L, name = "name1", value = "value1")
+)
+
+private val testShortcutsList = listOf(
+    Shortcut(id = "id0"),
+    Shortcut(id = "id1"),
 )

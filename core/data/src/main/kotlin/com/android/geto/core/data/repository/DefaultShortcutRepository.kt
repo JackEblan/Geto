@@ -18,6 +18,7 @@
 
 package com.android.geto.core.data.repository
 
+import androidx.core.content.pm.ShortcutManagerCompat
 import com.android.geto.core.model.Shortcut
 import com.android.geto.core.shortcutmanager.ShortcutManagerCompatWrapper
 import javax.inject.Inject
@@ -27,12 +28,29 @@ class DefaultShortcutRepository @Inject constructor(
 ) : ShortcutRepository {
 
     override fun requestPinShortcut(shortcut: Shortcut): Boolean {
-        return shortcutManagerCompatWrapper.requestPinShortcut(
-            icon = shortcut.icon,
-            id = shortcut.id,
-            shortLabel = shortcut.shortLabel,
-            longLabel = shortcut.longLabel,
-            intent = shortcut.intent
-        )
+        return if (shortcutManagerCompatWrapper.isRequestPinShortcutSupported()) {
+            shortcutManagerCompatWrapper.requestPinShortcut(
+                icon = shortcut.icon,
+                id = shortcut.id!!,
+                shortLabel = shortcut.shortLabel!!,
+                longLabel = shortcut.longLabel!!,
+                intent = shortcut.intent!!
+            )
+        } else false
+    }
+
+    override fun getShortcut(id: String): Shortcut? {
+        val shortcutInfoCompat =
+            shortcutManagerCompatWrapper.getShortcuts(ShortcutManagerCompat.FLAG_MATCH_PINNED)
+                .find { it.id == id }
+
+        return if (shortcutInfoCompat != null) {
+            Shortcut(
+                shortLabel = shortcutInfoCompat.shortLabel.toString(),
+                longLabel = shortcutInfoCompat.longLabel.toString()
+            )
+        } else {
+            null
+        }
     }
 }

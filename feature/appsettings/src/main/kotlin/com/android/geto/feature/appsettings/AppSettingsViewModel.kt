@@ -77,6 +77,10 @@ class AppSettingsViewModel @Inject constructor(
 
     val icon = _icon.asStateFlow()
 
+    private var _shortcut = MutableStateFlow<Shortcut?>(null)
+
+    val shortcut = _shortcut.asStateFlow()
+
     private val appSettingsArgs: AppSettingsArgs = AppSettingsArgs(savedStateHandle)
 
     val packageName = appSettingsArgs.packageName
@@ -134,6 +138,12 @@ class AppSettingsViewModel @Inject constructor(
         }
     }
 
+    fun getShortcut(id: String) {
+        viewModelScope.launch {
+            _shortcut.update { shortcutRepository.getShortcut(id) }
+        }
+    }
+
     fun copyPermissionCommand() {
         clipboardRepository.setPrimaryClip(
             label = "Command",
@@ -148,16 +158,13 @@ class AppSettingsViewModel @Inject constructor(
             revertAppSettingsUseCase(packageName = packageName,
                                      onEmptyAppSettingsList = { message ->
                                          _snackBar.update { message }
-                                     },
-                                     onAppSettingsDisabled = { message ->
-                                         _snackBar.update { message }
-                                     },
-                                     onReverted = { message ->
-                                         _snackBar.update { message }
-                                     },
-                                     onSecurityException = {
-                                         _showCopyPermissionCommandDialog.update { true }
-                                     }, onFailure = { message ->
+                                     }, onAppSettingsDisabled = { message ->
+                    _snackBar.update { message }
+                }, onReverted = { message ->
+                    _snackBar.update { message }
+                }, onSecurityException = {
+                    _showCopyPermissionCommandDialog.update { true }
+                }, onFailure = { message ->
                     _snackBar.update { message }
                 })
         }

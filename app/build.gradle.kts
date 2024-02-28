@@ -58,7 +58,6 @@ dependencies {
     implementation(projects.core.designsystem)
     implementation(projects.feature.applist)
     implementation(projects.feature.appsettings)
-    implementation(projects.feature.shortcut)
 
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.activity.compose)

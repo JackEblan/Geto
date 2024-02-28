@@ -22,9 +22,9 @@ import android.content.Intent
 import android.graphics.Bitmap
 
 data class Shortcut(
-    val icon: Bitmap?,
-    val id: String,
-    val shortLabel: String,
-    val longLabel: String,
-    val intent: Intent
+    val icon: Bitmap? = null,
+    val id: String? = null,
+    val shortLabel: String? = null,
+    val longLabel: String? = null,
+    val intent: Intent? = null
 )

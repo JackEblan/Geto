@@ -21,6 +21,7 @@ package com.android.geto.core.shortcutmanager
 import android.content.Intent
 import android.graphics.Bitmap
 import androidx.core.content.pm.ShortcutInfoCompat
+import com.android.geto.core.model.Shortcut
 
 interface ShortcutManagerCompatWrapper {
     fun isRequestPinShortcutSupported(): Boolean
@@ -29,4 +30,6 @@ interface ShortcutManagerCompatWrapper {
     fun requestPinShortcut(
         icon: Bitmap?, id: String, shortLabel: String, longLabel: String, intent: Intent
     ): Boolean
+
+    fun getShortcuts(matchFlags: Int): List<Shortcut>
 }

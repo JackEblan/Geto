@@ -23,11 +23,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import com.android.geto.MainActivity
 import com.android.geto.feature.applist.navigation.APP_LIST_NAVIGATION_ROUTE
 import com.android.geto.feature.applist.navigation.appListScreen
 import com.android.geto.feature.appsettings.navigation.appSettingsScreen
 import com.android.geto.feature.appsettings.navigation.navigateToAppSettings
-import com.android.geto.feature.shortcut.ShortcutActivity
 
 @Composable
 fun GetoNavHost(navController: NavHostController) {
@@ -43,7 +43,7 @@ fun GetoNavHost(navController: NavHostController) {
 
         appSettingsScreen(
             onNavigationIconClick = navController::popBackStack, shortcutIntent = Intent(
-                context, ShortcutActivity::class.java
+                context, MainActivity::class.java
             )
         )
     }

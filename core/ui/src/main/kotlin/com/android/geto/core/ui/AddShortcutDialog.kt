@@ -76,8 +76,10 @@ fun AddShortcutDialog(
                 Spacer(modifier = Modifier.height(10.dp))
 
                 Text(
-                    modifier = Modifier.padding(horizontal = 5.dp),
-                    text = "Add Shortcut",
+                    modifier = Modifier
+                        .padding(horizontal = 5.dp)
+                        .testTag("addShortcutDialog:title"),
+                    text = "${addShortcutDialogState.dialogTitle} Shortcut",
                     style = MaterialTheme.typography.titleLarge
                 )
 
@@ -148,7 +150,7 @@ fun AddShortcutDialog(
                             .padding(5.dp)
                             .testTag("addShortcutDialog:add")
                     ) {
-                        Text("Add")
+                        Text(addShortcutDialogState.dialogTitle)
                     }
                 }
             }
@@ -168,6 +170,9 @@ class AddShortcutDialogState {
     var showDialog by mutableStateOf(false)
         private set
 
+    var dialogTitle by mutableStateOf("Add")
+        private set
+
     var icon by mutableStateOf<Bitmap?>(null)
         private set
 
@@ -185,6 +190,10 @@ class AddShortcutDialogState {
 
     fun updateShowDialog(value: Boolean) {
         showDialog = value
+    }
+
+    fun updateDialogTitle(value: String) {
+        dialogTitle = value
     }
 
     fun updateIcon(value: Drawable?) {

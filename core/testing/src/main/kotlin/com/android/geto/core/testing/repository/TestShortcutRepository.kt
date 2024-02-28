@@ -24,8 +24,24 @@ import com.android.geto.core.model.Shortcut
 class TestShortcutRepository : ShortcutRepository {
 
     private var requestPinShortcutSupported = false
+
+    private var shortcuts = listOf<Shortcut>()
+
     override fun requestPinShortcut(shortcut: Shortcut): Boolean {
         return requestPinShortcutSupported
+    }
+
+    override fun getShortcut(id: String): Shortcut? {
+        val shortcutInfoCompat = shortcuts.find { it.id == id }
+
+        return if (shortcutInfoCompat != null) {
+            Shortcut(
+                shortLabel = shortcutInfoCompat.shortLabel.toString(),
+                longLabel = shortcutInfoCompat.longLabel.toString()
+            )
+        } else {
+            null
+        }
     }
 
     /**
@@ -33,5 +49,12 @@ class TestShortcutRepository : ShortcutRepository {
      */
     fun setRequestPinShortcutSupported(value: Boolean) {
         requestPinShortcutSupported = value
+    }
+
+    /**
+     * A test-only API to set set shortcuts
+     */
+    fun sendShortcuts(value: List<Shortcut>) {
+        shortcuts = value
     }
 }

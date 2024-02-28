@@ -21,6 +21,7 @@ package com.android.geto.core.ui
 import android.content.Intent
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
@@ -81,5 +82,41 @@ class AddShortcutDialogKtTest {
         composeTestRule.onNodeWithTag(
             testTag = "addShortcutDialog:longLabelSupportingText", useUnmergedTree = true
         ).assertIsDisplayed()
+    }
+
+    @Test
+    fun updateTextTitleIsDisplayed_whenDialogTitleIsUpdate() {
+        composeTestRule.setContent {
+
+            val addShortcutDialogState = rememberAddShortcutDialogState()
+
+            addShortcutDialogState.updateDialogTitle("Update")
+
+            AddShortcutDialog(addShortcutDialogState = addShortcutDialogState,
+                              onDismissRequest = {},
+                              onAddShortcut = {})
+        }
+
+        composeTestRule.onNodeWithTag(
+            testTag = "addShortcutDialog:title"
+        ).assertTextEquals("Update Shortcut")
+    }
+
+    @Test
+    fun addTextTitleIsDisplayed_whenDialogTitleIsAdd() {
+        composeTestRule.setContent {
+
+            val addShortcutDialogState = rememberAddShortcutDialogState()
+
+            addShortcutDialogState.updateDialogTitle("Add")
+
+            AddShortcutDialog(addShortcutDialogState = addShortcutDialogState,
+                              onDismissRequest = {},
+                              onAddShortcut = {})
+        }
+
+        composeTestRule.onNodeWithTag(
+            testTag = "addShortcutDialog:title"
+        ).assertTextEquals("Add Shortcut")
     }
 }

@@ -50,6 +50,5 @@ include(":core:ui")
 
 include(":feature:applist")
 include(":feature:appsettings")
-include(":feature:shortcut")
 
 include(":lint")

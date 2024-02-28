@@ -25,3 +25,7 @@ plugins {
 android {
     namespace = "com.android.geto.core.shortcutmanager"
 }
+
+dependencies {
+    implementation(projects.core.model)
+}
