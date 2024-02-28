@@ -27,8 +27,8 @@ android {
 
     defaultConfig {
         applicationId = "com.android.geto"
-        versionCode = 15
-        versionName = "1.15"
+        versionCode = 16
+        versionName = "1.16"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -54,6 +54,7 @@ android {
 }
 
 dependencies {
+    implementation(projects.core.broadcast)
     implementation(projects.core.common)
     implementation(projects.core.designsystem)
     implementation(projects.feature.applist)

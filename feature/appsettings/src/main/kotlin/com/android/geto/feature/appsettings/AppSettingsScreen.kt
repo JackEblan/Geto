@@ -18,7 +18,9 @@
 
 package com.android.geto.feature.appsettings
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.IntentFilter
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Box
@@ -41,14 +43,21 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.platform.testTag
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.registerReceiver
 import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.android.geto.core.broadcast.ShortcutBroadcastReceiver
 import com.android.geto.core.designsystem.icon.GetoIcons
 import com.android.geto.core.model.AppSettings
 import com.android.geto.core.model.SettingsType
@@ -65,12 +74,14 @@ import com.android.geto.core.ui.UpdateShortcutDialog
 import com.android.geto.core.ui.rememberAddSettingsDialogState
 import com.android.geto.core.ui.rememberAddShortcutDialogState
 
+@SuppressLint("WrongConstant")
 @Composable
 internal fun AppSettingsRoute(
     modifier: Modifier = Modifier,
     viewModel: AppSettingsViewModel = hiltViewModel(),
     onNavigationIconClick: () -> Unit,
-    shortcutIntent: Intent
+    shortcutIntent: Intent,
+    shortcutBroadcastReceiver: ShortcutBroadcastReceiver
 ) {
     val context = LocalContext.current
 
@@ -102,6 +113,32 @@ internal fun AppSettingsRoute(
     val keyDebounce = addSettingsDialogState.keyDebounce.collectAsStateWithLifecycle("").value
 
     val scrollState = rememberScrollState()
+
+    val lifecycleOwner = LocalLifecycleOwner.current
+
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+
+            if (event == Lifecycle.Event.ON_START) {
+                val intentFilter = IntentFilter(ShortcutBroadcastReceiver.ACTION)
+
+                registerReceiver(
+                    context,
+                    shortcutBroadcastReceiver,
+                    intentFilter,
+                    ContextCompat.RECEIVER_NOT_EXPORTED
+                )
+            } else if (event == Lifecycle.Event.ON_DESTROY) {
+                context.unregisterReceiver(shortcutBroadcastReceiver)
+            }
+        }
+
+        lifecycleOwner.lifecycle.addObserver(observer)
+
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+        }
+    }
 
     LaunchedEffect(key1 = true) {
         viewModel.getShortcut(viewModel.packageName)
@@ -137,6 +174,7 @@ internal fun AppSettingsRoute(
 
     LaunchedEffect(key1 = applicationIcon) {
         addShortcutDialogState.updateIcon(applicationIcon)
+        updateShortcutDialogState.updateIcon(applicationIcon)
     }
 
     AppSettingsScreen(
@@ -160,8 +198,6 @@ internal fun AppSettingsRoute(
             addSettingsDialogState.updateShowDialog(true)
         },
         onShortcutIconClick = {
-            updateShortcutDialogState.updateIcon(applicationIcon)
-
             if (shortcut != null) {
                 updateShortcutDialogState.updateShortLabel(shortcut.shortLabel!!)
                 updateShortcutDialogState.updateLongLabel(shortcut.longLabel!!)
@@ -176,7 +212,10 @@ internal fun AppSettingsRoute(
         scrollState = scrollState,
         onAddSettings = viewModel::addSettings,
         onAddShortcut = viewModel::requestPinShortcut,
-        onUpdateShortcut = {},
+        onUpdateShortcut = viewModel::updateRequestPinShortcut,
+        onRefreshShortcut = {
+            viewModel.getShortcut(viewModel.packageName)
+        },
         onCopyPermissionCommand = viewModel::copyPermissionCommand,
         onDismissRequestCopyPermissionCommand = viewModel::clearCopyPermissionCommandDialog
     )
@@ -207,6 +246,7 @@ internal fun AppSettingsScreen(
     onAddSettings: (appSettings: AppSettings) -> Unit,
     onAddShortcut: (shortcut: Shortcut) -> Unit,
     onUpdateShortcut: (shortcut: Shortcut) -> Unit,
+    onRefreshShortcut: () -> Unit,
     onCopyPermissionCommand: () -> Unit,
     onDismissRequestCopyPermissionCommand: () -> Unit,
 ) {
@@ -233,6 +273,10 @@ internal fun AppSettingsScreen(
     if (addShortcutDialogState.showDialog) {
         AddShortcutDialog(shortcutDialogState = addShortcutDialogState,
                           onDismissRequest = { addShortcutDialogState.updateShowDialog(false) },
+                          onRefreshShortcut = {
+                              onRefreshShortcut()
+                              addShortcutDialogState.updateShowDialog(false)
+                          },
                           onAddShortcut = {
                               addShortcutDialogState.getShortcut(
                                   packageName = packageName, intent = intent
@@ -246,6 +290,10 @@ internal fun AppSettingsScreen(
     if (updateShortcutDialogState.showDialog) {
         UpdateShortcutDialog(shortcutDialogState = updateShortcutDialogState,
                              onDismissRequest = { updateShortcutDialogState.updateShowDialog(false) },
+                             onRefreshShortcut = {
+                                 onRefreshShortcut()
+                                 updateShortcutDialogState.updateShowDialog(false)
+                             },
                              onUpdateShortcut = {
                                  updateShortcutDialogState.getShortcut(
                                      packageName = packageName, intent = intent

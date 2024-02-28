@@ -53,23 +53,52 @@ class DefaultShortcutManagerCompatWrapper @Inject constructor(@ApplicationContex
                 .setLongLabel(longLabel).setIntent(intent).build()
         }
 
-        return if (id in ShortcutManagerCompat.getShortcuts(
-                context, ShortcutManagerCompat.FLAG_MATCH_PINNED
-            ).map { it.id }
-        ) {
+        val shortcutCallbackIntent =
+            ShortcutManagerCompat.createShortcutResultIntent(context, shortcutInfo).apply {
+                action = "com.android.geto.ACTION_CREATE_SHORTCUT"
+            }
+
+        val successCallback = PendingIntent.getBroadcast(
+            context, 0, shortcutCallbackIntent, PendingIntent.FLAG_IMMUTABLE
+        )
+
+        return ShortcutManagerCompat.requestPinShortcut(
+            context, shortcutInfo, successCallback?.intentSender
+        )
+    }
+
+    @Throws(IllegalArgumentException::class)
+    override fun updateShortcuts(
+        icon: Bitmap?, id: String, shortLabel: String, longLabel: String, intent: Intent
+    ): Boolean {
+        val shortcutInfo = if (icon != null) {
+            ShortcutInfoCompat.Builder(context, id).setIcon(IconCompat.createWithBitmap(icon))
+                .setShortLabel(shortLabel).setLongLabel(longLabel).setIntent(intent).build()
+        } else {
+            ShortcutInfoCompat.Builder(context, id).setShortLabel(shortLabel)
+                .setLongLabel(longLabel).setIntent(intent).build()
+        }
+
+        val ids =
+            ShortcutManagerCompat.getShortcuts(context, ShortcutManagerCompat.FLAG_MATCH_PINNED)
+                .map { it.id }
+
+        return if (id in ids) {
             ShortcutManagerCompat.updateShortcuts(context, listOf(shortcutInfo))
         } else {
-            val shortcutCallbackIntent =
-                ShortcutManagerCompat.createShortcutResultIntent(context, shortcutInfo)
-
-            val successCallback = PendingIntent.getBroadcast(
-                context, 0, shortcutCallbackIntent, PendingIntent.FLAG_IMMUTABLE
-            )
-
-            return ShortcutManagerCompat.requestPinShortcut(
-                context, shortcutInfo, successCallback?.intentSender
-            )
+            false
         }
+    }
+
+    override fun enableShortcuts(id: String) {
+        val shortcutInfo = ShortcutInfoCompat.Builder(context, id).build()
+
+        ShortcutManagerCompat.enableShortcuts(context, listOf(shortcutInfo))
+    }
+
+    @Throws(IllegalArgumentException::class, IllegalStateException::class)
+    override fun disableShortcuts(id: String) {
+        ShortcutManagerCompat.disableShortcuts(context, listOf(id), "Shortcut already disabled")
     }
 
     override fun getShortcuts(matchFlags: Int): List<Shortcut> {

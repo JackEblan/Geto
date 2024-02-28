@@ -23,6 +23,8 @@ import com.android.geto.core.model.Shortcut
 import com.android.geto.core.testing.shortcutmanager.TestShortcutManagerCompatWrapper
 import org.junit.Before
 import org.junit.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
@@ -77,6 +79,69 @@ class ShortcutRepositoryTest {
         )
 
         assertFalse(result)
+    }
+
+    @Test
+    fun shortcutRepository_cannot_update_pin_shortcut() {
+        shortcutManagerCompatWrapper.setUpdateImmutableShortcuts(true)
+
+        val result = subject.updateRequestPinShortcut(
+            Shortcut(
+                icon = null,
+                id = "id",
+                shortLabel = "shortLabel",
+                longLabel = "longLabel",
+                intent = Intent()
+            )
+        )
+
+        assertFailsWith<IllegalArgumentException> { result.getOrThrow() }
+    }
+
+    @Test
+    fun shortcutRepository_can_update_pin_shortcut() {
+        shortcutManagerCompatWrapper.setUpdateImmutableShortcuts(false)
+
+        val result = subject.updateRequestPinShortcut(
+            Shortcut(
+                icon = null,
+                id = "id",
+                shortLabel = "shortLabel",
+                longLabel = "longLabel",
+                intent = Intent()
+            )
+        )
+
+        assertEquals(expected = true, actual = result.getOrNull())
+    }
+
+    @Test
+    fun shortcutRepository_enable_shortcuts() {
+        val result = subject.enableShortcuts(id = "id", enabled = true)
+
+        assertEquals(expected = "Shortcut enabled", actual = result.getOrNull())
+    }
+
+    @Test
+    fun shortcutRepository_disable_shortcuts_on_disableImmutableShortcuts() {
+        shortcutManagerCompatWrapper.setDisableImmutableShortcuts(true)
+
+        assertFailsWith<IllegalArgumentException> {
+            subject.enableShortcuts(
+                id = "id", enabled = false
+            ).getOrThrow()
+        }
+    }
+
+    @Test
+    fun shortcutRepository_disable_shortcuts_on_userIsLocked() {
+        shortcutManagerCompatWrapper.setUserIsLocked(true)
+
+        assertFailsWith<IllegalStateException> {
+            subject.enableShortcuts(
+                id = "id", enabled = false
+            ).getOrThrow()
+        }
     }
 
     @Test

@@ -39,6 +39,30 @@ class DefaultShortcutRepository @Inject constructor(
         } else false
     }
 
+    override fun updateRequestPinShortcut(shortcut: Shortcut): Result<Boolean> {
+        return runCatching {
+            shortcutManagerCompatWrapper.updateShortcuts(
+                icon = shortcut.icon,
+                id = shortcut.id!!,
+                shortLabel = shortcut.shortLabel!!,
+                longLabel = shortcut.longLabel!!,
+                intent = shortcut.intent!!
+            )
+        }
+    }
+
+    override fun enableShortcuts(id: String, enabled: Boolean): Result<String> {
+        return runCatching {
+            if (enabled) {
+                shortcutManagerCompatWrapper.enableShortcuts(id)
+                "Shortcut enabled"
+            } else {
+                shortcutManagerCompatWrapper.disableShortcuts(id)
+                "Shortcut disabled"
+            }
+        }
+    }
+
     override fun getShortcut(id: String): Shortcut? {
         val shortcutInfoCompat =
             shortcutManagerCompatWrapper.getShortcuts(ShortcutManagerCompat.FLAG_MATCH_PINNED)

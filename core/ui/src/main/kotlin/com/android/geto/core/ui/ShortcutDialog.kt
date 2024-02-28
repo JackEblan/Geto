@@ -33,6 +33,8 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -52,6 +54,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.core.graphics.drawable.toBitmap
 import coil.compose.AsyncImage
+import com.android.geto.core.designsystem.icon.GetoIcons
 import com.android.geto.core.model.Shortcut
 
 @Composable
@@ -59,6 +62,7 @@ fun AddShortcutDialog(
     modifier: Modifier = Modifier,
     shortcutDialogState: ShortcutDialogState,
     onDismissRequest: () -> Unit,
+    onRefreshShortcut: () -> Unit,
     onAddShortcut: () -> Unit
 ) {
     Dialog(onDismissRequest = { onDismissRequest() }) {
@@ -75,11 +79,25 @@ fun AddShortcutDialog(
             ) {
                 Spacer(modifier = Modifier.height(10.dp))
 
-                Text(
-                    modifier = Modifier.padding(horizontal = 5.dp),
-                    text = "Add Shortcut",
-                    style = MaterialTheme.typography.titleLarge
-                )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        modifier = Modifier
+                            .padding(horizontal = 5.dp)
+                            .weight(1f),
+                        text = "Add Shortcut",
+                        style = MaterialTheme.typography.titleLarge
+                    )
+
+                    IconButton(onClick = onRefreshShortcut) {
+                        Icon(
+                            imageVector = GetoIcons.Refresh,
+                            contentDescription = "updateShortcutDialog:refresh"
+                        )
+                    }
+                }
 
                 Spacer(modifier = Modifier.height(10.dp))
 
@@ -161,6 +179,7 @@ fun UpdateShortcutDialog(
     modifier: Modifier = Modifier,
     shortcutDialogState: ShortcutDialogState,
     onDismissRequest: () -> Unit,
+    onRefreshShortcut: () -> Unit,
     onUpdateShortcut: () -> Unit
 ) {
     Dialog(onDismissRequest = { onDismissRequest() }) {
@@ -177,11 +196,25 @@ fun UpdateShortcutDialog(
             ) {
                 Spacer(modifier = Modifier.height(10.dp))
 
-                Text(
-                    modifier = Modifier.padding(horizontal = 5.dp),
-                    text = "Update Shortcut",
-                    style = MaterialTheme.typography.titleLarge
-                )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        modifier = Modifier
+                            .padding(horizontal = 5.dp)
+                            .weight(1f),
+                        text = "Update Shortcut",
+                        style = MaterialTheme.typography.titleLarge
+                    )
+
+                    IconButton(onClick = onRefreshShortcut) {
+                        Icon(
+                            imageVector = GetoIcons.Refresh,
+                            contentDescription = "updateShortcutDialog:refresh"
+                        )
+                    }
+                }
 
                 Spacer(modifier = Modifier.height(10.dp))
 

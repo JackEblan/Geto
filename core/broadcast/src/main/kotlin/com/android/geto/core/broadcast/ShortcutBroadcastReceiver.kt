@@ -16,22 +16,19 @@
  *
  */
 
-plugins {
-    alias(libs.plugins.com.android.geto.feature)
-    alias(libs.plugins.com.android.geto.libraryCompose)
-    alias(libs.plugins.com.android.geto.libraryJacoco)
-}
+package com.android.geto.core.broadcast
 
-android {
-    namespace = "com.android.geto.feature.appsettings"
-}
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.widget.Toast
 
-dependencies {
-    implementation(projects.core.domain)
-    implementation(projects.core.broadcast)
+class ShortcutBroadcastReceiver : BroadcastReceiver() {
+    override fun onReceive(context: Context?, intent: Intent?) {
+        Toast.makeText(context, "Application pinned shortcut", Toast.LENGTH_LONG).show()
+    }
 
-    testImplementation(projects.core.testing)
-    testImplementation(libs.kotlinx.coroutines.test)
-
-    androidTestImplementation(projects.core.testing)
+    companion object {
+        const val ACTION = "com.android.geto.ACTION_CREATE_SHORTCUT"
+    }
 }

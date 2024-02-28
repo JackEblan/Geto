@@ -30,6 +30,12 @@ class TestShortcutManagerCompatWrapper : ShortcutManagerCompatWrapper {
 
     private var requestPinShortcut = false
 
+    private var updateImmutableShortcuts = false
+
+    private var disableImmutableShortcuts = false
+
+    private var userIsLocked = false
+
     private var shortcuts = listOf<Shortcut>()
 
     override fun isRequestPinShortcutSupported(): Boolean {
@@ -44,6 +50,24 @@ class TestShortcutManagerCompatWrapper : ShortcutManagerCompatWrapper {
         icon: Bitmap?, id: String, shortLabel: String, longLabel: String, intent: Intent
     ): Boolean {
         return requestPinShortcut
+    }
+
+    override fun updateShortcuts(
+        icon: Bitmap?, id: String, shortLabel: String, longLabel: String, intent: Intent
+    ): Boolean {
+        return if (updateImmutableShortcuts) {
+            throw IllegalArgumentException()
+        } else true
+    }
+
+    override fun enableShortcuts(id: String) {
+        return
+    }
+
+    override fun disableShortcuts(id: String) {
+        if (disableImmutableShortcuts) throw IllegalArgumentException()
+
+        if (userIsLocked) throw IllegalStateException()
     }
 
     override fun getShortcuts(matchFlags: Int): List<Shortcut> {
@@ -69,5 +93,26 @@ class TestShortcutManagerCompatWrapper : ShortcutManagerCompatWrapper {
      */
     fun sendShortcuts(value: List<Shortcut>) {
         shortcuts = value
+    }
+
+    /**
+     * If trying to update immutable shortcuts
+     */
+    fun setUpdateImmutableShortcuts(value: Boolean) {
+        updateImmutableShortcuts = value
+    }
+
+    /**
+     *  If trying to disable immutable shortcuts
+     */
+    fun setDisableImmutableShortcuts(value: Boolean) {
+        disableImmutableShortcuts = value
+    }
+
+    /**
+     *  when the user is locked
+     */
+    fun setUserIsLocked(value: Boolean) {
+        userIsLocked = value
     }
 }

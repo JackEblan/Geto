@@ -158,21 +158,31 @@ class AppSettingsViewModel @Inject constructor(
             revertAppSettingsUseCase(packageName = packageName,
                                      onEmptyAppSettingsList = { message ->
                                          _snackBar.update { message }
-                                     }, onAppSettingsDisabled = { message ->
-                    _snackBar.update { message }
-                }, onReverted = { message ->
-                    _snackBar.update { message }
-                }, onSecurityException = {
-                    _showCopyPermissionCommandDialog.update { true }
-                }, onFailure = { message ->
-                    _snackBar.update { message }
-                })
+                                     },
+                                     onAppSettingsDisabled = { message ->
+                                         _snackBar.update { message }
+                                     },
+                                     onReverted = { message ->
+                                         _snackBar.update { message }
+                                     },
+                                     onSecurityException = {
+                                         _showCopyPermissionCommandDialog.update { true }
+                                     },
+                                     onFailure = { message ->
+                                         _snackBar.update { message }
+                                     })
         }
     }
 
     fun requestPinShortcut(shortcut: Shortcut) {
         viewModelScope.launch {
             shortcutRepository.requestPinShortcut(shortcut)
+        }
+    }
+
+    fun updateRequestPinShortcut(shortcut: Shortcut) {
+        viewModelScope.launch {
+            shortcutRepository.updateRequestPinShortcut(shortcut)
         }
     }
 

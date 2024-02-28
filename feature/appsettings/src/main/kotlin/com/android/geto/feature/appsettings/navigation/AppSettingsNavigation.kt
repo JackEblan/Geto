@@ -25,6 +25,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navDeepLink
+import com.android.geto.core.broadcast.ShortcutBroadcastReceiver
 import com.android.geto.feature.appsettings.AppSettingsRoute
 import java.net.URLDecoder
 import kotlin.text.Charsets.UTF_8
@@ -55,7 +56,9 @@ fun NavController.navigateToAppSettings(packageName: String, appName: String) {
 }
 
 fun NavGraphBuilder.appSettingsScreen(
-    onNavigationIconClick: () -> Unit, shortcutIntent: Intent
+    onNavigationIconClick: () -> Unit,
+    shortcutIntent: Intent,
+    shortcutBroadcastReceiver: ShortcutBroadcastReceiver
 ) {
     composable(
         route = "app_settings_route/{$PACKAGE_NAME_ARG}/{$APP_NAME_ARG}",
@@ -64,7 +67,9 @@ fun NavGraphBuilder.appSettingsScreen(
         })
     ) {
         AppSettingsRoute(
-            onNavigationIconClick = onNavigationIconClick, shortcutIntent = shortcutIntent
+            onNavigationIconClick = onNavigationIconClick,
+            shortcutIntent = shortcutIntent,
+            shortcutBroadcastReceiver = shortcutBroadcastReceiver
         )
     }
 }

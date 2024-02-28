@@ -25,6 +25,7 @@
             <option value="$PROJECT_DIR$/build-logic" />
             <option value="$PROJECT_DIR$/build-logic/convention" />
             <option value="$PROJECT_DIR$/core" />
+            <option value="$PROJECT_DIR$/core/broadcast" />
             <option value="$PROJECT_DIR$/core/clipboardmanager" />
             <option value="$PROJECT_DIR$/core/common" />
             <option value="$PROJECT_DIR$/core/data" />

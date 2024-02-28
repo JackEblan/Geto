@@ -31,5 +31,15 @@ interface ShortcutManagerCompatWrapper {
         icon: Bitmap?, id: String, shortLabel: String, longLabel: String, intent: Intent
     ): Boolean
 
+    @Throws(IllegalArgumentException::class)
+    fun updateShortcuts(
+        icon: Bitmap?, id: String, shortLabel: String, longLabel: String, intent: Intent
+    ): Boolean
+
+    fun enableShortcuts(id: String)
+
+    @Throws(IllegalArgumentException::class, IllegalStateException::class)
+    fun disableShortcuts(id: String)
+
     fun getShortcuts(matchFlags: Int): List<Shortcut>
 }

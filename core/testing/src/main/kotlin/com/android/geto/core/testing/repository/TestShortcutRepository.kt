@@ -27,8 +27,34 @@ class TestShortcutRepository : ShortcutRepository {
 
     private var shortcuts = listOf<Shortcut>()
 
+    private var updateImmutableShortcuts = false
+
+    private var disableImmutableShortcuts = false
+
+    private var userIsLocked = false
+
     override fun requestPinShortcut(shortcut: Shortcut): Boolean {
         return requestPinShortcutSupported
+    }
+
+    override fun updateRequestPinShortcut(shortcut: Shortcut): Result<Boolean> {
+        return runCatching {
+            updateImmutableShortcuts
+        }
+    }
+
+    override fun enableShortcuts(id: String, enabled: Boolean): Result<String> {
+        return runCatching {
+            if (enabled) {
+                "Shortcut enabled"
+            } else {
+                if (disableImmutableShortcuts) throw IllegalArgumentException()
+
+                if (userIsLocked) throw IllegalStateException()
+
+                "Shortcut disabled"
+            }
+        }
     }
 
     override fun getShortcut(id: String): Shortcut? {
@@ -56,5 +82,26 @@ class TestShortcutRepository : ShortcutRepository {
      */
     fun sendShortcuts(value: List<Shortcut>) {
         shortcuts = value
+    }
+
+    /**
+     * If trying to update immutable shortcuts
+     */
+    fun setUpdateImmutableShortcuts(value: Boolean) {
+        updateImmutableShortcuts = value
+    }
+
+    /**
+     *  If trying to disable immutable shortcuts
+     */
+    fun setDisableImmutableShortcuts(value: Boolean) {
+        disableImmutableShortcuts = value
+    }
+
+    /**
+     *  when the user is locked
+     */
+    fun setUserIsLocked(value: Boolean) {
+        userIsLocked = value
     }
 }

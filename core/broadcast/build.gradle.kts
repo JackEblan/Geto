@@ -17,21 +17,11 @@
  */
 
 plugins {
-    alias(libs.plugins.com.android.geto.feature)
-    alias(libs.plugins.com.android.geto.libraryCompose)
+    alias(libs.plugins.com.android.geto.library)
     alias(libs.plugins.com.android.geto.libraryJacoco)
+    alias(libs.plugins.com.android.geto.hilt)
 }
 
 android {
-    namespace = "com.android.geto.feature.appsettings"
-}
-
-dependencies {
-    implementation(projects.core.domain)
-    implementation(projects.core.broadcast)
-
-    testImplementation(projects.core.testing)
-    testImplementation(libs.kotlinx.coroutines.test)
-
-    androidTestImplementation(projects.core.testing)
+    namespace = "com.android.geto.core.broadcast"
 }

@@ -22,6 +22,7 @@ import android.content.ClipboardManager
 import android.content.ContentResolver
 import android.content.Context
 import android.content.pm.PackageManager
+import com.android.geto.core.broadcast.ShortcutBroadcastReceiver
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -46,4 +47,8 @@ object AppModule {
     @Singleton
     fun clipboardManager(@ApplicationContext context: Context): ClipboardManager =
         context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+
+    @Provides
+    @Singleton
+    fun shortcutBroadcastReceiver(): ShortcutBroadcastReceiver = ShortcutBroadcastReceiver()
 }
