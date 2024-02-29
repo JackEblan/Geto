@@ -39,6 +39,7 @@ class UpdateShortcutDialogTest {
 
             UpdateShortcutDialog(shortcutDialogState = updateShortcutDialogState,
                                  onDismissRequest = {},
+                                 onRefreshShortcut = {},
                                  onUpdateShortcut = {
                                      updateShortcutDialogState.updateShortLabel("")
 
@@ -65,6 +66,7 @@ class UpdateShortcutDialogTest {
 
             UpdateShortcutDialog(shortcutDialogState = updateShortcutDialogState,
                                  onDismissRequest = {},
+                                 onRefreshShortcut = {},
                                  onUpdateShortcut = {
                                      updateShortcutDialogState.updateShortLabel("Test")
 

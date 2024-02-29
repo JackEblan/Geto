@@ -71,6 +71,7 @@ class AppSettingsScreenTest {
                               onAddShortcut = {},
                               onUpdateShortcut = {},
                               onCopyPermissionCommand = {},
+                              onRefreshShortcut = {},
                               onDismissRequestCopyPermissionCommand = {})
         }
 
@@ -109,6 +110,7 @@ class AppSettingsScreenTest {
                               onAddShortcut = {},
                               onUpdateShortcut = {},
                               onCopyPermissionCommand = {},
+                              onRefreshShortcut = {},
                               onDismissRequestCopyPermissionCommand = {})
         }
 
@@ -147,6 +149,7 @@ class AppSettingsScreenTest {
                               onAddShortcut = {},
                               onUpdateShortcut = {},
                               onCopyPermissionCommand = {},
+                              onRefreshShortcut = {},
                               onDismissRequestCopyPermissionCommand = {})
         }
 
@@ -185,6 +188,7 @@ class AppSettingsScreenTest {
                               onAddShortcut = {},
                               onUpdateShortcut = {},
                               onCopyPermissionCommand = {},
+                              onRefreshShortcut = {},
                               onDismissRequestCopyPermissionCommand = {})
         }
 
@@ -225,6 +229,7 @@ class AppSettingsScreenTest {
                               onAddShortcut = {},
                               onUpdateShortcut = {},
                               onCopyPermissionCommand = {},
+                              onRefreshShortcut = {},
                               onDismissRequestCopyPermissionCommand = {})
         }
 
@@ -267,6 +272,7 @@ class AppSettingsScreenTest {
                               onAddShortcut = {},
                               onUpdateShortcut = {},
                               onCopyPermissionCommand = {},
+                              onRefreshShortcut = {},
                               onDismissRequestCopyPermissionCommand = {})
         }
 
@@ -307,6 +313,7 @@ class AppSettingsScreenTest {
                               onAddShortcut = {},
                               onUpdateShortcut = {},
                               onCopyPermissionCommand = {},
+                              onRefreshShortcut = {},
                               onDismissRequestCopyPermissionCommand = {})
         }
 
@@ -347,6 +354,7 @@ class AppSettingsScreenTest {
                               onAddShortcut = {},
                               onUpdateShortcut = {},
                               onCopyPermissionCommand = {},
+                              onRefreshShortcut = {},
                               onDismissRequestCopyPermissionCommand = {})
         }
 
@@ -388,6 +396,7 @@ class AppSettingsScreenTest {
                               onAddSettings = {},
                               onAddShortcut = {},
                               onUpdateShortcut = {},
+                              onRefreshShortcut = {},
                               onCopyPermissionCommand = {},
                               onDismissRequestCopyPermissionCommand = {})
         }
