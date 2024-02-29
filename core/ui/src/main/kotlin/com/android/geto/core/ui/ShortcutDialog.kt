@@ -33,12 +33,17 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.PlainTooltip
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TooltipBox
+import androidx.compose.material3.TooltipDefaults
+import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
@@ -57,6 +62,7 @@ import coil.compose.AsyncImage
 import com.android.geto.core.designsystem.icon.GetoIcons
 import com.android.geto.core.model.Shortcut
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddShortcutDialog(
     modifier: Modifier = Modifier,
@@ -80,8 +86,7 @@ fun AddShortcutDialog(
                 Spacer(modifier = Modifier.height(10.dp))
 
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
+                    modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
                         modifier = Modifier
@@ -91,11 +96,21 @@ fun AddShortcutDialog(
                         style = MaterialTheme.typography.titleLarge
                     )
 
-                    IconButton(onClick = onRefreshShortcut) {
-                        Icon(
-                            imageVector = GetoIcons.Refresh,
-                            contentDescription = "updateShortcutDialog:refresh"
-                        )
+                    TooltipBox(
+                        modifier = Modifier.testTag("addShortcutDialog:tooltip:refresh"),
+                        positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
+                        tooltip = {
+                            PlainTooltip {
+                                Text("Refresh shortcut info")
+                            }
+                        },
+                        state = rememberTooltipState()
+                    ) {
+                        IconButton(onClick = onRefreshShortcut) {
+                            Icon(
+                                imageVector = GetoIcons.Refresh, contentDescription = "Refresh icon"
+                            )
+                        }
                     }
                 }
 
@@ -123,8 +138,7 @@ fun AddShortcutDialog(
                     isError = shortcutDialogState.shortLabelError.isNotBlank(),
                     supportingText = {
                         if (shortcutDialogState.shortLabelError.isNotBlank()) Text(
-                            text = shortcutDialogState.shortLabelError,
-                            modifier = Modifier.testTag("addShortcutDialog:shortLabelSupportingText")
+                            text = shortcutDialogState.shortLabelError, modifier = Modifier.testTag("addShortcutDialog:shortLabelSupportingText")
                         )
                     },
                     singleLine = true,
@@ -143,8 +157,7 @@ fun AddShortcutDialog(
                     isError = shortcutDialogState.longLabelError.isNotBlank(),
                     supportingText = {
                         if (shortcutDialogState.longLabelError.isNotBlank()) Text(
-                            text = shortcutDialogState.longLabelError,
-                            modifier = Modifier.testTag("addShortcutDialog:longLabelSupportingText")
+                            text = shortcutDialogState.longLabelError, modifier = Modifier.testTag("addShortcutDialog:longLabelSupportingText")
                         )
                     },
                     singleLine = true,
@@ -161,8 +174,7 @@ fun AddShortcutDialog(
                         Text("Cancel")
                     }
                     TextButton(
-                        onClick = onAddShortcut,
-                        modifier = Modifier
+                        onClick = onAddShortcut, modifier = Modifier
                             .padding(5.dp)
                             .testTag("addShortcutDialog:add")
                     ) {
@@ -174,6 +186,7 @@ fun AddShortcutDialog(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UpdateShortcutDialog(
     modifier: Modifier = Modifier,
@@ -197,8 +210,7 @@ fun UpdateShortcutDialog(
                 Spacer(modifier = Modifier.height(10.dp))
 
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
+                    modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
                         modifier = Modifier
@@ -208,11 +220,22 @@ fun UpdateShortcutDialog(
                         style = MaterialTheme.typography.titleLarge
                     )
 
-                    IconButton(onClick = onRefreshShortcut) {
-                        Icon(
-                            imageVector = GetoIcons.Refresh,
-                            contentDescription = "updateShortcutDialog:refresh"
-                        )
+                    TooltipBox(
+                        modifier = Modifier.testTag("updateShortcutDialog:refresh"),
+                        positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
+                        tooltip = {
+                            PlainTooltip {
+                                Text("Refresh shortcut info")
+                            }
+                        },
+                        state = rememberTooltipState()
+                    ) {
+                        IconButton(onClick = onRefreshShortcut) {
+                            Icon(
+                                imageVector = GetoIcons.Refresh,
+                                contentDescription = "updateShortcutDialog:refresh"
+                            )
+                        }
                     }
                 }
 
@@ -240,8 +263,7 @@ fun UpdateShortcutDialog(
                     isError = shortcutDialogState.shortLabelError.isNotBlank(),
                     supportingText = {
                         if (shortcutDialogState.shortLabelError.isNotBlank()) Text(
-                            text = shortcutDialogState.shortLabelError,
-                            modifier = Modifier.testTag("updateShortcutDialog:shortLabelSupportingText")
+                            text = shortcutDialogState.shortLabelError, modifier = Modifier.testTag("updateShortcutDialog:shortLabelSupportingText")
                         )
                     },
                     singleLine = true,
@@ -260,8 +282,7 @@ fun UpdateShortcutDialog(
                     isError = shortcutDialogState.longLabelError.isNotBlank(),
                     supportingText = {
                         if (shortcutDialogState.longLabelError.isNotBlank()) Text(
-                            text = shortcutDialogState.longLabelError,
-                            modifier = Modifier.testTag("updateShortcutDialog:longLabelSupportingText")
+                            text = shortcutDialogState.longLabelError, modifier = Modifier.testTag("updateShortcutDialog:longLabelSupportingText")
                         )
                     },
                     singleLine = true,
@@ -278,8 +299,7 @@ fun UpdateShortcutDialog(
                         Text("Cancel")
                     }
                     TextButton(
-                        onClick = onUpdateShortcut,
-                        modifier = Modifier
+                        onClick = onUpdateShortcut, modifier = Modifier
                             .padding(5.dp)
                             .testTag("updateShortcutDialog:update")
                     ) {

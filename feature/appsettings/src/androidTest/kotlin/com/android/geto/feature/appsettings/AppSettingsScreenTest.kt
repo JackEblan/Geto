@@ -24,9 +24,11 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.longClick
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performTouchInput
 import com.android.geto.core.model.AppSettings
 import com.android.geto.core.model.SettingsType
 import com.android.geto.core.ui.rememberAddSettingsDialogState
@@ -404,6 +406,135 @@ class AppSettingsScreenTest {
         composeTestRule.onNodeWithContentDescription("Shortcut icon").performClick()
 
         composeTestRule.onNodeWithTag("updateShortcutDialog").assertIsDisplayed()
+    }
+
+    @Test
+    fun revertTooltipIsDisplayed_whenRevertIconIsLongClicked() {
+        composeTestRule.setContent {
+            val addSettingsDialogState = rememberAddSettingsDialogState()
+
+            val addShortcutDialogState = rememberAddShortcutDialogState()
+
+            val updateShortcutDialogState = rememberUpdateShortcutDialogState()
+
+            val scrollState = rememberScrollState()
+
+            AppSettingsScreen(snackbarHostState = SnackbarHostState(),
+                              appName = "Geto",
+                              packageName = "Geto",
+                              intent = Intent(),
+                              appSettingsUiState = AppSettingsUiState.Empty,
+                              addSettingsDialogState = addSettingsDialogState,
+                              addShortcutDialogState = addShortcutDialogState,
+                              updateShortcutDialogState = updateShortcutDialogState,
+                              showCopyPermissionCommandDialog = false,
+                              onNavigationIconClick = {},
+                              onRevertSettingsIconClick = {},
+                              onSettingsIconClick = {},
+                              onShortcutIconClick = {},
+                              onAppSettingsItemCheckBoxChange = { _, _ -> },
+                              onDeleteAppSettingsItem = {},
+                              onLaunchApp = {},
+                              scrollState = scrollState,
+                              onAddSettings = {},
+                              onAddShortcut = {},
+                              onUpdateShortcut = {},
+                              onRefreshShortcut = {},
+                              onCopyPermissionCommand = {},
+                              onDismissRequestCopyPermissionCommand = {})
+        }
+
+        composeTestRule.onNodeWithContentDescription("Revert icon").performTouchInput {
+            longClick(durationMillis = 1000L)
+        }
+
+        composeTestRule.onNodeWithTag("appsettings:tooltip:revert").assertIsDisplayed()
+    }
+
+    @Test
+    fun settingsTooltipIsDisplayed_whenSettingsIconIsLongClicked() {
+        composeTestRule.setContent {
+            val addSettingsDialogState = rememberAddSettingsDialogState()
+
+            val addShortcutDialogState = rememberAddShortcutDialogState()
+
+            val updateShortcutDialogState = rememberUpdateShortcutDialogState()
+
+            val scrollState = rememberScrollState()
+
+            AppSettingsScreen(snackbarHostState = SnackbarHostState(),
+                              appName = "Geto",
+                              packageName = "Geto",
+                              intent = Intent(),
+                              appSettingsUiState = AppSettingsUiState.Empty,
+                              addSettingsDialogState = addSettingsDialogState,
+                              addShortcutDialogState = addShortcutDialogState,
+                              updateShortcutDialogState = updateShortcutDialogState,
+                              showCopyPermissionCommandDialog = false,
+                              onNavigationIconClick = {},
+                              onRevertSettingsIconClick = {},
+                              onSettingsIconClick = {},
+                              onShortcutIconClick = {},
+                              onAppSettingsItemCheckBoxChange = { _, _ -> },
+                              onDeleteAppSettingsItem = {},
+                              onLaunchApp = {},
+                              scrollState = scrollState,
+                              onAddSettings = {},
+                              onAddShortcut = {},
+                              onUpdateShortcut = {},
+                              onRefreshShortcut = {},
+                              onCopyPermissionCommand = {},
+                              onDismissRequestCopyPermissionCommand = {})
+        }
+
+        composeTestRule.onNodeWithContentDescription("Settings icon").performTouchInput {
+            longClick(durationMillis = 1000L)
+        }
+
+        composeTestRule.onNodeWithTag("appsettings:tooltip:settings").assertIsDisplayed()
+    }
+
+    @Test
+    fun shortcutTooltipIsDisplayed_whenShortcutIconIsLongClicked() {
+        composeTestRule.setContent {
+            val addSettingsDialogState = rememberAddSettingsDialogState()
+
+            val addShortcutDialogState = rememberAddShortcutDialogState()
+
+            val updateShortcutDialogState = rememberUpdateShortcutDialogState()
+
+            val scrollState = rememberScrollState()
+
+            AppSettingsScreen(snackbarHostState = SnackbarHostState(),
+                              appName = "Geto",
+                              packageName = "Geto",
+                              intent = Intent(),
+                              appSettingsUiState = AppSettingsUiState.Empty,
+                              addSettingsDialogState = addSettingsDialogState,
+                              addShortcutDialogState = addShortcutDialogState,
+                              updateShortcutDialogState = updateShortcutDialogState,
+                              showCopyPermissionCommandDialog = false,
+                              onNavigationIconClick = {},
+                              onRevertSettingsIconClick = {},
+                              onSettingsIconClick = {},
+                              onShortcutIconClick = {},
+                              onAppSettingsItemCheckBoxChange = { _, _ -> },
+                              onDeleteAppSettingsItem = {},
+                              onLaunchApp = {},
+                              scrollState = scrollState,
+                              onAddSettings = {},
+                              onAddShortcut = {},
+                              onUpdateShortcut = {},
+                              onRefreshShortcut = {},
+                              onCopyPermissionCommand = {},
+                              onDismissRequestCopyPermissionCommand = {})
+        }
+
+        composeTestRule.onNodeWithContentDescription("Shortcut icon").performTouchInput {
+            longClick(durationMillis = 1000L)
+        }
+
+        composeTestRule.onNodeWithTag("appsettings:tooltip:shortcut").assertIsDisplayed()
     }
 }
 

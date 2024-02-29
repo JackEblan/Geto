@@ -37,11 +37,15 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.PlainTooltip
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.TooltipBox
+import androidx.compose.material3.TooltipDefaults
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -316,24 +320,59 @@ internal fun AppSettingsScreen(
         })
     }, bottomBar = {
         BottomAppBar(actions = {
-            IconButton(onClick = onRevertSettingsIconClick) {
-                Icon(
-                    imageVector = GetoIcons.Refresh, contentDescription = "Revert icon"
-                )
+            TooltipBox(
+                modifier = Modifier.testTag("appsettings:tooltip:revert"),
+                positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
+                tooltip = {
+                    PlainTooltip {
+                        Text("Revert the applied settings to their original values")
+                    }
+                },
+                state = rememberTooltipState()
+            ) {
+                IconButton(onClick = onRevertSettingsIconClick) {
+                    Icon(
+                        imageVector = GetoIcons.Refresh, contentDescription = "Revert icon"
+                    )
+                }
             }
 
-            IconButton(onClick = onSettingsIconClick) {
-                Icon(
-                    GetoIcons.Settings,
-                    contentDescription = "Settings icon",
-                )
+            TooltipBox(
+                modifier = Modifier.testTag("appsettings:tooltip:settings"),
+                positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
+                tooltip = {
+                    PlainTooltip {
+                        Text("Add a custom settings to this app")
+                    }
+                },
+                state = rememberTooltipState()
+            ) {
+
+                IconButton(onClick = onSettingsIconClick) {
+                    Icon(
+                        GetoIcons.Settings,
+                        contentDescription = "Settings icon",
+                    )
+                }
             }
 
-            IconButton(onClick = onShortcutIconClick) {
-                Icon(
-                    GetoIcons.Shortcut,
-                    contentDescription = "Shortcut icon",
-                )
+            TooltipBox(
+                modifier = Modifier.testTag("appsettings:tooltip:shortcut"),
+                positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
+                tooltip = {
+                    PlainTooltip {
+                        Text("Add a shortcut to this app")
+                    }
+                },
+                state = rememberTooltipState()
+            ) {
+                IconButton(onClick = onShortcutIconClick) {
+
+                    Icon(
+                        GetoIcons.Shortcut,
+                        contentDescription = "Shortcut icon",
+                    )
+                }
             }
         }, floatingActionButton = {
             FloatingActionButton(

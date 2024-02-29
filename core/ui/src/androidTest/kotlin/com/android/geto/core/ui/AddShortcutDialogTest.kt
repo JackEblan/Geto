@@ -22,8 +22,11 @@ import android.content.Intent
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.longClick
+import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performTouchInput
 import org.junit.Rule
 import org.junit.Test
 
@@ -83,5 +86,31 @@ class AddShortcutDialogTest {
         composeTestRule.onNodeWithTag(
             testTag = "addShortcutDialog:longLabelSupportingText", useUnmergedTree = true
         ).assertIsDisplayed()
+    }
+
+    @Test
+    fun refreshTooltipIsDisplayed_whenRefreshIconIsLongClicked() {
+        composeTestRule.setContent {
+            val addShortcutDialogState = rememberAddShortcutDialogState()
+
+            AddShortcutDialog(shortcutDialogState = addShortcutDialogState,
+                              onDismissRequest = {},
+                              onRefreshShortcut = {},
+                              onAddShortcut = {
+                                  addShortcutDialogState.updateShortLabel("Test")
+
+                                  addShortcutDialogState.updateLongLabel("")
+
+                                  addShortcutDialogState.getShortcut(
+                                      packageName = "packageName", intent = Intent()
+                                  )
+                              })
+        }
+
+        composeTestRule.onNodeWithContentDescription("Refresh icon").performTouchInput {
+            longClick(durationMillis = 1000L)
+        }
+
+        composeTestRule.onNodeWithTag("addShortcutDialog:tooltip:refresh").assertIsDisplayed()
     }
 }
