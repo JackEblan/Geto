@@ -44,6 +44,7 @@ class MainActivity : ComponentActivity() {
 
     @Inject
     lateinit var broadcastReceiverLifecycleObserver: BroadcastReceiverLifecycleObserver
+
     override fun onCreate(savedInstanceState: Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
 

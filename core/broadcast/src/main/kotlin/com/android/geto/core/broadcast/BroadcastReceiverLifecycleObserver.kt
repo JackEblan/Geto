@@ -32,6 +32,7 @@ class BroadcastReceiverLifecycleObserver @Inject constructor(
 ) : LifecycleEventObserver {
 
     private val shortcutIntentFilter = IntentFilter(ShortcutBroadcastReceiver.ACTION)
+
     override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
         if (event == Lifecycle.Event.ON_START) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
