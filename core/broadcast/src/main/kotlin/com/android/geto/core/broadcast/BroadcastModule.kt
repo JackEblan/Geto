@@ -16,12 +16,9 @@
  *
  */
 
-package com.android.geto.di
+package com.android.geto.core.broadcast
 
-import android.content.ClipboardManager
-import android.content.ContentResolver
 import android.content.Context
-import android.content.pm.PackageManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -31,19 +28,17 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object AppModule {
-    @Provides
-    @Singleton
-    fun contentResolver(@ApplicationContext context: Context): ContentResolver =
-        context.contentResolver
+object BroadcastModule {
 
     @Provides
     @Singleton
-    fun packageManager(@ApplicationContext context: Context): PackageManager =
-        context.packageManager
+    fun shortcutBroadcastReceiver(): ShortcutBroadcastReceiver = ShortcutBroadcastReceiver()
 
     @Provides
     @Singleton
-    fun clipboardManager(@ApplicationContext context: Context): ClipboardManager =
-        context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+    fun broadcastReceiverLifecycleObserver(
+        @ApplicationContext context: Context, shortcutBroadcastReceiver: ShortcutBroadcastReceiver
+    ): BroadcastReceiverLifecycleObserver = BroadcastReceiverLifecycleObserver(
+        context = context, shortcutBroadcastReceiver = shortcutBroadcastReceiver
+    )
 }

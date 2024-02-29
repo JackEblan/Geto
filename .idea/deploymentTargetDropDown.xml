@@ -11,7 +11,13 @@
       <entry key="feature.shortcut">
         <State />
       </entry>
-      <entry key="updateShortcutDialogIsNotDisplayed_whenDismissed()">
+      <entry key="refreshTooltipIsDisplayed_whenRefreshIconIsLongClicked()">
+        <State />
+      </entry>
+      <entry key="revertTooltipIsDisplayed_whenRevertIconIsLongClicked()">
+        <State />
+      </entry>
+      <entry key="settingsTooltipIsDisplayed_whenSettingsIconIsLongClicked()">
         <State />
       </entry>
     </value>
