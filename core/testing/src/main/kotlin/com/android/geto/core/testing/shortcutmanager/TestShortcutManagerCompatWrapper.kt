@@ -52,6 +52,7 @@ class TestShortcutManagerCompatWrapper : ShortcutManagerCompatWrapper {
         return requestPinShortcut
     }
 
+    @Throws(IllegalArgumentException::class)
     override fun updateShortcuts(
         icon: Bitmap?, id: String, shortLabel: String, longLabel: String, intent: Intent
     ): Boolean {
@@ -64,6 +65,7 @@ class TestShortcutManagerCompatWrapper : ShortcutManagerCompatWrapper {
         return
     }
 
+    @Throws(IllegalArgumentException::class, IllegalStateException::class)
     override fun disableShortcuts(id: String) {
         if (disableImmutableShortcuts) throw IllegalArgumentException()
 

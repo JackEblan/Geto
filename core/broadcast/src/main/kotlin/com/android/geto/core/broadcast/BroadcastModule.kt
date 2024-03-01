@@ -19,6 +19,7 @@
 package com.android.geto.core.broadcast
 
 import android.content.Context
+import android.content.IntentFilter
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -37,8 +38,18 @@ object BroadcastModule {
     @Provides
     @Singleton
     fun broadcastReceiverLifecycleObserver(
-        @ApplicationContext context: Context, shortcutBroadcastReceiver: ShortcutBroadcastReceiver
+        @ApplicationContext context: Context,
+        shortcutBroadcastReceiver: ShortcutBroadcastReceiver,
+        @ShortcutBroadcastReceiverIntentFilter shortcutBroadcastReceiverIntentFilter: IntentFilter
     ): BroadcastReceiverLifecycleObserver = BroadcastReceiverLifecycleObserver(
-        context = context, shortcutBroadcastReceiver = shortcutBroadcastReceiver
+        context = context,
+        shortcutBroadcastReceiver = shortcutBroadcastReceiver,
+        shortcutBroadcastReceiverIntentFilter = shortcutBroadcastReceiverIntentFilter
     )
+
+    @ShortcutBroadcastReceiverIntentFilter
+    @Provides
+    @Singleton
+    fun shortcutBroadcastReceiverIntentFilter(): IntentFilter =
+        IntentFilter(ShortcutBroadcastReceiver.ACTION)
 }

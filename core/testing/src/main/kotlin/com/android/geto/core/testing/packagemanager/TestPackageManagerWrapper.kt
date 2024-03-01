@@ -20,6 +20,7 @@ package com.android.geto.core.testing.packagemanager
 
 import android.content.Intent
 import android.content.pm.ApplicationInfo
+import android.content.pm.PackageManager
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import com.android.geto.core.clipboardmanager.PackageManagerWrapper
@@ -32,16 +33,19 @@ class TestPackageManagerWrapper : PackageManagerWrapper {
         return _installedApplications
     }
 
-    override fun getApplicationLabel(applicationInfo: ApplicationInfo): String? {
-        return if (applicationInfo in _installedApplications) "Application" else null
+    @Throws(PackageManager.NameNotFoundException::class)
+    override fun getApplicationLabel(applicationInfo: ApplicationInfo): CharSequence {
+        return if (applicationInfo in _installedApplications) "Application" else throw PackageManager.NameNotFoundException()
     }
 
-    override fun getApplicationIcon(applicationInfo: ApplicationInfo): Drawable? {
-        return if (applicationInfo in _installedApplications) ColorDrawable() else null
+    @Throws(PackageManager.NameNotFoundException::class)
+    override fun getApplicationIcon(applicationInfo: ApplicationInfo): Drawable {
+        return if (applicationInfo in _installedApplications) ColorDrawable() else throw PackageManager.NameNotFoundException()
     }
 
-    override fun getApplicationIcon(packageName: String): Drawable? {
-        return if (packageName in _installedApplications.map { it.packageName }) ColorDrawable() else null
+    @Throws(PackageManager.NameNotFoundException::class)
+    override fun getApplicationIcon(packageName: String): Drawable {
+        return if (packageName in _installedApplications.map { it.packageName }) ColorDrawable() else throw PackageManager.NameNotFoundException()
     }
 
     override fun getLaunchIntentForPackage(packageName: String): Intent? {

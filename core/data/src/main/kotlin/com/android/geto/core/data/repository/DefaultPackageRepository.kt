@@ -20,6 +20,7 @@ package com.android.geto.core.data.repository
 
 import android.content.Intent
 import android.content.pm.ApplicationInfo
+import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import com.android.geto.core.clipboardmanager.PackageManagerWrapper
 import com.android.geto.core.common.Dispatcher
@@ -34,17 +35,27 @@ class DefaultPackageRepository @Inject constructor(
     private val packageManagerWrapper: PackageManagerWrapper,
     @Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher
 ) : PackageRepository {
+
     override suspend fun getNonSystemApps(): List<NonSystemApp> {
         return withContext(ioDispatcher) {
             packageManagerWrapper.getInstalledApplications().filter { applicationInfo ->
                 (applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM) == 0
             }.map { applicationInfo ->
-                val label = packageManagerWrapper.getApplicationLabel(applicationInfo) ?: ""
 
-                val icon = packageManagerWrapper.getApplicationIcon(applicationInfo)
+                val label = try {
+                    packageManagerWrapper.getApplicationLabel(applicationInfo)
+                } catch (e: PackageManager.NameNotFoundException) {
+                    null
+                }
+
+                val icon = try {
+                    packageManagerWrapper.getApplicationIcon(applicationInfo)
+                } catch (e: PackageManager.NameNotFoundException) {
+                    null
+                }
 
                 NonSystemApp(
-                    icon = icon, packageName = applicationInfo.packageName, label = label
+                    icon = icon, packageName = applicationInfo.packageName, label = label.toString()
                 )
             }.sortedBy { it.label }
         }
@@ -52,7 +63,11 @@ class DefaultPackageRepository @Inject constructor(
 
     override suspend fun getApplicationIcon(packageName: String): Drawable? {
         return withContext(ioDispatcher) {
-            packageManagerWrapper.getApplicationIcon(packageName)
+            try {
+                packageManagerWrapper.getApplicationIcon(packageName)
+            } catch (e: PackageManager.NameNotFoundException) {
+                null
+            }
         }
     }
 

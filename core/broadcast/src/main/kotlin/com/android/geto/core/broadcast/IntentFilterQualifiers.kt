@@ -16,16 +16,10 @@
  *
  */
 
-plugins {
-    alias(libs.plugins.com.android.geto.library)
-    alias(libs.plugins.com.android.geto.libraryJacoco)
-    alias(libs.plugins.com.android.geto.hilt)
-}
+package com.android.geto.core.broadcast
 
-android {
-    namespace = "com.android.geto.core.broadcast"
-}
+import javax.inject.Qualifier
 
-dependencies {
-    implementation(libs.androidx.core.ktx)
-}
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class ShortcutBroadcastReceiverIntentFilter

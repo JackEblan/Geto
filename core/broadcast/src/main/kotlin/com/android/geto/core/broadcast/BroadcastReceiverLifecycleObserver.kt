@@ -19,31 +19,27 @@
 package com.android.geto.core.broadcast
 
 import android.content.Context
-import android.content.Context.RECEIVER_NOT_EXPORTED
 import android.content.IntentFilter
-import android.os.Build
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import javax.inject.Inject
 
 class BroadcastReceiverLifecycleObserver @Inject constructor(
-    private val context: Context, private val shortcutBroadcastReceiver: ShortcutBroadcastReceiver
+    private val context: Context,
+    private val shortcutBroadcastReceiver: ShortcutBroadcastReceiver,
+    private val shortcutBroadcastReceiverIntentFilter: IntentFilter
 ) : LifecycleEventObserver {
-
-    private val shortcutIntentFilter = IntentFilter(ShortcutBroadcastReceiver.ACTION)
 
     override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
         if (event == Lifecycle.Event.ON_START) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                context.registerReceiver(
-                    shortcutBroadcastReceiver, shortcutIntentFilter, RECEIVER_NOT_EXPORTED
-                )
-            } else {
-                context.registerReceiver(
-                    shortcutBroadcastReceiver, shortcutIntentFilter
-                )
-            }
+            ContextCompat.registerReceiver(
+                context,
+                shortcutBroadcastReceiver,
+                shortcutBroadcastReceiverIntentFilter,
+                ContextCompat.RECEIVER_NOT_EXPORTED
+            )
 
         } else if (event == Lifecycle.Event.ON_DESTROY) {
             context.unregisterReceiver(shortcutBroadcastReceiver)

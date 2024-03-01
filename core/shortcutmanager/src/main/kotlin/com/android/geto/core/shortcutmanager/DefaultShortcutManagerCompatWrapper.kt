@@ -25,6 +25,7 @@ import android.graphics.Bitmap
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
+import com.android.geto.core.broadcast.ShortcutBroadcastReceiver
 import com.android.geto.core.model.Shortcut
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
@@ -55,7 +56,7 @@ class DefaultShortcutManagerCompatWrapper @Inject constructor(@ApplicationContex
 
         val shortcutCallbackIntent =
             ShortcutManagerCompat.createShortcutResultIntent(context, shortcutInfo).apply {
-                action = "com.android.geto.ACTION_CREATE_SHORTCUT"
+                action = ShortcutBroadcastReceiver.ACTION
             }
 
         val successCallback = PendingIntent.getBroadcast(
@@ -67,7 +68,6 @@ class DefaultShortcutManagerCompatWrapper @Inject constructor(@ApplicationContex
         )
     }
 
-    @Throws(IllegalArgumentException::class)
     override fun updateShortcuts(
         icon: Bitmap?, id: String, shortLabel: String, longLabel: String, intent: Intent
     ): Boolean {
@@ -96,7 +96,6 @@ class DefaultShortcutManagerCompatWrapper @Inject constructor(@ApplicationContex
         ShortcutManagerCompat.enableShortcuts(context, listOf(shortcutInfo))
     }
 
-    @Throws(IllegalArgumentException::class, IllegalStateException::class)
     override fun disableShortcuts(id: String) {
         ShortcutManagerCompat.disableShortcuts(context, listOf(id), "Shortcut already disabled")
     }

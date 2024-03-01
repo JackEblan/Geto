@@ -25,6 +25,7 @@ import com.android.geto.core.model.Shortcut
 
 interface ShortcutManagerCompatWrapper {
     fun isRequestPinShortcutSupported(): Boolean
+
     fun createShortcutResultIntent(shortcutInfoCompat: ShortcutInfoCompat): Intent
 
     fun requestPinShortcut(

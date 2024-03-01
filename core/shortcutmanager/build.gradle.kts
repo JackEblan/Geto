@@ -27,5 +27,6 @@ android {
 }
 
 dependencies {
+    implementation(projects.core.broadcast)
     implementation(projects.core.model)
 }

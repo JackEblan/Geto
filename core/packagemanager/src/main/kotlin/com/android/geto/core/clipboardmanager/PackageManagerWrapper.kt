@@ -20,17 +20,21 @@ package com.android.geto.core.clipboardmanager
 
 import android.content.Intent
 import android.content.pm.ApplicationInfo
+import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 
 interface PackageManagerWrapper {
 
     fun getInstalledApplications(): List<ApplicationInfo>
 
-    fun getApplicationLabel(applicationInfo: ApplicationInfo): String?
+    @Throws(PackageManager.NameNotFoundException::class)
+    fun getApplicationLabel(applicationInfo: ApplicationInfo): CharSequence
 
-    fun getApplicationIcon(applicationInfo: ApplicationInfo): Drawable?
+    @Throws(PackageManager.NameNotFoundException::class)
+    fun getApplicationIcon(applicationInfo: ApplicationInfo): Drawable
 
-    fun getApplicationIcon(packageName: String): Drawable?
+    @Throws(PackageManager.NameNotFoundException::class)
+    fun getApplicationIcon(packageName: String): Drawable
 
     fun getLaunchIntentForPackage(packageName: String): Intent?
 }
