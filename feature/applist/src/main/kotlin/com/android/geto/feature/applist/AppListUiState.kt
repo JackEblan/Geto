@@ -18,10 +18,10 @@
 
 package com.android.geto.feature.applist
 
-import com.android.geto.core.model.NonSystemApp
+import com.android.geto.core.model.TargetApplicationInfo
 
 sealed interface AppListUiState {
-    data class Success(val nonSystemAppList: List<NonSystemApp>) : AppListUiState
+    data class Success(val targetApplicationInfoList: List<TargetApplicationInfo>) : AppListUiState
 
     data object Loading : AppListUiState
 }

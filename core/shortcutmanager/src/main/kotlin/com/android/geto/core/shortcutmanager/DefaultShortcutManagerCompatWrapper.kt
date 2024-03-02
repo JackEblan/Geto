@@ -26,7 +26,7 @@ import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
 import com.android.geto.core.broadcast.ShortcutBroadcastReceiver
-import com.android.geto.core.model.Shortcut
+import com.android.geto.core.model.TargetShortcutInfoCompat
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
@@ -100,7 +100,7 @@ class DefaultShortcutManagerCompatWrapper @Inject constructor(@ApplicationContex
         ShortcutManagerCompat.disableShortcuts(context, listOf(id), "Shortcut already disabled")
     }
 
-    override fun getShortcuts(matchFlags: Int): List<Shortcut> {
+    override fun getShortcuts(matchFlags: Int): List<TargetShortcutInfoCompat> {
         return ShortcutManagerCompat.getShortcuts(
             context, matchFlags
         ).map(ShortcutInfoCompat::asShortcut)

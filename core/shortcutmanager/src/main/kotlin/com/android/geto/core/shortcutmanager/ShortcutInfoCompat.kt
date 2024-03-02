@@ -19,13 +19,13 @@
 package com.android.geto.core.shortcutmanager
 
 import androidx.core.content.pm.ShortcutInfoCompat
-import com.android.geto.core.model.Shortcut
+import com.android.geto.core.model.TargetShortcutInfoCompat
 
 /**
- * We have to map the ShortcutInfoCompat to Shortcut so we can test this since we cannot make objects out of it.
+ * We have to map the ShortcutInfoCompat to TargetShortcutInfoCompat so we can test this since we cannot make objects out of it.
  */
-fun ShortcutInfoCompat.asShortcut(): Shortcut {
-    return Shortcut(
+fun ShortcutInfoCompat.asShortcut(): TargetShortcutInfoCompat {
+    return TargetShortcutInfoCompat(
         id = id,
         shortLabel = shortLabel.toString(),
         longLabel = longLabel.toString(),

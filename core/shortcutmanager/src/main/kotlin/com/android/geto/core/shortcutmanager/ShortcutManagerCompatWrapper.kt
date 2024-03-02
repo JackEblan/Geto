@@ -21,7 +21,7 @@ package com.android.geto.core.shortcutmanager
 import android.content.Intent
 import android.graphics.Bitmap
 import androidx.core.content.pm.ShortcutInfoCompat
-import com.android.geto.core.model.Shortcut
+import com.android.geto.core.model.TargetShortcutInfoCompat
 
 interface ShortcutManagerCompatWrapper {
     fun isRequestPinShortcutSupported(): Boolean
@@ -42,5 +42,5 @@ interface ShortcutManagerCompatWrapper {
     @Throws(IllegalArgumentException::class, IllegalStateException::class)
     fun disableShortcuts(id: String)
 
-    fun getShortcuts(matchFlags: Int): List<Shortcut>
+    fun getShortcuts(matchFlags: Int): List<TargetShortcutInfoCompat>
 }

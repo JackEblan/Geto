@@ -18,14 +18,14 @@
 
 package com.android.geto.core.data.repository
 
-import com.android.geto.core.model.Shortcut
+import com.android.geto.core.model.TargetShortcutInfoCompat
 
 interface ShortcutRepository {
-    fun requestPinShortcut(shortcut: Shortcut): Boolean
+    fun requestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat): Boolean
 
-    fun updateRequestPinShortcut(shortcut: Shortcut): Result<Boolean>
+    fun updateRequestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat): Result<Boolean>
 
     fun enableShortcuts(id: String, enabled: Boolean): Result<String>
 
-    fun getShortcut(id: String): Shortcut?
+    fun getShortcut(id: String): TargetShortcutInfoCompat?
 }

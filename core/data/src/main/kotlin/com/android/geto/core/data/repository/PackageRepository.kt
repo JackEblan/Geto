@@ -20,10 +20,10 @@ package com.android.geto.core.data.repository
 
 import android.content.Intent
 import android.graphics.drawable.Drawable
-import com.android.geto.core.model.NonSystemApp
+import com.android.geto.core.model.TargetApplicationInfo
 
 interface PackageRepository {
-    suspend fun getNonSystemApps(): List<NonSystemApp>
+    suspend fun getNonSystemApps(): List<TargetApplicationInfo>
 
     suspend fun getApplicationIcon(packageName: String): Drawable?
 

@@ -21,7 +21,7 @@ package com.android.geto.core.shortcutmanager.fake
 import android.content.Intent
 import android.graphics.Bitmap
 import androidx.core.content.pm.ShortcutInfoCompat
-import com.android.geto.core.model.Shortcut
+import com.android.geto.core.model.TargetShortcutInfoCompat
 import com.android.geto.core.shortcutmanager.ShortcutManagerCompatWrapper
 import javax.inject.Inject
 
@@ -53,7 +53,7 @@ class FakeShortcutManagerCompatWrapper @Inject constructor() : ShortcutManagerCo
     override fun disableShortcuts(id: String) {
     }
 
-    override fun getShortcuts(matchFlags: Int): List<Shortcut> {
+    override fun getShortcuts(matchFlags: Int): List<TargetShortcutInfoCompat> {
         return emptyList()
     }
 }

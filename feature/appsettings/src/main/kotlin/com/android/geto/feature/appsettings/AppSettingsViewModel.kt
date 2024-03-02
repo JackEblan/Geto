@@ -33,7 +33,7 @@ import com.android.geto.core.domain.RevertAppSettingsUseCase
 import com.android.geto.core.model.AppSettings
 import com.android.geto.core.model.SecureSettings
 import com.android.geto.core.model.SettingsType
-import com.android.geto.core.model.Shortcut
+import com.android.geto.core.model.TargetShortcutInfoCompat
 import com.android.geto.feature.appsettings.navigation.AppSettingsArgs
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -77,9 +77,9 @@ class AppSettingsViewModel @Inject constructor(
 
     val icon = _icon.asStateFlow()
 
-    private var _shortcut = MutableStateFlow<Shortcut?>(null)
+    private var _Target_shortcutInfoCompat = MutableStateFlow<TargetShortcutInfoCompat?>(null)
 
-    val shortcut = _shortcut.asStateFlow()
+    val shortcut = _Target_shortcutInfoCompat.asStateFlow()
 
     private val appSettingsArgs: AppSettingsArgs = AppSettingsArgs(savedStateHandle)
 
@@ -140,7 +140,7 @@ class AppSettingsViewModel @Inject constructor(
 
     fun getShortcut(id: String) {
         viewModelScope.launch {
-            _shortcut.update { shortcutRepository.getShortcut(id) }
+            _Target_shortcutInfoCompat.update { shortcutRepository.getShortcut(id) }
         }
     }
 
@@ -174,15 +174,15 @@ class AppSettingsViewModel @Inject constructor(
         }
     }
 
-    fun requestPinShortcut(shortcut: Shortcut) {
+    fun requestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat) {
         viewModelScope.launch {
-            shortcutRepository.requestPinShortcut(shortcut)
+            shortcutRepository.requestPinShortcut(targetShortcutInfoCompat)
         }
     }
 
-    fun updateRequestPinShortcut(shortcut: Shortcut) {
+    fun updateRequestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat) {
         viewModelScope.launch {
-            shortcutRepository.updateRequestPinShortcut(shortcut)
+            shortcutRepository.updateRequestPinShortcut(targetShortcutInfoCompat)
         }
     }
 

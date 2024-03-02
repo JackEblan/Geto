@@ -18,7 +18,7 @@
 
 package com.android.geto.core.data.repository
 
-import android.content.pm.ApplicationInfo
+import com.android.geto.core.model.TargetApplicationInfo
 import com.android.geto.core.testing.packagemanager.TestPackageManagerWrapper
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
@@ -46,10 +46,13 @@ class PackageRepositoryTest {
 
     @Test
     fun packageRepository_get_non_system_apps_is_not_empty() = runTest(testDispatcher) {
-        packageManagerWrapper.setInstalledApplications(listOf(ApplicationInfo().apply {
-            packageName = "Test"
-            flags = 0
-        }))
+        packageManagerWrapper.setInstalledApplications(
+            listOf(
+                TargetApplicationInfo(
+                    flags = 0, packageName = "Test", label = "Test"
+                )
+            )
+        )
 
         val nonSystemApps = subject.getNonSystemApps()
 
@@ -58,10 +61,13 @@ class PackageRepositoryTest {
 
     @Test
     fun packageRepository_get_non_system_apps_is_empty() = runTest(testDispatcher) {
-        packageManagerWrapper.setInstalledApplications(listOf(ApplicationInfo().apply {
-            packageName = "Test"
-            flags = 1
-        }))
+        packageManagerWrapper.setInstalledApplications(
+            listOf(
+                TargetApplicationInfo(
+                    flags = 1, packageName = "Test", label = "Test"
+                )
+            )
+        )
 
         val nonSystemApps = subject.getNonSystemApps()
 
@@ -70,10 +76,13 @@ class PackageRepositoryTest {
 
     @Test
     fun packageRepository_get_application_icon_not_found() = runTest(testDispatcher) {
-        packageManagerWrapper.setInstalledApplications(listOf(ApplicationInfo().apply {
-            packageName = "Test"
-            flags = 0
-        }))
+        packageManagerWrapper.setInstalledApplications(
+            listOf(
+                TargetApplicationInfo(
+                    flags = 0, packageName = "Test", label = "Test"
+                )
+            )
+        )
 
         val applicationIcon = subject.getApplicationIcon("")
 
@@ -82,10 +91,13 @@ class PackageRepositoryTest {
 
     @Test
     fun packageRepository_get_application_icon_found() = runTest(testDispatcher) {
-        packageManagerWrapper.setInstalledApplications(listOf(ApplicationInfo().apply {
-            packageName = "Test"
-            flags = 0
-        }))
+        packageManagerWrapper.setInstalledApplications(
+            listOf(
+                TargetApplicationInfo(
+                    flags = 0, packageName = "Test", label = "Test"
+                )
+            )
+        )
 
         val applicationIcon = subject.getApplicationIcon("Test")
 
@@ -94,10 +106,13 @@ class PackageRepositoryTest {
 
     @Test
     fun packageRepository_get_launch_intent_for_package_not_found() = runTest(testDispatcher) {
-        packageManagerWrapper.setInstalledApplications(listOf(ApplicationInfo().apply {
-            packageName = "Test"
-            flags = 0
-        }))
+        packageManagerWrapper.setInstalledApplications(
+            listOf(
+                TargetApplicationInfo(
+                    flags = 0, packageName = "Test", label = "Test"
+                )
+            )
+        )
 
         val applicationIcon = subject.getLaunchIntentForPackage("")
 
@@ -106,10 +121,13 @@ class PackageRepositoryTest {
 
     @Test
     fun packageRepository_get_launch_intent_for_package_found() = runTest(testDispatcher) {
-        packageManagerWrapper.setInstalledApplications(listOf(ApplicationInfo().apply {
-            packageName = "Test"
-            flags = 0
-        }))
+        packageManagerWrapper.setInstalledApplications(
+            listOf(
+                TargetApplicationInfo(
+                    flags = 0, packageName = "Test", label = "Test"
+                )
+            )
+        )
 
         val applicationIcon = subject.getLaunchIntentForPackage("Test")
 

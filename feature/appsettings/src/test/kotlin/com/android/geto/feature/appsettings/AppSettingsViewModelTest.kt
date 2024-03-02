@@ -22,10 +22,10 @@ import androidx.lifecycle.SavedStateHandle
 import com.android.geto.core.domain.ApplyAppSettingsUseCase
 import com.android.geto.core.domain.RevertAppSettingsUseCase
 import com.android.geto.core.model.AppSettings
-import com.android.geto.core.model.NonSystemApp
 import com.android.geto.core.model.SecureSettings
 import com.android.geto.core.model.SettingsType
-import com.android.geto.core.model.Shortcut
+import com.android.geto.core.model.TargetApplicationInfo
+import com.android.geto.core.model.TargetShortcutInfoCompat
 import com.android.geto.core.testing.repository.TestAppSettingsRepository
 import com.android.geto.core.testing.repository.TestClipboardRepository
 import com.android.geto.core.testing.repository.TestPackageRepository
@@ -194,8 +194,8 @@ class AppSettingsViewModelTest {
     fun launchIntentIsNotNull_whenLaunchApp() = runTest {
         packageRepository.sendNonSystemApps(
             listOf(
-                NonSystemApp(
-                    packageName = packageNameTest, label = "label"
+                TargetApplicationInfo(
+                    flags = 0, packageName = packageNameTest, label = "label"
                 )
             )
         )
@@ -227,8 +227,8 @@ class AppSettingsViewModelTest {
     fun applicationIconIsNotNull_whenGetApplicationIcon() = runTest {
         packageRepository.sendNonSystemApps(
             listOf(
-                NonSystemApp(
-                    packageName = packageNameTest, label = "label"
+                TargetApplicationInfo(
+                    flags = 0, packageName = packageNameTest, label = "label"
                 )
             )
         )
@@ -402,7 +402,7 @@ class AppSettingsViewModelTest {
 
     @Test
     fun shortcutIsNull_whenGetShortcut() = runTest {
-        shortcutRepository.sendShortcuts(testShortcutsList)
+        shortcutRepository.sendShortcuts(testShortcutsLists)
 
         viewModel.getShortcut("idNotFound")
 
@@ -413,7 +413,7 @@ class AppSettingsViewModelTest {
 
     @Test
     fun shortcutIsNotNull_whenGetShortcut() = runTest {
-        shortcutRepository.sendShortcuts(testShortcutsList)
+        shortcutRepository.sendShortcuts(testShortcutsLists)
 
         viewModel.getShortcut("id0")
 
@@ -428,7 +428,7 @@ private val testSecureSettingsList = listOf(
     SecureSettings(id = 1L, name = "name1", value = "value1")
 )
 
-private val testShortcutsList = listOf(
-    Shortcut(id = "id0"),
-    Shortcut(id = "id1"),
+private val testShortcutsLists = listOf(
+    TargetShortcutInfoCompat(id = "id0"),
+    TargetShortcutInfoCompat(id = "id1"),
 )

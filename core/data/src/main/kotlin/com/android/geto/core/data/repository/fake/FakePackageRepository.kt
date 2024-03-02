@@ -26,7 +26,7 @@ import com.android.geto.core.clipboardmanager.fake.FakePackageManagerWrapper
 import com.android.geto.core.common.Dispatcher
 import com.android.geto.core.common.GetoDispatchers.IO
 import com.android.geto.core.data.repository.PackageRepository
-import com.android.geto.core.model.NonSystemApp
+import com.android.geto.core.model.TargetApplicationInfo
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -35,27 +35,10 @@ class FakePackageRepository @Inject constructor(
     private val packageManagerWrapper: FakePackageManagerWrapper,
     @Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher
 ) : PackageRepository {
-    override suspend fun getNonSystemApps(): List<NonSystemApp> {
+    override suspend fun getNonSystemApps(): List<TargetApplicationInfo> {
         return withContext(ioDispatcher) {
             packageManagerWrapper.getInstalledApplications().filter { applicationInfo ->
                 (applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM) == 0
-            }.map { applicationInfo ->
-
-                val label = try {
-                    packageManagerWrapper.getApplicationLabel(applicationInfo)
-                } catch (e: PackageManager.NameNotFoundException) {
-                    null
-                }
-
-                val icon = try {
-                    packageManagerWrapper.getApplicationIcon(applicationInfo)
-                } catch (e: PackageManager.NameNotFoundException) {
-                    null
-                }
-
-                NonSystemApp(
-                    icon = icon, packageName = applicationInfo.packageName, label = label.toString()
-                )
             }.sortedBy { it.label }
         }
     }

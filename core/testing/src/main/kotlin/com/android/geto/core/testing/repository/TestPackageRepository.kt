@@ -22,12 +22,12 @@ import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import com.android.geto.core.data.repository.PackageRepository
-import com.android.geto.core.model.NonSystemApp
+import com.android.geto.core.model.TargetApplicationInfo
 
 class TestPackageRepository : PackageRepository {
-    private var nonSystemAppsTestData: List<NonSystemApp> = emptyList()
+    private var nonSystemAppsTestData: List<TargetApplicationInfo> = emptyList()
 
-    override suspend fun getNonSystemApps(): List<NonSystemApp> {
+    override suspend fun getNonSystemApps(): List<TargetApplicationInfo> {
         return nonSystemAppsTestData
     }
 
@@ -42,7 +42,7 @@ class TestPackageRepository : PackageRepository {
     /**
      * A test-only API to add non system apps list data.
      */
-    fun sendNonSystemApps(value: List<NonSystemApp>) {
+    fun sendNonSystemApps(value: List<TargetApplicationInfo>) {
         nonSystemAppsTestData = value
     }
 }

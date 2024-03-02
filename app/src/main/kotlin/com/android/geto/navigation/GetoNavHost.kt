@@ -40,6 +40,7 @@ fun GetoNavHost(
         navController = navController, startDestination = APP_LIST_NAVIGATION_ROUTE
     ) {
         appListScreen(onItemClick = { packageName, appName ->
+            println(packageName)
             navController.navigateToAppSettings(
                 packageName = packageName, appName = appName
             )

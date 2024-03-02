@@ -18,25 +18,63 @@
 
 package com.android.geto.core.data.repository.fake
 
+import androidx.core.content.pm.ShortcutManagerCompat
 import com.android.geto.core.data.repository.ShortcutRepository
-import com.android.geto.core.model.Shortcut
+import com.android.geto.core.model.TargetShortcutInfoCompat
+import com.android.geto.core.shortcutmanager.fake.FakeShortcutManagerCompatWrapper
 import javax.inject.Inject
 
-class FakeShortcutRepository @Inject constructor() : ShortcutRepository {
+class FakeShortcutRepository @Inject constructor(private val shortcutManagerCompatWrapper: FakeShortcutManagerCompatWrapper) :
+    ShortcutRepository {
 
-    override fun requestPinShortcut(shortcut: Shortcut): Boolean {
-        return false
+    override fun requestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat): Boolean {
+        return if (shortcutManagerCompatWrapper.isRequestPinShortcutSupported()) {
+            shortcutManagerCompatWrapper.requestPinShortcut(
+                icon = targetShortcutInfoCompat.icon,
+                id = targetShortcutInfoCompat.id!!,
+                shortLabel = targetShortcutInfoCompat.shortLabel!!,
+                longLabel = targetShortcutInfoCompat.longLabel!!,
+                intent = targetShortcutInfoCompat.intent!!
+            )
+        } else false
     }
 
-    override fun updateRequestPinShortcut(shortcut: Shortcut): Result<Boolean> {
-        return Result.success(true)
+    override fun updateRequestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat): Result<Boolean> {
+        return runCatching {
+            shortcutManagerCompatWrapper.updateShortcuts(
+                icon = targetShortcutInfoCompat.icon,
+                id = targetShortcutInfoCompat.id!!,
+                shortLabel = targetShortcutInfoCompat.shortLabel!!,
+                longLabel = targetShortcutInfoCompat.longLabel!!,
+                intent = targetShortcutInfoCompat.intent!!
+            )
+        }
     }
 
     override fun enableShortcuts(id: String, enabled: Boolean): Result<String> {
-        return Result.success("")
+        return runCatching {
+            if (enabled) {
+                shortcutManagerCompatWrapper.enableShortcuts(id)
+                "Shortcut enabled"
+            } else {
+                shortcutManagerCompatWrapper.disableShortcuts(id)
+                "Shortcut disabled"
+            }
+        }
     }
 
-    override fun getShortcut(id: String): Shortcut? {
-        return null
+    override fun getShortcut(id: String): TargetShortcutInfoCompat? {
+        val shortcutInfoCompat =
+            shortcutManagerCompatWrapper.getShortcuts(ShortcutManagerCompat.FLAG_MATCH_PINNED)
+                .find { it.id == id }
+
+        return if (shortcutInfoCompat != null) {
+            TargetShortcutInfoCompat(
+                shortLabel = shortcutInfoCompat.shortLabel.toString(),
+                longLabel = shortcutInfoCompat.longLabel.toString()
+            )
+        } else {
+            null
+        }
     }
 }

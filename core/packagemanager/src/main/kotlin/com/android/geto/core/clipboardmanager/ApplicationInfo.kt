@@ -18,17 +18,27 @@
 
 package com.android.geto.core.clipboardmanager
 
-import android.content.Intent
+import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
-import android.graphics.drawable.Drawable
 import com.android.geto.core.model.TargetApplicationInfo
 
-interface PackageManagerWrapper {
+/**
+ * We have to map the ApplicationInfo to TargetApplicationInfo so we can test this.
+ */
+fun ApplicationInfo.asTargetApplicationInfo(packageManager: PackageManager): TargetApplicationInfo {
+    val label = try {
+        packageManager.getApplicationLabel(this)
+    } catch (e: PackageManager.NameNotFoundException) {
+        null
+    }
 
-    fun getInstalledApplications(): List<TargetApplicationInfo>
+    val icon = try {
+        packageManager.getApplicationIcon(this)
+    } catch (e: PackageManager.NameNotFoundException) {
+        null
+    }
 
-    @Throws(PackageManager.NameNotFoundException::class)
-    fun getApplicationIcon(packageName: String): Drawable
-
-    fun getLaunchIntentForPackage(packageName: String): Intent?
+    return TargetApplicationInfo(
+        flags = flags, icon = icon, packageName = packageName, label = label.toString()
+    )
 }

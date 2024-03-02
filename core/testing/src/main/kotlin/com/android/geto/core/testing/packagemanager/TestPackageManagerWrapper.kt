@@ -19,28 +19,18 @@
 package com.android.geto.core.testing.packagemanager
 
 import android.content.Intent
-import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import com.android.geto.core.clipboardmanager.PackageManagerWrapper
+import com.android.geto.core.model.TargetApplicationInfo
 
 class TestPackageManagerWrapper : PackageManagerWrapper {
 
-    private var _installedApplications = listOf<ApplicationInfo>()
+    private var _installedApplications = listOf<TargetApplicationInfo>()
 
-    override fun getInstalledApplications(): List<ApplicationInfo> {
+    override fun getInstalledApplications(): List<TargetApplicationInfo> {
         return _installedApplications
-    }
-
-    @Throws(PackageManager.NameNotFoundException::class)
-    override fun getApplicationLabel(applicationInfo: ApplicationInfo): CharSequence {
-        return if (applicationInfo in _installedApplications) "Application" else throw PackageManager.NameNotFoundException()
-    }
-
-    @Throws(PackageManager.NameNotFoundException::class)
-    override fun getApplicationIcon(applicationInfo: ApplicationInfo): Drawable {
-        return if (applicationInfo in _installedApplications) ColorDrawable() else throw PackageManager.NameNotFoundException()
     }
 
     @Throws(PackageManager.NameNotFoundException::class)
@@ -55,7 +45,7 @@ class TestPackageManagerWrapper : PackageManagerWrapper {
     /**
      * A test-only API to set installed applications.
      */
-    fun setInstalledApplications(value: List<ApplicationInfo>) {
+    fun setInstalledApplications(value: List<TargetApplicationInfo>) {
         _installedApplications = value
     }
 }

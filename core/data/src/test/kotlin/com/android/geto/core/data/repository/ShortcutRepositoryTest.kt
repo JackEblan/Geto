@@ -19,7 +19,7 @@
 package com.android.geto.core.data.repository
 
 import android.content.Intent
-import com.android.geto.core.model.Shortcut
+import com.android.geto.core.model.TargetShortcutInfoCompat
 import com.android.geto.core.testing.shortcutmanager.TestShortcutManagerCompatWrapper
 import org.junit.Before
 import org.junit.Test
@@ -52,7 +52,7 @@ class ShortcutRepositoryTest {
         shortcutManagerCompatWrapper.setRequestPinShortcut(true)
 
         val result = subject.requestPinShortcut(
-            Shortcut(
+            TargetShortcutInfoCompat(
                 icon = null,
                 id = "id",
                 shortLabel = "shortLabel",
@@ -69,7 +69,7 @@ class ShortcutRepositoryTest {
         shortcutManagerCompatWrapper.setRequestPinShortcutSupported(false)
 
         val result = subject.requestPinShortcut(
-            Shortcut(
+            TargetShortcutInfoCompat(
                 icon = null,
                 id = "id",
                 shortLabel = "shortLabel",
@@ -86,7 +86,7 @@ class ShortcutRepositoryTest {
         shortcutManagerCompatWrapper.setUpdateImmutableShortcuts(true)
 
         val result = subject.updateRequestPinShortcut(
-            Shortcut(
+            TargetShortcutInfoCompat(
                 icon = null,
                 id = "id",
                 shortLabel = "shortLabel",
@@ -103,7 +103,7 @@ class ShortcutRepositoryTest {
         shortcutManagerCompatWrapper.setUpdateImmutableShortcuts(false)
 
         val result = subject.updateRequestPinShortcut(
-            Shortcut(
+            TargetShortcutInfoCompat(
                 icon = null,
                 id = "id",
                 shortLabel = "shortLabel",
@@ -150,7 +150,7 @@ class ShortcutRepositoryTest {
 
         shortcutManagerCompatWrapper.sendShortcuts(
             listOf(
-                Shortcut(
+                TargetShortcutInfoCompat(
                     id = "TestId", shortLabel = "shortLabel", longLabel = "longLabel"
                 )
             )
@@ -167,7 +167,7 @@ class ShortcutRepositoryTest {
 
         shortcutManagerCompatWrapper.sendShortcuts(
             listOf(
-                Shortcut(
+                TargetShortcutInfoCompat(
                     id = "TestId", shortLabel = "shortLabel", longLabel = "longLabel"
                 )
             )

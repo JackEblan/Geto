@@ -60,7 +60,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.core.graphics.drawable.toBitmap
 import coil.compose.AsyncImage
 import com.android.geto.core.designsystem.icon.GetoIcons
-import com.android.geto.core.model.Shortcut
+import com.android.geto.core.model.TargetShortcutInfoCompat
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -368,13 +368,13 @@ class ShortcutDialogState {
         shortLabel = ""
     }
 
-    fun getShortcut(packageName: String, intent: Intent): Shortcut? {
+    fun getShortcut(packageName: String, intent: Intent): TargetShortcutInfoCompat? {
         shortLabelError = if (shortLabel.isBlank()) "Short label is blank" else ""
 
         longLabelError = if (longLabel.isBlank()) "Long label is blank" else ""
 
         return if (shortLabelError.isBlank() && longLabelError.isBlank()) {
-            Shortcut(
+            TargetShortcutInfoCompat(
                 icon = icon,
                 id = packageName,
                 shortLabel = shortLabel,

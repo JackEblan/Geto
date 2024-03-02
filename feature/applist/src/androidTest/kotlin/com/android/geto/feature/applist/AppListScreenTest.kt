@@ -22,7 +22,7 @@ import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
-import com.android.geto.core.model.NonSystemApp
+import com.android.geto.core.model.TargetApplicationInfo
 import org.junit.Rule
 import org.junit.Test
 
@@ -42,7 +42,7 @@ class AppListScreenTest {
     @Test
     fun lazyColumnIsDisplayed_whenAppListUiStateIsSuccess() {
         composeTestRule.setContent {
-            AppListScreen(appListUiState = AppListUiState.Success(testNonSystemAppList),
+            AppListScreen(appListUiState = AppListUiState.Success(testTargetApplicationInfoLists),
                           onItemClick = { _, _ -> })
         }
 
@@ -50,10 +50,10 @@ class AppListScreenTest {
     }
 }
 
-private val testNonSystemAppList = listOf(
-    NonSystemApp(
-        icon = null, packageName = "packageName0", label = "label0"
-    ), NonSystemApp(
-        icon = null, packageName = "packageName1", label = "label1"
+private val testTargetApplicationInfoLists = listOf(
+    TargetApplicationInfo(
+        flags = 0, icon = null, packageName = "packageName0", label = "label0"
+    ), TargetApplicationInfo(
+        flags = 0, icon = null, packageName = "packageName1", label = "label1"
     )
 )

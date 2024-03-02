@@ -19,52 +19,38 @@
 package com.android.geto.core.clipboardmanager.fake
 
 import android.content.Intent
-import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
-import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import com.android.geto.core.clipboardmanager.PackageManagerWrapper
+import com.android.geto.core.model.TargetApplicationInfo
 import javax.inject.Inject
 
 class FakePackageManagerWrapper @Inject constructor() : PackageManagerWrapper {
 
-    private var _installedApplications = listOf(ApplicationInfo().apply {
-        packageName = "Application1"
-        flags = 0
-    }, ApplicationInfo().apply {
-        packageName = "Application2"
-        flags = 0
-    }, ApplicationInfo().apply {
-        packageName = "Application3"
-        flags = 0
-    }, ApplicationInfo().apply {
-        packageName = "Application4"
-        flags = 0
-    }, ApplicationInfo().apply {
-        packageName = "Application5"
-        flags = 0
-    })
+    private var _installedApplications = listOf(
+        TargetApplicationInfo(
+            flags = 0, packageName = "com.android.apptest0", label = "Application 0"
+        ), TargetApplicationInfo(
+            flags = 0, packageName = "com.android.apptest1", label = "Application 1"
+        ), TargetApplicationInfo(
+            flags = 0, packageName = "com.android.apptest2", label = "Application 2"
+        ), TargetApplicationInfo(
+            flags = 0, packageName = "com.android.apptest3", label = "Application 3"
+        ), TargetApplicationInfo(
+            flags = 0, packageName = "com.android.apptest4", label = "Application 4"
+        )
+    )
 
-    override fun getInstalledApplications(): List<ApplicationInfo> {
+    override fun getInstalledApplications(): List<TargetApplicationInfo> {
         return _installedApplications
     }
 
     @Throws(PackageManager.NameNotFoundException::class)
-    override fun getApplicationLabel(applicationInfo: ApplicationInfo): CharSequence {
-        return if (applicationInfo in _installedApplications) "Application" else throw PackageManager.NameNotFoundException()
-    }
-
-    @Throws(PackageManager.NameNotFoundException::class)
-    override fun getApplicationIcon(applicationInfo: ApplicationInfo): Drawable {
-        return if (applicationInfo in _installedApplications) ColorDrawable() else throw PackageManager.NameNotFoundException()
-    }
-
-    @Throws(PackageManager.NameNotFoundException::class)
     override fun getApplicationIcon(packageName: String): Drawable {
-        return if (packageName in _installedApplications.map { it.packageName }) ColorDrawable() else throw PackageManager.NameNotFoundException()
+        throw PackageManager.NameNotFoundException()
     }
 
     override fun getLaunchIntentForPackage(packageName: String): Intent? {
-        return if (packageName in _installedApplications.map { it.packageName }) Intent() else null
+        return null
     }
 }

@@ -21,7 +21,7 @@ package com.android.geto.core.testing.shortcutmanager
 import android.content.Intent
 import android.graphics.Bitmap
 import androidx.core.content.pm.ShortcutInfoCompat
-import com.android.geto.core.model.Shortcut
+import com.android.geto.core.model.TargetShortcutInfoCompat
 import com.android.geto.core.shortcutmanager.ShortcutManagerCompatWrapper
 
 class TestShortcutManagerCompatWrapper : ShortcutManagerCompatWrapper {
@@ -36,7 +36,7 @@ class TestShortcutManagerCompatWrapper : ShortcutManagerCompatWrapper {
 
     private var userIsLocked = false
 
-    private var shortcuts = listOf<Shortcut>()
+    private var targetShortcutInfoCompats = listOf<TargetShortcutInfoCompat>()
 
     override fun isRequestPinShortcutSupported(): Boolean {
         return requestPinShortcutSupported
@@ -72,8 +72,8 @@ class TestShortcutManagerCompatWrapper : ShortcutManagerCompatWrapper {
         if (userIsLocked) throw IllegalStateException()
     }
 
-    override fun getShortcuts(matchFlags: Int): List<Shortcut> {
-        return shortcuts
+    override fun getShortcuts(matchFlags: Int): List<TargetShortcutInfoCompat> {
+        return targetShortcutInfoCompats
     }
 
     /**
@@ -93,8 +93,8 @@ class TestShortcutManagerCompatWrapper : ShortcutManagerCompatWrapper {
     /**
      * A test-only API to set set shortcuts
      */
-    fun sendShortcuts(value: List<Shortcut>) {
-        shortcuts = value
+    fun sendShortcuts(value: List<TargetShortcutInfoCompat>) {
+        targetShortcutInfoCompats = value
     }
 
     /**

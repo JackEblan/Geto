@@ -19,13 +19,13 @@
 package com.android.geto.core.testing.repository
 
 import com.android.geto.core.data.repository.ShortcutRepository
-import com.android.geto.core.model.Shortcut
+import com.android.geto.core.model.TargetShortcutInfoCompat
 
 class TestShortcutRepository : ShortcutRepository {
 
     private var requestPinShortcutSupported = false
 
-    private var shortcuts = listOf<Shortcut>()
+    private var targetShortcutInfoCompats = listOf<TargetShortcutInfoCompat>()
 
     private var updateImmutableShortcuts = false
 
@@ -33,11 +33,11 @@ class TestShortcutRepository : ShortcutRepository {
 
     private var userIsLocked = false
 
-    override fun requestPinShortcut(shortcut: Shortcut): Boolean {
+    override fun requestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat): Boolean {
         return requestPinShortcutSupported
     }
 
-    override fun updateRequestPinShortcut(shortcut: Shortcut): Result<Boolean> {
+    override fun updateRequestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat): Result<Boolean> {
         return runCatching {
             updateImmutableShortcuts
         }
@@ -57,11 +57,11 @@ class TestShortcutRepository : ShortcutRepository {
         }
     }
 
-    override fun getShortcut(id: String): Shortcut? {
-        val shortcutInfoCompat = shortcuts.find { it.id == id }
+    override fun getShortcut(id: String): TargetShortcutInfoCompat? {
+        val shortcutInfoCompat = targetShortcutInfoCompats.find { it.id == id }
 
         return if (shortcutInfoCompat != null) {
-            Shortcut(
+            TargetShortcutInfoCompat(
                 shortLabel = shortcutInfoCompat.shortLabel.toString(),
                 longLabel = shortcutInfoCompat.longLabel.toString()
             )
@@ -80,8 +80,8 @@ class TestShortcutRepository : ShortcutRepository {
     /**
      * A test-only API to set set shortcuts
      */
-    fun sendShortcuts(value: List<Shortcut>) {
-        shortcuts = value
+    fun sendShortcuts(value: List<TargetShortcutInfoCompat>) {
+        targetShortcutInfoCompats = value
     }
 
     /**

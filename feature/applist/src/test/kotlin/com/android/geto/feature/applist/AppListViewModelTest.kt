@@ -18,7 +18,7 @@
 
 package com.android.geto.feature.applist
 
-import com.android.geto.core.model.NonSystemApp
+import com.android.geto.core.model.TargetApplicationInfo
 import com.android.geto.core.testing.repository.TestPackageRepository
 import com.android.geto.core.testing.util.MainDispatcherRule
 import kotlinx.coroutines.flow.collect
@@ -74,7 +74,7 @@ class AppListViewModelTest {
 }
 
 private val nonSystemAppsTestData = listOf(
-    NonSystemApp(packageName = "com.android.geto", label = "Geto"),
-    NonSystemApp(packageName = "com.android.geto1", label = "Geto1"),
-    NonSystemApp(packageName = "com.android.geto2", label = "Geto2")
+    TargetApplicationInfo(flags = 0, packageName = "com.android.geto", label = "Geto"),
+    TargetApplicationInfo(flags = 0, packageName = "com.android.geto1", label = "Geto1"),
+    TargetApplicationInfo(flags = 0, packageName = "com.android.geto2", label = "Geto2")
 )

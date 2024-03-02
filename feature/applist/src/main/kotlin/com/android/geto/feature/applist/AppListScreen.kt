@@ -35,7 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.android.geto.core.model.NonSystemApp
+import com.android.geto.core.model.TargetApplicationInfo
 import com.android.geto.core.ui.AppItem
 import com.android.geto.core.ui.LoadingPlaceHolderScreen
 
@@ -89,7 +89,7 @@ internal fun AppListScreen(
                         contentPadding = innerPadding
                     ) {
                         appItems(
-                            nonSystemAppList = appListUiState.nonSystemAppList,
+                            targetApplicationInfoList = appListUiState.targetApplicationInfoList,
                             onItemClick = onItemClick
                         )
                     }
@@ -100,10 +100,9 @@ internal fun AppListScreen(
 }
 
 private fun LazyListScope.appItems(
-    nonSystemAppList: List<NonSystemApp>,
-    onItemClick: (String, String) -> Unit
+    targetApplicationInfoList: List<TargetApplicationInfo>, onItemClick: (String, String) -> Unit
 ) {
-    items(nonSystemAppList) { nonSystemApp ->
+    items(targetApplicationInfoList) { nonSystemApp ->
         AppItem(
             icon = nonSystemApp.icon,
             packageName = nonSystemApp.packageName,

@@ -18,7 +18,6 @@
 
 package com.android.geto.feature.appsettings
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.ScrollState
@@ -57,7 +56,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.android.geto.core.designsystem.icon.GetoIcons
 import com.android.geto.core.model.AppSettings
 import com.android.geto.core.model.SettingsType
-import com.android.geto.core.model.Shortcut
+import com.android.geto.core.model.TargetShortcutInfoCompat
 import com.android.geto.core.ui.AddSettingsDialog
 import com.android.geto.core.ui.AddShortcutDialog
 import com.android.geto.core.ui.AppSettingsItem
@@ -70,7 +69,6 @@ import com.android.geto.core.ui.UpdateShortcutDialog
 import com.android.geto.core.ui.rememberAddSettingsDialogState
 import com.android.geto.core.ui.rememberAddShortcutDialogState
 
-@SuppressLint("WrongConstant")
 @Composable
 internal fun AppSettingsRoute(
     modifier: Modifier = Modifier,
@@ -142,8 +140,10 @@ internal fun AppSettingsRoute(
     }
 
     LaunchedEffect(key1 = applicationIcon) {
-        addShortcutDialogState.updateIcon(applicationIcon)
-        updateShortcutDialogState.updateIcon(applicationIcon)
+        applicationIcon?.let {
+            addShortcutDialogState.updateIcon(it)
+            updateShortcutDialogState.updateIcon(it)
+        }
     }
 
     AppSettingsScreen(
@@ -213,8 +213,8 @@ internal fun AppSettingsScreen(
     onLaunchApp: () -> Unit,
     scrollState: ScrollState,
     onAddSettings: (appSettings: AppSettings) -> Unit,
-    onAddShortcut: (shortcut: Shortcut) -> Unit,
-    onUpdateShortcut: (shortcut: Shortcut) -> Unit,
+    onAddShortcut: (targetShortcutInfoCompat: TargetShortcutInfoCompat) -> Unit,
+    onUpdateShortcut: (targetShortcutInfoCompat: TargetShortcutInfoCompat) -> Unit,
     onRefreshShortcut: () -> Unit,
     onCopyPermissionCommand: () -> Unit,
     onDismissRequestCopyPermissionCommand: () -> Unit,
@@ -276,7 +276,7 @@ internal fun AppSettingsScreen(
     Scaffold(topBar = {
         TopAppBar(title = {
             Text(text = appName, maxLines = 1)
-        }, navigationIcon = {
+        }, modifier = Modifier.testTag("appsettings:topAppBar"), navigationIcon = {
             IconButton(onClick = onNavigationIconClick) {
                 Icon(
                     imageVector = GetoIcons.Back, contentDescription = "Navigation icon"

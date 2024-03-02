@@ -19,24 +19,19 @@
 package com.android.geto.core.clipboardmanager
 
 import android.content.Intent
-import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
+import com.android.geto.core.model.TargetApplicationInfo
 import javax.inject.Inject
 
 class DefaultPackageManagerWrapper @Inject constructor(private val packageManager: PackageManager) :
     PackageManagerWrapper {
 
-    override fun getInstalledApplications(): List<ApplicationInfo> {
+    override fun getInstalledApplications(): List<TargetApplicationInfo> {
         return packageManager.getInstalledApplications(PackageManager.GET_META_DATA)
-    }
-
-    override fun getApplicationLabel(applicationInfo: ApplicationInfo): CharSequence {
-        return packageManager.getApplicationLabel(applicationInfo)
-    }
-
-    override fun getApplicationIcon(applicationInfo: ApplicationInfo): Drawable {
-        return packageManager.getApplicationIcon(applicationInfo)
+            .map { applicationInfo ->
+                applicationInfo.asTargetApplicationInfo(packageManager)
+            }
     }
 
     override fun getApplicationIcon(packageName: String): Drawable {

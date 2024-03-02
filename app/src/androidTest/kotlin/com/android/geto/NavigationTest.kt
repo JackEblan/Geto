@@ -22,10 +22,14 @@ import androidx.activity.compose.setContent
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
 import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.testing.TestNavHostController
 import com.android.geto.core.data.repository.PackageRepository
+import com.android.geto.feature.applist.navigation.APP_LIST_NAVIGATION_ROUTE
 import com.android.geto.navigation.GetoNavHost
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -33,6 +37,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import javax.inject.Inject
+import kotlin.test.assertEquals
 
 @HiltAndroidTest
 class NavigationTest {
@@ -62,12 +67,35 @@ class NavigationTest {
     }
 
     @Test
-    fun navHost_verifyStartDestination() {
+    fun navHost_verify_start_destination() {
         composeTestRule.onNodeWithTag("applist").assertIsDisplayed()
     }
 
     @Test
-    fun navHost_clickAppItem_navigateToAppSettingsScreen() {
-        TODO("Do this test after you set test modules")
+    fun navHost_click_app_item_navigate_to_AppSettingsScreen() {
+        composeTestRule.onNodeWithText("Application 0").performClick()
+
+        val appSettingsRoute = navController.currentBackStackEntry?.destination?.route
+
+        assertEquals(
+            expected = "app_settings_route/{package_name}/{app_name}", actual = appSettingsRoute
+        )
+
+        composeTestRule.onNodeWithTag("appsettings:topAppBar").assertIsDisplayed()
+    }
+
+    @Test
+    fun navHost_click_app_item_navigate_to_AppSettingsScreen_then_press_navigationArrow_to_go_AppListScreen() {
+        composeTestRule.onNodeWithText("Application 0").performClick()
+
+        composeTestRule.onNodeWithContentDescription(
+            label = "Navigation icon", useUnmergedTree = true
+        ).performClick()
+
+        val appListRoute = navController.currentBackStackEntry?.destination?.route
+
+        assertEquals(
+            expected = APP_LIST_NAVIGATION_ROUTE, actual = appListRoute
+        )
     }
 }
