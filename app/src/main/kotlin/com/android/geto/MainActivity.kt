@@ -18,7 +18,6 @@
 
 package com.android.geto
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -28,14 +27,10 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
-import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.android.geto.core.broadcast.BroadcastReceiverLifecycleObserver
 import com.android.geto.core.designsystem.theme.GetoTheme
-import com.android.geto.feature.applist.navigation.APP_LIST_NAVIGATION_ROUTE
-import com.android.geto.feature.applist.navigation.appListScreen
-import com.android.geto.feature.appsettings.navigation.appSettingsScreen
-import com.android.geto.feature.appsettings.navigation.navigateToAppSettings
+import com.android.geto.navigation.GetoNavHost
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -61,20 +56,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     val navController = rememberNavController()
 
-                    NavHost(
-                        navController = navController, startDestination = APP_LIST_NAVIGATION_ROUTE
-                    ) {
-                        appListScreen(
-                            onItemClick = navController::navigateToAppSettings
-                        )
-
-                        appSettingsScreen(
-                            onNavigationIconClick = navController::popBackStack,
-                            shortcutIntent = Intent(
-                                applicationContext, MainActivity::class.java
-                            )
-                        )
-                    }
+                    GetoNavHost(navController = navController)
                 }
             }
         }

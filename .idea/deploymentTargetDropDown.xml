@@ -8,13 +8,13 @@
       <entry key="feature.shortcut">
         <State />
       </entry>
+      <entry key="navHost_clickAppItem_navigateToAppSettingsScreen()">
+        <State />
+      </entry>
+      <entry key="navHost_verifyStartDestination()">
+        <State />
+      </entry>
       <entry key="refreshTooltipIsDisplayed_whenRefreshIconIsLongClicked()">
-        <State />
-      </entry>
-      <entry key="revertTooltipIsDisplayed_whenRevertIconIsLongClicked()">
-        <State />
-      </entry>
-      <entry key="settingsTooltipIsDisplayed_whenSettingsIconIsLongClicked()">
         <State />
       </entry>
     </value>

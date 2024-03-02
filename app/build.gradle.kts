@@ -30,7 +30,7 @@ android {
         versionCode = 151
         versionName = "1.15.1"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.android.geto.core.testing.GetoTestRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -56,7 +56,10 @@ android {
 dependencies {
     implementation(projects.core.broadcast)
     implementation(projects.core.common)
+    implementation(projects.core.data)
     implementation(projects.core.designsystem)
+    implementation(projects.core.ui)
+
     implementation(projects.feature.applist)
     implementation(projects.feature.appsettings)
 
@@ -74,6 +77,7 @@ dependencies {
     testImplementation(projects.core.testing)
     testImplementation(libs.hilt.android.testing)
 
+    androidTestImplementation(projects.core.dataTest)
     androidTestImplementation(projects.core.testing)
     androidTestImplementation(libs.androidx.navigation.testing)
     androidTestImplementation(libs.hilt.android.testing)
