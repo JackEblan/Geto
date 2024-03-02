@@ -27,9 +27,6 @@ android {
 
 dependencies {
     implementation(projects.core.data)
-    implementation(projects.core.packagemanager)
-    implementation(projects.core.securesettings)
-    implementation(projects.core.shortcutmanager)
 
     implementation(libs.hilt.android.testing)
 }
