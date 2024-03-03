@@ -79,15 +79,7 @@ class DefaultShortcutManagerCompatWrapper @Inject constructor(@ApplicationContex
                 .setLongLabel(longLabel).setIntent(intent).build()
         }
 
-        val ids =
-            ShortcutManagerCompat.getShortcuts(context, ShortcutManagerCompat.FLAG_MATCH_PINNED)
-                .map { it.id }
-
-        return if (id in ids) {
-            ShortcutManagerCompat.updateShortcuts(context, listOf(shortcutInfo))
-        } else {
-            false
-        }
+        return ShortcutManagerCompat.updateShortcuts(context, listOf(shortcutInfo))
     }
 
     override fun enableShortcuts(id: String) {
@@ -103,6 +95,6 @@ class DefaultShortcutManagerCompatWrapper @Inject constructor(@ApplicationContex
     override fun getShortcuts(matchFlags: Int): List<TargetShortcutInfoCompat> {
         return ShortcutManagerCompat.getShortcuts(
             context, matchFlags
-        ).map(ShortcutInfoCompat::asShortcut)
+        ).map(ShortcutInfoCompat::asTargetShortcutInfoCompat)
     }
 }

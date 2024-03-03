@@ -85,6 +85,18 @@ class ShortcutRepositoryTest {
     fun shortcutRepository_cannot_update_pin_shortcut() {
         shortcutManagerCompatWrapper.setUpdateImmutableShortcuts(true)
 
+        shortcutManagerCompatWrapper.setShortcuts(
+            listOf(
+                TargetShortcutInfoCompat(
+                    icon = null,
+                    id = "id",
+                    shortLabel = "shortLabel",
+                    longLabel = "longLabel",
+                    intent = Intent()
+                )
+            )
+        )
+
         val result = subject.updateRequestPinShortcut(
             TargetShortcutInfoCompat(
                 icon = null,
@@ -101,6 +113,18 @@ class ShortcutRepositoryTest {
     @Test
     fun shortcutRepository_can_update_pin_shortcut() {
         shortcutManagerCompatWrapper.setUpdateImmutableShortcuts(false)
+
+        shortcutManagerCompatWrapper.setShortcuts(
+            listOf(
+                TargetShortcutInfoCompat(
+                    icon = null,
+                    id = "id",
+                    shortLabel = "shortLabel",
+                    longLabel = "longLabel",
+                    intent = Intent()
+                )
+            )
+        )
 
         val result = subject.updateRequestPinShortcut(
             TargetShortcutInfoCompat(
@@ -148,7 +172,7 @@ class ShortcutRepositoryTest {
     fun shortcutRepository_shortcut_not_found() {
         shortcutManagerCompatWrapper.setRequestPinShortcutSupported(true)
 
-        shortcutManagerCompatWrapper.sendShortcuts(
+        shortcutManagerCompatWrapper.setShortcuts(
             listOf(
                 TargetShortcutInfoCompat(
                     id = "TestId", shortLabel = "shortLabel", longLabel = "longLabel"
@@ -165,7 +189,7 @@ class ShortcutRepositoryTest {
     fun shortcutRepository_shortcut_found() {
         shortcutManagerCompatWrapper.setRequestPinShortcutSupported(true)
 
-        shortcutManagerCompatWrapper.sendShortcuts(
+        shortcutManagerCompatWrapper.setShortcuts(
             listOf(
                 TargetShortcutInfoCompat(
                     id = "TestId", shortLabel = "shortLabel", longLabel = "longLabel"

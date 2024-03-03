@@ -117,7 +117,7 @@ class AppSettingsViewModelTest {
         val collectJob =
             launch(UnconfinedTestDispatcher()) { viewModel.appSettingsUiState.collect() }
 
-        appSettingsRepository.sendAppSettings(
+        appSettingsRepository.setAppSettings(
             listOf(
                 AppSettings(
                     id = 0,
@@ -144,7 +144,7 @@ class AppSettingsViewModelTest {
         val collectJob =
             launch(UnconfinedTestDispatcher()) { viewModel.appSettingsUiState.collect() }
 
-        appSettingsRepository.sendAppSettings(emptyList())
+        appSettingsRepository.setAppSettings(emptyList())
 
         val item = viewModel.appSettingsUiState.value
 
@@ -156,7 +156,7 @@ class AppSettingsViewModelTest {
 
     @Test
     fun snackBarIsNotNull_whenLaunchApp_emptyAppSettings() = runTest {
-        appSettingsRepository.sendAppSettings(emptyList())
+        appSettingsRepository.setAppSettings(emptyList())
 
         secureSettingsRepository.setWriteSecureSettings(true)
 
@@ -168,7 +168,7 @@ class AppSettingsViewModelTest {
 
     @Test
     fun snackBarIsNotNull_whenLaunchApp_itemEnabledIsFalse() = runTest {
-        appSettingsRepository.sendAppSettings(
+        appSettingsRepository.setAppSettings(
             listOf(
                 AppSettings(
                     id = 0,
@@ -192,7 +192,7 @@ class AppSettingsViewModelTest {
 
     @Test
     fun launchIntentIsNotNull_whenLaunchApp() = runTest {
-        packageRepository.sendNonSystemApps(
+        packageRepository.setNonSystemApps(
             listOf(
                 TargetApplicationInfo(
                     flags = 0, packageName = packageNameTest, label = "label"
@@ -200,7 +200,7 @@ class AppSettingsViewModelTest {
             )
         )
 
-        appSettingsRepository.sendAppSettings(
+        appSettingsRepository.setAppSettings(
             listOf(
                 AppSettings(
                     id = 0,
@@ -225,7 +225,7 @@ class AppSettingsViewModelTest {
 
     @Test
     fun applicationIconIsNotNull_whenGetApplicationIcon() = runTest {
-        packageRepository.sendNonSystemApps(
+        packageRepository.setNonSystemApps(
             listOf(
                 TargetApplicationInfo(
                     flags = 0, packageName = packageNameTest, label = "label"
@@ -233,7 +233,7 @@ class AppSettingsViewModelTest {
             )
         )
 
-        appSettingsRepository.sendAppSettings(
+        appSettingsRepository.setAppSettings(
             listOf(
                 AppSettings(
                     id = 0,
@@ -257,7 +257,7 @@ class AppSettingsViewModelTest {
 
     @Test
     fun copyPermissionDialogIsTrue_whenLaunchApp_writeSecureSettingsIsFalse() = runTest {
-        appSettingsRepository.sendAppSettings(
+        appSettingsRepository.setAppSettings(
             listOf(
                 AppSettings(
                     id = 0,
@@ -283,7 +283,7 @@ class AppSettingsViewModelTest {
 
     @Test
     fun snackBarIsNotNull_whenRevertSettings_emptyAppSettings() = runTest {
-        appSettingsRepository.sendAppSettings(emptyList())
+        appSettingsRepository.setAppSettings(emptyList())
 
         secureSettingsRepository.setWriteSecureSettings(true)
 
@@ -295,7 +295,7 @@ class AppSettingsViewModelTest {
 
     @Test
     fun snackBarIsNotNull_whenRevertSettings_itemEnabledIsFalse() = runTest {
-        appSettingsRepository.sendAppSettings(
+        appSettingsRepository.setAppSettings(
             listOf(
                 AppSettings(
                     id = 0,
@@ -319,7 +319,7 @@ class AppSettingsViewModelTest {
 
     @Test
     fun snackBarIsNotNull_whenRevertSettings() = runTest {
-        appSettingsRepository.sendAppSettings(
+        appSettingsRepository.setAppSettings(
             listOf(
                 AppSettings(
                     id = 0,
@@ -344,7 +344,7 @@ class AppSettingsViewModelTest {
 
     @Test
     fun copyPermissionDialogIsTrue_whenRevertSettings_writeSecureSettingsIsFalse() = runTest {
-        appSettingsRepository.sendAppSettings(
+        appSettingsRepository.setAppSettings(
             listOf(
                 AppSettings(
                     id = 0,

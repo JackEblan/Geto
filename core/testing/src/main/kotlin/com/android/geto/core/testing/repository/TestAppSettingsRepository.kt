@@ -59,9 +59,9 @@ class TestAppSettingsRepository : AppSettingsRepository {
     }
 
     /**
-     * A test-only API to add appSettingsList data.
+     * A test-only API to add app settings list data.
      */
-    fun sendAppSettings(value: List<AppSettings>) {
+    fun setAppSettings(value: List<AppSettings>) {
         _appSettingsFlow.value = value
     }
 }

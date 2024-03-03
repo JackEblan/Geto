@@ -41,13 +41,21 @@ class DefaultShortcutRepository @Inject constructor(
 
     override fun updateRequestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat): Result<Boolean> {
         return runCatching {
-            shortcutManagerCompatWrapper.updateShortcuts(
-                icon = targetShortcutInfoCompat.icon,
-                id = targetShortcutInfoCompat.id!!,
-                shortLabel = targetShortcutInfoCompat.shortLabel!!,
-                longLabel = targetShortcutInfoCompat.longLabel!!,
-                intent = targetShortcutInfoCompat.intent!!
-            )
+            val ids =
+                shortcutManagerCompatWrapper.getShortcuts(ShortcutManagerCompat.FLAG_MATCH_PINNED)
+                    .map { it.id }
+
+            if (targetShortcutInfoCompat.id in ids) {
+                shortcutManagerCompatWrapper.updateShortcuts(
+                    icon = targetShortcutInfoCompat.icon,
+                    id = targetShortcutInfoCompat.id!!,
+                    shortLabel = targetShortcutInfoCompat.shortLabel!!,
+                    longLabel = targetShortcutInfoCompat.longLabel!!,
+                    intent = targetShortcutInfoCompat.intent!!
+                )
+            } else {
+                false
+            }
         }
     }
 

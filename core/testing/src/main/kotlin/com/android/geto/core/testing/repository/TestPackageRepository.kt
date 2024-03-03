@@ -42,7 +42,7 @@ class TestPackageRepository : PackageRepository {
     /**
      * A test-only API to add non system apps list data.
      */
-    fun sendNonSystemApps(value: List<TargetApplicationInfo>) {
+    fun setNonSystemApps(value: List<TargetApplicationInfo>) {
         nonSystemAppsTestData = value
     }
 }

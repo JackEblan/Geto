@@ -24,7 +24,7 @@ import com.android.geto.core.model.TargetShortcutInfoCompat
 /**
  * We have to map the ShortcutInfoCompat to TargetShortcutInfoCompat so we can test this since we cannot make objects out of it.
  */
-fun ShortcutInfoCompat.asShortcut(): TargetShortcutInfoCompat {
+fun ShortcutInfoCompat.asTargetShortcutInfoCompat(): TargetShortcutInfoCompat {
     return TargetShortcutInfoCompat(
         id = id,
         shortLabel = shortLabel.toString(),

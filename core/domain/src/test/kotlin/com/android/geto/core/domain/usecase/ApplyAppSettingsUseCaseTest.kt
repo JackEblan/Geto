@@ -51,7 +51,7 @@ class ApplyAppSettingsUseCaseTest {
 
     @Test
     fun test_onEmptyAppSettingsListIsNotBlank() = runTest {
-        appSettingsRepository.sendAppSettings(emptyList())
+        appSettingsRepository.setAppSettings(emptyList())
 
         applyAppSettingsUseCase(packageName = packageNameTest, onEmptyAppSettingsList = {
             assertTrue { it.isNotBlank() }
@@ -61,7 +61,7 @@ class ApplyAppSettingsUseCaseTest {
 
     @Test
     fun onAppSettingsDisabledIsNotBlank() = runTest {
-        appSettingsRepository.sendAppSettings(
+        appSettingsRepository.setAppSettings(
             listOf(
                 AppSettings(
                     id = 0,
@@ -88,7 +88,7 @@ class ApplyAppSettingsUseCaseTest {
     fun onAppliedIsNotBlank() = runTest {
         secureSettingsRepository.setWriteSecureSettings(true)
 
-        appSettingsRepository.sendAppSettings(
+        appSettingsRepository.setAppSettings(
             listOf(
                 AppSettings(
                     id = 0,
@@ -115,7 +115,7 @@ class ApplyAppSettingsUseCaseTest {
     fun onSecurityExceptionIsNotBlank() = runTest {
         secureSettingsRepository.setWriteSecureSettings(false)
 
-        appSettingsRepository.sendAppSettings(
+        appSettingsRepository.setAppSettings(
             listOf(
                 AppSettings(
                     id = 0,

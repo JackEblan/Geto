@@ -51,7 +51,7 @@ class RevertAppSettingsUseCaseTest {
 
     @Test
     fun onEmptyAppSettingsListIsNotBlank() = runTest {
-        appSettingsRepository.sendAppSettings(emptyList())
+        appSettingsRepository.setAppSettings(emptyList())
 
         revertAppSettingsUseCase(packageName = packageNameTest, onEmptyAppSettingsList = {
             assertTrue { it.isNotBlank() }
@@ -60,7 +60,7 @@ class RevertAppSettingsUseCaseTest {
 
     @Test
     fun onAppSettingsDisabledIsNotBlank() = runTest {
-        appSettingsRepository.sendAppSettings(
+        appSettingsRepository.setAppSettings(
             listOf(
                 AppSettings(
                     id = 0,
@@ -85,7 +85,7 @@ class RevertAppSettingsUseCaseTest {
 
     @Test
     fun onAppSettingsNotSafeToWriteIsNotBlank() = runTest {
-        appSettingsRepository.sendAppSettings(
+        appSettingsRepository.setAppSettings(
             listOf(
                 AppSettings(
                     id = 0,
@@ -112,7 +112,7 @@ class RevertAppSettingsUseCaseTest {
     fun onRevertedIsNotBlank() = runTest {
         secureSettingsRepository.setWriteSecureSettings(true)
 
-        appSettingsRepository.sendAppSettings(
+        appSettingsRepository.setAppSettings(
             listOf(
                 AppSettings(
                     id = 0,
@@ -139,7 +139,7 @@ class RevertAppSettingsUseCaseTest {
     fun onSecurityExceptionIsNotBlank() = runTest {
         secureSettingsRepository.setWriteSecureSettings(false)
 
-        appSettingsRepository.sendAppSettings(
+        appSettingsRepository.setAppSettings(
             listOf(
                 AppSettings(
                     id = 0,
