@@ -4,7 +4,7 @@
     <img src="https://github.com/JackEblan/Geto/blob/master/app/src/main/ic_launcher-playstore.png" alt="Logo" width="80" height="80">
   </a>
 
-<h3 align="center">Geto</h3>
+<h1 align="center">Geto</h1>
 
   <p align="center">
     Apply custom settings to your apps
