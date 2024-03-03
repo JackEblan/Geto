@@ -27,10 +27,8 @@
             <option value="$PROJECT_DIR$/core" />
             <option value="$PROJECT_DIR$/core/broadcast" />
             <option value="$PROJECT_DIR$/core/clipboardmanager" />
-            <option value="$PROJECT_DIR$/core/clipboardmanager-test" />
             <option value="$PROJECT_DIR$/core/common" />
             <option value="$PROJECT_DIR$/core/data" />
-            <option value="$PROJECT_DIR$/core/data-test" />
             <option value="$PROJECT_DIR$/core/database" />
             <option value="$PROJECT_DIR$/core/designsystem" />
             <option value="$PROJECT_DIR$/core/domain" />
@@ -38,9 +36,7 @@
             <option value="$PROJECT_DIR$/core/packagemanager" />
             <option value="$PROJECT_DIR$/core/packagemanager-test" />
             <option value="$PROJECT_DIR$/core/securesettings" />
-            <option value="$PROJECT_DIR$/core/securesettings-test" />
             <option value="$PROJECT_DIR$/core/shortcutmanager" />
-            <option value="$PROJECT_DIR$/core/shortcutmanager-test" />
             <option value="$PROJECT_DIR$/core/testing" />
             <option value="$PROJECT_DIR$/core/ui" />
             <option value="$PROJECT_DIR$/feature" />

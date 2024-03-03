@@ -20,7 +20,6 @@ package com.android.geto.core.packagemanager.test
 
 import com.android.geto.core.clipboardmanager.PackageManagerModule
 import com.android.geto.core.clipboardmanager.PackageManagerWrapper
-import com.android.geto.core.clipboardmanager.fake.FakePackageManagerWrapper
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.components.SingletonComponent

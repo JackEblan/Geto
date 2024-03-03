@@ -16,7 +16,7 @@
  *
  */
 
-package com.android.geto.core.clipboardmanager.fake
+package com.android.geto.core.packagemanager.test
 
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -25,24 +25,25 @@ import com.android.geto.core.clipboardmanager.PackageManagerWrapper
 import com.android.geto.core.model.TargetApplicationInfo
 import javax.inject.Inject
 
+/**
+ * A fake package manager wrapper that provides a fake data to Navigation UI Tests
+ */
 class FakePackageManagerWrapper @Inject constructor() : PackageManagerWrapper {
 
-    private var _installedApplications = listOf(
-        TargetApplicationInfo(
-            flags = 0, packageName = "com.android.apptest0", label = "Application 0"
-        ), TargetApplicationInfo(
-            flags = 0, packageName = "com.android.apptest1", label = "Application 1"
-        ), TargetApplicationInfo(
-            flags = 0, packageName = "com.android.apptest2", label = "Application 2"
-        ), TargetApplicationInfo(
-            flags = 0, packageName = "com.android.apptest3", label = "Application 3"
-        ), TargetApplicationInfo(
-            flags = 0, packageName = "com.android.apptest4", label = "Application 4"
-        )
-    )
-
     override fun getInstalledApplications(): List<TargetApplicationInfo> {
-        return _installedApplications
+        return listOf(
+            TargetApplicationInfo(
+                flags = 0, packageName = "com.android.apptest0", label = "Application 0"
+            ), TargetApplicationInfo(
+                flags = 0, packageName = "com.android.apptest1", label = "Application 1"
+            ), TargetApplicationInfo(
+                flags = 0, packageName = "com.android.apptest2", label = "Application 2"
+            ), TargetApplicationInfo(
+                flags = 0, packageName = "com.android.apptest3", label = "Application 3"
+            ), TargetApplicationInfo(
+                flags = 0, packageName = "com.android.apptest4", label = "Application 4"
+            )
+        )
     }
 
     @Throws(PackageManager.NameNotFoundException::class)

@@ -2,22 +2,22 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
+      <entry key="NavigationTest">
+        <State />
+      </entry>
       <entry key="app">
         <State />
       </entry>
-      <entry key="feature.shortcut">
+      <entry key="appSettingsScreenIsDisplayed_whenTargetApplicationInfoItemIsClicked()">
         <State />
       </entry>
-      <entry key="navHost_clickAppItem_navigateToAppSettingsScreen()">
+      <entry key="feature.shortcut">
         <State />
       </entry>
       <entry key="navHost_click_app_item_navigate_to_AppSettingsScreen()">
         <State />
       </entry>
       <entry key="navHost_click_app_item_navigate_to_AppSettingsScreen_then_press_navigationArrow_to_go_AppListScreen()">
-        <State />
-      </entry>
-      <entry key="navHost_verify_start_destination()">
         <State />
       </entry>
     </value>

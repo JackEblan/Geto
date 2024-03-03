@@ -28,7 +28,7 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.testing.TestNavHostController
-import com.android.geto.core.data.repository.PackageRepository
+import com.android.geto.core.clipboardmanager.PackageManagerWrapper
 import com.android.geto.feature.applist.navigation.APP_LIST_NAVIGATION_ROUTE
 import com.android.geto.navigation.GetoNavHost
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -51,7 +51,7 @@ class NavigationTest {
     private lateinit var navController: TestNavHostController
 
     @Inject
-    lateinit var packageRepository: PackageRepository
+    lateinit var packageManagerWrapper: PackageManagerWrapper
 
     @Before
     fun setUp() {

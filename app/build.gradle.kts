@@ -58,6 +58,7 @@ dependencies {
     implementation(projects.core.common)
     implementation(projects.core.data)
     implementation(projects.core.designsystem)
+    implementation(projects.core.packagemanager)
     implementation(projects.core.ui)
 
     implementation(projects.feature.applist)
@@ -77,7 +78,7 @@ dependencies {
     testImplementation(projects.core.testing)
     testImplementation(libs.hilt.android.testing)
 
-    androidTestImplementation(projects.core.dataTest)
+    androidTestImplementation(projects.core.packagemanagerTest)
     androidTestImplementation(projects.core.testing)
     androidTestImplementation(libs.androidx.navigation.testing)
     androidTestImplementation(libs.hilt.android.testing)
