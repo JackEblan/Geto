@@ -67,12 +67,12 @@ class NavigationTest {
     }
 
     @Test
-    fun navHost_verify_start_destination() {
+    fun appListSreenIsDisplayed_whenStarted() {
         composeTestRule.onNodeWithTag("applist").assertIsDisplayed()
     }
 
     @Test
-    fun navHost_click_app_item_navigate_to_AppSettingsScreen() {
+    fun appSettingsScreenIsDisplayed_whenTargetApplicationInfoItemIsClicked() {
         composeTestRule.onNodeWithText("Application 0").performClick()
 
         val appSettingsRoute = navController.currentBackStackEntry?.destination?.route
@@ -85,7 +85,7 @@ class NavigationTest {
     }
 
     @Test
-    fun navHost_click_app_item_navigate_to_AppSettingsScreen_then_press_navigationArrow_to_go_AppListScreen() {
+    fun appListScreenIsDisplayed_whenNavigateBackFromAppSettingsScreen() {
         composeTestRule.onNodeWithText("Application 0").performClick()
 
         composeTestRule.onNodeWithContentDescription(
