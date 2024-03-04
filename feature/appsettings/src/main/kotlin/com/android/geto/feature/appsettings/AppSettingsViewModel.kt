@@ -77,9 +77,9 @@ class AppSettingsViewModel @Inject constructor(
 
     val icon = _icon.asStateFlow()
 
-    private var _Target_shortcutInfoCompat = MutableStateFlow<TargetShortcutInfoCompat?>(null)
+    private var _shortcut = MutableStateFlow<TargetShortcutInfoCompat?>(null)
 
-    val shortcut = _Target_shortcutInfoCompat.asStateFlow()
+    val shortcut = _shortcut.asStateFlow()
 
     private val appSettingsArgs: AppSettingsArgs = AppSettingsArgs(savedStateHandle)
 
@@ -140,7 +140,7 @@ class AppSettingsViewModel @Inject constructor(
 
     fun getShortcut(id: String) {
         viewModelScope.launch {
-            _Target_shortcutInfoCompat.update { shortcutRepository.getShortcut(id) }
+            _shortcut.update { shortcutRepository.getShortcut(id) }
         }
     }
 
