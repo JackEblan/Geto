@@ -72,9 +72,7 @@ import com.android.geto.core.ui.rememberAddShortcutDialogState
 @Composable
 internal fun AppSettingsRoute(
     modifier: Modifier = Modifier,
-    viewModel: AppSettingsViewModel = hiltViewModel(),
-    onNavigationIconClick: () -> Unit,
-    shortcutIntent: Intent
+    viewModel: AppSettingsViewModel = hiltViewModel(), onNavigationIconClick: () -> Unit
 ) {
     val context = LocalContext.current
 
@@ -150,8 +148,8 @@ internal fun AppSettingsRoute(
         modifier = modifier,
         snackbarHostState = snackbarHostState,
         appName = viewModel.appName,
-        packageName = viewModel.packageName,
-        intent = shortcutIntent.apply {
+        packageName = viewModel.packageName, intent = Intent().apply {
+            setClassName(context, "com.android.geto.MainActivity")
             action = Intent.ACTION_VIEW
             data =
                 "https://www.android.geto.com/${viewModel.packageName}/${viewModel.appName}".toUri()

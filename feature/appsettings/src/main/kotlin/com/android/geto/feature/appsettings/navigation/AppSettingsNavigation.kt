@@ -18,7 +18,6 @@
 
 package com.android.geto.feature.appsettings.navigation
 
-import android.content.Intent
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavController
@@ -54,9 +53,7 @@ fun NavController.navigateToAppSettings(packageName: String, appName: String) {
     navigate("app_settings_route/$packageName/$appName")
 }
 
-fun NavGraphBuilder.appSettingsScreen(
-    onNavigationIconClick: () -> Unit, shortcutIntent: Intent
-) {
+fun NavGraphBuilder.appSettingsScreen(onNavigationIconClick: () -> Unit) {
     composable(
         route = "app_settings_route/{$PACKAGE_NAME_ARG}/{$APP_NAME_ARG}",
         deepLinks = listOf(navDeepLink {
@@ -64,7 +61,7 @@ fun NavGraphBuilder.appSettingsScreen(
         })
     ) {
         AppSettingsRoute(
-            onNavigationIconClick = onNavigationIconClick, shortcutIntent = shortcutIntent
+            onNavigationIconClick = onNavigationIconClick
         )
     }
 }

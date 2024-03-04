@@ -18,12 +18,9 @@
 
 package com.android.geto.navigation
 
-import android.content.Intent
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import com.android.geto.MainActivity
 import com.android.geto.feature.applist.navigation.APP_LIST_NAVIGATION_ROUTE
 import com.android.geto.feature.applist.navigation.appListScreen
 import com.android.geto.feature.appsettings.navigation.appSettingsScreen
@@ -33,24 +30,16 @@ import com.android.geto.feature.appsettings.navigation.navigateToAppSettings
 fun GetoNavHost(
     navController: NavHostController
 ) {
-
-    val context = LocalContext.current
-
     NavHost(
         navController = navController, startDestination = APP_LIST_NAVIGATION_ROUTE
     ) {
         appListScreen(onItemClick = { packageName, appName ->
-            println(packageName)
             navController.navigateToAppSettings(
                 packageName = packageName, appName = appName
             )
         })
 
-        appSettingsScreen(
-            onNavigationIconClick = navController::popBackStack, shortcutIntent = Intent(
-                context, MainActivity::class.java
-            )
-        )
+        appSettingsScreen(onNavigationIconClick = navController::popBackStack)
     }
 
 }
