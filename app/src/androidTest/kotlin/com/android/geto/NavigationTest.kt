@@ -28,7 +28,6 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.testing.TestNavHostController
-import com.android.geto.core.clipboardmanager.PackageManagerWrapper
 import com.android.geto.feature.applist.navigation.APP_LIST_NAVIGATION_ROUTE
 import com.android.geto.navigation.GetoNavHost
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -36,7 +35,6 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import javax.inject.Inject
 import kotlin.test.assertEquals
 
 @HiltAndroidTest
@@ -49,9 +47,6 @@ class NavigationTest {
     val composeTestRule = createAndroidComposeRule<MainActivity>()
 
     private lateinit var navController: TestNavHostController
-
-    @Inject
-    lateinit var packageManagerWrapper: PackageManagerWrapper
 
     @Before
     fun setUp() {
