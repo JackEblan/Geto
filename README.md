@@ -1,24 +1,19 @@
-<br/>
-<p align="center">
-  <a href="https://github.com/JackEblan/Geto">
-    <img src="https://github.com/JackEblan/Geto/blob/master/app/src/main/ic_launcher-playstore.png" alt="Logo" width="80" height="80">
-  </a>
+<div align = "center">
 
-<h1 align="center">Geto</h1>
+<img width="" src="app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.webp" alt="Geto" align="center">
 
-  <p align="center">
-    Apply custom settings to your apps
-  </p>
+# Geto
 
-  <div align="center">
+### Apply custom settings to your apps
 
-![GitHub Release](https://img.shields.io/github/v/release/JackEblan/Geto)
-![GitHub License](https://img.shields.io/github/license/JackEblan/Geto)
-![F-Droid Version](https://img.shields.io/f-droid/v/com.android.geto)
-![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/JackEblan/Geto/total)
-  </div>
+![GitHub Release](https://img.shields.io/github/v/release/JackEblan/Geto?style=for-the-badge)
+![GitHub License](https://img.shields.io/github/license/JackEblan/Geto?style=for-the-badge)
+![F-Droid Version](https://img.shields.io/f-droid/v/com.android.geto?style=for-the-badge)
+![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/JackEblan/Geto/total?style=for-the-badge)
 
-  <p align="center"><a href="https://f-droid.org/en/packages/com.android.geto/"><img src="https://fdroid.gitlab.io/artwork/badge/get-it-on-en.svg" alt="Get it on F-Droid" height=80/></a></p>
+[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" height="80">](https://f-droid.org/en/packages/com.android.geto/)
+
+<div align ="left" </>
 
 About The Project
 ==================
