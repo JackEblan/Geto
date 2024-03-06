@@ -16,8 +16,10 @@
  *
  */
 
-package com.android.geto.core.packagemanager
+package com.android.geto.core.packagemanager.di
 
+import com.android.geto.core.packagemanager.ClipboardManagerWrapper
+import com.android.geto.core.packagemanager.DefaultClipboardManagerWrapper
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -26,10 +28,10 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-interface PackageManagerModule {
+interface ClipboardManagerModule {
 
     @Binds
     @Singleton
-    fun packageManagerWrapper(impl: DefaultPackageManagerWrapper): PackageManagerWrapper
+    fun clipboardManagerWrapper(impl: DefaultClipboardManagerWrapper): ClipboardManagerWrapper
 
 }

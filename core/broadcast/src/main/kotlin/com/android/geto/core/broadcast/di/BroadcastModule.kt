@@ -16,10 +16,12 @@
  *
  */
 
-package com.android.geto.core.broadcast
+package com.android.geto.core.broadcast.di
 
 import android.content.Context
 import android.content.IntentFilter
+import com.android.geto.core.broadcast.BroadcastReceiverLifecycleObserver
+import com.android.geto.core.broadcast.ShortcutBroadcastReceiver
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -16,7 +16,7 @@
  *
  */
 
-package com.android.geto.core.data.test.packagemanager
+package com.android.geto.core.packagemanager.fake
 
 import android.content.Intent
 import android.content.pm.PackageManager

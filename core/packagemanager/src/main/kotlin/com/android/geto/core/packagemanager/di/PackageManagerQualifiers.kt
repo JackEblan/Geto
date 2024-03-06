@@ -16,24 +16,13 @@
  *
  */
 
-package com.android.geto.core.data.test.packagemanager
+package com.android.geto.core.packagemanager.di
 
-import com.android.geto.core.packagemanager.PackageManagerModule
-import com.android.geto.core.packagemanager.PackageManagerWrapper
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.components.SingletonComponent
-import dagger.hilt.testing.TestInstallIn
-import javax.inject.Singleton
+import javax.inject.Qualifier
 
-@Module
-@TestInstallIn(
-    components = [SingletonComponent::class],
-    replaces = [PackageManagerModule::class],
-)
-interface TestPackageManagerModule {
-
-    @Binds
-    @Singleton
-    fun packageManagerWrapper(impl: FakePackageManagerWrapper): PackageManagerWrapper
-}
+/**
+ * A Qualifier for Testing Purposes
+ */
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class FakePackageManagerWrapperQualifier

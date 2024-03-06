@@ -28,4 +28,6 @@ android {
 
 dependencies {
     implementation(projects.core.model)
+
+    testImplementation(libs.kotlinx.coroutines.test)
 }

@@ -25,15 +25,16 @@ import android.graphics.drawable.Drawable
 import com.android.geto.core.common.Dispatcher
 import com.android.geto.core.common.GetoDispatchers.IO
 import com.android.geto.core.data.repository.PackageRepository
-import com.android.geto.core.data.test.packagemanager.FakePackageManagerWrapper
 import com.android.geto.core.model.TargetApplicationInfo
+import com.android.geto.core.packagemanager.PackageManagerWrapper
+import com.android.geto.core.packagemanager.di.FakePackageManagerWrapperQualifier
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 
 class FakePackageRepository @Inject constructor(
-    private val packageManagerWrapper: FakePackageManagerWrapper,
+    @FakePackageManagerWrapperQualifier private val packageManagerWrapper: PackageManagerWrapper,
     @Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher
 ) : PackageRepository {
 

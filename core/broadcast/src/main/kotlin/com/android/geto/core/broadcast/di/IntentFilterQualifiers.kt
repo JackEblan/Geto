@@ -16,7 +16,7 @@
  *
  */
 
-package com.android.geto.core.broadcast
+package com.android.geto.core.broadcast.di
 
 import javax.inject.Qualifier
 

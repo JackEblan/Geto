@@ -16,8 +16,11 @@
  *
  */
 
-package com.android.geto.core.shortcutmanager
+package com.android.geto.core.packagemanager.di
 
+import com.android.geto.core.packagemanager.DefaultPackageManagerWrapper
+import com.android.geto.core.packagemanager.PackageManagerWrapper
+import com.android.geto.core.packagemanager.fake.FakePackageManagerWrapper
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -26,9 +29,15 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-interface ShortcutManagerModule {
+interface PackageManagerModule {
 
     @Binds
     @Singleton
-    fun shortcutManagerCompatWrapper(impl: DefaultShortcutManagerCompatWrapper): ShortcutManagerCompatWrapper
+    fun packageManagerWrapper(impl: DefaultPackageManagerWrapper): PackageManagerWrapper
+
+    @FakePackageManagerWrapperQualifier
+    @Binds
+    @Singleton
+    fun fakePackageManagerWrapper(impl: FakePackageManagerWrapper): PackageManagerWrapper
+
 }
