@@ -16,7 +16,7 @@
  *
  */
 
-package com.android.geto.core.testing.shortcutmanager
+package com.android.geto.core.data.testdoubles
 
 import android.content.Intent
 import android.graphics.Bitmap

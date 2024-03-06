@@ -18,7 +18,7 @@
 
 package com.android.geto.core.data.repository
 
-import com.android.geto.core.testing.clipboardmanager.TestClipboardManagerWrapper
+import com.android.geto.core.data.testdoubles.TestClipboardManagerWrapper
 import junit.framework.TestCase.assertNull
 import org.junit.Before
 import org.junit.Test

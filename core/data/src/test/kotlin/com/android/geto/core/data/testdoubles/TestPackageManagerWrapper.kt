@@ -16,7 +16,7 @@
  *
  */
 
-package com.android.geto.core.testing.packagemanager
+package com.android.geto.core.data.testdoubles
 
 import android.content.Intent
 import android.content.pm.PackageManager

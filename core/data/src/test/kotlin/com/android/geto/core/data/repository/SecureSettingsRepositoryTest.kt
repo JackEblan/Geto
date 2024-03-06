@@ -18,9 +18,9 @@
 
 package com.android.geto.core.data.repository
 
+import com.android.geto.core.data.testdoubles.TestSecureSettingsPermissionWrapper
 import com.android.geto.core.model.AppSettings
 import com.android.geto.core.model.SettingsType
-import com.android.geto.core.testing.securesettings.TestSecureSettingsPermissionWrapper
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Before

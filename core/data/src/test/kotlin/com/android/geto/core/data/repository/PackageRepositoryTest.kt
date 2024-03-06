@@ -18,8 +18,8 @@
 
 package com.android.geto.core.data.repository
 
+import com.android.geto.core.data.testdoubles.TestPackageManagerWrapper
 import com.android.geto.core.model.TargetApplicationInfo
-import com.android.geto.core.testing.packagemanager.TestPackageManagerWrapper
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Before

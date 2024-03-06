@@ -16,7 +16,7 @@
  *
  */
 
-package com.android.geto.core.testing.securesettings
+package com.android.geto.core.data.testdoubles
 
 import com.android.geto.core.model.AppSettings
 import com.android.geto.core.model.SecureSettings

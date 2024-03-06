@@ -19,8 +19,8 @@
 package com.android.geto.core.data.repository
 
 import android.content.Intent
+import com.android.geto.core.data.testdoubles.TestShortcutManagerCompatWrapper
 import com.android.geto.core.model.TargetShortcutInfoCompat
-import com.android.geto.core.testing.shortcutmanager.TestShortcutManagerCompatWrapper
 import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals

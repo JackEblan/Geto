@@ -16,7 +16,7 @@
  *
  */
 
-package com.android.geto.core.testing.clipboardmanager
+package com.android.geto.core.data.testdoubles
 
 import com.android.geto.core.packagemanager.ClipboardManagerWrapper
 
