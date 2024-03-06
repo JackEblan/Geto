@@ -18,7 +18,7 @@
 
 package com.android.geto.core.testing.clipboardmanager
 
-import com.android.geto.core.clipboardmanager.ClipboardManagerWrapper
+import com.android.geto.core.packagemanager.ClipboardManagerWrapper
 
 
 class TestClipboardManagerWrapper : ClipboardManagerWrapper {

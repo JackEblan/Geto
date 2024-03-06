@@ -16,9 +16,20 @@
  *
  */
 
-package com.android.geto.core.clipboardmanager
+package com.android.geto.core.packagemanager
 
-interface ClipboardManagerWrapper {
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
-    fun setPrimaryClip(label: String, text: String): String?
+@Module
+@InstallIn(SingletonComponent::class)
+interface ClipboardManagerModule {
+
+    @Binds
+    @Singleton
+    fun clipboardManagerWrapper(impl: DefaultClipboardManagerWrapper): ClipboardManagerWrapper
+
 }

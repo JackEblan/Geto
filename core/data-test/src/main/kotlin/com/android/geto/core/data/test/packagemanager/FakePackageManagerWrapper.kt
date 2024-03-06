@@ -16,13 +16,13 @@
  *
  */
 
-package com.android.geto.core.packagemanager.test
+package com.android.geto.core.data.test.packagemanager
 
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
-import com.android.geto.core.clipboardmanager.PackageManagerWrapper
 import com.android.geto.core.model.TargetApplicationInfo
+import com.android.geto.core.packagemanager.PackageManagerWrapper
 import javax.inject.Inject
 
 /**

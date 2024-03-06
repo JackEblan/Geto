@@ -16,19 +16,9 @@
  *
  */
 
-package com.android.geto.core.clipboardmanager
+package com.android.geto.core.packagemanager
 
-import android.content.Intent
-import android.content.pm.PackageManager
-import android.graphics.drawable.Drawable
-import com.android.geto.core.model.TargetApplicationInfo
+interface ClipboardManagerWrapper {
 
-interface PackageManagerWrapper {
-
-    fun getInstalledApplications(): List<TargetApplicationInfo>
-
-    @Throws(PackageManager.NameNotFoundException::class)
-    fun getApplicationIcon(packageName: String): Drawable
-
-    fun getLaunchIntentForPackage(packageName: String): Intent?
+    fun setPrimaryClip(label: String, text: String): String?
 }

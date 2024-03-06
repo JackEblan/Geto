@@ -16,19 +16,20 @@
  *
  */
 
-plugins {
-    alias(libs.plugins.com.android.geto.library)
-    alias(libs.plugins.com.android.geto.libraryJacoco)
-    alias(libs.plugins.com.android.geto.hilt)
-}
+package com.android.geto.core.packagemanager
 
-android {
-    namespace = "com.android.geto.core.packagemanager.test"
-}
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
-dependencies {
-    implementation(projects.core.model)
-    implementation(projects.core.packagemanager)
+@Module
+@InstallIn(SingletonComponent::class)
+interface PackageManagerModule {
 
-    implementation(libs.hilt.android.testing)
+    @Binds
+    @Singleton
+    fun packageManagerWrapper(impl: DefaultPackageManagerWrapper): PackageManagerWrapper
+
 }

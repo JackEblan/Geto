@@ -16,7 +16,7 @@
  *
  */
 
-package com.android.geto.core.data.repository
+package com.android.geto.core.data.test.repository
 
 import android.content.Intent
 import android.content.pm.ApplicationInfo
@@ -24,15 +24,16 @@ import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import com.android.geto.core.common.Dispatcher
 import com.android.geto.core.common.GetoDispatchers.IO
+import com.android.geto.core.data.repository.PackageRepository
+import com.android.geto.core.data.test.packagemanager.FakePackageManagerWrapper
 import com.android.geto.core.model.TargetApplicationInfo
-import com.android.geto.core.packagemanager.PackageManagerWrapper
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 
-class DefaultPackageRepository @Inject constructor(
-    private val packageManagerWrapper: PackageManagerWrapper,
+class FakePackageRepository @Inject constructor(
+    private val packageManagerWrapper: FakePackageManagerWrapper,
     @Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher
 ) : PackageRepository {
 

@@ -22,8 +22,8 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
-import com.android.geto.core.clipboardmanager.PackageManagerWrapper
 import com.android.geto.core.model.TargetApplicationInfo
+import com.android.geto.core.packagemanager.PackageManagerWrapper
 
 class TestPackageManagerWrapper : PackageManagerWrapper {
 

@@ -16,20 +16,20 @@
  *
  */
 
-package com.android.geto.core.clipboardmanager
+package com.android.geto.core.packagemanager
 
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.os.Build
+import javax.inject.Inject
 
-@Module
-@InstallIn(SingletonComponent::class)
-interface PackageManagerModule {
+class DefaultClipboardManagerWrapper @Inject constructor(
+    private val clipboardManager: ClipboardManager
+) : ClipboardManagerWrapper {
+    override fun setPrimaryClip(label: String, text: String): String? {
+        clipboardManager.setPrimaryClip(ClipData.newPlainText(label, text))
 
-    @Binds
-    @Singleton
-    fun packageManagerWrapper(impl: DefaultPackageManagerWrapper): PackageManagerWrapper
-
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S_V2) null
+        else "$text copied to clipboard"
+    }
 }

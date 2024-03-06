@@ -16,20 +16,18 @@
  *
  */
 
-package com.android.geto.core.clipboardmanager
+plugins {
+    alias(libs.plugins.com.android.geto.library)
+    alias(libs.plugins.com.android.geto.libraryJacoco)
+    alias(libs.plugins.com.android.geto.hilt)
+}
 
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.os.Build
-import javax.inject.Inject
+android {
+    namespace = "com.android.geto.core.data.test"
+}
 
-class DefaultClipboardManagerWrapper @Inject constructor(
-    private val clipboardManager: ClipboardManager
-) : ClipboardManagerWrapper {
-    override fun setPrimaryClip(label: String, text: String): String? {
-        clipboardManager.setPrimaryClip(ClipData.newPlainText(label, text))
+dependencies {
+    api(projects.core.data)
 
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S_V2) null
-        else "$text copied to clipboard"
-    }
+    implementation(libs.hilt.android.testing)
 }

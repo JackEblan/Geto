@@ -16,7 +16,7 @@
  *
  */
 
-package com.android.geto.core.clipboardmanager
+package com.android.geto.core.packagemanager
 
 import android.content.Intent
 import android.content.pm.PackageManager

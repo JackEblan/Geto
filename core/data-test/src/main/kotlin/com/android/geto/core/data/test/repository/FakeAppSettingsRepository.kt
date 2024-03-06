@@ -16,17 +16,23 @@
  *
  */
 
-plugins {
-    alias(libs.plugins.com.android.geto.library)
-    alias(libs.plugins.com.android.geto.libraryJacoco)
-    alias(libs.plugins.com.android.geto.hilt)
-}
+package com.android.geto.core.data.test.repository
 
-android {
-    namespace = "com.android.geto.core.securesettings"
-}
+import com.android.geto.core.data.repository.AppSettingsRepository
+import com.android.geto.core.model.AppSettings
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
+import javax.inject.Inject
 
-dependencies {
-    implementation(projects.core.common)
-    implementation(projects.core.model)
+class FakeAppSettingsRepository @Inject constructor() : AppSettingsRepository {
+
+    override suspend fun upsertAppSettings(appSettings: AppSettings) {
+    }
+
+    override suspend fun deleteAppSettings(appSettings: AppSettings) {
+    }
+
+    override fun getAppSettingsList(packageName: String): Flow<List<AppSettings>> {
+        return flowOf()
+    }
 }

@@ -16,20 +16,24 @@
  *
  */
 
-package com.android.geto.core.clipboardmanager
+package com.android.geto.core.data.test.packagemanager
 
+import com.android.geto.core.packagemanager.PackageManagerModule
+import com.android.geto.core.packagemanager.PackageManagerWrapper
 import dagger.Binds
 import dagger.Module
-import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dagger.hilt.testing.TestInstallIn
 import javax.inject.Singleton
 
 @Module
-@InstallIn(SingletonComponent::class)
-interface ClipboardManagerModule {
+@TestInstallIn(
+    components = [SingletonComponent::class],
+    replaces = [PackageManagerModule::class],
+)
+interface TestPackageManagerModule {
 
     @Binds
     @Singleton
-    fun clipboardManagerWrapper(impl: DefaultClipboardManagerWrapper): ClipboardManagerWrapper
-
+    fun packageManagerWrapper(impl: FakePackageManagerWrapper): PackageManagerWrapper
 }

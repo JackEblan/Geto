@@ -16,25 +16,13 @@
  *
  */
 
-package com.android.geto.core.packagemanager.test
+package com.android.geto.core.data.test.repository
 
-import com.android.geto.core.clipboardmanager.PackageManagerModule
-import com.android.geto.core.clipboardmanager.PackageManagerWrapper
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.components.SingletonComponent
-import dagger.hilt.testing.TestInstallIn
-import javax.inject.Singleton
+import com.android.geto.core.data.repository.ClipboardRepository
+import javax.inject.Inject
 
-@Module
-@TestInstallIn(
-    components = [SingletonComponent::class],
-    replaces = [PackageManagerModule::class],
-)
-interface TestPackageManagerModule {
-
-    @Binds
-    @Singleton
-    fun packageManagerWrapper(impl: FakePackageManagerWrapper): PackageManagerWrapper
-
+class FakeClipboardRepository @Inject constructor() : ClipboardRepository {
+    override fun setPrimaryClip(label: String, text: String): String? {
+        return null
+    }
 }

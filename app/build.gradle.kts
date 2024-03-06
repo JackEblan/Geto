@@ -78,7 +78,7 @@ dependencies {
     testImplementation(projects.core.testing)
     testImplementation(libs.hilt.android.testing)
 
-    androidTestImplementation(projects.core.packagemanagerTest)
+    androidTestImplementation(projects.core.dataTest)
     androidTestImplementation(projects.core.testing)
     androidTestImplementation(libs.androidx.navigation.testing)
     androidTestImplementation(libs.hilt.android.testing)
