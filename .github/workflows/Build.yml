@@ -51,16 +51,23 @@ jobs:
 
       - name: Run local tests
         if: always()
-        run: ./gradlew test
+        run: ./gradlew testDemoDebug
 
-      - name: Build debug APK
-        run: ./gradlew assembleDebug
+      - name: Build all build type and flavor permutations
+        run: ./gradlew assemble
 
       - name: Upload debug build output (APK)
         uses: actions/upload-artifact@v4
         with:
           name: APK
-          path: 'app/build/outputs/apk/debug/*.apk'
+          path: '**/build/outputs/apk/**/*.apk'
+
+      - name: Upload test results (XML)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: '**/build/test-results/test*UnitTest/**.xml'
 
   androidTest:
     runs-on: macOS-latest # enables hardware acceleration in the virtual machine
@@ -89,7 +96,7 @@ jobs:
         uses: gradle/gradle-build-action@v3
 
       - name: Build projects before running emulator
-        run: ./gradlew packageDebug packageDebugAndroidTest
+        run: ./gradlew packageDemoDebug packageDemoDebugAndroidTest
 
       - name: Run instrumentation tests
         uses: reactivecircus/android-emulator-runner@v2
@@ -99,7 +106,7 @@ jobs:
           disable-animations: true
           disk-size: 6000M
           heap-size: 600M
-          script: ./gradlew connectedAndroidTest
+          script: ./gradlew connectedDemoDebugAndroidTest --daemon
 
       - name: Upload test reports
         if: always()

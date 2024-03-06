@@ -16,22 +16,18 @@
  *
  */
 
-package com.android.geto.core.packagemanager.di
+import com.android.build.api.dsl.ApplicationExtension
+import com.android.geto.configureFlavors
+import org.gradle.api.Plugin
+import org.gradle.api.Project
+import org.gradle.kotlin.dsl.configure
 
-import com.android.geto.core.packagemanager.ClipboardManagerWrapper
-import com.android.geto.core.packagemanager.DefaultClipboardManagerWrapper
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
-
-@Module
-@InstallIn(SingletonComponent::class)
-interface ClipboardManagerModule {
-
-    @Binds
-    @Singleton
-    fun clipboardManagerWrapper(impl: DefaultClipboardManagerWrapper): ClipboardManagerWrapper
-
+class AndroidApplicationFlavorsConventionPlugin : Plugin<Project> {
+    override fun apply(target: Project) {
+        with(target) {
+            extensions.configure<ApplicationExtension> {
+                configureFlavors(this)
+            }
+        }
+    }
 }

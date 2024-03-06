@@ -16,10 +16,8 @@
  *
  */
 
-package com.android.geto.core.shortcutmanager.di
+package com.android.geto.core.packagemanager
 
-import com.android.geto.core.shortcutmanager.DefaultShortcutManagerCompatWrapper
-import com.android.geto.core.shortcutmanager.ShortcutManagerCompatWrapper
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -28,9 +26,10 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-interface ShortcutManagerModule {
+interface ClipboardManagerModule {
 
     @Binds
     @Singleton
-    fun shortcutManagerCompatWrapper(impl: DefaultShortcutManagerCompatWrapper): ShortcutManagerCompatWrapper
+    fun clipboardManagerWrapper(impl: DefaultClipboardManagerWrapper): ClipboardManagerWrapper
+
 }

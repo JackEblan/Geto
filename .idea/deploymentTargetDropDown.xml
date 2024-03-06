@@ -8,13 +8,13 @@
       <entry key="app">
         <State />
       </entry>
+      <entry key="appListSreenIsDisplayed_whenStarted()">
+        <State />
+      </entry>
       <entry key="appSettingsScreenIsDisplayed_whenTargetApplicationInfoItemIsClicked()">
         <State />
       </entry>
       <entry key="feature.shortcut">
-        <State />
-      </entry>
-      <entry key="navHost_click_app_item_navigate_to_AppSettingsScreen()">
         <State />
       </entry>
       <entry key="navHost_click_app_item_navigate_to_AppSettingsScreen_then_press_navigationArrow_to_go_AppListScreen()">

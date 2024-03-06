@@ -81,6 +81,11 @@ gradlePlugin {
             implementationClass = "AndroidFeatureConventionPlugin"
         }
 
+        register("androidFlavors") {
+            id = "com.android.geto.applicationFlavors"
+            implementationClass = "AndroidApplicationFlavorsConventionPlugin"
+        }
+
         register("androidHilt") {
             id = "com.android.geto.hilt"
             implementationClass = "AndroidHiltConventionPlugin"

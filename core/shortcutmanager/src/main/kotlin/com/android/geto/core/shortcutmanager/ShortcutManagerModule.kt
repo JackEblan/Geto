@@ -16,13 +16,19 @@
  *
  */
 
-package com.android.geto.core.packagemanager.di
+package com.android.geto.core.shortcutmanager
 
-import javax.inject.Qualifier
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
-/**
- * A Qualifier for Testing Purposes
- */
-@Qualifier
-@Retention(AnnotationRetention.BINARY)
-annotation class FakePackageManagerWrapperQualifier
+@Module
+@InstallIn(SingletonComponent::class)
+interface ShortcutManagerModule {
+
+    @Binds
+    @Singleton
+    fun shortcutManagerCompatWrapper(impl: DefaultShortcutManagerCompatWrapper): ShortcutManagerCompatWrapper
+}

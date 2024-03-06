@@ -18,6 +18,7 @@
 
 import com.android.build.api.dsl.LibraryExtension
 import com.android.build.api.variant.LibraryAndroidComponentsExtension
+import com.android.geto.configureFlavors
 import com.android.geto.configureKotlinAndroid
 import com.android.geto.disableUnnecessaryAndroidTests
 import com.android.geto.libs
@@ -39,6 +40,8 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
             extensions.configure<LibraryExtension> {
                 configureKotlinAndroid(this)
                 defaultConfig.targetSdk = 34
+                testOptions.animationsDisabled = true
+                configureFlavors(this)
             }
 
             extensions.configure<LibraryAndroidComponentsExtension> {
