@@ -24,12 +24,12 @@ import javax.inject.Inject
 
 class FakeShortcutRepository @Inject constructor() : ShortcutRepository {
 
-    override fun requestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat): Boolean {
-        return false
+    override fun requestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat): String {
+        return ""
     }
 
-    override fun updateRequestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat): Boolean {
-        return true
+    override fun updateRequestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat): String {
+        return ""
     }
 
     override fun enableShortcuts(id: String, enabled: Boolean): String {

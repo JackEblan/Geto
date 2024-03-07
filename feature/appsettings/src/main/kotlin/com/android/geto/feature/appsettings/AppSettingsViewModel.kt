@@ -176,13 +176,13 @@ class AppSettingsViewModel @Inject constructor(
 
     fun requestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat) {
         viewModelScope.launch {
-            shortcutRepository.requestPinShortcut(targetShortcutInfoCompat)
+            _snackBar.update { shortcutRepository.requestPinShortcut(targetShortcutInfoCompat) }
         }
     }
 
     fun updateRequestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat) {
         viewModelScope.launch {
-            shortcutRepository.updateRequestPinShortcut(targetShortcutInfoCompat)
+            _snackBar.update { shortcutRepository.updateRequestPinShortcut(targetShortcutInfoCompat) }
         }
     }
 

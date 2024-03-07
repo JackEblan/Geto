@@ -43,6 +43,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertIs
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
@@ -420,6 +421,67 @@ class AppSettingsViewModelTest {
         val item = viewModel.shortcut.value
 
         assertNotNull(item)
+    }
+
+    @Test
+    fun snackBarIsNotNull_whenRequestPinShortcut() = runTest {
+        shortcutRepository.setRequestPinShortcutSupported(true)
+
+        viewModel.requestPinShortcut(
+            targetShortcutInfoCompat = TargetShortcutInfoCompat(
+                id = "0", shortLabel = "shortLabel", longLabel = "longLabel"
+            )
+        )
+
+        assertEquals(
+            expected = "Your current launcher supports shortcuts", actual = viewModel.snackBar.value
+        )
+    }
+
+    @Test
+    fun snackBarIsNotNull_whenRequestPinShortcut_requestPinShortcutSupportedIsFalse() = runTest {
+        shortcutRepository.setRequestPinShortcutSupported(false)
+
+        viewModel.requestPinShortcut(
+            targetShortcutInfoCompat = TargetShortcutInfoCompat(
+                id = "0", shortLabel = "shortLabel", longLabel = "longLabel"
+            )
+        )
+
+        assertEquals(
+            expected = "Your current launcher does not support shortcuts",
+            actual = viewModel.snackBar.value
+        )
+    }
+
+    @Test
+    fun snackBarIsNotNull_whenUpdateRequestPinShortcut() = runTest {
+        shortcutRepository.setUpdateImmutableShortcuts(true)
+
+        viewModel.updateRequestPinShortcut(
+            targetShortcutInfoCompat = TargetShortcutInfoCompat(
+                id = "0", shortLabel = "shortLabel", longLabel = "longLabel"
+            )
+        )
+
+        assertEquals(
+            expected = "Trying to update immutable shortcuts", actual = viewModel.snackBar.value
+        )
+    }
+
+    @Test
+    fun snackBarIsNotNull_whenUpdateRequestPinShortcut_updateImmutableShortcutsIsFalse() = runTest {
+        shortcutRepository.setUpdateImmutableShortcuts(false)
+
+        viewModel.updateRequestPinShortcut(
+            targetShortcutInfoCompat = TargetShortcutInfoCompat(
+                id = "0", shortLabel = "shortLabel", longLabel = "longLabel"
+            )
+        )
+
+        assertEquals(
+            expected = "Shortcut updated successfully", actual = viewModel.snackBar.value
+        )
     }
 }
 

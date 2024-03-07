@@ -24,10 +24,8 @@ import com.android.geto.core.model.TargetShortcutInfoCompat
 import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
-import kotlin.test.assertTrue
 
 class ShortcutRepositoryTest {
 
@@ -60,7 +58,7 @@ class ShortcutRepositoryTest {
             )
         )
 
-        assertTrue(result)
+        assertEquals(expected = "Your current launcher supports shortcuts", actual = result)
     }
 
     @Test
@@ -77,7 +75,7 @@ class ShortcutRepositoryTest {
             )
         )
 
-        assertFalse(result)
+        assertEquals(expected = "Your current launcher does not support shortcuts", actual = result)
     }
 
     @Test
@@ -106,7 +104,7 @@ class ShortcutRepositoryTest {
             )
         )
 
-        assertFalse(result)
+        assertEquals(expected = "Trying to update immutable shortcuts", actual = result)
     }
 
     @Test
@@ -135,7 +133,7 @@ class ShortcutRepositoryTest {
             )
         )
 
-        assertTrue(result)
+        assertEquals(expected = "Shortcut updated successfully", actual = result)
     }
 
     @Test

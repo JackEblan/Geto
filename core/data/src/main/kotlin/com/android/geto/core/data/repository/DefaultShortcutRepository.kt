@@ -27,36 +27,47 @@ class DefaultShortcutRepository @Inject constructor(
     private val shortcutManagerCompatWrapper: ShortcutManagerCompatWrapper
 ) : ShortcutRepository {
 
-    override fun requestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat): Boolean {
-        return if (shortcutManagerCompatWrapper.isRequestPinShortcutSupported()) {
-            shortcutManagerCompatWrapper.requestPinShortcut(
+    override fun requestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat): String {
+        if (!shortcutManagerCompatWrapper.isRequestPinShortcutSupported()) {
+            return "Your current launcher does not support shortcuts"
+        }
+
+        val request = shortcutManagerCompatWrapper.requestPinShortcut(
+            icon = targetShortcutInfoCompat.icon,
+            id = targetShortcutInfoCompat.id!!,
+            shortLabel = targetShortcutInfoCompat.shortLabel!!,
+            longLabel = targetShortcutInfoCompat.longLabel!!,
+            intent = targetShortcutInfoCompat.intent!!
+        )
+
+        return if (request) {
+            "Your current launcher supports shortcuts"
+        } else "Your current launcher does not support shortcuts"
+    }
+
+    override fun updateRequestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat): String {
+        val ids = shortcutManagerCompatWrapper.getShortcuts(ShortcutManagerCompat.FLAG_MATCH_PINNED)
+            .map { it.id }
+
+        if (targetShortcutInfoCompat.id !in ids) {
+            return "Shortcut id not found"
+        }
+
+        return try {
+            val request = shortcutManagerCompatWrapper.updateShortcuts(
                 icon = targetShortcutInfoCompat.icon,
                 id = targetShortcutInfoCompat.id!!,
                 shortLabel = targetShortcutInfoCompat.shortLabel!!,
                 longLabel = targetShortcutInfoCompat.longLabel!!,
                 intent = targetShortcutInfoCompat.intent!!
             )
-        } else false
-    }
 
-    override fun updateRequestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat): Boolean {
-        val ids = shortcutManagerCompatWrapper.getShortcuts(ShortcutManagerCompat.FLAG_MATCH_PINNED)
-            .map { it.id }
+            if (request) {
+                "Shortcut updated successfully"
+            } else "Shortcut failed to update"
 
-        return if (targetShortcutInfoCompat.id in ids) {
-            try {
-                shortcutManagerCompatWrapper.updateShortcuts(
-                    icon = targetShortcutInfoCompat.icon,
-                    id = targetShortcutInfoCompat.id!!,
-                    shortLabel = targetShortcutInfoCompat.shortLabel!!,
-                    longLabel = targetShortcutInfoCompat.longLabel!!,
-                    intent = targetShortcutInfoCompat.intent!!
-                )
-            } catch (e: IllegalArgumentException) {
-                false
-            }
-        } else {
-            false
+        } catch (e: IllegalArgumentException) {
+            "Trying to update immutable shortcuts"
         }
     }
 

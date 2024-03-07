@@ -33,12 +33,16 @@ class TestShortcutRepository : ShortcutRepository {
 
     private var userIsLocked = false
 
-    override fun requestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat): Boolean {
-        return requestPinShortcutSupported
+    override fun requestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat): String {
+        return if (requestPinShortcutSupported) {
+            "Your current launcher supports shortcuts"
+        } else "Your current launcher does not support shortcuts"
     }
 
-    override fun updateRequestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat): Boolean {
-        return updateImmutableShortcuts
+    override fun updateRequestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat): String {
+        return if (updateImmutableShortcuts) {
+            "Trying to update immutable shortcuts"
+        } else "Shortcut updated successfully"
     }
 
     override fun enableShortcuts(id: String, enabled: Boolean): String {
