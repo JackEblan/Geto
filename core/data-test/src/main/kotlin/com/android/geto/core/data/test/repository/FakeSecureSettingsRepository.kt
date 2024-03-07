@@ -25,12 +25,12 @@ import com.android.geto.core.model.SettingsType
 import javax.inject.Inject
 
 class FakeSecureSettingsRepository @Inject constructor() : SecureSettingsRepository {
-    override suspend fun applySecureSettings(appSettingsList: List<AppSettings>): Result<Boolean> {
-        return Result.success(true)
+    override suspend fun applySecureSettings(appSettingsList: List<AppSettings>): Boolean {
+        return true
     }
 
-    override suspend fun revertSecureSettings(appSettingsList: List<AppSettings>): Result<Boolean> {
-        return Result.success(true)
+    override suspend fun revertSecureSettings(appSettingsList: List<AppSettings>): Boolean {
+        return true
     }
 
     override suspend fun getSecureSettings(settingsType: SettingsType): List<SecureSettings> {

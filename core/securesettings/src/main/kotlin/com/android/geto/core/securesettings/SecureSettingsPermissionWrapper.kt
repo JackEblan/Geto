@@ -24,6 +24,7 @@ import com.android.geto.core.model.SettingsType
 
 interface SecureSettingsPermissionWrapper {
 
+    @Throws(SecurityException::class)
     suspend fun canWriteSecureSettings(
         appSettings: AppSettings,
         valueSelector: (AppSettings) -> String,

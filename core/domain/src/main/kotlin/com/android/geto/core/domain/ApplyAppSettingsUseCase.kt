@@ -53,18 +53,17 @@ class ApplyAppSettingsUseCase @Inject constructor(
             return
         }
 
-        secureSettingsRepository.applySecureSettings(appSettingsList).onSuccess { applied ->
+        try {
+            val applied = secureSettingsRepository.applySecureSettings(appSettingsList)
+
             if (applied) {
                 onApplied("Settings applied")
             } else {
                 onFailure("Database failure")
             }
-        }.onFailure { t ->
-            if (t is SecurityException) {
-                onSecurityException("Permission not granted")
-            } else {
-                onFailure(t.localizedMessage)
-            }
+
+        } catch (e: SecurityException) {
+            onSecurityException("Permission not granted")
         }
     }
 }

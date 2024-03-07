@@ -26,6 +26,7 @@ import com.android.geto.core.securesettings.SecureSettingsPermissionWrapper
 class TestSecureSettingsPermissionWrapper : SecureSettingsPermissionWrapper {
 
     private var writeSecureSettings = false
+
     override suspend fun canWriteSecureSettings(
         appSettings: AppSettings, valueSelector: (AppSettings) -> String
     ): Boolean {

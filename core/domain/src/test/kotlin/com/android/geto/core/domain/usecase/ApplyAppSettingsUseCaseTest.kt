@@ -50,7 +50,7 @@ class ApplyAppSettingsUseCaseTest {
     }
 
     @Test
-    fun test_onEmptyAppSettingsListIsNotBlank() = runTest {
+    fun onEmptyAppSettingsListIsNotBlank() = runTest {
         appSettingsRepository.setAppSettings(emptyList())
 
         applyAppSettingsUseCase(packageName = packageNameTest, onEmptyAppSettingsList = {
