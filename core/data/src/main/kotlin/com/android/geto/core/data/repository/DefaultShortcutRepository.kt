@@ -39,13 +39,12 @@ class DefaultShortcutRepository @Inject constructor(
         } else false
     }
 
-    override fun updateRequestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat): Result<Boolean> {
-        return runCatching {
-            val ids =
-                shortcutManagerCompatWrapper.getShortcuts(ShortcutManagerCompat.FLAG_MATCH_PINNED)
-                    .map { it.id }
+    override fun updateRequestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat): Boolean {
+        val ids = shortcutManagerCompatWrapper.getShortcuts(ShortcutManagerCompat.FLAG_MATCH_PINNED)
+            .map { it.id }
 
-            if (targetShortcutInfoCompat.id in ids) {
+        return if (targetShortcutInfoCompat.id in ids) {
+            try {
                 shortcutManagerCompatWrapper.updateShortcuts(
                     icon = targetShortcutInfoCompat.icon,
                     id = targetShortcutInfoCompat.id!!,
@@ -53,21 +52,27 @@ class DefaultShortcutRepository @Inject constructor(
                     longLabel = targetShortcutInfoCompat.longLabel!!,
                     intent = targetShortcutInfoCompat.intent!!
                 )
-            } else {
+            } catch (e: IllegalArgumentException) {
                 false
             }
+        } else {
+            false
         }
     }
 
-    override fun enableShortcuts(id: String, enabled: Boolean): Result<String> {
-        return runCatching {
+    override fun enableShortcuts(id: String, enabled: Boolean): String {
+        return try {
             if (enabled) {
                 shortcutManagerCompatWrapper.enableShortcuts(id)
-                "Shortcut enabled"
+                "Shortcuts enabled"
             } else {
                 shortcutManagerCompatWrapper.disableShortcuts(id)
-                "Shortcut disabled"
+                "Shortcuts disabled"
             }
+        } catch (e: IllegalArgumentException) {
+            "Trying to disable immutable shortcuts"
+        } catch (e: IllegalStateException) {
+            "User is locked"
         }
     }
 

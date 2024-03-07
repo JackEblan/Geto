@@ -28,12 +28,12 @@ class FakeShortcutRepository @Inject constructor() : ShortcutRepository {
         return false
     }
 
-    override fun updateRequestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat): Result<Boolean> {
-        return Result.success(true)
+    override fun updateRequestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat): Boolean {
+        return true
     }
 
-    override fun enableShortcuts(id: String, enabled: Boolean): Result<String> {
-        return Result.success("")
+    override fun enableShortcuts(id: String, enabled: Boolean): String {
+        return ""
     }
 
     override fun getShortcut(id: String): TargetShortcutInfoCompat? {

@@ -24,7 +24,6 @@ import com.android.geto.core.model.TargetShortcutInfoCompat
 import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
 import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
@@ -107,7 +106,7 @@ class ShortcutRepositoryTest {
             )
         )
 
-        assertFailsWith<IllegalArgumentException> { result.getOrThrow() }
+        assertFalse(result)
     }
 
     @Test
@@ -136,36 +135,47 @@ class ShortcutRepositoryTest {
             )
         )
 
-        assertEquals(expected = true, actual = result.getOrNull())
+        assertTrue(result)
     }
 
     @Test
     fun shortcutRepository_enable_shortcuts() {
         val result = subject.enableShortcuts(id = "id", enabled = true)
 
-        assertEquals(expected = "Shortcut enabled", actual = result.getOrNull())
+        assertEquals(expected = "Shortcuts enabled", actual = result)
+    }
+
+    @Test
+    fun shortcutRepository_disable_shortcuts() {
+        shortcutManagerCompatWrapper.setDisableImmutableShortcuts(false)
+
+        shortcutManagerCompatWrapper.setUserIsLocked(false)
+
+        val result = subject.enableShortcuts(id = "id", enabled = false)
+
+        assertEquals(expected = "Shortcuts disabled", actual = result)
     }
 
     @Test
     fun shortcutRepository_disable_shortcuts_on_disableImmutableShortcuts() {
         shortcutManagerCompatWrapper.setDisableImmutableShortcuts(true)
 
-        assertFailsWith<IllegalArgumentException> {
-            subject.enableShortcuts(
-                id = "id", enabled = false
-            ).getOrThrow()
-        }
+        val result = subject.enableShortcuts(
+            id = "id", enabled = false
+        )
+
+        assertEquals(expected = "Trying to disable immutable shortcuts", actual = result)
     }
 
     @Test
     fun shortcutRepository_disable_shortcuts_on_userIsLocked() {
         shortcutManagerCompatWrapper.setUserIsLocked(true)
 
-        assertFailsWith<IllegalStateException> {
-            subject.enableShortcuts(
-                id = "id", enabled = false
-            ).getOrThrow()
-        }
+        val result = subject.enableShortcuts(
+            id = "id", enabled = false
+        )
+
+        assertEquals(expected = "User is locked", actual = result)
     }
 
     @Test

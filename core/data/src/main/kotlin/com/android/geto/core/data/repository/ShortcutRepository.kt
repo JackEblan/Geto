@@ -23,9 +23,9 @@ import com.android.geto.core.model.TargetShortcutInfoCompat
 interface ShortcutRepository {
     fun requestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat): Boolean
 
-    fun updateRequestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat): Result<Boolean>
+    fun updateRequestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat): Boolean
 
-    fun enableShortcuts(id: String, enabled: Boolean): Result<String>
+    fun enableShortcuts(id: String, enabled: Boolean): String
 
     fun getShortcut(id: String): TargetShortcutInfoCompat?
 }

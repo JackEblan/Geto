@@ -37,23 +37,17 @@ class TestShortcutRepository : ShortcutRepository {
         return requestPinShortcutSupported
     }
 
-    override fun updateRequestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat): Result<Boolean> {
-        return runCatching {
-            updateImmutableShortcuts
-        }
+    override fun updateRequestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat): Boolean {
+        return updateImmutableShortcuts
     }
 
-    override fun enableShortcuts(id: String, enabled: Boolean): Result<String> {
-        return runCatching {
-            if (enabled) {
-                "Shortcut enabled"
-            } else {
-                if (disableImmutableShortcuts) throw IllegalArgumentException()
-
-                if (userIsLocked) throw IllegalStateException()
-
-                "Shortcut disabled"
-            }
+    override fun enableShortcuts(id: String, enabled: Boolean): String {
+        return if (enabled) {
+            "Shortcuts enabled"
+        } else {
+            if (disableImmutableShortcuts) "Trying to disable immutable shortcuts"
+            else if (userIsLocked) "User is locked"
+            else "Shortcuts disabled"
         }
     }
 
