@@ -55,7 +55,6 @@ android {
 }
 
 dependencies {
-    implementation(projects.core.broadcast)
     implementation(projects.core.common)
     implementation(projects.core.data)
     implementation(projects.core.designsystem)

@@ -36,8 +36,7 @@ class DefaultShortcutRepository @Inject constructor(
             icon = targetShortcutInfoCompat.icon,
             id = targetShortcutInfoCompat.id!!,
             shortLabel = targetShortcutInfoCompat.shortLabel!!,
-            longLabel = targetShortcutInfoCompat.longLabel!!,
-            intent = targetShortcutInfoCompat.intent!!
+            longLabel = targetShortcutInfoCompat.longLabel!!
         )
 
         return if (request) {
@@ -58,8 +57,7 @@ class DefaultShortcutRepository @Inject constructor(
                 icon = targetShortcutInfoCompat.icon,
                 id = targetShortcutInfoCompat.id!!,
                 shortLabel = targetShortcutInfoCompat.shortLabel!!,
-                longLabel = targetShortcutInfoCompat.longLabel!!,
-                intent = targetShortcutInfoCompat.intent!!
+                longLabel = targetShortcutInfoCompat.longLabel!!
             )
 
             if (request) {

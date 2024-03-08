@@ -18,7 +18,6 @@
 
 package com.android.geto.feature.appsettings
 
-import android.content.Intent
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Box
@@ -50,7 +49,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
-import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.android.geto.core.designsystem.icon.GetoIcons
@@ -72,7 +70,8 @@ import com.android.geto.core.ui.rememberAddShortcutDialogState
 @Composable
 internal fun AppSettingsRoute(
     modifier: Modifier = Modifier,
-    viewModel: AppSettingsViewModel = hiltViewModel(), onNavigationIconClick: () -> Unit
+    viewModel: AppSettingsViewModel = hiltViewModel(),
+    onNavigationIconClick: () -> Unit
 ) {
     val context = LocalContext.current
 
@@ -147,13 +146,7 @@ internal fun AppSettingsRoute(
     AppSettingsScreen(
         modifier = modifier,
         snackbarHostState = snackbarHostState,
-        appName = viewModel.appName,
-        packageName = viewModel.packageName, intent = Intent().apply {
-            setClassName(context, "com.android.geto.MainActivity")
-            action = Intent.ACTION_VIEW
-            data =
-                "https://www.android.geto.com/${viewModel.packageName}/${viewModel.appName}".toUri()
-        },
+        appName = viewModel.appName, packageName = viewModel.packageName,
         appSettingsUiState = appSettingsUiState,
         addSettingsDialogState = addSettingsDialogState,
         addShortcutDialogState = addShortcutDialogState,
@@ -196,7 +189,6 @@ internal fun AppSettingsScreen(
     snackbarHostState: SnackbarHostState,
     appName: String,
     packageName: String,
-    intent: Intent,
     appSettingsUiState: AppSettingsUiState,
     addSettingsDialogState: SettingsDialogState,
     addShortcutDialogState: ShortcutDialogState,
@@ -245,9 +237,7 @@ internal fun AppSettingsScreen(
                               addShortcutDialogState.updateShowDialog(false)
                           },
                           onAddShortcut = {
-                              addShortcutDialogState.getShortcut(
-                                  packageName = packageName, intent = intent
-                              )?.let {
+                              addShortcutDialogState.getShortcut(packageName = packageName)?.let {
                                   onAddShortcut(it)
                                   addShortcutDialogState.resetState()
                               }
@@ -262,12 +252,11 @@ internal fun AppSettingsScreen(
                                  updateShortcutDialogState.updateShowDialog(false)
                              },
                              onUpdateShortcut = {
-                                 updateShortcutDialogState.getShortcut(
-                                     packageName = packageName, intent = intent
-                                 )?.let {
-                                     onUpdateShortcut(it)
-                                     updateShortcutDialogState.resetState()
-                                 }
+                                 updateShortcutDialogState.getShortcut(packageName = packageName)
+                                     ?.let {
+                                         onUpdateShortcut(it)
+                                         updateShortcutDialogState.resetState()
+                                     }
                              })
     }
 

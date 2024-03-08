@@ -50,7 +50,7 @@ class TestSecureSettingsRepository : SecureSettingsRepository {
     /**
      * A test-only API to add secureSettingsList data.
      */
-    fun sendSecureSettings(value: List<SecureSettings>) {
+    fun setSecureSettings(value: List<SecureSettings>) {
         secureSettingsList = value
     }
 }

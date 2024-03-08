@@ -16,10 +16,8 @@
  *
  */
 
-package com.android.geto.core.broadcast.di
+package com.android.geto.core.model
 
-import javax.inject.Qualifier
-
-@Qualifier
-@Retention(AnnotationRetention.BINARY)
-annotation class ShortcutBroadcastReceiverIntentFilter
+enum class ThemeBrand {
+    DEFAULT, ANDROID,
+}

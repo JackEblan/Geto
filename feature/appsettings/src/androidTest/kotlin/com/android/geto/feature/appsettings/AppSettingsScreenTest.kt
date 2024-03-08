@@ -18,7 +18,6 @@
 
 package com.android.geto.feature.appsettings
 
-import android.content.Intent
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.SnackbarHostState
@@ -55,7 +54,6 @@ class AppSettingsScreenTest {
             AppSettingsScreen(snackbarHostState = SnackbarHostState(),
                               appName = "Geto",
                               packageName = "Geto",
-                              intent = Intent(),
                               appSettingsUiState = AppSettingsUiState.Loading,
                               addSettingsDialogState = addSettingsDialogState,
                               addShortcutDialogState = addShortcutDialogState,
@@ -94,7 +92,6 @@ class AppSettingsScreenTest {
             AppSettingsScreen(snackbarHostState = SnackbarHostState(),
                               appName = "Geto",
                               packageName = "Geto",
-                              intent = Intent(),
                               appSettingsUiState = AppSettingsUiState.Empty,
                               addSettingsDialogState = addSettingsDialogState,
                               addShortcutDialogState = addShortcutDialogState,
@@ -133,7 +130,6 @@ class AppSettingsScreenTest {
             AppSettingsScreen(snackbarHostState = SnackbarHostState(),
                               appName = "Geto",
                               packageName = "Geto",
-                              intent = Intent(),
                               appSettingsUiState = AppSettingsUiState.Success(testAppSettingsList),
                               addSettingsDialogState = addSettingsDialogState,
                               addShortcutDialogState = addShortcutDialogState,
@@ -172,7 +168,6 @@ class AppSettingsScreenTest {
             AppSettingsScreen(snackbarHostState = SnackbarHostState(),
                               appName = "Geto",
                               packageName = "Geto",
-                              intent = Intent(),
                               appSettingsUiState = AppSettingsUiState.Success(testAppSettingsList),
                               addSettingsDialogState = addSettingsDialogState,
                               addShortcutDialogState = addShortcutDialogState,
@@ -213,7 +208,6 @@ class AppSettingsScreenTest {
             AppSettingsScreen(snackbarHostState = SnackbarHostState(),
                               appName = "Geto",
                               packageName = "Geto",
-                              intent = Intent(),
                               appSettingsUiState = AppSettingsUiState.Empty,
                               addSettingsDialogState = addSettingsDialogState,
                               addShortcutDialogState = addShortcutDialogState,
@@ -254,7 +248,6 @@ class AppSettingsScreenTest {
             AppSettingsScreen(snackbarHostState = SnackbarHostState(),
                               appName = "Geto",
                               packageName = "Geto",
-                              intent = Intent(),
                               appSettingsUiState = AppSettingsUiState.Empty,
                               addSettingsDialogState = addSettingsDialogState,
                               addShortcutDialogState = addShortcutDialogState,
@@ -297,7 +290,6 @@ class AppSettingsScreenTest {
             AppSettingsScreen(snackbarHostState = SnackbarHostState(),
                               appName = "Geto",
                               packageName = "Geto",
-                              intent = Intent(),
                               appSettingsUiState = AppSettingsUiState.Empty,
                               addSettingsDialogState = addSettingsDialogState,
                               addShortcutDialogState = addShortcutDialogState,
@@ -336,7 +328,6 @@ class AppSettingsScreenTest {
             AppSettingsScreen(snackbarHostState = SnackbarHostState(),
                               appName = "Geto",
                               packageName = "Geto",
-                              intent = Intent(),
                               appSettingsUiState = AppSettingsUiState.Empty,
                               addSettingsDialogState = addSettingsDialogState,
                               addShortcutDialogState = addShortcutDialogState,
@@ -379,7 +370,6 @@ class AppSettingsScreenTest {
             AppSettingsScreen(snackbarHostState = SnackbarHostState(),
                               appName = "Geto",
                               packageName = "Geto",
-                              intent = Intent(),
                               appSettingsUiState = AppSettingsUiState.Empty,
                               addSettingsDialogState = addSettingsDialogState,
                               addShortcutDialogState = addShortcutDialogState,
@@ -422,7 +412,6 @@ class AppSettingsScreenTest {
             AppSettingsScreen(snackbarHostState = SnackbarHostState(),
                               appName = "Geto",
                               packageName = "Geto",
-                              intent = Intent(),
                               appSettingsUiState = AppSettingsUiState.Empty,
                               addSettingsDialogState = addSettingsDialogState,
                               addShortcutDialogState = addShortcutDialogState,
@@ -465,7 +454,6 @@ class AppSettingsScreenTest {
             AppSettingsScreen(snackbarHostState = SnackbarHostState(),
                               appName = "Geto",
                               packageName = "Geto",
-                              intent = Intent(),
                               appSettingsUiState = AppSettingsUiState.Empty,
                               addSettingsDialogState = addSettingsDialogState,
                               addShortcutDialogState = addShortcutDialogState,
@@ -508,7 +496,6 @@ class AppSettingsScreenTest {
             AppSettingsScreen(snackbarHostState = SnackbarHostState(),
                               appName = "Geto",
                               packageName = "Geto",
-                              intent = Intent(),
                               appSettingsUiState = AppSettingsUiState.Empty,
                               addSettingsDialogState = addSettingsDialogState,
                               addShortcutDialogState = addShortcutDialogState,

@@ -29,12 +29,12 @@ interface ShortcutManagerCompatWrapper {
     fun createShortcutResultIntent(shortcutInfoCompat: ShortcutInfoCompat): Intent
 
     fun requestPinShortcut(
-        icon: Bitmap?, id: String, shortLabel: String, longLabel: String, intent: Intent
+        icon: Bitmap?, id: String, shortLabel: String, longLabel: String
     ): Boolean
 
     @Throws(IllegalArgumentException::class)
     fun updateShortcuts(
-        icon: Bitmap?, id: String, shortLabel: String, longLabel: String, intent: Intent
+        icon: Bitmap?, id: String, shortLabel: String, longLabel: String
     ): Boolean
 
     fun enableShortcuts(id: String)

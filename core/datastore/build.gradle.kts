@@ -16,19 +16,32 @@
  *
  */
 
-package com.android.geto.core.broadcast
+plugins {
+    alias(libs.plugins.com.android.geto.library)
+    alias(libs.plugins.com.android.geto.libraryJacoco)
+    alias(libs.plugins.com.android.geto.hilt)
+}
 
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.widget.Toast
-
-class ShortcutBroadcastReceiver : BroadcastReceiver() {
-    override fun onReceive(context: Context?, intent: Intent?) {
-        Toast.makeText(context, "Application pinned shortcut", Toast.LENGTH_LONG).show()
+android {
+    defaultConfig {
+        consumerProguardFiles("consumer-proguard-rules.pro")
     }
 
-    companion object {
-        const val ACTION = "com.android.geto.ACTION_CREATE_SHORTCUT"
+    namespace = "com.android.geto.core.datastore"
+
+    testOptions {
+        unitTests {
+            isReturnDefaultValues = true
+        }
     }
+}
+
+dependencies {
+    api(libs.androidx.dataStore.core)
+    api(projects.core.datastoreProto)
+    api(projects.core.model)
+
+    implementation(projects.core.common)
+
+    testImplementation(libs.kotlinx.coroutines.test)
 }

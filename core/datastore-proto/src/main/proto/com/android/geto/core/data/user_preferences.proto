@@ -16,16 +16,21 @@
  *
  */
 
-plugins {
-    alias(libs.plugins.com.android.geto.library)
-    alias(libs.plugins.com.android.geto.libraryJacoco)
-    alias(libs.plugins.com.android.geto.hilt)
+syntax = "proto3";
+
+import "com/android/geto/core/data/dark_theme_config.proto";
+import "com/android/geto/core/data/theme_brand.proto";
+
+option java_package = "com.android.geto.core.datastore";
+option java_multiple_files = true;
+
+message UserPreferences {
+
+  ThemeBrandProto theme_brand = 16;
+  DarkThemeConfigProto dark_theme_config = 17;
+
+  bool use_dynamic_color = 19;
+
+  // NEXT AVAILABLE ID: 21
 }
 
-android {
-    namespace = "com.android.geto.core.broadcast"
-}
-
-dependencies {
-    implementation(libs.androidx.core.ktx)
-}

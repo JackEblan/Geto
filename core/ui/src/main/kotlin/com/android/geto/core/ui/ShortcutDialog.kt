@@ -18,7 +18,6 @@
 
 package com.android.geto.core.ui
 
-import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import androidx.compose.foundation.layout.Arrangement
@@ -86,7 +85,8 @@ fun AddShortcutDialog(
                 Spacer(modifier = Modifier.height(10.dp))
 
                 Row(
-                    modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
                         modifier = Modifier
@@ -138,7 +138,8 @@ fun AddShortcutDialog(
                     isError = shortcutDialogState.shortLabelError.isNotBlank(),
                     supportingText = {
                         if (shortcutDialogState.shortLabelError.isNotBlank()) Text(
-                            text = shortcutDialogState.shortLabelError, modifier = Modifier.testTag("addShortcutDialog:shortLabelSupportingText")
+                            text = shortcutDialogState.shortLabelError,
+                            modifier = Modifier.testTag("addShortcutDialog:shortLabelSupportingText")
                         )
                     },
                     singleLine = true,
@@ -157,7 +158,8 @@ fun AddShortcutDialog(
                     isError = shortcutDialogState.longLabelError.isNotBlank(),
                     supportingText = {
                         if (shortcutDialogState.longLabelError.isNotBlank()) Text(
-                            text = shortcutDialogState.longLabelError, modifier = Modifier.testTag("addShortcutDialog:longLabelSupportingText")
+                            text = shortcutDialogState.longLabelError,
+                            modifier = Modifier.testTag("addShortcutDialog:longLabelSupportingText")
                         )
                     },
                     singleLine = true,
@@ -210,7 +212,8 @@ fun UpdateShortcutDialog(
                 Spacer(modifier = Modifier.height(10.dp))
 
                 Row(
-                    modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
                         modifier = Modifier
@@ -263,7 +266,8 @@ fun UpdateShortcutDialog(
                     isError = shortcutDialogState.shortLabelError.isNotBlank(),
                     supportingText = {
                         if (shortcutDialogState.shortLabelError.isNotBlank()) Text(
-                            text = shortcutDialogState.shortLabelError, modifier = Modifier.testTag("updateShortcutDialog:shortLabelSupportingText")
+                            text = shortcutDialogState.shortLabelError,
+                            modifier = Modifier.testTag("updateShortcutDialog:shortLabelSupportingText")
                         )
                     },
                     singleLine = true,
@@ -282,7 +286,8 @@ fun UpdateShortcutDialog(
                     isError = shortcutDialogState.longLabelError.isNotBlank(),
                     supportingText = {
                         if (shortcutDialogState.longLabelError.isNotBlank()) Text(
-                            text = shortcutDialogState.longLabelError, modifier = Modifier.testTag("updateShortcutDialog:longLabelSupportingText")
+                            text = shortcutDialogState.longLabelError,
+                            modifier = Modifier.testTag("updateShortcutDialog:longLabelSupportingText")
                         )
                     },
                     singleLine = true,
@@ -368,18 +373,14 @@ class ShortcutDialogState {
         shortLabel = ""
     }
 
-    fun getShortcut(packageName: String, intent: Intent): TargetShortcutInfoCompat? {
+    fun getShortcut(packageName: String): TargetShortcutInfoCompat? {
         shortLabelError = if (shortLabel.isBlank()) "Short label is blank" else ""
 
         longLabelError = if (longLabel.isBlank()) "Long label is blank" else ""
 
         return if (shortLabelError.isBlank() && longLabelError.isBlank()) {
             TargetShortcutInfoCompat(
-                icon = icon,
-                id = packageName,
-                shortLabel = shortLabel,
-                longLabel = longLabel,
-                intent = intent
+                icon = icon, id = packageName, shortLabel = shortLabel, longLabel = longLabel
             )
         } else {
             null

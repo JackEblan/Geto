@@ -16,16 +16,8 @@
  *
  */
 
-plugins {
-    alias(libs.plugins.com.android.geto.library)
-    alias(libs.plugins.com.android.geto.libraryJacoco)
-    alias(libs.plugins.com.android.geto.hilt)
-}
+package com.android.geto.core.model
 
-android {
-    namespace = "com.android.geto.core.shortcutmanager"
-}
-
-dependencies {
-    implementation(projects.core.model)
-}
+data class UserData(
+    val themeBrand: ThemeBrand, val darkThemeConfig: DarkThemeConfig, val useDynamicColor: Boolean
+)

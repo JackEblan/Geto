@@ -35,7 +35,6 @@ dependencyResolutionManagement {
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 rootProject.name = "Geto"
 include(":app")
-include(":core:broadcast")
 include(":core:clipboardmanager")
 include(":core:common")
 include(":core:database")
@@ -54,3 +53,5 @@ include(":feature:applist")
 include(":feature:appsettings")
 
 include(":lint")
+include(":core:datastore")
+include(":core:datastore-proto")

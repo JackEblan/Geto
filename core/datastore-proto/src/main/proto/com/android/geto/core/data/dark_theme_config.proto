@@ -16,16 +16,14 @@
  *
  */
 
-plugins {
-    alias(libs.plugins.com.android.geto.library)
-    alias(libs.plugins.com.android.geto.libraryJacoco)
-    alias(libs.plugins.com.android.geto.hilt)
-}
+syntax = "proto3";
 
-android {
-    namespace = "com.android.geto.core.shortcutmanager"
-}
+option java_package = "com.google.samples.apps.nowinandroid.core.datastore";
+option java_multiple_files = true;
 
-dependencies {
-    implementation(projects.core.model)
+enum DarkThemeConfigProto {
+  DARK_THEME_CONFIG_UNSPECIFIED = 0;
+  DARK_THEME_CONFIG_FOLLOW_SYSTEM = 1;
+  DARK_THEME_CONFIG_LIGHT = 2;
+  DARK_THEME_CONFIG_DARK = 3;
 }

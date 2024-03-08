@@ -19,6 +19,7 @@
 package com.android.geto.core.testing.repository
 
 import com.android.geto.core.data.repository.AppSettingsRepository
+import com.android.geto.core.database.model.AppSettingsEntity
 import com.android.geto.core.model.AppSettings
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,28 +29,21 @@ import kotlinx.coroutines.flow.updateAndGet
 
 class TestAppSettingsRepository : AppSettingsRepository {
 
-    private val _appSettingsFlow = MutableStateFlow<MutableList<AppSettings>>(mutableListOf())
+    private val _appSettingsFlow = MutableStateFlow(emptyList<AppSettings>())
 
     override suspend fun upsertAppSettings(appSettings: AppSettings): Boolean {
-        val result = _appSettingsFlow.updateAndGet { updatedList ->
-            val existingEntityIndex = updatedList.indexOfFirst { it.id == appSettings.id }
 
-            if (existingEntityIndex != -1) {
-                updatedList[existingEntityIndex] = appSettings
-
-            } else {
-                updatedList += appSettings
-            }
-            updatedList
+        //New entity comes first so the old entity is overwritten by distinctBy
+        val newAppSettings = _appSettingsFlow.updateAndGet { oldValues ->
+            (oldValues + appSettings).reversed().distinctBy { AppSettingsEntity::id }
         }
 
-        return appSettings in result
+        return appSettings in newAppSettings
     }
 
     override suspend fun deleteAppSettings(appSettings: AppSettings): Boolean {
         val result = _appSettingsFlow.updateAndGet { updatedList ->
-            updatedList.removeIf { it.id == appSettings.id }
-            updatedList
+            updatedList.filterNot { it.id == appSettings.id }
         }
 
         return appSettings !in result

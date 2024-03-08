@@ -381,7 +381,7 @@ class AppSettingsViewModelTest {
 
     @Test
     fun secureSettingsIsNotEmpty_whenGetSecureSettings() = runTest {
-        secureSettingsRepository.sendSecureSettings(testSecureSettingsList)
+        secureSettingsRepository.setSecureSettings(testSecureSettingsList)
 
         viewModel.getSecureSettings(text = "name0", settingsType = SettingsType.GLOBAL)
 
@@ -392,7 +392,7 @@ class AppSettingsViewModelTest {
 
     @Test
     fun secureSettingsIsEmpty_whenGetSecureSettings() = runTest {
-        secureSettingsRepository.sendSecureSettings(testSecureSettingsList)
+        secureSettingsRepository.setSecureSettings(testSecureSettingsList)
 
         viewModel.getSecureSettings(text = "nameNotFound", settingsType = SettingsType.GLOBAL)
 
@@ -403,7 +403,7 @@ class AppSettingsViewModelTest {
 
     @Test
     fun shortcutIsNull_whenGetShortcut() = runTest {
-        shortcutRepository.sendShortcuts(testShortcutsLists)
+        shortcutRepository.setShortcuts(testShortcutsLists)
 
         viewModel.getShortcut("idNotFound")
 
@@ -414,7 +414,7 @@ class AppSettingsViewModelTest {
 
     @Test
     fun shortcutIsNotNull_whenGetShortcut() = runTest {
-        shortcutRepository.sendShortcuts(testShortcutsLists)
+        shortcutRepository.setShortcuts(testShortcutsLists)
 
         viewModel.getShortcut("id0")
 

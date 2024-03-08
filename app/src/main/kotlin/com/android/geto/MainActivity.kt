@@ -28,17 +28,12 @@ import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.navigation.compose.rememberNavController
-import com.android.geto.core.broadcast.BroadcastReceiverLifecycleObserver
 import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.navigation.GetoNavHost
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
-    @Inject
-    lateinit var broadcastReceiverLifecycleObserver: BroadcastReceiverLifecycleObserver
 
     override fun onCreate(savedInstanceState: Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -46,8 +41,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         installSplashScreen()
-
-        lifecycle.addObserver(broadcastReceiverLifecycleObserver)
 
         setContent {
             GetoTheme {
@@ -60,10 +53,5 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        lifecycle.removeObserver(broadcastReceiverLifecycleObserver)
     }
 }

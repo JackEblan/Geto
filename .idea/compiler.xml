@@ -2,8 +2,11 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel target="11">
+      <module name="Geto.core.broadcast" target="17" />
       <module name="Geto.core.broadcastreceiver" target="17" />
       <module name="Geto.core.clipboardmanager-test" target="17" />
+      <module name="Geto.core.datastore-proto.test" target="17" />
+      <module name="Geto.core.datastore.test" target="17" />
       <module name="Geto.core.domani" target="17" />
       <module name="Geto.core.packagemanager-test" target="17" />
       <module name="Geto.core.pendingintent" target="17" />

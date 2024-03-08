@@ -18,14 +18,12 @@
 
 package com.android.geto.core.shortcutmanager
 
-import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
-import com.android.geto.core.broadcast.ShortcutBroadcastReceiver
 import com.android.geto.core.model.TargetShortcutInfoCompat
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
@@ -44,39 +42,30 @@ class DefaultShortcutManagerCompatWrapper @Inject constructor(@ApplicationContex
     }
 
     override fun requestPinShortcut(
-        icon: Bitmap?, id: String, shortLabel: String, longLabel: String, intent: Intent
+        icon: Bitmap?, id: String, shortLabel: String, longLabel: String
     ): Boolean {
         val shortcutInfo = if (icon != null) {
             ShortcutInfoCompat.Builder(context, id).setIcon(IconCompat.createWithBitmap(icon))
-                .setShortLabel(shortLabel).setLongLabel(longLabel).setIntent(intent).build()
+                .setShortLabel(shortLabel).setLongLabel(longLabel).build()
         } else {
             ShortcutInfoCompat.Builder(context, id).setShortLabel(shortLabel)
-                .setLongLabel(longLabel).setIntent(intent).build()
+                .setLongLabel(longLabel).build()
         }
 
-        val shortcutCallbackIntent =
-            ShortcutManagerCompat.createShortcutResultIntent(context, shortcutInfo).apply {
-                action = ShortcutBroadcastReceiver.ACTION
-            }
-
-        val successCallback = PendingIntent.getBroadcast(
-            context, 0, shortcutCallbackIntent, PendingIntent.FLAG_IMMUTABLE
-        )
-
         return ShortcutManagerCompat.requestPinShortcut(
-            context, shortcutInfo, successCallback?.intentSender
+            context, shortcutInfo, null
         )
     }
 
     override fun updateShortcuts(
-        icon: Bitmap?, id: String, shortLabel: String, longLabel: String, intent: Intent
+        icon: Bitmap?, id: String, shortLabel: String, longLabel: String
     ): Boolean {
         val shortcutInfo = if (icon != null) {
             ShortcutInfoCompat.Builder(context, id).setIcon(IconCompat.createWithBitmap(icon))
-                .setShortLabel(shortLabel).setLongLabel(longLabel).setIntent(intent).build()
+                .setShortLabel(shortLabel).setLongLabel(longLabel).build()
         } else {
             ShortcutInfoCompat.Builder(context, id).setShortLabel(shortLabel)
-                .setLongLabel(longLabel).setIntent(intent).build()
+                .setLongLabel(longLabel).build()
         }
 
         return ShortcutManagerCompat.updateShortcuts(context, listOf(shortcutInfo))
