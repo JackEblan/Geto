@@ -29,10 +29,10 @@ import kotlinx.coroutines.flow.Flow
 interface AppSettingsDao {
 
     @Upsert
-    suspend fun upsert(entity: AppSettingsEntity)
+    suspend fun upsert(entity: AppSettingsEntity): Long
 
     @Delete
-    suspend fun delete(entity: AppSettingsEntity)
+    suspend fun delete(entity: AppSettingsEntity): Int
 
     @Query("SELECT * FROM AppSettingsEntity WHERE packageName = :packageName")
     fun getAppSettingsList(packageName: String): Flow<List<AppSettingsEntity>>

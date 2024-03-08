@@ -23,9 +23,9 @@ import kotlinx.coroutines.flow.Flow
 
 interface AppSettingsRepository {
 
-    suspend fun upsertAppSettings(appSettings: AppSettings)
+    suspend fun upsertAppSettings(appSettings: AppSettings): Boolean
 
-    suspend fun deleteAppSettings(appSettings: AppSettings)
+    suspend fun deleteAppSettings(appSettings: AppSettings): Boolean
 
     fun getAppSettingsList(packageName: String): Flow<List<AppSettings>>
 }

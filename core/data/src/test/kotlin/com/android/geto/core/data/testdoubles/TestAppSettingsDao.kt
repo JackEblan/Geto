@@ -16,55 +16,48 @@
  *
  */
 
-package com.android.geto.core.testing.repository
+package com.android.geto.core.data.testdoubles
 
-import com.android.geto.core.data.repository.AppSettingsRepository
-import com.android.geto.core.model.AppSettings
+import com.android.geto.core.database.dao.AppSettingsDao
+import com.android.geto.core.database.model.AppSettingsEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.updateAndGet
 
-class TestAppSettingsRepository : AppSettingsRepository {
+class TestAppSettingsDao : AppSettingsDao {
+    private val _appSettingsFlow = MutableStateFlow<MutableList<AppSettingsEntity>>(mutableListOf())
 
-    private val _appSettingsFlow = MutableStateFlow<MutableList<AppSettings>>(mutableListOf())
-
-    override suspend fun upsertAppSettings(appSettings: AppSettings): Boolean {
+    override suspend fun upsert(entity: AppSettingsEntity): Long {
         val result = _appSettingsFlow.updateAndGet { updatedList ->
-            val existingEntityIndex = updatedList.indexOfFirst { it.id == appSettings.id }
+            val existingEntityIndex = updatedList.indexOfFirst { it.id == entity.id }
 
             if (existingEntityIndex != -1) {
-                updatedList[existingEntityIndex] = appSettings
+                updatedList[existingEntityIndex] = entity
 
             } else {
-                updatedList += appSettings
+                updatedList.add(entity)
             }
+
             updatedList
         }
 
-        return appSettings in result
+        return if (entity in result) 1L else 0L
     }
 
-    override suspend fun deleteAppSettings(appSettings: AppSettings): Boolean {
+    override suspend fun delete(entity: AppSettingsEntity): Int {
         val result = _appSettingsFlow.updateAndGet { updatedList ->
-            updatedList.removeIf { it.id == appSettings.id }
+            updatedList.removeIf { it.id == entity.id }
             updatedList
         }
 
-        return appSettings !in result
+        return if (entity !in result) 1 else 0
     }
 
-    override fun getAppSettingsList(packageName: String): Flow<List<AppSettings>> {
+    override fun getAppSettingsList(packageName: String): Flow<List<AppSettingsEntity>> {
         return _appSettingsFlow.asStateFlow().map { entities ->
             entities.filter { it.packageName == packageName }
         }
-    }
-
-    /**
-     * A test-only API to add app settings list data.
-     */
-    fun setAppSettings(value: List<AppSettings>) {
-        _appSettingsFlow.value = value.toMutableList()
     }
 }

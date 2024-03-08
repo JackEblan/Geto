@@ -32,12 +32,12 @@ class DefaultAppSettingsRepository @Inject constructor(
     private val appSettingsDao: AppSettingsDao
 ) : AppSettingsRepository {
 
-    override suspend fun upsertAppSettings(appSettings: AppSettings) {
-        appSettingsDao.upsert(appSettings.asEntity())
+    override suspend fun upsertAppSettings(appSettings: AppSettings): Boolean {
+        return appSettingsDao.upsert(appSettings.asEntity()) == 1L
     }
 
-    override suspend fun deleteAppSettings(appSettings: AppSettings) {
-        appSettingsDao.delete(appSettings.asEntity())
+    override suspend fun deleteAppSettings(appSettings: AppSettings): Boolean {
+        return appSettingsDao.delete(appSettings.asEntity()) == 1
     }
 
     override fun getAppSettingsList(packageName: String): Flow<List<AppSettings>> {
