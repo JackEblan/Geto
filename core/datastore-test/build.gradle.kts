@@ -16,14 +16,17 @@
  *
  */
 
-syntax = "proto3";
+plugins {
+    alias(libs.plugins.com.android.geto.library)
+    alias(libs.plugins.com.android.geto.hilt)
+}
 
-option java_package = "com.android.geto.core.datastore";
-option java_multiple_files = true;
+android {
+    namespace = "com.android.geto.core.datastore.test"
+}
 
-enum DarkThemeConfigProto {
-  DARK_THEME_CONFIG_UNSPECIFIED = 0;
-  DARK_THEME_CONFIG_FOLLOW_SYSTEM = 1;
-  DARK_THEME_CONFIG_LIGHT = 2;
-  DARK_THEME_CONFIG_DARK = 3;
+dependencies {
+    implementation(libs.hilt.android.testing)
+    implementation(projects.core.common)
+    implementation(projects.core.datastore)
 }

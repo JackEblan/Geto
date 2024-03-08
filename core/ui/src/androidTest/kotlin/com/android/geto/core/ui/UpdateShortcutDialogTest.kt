@@ -18,7 +18,6 @@
 
 package com.android.geto.core.ui
 
-import android.content.Intent
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
@@ -46,7 +45,7 @@ class UpdateShortcutDialogTest {
                                      updateShortcutDialogState.updateLongLabel("Test")
 
                                      updateShortcutDialogState.getShortcut(
-                                         packageName = "packageName", intent = Intent()
+                                         packageName = "packageName"
                                      )
                                  })
         }
@@ -73,7 +72,7 @@ class UpdateShortcutDialogTest {
                                      updateShortcutDialogState.updateLongLabel("")
 
                                      updateShortcutDialogState.getShortcut(
-                                         packageName = "packageName", intent = Intent()
+                                         packageName = "packageName"
                                      )
                                  })
         }

@@ -47,7 +47,7 @@ class AppListViewModelTest {
     }
 
     @Test
-    fun appListUiStateIsInitiallyLoading() = runTest {
+    fun appListUiStateIsLoading_whenStarted() = runTest {
         val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.appListUiState.collect() }
 
         val item = viewModel.appListUiState.value

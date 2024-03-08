@@ -16,14 +16,20 @@
  *
  */
 
-syntax = "proto3";
+package com.android.geto.core.data.repository
 
-option java_package = "com.android.geto.core.datastore";
-option java_multiple_files = true;
+import com.android.geto.core.model.DarkThemeConfig
+import com.android.geto.core.model.ThemeBrand
+import com.android.geto.core.model.UserData
+import kotlinx.coroutines.flow.Flow
 
-enum DarkThemeConfigProto {
-  DARK_THEME_CONFIG_UNSPECIFIED = 0;
-  DARK_THEME_CONFIG_FOLLOW_SYSTEM = 1;
-  DARK_THEME_CONFIG_LIGHT = 2;
-  DARK_THEME_CONFIG_DARK = 3;
+interface UserDataRepository {
+
+    val userData: Flow<UserData>
+
+    suspend fun setThemeBrand(themeBrand: ThemeBrand)
+
+    suspend fun setDarkThemeConfig(darkThemeConfig: DarkThemeConfig)
+
+    suspend fun setDynamicColorPreference(useDynamicColor: Boolean)
 }

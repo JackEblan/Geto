@@ -35,6 +35,7 @@ android {
 dependencies {
     api(projects.core.common)
     api(projects.core.database)
+    api(projects.core.datastore)
     api(projects.core.clipboardmanager)
     api(projects.core.model)
     api(projects.core.packagemanager)
@@ -42,5 +43,6 @@ dependencies {
     api(projects.core.shortcutmanager)
 
     testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(projects.core.datastoreTest)
     testImplementation(projects.core.testing)
 }

@@ -21,6 +21,7 @@ package com.android.geto
 import com.android.build.api.variant.AndroidComponentsExtension
 import org.gradle.api.Project
 import org.gradle.api.tasks.testing.Test
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.register
 import org.gradle.kotlin.dsl.withType
@@ -75,6 +76,11 @@ internal fun Project.configureJacoco(
     }
 
     tasks.withType<Test>().configureEach {
+        testLogging {
+            showStackTraces = true
+            showCauses = true
+            exceptionFormat = FULL
+        }
         configure<JacocoTaskExtension> {
             // Required for JaCoCo + Robolectric
             // https://github.com/robolectric/robolectric/issues/2230

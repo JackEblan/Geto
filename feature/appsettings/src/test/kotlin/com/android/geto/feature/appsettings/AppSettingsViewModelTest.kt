@@ -107,7 +107,7 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun appSettingsUiStateIsInitiallyLoading() = runTest {
+    fun appSettingsUiStateIsLoading_whenStarted() = runTest {
         val item = viewModel.appSettingsUiState.value
 
         assertIs<AppSettingsUiState.Loading>(item)

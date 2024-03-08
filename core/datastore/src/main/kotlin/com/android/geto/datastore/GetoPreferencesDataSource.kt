@@ -19,17 +19,17 @@
 package com.android.geto.datastore
 
 import androidx.datastore.core.DataStore
+import com.android.geto.core.datastore.DarkThemeConfigProto
+import com.android.geto.core.datastore.ThemeBrandProto
 import com.android.geto.core.datastore.UserPreferences
 import com.android.geto.core.datastore.copy
 import com.android.geto.core.model.DarkThemeConfig
 import com.android.geto.core.model.ThemeBrand
 import com.android.geto.core.model.UserData
-import com.google.samples.apps.nowinandroid.core.datastore.DarkThemeConfigProto
-import com.google.samples.apps.nowinandroid.core.datastore.ThemeBrandProto
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class NiaPreferencesDataSource @Inject constructor(
+class GetoPreferencesDataSource @Inject constructor(
     private val userPreferences: DataStore<UserPreferences>,
 ) {
     val userData = userPreferences.data.map {
