@@ -19,23 +19,20 @@
 plugins {
     alias(libs.plugins.com.android.geto.library)
     alias(libs.plugins.com.android.geto.libraryCompose)
+    alias(libs.plugins.com.android.geto.hilt)
 }
 
 android {
-    namespace = "com.android.geto.core.ui"
 
-    defaultConfig {
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
+    namespace = "com.android.geto.core.screenshot.testing"
 }
 
 dependencies {
-    api(projects.core.designsystem)
-    api(projects.core.model)
-
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.coil.kt.compose)
-
-    testImplementation(projects.core.testing)
-    androidTestImplementation(projects.core.testing)
+    api(libs.roborazzi)
+    implementation(libs.accompanist.testharness)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.compose.ui.test)
+    implementation(libs.robolectric)
+    implementation(projects.core.common)
+    implementation(projects.core.designsystem)
 }

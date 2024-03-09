@@ -49,9 +49,42 @@ jobs:
       - name: Check build-logic
         run: ./gradlew check -p build-logic
 
+      - name: Run all local screenshot tests (Roborazzi)
+        id: screenshotsverify
+        continue-on-error: true
+        run: ./gradlew verifyRoborazziDemoDebug
+
+      - name: Prevent pushing new screenshots if this is a fork
+        id: checkfork_screenshots
+        continue-on-error: false
+        if: steps.screenshotsverify.outcome == 'failure' && github.event.pull_request.head.repo.full_name != github.repository
+        run: |
+          echo "::error::Screenshot tests failed, please create a PR in your fork first." && exit 1
+
+      - name: Generate new screenshots if verification failed and it's a PR
+        id: screenshotsrecord
+        if: steps.screenshotsverify.outcome == 'failure' && github.event_name == 'pull_request'
+        run: |
+          ./gradlew recordRoborazziDemoDebug
+
+      - name: Push new screenshots if available
+        uses: stefanzweifel/git-auto-commit-action@v5
+        if: steps.screenshotsrecord.outcome == 'success'
+        with:
+          file_pattern: '*/*.png'
+          disable_globbing: true
+          commit_message: "🤖 Updates screenshots"
+
       - name: Run local tests
         if: always()
-        run: ./gradlew testDemoDebug
+        run: ./gradlew testDemoDebug :lint:test
+
+      - name: Build all build type and flavor permutations
+        run: ./gradlew :app:assemble :benchmarks:assemble
+          -x pixel6Api33ProdNonMinifiedReleaseAndroidTest
+          -x pixel6Api33DemoNonMinifiedReleaseAndroidTest
+          -x collectDemoNonMinifiedReleaseBaselineProfile
+          -x collectProdNonMinifiedReleaseBaselineProfile
 
       - name: Build all build type and flavor permutations
         run: ./gradlew assemble

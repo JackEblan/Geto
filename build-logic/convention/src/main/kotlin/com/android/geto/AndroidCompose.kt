@@ -44,7 +44,15 @@ internal fun Project.configureAndroidCompose(
             val bom = libs.androidx.compose.bom
             add("implementation", platform(bom))
             add("androidTestImplementation", platform(bom))
-            add("debugImplementation", libs.androidx.compose.ui.test.manifest)
+            add("implementation", libs.androidx.compose.ui.tooling.preview)
+            add("debugImplementation", libs.androidx.compose.ui.tooling)
+        }
+
+        testOptions {
+            unitTests {
+                // For Robolectric
+                isIncludeAndroidResources = true
+            }
         }
     }
 }
