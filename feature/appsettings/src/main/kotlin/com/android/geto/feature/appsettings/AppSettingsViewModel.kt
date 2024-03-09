@@ -195,7 +195,7 @@ class AppSettingsViewModel @Inject constructor(
     fun getSecureSettings(text: String, settingsType: SettingsType) {
         viewModelScope.launch {
             val filteredSecureSettings = secureSettingsRepository.getSecureSettings(settingsType)
-                .filter { it.name!!.contains(text) }.take(10)
+                .filter { it.name!!.contains(text) }.take(20)
 
             _secureSettings.update { filteredSecureSettings }
         }

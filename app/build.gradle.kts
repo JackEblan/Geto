@@ -63,6 +63,7 @@ dependencies {
 
     implementation(projects.feature.applist)
     implementation(projects.feature.appsettings)
+    implementation(projects.feature.settings)
 
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.activity.compose)

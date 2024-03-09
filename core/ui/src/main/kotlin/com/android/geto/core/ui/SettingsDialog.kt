@@ -171,7 +171,12 @@ fun AddSettingsDialog(
                         ) {
                             addSettingsDialogState.secureSettings.forEach { secureSetting ->
                                 DropdownMenuItem(
-                                    text = { Text(text = secureSetting.name ?: "null") },
+                                    text = {
+                                        Text(
+                                            text = secureSetting.name ?: "null",
+                                            style = MaterialTheme.typography.bodySmall
+                                        )
+                                    },
                                     onClick = {
                                         addSettingsDialogState.updateKey(
                                             secureSetting.name ?: "null"

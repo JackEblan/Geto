@@ -28,7 +28,7 @@ import com.android.geto.feature.appsettings.navigation.navigateToAppSettings
 
 @Composable
 fun GetoNavHost(
-    navController: NavHostController
+    navController: NavHostController, onSettingsClick: () -> Unit
 ) {
     NavHost(
         navController = navController, startDestination = APP_LIST_NAVIGATION_ROUTE
@@ -37,7 +37,7 @@ fun GetoNavHost(
             navController.navigateToAppSettings(
                 packageName = packageName, appName = appName
             )
-        })
+        }, onSettingsClick = onSettingsClick)
 
         appSettingsScreen(onNavigationIconClick = navController::popBackStack)
     }

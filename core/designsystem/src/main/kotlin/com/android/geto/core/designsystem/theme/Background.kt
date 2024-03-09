@@ -16,22 +16,17 @@
  *
  */
 
-package com.android.geto.feature.applist.navigation
+package com.android.geto.core.designsystem.theme
 
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.compose.composable
-import com.android.geto.feature.applist.AppListRoute
+import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
 
-const val APP_LIST_NAVIGATION_ROUTE = "app_list_route"
+@Immutable
+data class BackgroundTheme(
+    val color: Color = Color.Unspecified,
+    val tonalElevation: Dp = Dp.Unspecified,
+)
 
-fun NavGraphBuilder.appListScreen(
-    onItemClick: (String, String) -> Unit, onSettingsClick: () -> Unit
-) {
-    composable(
-        route = APP_LIST_NAVIGATION_ROUTE
-    ) {
-        AppListRoute(
-            onItemClick = onItemClick, onSettingsClick = onSettingsClick
-        )
-    }
-}
+val LocalBackgroundTheme = staticCompositionLocalOf { BackgroundTheme() }

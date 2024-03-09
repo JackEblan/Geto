@@ -16,22 +16,10 @@
  *
  */
 
-package com.android.geto.feature.applist.navigation
+package com.android.geto
 
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.compose.composable
-import com.android.geto.feature.applist.AppListRoute
+import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
 
-const val APP_LIST_NAVIGATION_ROUTE = "app_list_route"
-
-fun NavGraphBuilder.appListScreen(
-    onItemClick: (String, String) -> Unit, onSettingsClick: () -> Unit
-) {
-    composable(
-        route = APP_LIST_NAVIGATION_ROUTE
-    ) {
-        AppListRoute(
-            onItemClick = onItemClick, onSettingsClick = onSettingsClick
-        )
-    }
-}
+@HiltAndroidApp
+class GetoApplication : Application()

@@ -16,10 +16,21 @@
  *
  */
 
-package com.android.geto
+plugins {
+    alias(libs.plugins.com.android.geto.feature)
+    alias(libs.plugins.com.android.geto.libraryCompose)
+    alias(libs.plugins.com.android.geto.libraryJacoco)
+}
 
-import android.app.Application
-import dagger.hilt.android.HiltAndroidApp
+android {
+    namespace = "com.android.geto.feature.settings"
+}
 
-@HiltAndroidApp
-class App : Application()
+dependencies {
+    implementation(projects.core.data)
+
+    testImplementation(projects.core.testing)
+    testImplementation(libs.kotlinx.coroutines.test)
+
+    androidTestImplementation(projects.core.testing)
+}
