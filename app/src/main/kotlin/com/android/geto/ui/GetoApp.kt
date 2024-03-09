@@ -25,9 +25,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.navigation.compose.rememberNavController
 import com.android.geto.core.designsystem.component.GetoBackground
-import com.android.geto.core.designsystem.component.GetoGradientBackground
-import com.android.geto.core.designsystem.theme.GradientColors
-import com.android.geto.core.designsystem.theme.LocalGradientColors
 import com.android.geto.feature.settings.SettingsDialog
 import com.android.geto.navigation.GetoNavHost
 
@@ -35,28 +32,17 @@ import com.android.geto.navigation.GetoNavHost
 fun GetoApp() {
     val navController = rememberNavController()
 
-    val shouldShowGradientBackground = true
-
     var showSettingsDialog by rememberSaveable { mutableStateOf(false) }
 
     GetoBackground {
-        GetoGradientBackground(
-            gradientColors = if (shouldShowGradientBackground) {
-                LocalGradientColors.current
-            } else {
-                GradientColors()
-            },
-        ) {
-
-            if (showSettingsDialog) {
-                SettingsDialog(
-                    onDismiss = { showSettingsDialog = false },
-                )
-            }
-
-            GetoNavHost(navController = navController, onSettingsClick = {
-                showSettingsDialog = true
-            })
+        if (showSettingsDialog) {
+            SettingsDialog(
+                onDismiss = { showSettingsDialog = false },
+            )
         }
+
+        GetoNavHost(navController = navController, onSettingsClick = {
+            showSettingsDialog = true
+        })
     }
 }

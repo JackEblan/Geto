@@ -27,6 +27,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -38,6 +39,7 @@ import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -48,12 +50,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import com.android.geto.core.designsystem.component.GetoLabeledRadioButton
 import com.android.geto.core.model.AppSettings
 import com.android.geto.core.model.SecureSettings
 import com.android.geto.core.model.SettingsType
@@ -63,9 +66,8 @@ import kotlinx.coroutines.flow.debounce
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddSettingsDialog(
-    modifier: Modifier = Modifier,
-    addSettingsDialogState: SettingsDialogState,
+fun AddAppSettingsDialog(
+    modifier: Modifier = Modifier, addAppSettingsDialogState: AppSettingsDialogState,
     scrollState: ScrollState,
     onDismissRequest: () -> Unit,
     onAddSettings: () -> Unit
@@ -76,7 +78,7 @@ fun AddSettingsDialog(
                 .fillMaxWidth()
                 .wrapContentSize()
                 .padding(16.dp)
-                .testTag("addSettingsDialog"),
+                .testTag("addAppSettingsDialog"),
             shape = RoundedCornerShape(16.dp),
         ) {
             Column(
@@ -87,8 +89,7 @@ fun AddSettingsDialog(
                 Spacer(modifier = Modifier.height(10.dp))
 
                 Text(
-                    modifier = Modifier.padding(horizontal = 5.dp),
-                    text = "Add Settings",
+                    modifier = Modifier.padding(horizontal = 5.dp), text = "Add App Settings",
                     style = MaterialTheme.typography.titleLarge
                 )
 
@@ -99,11 +100,32 @@ fun AddSettingsDialog(
                         .fillMaxWidth()
                         .selectableGroup()
                 ) {
-                    GetoLabeledRadioButton(
-                        items = SettingsType.entries.map(SettingsType::name),
-                        selectedRadioOptionIndex = addSettingsDialogState.selectedRadioOptionIndex,
-                        onRadioOptionSelected = addSettingsDialogState::updateSelectedRadioOptionIndex
-                    )
+                    SettingsType.entries.map(SettingsType::name).forEachIndexed { index, text ->
+                        Row(
+                            modifier
+                                .padding(vertical = 10.dp)
+                                .selectable(selected = index == addAppSettingsDialogState.selectedRadioOptionIndex,
+                                            role = Role.RadioButton,
+                                            enabled = true,
+                                            onClick = {
+                                                addAppSettingsDialogState.updateSelectedRadioOptionIndex(
+                                                    index
+                                                )
+                                            })
+                                .padding(horizontal = 16.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            RadioButton(
+                                selected = index == addAppSettingsDialogState.selectedRadioOptionIndex,
+                                onClick = null
+                            )
+                            Text(
+                                text = text,
+                                style = MaterialTheme.typography.bodyLarge,
+                                modifier = Modifier.padding(start = 10.dp)
+                            )
+                        }
+                    }
                 }
 
                 Spacer(modifier = Modifier.height(10.dp))
@@ -112,16 +134,16 @@ fun AddSettingsDialog(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 5.dp),
-                    value = addSettingsDialogState.label,
-                    onValueChange = addSettingsDialogState::updateLabel,
+                    value = addAppSettingsDialogState.label,
+                    onValueChange = addAppSettingsDialogState::updateLabel,
                     label = {
                         Text(text = "Settings label")
                     },
-                    isError = addSettingsDialogState.labelError.isNotBlank(),
+                    isError = addAppSettingsDialogState.labelError.isNotBlank(),
                     supportingText = {
-                        if (addSettingsDialogState.labelError.isNotBlank()) Text(
-                            text = addSettingsDialogState.labelError,
-                            modifier = Modifier.testTag("addSettingsDialog:labelSupportingText")
+                        if (addAppSettingsDialogState.labelError.isNotBlank()) Text(
+                            text = addAppSettingsDialogState.labelError,
+                            modifier = Modifier.testTag("addAppSettingsDialog:labelSupportingText")
                         )
                     },
                     singleLine = true,
@@ -129,47 +151,47 @@ fun AddSettingsDialog(
                 )
 
                 ExposedDropdownMenuBox(
-                    expanded = addSettingsDialogState.secureSettingsExpanded,
-                    onExpandedChange = addSettingsDialogState::updateSecureSettingsExpanded,
-                    modifier = Modifier.testTag("addSettingsDialog:exposedDropdownMenuBox")
+                    expanded = addAppSettingsDialogState.secureSettingsExpanded,
+                    onExpandedChange = addAppSettingsDialogState::updateSecureSettingsExpanded,
+                    modifier = Modifier.testTag("addAppSettingsDialog:exposedDropdownMenuBox")
                 ) {
                     OutlinedTextField(
                         modifier = Modifier
                             .menuAnchor()
                             .fillMaxWidth()
                             .padding(horizontal = 5.dp)
-                            .testTag("addSettingsDialog:keyTextField"),
-                        value = addSettingsDialogState.key,
-                        onValueChange = addSettingsDialogState::updateKey,
+                            .testTag("addAppSettingsDialog:keyTextField"),
+                        value = addAppSettingsDialogState.key,
+                        onValueChange = addAppSettingsDialogState::updateKey,
                         label = {
                             Text(text = "Settings key")
                         },
-                        trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = addSettingsDialogState.secureSettingsExpanded) },
+                        trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = addAppSettingsDialogState.secureSettingsExpanded) },
                         colors = ExposedDropdownMenuDefaults.textFieldColors(),
-                        isError = addSettingsDialogState.keyError.isNotBlank() || addSettingsDialogState.settingsKeyNotFoundError.isNotBlank(),
+                        isError = addAppSettingsDialogState.keyError.isNotBlank() || addAppSettingsDialogState.settingsKeyNotFoundError.isNotBlank(),
                         supportingText = {
-                            if (addSettingsDialogState.keyError.isNotBlank()) Text(
-                                text = addSettingsDialogState.keyError,
-                                modifier = Modifier.testTag("addSettingsDialog:keySupportingText")
+                            if (addAppSettingsDialogState.keyError.isNotBlank()) Text(
+                                text = addAppSettingsDialogState.keyError,
+                                modifier = Modifier.testTag("addAppSettingsDialog:keySupportingText")
                             )
 
-                            if (addSettingsDialogState.settingsKeyNotFoundError.isNotBlank()) Text(
-                                text = addSettingsDialogState.settingsKeyNotFoundError,
-                                modifier = Modifier.testTag("addSettingsDialog:settingsKeyNotFoundSupportingText")
+                            if (addAppSettingsDialogState.settingsKeyNotFoundError.isNotBlank()) Text(
+                                text = addAppSettingsDialogState.settingsKeyNotFoundError,
+                                modifier = Modifier.testTag("addAppSettingsDialog:settingsKeyNotFoundSupportingText")
                             )
                         },
                         singleLine = true,
                         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
                     )
 
-                    if (addSettingsDialogState.secureSettings.isNotEmpty()) {
+                    if (addAppSettingsDialogState.secureSettings.isNotEmpty()) {
                         ExposedDropdownMenu(
-                            expanded = addSettingsDialogState.secureSettingsExpanded,
+                            expanded = addAppSettingsDialogState.secureSettingsExpanded,
                             onDismissRequest = {
-                                addSettingsDialogState.updateSecureSettingsExpanded(false)
+                                addAppSettingsDialogState.updateSecureSettingsExpanded(false)
                             },
                         ) {
-                            addSettingsDialogState.secureSettings.forEach { secureSetting ->
+                            addAppSettingsDialogState.secureSettings.forEach { secureSetting ->
                                 DropdownMenuItem(
                                     text = {
                                         Text(
@@ -178,15 +200,15 @@ fun AddSettingsDialog(
                                         )
                                     },
                                     onClick = {
-                                        addSettingsDialogState.updateKey(
+                                        addAppSettingsDialogState.updateKey(
                                             secureSetting.name ?: "null"
                                         )
 
-                                        addSettingsDialogState.updateValueOnRevert(
+                                        addAppSettingsDialogState.updateValueOnRevert(
                                             secureSetting.value ?: "null"
                                         )
 
-                                        addSettingsDialogState.updateSecureSettingsExpanded(
+                                        addAppSettingsDialogState.updateSecureSettingsExpanded(
                                             false
                                         )
                                     },
@@ -202,16 +224,16 @@ fun AddSettingsDialog(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 5.dp),
-                    value = addSettingsDialogState.valueOnLaunch,
-                    onValueChange = addSettingsDialogState::updateValueOnLaunch,
+                    value = addAppSettingsDialogState.valueOnLaunch,
+                    onValueChange = addAppSettingsDialogState::updateValueOnLaunch,
                     label = {
                         Text(text = "Settings value on launch")
                     },
-                    isError = addSettingsDialogState.valueOnLaunchError.isNotBlank(),
+                    isError = addAppSettingsDialogState.valueOnLaunchError.isNotBlank(),
                     supportingText = {
-                        if (addSettingsDialogState.valueOnLaunchError.isNotBlank()) Text(
-                            text = addSettingsDialogState.valueOnLaunchError,
-                            modifier = Modifier.testTag("addSettingsDialog:valueOnLaunchSupportingText")
+                        if (addAppSettingsDialogState.valueOnLaunchError.isNotBlank()) Text(
+                            text = addAppSettingsDialogState.valueOnLaunchError,
+                            modifier = Modifier.testTag("addAppSettingsDialog:valueOnLaunchSupportingText")
                         )
                     },
                     singleLine = true,
@@ -222,17 +244,17 @@ fun AddSettingsDialog(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 5.dp)
-                        .testTag("addSettingsDialog:valueOnRevertTextField"),
-                    value = addSettingsDialogState.valueOnRevert,
-                    onValueChange = addSettingsDialogState::updateValueOnRevert,
+                        .testTag("addAppSettingsDialog:valueOnRevertTextField"),
+                    value = addAppSettingsDialogState.valueOnRevert,
+                    onValueChange = addAppSettingsDialogState::updateValueOnRevert,
                     label = {
                         Text(text = "Settings value on revert")
                     },
-                    isError = addSettingsDialogState.valueOnRevertError.isNotBlank(),
+                    isError = addAppSettingsDialogState.valueOnRevertError.isNotBlank(),
                     supportingText = {
-                        if (addSettingsDialogState.valueOnRevertError.isNotBlank()) Text(
-                            text = addSettingsDialogState.valueOnRevertError,
-                            modifier = Modifier.testTag("addSettingsDialog:valueOnRevertSupportingText")
+                        if (addAppSettingsDialogState.valueOnRevertError.isNotBlank()) Text(
+                            text = addAppSettingsDialogState.valueOnRevertError,
+                            modifier = Modifier.testTag("addAppSettingsDialog:valueOnRevertSupportingText")
                         )
                     },
                     singleLine = true,
@@ -252,7 +274,7 @@ fun AddSettingsDialog(
                         onClick = onAddSettings,
                         modifier = Modifier
                             .padding(5.dp)
-                            .testTag("addSettingsDialog:add")
+                            .testTag("addAppSettingsDialog:add")
                     ) {
                         Text("Add")
                     }
@@ -263,14 +285,14 @@ fun AddSettingsDialog(
 }
 
 @Composable
-fun rememberAddSettingsDialogState(): SettingsDialogState {
-    return rememberSaveable(saver = SettingsDialogState.Saver) {
-        SettingsDialogState()
+fun rememberAddAppSettingsDialogState(): AppSettingsDialogState {
+    return rememberSaveable(saver = AppSettingsDialogState.Saver) {
+        AppSettingsDialogState()
     }
 }
 
 @Stable
-class SettingsDialogState {
+class AppSettingsDialogState {
     var secureSettings by mutableStateOf<List<SecureSettings>>(emptyList())
 
     var secureSettingsExpanded by mutableStateOf(false)
@@ -388,7 +410,7 @@ class SettingsDialogState {
     }
 
     companion object {
-        val Saver = listSaver<SettingsDialogState, Any>(save = { state ->
+        val Saver = listSaver<AppSettingsDialogState, Any>(save = { state ->
             listOf(
                 state.showDialog,
                 state.selectedRadioOptionIndex,
@@ -403,7 +425,7 @@ class SettingsDialogState {
                 state.valueOnRevertError
             )
         }, restore = {
-            SettingsDialogState().apply {
+            AppSettingsDialogState().apply {
                 showDialog = it[0] as Boolean
 
                 selectedRadioOptionIndex = it[1] as Int

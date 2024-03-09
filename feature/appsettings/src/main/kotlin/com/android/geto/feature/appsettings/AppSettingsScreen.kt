@@ -55,16 +55,16 @@ import com.android.geto.core.designsystem.icon.GetoIcons
 import com.android.geto.core.model.AppSettings
 import com.android.geto.core.model.SettingsType
 import com.android.geto.core.model.TargetShortcutInfoCompat
-import com.android.geto.core.ui.AddSettingsDialog
+import com.android.geto.core.ui.AddAppSettingsDialog
 import com.android.geto.core.ui.AddShortcutDialog
+import com.android.geto.core.ui.AppSettingsDialogState
 import com.android.geto.core.ui.AppSettingsItem
 import com.android.geto.core.ui.CopyPermissionCommandDialog
 import com.android.geto.core.ui.EmptyListPlaceHolderScreen
 import com.android.geto.core.ui.LoadingPlaceHolderScreen
-import com.android.geto.core.ui.SettingsDialogState
 import com.android.geto.core.ui.ShortcutDialogState
 import com.android.geto.core.ui.UpdateShortcutDialog
-import com.android.geto.core.ui.rememberAddSettingsDialogState
+import com.android.geto.core.ui.rememberAddAppSettingsDialogState
 import com.android.geto.core.ui.rememberAddShortcutDialogState
 
 @Composable
@@ -94,7 +94,7 @@ internal fun AppSettingsRoute(
 
     val shortcut = viewModel.shortcut.collectAsStateWithLifecycle().value
 
-    val addSettingsDialogState = rememberAddSettingsDialogState()
+    val addSettingsDialogState = rememberAddAppSettingsDialogState()
 
     val addShortcutDialogState = rememberAddShortcutDialogState()
 
@@ -148,7 +148,7 @@ internal fun AppSettingsRoute(
         snackbarHostState = snackbarHostState,
         appName = viewModel.appName, packageName = viewModel.packageName,
         appSettingsUiState = appSettingsUiState,
-        addSettingsDialogState = addSettingsDialogState,
+        addAppSettingsDialogState = addSettingsDialogState,
         addShortcutDialogState = addShortcutDialogState,
         updateShortcutDialogState = updateShortcutDialogState,
         showCopyPermissionCommandDialog = showCopyPermissionCommandDialog,
@@ -190,7 +190,7 @@ internal fun AppSettingsScreen(
     appName: String,
     packageName: String,
     appSettingsUiState: AppSettingsUiState,
-    addSettingsDialogState: SettingsDialogState,
+    addAppSettingsDialogState: AppSettingsDialogState,
     addShortcutDialogState: ShortcutDialogState,
     updateShortcutDialogState: ShortcutDialogState,
     showCopyPermissionCommandDialog: Boolean,
@@ -209,15 +209,16 @@ internal fun AppSettingsScreen(
     onCopyPermissionCommand: () -> Unit,
     onDismissRequestCopyPermissionCommand: () -> Unit,
 ) {
-    if (addSettingsDialogState.showDialog) {
-        AddSettingsDialog(addSettingsDialogState = addSettingsDialogState,
-                          scrollState = scrollState,
-                          onDismissRequest = { addSettingsDialogState.updateShowDialog(false) },
-                          onAddSettings = {
-                              addSettingsDialogState.getAppSettings(packageName = packageName)
+    if (addAppSettingsDialogState.showDialog) {
+        AddAppSettingsDialog(
+            addAppSettingsDialogState = addAppSettingsDialogState,
+            scrollState = scrollState,
+            onDismissRequest = { addAppSettingsDialogState.updateShowDialog(false) },
+            onAddSettings = {
+                addAppSettingsDialogState.getAppSettings(packageName = packageName)
                                   ?.let {
                                       onAddSettings(it)
-                                      addSettingsDialogState.resetState()
+                                      addAppSettingsDialogState.resetState()
                                   }
                           })
     }

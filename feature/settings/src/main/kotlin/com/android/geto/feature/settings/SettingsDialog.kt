@@ -19,7 +19,6 @@
 package com.android.geto.feature.settings
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
@@ -33,10 +32,10 @@ import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -96,7 +95,6 @@ fun SettingsDialog(
             )
         },
         text = {
-            HorizontalDivider()
             Column(Modifier.verticalScroll(rememberScrollState())) {
                 when (settingsUiState) {
                     SettingsUiState.Loading -> {
@@ -116,18 +114,14 @@ fun SettingsDialog(
                         )
                     }
                 }
-                HorizontalDivider(Modifier.padding(top = 8.dp))
             }
         },
         confirmButton = {
-            Text(
-                text = stringResource(R.string.feature_settings_dismiss_dialog_button_text),
-                style = MaterialTheme.typography.labelLarge,
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier
-                    .padding(horizontal = 8.dp)
-                    .clickable { onDismiss() },
-            )
+            TextButton(
+                onClick = onDismiss
+            ) {
+                Text(text = stringResource(id = R.string.feature_settings_dismiss_dialog_button_text))
+            }
         },
     )
 }

@@ -30,7 +30,7 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTouchInput
 import com.android.geto.core.model.AppSettings
 import com.android.geto.core.model.SettingsType
-import com.android.geto.core.ui.rememberAddSettingsDialogState
+import com.android.geto.core.ui.rememberAddAppSettingsDialogState
 import com.android.geto.core.ui.rememberAddShortcutDialogState
 import com.android.geto.core.ui.rememberUpdateShortcutDialogState
 import org.junit.Rule
@@ -43,7 +43,7 @@ class AppSettingsScreenTest {
     @Test
     fun loadingPlaceHolderScreenIsDisplayed_whenAppSettingsUiStateIsLoading() {
         composeTestRule.setContent {
-            val addSettingsDialogState = rememberAddSettingsDialogState()
+            val addAppSettingsDialogState = rememberAddAppSettingsDialogState()
 
             val addShortcutDialogState = rememberAddShortcutDialogState()
 
@@ -55,7 +55,7 @@ class AppSettingsScreenTest {
                               appName = "Geto",
                               packageName = "Geto",
                               appSettingsUiState = AppSettingsUiState.Loading,
-                              addSettingsDialogState = addSettingsDialogState,
+                              addAppSettingsDialogState = addAppSettingsDialogState,
                               addShortcutDialogState = addShortcutDialogState,
                               updateShortcutDialogState = updateShortcutDialogState,
                               showCopyPermissionCommandDialog = false,
@@ -81,7 +81,7 @@ class AppSettingsScreenTest {
     @Test
     fun emptyListPlaceHolderScreenIsDisplayed_whenAppSettingsUiStateIsEmpty() {
         composeTestRule.setContent {
-            val addSettingsDialogState = rememberAddSettingsDialogState()
+            val addAppSettingsDialogState = rememberAddAppSettingsDialogState()
 
             val addShortcutDialogState = rememberAddShortcutDialogState()
 
@@ -93,7 +93,7 @@ class AppSettingsScreenTest {
                               appName = "Geto",
                               packageName = "Geto",
                               appSettingsUiState = AppSettingsUiState.Empty,
-                              addSettingsDialogState = addSettingsDialogState,
+                              addAppSettingsDialogState = addAppSettingsDialogState,
                               addShortcutDialogState = addShortcutDialogState,
                               updateShortcutDialogState = updateShortcutDialogState,
                               showCopyPermissionCommandDialog = false,
@@ -119,7 +119,7 @@ class AppSettingsScreenTest {
     @Test
     fun lazyColumnIsDisplayed_whenAppSettingsUiStateIsSuccess() {
         composeTestRule.setContent {
-            val addSettingsDialogState = rememberAddSettingsDialogState()
+            val addAppSettingsDialogState = rememberAddAppSettingsDialogState()
 
             val addShortcutDialogState = rememberAddShortcutDialogState()
 
@@ -131,7 +131,7 @@ class AppSettingsScreenTest {
                               appName = "Geto",
                               packageName = "Geto",
                               appSettingsUiState = AppSettingsUiState.Success(testAppSettingsList),
-                              addSettingsDialogState = addSettingsDialogState,
+                              addAppSettingsDialogState = addAppSettingsDialogState,
                               addShortcutDialogState = addShortcutDialogState,
                               updateShortcutDialogState = updateShortcutDialogState,
                               showCopyPermissionCommandDialog = false,
@@ -157,7 +157,7 @@ class AppSettingsScreenTest {
     @Test
     fun snackbarExists_whenRevertIconIsClicked_appSettingsUiStateIsEmpty() {
         composeTestRule.setContent {
-            val addSettingsDialogState = rememberAddSettingsDialogState()
+            val addAppSettingsDialogState = rememberAddAppSettingsDialogState()
 
             val addShortcutDialogState = rememberAddShortcutDialogState()
 
@@ -169,7 +169,7 @@ class AppSettingsScreenTest {
                               appName = "Geto",
                               packageName = "Geto",
                               appSettingsUiState = AppSettingsUiState.Success(testAppSettingsList),
-                              addSettingsDialogState = addSettingsDialogState,
+                              addAppSettingsDialogState = addAppSettingsDialogState,
                               addShortcutDialogState = addShortcutDialogState,
                               updateShortcutDialogState = updateShortcutDialogState,
                               showCopyPermissionCommandDialog = false,
@@ -197,7 +197,7 @@ class AppSettingsScreenTest {
     @Test
     fun snackbarExists_whenLaunchIconIsClicked_appSettingsUiStateIsEmpty() {
         composeTestRule.setContent {
-            val addSettingsDialogState = rememberAddSettingsDialogState()
+            val addAppSettingsDialogState = rememberAddAppSettingsDialogState()
 
             val addShortcutDialogState = rememberAddShortcutDialogState()
 
@@ -209,7 +209,7 @@ class AppSettingsScreenTest {
                               appName = "Geto",
                               packageName = "Geto",
                               appSettingsUiState = AppSettingsUiState.Empty,
-                              addSettingsDialogState = addSettingsDialogState,
+                              addAppSettingsDialogState = addAppSettingsDialogState,
                               addShortcutDialogState = addShortcutDialogState,
                               updateShortcutDialogState = updateShortcutDialogState,
                               showCopyPermissionCommandDialog = false,
@@ -235,9 +235,9 @@ class AppSettingsScreenTest {
     }
 
     @Test
-    fun addSettingsDialogIsDisplayed_whenSettingsIconIsClicked() {
+    fun addAppSettingsDialogIsDisplayed_whenSettingsIconIsClicked() {
         composeTestRule.setContent {
-            val addSettingsDialogState = rememberAddSettingsDialogState()
+            val addAppSettingsDialogState = rememberAddAppSettingsDialogState()
 
             val addShortcutDialogState = rememberAddShortcutDialogState()
 
@@ -249,14 +249,14 @@ class AppSettingsScreenTest {
                               appName = "Geto",
                               packageName = "Geto",
                               appSettingsUiState = AppSettingsUiState.Empty,
-                              addSettingsDialogState = addSettingsDialogState,
+                              addAppSettingsDialogState = addAppSettingsDialogState,
                               addShortcutDialogState = addShortcutDialogState,
                               updateShortcutDialogState = updateShortcutDialogState,
                               showCopyPermissionCommandDialog = false,
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
                               onSettingsIconClick = {
-                                  addSettingsDialogState.updateShowDialog(true)
+                                  addAppSettingsDialogState.updateShowDialog(true)
                               },
                               onShortcutIconClick = {},
                               onAppSettingsItemCheckBoxChange = { _, _ -> },
@@ -273,13 +273,13 @@ class AppSettingsScreenTest {
 
         composeTestRule.onNodeWithContentDescription("Settings icon").performClick()
 
-        composeTestRule.onNodeWithTag("addSettingsDialog").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("addAppSettingsDialog").assertIsDisplayed()
     }
 
     @Test
     fun copyPermissionCommandDialogIsDisplayed_whenShowCopyPermissionCommandDialogIsTrue() {
         composeTestRule.setContent {
-            val addSettingsDialogState = rememberAddSettingsDialogState()
+            val addAppSettingsDialogState = rememberAddAppSettingsDialogState()
 
             val addShortcutDialogState = rememberAddShortcutDialogState()
 
@@ -291,7 +291,7 @@ class AppSettingsScreenTest {
                               appName = "Geto",
                               packageName = "Geto",
                               appSettingsUiState = AppSettingsUiState.Empty,
-                              addSettingsDialogState = addSettingsDialogState,
+                              addAppSettingsDialogState = addAppSettingsDialogState,
                               addShortcutDialogState = addShortcutDialogState,
                               updateShortcutDialogState = updateShortcutDialogState,
                               showCopyPermissionCommandDialog = true,
@@ -317,7 +317,7 @@ class AppSettingsScreenTest {
     @Test
     fun addShortcutDialogIsDisplayed_whenShortcutIconIsClicked() {
         composeTestRule.setContent {
-            val addSettingsDialogState = rememberAddSettingsDialogState()
+            val addAppSettingsDialogState = rememberAddAppSettingsDialogState()
 
             val addShortcutDialogState = rememberAddShortcutDialogState()
 
@@ -329,7 +329,7 @@ class AppSettingsScreenTest {
                               appName = "Geto",
                               packageName = "Geto",
                               appSettingsUiState = AppSettingsUiState.Empty,
-                              addSettingsDialogState = addSettingsDialogState,
+                              addAppSettingsDialogState = addAppSettingsDialogState,
                               addShortcutDialogState = addShortcutDialogState,
                               updateShortcutDialogState = updateShortcutDialogState,
                               showCopyPermissionCommandDialog = false,
@@ -359,7 +359,7 @@ class AppSettingsScreenTest {
     @Test
     fun updateShortcutDialogIsDisplayed_whenShortcutIconIsClicked() {
         composeTestRule.setContent {
-            val addSettingsDialogState = rememberAddSettingsDialogState()
+            val addAppSettingsDialogState = rememberAddAppSettingsDialogState()
 
             val addShortcutDialogState = rememberAddShortcutDialogState()
 
@@ -371,7 +371,7 @@ class AppSettingsScreenTest {
                               appName = "Geto",
                               packageName = "Geto",
                               appSettingsUiState = AppSettingsUiState.Empty,
-                              addSettingsDialogState = addSettingsDialogState,
+                              addAppSettingsDialogState = addAppSettingsDialogState,
                               addShortcutDialogState = addShortcutDialogState,
                               updateShortcutDialogState = updateShortcutDialogState,
                               showCopyPermissionCommandDialog = false,
@@ -401,7 +401,7 @@ class AppSettingsScreenTest {
     @Test
     fun revertTooltipIsDisplayed_whenRevertIconIsLongClicked() {
         composeTestRule.setContent {
-            val addSettingsDialogState = rememberAddSettingsDialogState()
+            val addAppSettingsDialogState = rememberAddAppSettingsDialogState()
 
             val addShortcutDialogState = rememberAddShortcutDialogState()
 
@@ -413,7 +413,7 @@ class AppSettingsScreenTest {
                               appName = "Geto",
                               packageName = "Geto",
                               appSettingsUiState = AppSettingsUiState.Empty,
-                              addSettingsDialogState = addSettingsDialogState,
+                              addAppSettingsDialogState = addAppSettingsDialogState,
                               addShortcutDialogState = addShortcutDialogState,
                               updateShortcutDialogState = updateShortcutDialogState,
                               showCopyPermissionCommandDialog = false,
@@ -443,7 +443,7 @@ class AppSettingsScreenTest {
     @Test
     fun settingsTooltipIsDisplayed_whenSettingsIconIsLongClicked() {
         composeTestRule.setContent {
-            val addSettingsDialogState = rememberAddSettingsDialogState()
+            val addAppSettingsDialogState = rememberAddAppSettingsDialogState()
 
             val addShortcutDialogState = rememberAddShortcutDialogState()
 
@@ -455,7 +455,7 @@ class AppSettingsScreenTest {
                               appName = "Geto",
                               packageName = "Geto",
                               appSettingsUiState = AppSettingsUiState.Empty,
-                              addSettingsDialogState = addSettingsDialogState,
+                              addAppSettingsDialogState = addAppSettingsDialogState,
                               addShortcutDialogState = addShortcutDialogState,
                               updateShortcutDialogState = updateShortcutDialogState,
                               showCopyPermissionCommandDialog = false,
@@ -485,7 +485,7 @@ class AppSettingsScreenTest {
     @Test
     fun shortcutTooltipIsDisplayed_whenShortcutIconIsLongClicked() {
         composeTestRule.setContent {
-            val addSettingsDialogState = rememberAddSettingsDialogState()
+            val addAppSettingsDialogState = rememberAddAppSettingsDialogState()
 
             val addShortcutDialogState = rememberAddShortcutDialogState()
 
@@ -497,7 +497,7 @@ class AppSettingsScreenTest {
                               appName = "Geto",
                               packageName = "Geto",
                               appSettingsUiState = AppSettingsUiState.Empty,
-                              addSettingsDialogState = addSettingsDialogState,
+                              addAppSettingsDialogState = addAppSettingsDialogState,
                               addShortcutDialogState = addShortcutDialogState,
                               updateShortcutDialogState = updateShortcutDialogState,
                               showCopyPermissionCommandDialog = false,
