@@ -66,11 +66,10 @@ import com.android.geto.core.model.TargetShortcutInfoCompat
 fun AddShortcutDialog(
     modifier: Modifier = Modifier,
     shortcutDialogState: ShortcutDialogState,
-    onDismissRequest: () -> Unit,
     onRefreshShortcut: () -> Unit,
     onAddShortcut: () -> Unit
 ) {
-    Dialog(onDismissRequest = { onDismissRequest() }) {
+    Dialog(onDismissRequest = { shortcutDialogState.updateShowDialog(false) }) {
         Card(
             modifier = modifier
                 .fillMaxWidth()
@@ -171,7 +170,8 @@ fun AddShortcutDialog(
                     horizontalArrangement = Arrangement.End,
                 ) {
                     TextButton(
-                        onClick = onDismissRequest, modifier = Modifier.padding(5.dp)
+                        onClick = { shortcutDialogState.updateShowDialog(false) },
+                        modifier = Modifier.padding(5.dp)
                     ) {
                         Text("Cancel")
                     }

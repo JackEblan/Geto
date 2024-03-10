@@ -25,10 +25,12 @@ import com.android.geto.feature.applist.navigation.APP_LIST_NAVIGATION_ROUTE
 import com.android.geto.feature.applist.navigation.appListScreen
 import com.android.geto.feature.appsettings.navigation.appSettingsScreen
 import com.android.geto.feature.appsettings.navigation.navigateToAppSettings
+import com.android.geto.feature.settings.navigation.navigateToSettings
+import com.android.geto.feature.settings.navigation.settingsScreen
 
 @Composable
 fun GetoNavHost(
-    navController: NavHostController, onSettingsClick: () -> Unit
+    navController: NavHostController
 ) {
     NavHost(
         navController = navController, startDestination = APP_LIST_NAVIGATION_ROUTE
@@ -37,9 +39,11 @@ fun GetoNavHost(
             navController.navigateToAppSettings(
                 packageName = packageName, appName = appName
             )
-        }, onSettingsClick = onSettingsClick)
+        }, onSettingsClick = navController::navigateToSettings)
 
         appSettingsScreen(onNavigationIconClick = navController::popBackStack)
+
+        settingsScreen(onNavigationIconClick = navController::popBackStack)
     }
 
 }

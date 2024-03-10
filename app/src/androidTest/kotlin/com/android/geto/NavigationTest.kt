@@ -29,6 +29,7 @@ import androidx.compose.ui.test.performClick
 import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.testing.TestNavHostController
 import com.android.geto.feature.applist.navigation.APP_LIST_NAVIGATION_ROUTE
+import com.android.geto.feature.settings.navigation.SETTINGS_NAVIGATION_ROUTE
 import com.android.geto.navigation.GetoNavHost
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -82,6 +83,32 @@ class NavigationTest {
     @Test
     fun appListScreenIsDisplayed_whenNavigateBackFromAppSettingsScreen() {
         composeTestRule.onNodeWithText("Application 0").performClick()
+
+        composeTestRule.onNodeWithContentDescription(
+            label = "Navigation icon", useUnmergedTree = true
+        ).performClick()
+
+        val appListRoute = navController.currentBackStackEntry?.destination?.route
+
+        assertEquals(
+            expected = APP_LIST_NAVIGATION_ROUTE, actual = appListRoute
+        )
+    }
+
+    @Test
+    fun settingsScreenIsDisplayed_whenSettingsIconIsClicked() {
+        composeTestRule.onNodeWithContentDescription("Settings icon").performClick()
+
+        val settingsRoute = navController.currentBackStackEntry?.destination?.route
+
+        assertEquals(
+            expected = SETTINGS_NAVIGATION_ROUTE, actual = settingsRoute
+        )
+    }
+
+    @Test
+    fun appListScreenIsDisplayed_whenNavigateBackFromSettingsScreen() {
+        composeTestRule.onNodeWithContentDescription("Settings icon").performClick()
 
         composeTestRule.onNodeWithContentDescription(
             label = "Navigation icon", useUnmergedTree = true

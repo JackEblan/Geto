@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - master
-      - dev
     paths-ignore:
       - '**.md'
       - 'fastlane/**'
@@ -48,6 +47,22 @@ jobs:
 
       - name: Check build-logic
         run: ./gradlew check -p build-logic
+
+      # This is only temporary! I cannot run Roborazzi on my Windows 10
+      # Generate new roborazzi screenshots if commit contains generate-screenshots=true
+      - name: Check commit message for generate-screenshots command
+        id: check_commit_message
+        run: |
+          if echo "${{ github.event.head_commit.message }}" | grep -q "generate-screenshots=true"; then
+          echo "::set-output name=generate::true"
+          else
+          echo "::set-output name=generate::false"
+          fi
+
+      - name: Record new screenshots
+        if: steps.check_commit_message.outputs.generate == 'true'
+        run: |
+          ./gradlew recordRoborazziDemoDebug
 
       - name: Run all local screenshot tests (Roborazzi)
         id: screenshotsverify
@@ -110,24 +125,6 @@ jobs:
         api-level: [ 26, 30 ]
 
     steps:
-      - name: Delete unnecessary tools 🔧
-        uses: jlumbroso/free-disk-space@v1.3.1
-        with:
-          android: false # Don't remove Android tools
-          tool-cache: true # Remove image tool cache - rm -rf "$AGENT_TOOLSDIRECTORY"
-          dotnet: true # rm -rf /usr/share/dotnet
-          haskell: true # rm -rf /opt/ghc...
-          swap-storage: true # rm -f /mnt/swapfile (4GiB)
-          docker-images: false # Takes 16s, enable if needed in the future
-          large-packages: false # includes google-cloud-sdk and it's slow
-
-      - name: Enable KVM group perms
-        run: |
-          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
-          sudo udevadm control --reload-rules
-          sudo udevadm trigger --name-match=kvm
-          ls /dev/kvm
-
       - name: Checkout
         uses: actions/checkout@v4
 

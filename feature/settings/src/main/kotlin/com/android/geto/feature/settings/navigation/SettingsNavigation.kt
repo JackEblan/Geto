@@ -16,18 +16,28 @@
  *
  */
 
-package com.android.geto.ui
+package com.android.geto.feature.settings.navigation
 
-import androidx.compose.runtime.Composable
-import androidx.navigation.compose.rememberNavController
-import com.android.geto.core.designsystem.component.GetoBackground
-import com.android.geto.navigation.GetoNavHost
+import androidx.navigation.NavController
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.compose.composable
+import com.android.geto.feature.settings.SettingsRoute
 
-@Composable
-fun GetoApp() {
-    val navController = rememberNavController()
+const val SETTINGS_NAVIGATION_ROUTE = "settings_route"
 
-    GetoBackground {
-        GetoNavHost(navController = navController)
+fun NavController.navigateToSettings() {
+    navigate(SETTINGS_NAVIGATION_ROUTE)
+}
+
+fun NavGraphBuilder.settingsScreen(
+    onNavigationIconClick: () -> Unit
+) {
+    composable(
+        route = SETTINGS_NAVIGATION_ROUTE
+    ) {
+        SettingsRoute(
+            onNavigationIconClick = onNavigationIconClick
+
+        )
     }
 }

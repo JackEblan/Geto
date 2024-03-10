@@ -146,7 +146,8 @@ internal fun AppSettingsRoute(
     AppSettingsScreen(
         modifier = modifier,
         snackbarHostState = snackbarHostState,
-        appName = viewModel.appName, packageName = viewModel.packageName,
+        appName = viewModel.appName,
+        packageName = viewModel.packageName,
         appSettingsUiState = appSettingsUiState,
         addAppSettingsDialogState = addSettingsDialogState,
         addShortcutDialogState = addShortcutDialogState,
@@ -210,17 +211,15 @@ internal fun AppSettingsScreen(
     onDismissRequestCopyPermissionCommand: () -> Unit,
 ) {
     if (addAppSettingsDialogState.showDialog) {
-        AddAppSettingsDialog(
-            addAppSettingsDialogState = addAppSettingsDialogState,
-            scrollState = scrollState,
-            onDismissRequest = { addAppSettingsDialogState.updateShowDialog(false) },
-            onAddSettings = {
-                addAppSettingsDialogState.getAppSettings(packageName = packageName)
-                                  ?.let {
-                                      onAddSettings(it)
-                                      addAppSettingsDialogState.resetState()
-                                  }
-                          })
+        AddAppSettingsDialog(addAppSettingsDialogState = addAppSettingsDialogState,
+                             scrollState = scrollState,
+                             onAddSettings = {
+                                 addAppSettingsDialogState.getAppSettings(packageName = packageName)
+                                     ?.let {
+                                         onAddSettings(it)
+                                         addAppSettingsDialogState.resetState()
+                                     }
+                             })
     }
 
     if (showCopyPermissionCommandDialog) {
@@ -231,18 +230,15 @@ internal fun AppSettingsScreen(
     }
 
     if (addShortcutDialogState.showDialog) {
-        AddShortcutDialog(shortcutDialogState = addShortcutDialogState,
-                          onDismissRequest = { addShortcutDialogState.updateShowDialog(false) },
-                          onRefreshShortcut = {
-                              onRefreshShortcut()
-                              addShortcutDialogState.updateShowDialog(false)
-                          },
-                          onAddShortcut = {
-                              addShortcutDialogState.getShortcut(packageName = packageName)?.let {
-                                  onAddShortcut(it)
-                                  addShortcutDialogState.resetState()
-                              }
-                          })
+        AddShortcutDialog(shortcutDialogState = addShortcutDialogState, onRefreshShortcut = {
+            onRefreshShortcut()
+            addShortcutDialogState.updateShowDialog(false)
+        }, onAddShortcut = {
+            addShortcutDialogState.getShortcut(packageName = packageName)?.let {
+                onAddShortcut(it)
+                addShortcutDialogState.resetState()
+            }
+        })
     }
 
     if (updateShortcutDialogState.showDialog) {

@@ -40,7 +40,6 @@ class AddShortcutDialogTest {
             val addShortcutDialogState = rememberAddShortcutDialogState()
 
             AddShortcutDialog(shortcutDialogState = addShortcutDialogState,
-                              onDismissRequest = {},
                               onRefreshShortcut = {},
                               onAddShortcut = {
                                   addShortcutDialogState.updateShortLabel("")
@@ -67,7 +66,6 @@ class AddShortcutDialogTest {
             val addShortcutDialogState = rememberAddShortcutDialogState()
 
             AddShortcutDialog(shortcutDialogState = addShortcutDialogState,
-                              onDismissRequest = {},
                               onRefreshShortcut = {},
                               onAddShortcut = {
                                   addShortcutDialogState.updateShortLabel("Test")
@@ -93,7 +91,6 @@ class AddShortcutDialogTest {
             val addShortcutDialogState = rememberAddShortcutDialogState()
 
             AddShortcutDialog(shortcutDialogState = addShortcutDialogState,
-                              onDismissRequest = {},
                               onRefreshShortcut = {},
                               onAddShortcut = {
                                   addShortcutDialogState.updateShortLabel("Test")

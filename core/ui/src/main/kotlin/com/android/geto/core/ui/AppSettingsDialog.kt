@@ -69,10 +69,9 @@ import kotlinx.coroutines.flow.debounce
 fun AddAppSettingsDialog(
     modifier: Modifier = Modifier, addAppSettingsDialogState: AppSettingsDialogState,
     scrollState: ScrollState,
-    onDismissRequest: () -> Unit,
     onAddSettings: () -> Unit
 ) {
-    Dialog(onDismissRequest = { onDismissRequest() }) {
+    Dialog(onDismissRequest = { addAppSettingsDialogState.updateShowDialog(false) }) {
         Card(
             modifier = modifier
                 .fillMaxWidth()
@@ -266,7 +265,8 @@ fun AddAppSettingsDialog(
                     horizontalArrangement = Arrangement.End,
                 ) {
                     TextButton(
-                        onClick = onDismissRequest, modifier = Modifier.padding(5.dp)
+                        onClick = { addAppSettingsDialogState.updateShowDialog(false) },
+                        modifier = Modifier.padding(5.dp)
                     ) {
                         Text("Cancel")
                     }

@@ -44,7 +44,6 @@ class AddAppSettingsDialogTest {
 
             AddAppSettingsDialog(addAppSettingsDialogState = addAppSettingsDialogState,
                                  scrollState = scrollState,
-                                 onDismissRequest = {},
                                  onAddSettings = {
 
                                      addAppSettingsDialogState.updateSelectedRadioOptionIndex(1)
@@ -78,7 +77,6 @@ class AddAppSettingsDialogTest {
 
             AddAppSettingsDialog(addAppSettingsDialogState = addAppSettingsDialogState,
                                  scrollState = scrollState,
-                                 onDismissRequest = {},
                                  onAddSettings = {
                                      addAppSettingsDialogState.updateSelectedRadioOptionIndex(1)
 
@@ -111,7 +109,6 @@ class AddAppSettingsDialogTest {
 
             AddAppSettingsDialog(addAppSettingsDialogState = addAppSettingsDialogState,
                                  scrollState = scrollState,
-                                 onDismissRequest = {},
                                  onAddSettings = {
                                      addAppSettingsDialogState.updateSecureSettings(
                                          testSecureSettingsList
@@ -149,7 +146,6 @@ class AddAppSettingsDialogTest {
 
             AddAppSettingsDialog(addAppSettingsDialogState = addAppSettingsDialogState,
                                  scrollState = scrollState,
-                                 onDismissRequest = {},
                                  onAddSettings = {
                                      addAppSettingsDialogState.updateSelectedRadioOptionIndex(1)
 
@@ -182,7 +178,6 @@ class AddAppSettingsDialogTest {
 
             AddAppSettingsDialog(addAppSettingsDialogState = addAppSettingsDialogState,
                                  scrollState = scrollState,
-                                 onDismissRequest = {},
                                  onAddSettings = {
 
                                      addAppSettingsDialogState.updateSelectedRadioOptionIndex(1)
@@ -218,7 +213,6 @@ class AddAppSettingsDialogTest {
 
             AddAppSettingsDialog(addAppSettingsDialogState = addAppSettingsDialogState,
                                  scrollState = scrollState,
-                                 onDismissRequest = {},
                                  onAddSettings = {
                                      addAppSettingsDialogState.updateSelectedRadioOptionIndex(1)
 
@@ -253,7 +247,6 @@ class AddAppSettingsDialogTest {
 
             AddAppSettingsDialog(addAppSettingsDialogState = addAppSettingsDialogState,
                                  scrollState = scrollState,
-                                 onDismissRequest = {},
                                  onAddSettings = {
                                      addAppSettingsDialogState.updateSelectedRadioOptionIndex(1)
 
