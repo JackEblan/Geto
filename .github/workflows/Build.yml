@@ -51,16 +51,17 @@ jobs:
       # This is only temporary! I cannot run Roborazzi on my Windows 10
       # Generate new roborazzi screenshots if commit contains generate-screenshots=true
       - name: Check commit message for generate-screenshots command
-        id: check_commit_message
         run: |
           if echo "${{ github.event.head_commit.message }}" | grep -q "generate-screenshots=true"; then
-          echo "::set-output name=generate::true"
+          echo "GENERATE_SCREENSHOTS=true" >> $GITHUB_ENV
           else
-          echo "::set-output name=generate::false"
+          echo "GENERATE_SCREENSHOTS=false" >> $GITHUB_ENV
           fi
 
+      # This is only temporary! I cannot run Roborazzi on my Windows 10
+      # Generate new roborazzi screenshots if commit contains generate-screenshots=true
       - name: Record new screenshots
-        if: steps.check_commit_message.outputs.generate == 'true'
+        if: env.GENERATE_SCREENSHOTS == 'true'
         run: |
           ./gradlew recordRoborazziDemoDebug
 
@@ -82,9 +83,11 @@ jobs:
         run: |
           ./gradlew recordRoborazziDemoDebug
 
+      # This is only temporary! I cannot run Roborazzi on my Windows 10
+      # Will push screenshots to Github Repository if GENERATE_SCREENSHOTS is also set to true from commit
       - name: Push new screenshots if available
         uses: stefanzweifel/git-auto-commit-action@v5
-        if: steps.screenshotsrecord.outcome == 'success'
+        if: steps.screenshotsrecord.outcome == 'success' || env.GENERATE_SCREENSHOTS == 'true'
         with:
           file_pattern: '*/*.png'
           disable_globbing: true
@@ -95,14 +98,11 @@ jobs:
         run: ./gradlew testDemoDebug :lint:test
 
       - name: Build all build type and flavor permutations
-        run: ./gradlew :app:assemble :benchmarks:assemble
+        run: ./gradlew :app:assemble
           -x pixel6Api33ProdNonMinifiedReleaseAndroidTest
           -x pixel6Api33DemoNonMinifiedReleaseAndroidTest
           -x collectDemoNonMinifiedReleaseBaselineProfile
           -x collectProdNonMinifiedReleaseBaselineProfile
-
-      - name: Build all build type and flavor permutations
-        run: ./gradlew assemble
 
       - name: Upload debug build output (APK)
         uses: actions/upload-artifact@v4
