@@ -11,9 +11,6 @@
       <entry key="app">
         <State />
       </entry>
-      <entry key="dynamicRowIsDisplayed_whenThemeBrandIsAndroid()">
-        <State />
-      </entry>
       <entry key="dynamicRowIsDisplayed_whenThemeBrandIsDefault()">
         <State />
       </entry>
@@ -21,6 +18,9 @@
         <State />
       </entry>
       <entry key="feature.shortcut">
+        <State />
+      </entry>
+      <entry key="migrate1To2()">
         <State />
       </entry>
     </value>
