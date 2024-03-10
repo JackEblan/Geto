@@ -26,7 +26,7 @@ android {
     namespace = "com.android.geto.core.database"
 
     defaultConfig {
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.android.geto.core.testing.GetoTestRunner"
     }
 
     sourceSets {
