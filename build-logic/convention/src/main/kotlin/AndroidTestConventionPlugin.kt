@@ -16,42 +16,27 @@
  *
  */
 
-import com.android.build.api.dsl.LibraryExtension
-import com.android.build.api.variant.LibraryAndroidComponentsExtension
-import com.android.geto.configureFlavors
+import com.android.build.gradle.TestExtension
 import com.android.geto.configureGradleManagedDevices
 import com.android.geto.configureKotlinAndroid
-import com.android.geto.disableUnnecessaryAndroidTests
-import com.android.geto.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
-import org.gradle.kotlin.dsl.dependencies
-import org.gradle.kotlin.dsl.kotlin
 
-class AndroidLibraryConventionPlugin : Plugin<Project> {
+class AndroidTestConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             with(pluginManager) {
-                apply(libs.plugins.android.library.get().pluginId)
-                apply(libs.plugins.kotlin.android.get().pluginId)
-                apply(libs.plugins.com.android.geto.lint.get().pluginId)
+                apply("com.android.test")
+                apply("org.jetbrains.kotlin.android")
             }
 
-            extensions.configure<LibraryExtension> {
+            extensions.configure<TestExtension> {
                 configureKotlinAndroid(this)
                 defaultConfig.targetSdk = 34
-                configureFlavors(this)
                 configureGradleManagedDevices(this)
-            }
-
-            extensions.configure<LibraryAndroidComponentsExtension> {
-                disableUnnecessaryAndroidTests(target)
-            }
-
-            dependencies {
-                add("testImplementation", kotlin("test"))
             }
         }
     }
+
 }

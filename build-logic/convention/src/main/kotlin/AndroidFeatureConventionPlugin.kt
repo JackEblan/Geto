@@ -17,6 +17,7 @@
  */
 
 import com.android.build.gradle.LibraryExtension
+import com.android.geto.configureGradleManagedDevices
 import com.android.geto.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -35,7 +36,7 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                 defaultConfig {
                     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
                 }
-                testOptions.animationsDisabled = true
+                configureGradleManagedDevices(this)
             }
 
             dependencies {

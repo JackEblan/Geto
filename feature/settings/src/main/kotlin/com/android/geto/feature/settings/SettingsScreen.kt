@@ -37,6 +37,7 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -68,6 +69,18 @@ internal fun SettingsRoute(
     val themeDialogState = rememberThemeDialogState()
 
     val darkDialogState = rememberDarkDialogState()
+
+    LaunchedEffect(key1 = settingsUiState) {
+        if (settingsUiState is SettingsUiState.Success) {
+            val brandIndex =
+                ThemeBrand.entries.indexOf((settingsUiState as SettingsUiState.Success).settings.brand)
+            val darkThemeConfigIndex =
+                DarkThemeConfig.entries.indexOf((settingsUiState as SettingsUiState.Success).settings.darkThemeConfig)
+
+            themeDialogState.updateSelectedRadioOptionIndex(brandIndex)
+            darkDialogState.updateSelectedRadioOptionIndex(darkThemeConfigIndex)
+        }
+    }
 
     SettingsScreen(
         modifier = modifier,
