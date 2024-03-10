@@ -115,3 +115,4 @@ com-android-geto-feature = { id = "com.android.geto.feature", version = "unspeci
 com-android-geto-hilt = { id = "com.android.geto.hilt", version = "unspecified" }
 com-android-geto-lint = { id = "com.android.geto.lint", version = "unspecified" }
 com-android-geto-room = { id = "com.android.geto.room", version = "unspecified" }
+com-android-geto-test = { id = "com.android.geto.test", version = "unspecified" }

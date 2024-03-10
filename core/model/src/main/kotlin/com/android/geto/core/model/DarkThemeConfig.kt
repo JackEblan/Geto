@@ -18,6 +18,6 @@
 
 package com.android.geto.core.model
 
-enum class DarkThemeConfig {
-    FOLLOW_SYSTEM, LIGHT, DARK,
+enum class DarkThemeConfig(val title: String) {
+    FOLLOW_SYSTEM("Follow System"), LIGHT("Light"), DARK("Dark"),
 }

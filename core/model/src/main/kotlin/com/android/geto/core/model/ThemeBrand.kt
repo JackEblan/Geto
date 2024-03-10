@@ -18,6 +18,6 @@
 
 package com.android.geto.core.model
 
-enum class ThemeBrand {
-    DEFAULT, ANDROID,
+enum class ThemeBrand(val title: String) {
+    DEFAULT("Default"), ANDROID("Android"),
 }
