@@ -171,7 +171,7 @@ internal fun SettingsScreen(
                             Spacer(modifier = Modifier.height(10.dp))
 
                             Text(
-                                text = settingsUiState.settings.brand.name,
+                                text = settingsUiState.settings.brand.title,
                                 style = MaterialTheme.typography.bodySmall
                             )
                         }
@@ -211,7 +211,7 @@ internal fun SettingsScreen(
                             Spacer(modifier = Modifier.height(10.dp))
 
                             Text(
-                                text = settingsUiState.settings.darkThemeConfig.name,
+                                text = settingsUiState.settings.darkThemeConfig.title,
                                 style = MaterialTheme.typography.bodySmall
                             )
                         }
