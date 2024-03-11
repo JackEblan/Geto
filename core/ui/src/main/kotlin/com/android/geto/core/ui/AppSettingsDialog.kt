@@ -119,7 +119,7 @@ fun AddAppSettingsDialog(
                                 onClick = null
                             )
                             Text(
-                                text = text,
+                                text = text.lowercase().replaceFirstChar { it.uppercase() },
                                 style = MaterialTheme.typography.bodyLarge,
                                 modifier = Modifier.padding(start = 10.dp)
                             )

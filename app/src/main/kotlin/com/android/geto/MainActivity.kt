@@ -34,10 +34,12 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.compose.rememberNavController
+import com.android.geto.core.designsystem.component.GetoBackground
 import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.model.DarkThemeConfig
 import com.android.geto.core.model.ThemeBrand
-import com.android.geto.ui.GetoApp
+import com.android.geto.navigation.GetoNavHost
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
@@ -80,6 +82,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             val darkTheme = shouldUseDarkTheme(uiState)
 
+            val navController = rememberNavController()
+
             // Update the edge to edge configuration to match the theme
             // This is the same parameters as the default enableEdgeToEdge call, but we manually
             // resolve whether or not to show dark theme using uiState, since it can be different
@@ -104,7 +108,9 @@ class MainActivity : ComponentActivity() {
                 androidTheme = shouldUseAndroidTheme(uiState),
                 disableDynamicTheming = shouldDisableDynamicTheming(uiState),
             ) {
-                GetoApp()
+                GetoBackground {
+                    GetoNavHost(navController = navController)
+                }
             }
         }
     }

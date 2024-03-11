@@ -168,7 +168,7 @@ internal fun SettingsScreen(
                             .testTag("settings:theme")) {
                             Text(text = "Theme", style = MaterialTheme.typography.bodyLarge)
 
-                            Spacer(modifier = Modifier.height(10.dp))
+                            Spacer(modifier = Modifier.height(8.dp))
 
                             Text(
                                 text = settingsUiState.settings.brand.title,
@@ -177,7 +177,7 @@ internal fun SettingsScreen(
                         }
 
                         if (settingsUiState.settings.brand == ThemeBrand.DEFAULT && supportDynamicColor) {
-                            Spacer(modifier = Modifier.height(10.dp))
+                            Spacer(modifier = Modifier.height(8.dp))
 
                             Row(
                                 modifier = Modifier
@@ -199,7 +199,7 @@ internal fun SettingsScreen(
                             }
                         }
 
-                        Spacer(modifier = Modifier.height(10.dp))
+                        Spacer(modifier = Modifier.height(8.dp))
 
                         Column(modifier = Modifier
                             .fillMaxWidth()
@@ -208,7 +208,7 @@ internal fun SettingsScreen(
                             .testTag("settings:dark")) {
                             Text(text = "Dark Mode", style = MaterialTheme.typography.bodyLarge)
 
-                            Spacer(modifier = Modifier.height(10.dp))
+                            Spacer(modifier = Modifier.height(8.dp))
 
                             Text(
                                 text = settingsUiState.settings.darkThemeConfig.title,

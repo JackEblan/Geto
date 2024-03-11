@@ -58,7 +58,6 @@ import com.android.geto.core.model.TargetShortcutInfoCompat
 import com.android.geto.core.ui.AddAppSettingsDialog
 import com.android.geto.core.ui.AddShortcutDialog
 import com.android.geto.core.ui.AppSettingsDialogState
-import com.android.geto.core.ui.AppSettingsItem
 import com.android.geto.core.ui.CopyPermissionCommandDialog
 import com.android.geto.core.ui.EmptyListPlaceHolderScreen
 import com.android.geto.core.ui.LoadingPlaceHolderScreen

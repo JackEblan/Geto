@@ -25,7 +25,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.unit.dp
 import com.android.geto.core.designsystem.component.GetoBackground
-import com.android.geto.core.designsystem.component.GetoGradientBackground
 import com.android.geto.core.screenshot.testing.util.captureMultiTheme
 import dagger.hilt.android.testing.HiltTestApplication
 import org.junit.Rule
@@ -49,15 +48,6 @@ class BackgroundScreenshotTests {
     fun getoBackground_multipleThemes() {
         composeTestRule.captureMultiTheme("Background") { description ->
             GetoBackground(Modifier.size(100.dp)) {
-                Text("$description background")
-            }
-        }
-    }
-
-    @Test
-    fun getoGradientBackground_multipleThemes() {
-        composeTestRule.captureMultiTheme("Background", "GradientBackground") { description ->
-            GetoGradientBackground(Modifier.size(100.dp)) {
                 Text("$description background")
             }
         }

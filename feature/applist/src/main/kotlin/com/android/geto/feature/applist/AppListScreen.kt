@@ -39,7 +39,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.android.geto.core.designsystem.icon.GetoIcons
 import com.android.geto.core.model.TargetApplicationInfo
-import com.android.geto.core.ui.AppItem
 import com.android.geto.core.ui.LoadingPlaceHolderScreen
 
 @Composable

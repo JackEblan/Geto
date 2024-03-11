@@ -34,7 +34,6 @@ dependencies {
     api(projects.core.model)
 
     implementation(libs.androidx.core.ktx)
-    implementation(libs.coil.kt.compose)
 
     testImplementation(projects.core.testing)
     androidTestImplementation(projects.core.testing)

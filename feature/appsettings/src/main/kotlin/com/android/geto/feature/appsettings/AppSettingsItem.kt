@@ -16,7 +16,7 @@
  *
  */
 
-package com.android.geto.core.ui
+package com.android.geto.feature.appsettings
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row

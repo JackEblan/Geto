@@ -13,6 +13,8 @@
 
 [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" height="80">](https://f-droid.org/en/packages/com.android.geto/)
 
+</div>
+
 <div align ="left">
 
 About The Project
@@ -75,3 +77,4 @@ help you.
 
 **Geto** is licensed under the GNU General Public License v3.0. See the [license](LICENSE) for more
 information.
+</div>

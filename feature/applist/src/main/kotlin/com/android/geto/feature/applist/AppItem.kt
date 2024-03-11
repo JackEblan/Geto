@@ -16,7 +16,7 @@
  *
  */
 
-package com.android.geto.core.ui
+package com.android.geto.feature.applist
 
 import android.graphics.drawable.Drawable
 import androidx.compose.foundation.clickable
