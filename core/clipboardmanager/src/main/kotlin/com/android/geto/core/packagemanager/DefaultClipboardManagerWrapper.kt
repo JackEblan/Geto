@@ -20,12 +20,18 @@ package com.android.geto.core.packagemanager
 
 import android.content.ClipData
 import android.content.ClipboardManager
+import android.content.Context
 import android.os.Build
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 class DefaultClipboardManagerWrapper @Inject constructor(
-    private val clipboardManager: ClipboardManager
+    @ApplicationContext private val context: Context
 ) : ClipboardManagerWrapper {
+
+    private val clipboardManager =
+        context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+
     override fun setPrimaryClip(label: String, text: String): String? {
         clipboardManager.setPrimaryClip(ClipData.newPlainText(label, text))
 

@@ -18,14 +18,18 @@
 
 package com.android.geto.core.packagemanager
 
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import com.android.geto.core.model.TargetApplicationInfo
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
-class DefaultPackageManagerWrapper @Inject constructor(private val packageManager: PackageManager) :
+class DefaultPackageManagerWrapper @Inject constructor(@ApplicationContext private val context: Context) :
     PackageManagerWrapper {
+
+    private val packageManager = context.packageManager
 
     override fun getInstalledApplications(): List<TargetApplicationInfo> {
         return packageManager.getInstalledApplications(PackageManager.GET_META_DATA)

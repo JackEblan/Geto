@@ -18,7 +18,7 @@
 
 package com.android.geto.core.securesettings
 
-import android.content.ContentResolver
+import android.content.Context
 import android.provider.Settings
 import androidx.core.database.getLongOrNull
 import androidx.core.database.getStringOrNull
@@ -27,14 +27,17 @@ import com.android.geto.core.common.GetoDispatchers.IO
 import com.android.geto.core.model.AppSettings
 import com.android.geto.core.model.SecureSettings
 import com.android.geto.core.model.SettingsType
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class DefaultSecureSettingsPermissionWrapper @Inject constructor(
     @Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher,
-    private val contentResolver: ContentResolver
+    @ApplicationContext private val context: Context
 ) : SecureSettingsPermissionWrapper {
+
+    private val contentResolver = context.contentResolver
 
     private val settingsProjection: Array<String> = arrayOf(
         Settings.NameValueTable._ID,
