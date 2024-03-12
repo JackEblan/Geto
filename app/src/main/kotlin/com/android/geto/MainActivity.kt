@@ -81,9 +81,9 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val darkTheme = shouldUseDarkTheme(uiState)
-
+            
             val navController = rememberNavController()
-
+            
             // Update the edge to edge configuration to match the theme
             // This is the same parameters as the default enableEdgeToEdge call, but we manually
             // resolve whether or not to show dark theme using uiState, since it can be different
