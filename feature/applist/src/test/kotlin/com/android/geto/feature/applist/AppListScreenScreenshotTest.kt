@@ -75,7 +75,7 @@ class AppListScreenScreenshotTest {
         composeTestRule.captureForDevice(
             deviceName = "phone_dark",
             deviceSpec = DefaultTestDevices.PHONE.spec,
-            screenshotName = "AppListDark",
+            screenshotName = "AppList",
             darkMode = true,
         ) {
             GetoTheme {
@@ -93,7 +93,7 @@ class AppListScreenScreenshotTest {
         composeTestRule.captureForDevice(
             deviceName = "phone_dark",
             deviceSpec = DefaultTestDevices.PHONE.spec,
-            screenshotName = "AppListLoadingDark",
+            screenshotName = "AppListLoading",
             darkMode = true,
         ) {
             GetoTheme {

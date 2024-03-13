@@ -69,7 +69,7 @@ class NavigationTest {
 
     @Test
     fun appSettingsScreenIsDisplayed_whenTargetApplicationInfoItemIsClicked() {
-        composeTestRule.onNodeWithText("Application 0").performClick()
+        composeTestRule.onNodeWithText("Label 0").performClick()
 
         val appSettingsRoute = navController.currentBackStackEntry?.destination?.route
 
@@ -82,7 +82,7 @@ class NavigationTest {
 
     @Test
     fun appListScreenIsDisplayed_whenNavigateBackFromAppSettingsScreen() {
-        composeTestRule.onNodeWithText("Application 0").performClick()
+        composeTestRule.onNodeWithText("Label 0").performClick()
 
         composeTestRule.onNodeWithContentDescription(
             label = "Navigation icon", useUnmergedTree = true
