@@ -16,7 +16,7 @@
  *
  */
 
-package com.android.geto.core.ui
+package com.android.geto.feature.settings.dialog.dark
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -46,20 +46,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 
 @Composable
-fun ThemeDialog(
-    modifier: Modifier = Modifier, themeDialogState: ThemeDialogState, onChangeTheme: () -> Unit
+fun DarkDialog(
+    darkDialogState: DarkDialogState, onChangeTheme: () -> Unit, contentDescription: String
 ) {
-    Dialog(onDismissRequest = { themeDialogState.updateShowDialog(false) }) {
+    Dialog(onDismissRequest = { darkDialogState.updateShowDialog(false) }) {
         Card(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentSize()
                 .padding(16.dp)
-                .testTag("themeDialog"),
+                .semantics { this.contentDescription = contentDescription },
             shape = RoundedCornerShape(16.dp),
         ) {
             Column(
@@ -69,7 +71,7 @@ fun ThemeDialog(
 
                 Text(
                     modifier = Modifier.padding(horizontal = 5.dp),
-                    text = "Theme",
+                    text = "Dark Mode",
                     style = MaterialTheme.typography.titleLarge
                 )
 
@@ -80,15 +82,15 @@ fun ThemeDialog(
                         .fillMaxWidth()
                         .selectableGroup()
                 ) {
-                    listOf("Default", "Android").forEachIndexed { index, text ->
+                    listOf("Follow System", "Light", "Dark").forEachIndexed { index, text ->
                         Row(
-                            modifier
+                            Modifier
                                 .padding(vertical = 10.dp)
-                                .selectable(selected = index == themeDialogState.selectedRadioOptionIndex,
+                                .selectable(selected = index == darkDialogState.selectedRadioOptionIndex,
                                             role = Role.RadioButton,
                                             enabled = true,
                                             onClick = {
-                                                themeDialogState.updateSelectedRadioOptionIndex(
+                                                darkDialogState.updateSelectedRadioOptionIndex(
                                                     index
                                                 )
                                             })
@@ -96,7 +98,7 @@ fun ThemeDialog(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             RadioButton(
-                                selected = index == themeDialogState.selectedRadioOptionIndex,
+                                selected = index == darkDialogState.selectedRadioOptionIndex,
                                 onClick = null
                             )
                             Text(
@@ -115,7 +117,7 @@ fun ThemeDialog(
                     horizontalArrangement = Arrangement.End,
                 ) {
                     TextButton(
-                        onClick = { themeDialogState.updateShowDialog(false) },
+                        onClick = { darkDialogState.updateShowDialog(false) },
                         modifier = Modifier.padding(5.dp)
                     ) {
                         Text("Cancel")
@@ -124,7 +126,7 @@ fun ThemeDialog(
                         onClick = onChangeTheme,
                         modifier = Modifier
                             .padding(5.dp)
-                            .testTag("themeDialog:change")
+                            .testTag("darkDialog:change")
                     ) {
                         Text("Change")
                     }
@@ -135,14 +137,14 @@ fun ThemeDialog(
 }
 
 @Composable
-fun rememberThemeDialogState(): ThemeDialogState {
-    return rememberSaveable(saver = ThemeDialogState.Saver) {
-        ThemeDialogState()
+fun rememberDarkDialogState(): DarkDialogState {
+    return rememberSaveable(saver = DarkDialogState.Saver) {
+        DarkDialogState()
     }
 }
 
 @Stable
-class ThemeDialogState {
+class DarkDialogState {
     var showDialog by mutableStateOf(false)
         private set
 
@@ -158,13 +160,13 @@ class ThemeDialogState {
     }
 
     companion object {
-        val Saver = listSaver<ThemeDialogState, Any>(save = { state ->
+        val Saver = listSaver<DarkDialogState, Any>(save = { state ->
             listOf(
                 state.showDialog,
                 state.selectedRadioOptionIndex,
             )
         }, restore = {
-            ThemeDialogState().apply {
+            DarkDialogState().apply {
                 showDialog = it[0] as Boolean
 
                 selectedRadioOptionIndex = it[1] as Int

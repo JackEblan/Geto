@@ -33,13 +33,14 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.android.geto.core.designsystem.component.GetoOverlayLoadingWheel
 import com.android.geto.core.designsystem.icon.GetoIcons
 import com.android.geto.core.model.TargetApplicationInfo
-import com.android.geto.core.ui.LoadingPlaceHolderScreen
 
 @Composable
 internal fun AppListRoute(
@@ -87,10 +88,9 @@ internal fun AppListScreen(
                 .testTag("applist")
         ) {
             when (appListUiState) {
-                AppListUiState.Loading -> LoadingPlaceHolderScreen(
-                    modifier = modifier
-                        .fillMaxSize()
-                        .testTag("applist:loadingPlaceHolderScreen")
+                AppListUiState.Loading -> GetoOverlayLoadingWheel(
+                    modifier = Modifier.align(Alignment.Center),
+                    contentDescription = "GetoOverlayLoadingWheel"
                 )
 
                 is AppListUiState.Success -> {

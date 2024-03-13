@@ -29,9 +29,9 @@ import com.android.geto.core.model.SettingsType
 import com.android.geto.core.screenshot.testing.util.DefaultTestDevices
 import com.android.geto.core.screenshot.testing.util.captureForDevice
 import com.android.geto.core.screenshot.testing.util.captureMultiDevice
-import com.android.geto.core.ui.rememberAddAppSettingsDialogState
-import com.android.geto.core.ui.rememberAddShortcutDialogState
-import com.android.geto.core.ui.rememberUpdateShortcutDialogState
+import com.android.geto.feature.appsettings.dialog.appsettings.rememberAddAppSettingsDialogState
+import com.android.geto.feature.appsettings.dialog.shortcut.rememberAddShortcutDialogState
+import com.android.geto.feature.appsettings.dialog.shortcut.rememberUpdateShortcutDialogState
 import dagger.hilt.android.testing.HiltTestApplication
 import org.junit.Rule
 import org.junit.runner.RunWith
@@ -51,8 +51,8 @@ class AppSettingsScreenScreenshotTest {
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     @Test
-    fun appSettings() {
-        composeTestRule.captureMultiDevice("AppSettings") {
+    fun app_settings_populated() {
+        composeTestRule.captureMultiDevice("AppSettingsPopulated") {
             GetoTheme {
                 val addAppSettingsDialogState = rememberAddAppSettingsDialogState()
 
@@ -91,7 +91,7 @@ class AppSettingsScreenScreenshotTest {
     }
 
     @Test
-    fun appSettingsLoading() {
+    fun app_settings_loading() {
         composeTestRule.captureMultiDevice("AppSettingsLoading") {
             GetoTheme {
                 val addAppSettingsDialogState = rememberAddAppSettingsDialogState()
@@ -129,8 +129,8 @@ class AppSettingsScreenScreenshotTest {
     }
 
     @Test
-    fun appSettingsEmpty() {
-        composeTestRule.captureMultiDevice("AppSettingsLoading") {
+    fun app_settings_empty() {
+        composeTestRule.captureMultiDevice("AppSettingsEmpty") {
             GetoTheme {
                 val addAppSettingsDialogState = rememberAddAppSettingsDialogState()
 
@@ -167,11 +167,11 @@ class AppSettingsScreenScreenshotTest {
     }
 
     @Test
-    fun appSettings_dark() {
+    fun app_settings_populated_dark() {
         composeTestRule.captureForDevice(
             deviceName = "phone_dark",
             deviceSpec = DefaultTestDevices.PHONE.spec,
-            screenshotName = "AppSettings",
+            screenshotName = "AppSettingsPopulated",
             darkMode = true,
         ) {
             GetoTheme {
@@ -214,7 +214,7 @@ class AppSettingsScreenScreenshotTest {
     }
 
     @Test
-    fun appSettingsLoading_dark() {
+    fun app_settings_loading_dark() {
         composeTestRule.captureForDevice(
             deviceName = "phone_dark",
             deviceSpec = DefaultTestDevices.PHONE.spec,
@@ -259,7 +259,7 @@ class AppSettingsScreenScreenshotTest {
     }
 
     @Test
-    fun appSettingsEmpty_dark() {
+    fun app_settings_empty_dark() {
         composeTestRule.captureForDevice(
             deviceName = "phone_dark",
             deviceSpec = DefaultTestDevices.PHONE.spec,

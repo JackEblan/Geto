@@ -45,17 +45,17 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.android.geto.core.designsystem.component.GetoOverlayLoadingWheel
 import com.android.geto.core.designsystem.icon.GetoIcons
 import com.android.geto.core.designsystem.theme.supportsDynamicTheming
 import com.android.geto.core.model.DarkThemeConfig
 import com.android.geto.core.model.ThemeBrand
-import com.android.geto.core.ui.DarkDialog
-import com.android.geto.core.ui.DarkDialogState
-import com.android.geto.core.ui.LoadingPlaceHolderScreen
-import com.android.geto.core.ui.ThemeDialog
-import com.android.geto.core.ui.ThemeDialogState
-import com.android.geto.core.ui.rememberDarkDialogState
-import com.android.geto.core.ui.rememberThemeDialogState
+import com.android.geto.feature.settings.dialog.dark.DarkDialog
+import com.android.geto.feature.settings.dialog.dark.DarkDialogState
+import com.android.geto.feature.settings.dialog.dark.rememberDarkDialogState
+import com.android.geto.feature.settings.dialog.theme.ThemeDialog
+import com.android.geto.feature.settings.dialog.theme.ThemeDialogState
+import com.android.geto.feature.settings.dialog.theme.rememberThemeDialogState
 
 @Composable
 internal fun SettingsRoute(
@@ -110,21 +110,21 @@ internal fun SettingsScreen(
 
     if (themeDialogState.showDialog) {
         ThemeDialog(
+            modifier = Modifier.testTag("settings:themeDialog"),
             themeDialogState = themeDialogState,
             onChangeTheme = {
                 onChangeThemeBrand(ThemeBrand.entries[themeDialogState.selectedRadioOptionIndex])
                 themeDialogState.updateShowDialog(false)
-            },
+            }, contentDescription = "Theme Dialog"
         )
     }
 
     if (darkDialogState.showDialog) {
         DarkDialog(
-            darkDialogState = darkDialogState,
-            onChangeTheme = {
+            darkDialogState = darkDialogState, onChangeTheme = {
                 onChangeDarkThemeConfig(DarkThemeConfig.entries[darkDialogState.selectedRadioOptionIndex])
                 darkDialogState.updateShowDialog(false)
-            },
+            }, contentDescription = "Dark Dialog"
         )
     }
 
@@ -145,13 +145,10 @@ internal fun SettingsScreen(
                 .testTag("applist")
         ) {
             when (settingsUiState) {
-                SettingsUiState.Loading -> {
-                    LoadingPlaceHolderScreen(
-                        modifier = modifier
-                            .fillMaxSize()
-                            .testTag("settings:loadingPlaceHolderScreen")
-                    )
-                }
+                SettingsUiState.Loading -> GetoOverlayLoadingWheel(
+                    modifier = Modifier.align(Alignment.Center),
+                    contentDescription = "GetoOverlayLoadingWheel"
+                )
 
                 is SettingsUiState.Success -> {
                     Column(

@@ -24,6 +24,7 @@ import android.graphics.drawable.shapes.OvalShape
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import com.android.geto.core.model.TargetApplicationInfo
 import org.junit.Rule
@@ -34,14 +35,14 @@ class AppListScreenTest {
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     @Test
-    fun loadingPlaceHolderScreenIsDisplayed_whenAppListUiStateIsLoading() {
+    fun getoOverlayLoadingWheel_whenAppListUiStateIsLoading() {
         composeTestRule.setContent {
             AppListScreen(appListUiState = AppListUiState.Loading,
                           onItemClick = { _, _ -> },
                           onSettingsClick = {})
         }
 
-        composeTestRule.onNodeWithTag("applist:loadingPlaceHolderScreen").assertIsDisplayed()
+        composeTestRule.onNodeWithContentDescription("GetoOverlayLoadingWheel").assertIsDisplayed()
     }
 
     @Test

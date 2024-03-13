@@ -16,7 +16,7 @@
  *
  */
 
-package com.android.geto.core.ui
+package com.android.geto.feature.appsettings.dialog.shortcut
 
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.assertIsDisplayed
@@ -39,17 +39,20 @@ class AddShortcutDialogTest {
 
             val addShortcutDialogState = rememberAddShortcutDialogState()
 
-            AddShortcutDialog(shortcutDialogState = addShortcutDialogState,
-                              onRefreshShortcut = {},
-                              onAddShortcut = {
-                                  addShortcutDialogState.updateShortLabel("")
+            AddShortcutDialog(
+                shortcutDialogState = addShortcutDialogState,
+                onRefreshShortcut = {},
+                onAddShortcut = {
+                    addShortcutDialogState.updateShortLabel("")
 
-                                  addShortcutDialogState.updateLongLabel("Test")
+                    addShortcutDialogState.updateLongLabel("Test")
 
-                                  addShortcutDialogState.getShortcut(
-                                      packageName = "packageName"
-                                  )
-                              })
+                    addShortcutDialogState.getShortcut(
+                        packageName = "packageName"
+                    )
+                },
+                contentDescription = "Add Shortcut Dialog"
+            )
         }
 
         composeTestRule.onNodeWithTag("addShortcutDialog:add").performClick()
@@ -65,17 +68,20 @@ class AddShortcutDialogTest {
 
             val addShortcutDialogState = rememberAddShortcutDialogState()
 
-            AddShortcutDialog(shortcutDialogState = addShortcutDialogState,
-                              onRefreshShortcut = {},
-                              onAddShortcut = {
-                                  addShortcutDialogState.updateShortLabel("Test")
+            AddShortcutDialog(
+                shortcutDialogState = addShortcutDialogState,
+                onRefreshShortcut = {},
+                onAddShortcut = {
+                    addShortcutDialogState.updateShortLabel("Test")
 
-                                  addShortcutDialogState.updateLongLabel("")
+                    addShortcutDialogState.updateLongLabel("")
 
-                                  addShortcutDialogState.getShortcut(
-                                      packageName = "packageName"
-                                  )
-                              })
+                    addShortcutDialogState.getShortcut(
+                        packageName = "packageName"
+                    )
+                },
+                contentDescription = "Add Shortcut Dialog"
+            )
         }
 
         composeTestRule.onNodeWithTag("addShortcutDialog:add").performClick()
@@ -90,17 +96,20 @@ class AddShortcutDialogTest {
         composeTestRule.setContent {
             val addShortcutDialogState = rememberAddShortcutDialogState()
 
-            AddShortcutDialog(shortcutDialogState = addShortcutDialogState,
-                              onRefreshShortcut = {},
-                              onAddShortcut = {
-                                  addShortcutDialogState.updateShortLabel("Test")
+            AddShortcutDialog(
+                shortcutDialogState = addShortcutDialogState,
+                onRefreshShortcut = {},
+                onAddShortcut = {
+                    addShortcutDialogState.updateShortLabel("Test")
 
-                                  addShortcutDialogState.updateLongLabel("")
+                    addShortcutDialogState.updateLongLabel("")
 
-                                  addShortcutDialogState.getShortcut(
-                                      packageName = "packageName"
-                                  )
-                              })
+                    addShortcutDialogState.getShortcut(
+                        packageName = "packageName"
+                    )
+                },
+                contentDescription = "Add Shortcut Dialog"
+            )
         }
 
         composeTestRule.onNodeWithContentDescription("Refresh icon").performTouchInput {

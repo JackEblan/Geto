@@ -16,7 +16,7 @@
  *
  */
 
-package com.android.geto.core.ui
+package com.android.geto.feature.appsettings.dialog.appsettings
 
 import com.android.geto.core.model.SecureSettings
 import org.junit.Before

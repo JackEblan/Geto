@@ -16,7 +16,7 @@
  *
  */
 
-package com.android.geto.core.ui
+package com.android.geto.feature.appsettings.dialog.shortcut
 
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.assertIsDisplayed
@@ -47,7 +47,8 @@ class UpdateShortcutDialogTest {
                                      updateShortcutDialogState.getShortcut(
                                          packageName = "packageName"
                                      )
-                                 })
+                                 }, contentDescription = "Update Shortcut Dialog"
+            )
         }
 
         composeTestRule.onNodeWithTag("updateShortcutDialog:update").performClick()
@@ -74,7 +75,8 @@ class UpdateShortcutDialogTest {
                                      updateShortcutDialogState.getShortcut(
                                          packageName = "packageName"
                                      )
-                                 })
+                                 }, contentDescription = "Update Shortcut Dialog"
+            )
         }
 
         composeTestRule.onNodeWithTag("updateShortcutDialog:update").performClick()

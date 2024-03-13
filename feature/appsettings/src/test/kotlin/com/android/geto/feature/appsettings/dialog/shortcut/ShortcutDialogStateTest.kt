@@ -16,7 +16,7 @@
  *
  */
 
-package com.android.geto.core.ui
+package com.android.geto.feature.appsettings.dialog.shortcut
 
 import org.junit.Before
 import org.junit.Test

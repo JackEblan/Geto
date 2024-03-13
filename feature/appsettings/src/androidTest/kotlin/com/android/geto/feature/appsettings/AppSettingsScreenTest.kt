@@ -30,9 +30,9 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTouchInput
 import com.android.geto.core.model.AppSettings
 import com.android.geto.core.model.SettingsType
-import com.android.geto.core.ui.rememberAddAppSettingsDialogState
-import com.android.geto.core.ui.rememberAddShortcutDialogState
-import com.android.geto.core.ui.rememberUpdateShortcutDialogState
+import com.android.geto.feature.appsettings.dialog.appsettings.rememberAddAppSettingsDialogState
+import com.android.geto.feature.appsettings.dialog.shortcut.rememberAddShortcutDialogState
+import com.android.geto.feature.appsettings.dialog.shortcut.rememberUpdateShortcutDialogState
 import org.junit.Rule
 import org.junit.Test
 
@@ -41,7 +41,7 @@ class AppSettingsScreenTest {
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     @Test
-    fun loadingPlaceHolderScreenIsDisplayed_whenAppSettingsUiStateIsLoading() {
+    fun getoOverlayLoadingWheelIsDisplayed_whenAppSettingsUiStateIsLoading() {
         composeTestRule.setContent {
             val addAppSettingsDialogState = rememberAddAppSettingsDialogState()
 
@@ -75,7 +75,7 @@ class AppSettingsScreenTest {
                               onDismissRequestCopyPermissionCommand = {})
         }
 
-        composeTestRule.onNodeWithTag("appsettings:loadingPlaceHolderScreen").assertIsDisplayed()
+        composeTestRule.onNodeWithContentDescription("GetoOverlayLoadingWheel").assertIsDisplayed()
     }
 
     @Test
@@ -273,7 +273,7 @@ class AppSettingsScreenTest {
 
         composeTestRule.onNodeWithContentDescription("Settings icon").performClick()
 
-        composeTestRule.onNodeWithTag("addAppSettingsDialog").assertIsDisplayed()
+        composeTestRule.onNodeWithContentDescription("Add App Settings Dialog").assertIsDisplayed()
     }
 
     @Test
@@ -311,7 +311,8 @@ class AppSettingsScreenTest {
                               onDismissRequestCopyPermissionCommand = {})
         }
 
-        composeTestRule.onNodeWithTag("copyPermissionCommandDialog").assertIsDisplayed()
+        composeTestRule.onNodeWithContentDescription("Copy Permission Command Dialog")
+            .assertIsDisplayed()
     }
 
     @Test
@@ -353,7 +354,7 @@ class AppSettingsScreenTest {
 
         composeTestRule.onNodeWithContentDescription("Shortcut icon").performClick()
 
-        composeTestRule.onNodeWithTag("addShortcutDialog").assertIsDisplayed()
+        composeTestRule.onNodeWithContentDescription("Add Shortcut Dialog").assertIsDisplayed()
     }
 
     @Test
@@ -395,7 +396,7 @@ class AppSettingsScreenTest {
 
         composeTestRule.onNodeWithContentDescription("Shortcut icon").performClick()
 
-        composeTestRule.onNodeWithTag("updateShortcutDialog").assertIsDisplayed()
+        composeTestRule.onNodeWithContentDescription("Update Shortcut Dialog").assertIsDisplayed()
     }
 
     @Test

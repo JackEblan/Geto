@@ -49,8 +49,8 @@ class AppListScreenScreenshotTest {
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     @Test
-    fun appList() {
-        composeTestRule.captureMultiDevice("AppList") {
+    fun app_list_populated() {
+        composeTestRule.captureMultiDevice("AppListPopulated") {
             GetoTheme {
                 AppListScreen(appListUiState = AppListUiState.Success(testTargetApplicationInfoLists),
                               onItemClick = { _, _ -> },
@@ -60,7 +60,7 @@ class AppListScreenScreenshotTest {
     }
 
     @Test
-    fun appListLoading() {
+    fun app_list_loading() {
         composeTestRule.captureMultiDevice("AppListLoading") {
             GetoTheme {
                 AppListScreen(appListUiState = AppListUiState.Loading,
@@ -71,11 +71,11 @@ class AppListScreenScreenshotTest {
     }
 
     @Test
-    fun appList_dark() {
+    fun app_list_populated_dark() {
         composeTestRule.captureForDevice(
             deviceName = "phone_dark",
             deviceSpec = DefaultTestDevices.PHONE.spec,
-            screenshotName = "AppList",
+            screenshotName = "AppListPopulated",
             darkMode = true,
         ) {
             GetoTheme {
@@ -89,7 +89,7 @@ class AppListScreenScreenshotTest {
     }
 
     @Test
-    fun appListLoading_dark() {
+    fun app_list_loading_dark() {
         composeTestRule.captureForDevice(
             deviceName = "phone_dark",
             deviceSpec = DefaultTestDevices.PHONE.spec,

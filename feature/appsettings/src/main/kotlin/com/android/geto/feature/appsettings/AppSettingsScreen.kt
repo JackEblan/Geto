@@ -19,10 +19,16 @@
 package com.android.geto.feature.appsettings
 
 import androidx.annotation.VisibleForTesting
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
@@ -34,6 +40,7 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.PlainTooltip
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -46,25 +53,27 @@ import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.android.geto.core.designsystem.component.GetoOverlayLoadingWheel
 import com.android.geto.core.designsystem.icon.GetoIcons
 import com.android.geto.core.model.AppSettings
 import com.android.geto.core.model.SettingsType
 import com.android.geto.core.model.TargetShortcutInfoCompat
-import com.android.geto.core.ui.AddAppSettingsDialog
-import com.android.geto.core.ui.AddShortcutDialog
-import com.android.geto.core.ui.AppSettingsDialogState
-import com.android.geto.core.ui.CopyPermissionCommandDialog
-import com.android.geto.core.ui.EmptyListPlaceHolderScreen
-import com.android.geto.core.ui.LoadingPlaceHolderScreen
-import com.android.geto.core.ui.ShortcutDialogState
-import com.android.geto.core.ui.UpdateShortcutDialog
-import com.android.geto.core.ui.rememberAddAppSettingsDialogState
-import com.android.geto.core.ui.rememberAddShortcutDialogState
+import com.android.geto.feature.appsettings.dialog.appsettings.AddAppSettingsDialog
+import com.android.geto.feature.appsettings.dialog.appsettings.AppSettingsDialogState
+import com.android.geto.feature.appsettings.dialog.appsettings.rememberAddAppSettingsDialogState
+import com.android.geto.feature.appsettings.dialog.copypermissioncommand.CopyPermissionCommandDialog
+import com.android.geto.feature.appsettings.dialog.shortcut.AddShortcutDialog
+import com.android.geto.feature.appsettings.dialog.shortcut.ShortcutDialogState
+import com.android.geto.feature.appsettings.dialog.shortcut.UpdateShortcutDialog
 
 @Composable
 internal fun AppSettingsRoute(
@@ -95,9 +104,11 @@ internal fun AppSettingsRoute(
 
     val addSettingsDialogState = rememberAddAppSettingsDialogState()
 
-    val addShortcutDialogState = rememberAddShortcutDialogState()
+    val addShortcutDialogState =
+        com.android.geto.feature.appsettings.dialog.shortcut.rememberAddShortcutDialogState()
 
-    val updateShortcutDialogState = rememberAddShortcutDialogState()
+    val updateShortcutDialogState =
+        com.android.geto.feature.appsettings.dialog.shortcut.rememberAddShortcutDialogState()
 
     val keyDebounce = addSettingsDialogState.keyDebounce.collectAsStateWithLifecycle("").value
 
@@ -210,34 +221,43 @@ internal fun AppSettingsScreen(
     onDismissRequestCopyPermissionCommand: () -> Unit,
 ) {
     if (addAppSettingsDialogState.showDialog) {
-        AddAppSettingsDialog(addAppSettingsDialogState = addAppSettingsDialogState,
-                             scrollState = scrollState,
-                             onAddSettings = {
-                                 addAppSettingsDialogState.getAppSettings(packageName = packageName)
-                                     ?.let {
-                                         onAddSettings(it)
-                                         addAppSettingsDialogState.resetState()
-                                     }
-                             })
+        AddAppSettingsDialog(
+            addAppSettingsDialogState = addAppSettingsDialogState,
+            scrollState = scrollState,
+            onAddSettings = {
+                addAppSettingsDialogState.getAppSettings(packageName = packageName)?.let {
+                    onAddSettings(it)
+                    addAppSettingsDialogState.resetState()
+                }
+            },
+            contentDescription = "Add App Settings Dialog"
+        )
     }
 
     if (showCopyPermissionCommandDialog) {
         CopyPermissionCommandDialog(
             onDismissRequest = onDismissRequestCopyPermissionCommand,
-            onCopySettings = onCopyPermissionCommand
+            onCopySettings = onCopyPermissionCommand,
+            contentDescription = "Copy Permission Command Dialog"
         )
     }
 
     if (addShortcutDialogState.showDialog) {
         AddShortcutDialog(shortcutDialogState = addShortcutDialogState, onRefreshShortcut = {
             onRefreshShortcut()
-            addShortcutDialogState.updateShowDialog(false)
+            addShortcutDialogState.updateShowDialog(
+                false
+            )
         }, onAddShortcut = {
-            addShortcutDialogState.getShortcut(packageName = packageName)?.let {
-                onAddShortcut(it)
+            addShortcutDialogState.getShortcut(
+                packageName = packageName
+            )?.let {
+                onAddShortcut(
+                    it
+                )
                 addShortcutDialogState.resetState()
             }
-        })
+        }, contentDescription = "Add Shortcut Dialog")
     }
 
     if (updateShortcutDialogState.showDialog) {
@@ -253,7 +273,9 @@ internal fun AppSettingsScreen(
                                          onUpdateShortcut(it)
                                          updateShortcutDialogState.resetState()
                                      }
-                             })
+                             },
+                             contentDescription = "Update Shortcut Dialog"
+        )
     }
 
     Scaffold(topBar = {
@@ -349,16 +371,14 @@ internal fun AppSettingsScreen(
                         modifier = Modifier
                             .fillMaxSize()
                             .testTag("appsettings:emptyListPlaceHolderScreen"),
-                        icon = GetoIcons.Empty,
-                        text = "Nothing is here"
+                        icon = GetoIcons.Empty
                     )
                 }
 
                 AppSettingsUiState.Loading -> {
-                    LoadingPlaceHolderScreen(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .testTag("appsettings:loadingPlaceHolderScreen")
+                    GetoOverlayLoadingWheel(
+                        modifier = Modifier.align(Alignment.Center),
+                        contentDescription = "GetoOverlayLoadingWheel"
                     )
                 }
 
@@ -399,5 +419,30 @@ private fun LazyListScope.appSettings(
                         onDeleteUserAppSettingsItem = {
                             onDeleteAppSettingsItem(appSettings)
                         })
+    }
+}
+
+
+@Composable
+private fun EmptyListPlaceHolderScreen(
+    modifier: Modifier = Modifier, icon: ImageVector
+) {
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Image(
+            imageVector = icon,
+            contentDescription = null,
+            modifier = Modifier.size(100.dp),
+            colorFilter = ColorFilter.tint(
+                MaterialTheme.colorScheme.onSurface
+            )
+        )
+
+        Spacer(modifier = Modifier.height(10.dp))
+
+        Text(text = "Nothing is here")
     }
 }

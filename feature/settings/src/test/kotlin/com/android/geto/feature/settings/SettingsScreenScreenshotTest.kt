@@ -27,8 +27,8 @@ import com.android.geto.core.model.ThemeBrand
 import com.android.geto.core.screenshot.testing.util.DefaultTestDevices
 import com.android.geto.core.screenshot.testing.util.captureForDevice
 import com.android.geto.core.screenshot.testing.util.captureMultiDevice
-import com.android.geto.core.ui.rememberDarkDialogState
-import com.android.geto.core.ui.rememberThemeDialogState
+import com.android.geto.feature.settings.dialog.dark.rememberDarkDialogState
+import com.android.geto.feature.settings.dialog.theme.rememberThemeDialogState
 import dagger.hilt.android.testing.HiltTestApplication
 import org.junit.Rule
 import org.junit.runner.RunWith
@@ -48,8 +48,8 @@ class SettingsScreenScreenshotTest {
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     @Test
-    fun settings() {
-        composeTestRule.captureMultiDevice("Settings") {
+    fun settings_populated() {
+        composeTestRule.captureMultiDevice("SettingsPopulated") {
             GetoTheme {
                 val themeDialogState = rememberThemeDialogState()
 
@@ -62,6 +62,26 @@ class SettingsScreenScreenshotTest {
                         darkThemeConfig = DarkThemeConfig.DARK
                     )
                 ),
+                               themeDialogState = themeDialogState,
+                               darkDialogState = darkDialogState,
+                               supportDynamicColor = false,
+                               onChangeThemeBrand = {},
+                               onChangeDynamicColorPreference = {},
+                               onChangeDarkThemeConfig = {},
+                               onNavigationIconClick = {})
+            }
+        }
+    }
+
+    @Test
+    fun settings_loading() {
+        composeTestRule.captureMultiDevice("SettingsLoading") {
+            GetoTheme {
+                val themeDialogState = rememberThemeDialogState()
+
+                val darkDialogState = rememberDarkDialogState()
+
+                SettingsScreen(settingsUiState = SettingsUiState.Loading,
                                themeDialogState = themeDialogState,
                                darkDialogState = darkDialogState,
                                supportDynamicColor = false,
@@ -100,11 +120,11 @@ class SettingsScreenScreenshotTest {
     }
 
     @Test
-    fun settings_dark() {
+    fun settings_populated_dark() {
         composeTestRule.captureForDevice(
             deviceName = "phone_dark",
             deviceSpec = DefaultTestDevices.PHONE.spec,
-            screenshotName = "Settings",
+            screenshotName = "SettingsPopulated",
             darkMode = true,
         ) {
             GetoTheme {
@@ -125,6 +145,34 @@ class SettingsScreenScreenshotTest {
                                    supportDynamicColor = false,
                                    onChangeThemeBrand = {},
                                    onChangeDynamicColorPreference = {},
+                                   onChangeDarkThemeConfig = {},
+                                   onNavigationIconClick = {})
+                }
+            }
+        }
+    }
+
+    @Test
+    fun settings_loading_dark() {
+        composeTestRule.captureForDevice(
+            deviceName = "phone_dark",
+            deviceSpec = DefaultTestDevices.PHONE.spec,
+            screenshotName = "SettingsLoading",
+            darkMode = true,
+        ) {
+            GetoTheme {
+                GetoBackground {
+                    val themeDialogState = rememberThemeDialogState()
+
+                    val darkDialogState = rememberDarkDialogState()
+
+                    SettingsScreen(
+                        settingsUiState = SettingsUiState.Loading,
+                        themeDialogState = themeDialogState,
+                        darkDialogState = darkDialogState,
+                        supportDynamicColor = false,
+                        onChangeThemeBrand = {},
+                        onChangeDynamicColorPreference = {},
                                    onChangeDarkThemeConfig = {},
                                    onNavigationIconClick = {})
                 }

@@ -16,7 +16,7 @@
  *
  */
 
-package com.android.geto.core.ui
+package com.android.geto.feature.appsettings.dialog.copypermissioncommand
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -34,12 +34,17 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 
 @Composable
 fun CopyPermissionCommandDialog(
-    modifier: Modifier = Modifier, onDismissRequest: () -> Unit, onCopySettings: () -> Unit
+    modifier: Modifier = Modifier,
+    onDismissRequest: () -> Unit,
+    onCopySettings: () -> Unit,
+    contentDescription: String
 ) {
     Dialog(onDismissRequest = { onDismissRequest() }) {
         Card(
@@ -47,7 +52,7 @@ fun CopyPermissionCommandDialog(
                 .fillMaxWidth()
                 .wrapContentSize()
                 .padding(16.dp)
-                .testTag("copyPermissionCommandDialog"),
+                .semantics { this.contentDescription = contentDescription },
             shape = RoundedCornerShape(16.dp),
         ) {
             Column(

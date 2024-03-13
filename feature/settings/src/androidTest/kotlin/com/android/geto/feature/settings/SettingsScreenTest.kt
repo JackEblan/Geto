@@ -24,12 +24,13 @@ import androidx.compose.ui.test.assertIsNotDisplayed
 import androidx.compose.ui.test.assertIsOff
 import androidx.compose.ui.test.assertIsOn
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import com.android.geto.core.model.DarkThemeConfig
 import com.android.geto.core.model.ThemeBrand
-import com.android.geto.core.ui.rememberDarkDialogState
-import com.android.geto.core.ui.rememberThemeDialogState
+import com.android.geto.feature.settings.dialog.dark.rememberDarkDialogState
+import com.android.geto.feature.settings.dialog.theme.rememberThemeDialogState
 import org.junit.Rule
 import org.junit.Test
 
@@ -39,7 +40,7 @@ class SettingsScreenTest {
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     @Test
-    fun loadingPlaceHolderScreenIsDisplayed_whenSettingsUiStateIsLoading() {
+    fun getoOverlayLoadingWheelIsDisplayed_whenSettingsUiStateIsLoading() {
         composeTestRule.setContent {
             val themeDialogState = rememberThemeDialogState()
 
@@ -55,7 +56,7 @@ class SettingsScreenTest {
                            onNavigationIconClick = {})
         }
 
-        composeTestRule.onNodeWithTag("settings:loadingPlaceHolderScreen").assertIsDisplayed()
+        composeTestRule.onNodeWithContentDescription("GetoOverlayLoadingWheel").assertIsDisplayed()
     }
 
     @Test
@@ -161,7 +162,7 @@ class SettingsScreenTest {
 
         composeTestRule.onNodeWithTag("settings:theme").performClick()
 
-        composeTestRule.onNodeWithTag("themeDialog").assertIsDisplayed()
+        composeTestRule.onNodeWithContentDescription("Theme Dialog").assertIsDisplayed()
     }
 
     @Test
@@ -241,6 +242,6 @@ class SettingsScreenTest {
 
         composeTestRule.onNodeWithTag("settings:dark").performClick()
 
-        composeTestRule.onNodeWithTag("darkDialog").assertIsDisplayed()
+        composeTestRule.onNodeWithContentDescription("Dark Dialog").assertIsDisplayed()
     }
 }
