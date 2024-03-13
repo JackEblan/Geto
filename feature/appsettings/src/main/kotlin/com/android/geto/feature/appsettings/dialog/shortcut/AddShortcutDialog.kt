@@ -56,7 +56,7 @@ import com.android.geto.core.designsystem.icon.GetoIcons
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddShortcutDialog(
+internal fun AddShortcutDialog(
     modifier: Modifier = Modifier,
     shortcutDialogState: ShortcutDialogState,
     onRefreshShortcut: () -> Unit, onAddShortcut: () -> Unit, contentDescription: String
@@ -181,7 +181,7 @@ fun AddShortcutDialog(
 }
 
 @Composable
-fun rememberAddShortcutDialogState(): ShortcutDialogState {
+internal fun rememberAddShortcutDialogState(): ShortcutDialogState {
     return rememberSaveable(saver = ShortcutDialogState.Saver) {
         ShortcutDialogState()
     }

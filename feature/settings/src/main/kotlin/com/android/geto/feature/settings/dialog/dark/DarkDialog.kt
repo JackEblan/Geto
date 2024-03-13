@@ -52,7 +52,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 
 @Composable
-fun DarkDialog(
+internal fun DarkDialog(
     darkDialogState: DarkDialogState, onChangeTheme: () -> Unit, contentDescription: String
 ) {
     Dialog(onDismissRequest = { darkDialogState.updateShowDialog(false) }) {

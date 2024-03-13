@@ -56,15 +56,14 @@ import com.android.geto.core.designsystem.icon.GetoIcons
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun UpdateShortcutDialog(
+internal fun UpdateShortcutDialog(
     modifier: Modifier = Modifier,
     shortcutDialogState: ShortcutDialogState,
-    onDismissRequest: () -> Unit,
     onRefreshShortcut: () -> Unit,
     onUpdateShortcut: () -> Unit,
     contentDescription: String
 ) {
-    Dialog(onDismissRequest = { onDismissRequest() }) {
+    Dialog(onDismissRequest = { shortcutDialogState.updateShowDialog(false) }) {
         Card(
             modifier = modifier
                 .fillMaxWidth()
@@ -166,7 +165,8 @@ fun UpdateShortcutDialog(
                     horizontalArrangement = Arrangement.End,
                 ) {
                     TextButton(
-                        onClick = onDismissRequest, modifier = Modifier.padding(5.dp)
+                        onClick = { shortcutDialogState.updateShowDialog(false) },
+                        modifier = Modifier.padding(5.dp)
                     ) {
                         Text("Cancel")
                     }
@@ -185,7 +185,7 @@ fun UpdateShortcutDialog(
 }
 
 @Composable
-fun rememberUpdateShortcutDialogState(): ShortcutDialogState {
+internal fun rememberUpdateShortcutDialogState(): ShortcutDialogState {
     return rememberSaveable(saver = ShortcutDialogState.Saver) {
         ShortcutDialogState()
     }

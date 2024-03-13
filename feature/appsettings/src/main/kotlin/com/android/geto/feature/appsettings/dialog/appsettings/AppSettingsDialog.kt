@@ -56,7 +56,7 @@ import com.android.geto.core.model.SettingsType
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddAppSettingsDialog(
+internal fun AddAppSettingsDialog(
     modifier: Modifier = Modifier, addAppSettingsDialogState: AppSettingsDialogState,
     scrollState: ScrollState, onAddSettings: () -> Unit, contentDescription: String
 ) {

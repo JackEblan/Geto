@@ -40,7 +40,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 
 @Composable
-fun CopyPermissionCommandDialog(
+internal fun CopyPermissionCommandDialog(
     modifier: Modifier = Modifier,
     onDismissRequest: () -> Unit,
     onCopySettings: () -> Unit,

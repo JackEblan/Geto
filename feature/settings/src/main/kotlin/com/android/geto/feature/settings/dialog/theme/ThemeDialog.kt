@@ -52,7 +52,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 
 @Composable
-fun ThemeDialog(
+internal fun ThemeDialog(
     modifier: Modifier = Modifier,
     themeDialogState: ThemeDialogState,
     onChangeTheme: () -> Unit,

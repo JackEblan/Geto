@@ -35,14 +35,14 @@ import kotlinx.coroutines.flow.debounce
 
 
 @Composable
-fun rememberAddAppSettingsDialogState(): AppSettingsDialogState {
+internal fun rememberAddAppSettingsDialogState(): AppSettingsDialogState {
     return rememberSaveable(saver = AppSettingsDialogState.Saver) {
         AppSettingsDialogState()
     }
 }
 
 @Stable
-class AppSettingsDialogState {
+internal class AppSettingsDialogState {
     var secureSettings by mutableStateOf<List<SecureSettings>>(emptyList())
 
     var secureSettingsExpanded by mutableStateOf(false)
