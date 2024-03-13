@@ -20,6 +20,7 @@ plugins {
     alias(libs.plugins.com.android.geto.feature)
     alias(libs.plugins.com.android.geto.libraryCompose)
     alias(libs.plugins.com.android.geto.libraryJacoco)
+    alias(libs.plugins.roborazzi)
 }
 
 android {
@@ -29,8 +30,11 @@ android {
 dependencies {
     implementation(projects.core.data)
 
+    testImplementation(libs.hilt.android.testing)
+    testImplementation(libs.robolectric)
     testImplementation(projects.core.testing)
-    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(projects.core.screenshotTesting)
+    testDemoImplementation(libs.roborazzi)
 
     androidTestImplementation(projects.core.testing)
 }

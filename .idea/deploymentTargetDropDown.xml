@@ -2,6 +2,9 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
+      <entry key="AppListScreenTest">
+        <State />
+      </entry>
       <entry key="MigrationTest">
         <State />
       </entry>
@@ -9,12 +12,6 @@
         <State />
       </entry>
       <entry key="app">
-        <State />
-      </entry>
-      <entry key="dynamicRowIsDisplayed_whenThemeBrandIsDefault()">
-        <State />
-      </entry>
-      <entry key="dynamicRowIsNotDisplayed_whenThemeBrandIsAndroid()">
         <State />
       </entry>
       <entry key="feature.shortcut">

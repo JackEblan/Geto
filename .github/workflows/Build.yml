@@ -48,6 +48,19 @@ jobs:
       - name: Check build-logic
         run: ./gradlew check -p build-logic
 
+      - name: Check commit message for generate-screenshots command
+        run: |
+          if echo "${{ github.event.head_commit.message }}" | grep -q "generate-screenshots=true"; then
+          echo "GENERATE_SCREENSHOTS=true" >> $GITHUB_ENV
+          else
+          echo "GENERATE_SCREENSHOTS=false" >> $GITHUB_ENV
+          fi  
+
+      - name: Record new screenshots
+        if: env.GENERATE_SCREENSHOTS == 'true'
+        run: |
+          ./gradlew recordRoborazziDemoDebug
+
       - name: Run all local screenshot tests (Roborazzi)
         id: screenshotsverify
         continue-on-error: true
@@ -68,7 +81,7 @@ jobs:
 
       - name: Push new screenshots if available
         uses: stefanzweifel/git-auto-commit-action@v5
-        if: steps.screenshotsrecord.outcome == 'success'
+        if: steps.screenshotsrecord.outcome == 'success' || env.GENERATE_SCREENSHOTS == 'true'
         with:
           file_pattern: '*/*.png'
           disable_globbing: true
