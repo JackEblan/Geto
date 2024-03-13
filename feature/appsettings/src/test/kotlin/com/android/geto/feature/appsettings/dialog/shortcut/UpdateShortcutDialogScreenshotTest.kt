@@ -43,11 +43,9 @@ class UpdateShortcutDialogScreenshotTest {
 
                 shortcutDialogState.updateIcon(icon)
 
-                UpdateShortcutDialog(shortcutDialogState = shortcutDialogState,
-                                     onRefreshShortcut = {},
-                                     onUpdateShortcut = {},
-                                     contentDescription = "UpdateShortcutDialog"
-                )
+                UpdateShortcutDialogScreen(shortcutDialogState = shortcutDialogState,
+                                           onRefreshShortcut = {},
+                                           onUpdateShortcut = {})
             }
         }
     }
@@ -64,11 +62,9 @@ class UpdateShortcutDialogScreenshotTest {
 
                 shortcutDialogState.updateLongLabel("Long Label")
 
-                UpdateShortcutDialog(shortcutDialogState = shortcutDialogState,
-                                     onRefreshShortcut = {},
-                                     onUpdateShortcut = {},
-                                     contentDescription = "UpdateShortcutDialog"
-                )
+                UpdateShortcutDialogScreen(shortcutDialogState = shortcutDialogState,
+                                           onRefreshShortcut = {},
+                                           onUpdateShortcut = {})
             }
         }
     }
@@ -83,11 +79,9 @@ class UpdateShortcutDialogScreenshotTest {
 
                 shortcutDialogState.getShortcut(packageName = "Test")
 
-                UpdateShortcutDialog(shortcutDialogState = shortcutDialogState,
-                                     onRefreshShortcut = {},
-                                     onUpdateShortcut = {},
-                                     contentDescription = "UpdateShortcutDialog"
-                )
+                UpdateShortcutDialogScreen(shortcutDialogState = shortcutDialogState,
+                                           onRefreshShortcut = {},
+                                           onUpdateShortcut = {})
             }
         }
     }
@@ -106,11 +100,9 @@ class UpdateShortcutDialogScreenshotTest {
 
                     shortcutDialogState.updateIcon(icon)
 
-                    UpdateShortcutDialog(shortcutDialogState = shortcutDialogState,
-                                         onRefreshShortcut = { },
-                                         onUpdateShortcut = {},
-                                         contentDescription = "UpdateShortcutDialog"
-                    )
+                    UpdateShortcutDialogScreen(shortcutDialogState = shortcutDialogState,
+                                               onRefreshShortcut = {},
+                                               onUpdateShortcut = {})
                 }
             }
         }
@@ -134,11 +126,9 @@ class UpdateShortcutDialogScreenshotTest {
 
                     shortcutDialogState.updateLongLabel("Long Label")
 
-                    UpdateShortcutDialog(shortcutDialogState = shortcutDialogState,
-                                         onRefreshShortcut = {},
-                                         onUpdateShortcut = {},
-                                         contentDescription = "UpdateShortcutDialog"
-                    )
+                    UpdateShortcutDialogScreen(shortcutDialogState = shortcutDialogState,
+                                               onRefreshShortcut = {},
+                                               onUpdateShortcut = {})
                 }
             }
         }
@@ -160,11 +150,9 @@ class UpdateShortcutDialogScreenshotTest {
 
                     shortcutDialogState.getShortcut(packageName = "Test")
 
-                    UpdateShortcutDialog(shortcutDialogState = shortcutDialogState,
-                                         onRefreshShortcut = {},
-                                         onUpdateShortcut = {},
-                                         contentDescription = "UpdateShortcutDialog"
-                    )
+                    UpdateShortcutDialogScreen(shortcutDialogState = shortcutDialogState,
+                                               onRefreshShortcut = {},
+                                               onUpdateShortcut = {})
                 }
             }
         }

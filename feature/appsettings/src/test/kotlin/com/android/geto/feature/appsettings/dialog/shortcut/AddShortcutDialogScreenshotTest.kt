@@ -43,11 +43,9 @@ class AddShortcutDialogScreenshotTest {
 
                 shortcutDialogState.updateIcon(icon)
 
-                AddShortcutDialog(shortcutDialogState = shortcutDialogState,
-                                  onRefreshShortcut = {},
-                                  onAddShortcut = {},
-                                  contentDescription = "AddShortcutDialog"
-                )
+                AddShortcutDialogScreen(shortcutDialogState = shortcutDialogState,
+                                        onRefreshShortcut = {},
+                                        onAddShortcut = {})
             }
         }
     }
@@ -64,11 +62,9 @@ class AddShortcutDialogScreenshotTest {
 
                 shortcutDialogState.updateLongLabel("Long Label")
 
-                AddShortcutDialog(shortcutDialogState = shortcutDialogState,
-                                  onRefreshShortcut = {},
-                                  onAddShortcut = {},
-                                  contentDescription = "AddShortcutDialog"
-                )
+                AddShortcutDialogScreen(shortcutDialogState = shortcutDialogState,
+                                        onRefreshShortcut = {},
+                                        onAddShortcut = {})
             }
         }
     }
@@ -83,11 +79,9 @@ class AddShortcutDialogScreenshotTest {
 
                 shortcutDialogState.getShortcut(packageName = "Test")
 
-                AddShortcutDialog(shortcutDialogState = shortcutDialogState,
-                                  onRefreshShortcut = {},
-                                  onAddShortcut = {},
-                                  contentDescription = "AddShortcutDialog"
-                )
+                AddShortcutDialogScreen(shortcutDialogState = shortcutDialogState,
+                                        onRefreshShortcut = {},
+                                        onAddShortcut = {})
             }
         }
     }
@@ -106,11 +100,9 @@ class AddShortcutDialogScreenshotTest {
 
                     shortcutDialogState.updateIcon(icon)
 
-                    AddShortcutDialog(shortcutDialogState = shortcutDialogState,
-                                      onRefreshShortcut = { },
-                                      onAddShortcut = {},
-                                      contentDescription = "AddShortcutDialog"
-                    )
+                    AddShortcutDialogScreen(shortcutDialogState = shortcutDialogState,
+                                            onRefreshShortcut = {},
+                                            onAddShortcut = {})
                 }
             }
         }
@@ -134,11 +126,9 @@ class AddShortcutDialogScreenshotTest {
 
                     shortcutDialogState.updateLongLabel("Long Label")
 
-                    AddShortcutDialog(shortcutDialogState = shortcutDialogState,
-                                      onRefreshShortcut = {},
-                                      onAddShortcut = {},
-                                      contentDescription = "AddShortcutDialog"
-                    )
+                    AddShortcutDialogScreen(shortcutDialogState = shortcutDialogState,
+                                            onRefreshShortcut = {},
+                                            onAddShortcut = {})
                 }
             }
         }
@@ -160,11 +150,9 @@ class AddShortcutDialogScreenshotTest {
 
                     shortcutDialogState.getShortcut(packageName = "Test")
 
-                    AddShortcutDialog(shortcutDialogState = shortcutDialogState,
-                                      onRefreshShortcut = {},
-                                      onAddShortcut = {},
-                                      contentDescription = "AddShortcutDialog"
-                    )
+                    AddShortcutDialogScreen(shortcutDialogState = shortcutDialogState,
+                                            onRefreshShortcut = {},
+                                            onAddShortcut = {})
                 }
             }
         }

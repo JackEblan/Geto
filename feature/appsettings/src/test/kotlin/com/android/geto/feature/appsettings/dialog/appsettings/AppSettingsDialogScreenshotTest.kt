@@ -52,12 +52,9 @@ class AppSettingsDialogScreenshotTest {
 
                 val scrollState = rememberScrollState()
 
-                AddAppSettingsDialog(
-                    addAppSettingsDialogState = addAppSettingsDialogState,
-                    scrollState = scrollState,
-                    onAddSettings = {},
-                    contentDescription = "Add App Settings Dialog"
-                )
+                AddAppSettingsDialogScreen(addAppSettingsDialogState = addAppSettingsDialogState,
+                                           scrollState = scrollState,
+                                           onAddSettings = {})
             }
         }
     }
@@ -80,12 +77,9 @@ class AppSettingsDialogScreenshotTest {
 
                 addAppSettingsDialogState.updateValueOnRevert("Test")
 
-                AddAppSettingsDialog(
-                    addAppSettingsDialogState = addAppSettingsDialogState,
-                    scrollState = scrollState,
-                    onAddSettings = {},
-                    contentDescription = "Add App Settings Dialog"
-                )
+                AddAppSettingsDialogScreen(addAppSettingsDialogState = addAppSettingsDialogState,
+                                           scrollState = scrollState,
+                                           onAddSettings = {})
             }
         }
     }
@@ -100,12 +94,9 @@ class AppSettingsDialogScreenshotTest {
 
                 addAppSettingsDialogState.getAppSettings(packageName = "Test")
 
-                AddAppSettingsDialog(
-                    addAppSettingsDialogState = addAppSettingsDialogState,
-                    scrollState = scrollState,
-                    onAddSettings = {},
-                    contentDescription = "Add App Settings Dialog"
-                )
+                AddAppSettingsDialogScreen(addAppSettingsDialogState = addAppSettingsDialogState,
+                                           scrollState = scrollState,
+                                           onAddSettings = {})
             }
         }
     }
@@ -124,12 +115,9 @@ class AppSettingsDialogScreenshotTest {
 
                     val scrollState = rememberScrollState()
 
-                    AddAppSettingsDialog(
-                        addAppSettingsDialogState = addAppSettingsDialogState,
-                        scrollState = scrollState,
-                        onAddSettings = {},
-                        contentDescription = "Add App Settings Dialog"
-                    )
+                    AddAppSettingsDialogScreen(addAppSettingsDialogState = addAppSettingsDialogState,
+                                               scrollState = scrollState,
+                                               onAddSettings = {})
                 }
             }
         }
@@ -159,12 +147,9 @@ class AppSettingsDialogScreenshotTest {
 
                     addAppSettingsDialogState.updateValueOnRevert("Test")
 
-                    AddAppSettingsDialog(
-                        addAppSettingsDialogState = addAppSettingsDialogState,
-                        scrollState = scrollState,
-                        onAddSettings = {},
-                        contentDescription = "Add App Settings Dialog"
-                    )
+                    AddAppSettingsDialogScreen(addAppSettingsDialogState = addAppSettingsDialogState,
+                                               scrollState = scrollState,
+                                               onAddSettings = {})
                 }
             }
         }
@@ -186,12 +171,9 @@ class AppSettingsDialogScreenshotTest {
 
                     addAppSettingsDialogState.getAppSettings(packageName = "Test")
 
-                    AddAppSettingsDialog(
-                        addAppSettingsDialogState = addAppSettingsDialogState,
-                        scrollState = scrollState,
-                        onAddSettings = {},
-                        contentDescription = "Add App Settings Dialog"
-                    )
+                    AddAppSettingsDialogScreen(addAppSettingsDialogState = addAppSettingsDialogState,
+                                               scrollState = scrollState,
+                                               onAddSettings = {})
                 }
             }
         }

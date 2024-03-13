@@ -35,13 +35,7 @@ import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Stable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -64,73 +58,81 @@ internal fun DarkDialog(
                 .semantics { this.contentDescription = contentDescription },
             shape = RoundedCornerShape(16.dp),
         ) {
-            Column(
-                modifier = Modifier.padding(10.dp)
-            ) {
-                Spacer(modifier = Modifier.height(10.dp))
+            DarkDialogScreen(darkDialogState = darkDialogState, onChangeTheme = onChangeTheme)
+        }
+    }
+}
 
-                Text(
-                    modifier = Modifier.padding(horizontal = 5.dp),
-                    text = "Dark Mode",
-                    style = MaterialTheme.typography.titleLarge
-                )
+@Composable
+internal fun DarkDialogScreen(
+    darkDialogState: DarkDialogState, onChangeTheme: () -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(10.dp)
+    ) {
+        Spacer(modifier = Modifier.height(10.dp))
 
-                Spacer(modifier = Modifier.height(10.dp))
+        Text(
+            modifier = Modifier.padding(horizontal = 5.dp),
+            text = "Dark Mode",
+            style = MaterialTheme.typography.titleLarge
+        )
 
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .selectableGroup()
-                ) {
-                    listOf("Follow System", "Light", "Dark").forEachIndexed { index, text ->
-                        Row(
-                            Modifier
-                                .padding(vertical = 10.dp)
-                                .selectable(selected = index == darkDialogState.selectedRadioOptionIndex,
-                                            role = Role.RadioButton,
-                                            enabled = true,
-                                            onClick = {
-                                                darkDialogState.updateSelectedRadioOptionIndex(
-                                                    index
-                                                )
-                                            })
-                                .padding(horizontal = 16.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            RadioButton(
-                                selected = index == darkDialogState.selectedRadioOptionIndex,
-                                onClick = null
-                            )
-                            Text(
-                                text = text,
-                                style = MaterialTheme.typography.bodyLarge,
-                                modifier = Modifier.padding(start = 10.dp)
-                            )
-                        }
-                    }
-                }
+        Spacer(modifier = Modifier.height(10.dp))
 
-                Spacer(modifier = Modifier.height(10.dp))
-
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .selectableGroup()
+        ) {
+            listOf("Follow System", "Light", "Dark").forEachIndexed { index, text ->
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.End,
+                    Modifier
+                        .padding(vertical = 10.dp)
+                        .selectable(selected = index == darkDialogState.selectedRadioOptionIndex,
+                                    role = Role.RadioButton,
+                                    enabled = true,
+                                    onClick = {
+                                        darkDialogState.updateSelectedRadioOptionIndex(
+                                            index
+                                        )
+                                    })
+                        .padding(horizontal = 16.dp),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    TextButton(
-                        onClick = { darkDialogState.updateShowDialog(false) },
-                        modifier = Modifier.padding(5.dp)
-                    ) {
-                        Text("Cancel")
-                    }
-                    TextButton(
-                        onClick = onChangeTheme,
-                        modifier = Modifier
-                            .padding(5.dp)
-                            .testTag("darkDialog:change")
-                    ) {
-                        Text("Change")
-                    }
+                    RadioButton(
+                        selected = index == darkDialogState.selectedRadioOptionIndex, onClick = null
+                    )
+                    Text(
+                        text = text,
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.padding(start = 10.dp)
+                    )
                 }
+            }
+        }
+
+        Spacer(modifier = Modifier.height(10.dp))
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.End,
+        ) {
+            TextButton(
+                onClick = { darkDialogState.updateShowDialog(false) },
+                modifier = Modifier.padding(5.dp)
+            ) {
+                Text("Cancel")
+            }
+            TextButton(
+                onClick = onChangeTheme,
+                modifier = Modifier
+                    .padding(5.dp)
+                    .testTag("darkDialog:change")
+            ) {
+                Text("Change")
             }
         }
     }
@@ -140,37 +142,5 @@ internal fun DarkDialog(
 fun rememberDarkDialogState(): DarkDialogState {
     return rememberSaveable(saver = DarkDialogState.Saver) {
         DarkDialogState()
-    }
-}
-
-@Stable
-class DarkDialogState {
-    var showDialog by mutableStateOf(false)
-        private set
-
-    var selectedRadioOptionIndex by mutableIntStateOf(0)
-        private set
-
-    fun updateShowDialog(value: Boolean) {
-        showDialog = value
-    }
-
-    fun updateSelectedRadioOptionIndex(value: Int) {
-        selectedRadioOptionIndex = value
-    }
-
-    companion object {
-        val Saver = listSaver<DarkDialogState, Any>(save = { state ->
-            listOf(
-                state.showDialog,
-                state.selectedRadioOptionIndex,
-            )
-        }, restore = {
-            DarkDialogState().apply {
-                showDialog = it[0] as Boolean
-
-                selectedRadioOptionIndex = it[1] as Int
-            }
-        })
     }
 }

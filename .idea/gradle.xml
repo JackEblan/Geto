@@ -47,6 +47,7 @@
             <option value="$PROJECT_DIR$/feature/appsettings" />
             <option value="$PROJECT_DIR$/feature/settings" />
             <option value="$PROJECT_DIR$/lint" />
+            <option value="$PROJECT_DIR$/ui-test-hilt-manifest" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />
