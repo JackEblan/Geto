@@ -21,6 +21,8 @@ package com.android.geto.feature.settings
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsNotDisplayed
+import androidx.compose.ui.test.assertIsOff
+import androidx.compose.ui.test.assertIsOn
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
@@ -80,6 +82,58 @@ class SettingsScreenTest {
         }
 
         composeTestRule.onNodeWithTag("settings:column").assertIsDisplayed()
+    }
+
+    @Test
+    fun dynamicColorSwitchIsOn_whenDynamicColorIsTrue() {
+        composeTestRule.setContent {
+            val themeDialogState = rememberThemeDialogState()
+
+            val darkDialogState = rememberDarkDialogState()
+
+            SettingsScreen(settingsUiState = SettingsUiState.Success(
+                UserEditableSettings(
+                    brand = ThemeBrand.DEFAULT,
+                    useDynamicColor = true,
+                    darkThemeConfig = DarkThemeConfig.DARK
+                )
+            ),
+                           themeDialogState = themeDialogState,
+                           darkDialogState = darkDialogState,
+                           supportDynamicColor = true,
+                           onChangeThemeBrand = {},
+                           onChangeDynamicColorPreference = {},
+                           onChangeDarkThemeConfig = {},
+                           onNavigationIconClick = {})
+        }
+
+        composeTestRule.onNodeWithTag("settings:dynamic:switch").assertIsOn()
+    }
+
+    @Test
+    fun dynamicColorSwitchIsOff_whenDynamicColorIsFalse() {
+        composeTestRule.setContent {
+            val themeDialogState = rememberThemeDialogState()
+
+            val darkDialogState = rememberDarkDialogState()
+
+            SettingsScreen(settingsUiState = SettingsUiState.Success(
+                UserEditableSettings(
+                    brand = ThemeBrand.DEFAULT,
+                    useDynamicColor = false,
+                    darkThemeConfig = DarkThemeConfig.DARK
+                )
+            ),
+                           themeDialogState = themeDialogState,
+                           darkDialogState = darkDialogState,
+                           supportDynamicColor = true,
+                           onChangeThemeBrand = {},
+                           onChangeDynamicColorPreference = {},
+                           onChangeDarkThemeConfig = {},
+                           onNavigationIconClick = {})
+        }
+
+        composeTestRule.onNodeWithTag("settings:dynamic:switch").assertIsOff()
     }
 
     @Test

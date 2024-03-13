@@ -193,6 +193,7 @@ internal fun SettingsScreen(
                                 )
 
                                 Switch(
+                                    modifier = Modifier.testTag("settings:dynamic:switch"),
                                     checked = settingsUiState.settings.useDynamicColor,
                                     onCheckedChange = onChangeDynamicColorPreference
                                 )
