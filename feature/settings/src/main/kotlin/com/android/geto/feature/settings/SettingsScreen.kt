@@ -121,7 +121,7 @@ internal fun SettingsScreen(
 
     if (darkDialogState.showDialog) {
         DarkDialog(
-            darkDialogState = darkDialogState, onChangeTheme = {
+            darkDialogState = darkDialogState, onChangeDark = {
                 onChangeDarkThemeConfig(DarkThemeConfig.entries[darkDialogState.selectedRadioOptionIndex])
                 darkDialogState.updateShowDialog(false)
             }, contentDescription = "Dark Dialog"
