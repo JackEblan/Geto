@@ -36,8 +36,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.android.geto.core.designsystem.theme.GetoTheme
 
 @Composable
 internal fun CopyPermissionCommandDialog(
@@ -108,5 +110,13 @@ internal fun CopyPermissionCommandDialogScreen(
                 Text("Copy")
             }
         }
+    }
+}
+
+@Preview
+@Composable
+private fun CopyPermissionCommandDialogScreenScreenPreview() {
+    GetoTheme {
+        CopyPermissionCommandDialogScreen(onDismissRequest = {}, onCopySettings = {})
     }
 }

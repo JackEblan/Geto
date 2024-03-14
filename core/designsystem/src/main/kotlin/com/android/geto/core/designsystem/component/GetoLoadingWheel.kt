@@ -49,11 +49,12 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
+import com.android.geto.core.designsystem.theme.GetoTheme
 import kotlinx.coroutines.launch
 
 @Composable
 fun GetoLoadingWheel(
-    contentDesc: String,
+    contentDescription: String,
     modifier: Modifier = Modifier,
 ) {
     val infiniteTransition = rememberInfiniteTransition(label = "wheel transition")
@@ -113,7 +114,7 @@ fun GetoLoadingWheel(
             .size(48.dp)
             .padding(8.dp)
             .graphicsLayer { rotationZ = rotationAnim }
-            .semantics { contentDescription = contentDesc }
+            .semantics { this.contentDescription = contentDescription }
             .testTag("loadingWheel"),
     ) {
         repeat(NUM_OF_LINES) { index ->
@@ -144,8 +145,28 @@ fun GetoOverlayLoadingWheel(
         modifier = modifier.size(60.dp),
     ) {
         GetoLoadingWheel(
-            contentDesc = contentDescription,
+            contentDescription = contentDescription,
         )
+    }
+}
+
+@ThemePreviews
+@Composable
+fun GetoLoadingWheelPreview() {
+    GetoTheme {
+        Surface {
+            GetoLoadingWheel(contentDescription = "GetoOverlayLoadingWheel")
+        }
+    }
+}
+
+@ThemePreviews
+@Composable
+fun GetoOverlayLoadingWheelPreview() {
+    GetoTheme {
+        Surface {
+            GetoOverlayLoadingWheel(contentDescription = "GetoOverlayLoadingWheel")
+        }
     }
 }
 

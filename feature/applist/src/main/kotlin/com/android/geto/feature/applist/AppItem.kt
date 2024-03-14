@@ -34,8 +34,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.android.geto.core.designsystem.component.GetoAsyncImage
+import com.android.geto.core.designsystem.theme.GetoTheme
 
 @Composable
 fun AppItem(
@@ -72,5 +74,16 @@ fun AppItem(
                 text = packageName, style = MaterialTheme.typography.bodySmall
             )
         }
+    }
+}
+
+@Preview
+@Composable
+private fun AppItemPreview() {
+    GetoTheme {
+        AppItem(icon = null,
+                packageName = "packageName",
+                label = "Label",
+                onItemClick = { _, _ -> })
     }
 }

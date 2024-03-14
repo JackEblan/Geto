@@ -24,6 +24,7 @@ import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -56,17 +57,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.android.geto.core.designsystem.component.GetoOverlayLoadingWheel
 import com.android.geto.core.designsystem.icon.GetoIcons
+import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.model.AppSettings
 import com.android.geto.core.model.SettingsType
 import com.android.geto.core.model.TargetShortcutInfoCompat
+import com.android.geto.core.ui.AppSettingsPreviewParameterProvider
 import com.android.geto.feature.appsettings.dialog.appsettings.AddAppSettingsDialog
 import com.android.geto.feature.appsettings.dialog.appsettings.AppSettingsDialogState
 import com.android.geto.feature.appsettings.dialog.appsettings.rememberAddAppSettingsDialogState
@@ -362,37 +366,78 @@ internal fun AppSettingsScreen(
         ) {
             when (appSettingsUiState) {
                 AppSettingsUiState.Empty -> {
-                    EmptyListPlaceHolderScreen(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .testTag("appsettings:emptyListPlaceHolderScreen"),
-                        icon = GetoIcons.Empty
-                    )
+                    EmptyState()
                 }
 
                 AppSettingsUiState.Loading -> {
-                    GetoOverlayLoadingWheel(
-                        modifier = Modifier.align(Alignment.Center),
-                        contentDescription = "GetoOverlayLoadingWheel"
-                    )
+                    LoadingState(modifier = Modifier.align(Alignment.Center))
                 }
 
                 is AppSettingsUiState.Success -> {
-                    LazyColumn(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .testTag("appsettings:lazyColumn"),
-                        contentPadding = innerPadding
-                    ) {
-                        appSettings(
-                            appSettingsList = appSettingsUiState.appSettingsList,
-                            onAppSettingsItemCheckBoxChange = onAppSettingsItemCheckBoxChange,
-                            onDeleteAppSettingsItem = onDeleteAppSettingsItem
-                        )
-                    }
+                    SuccessState(
+                        appSettingsList = appSettingsUiState.appSettingsList,
+                        contentPadding = innerPadding,
+                        onAppSettingsItemCheckBoxChange = onAppSettingsItemCheckBoxChange,
+                        onDeleteAppSettingsItem = onDeleteAppSettingsItem
+                    )
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun EmptyState(
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .testTag("appsettings:emptyListPlaceHolderScreen"),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Image(
+            imageVector = GetoIcons.Empty,
+            contentDescription = null,
+            modifier = Modifier.size(100.dp),
+            colorFilter = ColorFilter.tint(
+                MaterialTheme.colorScheme.onSurface
+            )
+        )
+
+        Spacer(modifier = Modifier.height(10.dp))
+
+        Text(text = "Nothing is here")
+    }
+}
+
+@Composable
+private fun LoadingState(modifier: Modifier = Modifier) {
+    GetoOverlayLoadingWheel(
+        modifier = modifier, contentDescription = "GetoOverlayLoadingWheel"
+    )
+}
+
+@Composable
+private fun SuccessState(
+    modifier: Modifier = Modifier,
+    appSettingsList: List<AppSettings>,
+    contentPadding: PaddingValues,
+    onAppSettingsItemCheckBoxChange: (Boolean, AppSettings) -> Unit,
+    onDeleteAppSettingsItem: (AppSettings) -> Unit
+) {
+    LazyColumn(
+        modifier = modifier
+            .fillMaxSize()
+            .testTag("appsettings:lazyColumn"),
+        contentPadding = contentPadding
+    ) {
+        appSettings(
+            appSettingsList = appSettingsList,
+            onAppSettingsItemCheckBoxChange = onAppSettingsItemCheckBoxChange,
+            onDeleteAppSettingsItem = onDeleteAppSettingsItem
+        )
     }
 }
 
@@ -417,27 +462,31 @@ private fun LazyListScope.appSettings(
     }
 }
 
-
+@Preview
 @Composable
-private fun EmptyListPlaceHolderScreen(
-    modifier: Modifier = Modifier, icon: ImageVector
+private fun LoadingStatePreview() {
+    GetoTheme {
+        LoadingState()
+    }
+}
+
+@Preview
+@Composable
+private fun EmptyStatePreview() {
+    GetoTheme {
+        EmptyState()
+    }
+}
+
+@Preview
+@Composable
+private fun SuccessStatePreview(
+    @PreviewParameter(AppSettingsPreviewParameterProvider::class) appSettingsLists: List<AppSettings>
 ) {
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Image(
-            imageVector = icon,
-            contentDescription = null,
-            modifier = Modifier.size(100.dp),
-            colorFilter = ColorFilter.tint(
-                MaterialTheme.colorScheme.onSurface
-            )
-        )
-
-        Spacer(modifier = Modifier.height(10.dp))
-
-        Text(text = "Nothing is here")
+    GetoTheme {
+        SuccessState(appSettingsList = appSettingsLists,
+                     contentPadding = PaddingValues(20.dp),
+                     onAppSettingsItemCheckBoxChange = { _, _ -> },
+                     onDeleteAppSettingsItem = {})
     }
 }

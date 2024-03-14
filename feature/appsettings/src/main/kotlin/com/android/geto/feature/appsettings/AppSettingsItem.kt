@@ -34,7 +34,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.android.geto.core.designsystem.theme.GetoTheme
 
 @Composable
 fun AppSettingsItem(
@@ -79,5 +81,18 @@ fun AppSettingsItem(
                 imageVector = Icons.Default.Delete, contentDescription = null
             )
         }
+    }
+}
+
+@Preview
+@Composable
+private fun AppSettingsItemPreview() {
+    GetoTheme {
+        AppSettingsItem(enabled = true,
+                        label = "Label",
+                        settingsTypeLabel = "System",
+                        key = "Key",
+                        onUserAppSettingsItemCheckBoxChange = {},
+                        onDeleteUserAppSettingsItem = {})
     }
 }
