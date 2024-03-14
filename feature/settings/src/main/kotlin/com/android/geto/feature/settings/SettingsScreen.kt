@@ -21,6 +21,7 @@ package com.android.geto.feature.settings
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.consumeWindowInsets
@@ -42,11 +43,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.android.geto.core.designsystem.component.GetoOverlayLoadingWheel
 import com.android.geto.core.designsystem.icon.GetoIcons
+import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.designsystem.theme.supportsDynamicTheming
 import com.android.geto.core.model.DarkThemeConfig
 import com.android.geto.core.model.ThemeBrand
@@ -145,77 +148,135 @@ internal fun SettingsScreen(
                 .testTag("applist")
         ) {
             when (settingsUiState) {
-                SettingsUiState.Loading -> GetoOverlayLoadingWheel(
-                    modifier = Modifier.align(Alignment.Center),
-                    contentDescription = "GetoOverlayLoadingWheel"
+                SettingsUiState.Loading -> LoadingState(
+                    modifier = Modifier.align(Alignment.Center)
                 )
 
                 is SettingsUiState.Success -> {
-                    Column(
-                        modifier = modifier
-                            .consumeWindowInsets(innerPadding)
-                            .padding(innerPadding)
-                            .testTag("settings:column")
-                    ) {
-
-                        Column(modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable { themeDialogState.updateShowDialog(true) }
-                            .padding(10.dp)
-                            .testTag("settings:theme")) {
-                            Text(text = "Theme", style = MaterialTheme.typography.bodyLarge)
-
-                            Spacer(modifier = Modifier.height(8.dp))
-
-                            Text(
-                                text = settingsUiState.settings.brand.title,
-                                style = MaterialTheme.typography.bodySmall
-                            )
-                        }
-
-                        if (settingsUiState.settings.brand == ThemeBrand.DEFAULT && supportDynamicColor) {
-                            Spacer(modifier = Modifier.height(8.dp))
-
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(10.dp)
-                                    .testTag("settings:dynamic"),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Text(
-                                    text = "Dynamic Color",
-                                    style = MaterialTheme.typography.bodyLarge,
-                                    modifier = Modifier.weight(1f)
-                                )
-
-                                Switch(
-                                    modifier = Modifier.testTag("settings:dynamic:switch"),
-                                    checked = settingsUiState.settings.useDynamicColor,
-                                    onCheckedChange = onChangeDynamicColorPreference
-                                )
-                            }
-                        }
-
-                        Spacer(modifier = Modifier.height(8.dp))
-
-                        Column(modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable { darkDialogState.updateShowDialog(true) }
-                            .padding(10.dp)
-                            .testTag("settings:dark")) {
-                            Text(text = "Dark Mode", style = MaterialTheme.typography.bodyLarge)
-
-                            Spacer(modifier = Modifier.height(8.dp))
-
-                            Text(
-                                text = settingsUiState.settings.darkThemeConfig.title,
-                                style = MaterialTheme.typography.bodySmall
-                            )
-                        }
-                    }
+                    SuccessState(
+                        contentPadding = innerPadding,
+                        settingsUiState = settingsUiState,
+                        supportDynamicColor = supportDynamicColor,
+                        onThemeDialog = {
+                            themeDialogState.updateShowDialog(true)
+                        },
+                        onDarkDialog = {
+                            darkDialogState.updateShowDialog(true)
+                        },
+                        onChangeDynamicColorPreference = onChangeDynamicColorPreference
+                    )
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun LoadingState(modifier: Modifier = Modifier) {
+    GetoOverlayLoadingWheel(
+        modifier = modifier, contentDescription = "GetoOverlayLoadingWheel"
+    )
+}
+
+@Composable
+fun SuccessState(
+    modifier: Modifier = Modifier,
+    contentPadding: PaddingValues,
+    settingsUiState: SettingsUiState.Success,
+    supportDynamicColor: Boolean = supportsDynamicTheming(),
+    onThemeDialog: () -> Unit,
+    onDarkDialog: () -> Unit,
+    onChangeDynamicColorPreference: (useDynamicColor: Boolean) -> Unit
+) {
+    Column(
+        modifier = modifier
+            .consumeWindowInsets(contentPadding)
+            .padding(contentPadding)
+            .testTag("settings:column")
+    ) {
+
+        Column(modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onThemeDialog() }
+            .padding(10.dp)
+            .testTag("settings:theme")) {
+            Text(text = "Theme", style = MaterialTheme.typography.bodyLarge)
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Text(
+                text = settingsUiState.settings.brand.title,
+                style = MaterialTheme.typography.bodySmall
+            )
+        }
+
+        if (settingsUiState.settings.brand == ThemeBrand.DEFAULT && supportDynamicColor) {
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(10.dp)
+                    .testTag("settings:dynamic"),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "Dynamic Color",
+                    style = MaterialTheme.typography.bodyLarge,
+                    modifier = Modifier.weight(1f)
+                )
+
+                Switch(
+                    modifier = Modifier.testTag("settings:dynamic:switch"),
+                    checked = settingsUiState.settings.useDynamicColor,
+                    onCheckedChange = onChangeDynamicColorPreference
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Column(modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onDarkDialog() }
+            .padding(10.dp)
+            .testTag("settings:dark")) {
+            Text(text = "Dark Mode", style = MaterialTheme.typography.bodyLarge)
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Text(
+                text = settingsUiState.settings.darkThemeConfig.title,
+                style = MaterialTheme.typography.bodySmall
+            )
+        }
+    }
+}
+
+
+@Preview
+@Composable
+private fun LoadingStatePreview() {
+    GetoTheme {
+        LoadingState()
+    }
+}
+
+@Preview
+@Composable
+private fun SuccessStatePreview() {
+    GetoTheme {
+        SuccessState(contentPadding = PaddingValues(20.dp),
+                     settingsUiState = SettingsUiState.Success(
+                         settings = UserEditableSettings(
+                             brand = ThemeBrand.DEFAULT,
+                             useDynamicColor = true,
+                             darkThemeConfig = DarkThemeConfig.DARK
+                         )
+                     ),
+                     supportDynamicColor = true,
+                     onThemeDialog = {},
+                     onDarkDialog = {},
+                     onChangeDynamicColorPreference = {})
     }
 }

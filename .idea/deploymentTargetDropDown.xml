@@ -2,6 +2,9 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
+      <entry key="AddAppSettingsDialogScreenPreview">
+        <State />
+      </entry>
       <entry key="AppSettingsScreenTest">
         <State />
       </entry>
@@ -9,9 +12,6 @@
         <State />
       </entry>
       <entry key="app">
-        <State />
-      </entry>
-      <entry key="dynamicColorSwitchIsOn_whenDynamicColorIsTrue()">
         <State />
       </entry>
       <entry key="feature.shortcut">

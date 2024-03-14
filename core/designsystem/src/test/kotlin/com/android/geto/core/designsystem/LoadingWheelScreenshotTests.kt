@@ -50,7 +50,7 @@ class LoadingWheelScreenshotTests {
     fun loadingWheel_multipleThemes() {
         composeTestRule.captureMultiTheme("LoadingWheel") {
             Surface {
-                GetoLoadingWheel(contentDesc = "test")
+                GetoLoadingWheel(contentDescription = "test")
             }
         }
     }
@@ -69,7 +69,7 @@ class LoadingWheelScreenshotTests {
         composeTestRule.mainClock.autoAdvance = false
         composeTestRule.setContent {
             GetoTheme {
-                GetoLoadingWheel(contentDesc = "")
+                GetoLoadingWheel(contentDescription = "")
             }
         }
         // Try multiple frames of the animation; some arbitrary, some synchronized with duration.

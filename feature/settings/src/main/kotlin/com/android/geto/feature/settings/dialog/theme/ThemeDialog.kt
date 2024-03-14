@@ -42,8 +42,10 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.android.geto.core.designsystem.theme.GetoTheme
 
 @Composable
 internal fun ThemeDialog(
@@ -148,5 +150,13 @@ internal fun ThemeDialogScreen(
 fun rememberThemeDialogState(): ThemeDialogState {
     return rememberSaveable(saver = ThemeDialogState.Saver) {
         ThemeDialogState()
+    }
+}
+
+@Preview
+@Composable
+private fun ThemeDialogScreenPreview() {
+    GetoTheme {
+        ThemeDialogScreen(themeDialogState = ThemeDialogState(), onChangeTheme = {})
     }
 }

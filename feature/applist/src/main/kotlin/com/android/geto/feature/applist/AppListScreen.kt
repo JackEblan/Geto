@@ -20,6 +20,7 @@ package com.android.geto.feature.applist
 
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
@@ -36,11 +37,16 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.android.geto.core.designsystem.component.GetoOverlayLoadingWheel
 import com.android.geto.core.designsystem.icon.GetoIcons
+import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.model.TargetApplicationInfo
+import com.android.geto.core.ui.TargetApplicationInfoPreviewParameterProvider
 
 @Composable
 internal fun AppListRoute(
@@ -88,26 +94,44 @@ internal fun AppListScreen(
                 .testTag("applist")
         ) {
             when (appListUiState) {
-                AppListUiState.Loading -> GetoOverlayLoadingWheel(
-                    modifier = Modifier.align(Alignment.Center),
-                    contentDescription = "GetoOverlayLoadingWheel"
+                AppListUiState.Loading -> LoadingState(
+                    modifier = Modifier.align(Alignment.Center)
                 )
 
-                is AppListUiState.Success -> {
-                    LazyColumn(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .testTag("applist:lazyColumn"),
-                        contentPadding = innerPadding
-                    ) {
-                        appItems(
-                            targetApplicationInfoList = appListUiState.targetApplicationInfoList,
-                            onItemClick = onItemClick
-                        )
-                    }
-                }
+                is AppListUiState.Success -> SuccessState(
+                    modifier = modifier,
+                    targetApplicationInfoList = appListUiState.targetApplicationInfoList,
+                    contentPadding = innerPadding,
+                    onItemClick = onItemClick
+                )
             }
         }
+    }
+}
+
+@Composable
+private fun LoadingState(modifier: Modifier = Modifier) {
+    GetoOverlayLoadingWheel(
+        modifier = modifier, contentDescription = "GetoOverlayLoadingWheel"
+    )
+}
+
+@Composable
+fun SuccessState(
+    modifier: Modifier = Modifier,
+    targetApplicationInfoList: List<TargetApplicationInfo>,
+    contentPadding: PaddingValues,
+    onItemClick: (String, String) -> Unit
+) {
+    LazyColumn(
+        modifier = modifier
+            .fillMaxSize()
+            .testTag("applist:lazyColumn"),
+        contentPadding = contentPadding
+    ) {
+        appItems(
+            targetApplicationInfoList = targetApplicationInfoList, onItemClick = onItemClick
+        )
     }
 }
 
@@ -121,5 +145,25 @@ private fun LazyListScope.appItems(
             label = nonSystemApp.label,
             onItemClick = onItemClick
         )
+    }
+}
+
+@Preview
+@Composable
+private fun LoadingStatePreview() {
+    GetoTheme {
+        LoadingState()
+    }
+}
+
+@Preview
+@Composable
+private fun SuccessStatePreview(
+    @PreviewParameter(TargetApplicationInfoPreviewParameterProvider::class) targetApplicationInfoLists: List<TargetApplicationInfo>
+) {
+    GetoTheme {
+        SuccessState(targetApplicationInfoList = targetApplicationInfoLists,
+                     contentPadding = PaddingValues(20.dp),
+                     onItemClick = { _, _ -> })
     }
 }

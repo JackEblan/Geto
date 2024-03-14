@@ -27,6 +27,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -50,8 +51,10 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.model.SettingsType
 
 @Composable
@@ -289,5 +292,15 @@ internal fun AddAppSettingsDialogScreen(
                 Text("Add")
             }
         }
+    }
+}
+
+@Preview
+@Composable
+private fun AddAppSettingsDialogScreenPreview() {
+    GetoTheme {
+        AddAppSettingsDialogScreen(addAppSettingsDialogState = AppSettingsDialogState(),
+                                   scrollState = rememberScrollState(),
+                                   onAddSettings = {})
     }
 }

@@ -42,8 +42,10 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.android.geto.core.designsystem.theme.GetoTheme
 
 @Composable
 internal fun DarkDialog(
@@ -145,5 +147,13 @@ internal fun DarkDialogScreen(
 fun rememberDarkDialogState(): DarkDialogState {
     return rememberSaveable(saver = DarkDialogState.Saver) {
         DarkDialogState()
+    }
+}
+
+@Preview
+@Composable
+private fun DarkDialogScreenPreview() {
+    GetoTheme {
+        DarkDialogScreen(darkDialogState = DarkDialogState(), onChangeDark = {})
     }
 }
