@@ -53,7 +53,10 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
@@ -64,9 +67,11 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.android.geto.core.data.repository.ShortcutResult
 import com.android.geto.core.designsystem.component.GetoLoadingWheel
 import com.android.geto.core.designsystem.icon.GetoIcons
 import com.android.geto.core.designsystem.theme.GetoTheme
+import com.android.geto.core.domain.AppSettingsResult
 import com.android.geto.core.model.AppSettings
 import com.android.geto.core.model.SettingsType
 import com.android.geto.core.model.TargetShortcutInfoCompat
@@ -78,6 +83,8 @@ import com.android.geto.feature.appsettings.dialog.copypermissioncommand.CopyPer
 import com.android.geto.feature.appsettings.dialog.shortcut.AddShortcutDialog
 import com.android.geto.feature.appsettings.dialog.shortcut.ShortcutDialogState
 import com.android.geto.feature.appsettings.dialog.shortcut.UpdateShortcutDialog
+import com.android.geto.feature.appsettings.dialog.shortcut.rememberAddShortcutDialogState
+import com.android.geto.feature.appsettings.dialog.shortcut.rememberUpdateShortcutDialogState
 
 @Composable
 internal fun AppSettingsRoute(
@@ -93,10 +100,9 @@ internal fun AppSettingsRoute(
 
     val appSettingsUiState = viewModel.appSettingsUiState.collectAsStateWithLifecycle().value
 
-    val showCopyPermissionCommandDialog =
-        viewModel.showCopyPermissionCommandDialog.collectAsStateWithLifecycle().value
-
-    val snackBar = viewModel.snackBar.collectAsStateWithLifecycle().value
+    var showCopyPermissionCommandDialog by remember {
+        mutableStateOf(false)
+    }
 
     val launchAppIntent = viewModel.launchAppIntent.collectAsStateWithLifecycle().value
 
@@ -106,13 +112,19 @@ internal fun AppSettingsRoute(
 
     val shortcut = viewModel.shortcut.collectAsStateWithLifecycle().value
 
+    val applyAppSettingsResult =
+        viewModel.applyAppSettingsResult.collectAsStateWithLifecycle().value
+
+    val revertAppSettingsResult =
+        viewModel.revertAppSettingsResult.collectAsStateWithLifecycle().value
+
+    val shortcutResult = viewModel.shortcutResult.collectAsStateWithLifecycle().value
+
     val addSettingsDialogState = rememberAddAppSettingsDialogState()
 
-    val addShortcutDialogState =
-        com.android.geto.feature.appsettings.dialog.shortcut.rememberAddShortcutDialogState()
+    val addShortcutDialogState = rememberAddShortcutDialogState()
 
-    val updateShortcutDialogState =
-        com.android.geto.feature.appsettings.dialog.shortcut.rememberAddShortcutDialogState()
+    val updateShortcutDialogState = rememberUpdateShortcutDialogState()
 
     val keyDebounce = addSettingsDialogState.keyDebounce.collectAsStateWithLifecycle("").value
 
@@ -123,13 +135,58 @@ internal fun AppSettingsRoute(
         viewModel.getApplicationIcon()
     }
 
-    LaunchedEffect(key1 = snackBar) {
-        snackBar?.let {
-            snackbarHostState.showSnackbar(message = it)
-            viewModel.clearSnackBar()
+    LaunchedEffect(key1 = applyAppSettingsResult) {
+        applyAppSettingsResult?.let {
+            when (it) {
+                AppSettingsResult.AppSettingsDisabled -> snackbarHostState.showSnackbar(message = "AppSettingsDisabled")
+                AppSettingsResult.EmptyAppSettingsList -> snackbarHostState.showSnackbar(message = "EmptyAppSettingsList")
+                AppSettingsResult.Failure -> snackbarHostState.showSnackbar(message = "Failure")
+                AppSettingsResult.SecurityException -> showCopyPermissionCommandDialog = true
+                AppSettingsResult.Success -> snackbarHostState.showSnackbar(message = "Success")
+            }
+
+            viewModel.clearAppSettingsResult()
         }
     }
 
+    LaunchedEffect(key1 = revertAppSettingsResult) {
+        revertAppSettingsResult?.let {
+            when (it) {
+                AppSettingsResult.AppSettingsDisabled -> snackbarHostState.showSnackbar(message = "AppSettingsDisabled")
+                AppSettingsResult.EmptyAppSettingsList -> snackbarHostState.showSnackbar(message = "EmptyAppSettingsList")
+                AppSettingsResult.Failure -> snackbarHostState.showSnackbar(message = "Failure")
+                AppSettingsResult.SecurityException -> showCopyPermissionCommandDialog = true
+                AppSettingsResult.Success -> snackbarHostState.showSnackbar(message = "Success")
+            }
+
+            viewModel.clearAppSettingsResult()
+        }
+    }
+
+    LaunchedEffect(key1 = shortcutResult) {
+        shortcutResult?.let {
+            when (it) {
+                ShortcutResult.IDNotFound -> snackbarHostState.showSnackbar(message = "IDNotFound")
+                ShortcutResult.ShortcutDisable -> snackbarHostState.showSnackbar(message = "ShortcutDisable")
+                ShortcutResult.ShortcutDisableImmutableShortcuts -> snackbarHostState.showSnackbar(
+                    message = "ShortcutDisableImmutableShortcuts"
+                )
+
+                ShortcutResult.ShortcutEnable -> snackbarHostState.showSnackbar(message = "ShortcutEnable")
+                ShortcutResult.ShortcutUpdateFailed -> snackbarHostState.showSnackbar(message = "ShortcutUpdateFailed")
+                ShortcutResult.ShortcutUpdateImmutableShortcuts -> snackbarHostState.showSnackbar(
+                    message = "ShortcutUpdateImmutableShortcuts"
+                )
+
+                ShortcutResult.ShortcutUpdateSuccess -> snackbarHostState.showSnackbar(message = "ShortcutUpdateSuccess")
+                ShortcutResult.SupportedLauncher -> snackbarHostState.showSnackbar(message = "SupportedLauncher")
+                ShortcutResult.UnsupportedLauncher -> snackbarHostState.showSnackbar(message = "UnsupportedLauncher")
+                ShortcutResult.UserIsLocked -> snackbarHostState.showSnackbar(message = "UserIsLocked")
+            }
+
+            viewModel.clearShortcutResult()
+        }
+    }
 
     LaunchedEffect(key1 = launchAppIntent) {
         launchAppIntent?.let {
@@ -157,43 +214,46 @@ internal fun AppSettingsRoute(
         }
     }
 
-    AppSettingsScreen(
-        modifier = modifier,
-        snackbarHostState = snackbarHostState,
-        appName = viewModel.appName,
-        packageName = viewModel.packageName,
-        appSettingsUiState = appSettingsUiState,
-        addAppSettingsDialogState = addSettingsDialogState,
-        addShortcutDialogState = addShortcutDialogState,
-        updateShortcutDialogState = updateShortcutDialogState,
-        showCopyPermissionCommandDialog = showCopyPermissionCommandDialog,
-        onNavigationIconClick = onNavigationIconClick,
-        onRevertSettingsIconClick = viewModel::revertSettings,
-        onSettingsIconClick = {
-            addSettingsDialogState.updateShowDialog(true)
-        },
-        onShortcutIconClick = {
-            if (shortcut != null) {
-                updateShortcutDialogState.updateShortLabel(shortcut.shortLabel!!)
-                updateShortcutDialogState.updateLongLabel(shortcut.longLabel!!)
-                updateShortcutDialogState.updateShowDialog(true)
-            } else {
-                addShortcutDialogState.updateShowDialog(true)
-            }
-        },
-        onAppSettingsItemCheckBoxChange = viewModel::appSettingsItemCheckBoxChange,
-        onDeleteAppSettingsItem = viewModel::deleteAppSettingsItem,
-        onLaunchApp = viewModel::launchApp,
-        scrollState = scrollState,
-        onAddSettings = viewModel::addSettings,
-        onAddShortcut = viewModel::requestPinShortcut,
-        onUpdateShortcut = viewModel::updateRequestPinShortcut,
-        onRefreshShortcut = {
-            viewModel.getShortcut(viewModel.packageName)
-        },
-        onCopyPermissionCommand = viewModel::copyPermissionCommand,
-        onDismissRequestCopyPermissionCommand = viewModel::clearCopyPermissionCommandDialog
-    )
+    AppSettingsScreen(modifier = modifier,
+                      snackbarHostState = snackbarHostState,
+                      appName = viewModel.appName,
+                      packageName = viewModel.packageName,
+                      appSettingsUiState = appSettingsUiState,
+                      addAppSettingsDialogState = addSettingsDialogState,
+                      addShortcutDialogState = addShortcutDialogState,
+                      updateShortcutDialogState = updateShortcutDialogState,
+                      showCopyPermissionCommandDialog = showCopyPermissionCommandDialog,
+                      onNavigationIconClick = onNavigationIconClick,
+                      onRevertSettingsIconClick = viewModel::revertSettings,
+                      onSettingsIconClick = {
+                          addSettingsDialogState.updateShowDialog(true)
+                      },
+                      onShortcutIconClick = {
+                          if (shortcut != null) {
+                              updateShortcutDialogState.updateShortLabel(shortcut.shortLabel!!)
+                              updateShortcutDialogState.updateLongLabel(shortcut.longLabel!!)
+                              updateShortcutDialogState.updateShowDialog(true)
+                          } else {
+                              addShortcutDialogState.updateShowDialog(true)
+                          }
+                      },
+                      onAppSettingsItemCheckBoxChange = viewModel::appSettingsItemCheckBoxChange,
+                      onDeleteAppSettingsItem = viewModel::deleteAppSettingsItem,
+                      onLaunchApp = viewModel::launchApp,
+                      scrollState = scrollState,
+                      onAddSettings = viewModel::addSettings,
+                      onAddShortcut = viewModel::requestPinShortcut,
+                      onUpdateShortcut = viewModel::updateRequestPinShortcut,
+                      onRefreshShortcut = {
+                          viewModel.getShortcut(viewModel.packageName)
+                      },
+                      onCopyPermissionCommand = {
+                          viewModel.copyPermissionCommand()
+                          showCopyPermissionCommandDialog = false
+                      },
+                      onDismissRequestCopyPermissionCommand = {
+                          showCopyPermissionCommandDialog = false
+                      })
 }
 
 @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)

@@ -19,6 +19,8 @@
 package com.android.geto.feature.appsettings
 
 import androidx.lifecycle.SavedStateHandle
+import com.android.geto.core.data.repository.ShortcutResult
+import com.android.geto.core.domain.AppSettingsResult
 import com.android.geto.core.domain.ApplyAppSettingsUseCase
 import com.android.geto.core.domain.RevertAppSettingsUseCase
 import com.android.geto.core.model.AppSettings
@@ -34,7 +36,6 @@ import com.android.geto.core.testing.repository.TestShortcutRepository
 import com.android.geto.core.testing.util.MainDispatcherRule
 import com.android.geto.feature.appsettings.navigation.APP_NAME_ARG
 import com.android.geto.feature.appsettings.navigation.PACKAGE_NAME_ARG
-import junit.framework.TestCase.assertFalse
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -43,7 +44,6 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import kotlin.test.assertEquals
 import kotlin.test.assertIs
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
@@ -108,9 +108,7 @@ class AppSettingsViewModelTest {
 
     @Test
     fun appSettingsUiStateIsLoading_whenStarted() = runTest {
-        val item = viewModel.appSettingsUiState.value
-
-        assertIs<AppSettingsUiState.Loading>(item)
+        assertIs<AppSettingsUiState.Loading>(viewModel.appSettingsUiState.value)
     }
 
     @Test
@@ -154,26 +152,20 @@ class AppSettingsViewModelTest {
         collectJob.cancel()
     }
 
-
     @Test
-    fun snackBarIsNotNull_whenLaunchApp_emptyAppSettings() = runTest {
-        appSettingsRepository.setAppSettings(emptyList())
+    fun applyAppSettingsResultIsSuccess_whenLaunchApp() = runTest {
+        packageRepository.setNonSystemApps(
+            listOf(
+                TargetApplicationInfo(
+                    flags = 0, packageName = packageNameTest, label = "label"
+                )
+            )
+        )
 
-        secureSettingsRepository.setWriteSecureSettings(true)
-
-        viewModel.launchApp()
-
-        assertNotNull(viewModel.snackBar.value)
-
-    }
-
-    @Test
-    fun snackBarIsNotNull_whenLaunchApp_itemEnabledIsFalse() = runTest {
         appSettingsRepository.setAppSettings(
             listOf(
                 AppSettings(
-                    id = 0,
-                    enabled = false,
+                    id = 0, enabled = true,
                     settingsType = SettingsType.SYSTEM,
                     packageName = packageNameTest,
                     label = "system",
@@ -188,11 +180,97 @@ class AppSettingsViewModelTest {
 
         viewModel.launchApp()
 
-        assertNotNull(viewModel.snackBar.value)
+        assertIs<AppSettingsResult.Success>(viewModel.applyAppSettingsResult.value)
+
     }
 
     @Test
-    fun launchIntentIsNotNull_whenLaunchApp() = runTest {
+    fun applyAppSettingsResultIsSecurityException_whenLaunchApp() = runTest {
+        packageRepository.setNonSystemApps(
+            listOf(
+                TargetApplicationInfo(
+                    flags = 0, packageName = packageNameTest, label = "label"
+                )
+            )
+        )
+
+        appSettingsRepository.setAppSettings(
+            listOf(
+                AppSettings(
+                    id = 0,
+                    enabled = true,
+                    settingsType = SettingsType.SYSTEM,
+                    packageName = packageNameTest,
+                    label = "system",
+                    key = "key",
+                    valueOnLaunch = "test",
+                    valueOnRevert = "test"
+                )
+            )
+        )
+
+        secureSettingsRepository.setWriteSecureSettings(false)
+
+        viewModel.launchApp()
+
+        assertIs<AppSettingsResult.SecurityException>(viewModel.applyAppSettingsResult.value)
+
+    }
+
+    @Test
+    fun applyAppSettingsResultIsEmptyAppSettingsList_whenLaunchApp() = runTest {
+        packageRepository.setNonSystemApps(
+            listOf(
+                TargetApplicationInfo(
+                    flags = 0, packageName = packageNameTest, label = "label"
+                )
+            )
+        )
+
+        appSettingsRepository.setAppSettings(
+            listOf(
+                AppSettings(
+                    id = 0, enabled = false,
+                    settingsType = SettingsType.SYSTEM,
+                    packageName = packageNameTest,
+                    label = "system",
+                    key = "key",
+                    valueOnLaunch = "test",
+                    valueOnRevert = "test"
+                )
+            )
+        )
+
+        secureSettingsRepository.setWriteSecureSettings(false)
+
+        viewModel.launchApp()
+
+        assertIs<AppSettingsResult.AppSettingsDisabled>(viewModel.applyAppSettingsResult.value)
+
+    }
+
+    @Test
+    fun applyAppSettingsResultIsAppSettingsDisabled_whenLaunchApp() = runTest {
+        packageRepository.setNonSystemApps(
+            listOf(
+                TargetApplicationInfo(
+                    flags = 0, packageName = packageNameTest, label = "label"
+                )
+            )
+        )
+
+        appSettingsRepository.setAppSettings(emptyList())
+
+        secureSettingsRepository.setWriteSecureSettings(false)
+
+        viewModel.launchApp()
+
+        assertIs<AppSettingsResult.EmptyAppSettingsList>(viewModel.applyAppSettingsResult.value)
+
+    }
+
+    @Test
+    fun revertAppSettingsResultIsSuccess_whenRevertSettings() = runTest {
         packageRepository.setNonSystemApps(
             listOf(
                 TargetApplicationInfo(
@@ -218,9 +296,93 @@ class AppSettingsViewModelTest {
 
         secureSettingsRepository.setWriteSecureSettings(true)
 
-        viewModel.launchApp()
+        viewModel.revertSettings()
 
-        assertNotNull(viewModel.launchAppIntent.value)
+        assertIs<AppSettingsResult.Success>(viewModel.revertAppSettingsResult.value)
+
+    }
+
+    @Test
+    fun revertAppSettingsResultIsSecurityException_whenRevertSettings() = runTest {
+        packageRepository.setNonSystemApps(
+            listOf(
+                TargetApplicationInfo(
+                    flags = 0, packageName = packageNameTest, label = "label"
+                )
+            )
+        )
+
+        appSettingsRepository.setAppSettings(
+            listOf(
+                AppSettings(
+                    id = 0, enabled = true,
+                    settingsType = SettingsType.SYSTEM,
+                    packageName = packageNameTest,
+                    label = "system",
+                    key = "key",
+                    valueOnLaunch = "test",
+                    valueOnRevert = "test"
+                )
+            )
+        )
+
+        secureSettingsRepository.setWriteSecureSettings(false)
+
+        viewModel.revertSettings()
+
+        assertIs<AppSettingsResult.SecurityException>(viewModel.revertAppSettingsResult.value)
+
+    }
+
+    @Test
+    fun revertAppSettingsResultIsEmptyAppSettingsList_whenRevertSettings() = runTest {
+        packageRepository.setNonSystemApps(
+            listOf(
+                TargetApplicationInfo(
+                    flags = 0, packageName = packageNameTest, label = "label"
+                )
+            )
+        )
+
+        appSettingsRepository.setAppSettings(
+            listOf(
+                AppSettings(
+                    id = 0, enabled = false,
+                    settingsType = SettingsType.SYSTEM,
+                    packageName = packageNameTest,
+                    label = "system",
+                    key = "key",
+                    valueOnLaunch = "test",
+                    valueOnRevert = "test"
+                )
+            )
+        )
+
+        secureSettingsRepository.setWriteSecureSettings(false)
+
+        viewModel.revertSettings()
+
+        assertIs<AppSettingsResult.AppSettingsDisabled>(viewModel.revertAppSettingsResult.value)
+
+    }
+
+    @Test
+    fun revertAppSettingsResultIsAppSettingsDisabled_whenRevertSettings() = runTest {
+        packageRepository.setNonSystemApps(
+            listOf(
+                TargetApplicationInfo(
+                    flags = 0, packageName = packageNameTest, label = "label"
+                )
+            )
+        )
+
+        appSettingsRepository.setAppSettings(emptyList())
+
+        secureSettingsRepository.setWriteSecureSettings(false)
+
+        viewModel.revertSettings()
+
+        assertIs<AppSettingsResult.EmptyAppSettingsList>(viewModel.revertAppSettingsResult.value)
 
     }
 
@@ -254,129 +416,6 @@ class AppSettingsViewModelTest {
         viewModel.getApplicationIcon()
 
         assertNotNull(viewModel.icon.value)
-    }
-
-    @Test
-    fun copyPermissionDialogIsTrue_whenLaunchApp_writeSecureSettingsIsFalse() = runTest {
-        appSettingsRepository.setAppSettings(
-            listOf(
-                AppSettings(
-                    id = 0,
-                    enabled = true,
-                    settingsType = SettingsType.SYSTEM,
-                    packageName = packageNameTest,
-                    label = "system",
-                    key = "key",
-                    valueOnLaunch = "test",
-                    valueOnRevert = "test"
-                )
-            )
-        )
-
-        secureSettingsRepository.setWriteSecureSettings(false)
-
-        viewModel.launchApp()
-
-        val item = viewModel.showCopyPermissionCommandDialog.value
-
-        assertTrue(item)
-    }
-
-    @Test
-    fun snackBarIsNotNull_whenRevertSettings_emptyAppSettings() = runTest {
-        appSettingsRepository.setAppSettings(emptyList())
-
-        secureSettingsRepository.setWriteSecureSettings(true)
-
-        viewModel.revertSettings()
-
-        assertNotNull(viewModel.snackBar.value)
-
-    }
-
-    @Test
-    fun snackBarIsNotNull_whenRevertSettings_itemEnabledIsFalse() = runTest {
-        appSettingsRepository.setAppSettings(
-            listOf(
-                AppSettings(
-                    id = 0,
-                    enabled = false,
-                    settingsType = SettingsType.SYSTEM,
-                    packageName = packageNameTest,
-                    label = "system",
-                    key = "key",
-                    valueOnLaunch = "test",
-                    valueOnRevert = "test"
-                )
-            )
-        )
-
-        secureSettingsRepository.setWriteSecureSettings(true)
-
-        viewModel.revertSettings()
-
-        assertNotNull(viewModel.snackBar.value)
-    }
-
-    @Test
-    fun snackBarIsNotNull_whenRevertSettings() = runTest {
-        appSettingsRepository.setAppSettings(
-            listOf(
-                AppSettings(
-                    id = 0,
-                    enabled = true,
-                    settingsType = SettingsType.SYSTEM,
-                    packageName = packageNameTest,
-                    label = "system",
-                    key = "key",
-                    valueOnLaunch = "test",
-                    valueOnRevert = "test"
-                )
-            )
-        )
-
-        secureSettingsRepository.setWriteSecureSettings(true)
-
-        viewModel.revertSettings()
-
-        assertNotNull(viewModel.snackBar.value)
-
-    }
-
-    @Test
-    fun copyPermissionDialogIsTrue_whenRevertSettings_writeSecureSettingsIsFalse() = runTest {
-        appSettingsRepository.setAppSettings(
-            listOf(
-                AppSettings(
-                    id = 0,
-                    enabled = true,
-                    settingsType = SettingsType.SYSTEM,
-                    packageName = packageNameTest,
-                    label = "system",
-                    key = "key",
-                    valueOnLaunch = "test",
-                    valueOnRevert = "test"
-                )
-            )
-        )
-
-        secureSettingsRepository.setWriteSecureSettings(false)
-
-        viewModel.revertSettings()
-
-        val item = viewModel.showCopyPermissionCommandDialog.value
-
-        assertTrue(item)
-    }
-
-    @Test
-    fun copyPermissionDialogIsFalse_whenCopyPermissionCommand() = runTest {
-
-        viewModel.copyPermissionCommand()
-
-        val item = viewModel.showCopyPermissionCommandDialog.value
-
-        assertFalse(item)
     }
 
     @Test
@@ -424,7 +463,7 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun snackBarIsNotNull_whenRequestPinShortcut() = runTest {
+    fun shortcutResultIsSupportedLauncher_whenRequestPinShortcut() = runTest {
         shortcutRepository.setRequestPinShortcutSupported(true)
 
         viewModel.requestPinShortcut(
@@ -433,13 +472,11 @@ class AppSettingsViewModelTest {
             )
         )
 
-        assertEquals(
-            expected = "Your current launcher supports shortcuts", actual = viewModel.snackBar.value
-        )
+        assertIs<ShortcutResult.SupportedLauncher>(viewModel.shortcutResult.value)
     }
 
     @Test
-    fun snackBarIsNotNull_whenRequestPinShortcut_requestPinShortcutSupportedIsFalse() = runTest {
+    fun shortcutResultIsUnSupportedLauncher_whenRequestPinShortcut() = runTest {
         shortcutRepository.setRequestPinShortcutSupported(false)
 
         viewModel.requestPinShortcut(
@@ -448,14 +485,11 @@ class AppSettingsViewModelTest {
             )
         )
 
-        assertEquals(
-            expected = "Your current launcher does not support shortcuts",
-            actual = viewModel.snackBar.value
-        )
+        assertIs<ShortcutResult.UnsupportedLauncher>(viewModel.shortcutResult.value)
     }
 
     @Test
-    fun snackBarIsNotNull_whenUpdateRequestPinShortcut() = runTest {
+    fun shortcutResultIsShortcutUpdateImmutableShortcuts_whenUpdateRequestPinShortcut() = runTest {
         shortcutRepository.setUpdateImmutableShortcuts(true)
 
         viewModel.updateRequestPinShortcut(
@@ -464,13 +498,11 @@ class AppSettingsViewModelTest {
             )
         )
 
-        assertEquals(
-            expected = "Trying to update immutable shortcuts", actual = viewModel.snackBar.value
-        )
+        assertIs<ShortcutResult.ShortcutUpdateImmutableShortcuts>(viewModel.shortcutResult.value)
     }
 
     @Test
-    fun snackBarIsNotNull_whenUpdateRequestPinShortcut_updateImmutableShortcutsIsFalse() = runTest {
+    fun shortcutResultIsShortcutUpdateSuccess_whenUpdateRequestPinShortcut() = runTest {
         shortcutRepository.setUpdateImmutableShortcuts(false)
 
         viewModel.updateRequestPinShortcut(
@@ -479,9 +511,7 @@ class AppSettingsViewModelTest {
             )
         )
 
-        assertEquals(
-            expected = "Shortcut updated successfully", actual = viewModel.snackBar.value
-        )
+        assertIs<ShortcutResult.ShortcutUpdateSuccess>(viewModel.shortcutResult.value)
     }
 }
 

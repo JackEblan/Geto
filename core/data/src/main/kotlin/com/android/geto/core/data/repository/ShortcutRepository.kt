@@ -21,11 +21,33 @@ package com.android.geto.core.data.repository
 import com.android.geto.core.model.TargetShortcutInfoCompat
 
 interface ShortcutRepository {
-    fun requestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat): String
+    fun requestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat): ShortcutResult
 
-    fun updateRequestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat): String
+    fun updateRequestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat): ShortcutResult
 
-    fun enableShortcuts(id: String, enabled: Boolean): String
+    fun enableShortcuts(id: String, enabled: Boolean): ShortcutResult
 
     fun getShortcut(id: String): TargetShortcutInfoCompat?
+}
+
+sealed interface ShortcutResult {
+    data object UnsupportedLauncher : ShortcutResult
+
+    data object SupportedLauncher : ShortcutResult
+
+    data object IDNotFound : ShortcutResult
+
+    data object ShortcutUpdateSuccess : ShortcutResult
+
+    data object ShortcutUpdateFailed : ShortcutResult
+
+    data object ShortcutUpdateImmutableShortcuts : ShortcutResult
+
+    data object ShortcutDisableImmutableShortcuts : ShortcutResult
+
+    data object UserIsLocked : ShortcutResult
+
+    data object ShortcutEnable : ShortcutResult
+
+    data object ShortcutDisable : ShortcutResult
 }

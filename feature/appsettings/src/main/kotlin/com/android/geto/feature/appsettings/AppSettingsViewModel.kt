@@ -28,6 +28,8 @@ import com.android.geto.core.data.repository.ClipboardRepository
 import com.android.geto.core.data.repository.PackageRepository
 import com.android.geto.core.data.repository.SecureSettingsRepository
 import com.android.geto.core.data.repository.ShortcutRepository
+import com.android.geto.core.data.repository.ShortcutResult
+import com.android.geto.core.domain.AppSettingsResult
 import com.android.geto.core.domain.ApplyAppSettingsUseCase
 import com.android.geto.core.domain.RevertAppSettingsUseCase
 import com.android.geto.core.model.AppSettings
@@ -57,17 +59,9 @@ class AppSettingsViewModel @Inject constructor(
     private val applyAppSettingsUseCase: ApplyAppSettingsUseCase,
     private val revertAppSettingsUseCase: RevertAppSettingsUseCase
 ) : ViewModel() {
-    private var _snackBar = MutableStateFlow<String?>(null)
-
-    val snackBar = _snackBar.asStateFlow()
-
     private var _launchAppIntent = MutableStateFlow<Intent?>(null)
 
     val launchAppIntent = _launchAppIntent.asStateFlow()
-
-    private var _showCopyPermissionCommandDialog = MutableStateFlow(false)
-
-    val showCopyPermissionCommandDialog = _showCopyPermissionCommandDialog.asStateFlow()
 
     private var _secureSettings = MutableStateFlow<List<SecureSettings>>(emptyList())
 
@@ -80,6 +74,18 @@ class AppSettingsViewModel @Inject constructor(
     private var _shortcut = MutableStateFlow<TargetShortcutInfoCompat?>(null)
 
     val shortcut = _shortcut.asStateFlow()
+
+    private val _applyAppSettingsResult = MutableStateFlow<AppSettingsResult?>(null)
+
+    val applyAppSettingsResult = _applyAppSettingsResult.asStateFlow()
+
+    private val _revertAppSettingsResult = MutableStateFlow<AppSettingsResult?>(null)
+
+    val revertAppSettingsResult = _revertAppSettingsResult.asStateFlow()
+
+    private val _shortcutResult = MutableStateFlow<ShortcutResult?>(null)
+
+    val shortcutResult = _shortcutResult.asStateFlow()
 
     private val appSettingsArgs: AppSettingsArgs = AppSettingsArgs(savedStateHandle)
 
@@ -99,20 +105,7 @@ class AppSettingsViewModel @Inject constructor(
 
     fun launchApp() {
         viewModelScope.launch {
-            applyAppSettingsUseCase(packageName = packageName, onEmptyAppSettingsList = { message ->
-                _snackBar.update { message }
-            }, onAppSettingsDisabled = { message ->
-                _snackBar.update { message }
-            }, onApplied = {
-                val appIntent = packageRepository.getLaunchIntentForPackage(
-                    packageName
-                )
-                _launchAppIntent.update { appIntent }
-            }, onSecurityException = {
-                _showCopyPermissionCommandDialog.update { true }
-            }, onFailure = { message ->
-                _snackBar.update { message }
-            })
+            _applyAppSettingsResult.update { applyAppSettingsUseCase(packageName = packageName) }
         }
     }
 
@@ -149,40 +142,27 @@ class AppSettingsViewModel @Inject constructor(
             label = "Command",
             text = "pm grant com.android.geto android.permission.WRITE_SECURE_SETTINGS"
         )
-
-        _showCopyPermissionCommandDialog.update { false }
     }
 
     fun revertSettings() {
         viewModelScope.launch {
-            revertAppSettingsUseCase(packageName = packageName,
-                                     onEmptyAppSettingsList = { message ->
-                                         _snackBar.update { message }
-                                     },
-                                     onAppSettingsDisabled = { message ->
-                                         _snackBar.update { message }
-                                     },
-                                     onReverted = { message ->
-                                         _snackBar.update { message }
-                                     },
-                                     onSecurityException = {
-                                         _showCopyPermissionCommandDialog.update { true }
-                                     },
-                                     onFailure = { message ->
-                                         _snackBar.update { message }
-                                     })
+            _revertAppSettingsResult.update { revertAppSettingsUseCase(packageName = packageName) }
         }
     }
 
     fun requestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat) {
         viewModelScope.launch {
-            _snackBar.update { shortcutRepository.requestPinShortcut(targetShortcutInfoCompat) }
+            _shortcutResult.update { shortcutRepository.requestPinShortcut(targetShortcutInfoCompat) }
         }
     }
 
     fun updateRequestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat) {
         viewModelScope.launch {
-            _snackBar.update { shortcutRepository.updateRequestPinShortcut(targetShortcutInfoCompat) }
+            _shortcutResult.update {
+                shortcutRepository.updateRequestPinShortcut(
+                    targetShortcutInfoCompat
+                )
+            }
         }
     }
 
@@ -201,15 +181,16 @@ class AppSettingsViewModel @Inject constructor(
         }
     }
 
-    fun clearSnackBar() {
-        _snackBar.update { null }
+    fun clearAppSettingsResult() {
+        _applyAppSettingsResult.update { null }
+        _revertAppSettingsResult.update { null }
+    }
+
+    fun clearShortcutResult() {
+        _shortcutResult.update { null }
     }
 
     fun clearLaunchAppIntent() {
         _launchAppIntent.update { null }
-    }
-
-    fun clearCopyPermissionCommandDialog() {
-        _showCopyPermissionCommandDialog.update { false }
     }
 }

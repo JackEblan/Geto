@@ -19,6 +19,7 @@
 package com.android.geto.core.testing.repository
 
 import com.android.geto.core.data.repository.ShortcutRepository
+import com.android.geto.core.data.repository.ShortcutResult
 import com.android.geto.core.model.TargetShortcutInfoCompat
 
 class TestShortcutRepository : ShortcutRepository {
@@ -33,25 +34,25 @@ class TestShortcutRepository : ShortcutRepository {
 
     private var userIsLocked = false
 
-    override fun requestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat): String {
+    override fun requestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat): ShortcutResult {
         return if (requestPinShortcutSupported) {
-            "Your current launcher supports shortcuts"
-        } else "Your current launcher does not support shortcuts"
+            ShortcutResult.SupportedLauncher
+        } else ShortcutResult.UnsupportedLauncher
     }
 
-    override fun updateRequestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat): String {
+    override fun updateRequestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat): ShortcutResult {
         return if (updateImmutableShortcuts) {
-            "Trying to update immutable shortcuts"
-        } else "Shortcut updated successfully"
+            ShortcutResult.ShortcutUpdateImmutableShortcuts
+        } else ShortcutResult.ShortcutUpdateSuccess
     }
 
-    override fun enableShortcuts(id: String, enabled: Boolean): String {
+    override fun enableShortcuts(id: String, enabled: Boolean): ShortcutResult {
         return if (enabled) {
-            "Shortcuts enabled"
+            ShortcutResult.ShortcutEnable
         } else {
-            if (disableImmutableShortcuts) "Trying to disable immutable shortcuts"
-            else if (userIsLocked) "User is locked"
-            else "Shortcuts disabled"
+            if (disableImmutableShortcuts) ShortcutResult.ShortcutDisableImmutableShortcuts
+            else if (userIsLocked) ShortcutResult.UserIsLocked
+            else ShortcutResult.ShortcutDisable
         }
     }
 

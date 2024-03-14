@@ -27,42 +27,24 @@ class ApplyAppSettingsUseCase @Inject constructor(
     private val appSettingsRepository: AppSettingsRepository,
     private val secureSettingsRepository: SecureSettingsRepository
 ) {
-    suspend operator fun invoke(
-        packageName: String,
-        onEmptyAppSettingsList: (String) -> Unit,
-        onAppSettingsDisabled: (String) -> Unit,
-        onApplied: (String) -> Unit,
-        onSecurityException: (String) -> Unit,
-        onFailure: (String?) -> Unit
-    ) {
-
+    suspend operator fun invoke(packageName: String): AppSettingsResult {
         val appSettingsList = appSettingsRepository.getAppSettingsList(packageName).first()
 
-        if (appSettingsList.isEmpty()) {
+        return when {
+            appSettingsList.isEmpty() -> AppSettingsResult.EmptyAppSettingsList
 
-            onEmptyAppSettingsList("No settings found")
+            appSettingsList.any { !it.enabled } -> AppSettingsResult.AppSettingsDisabled
 
-            return
-        }
-
-        if (appSettingsList.any { !it.enabled }) {
-
-            onAppSettingsDisabled("Please enable atleast one setting")
-
-            return
-        }
-
-        try {
-            val applied = secureSettingsRepository.applySecureSettings(appSettingsList)
-
-            if (applied) {
-                onApplied("Settings applied")
-            } else {
-                onFailure("Database failure")
+            else -> try {
+                val applied = secureSettingsRepository.applySecureSettings(appSettingsList)
+                if (applied) {
+                    AppSettingsResult.Success
+                } else {
+                    AppSettingsResult.Failure
+                }
+            } catch (e: SecurityException) {
+                AppSettingsResult.SecurityException
             }
-
-        } catch (e: SecurityException) {
-            onSecurityException("Permission not granted")
         }
     }
 }

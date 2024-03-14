@@ -22,7 +22,7 @@ import com.android.geto.core.data.testdoubles.TestShortcutManagerCompatWrapper
 import com.android.geto.core.model.TargetShortcutInfoCompat
 import org.junit.Before
 import org.junit.Test
-import kotlin.test.assertEquals
+import kotlin.test.assertIs
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 
@@ -53,7 +53,7 @@ class ShortcutRepositoryTest {
             )
         )
 
-        assertEquals(expected = "Your current launcher supports shortcuts", actual = result)
+        assertIs<ShortcutResult.SupportedLauncher>(result)
     }
 
     @Test
@@ -66,7 +66,7 @@ class ShortcutRepositoryTest {
             )
         )
 
-        assertEquals(expected = "Your current launcher does not support shortcuts", actual = result)
+        assertIs<ShortcutResult.UnsupportedLauncher>(result)
     }
 
     @Test
@@ -87,7 +87,7 @@ class ShortcutRepositoryTest {
             )
         )
 
-        assertEquals(expected = "Trying to update immutable shortcuts", actual = result)
+        assertIs<ShortcutResult.ShortcutUpdateImmutableShortcuts>(result)
     }
 
     @Test
@@ -108,14 +108,14 @@ class ShortcutRepositoryTest {
             )
         )
 
-        assertEquals(expected = "Shortcut updated successfully", actual = result)
+        assertIs<ShortcutResult.ShortcutUpdateSuccess>(result)
     }
 
     @Test
     fun shortcutRepository_enable_shortcuts() {
         val result = subject.enableShortcuts(id = "id", enabled = true)
 
-        assertEquals(expected = "Shortcuts enabled", actual = result)
+        assertIs<ShortcutResult.ShortcutEnable>(result)
     }
 
     @Test
@@ -126,7 +126,7 @@ class ShortcutRepositoryTest {
 
         val result = subject.enableShortcuts(id = "id", enabled = false)
 
-        assertEquals(expected = "Shortcuts disabled", actual = result)
+        assertIs<ShortcutResult.ShortcutDisable>(result)
     }
 
     @Test
@@ -137,7 +137,7 @@ class ShortcutRepositoryTest {
             id = "id", enabled = false
         )
 
-        assertEquals(expected = "Trying to disable immutable shortcuts", actual = result)
+        assertIs<ShortcutResult.ShortcutDisableImmutableShortcuts>(result)
     }
 
     @Test
@@ -148,7 +148,7 @@ class ShortcutRepositoryTest {
             id = "id", enabled = false
         )
 
-        assertEquals(expected = "User is locked", actual = result)
+        assertIs<ShortcutResult.UserIsLocked>(result)
     }
 
     @Test

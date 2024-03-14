@@ -18,7 +18,8 @@
 
 package com.android.geto.core.domain.usecase
 
-import com.android.geto.core.domain.RevertAppSettingsUseCase
+import com.android.geto.core.domain.AppSettingsResult
+import com.android.geto.core.domain.ApplyAppSettingsUseCase
 import com.android.geto.core.model.AppSettings
 import com.android.geto.core.model.SettingsType
 import com.android.geto.core.testing.repository.TestAppSettingsRepository
@@ -26,10 +27,10 @@ import com.android.geto.core.testing.repository.TestSecureSettingsRepository
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
-import kotlin.test.assertTrue
+import kotlin.test.assertIs
 
 class RevertAppSettingsUseCaseTest {
-    private lateinit var revertAppSettingsUseCase: RevertAppSettingsUseCase
+    private lateinit var revertAppSettingsUseCase: ApplyAppSettingsUseCase
 
     private lateinit var appSettingsRepository: TestAppSettingsRepository
 
@@ -43,23 +44,24 @@ class RevertAppSettingsUseCaseTest {
 
         appSettingsRepository = TestAppSettingsRepository()
 
-        revertAppSettingsUseCase = RevertAppSettingsUseCase(
+        revertAppSettingsUseCase = ApplyAppSettingsUseCase(
             appSettingsRepository = appSettingsRepository,
             secureSettingsRepository = secureSettingsRepository
         )
     }
 
     @Test
-    fun onEmptyAppSettingsListIsNotBlank() = runTest {
+    fun revertAppSettingsUseCase_empty_app_settings_list() = runTest {
         appSettingsRepository.setAppSettings(emptyList())
 
-        revertAppSettingsUseCase(packageName = packageNameTest, onEmptyAppSettingsList = {
-            assertTrue { it.isNotBlank() }
-        }, onAppSettingsDisabled = {}, onReverted = {}, onSecurityException = {}, onFailure = {})
+        val result = revertAppSettingsUseCase(packageName = packageNameTest)
+
+        assertIs<AppSettingsResult.EmptyAppSettingsList>(result)
     }
 
+
     @Test
-    fun onAppSettingsDisabledIsNotBlank() = runTest {
+    fun revertAppSettingsUseCase_app_settings_disabled() = runTest {
         appSettingsRepository.setAppSettings(
             listOf(
                 AppSettings(
@@ -75,41 +77,13 @@ class RevertAppSettingsUseCaseTest {
             )
         )
 
-        revertAppSettingsUseCase(packageName = packageNameTest,
-                                 onEmptyAppSettingsList = {},
-                                 onAppSettingsDisabled = { assertTrue { it.isNotBlank() } },
-                                 onReverted = {},
-                                 onSecurityException = {},
-                                 onFailure = {})
+        val result = revertAppSettingsUseCase(packageName = packageNameTest)
+
+        assertIs<AppSettingsResult.AppSettingsDisabled>(result)
     }
 
     @Test
-    fun onAppSettingsNotSafeToWriteIsNotBlank() = runTest {
-        appSettingsRepository.setAppSettings(
-            listOf(
-                AppSettings(
-                    id = 0,
-                    enabled = true,
-                    settingsType = SettingsType.SYSTEM,
-                    packageName = packageNameTest,
-                    label = "system",
-                    key = "key",
-                    valueOnLaunch = "test",
-                    valueOnRevert = "test"
-                )
-            )
-        )
-
-        revertAppSettingsUseCase(packageName = packageNameTest,
-                                 onEmptyAppSettingsList = {},
-                                 onAppSettingsDisabled = { },
-                                 onReverted = {},
-                                 onSecurityException = {},
-                                 onFailure = {})
-    }
-
-    @Test
-    fun onRevertedIsNotBlank() = runTest {
+    fun revertAppSettingsUseCase_success() = runTest {
         secureSettingsRepository.setWriteSecureSettings(true)
 
         appSettingsRepository.setAppSettings(
@@ -127,16 +101,13 @@ class RevertAppSettingsUseCaseTest {
             )
         )
 
-        revertAppSettingsUseCase(packageName = packageNameTest,
-                                 onEmptyAppSettingsList = {},
-                                 onAppSettingsDisabled = {},
-                                 onReverted = { assertTrue { it.isNotBlank() } },
-                                 onSecurityException = {},
-                                 onFailure = {})
+        val result = revertAppSettingsUseCase(packageName = packageNameTest)
+
+        assertIs<AppSettingsResult.Success>(result)
     }
 
     @Test
-    fun onSecurityExceptionIsNotBlank() = runTest {
+    fun revertAppSettingsUseCase_security_exception() = runTest {
         secureSettingsRepository.setWriteSecureSettings(false)
 
         appSettingsRepository.setAppSettings(
@@ -154,11 +125,8 @@ class RevertAppSettingsUseCaseTest {
             )
         )
 
-        revertAppSettingsUseCase(packageName = packageNameTest,
-                                 onEmptyAppSettingsList = {},
-                                 onAppSettingsDisabled = { },
-                                 onReverted = {},
-                                 onSecurityException = { assertTrue { it.isNotBlank() } },
-                                 onFailure = {})
+        val result = revertAppSettingsUseCase(packageName = packageNameTest)
+
+        assertIs<AppSettingsResult.SecurityException>(result)
     }
 }

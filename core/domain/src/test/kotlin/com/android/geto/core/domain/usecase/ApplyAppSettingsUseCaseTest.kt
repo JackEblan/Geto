@@ -18,6 +18,7 @@
 
 package com.android.geto.core.domain.usecase
 
+import com.android.geto.core.domain.AppSettingsResult
 import com.android.geto.core.domain.ApplyAppSettingsUseCase
 import com.android.geto.core.model.AppSettings
 import com.android.geto.core.model.SettingsType
@@ -26,7 +27,7 @@ import com.android.geto.core.testing.repository.TestSecureSettingsRepository
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
-import kotlin.test.assertTrue
+import kotlin.test.assertIs
 
 class ApplyAppSettingsUseCaseTest {
     private lateinit var applyAppSettingsUseCase: ApplyAppSettingsUseCase
@@ -50,17 +51,17 @@ class ApplyAppSettingsUseCaseTest {
     }
 
     @Test
-    fun onEmptyAppSettingsListIsNotBlank() = runTest {
+    fun applyAppSettingsUseCase_empty_app_settings_list() = runTest {
         appSettingsRepository.setAppSettings(emptyList())
 
-        applyAppSettingsUseCase(packageName = packageNameTest, onEmptyAppSettingsList = {
-            assertTrue { it.isNotBlank() }
-        }, onAppSettingsDisabled = {}, onApplied = {}, onSecurityException = {}, onFailure = {})
+        val result = applyAppSettingsUseCase(packageName = packageNameTest)
+
+        assertIs<AppSettingsResult.EmptyAppSettingsList>(result)
     }
 
 
     @Test
-    fun onAppSettingsDisabledIsNotBlank() = runTest {
+    fun applyAppSettingsUseCase_app_settings_disabled() = runTest {
         appSettingsRepository.setAppSettings(
             listOf(
                 AppSettings(
@@ -76,16 +77,13 @@ class ApplyAppSettingsUseCaseTest {
             )
         )
 
-        applyAppSettingsUseCase(packageName = packageNameTest,
-                                onEmptyAppSettingsList = {},
-                                onAppSettingsDisabled = { assertTrue { it.isNotBlank() } },
-                                onApplied = { },
-                                onSecurityException = {},
-                                onFailure = {})
+        val result = applyAppSettingsUseCase(packageName = packageNameTest)
+
+        assertIs<AppSettingsResult.AppSettingsDisabled>(result)
     }
 
     @Test
-    fun onAppliedIsNotBlank() = runTest {
+    fun applyAppSettingsUseCase_success() = runTest {
         secureSettingsRepository.setWriteSecureSettings(true)
 
         appSettingsRepository.setAppSettings(
@@ -103,16 +101,13 @@ class ApplyAppSettingsUseCaseTest {
             )
         )
 
-        applyAppSettingsUseCase(packageName = packageNameTest,
-                                onEmptyAppSettingsList = {},
-                                onAppSettingsDisabled = {},
-                                onApplied = { assertTrue { it.isNotBlank() } },
-                                onSecurityException = {},
-                                onFailure = {})
+        val result = applyAppSettingsUseCase(packageName = packageNameTest)
+
+        assertIs<AppSettingsResult.Success>(result)
     }
 
     @Test
-    fun onSecurityExceptionIsNotBlank() = runTest {
+    fun applyAppSettingsUseCase_security_exception() = runTest {
         secureSettingsRepository.setWriteSecureSettings(false)
 
         appSettingsRepository.setAppSettings(
@@ -130,11 +125,8 @@ class ApplyAppSettingsUseCaseTest {
             )
         )
 
-        applyAppSettingsUseCase(packageName = packageNameTest,
-                                onEmptyAppSettingsList = {},
-                                onAppSettingsDisabled = { },
-                                onApplied = {},
-                                onSecurityException = { assertTrue { it.isNotBlank() } },
-                                onFailure = {})
+        val result = applyAppSettingsUseCase(packageName = packageNameTest)
+
+        assertIs<AppSettingsResult.SecurityException>(result)
     }
 }

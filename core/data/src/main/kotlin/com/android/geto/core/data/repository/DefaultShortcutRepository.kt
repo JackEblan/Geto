@@ -27,9 +27,9 @@ class DefaultShortcutRepository @Inject constructor(
     private val shortcutManagerCompatWrapper: ShortcutManagerCompatWrapper
 ) : ShortcutRepository {
 
-    override fun requestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat): String {
+    override fun requestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat): ShortcutResult {
         if (!shortcutManagerCompatWrapper.isRequestPinShortcutSupported()) {
-            return "Your current launcher does not support shortcuts"
+            return ShortcutResult.UnsupportedLauncher
         }
 
         val request = shortcutManagerCompatWrapper.requestPinShortcut(
@@ -40,16 +40,16 @@ class DefaultShortcutRepository @Inject constructor(
         )
 
         return if (request) {
-            "Your current launcher supports shortcuts"
-        } else "Your current launcher does not support shortcuts"
+            ShortcutResult.SupportedLauncher
+        } else ShortcutResult.UnsupportedLauncher
     }
 
-    override fun updateRequestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat): String {
+    override fun updateRequestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat): ShortcutResult {
         val ids = shortcutManagerCompatWrapper.getShortcuts(ShortcutManagerCompat.FLAG_MATCH_PINNED)
             .map { it.id }
 
         if (targetShortcutInfoCompat.id !in ids) {
-            return "Shortcut id not found"
+            return ShortcutResult.IDNotFound
         }
 
         return try {
@@ -61,27 +61,27 @@ class DefaultShortcutRepository @Inject constructor(
             )
 
             if (request) {
-                "Shortcut updated successfully"
-            } else "Shortcut failed to update"
+                ShortcutResult.ShortcutUpdateSuccess
+            } else ShortcutResult.ShortcutUpdateFailed
 
         } catch (e: IllegalArgumentException) {
-            "Trying to update immutable shortcuts"
+            ShortcutResult.ShortcutUpdateImmutableShortcuts
         }
     }
 
-    override fun enableShortcuts(id: String, enabled: Boolean): String {
+    override fun enableShortcuts(id: String, enabled: Boolean): ShortcutResult {
         return try {
             if (enabled) {
                 shortcutManagerCompatWrapper.enableShortcuts(id)
-                "Shortcuts enabled"
+                ShortcutResult.ShortcutEnable
             } else {
                 shortcutManagerCompatWrapper.disableShortcuts(id)
-                "Shortcuts disabled"
+                ShortcutResult.ShortcutDisable
             }
         } catch (e: IllegalArgumentException) {
-            "Trying to disable immutable shortcuts"
+            ShortcutResult.ShortcutDisableImmutableShortcuts
         } catch (e: IllegalStateException) {
-            "User is locked"
+            ShortcutResult.UserIsLocked
         }
     }
 
