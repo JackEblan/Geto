@@ -51,7 +51,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import coil.compose.AsyncImage
+import com.android.geto.core.designsystem.component.GetoAsyncImage
 import com.android.geto.core.designsystem.icon.GetoIcons
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -126,7 +126,7 @@ internal fun AddShortcutDialogScreen(
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        AsyncImage(
+        GetoAsyncImage(
             model = shortcutDialogState.icon,
             contentDescription = null,
             modifier = Modifier

@@ -61,7 +61,7 @@ class AppListViewModelTest {
     fun appListUiStateIsSuccess_whenGetNonSystemApps() = runTest {
         val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.appListUiState.collect() }
 
-        packageRepository.setNonSystemApps(nonSystemAppsTestData)
+        packageRepository.setNonSystemApps(testTargetApplicationInfoLists)
 
         viewModel.getNonSystemApps()
 
@@ -73,8 +73,8 @@ class AppListViewModelTest {
     }
 }
 
-private val nonSystemAppsTestData = listOf(
-    TargetApplicationInfo(flags = 0, packageName = "com.android.geto", label = "Geto"),
-    TargetApplicationInfo(flags = 0, packageName = "com.android.geto1", label = "Geto1"),
-    TargetApplicationInfo(flags = 0, packageName = "com.android.geto2", label = "Geto2")
-)
+private val testTargetApplicationInfoLists = List(2) { index ->
+    TargetApplicationInfo(
+        flags = 0, packageName = "packageName$index", label = "Label $index"
+    )
+}

@@ -18,9 +18,6 @@
 
 package com.android.geto.feature.appsettings.dialog.shortcut
 
-import android.graphics.Color
-import android.graphics.drawable.ShapeDrawable
-import android.graphics.drawable.shapes.OvalShape
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.android.geto.core.designsystem.component.GetoBackground
@@ -39,7 +36,7 @@ import kotlin.test.Test
 
 @RunWith(RobolectricTestRunner::class)
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
-@Config(application = HiltTestApplication::class, qualifiers = "480dpi")
+@Config(application = HiltTestApplication::class)
 @LooperMode(LooperMode.Mode.PAUSED)
 class AddShortcutDialogScreenshotTest {
     @get:Rule
@@ -50,8 +47,6 @@ class AddShortcutDialogScreenshotTest {
         composeTestRule.captureMultiDevice("AddShortcutDialogEmpty") {
             GetoTheme {
                 val shortcutDialogState = rememberAddShortcutDialogState()
-
-                shortcutDialogState.updateIcon(icon)
 
                 AddShortcutDialogScreen(shortcutDialogState = shortcutDialogState,
                                         onRefreshShortcut = {},
@@ -65,8 +60,6 @@ class AddShortcutDialogScreenshotTest {
         composeTestRule.captureMultiDevice("AddShortcutDialogFilledTextFields") {
             GetoTheme {
                 val shortcutDialogState = rememberAddShortcutDialogState()
-
-                shortcutDialogState.updateIcon(icon)
 
                 shortcutDialogState.updateShortLabel("Short Label")
 
@@ -84,8 +77,6 @@ class AddShortcutDialogScreenshotTest {
         composeTestRule.captureMultiDevice("AddShortcutDialogErrorTextFields") {
             GetoTheme {
                 val shortcutDialogState = rememberAddShortcutDialogState()
-
-                shortcutDialogState.updateIcon(icon)
 
                 shortcutDialogState.getShortcut(packageName = "Test")
 
@@ -108,8 +99,6 @@ class AddShortcutDialogScreenshotTest {
                 GetoBackground {
                     val shortcutDialogState = rememberAddShortcutDialogState()
 
-                    shortcutDialogState.updateIcon(icon)
-
                     AddShortcutDialogScreen(shortcutDialogState = shortcutDialogState,
                                             onRefreshShortcut = {},
                                             onAddShortcut = {})
@@ -129,8 +118,6 @@ class AddShortcutDialogScreenshotTest {
             GetoTheme {
                 GetoBackground {
                     val shortcutDialogState = rememberAddShortcutDialogState()
-
-                    shortcutDialogState.updateIcon(icon)
 
                     shortcutDialogState.updateShortLabel("Short Label")
 
@@ -156,8 +143,6 @@ class AddShortcutDialogScreenshotTest {
                 GetoBackground {
                     val shortcutDialogState = rememberAddShortcutDialogState()
 
-                    shortcutDialogState.updateIcon(icon)
-
                     shortcutDialogState.getShortcut(packageName = "Test")
 
                     AddShortcutDialogScreen(shortcutDialogState = shortcutDialogState,
@@ -167,10 +152,4 @@ class AddShortcutDialogScreenshotTest {
             }
         }
     }
-}
-
-private val icon = ShapeDrawable(OvalShape()).apply {
-    paint.color = Color.GRAY
-
-    setBounds(0, 0, (50 * 2), (50 * 2))
 }
