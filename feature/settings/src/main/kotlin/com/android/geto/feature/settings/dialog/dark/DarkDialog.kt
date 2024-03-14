@@ -47,25 +47,28 @@ import androidx.compose.ui.window.Dialog
 
 @Composable
 internal fun DarkDialog(
-    darkDialogState: DarkDialogState, onChangeTheme: () -> Unit, contentDescription: String
+    modifier: Modifier = Modifier,
+    darkDialogState: DarkDialogState, 
+    onChangeDark: () -> Unit, 
+    contentDescription: String
 ) {
     Dialog(onDismissRequest = { darkDialogState.updateShowDialog(false) }) {
         Card(
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxWidth()
                 .wrapContentSize()
                 .padding(16.dp)
                 .semantics { this.contentDescription = contentDescription },
             shape = RoundedCornerShape(16.dp),
         ) {
-            DarkDialogScreen(darkDialogState = darkDialogState, onChangeTheme = onChangeTheme)
+            DarkDialogScreen(darkDialogState = darkDialogState, onChangeDark = onChangeDark)
         }
     }
 }
 
 @Composable
 internal fun DarkDialogScreen(
-    darkDialogState: DarkDialogState, onChangeTheme: () -> Unit
+    darkDialogState: DarkDialogState, onChangeDark: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -127,7 +130,7 @@ internal fun DarkDialogScreen(
                 Text("Cancel")
             }
             TextButton(
-                onClick = onChangeTheme,
+                onClick = onChangeDark,
                 modifier = Modifier
                     .padding(5.dp)
                     .testTag("darkDialog:change")

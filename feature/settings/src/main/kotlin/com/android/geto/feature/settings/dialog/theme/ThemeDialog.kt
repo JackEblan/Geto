@@ -58,7 +58,6 @@ internal fun ThemeDialog(
                 .fillMaxWidth()
                 .wrapContentSize()
                 .padding(16.dp)
-                .testTag("themeDialog")
                 .semantics { this.contentDescription = contentDescription },
             shape = RoundedCornerShape(16.dp),
         ) {
