@@ -37,7 +37,6 @@ class UpdateShortcutDialogTest {
             val updateShortcutDialogState = rememberUpdateShortcutDialogState()
 
             UpdateShortcutDialog(shortcutDialogState = updateShortcutDialogState,
-                                 onDismissRequest = {},
                                  onRefreshShortcut = {},
                                  onUpdateShortcut = {
                                      updateShortcutDialogState.updateShortLabel("")
@@ -65,7 +64,6 @@ class UpdateShortcutDialogTest {
             val updateShortcutDialogState = rememberUpdateShortcutDialogState()
 
             UpdateShortcutDialog(shortcutDialogState = updateShortcutDialogState,
-                                 onDismissRequest = {},
                                  onRefreshShortcut = {},
                                  onUpdateShortcut = {
                                      updateShortcutDialogState.updateShortLabel("Test")

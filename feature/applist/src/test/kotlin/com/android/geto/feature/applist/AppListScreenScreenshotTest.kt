@@ -18,9 +18,6 @@
 
 package com.android.geto.feature.applist
 
-import android.graphics.Color
-import android.graphics.drawable.ShapeDrawable
-import android.graphics.drawable.shapes.OvalShape
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.android.geto.core.designsystem.component.GetoBackground
@@ -41,7 +38,7 @@ import kotlin.test.Test
 
 @RunWith(RobolectricTestRunner::class)
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
-@Config(application = HiltTestApplication::class, qualifiers = "480dpi")
+@Config(application = HiltTestApplication::class)
 @LooperMode(LooperMode.Mode.PAUSED)
 class AppListScreenScreenshotTest {
 
@@ -108,13 +105,7 @@ class AppListScreenScreenshotTest {
 }
 
 private val testTargetApplicationInfoLists = List(2) { index ->
-    val icon = ShapeDrawable(OvalShape()).apply {
-        paint.color = Color.GRAY
-
-        setBounds(0, 0, (50 * 2), (50 * 2))
-    }
-
     TargetApplicationInfo(
-        flags = 0, icon = icon, packageName = "packageName$index", label = "Label $index"
+        flags = 0, packageName = "packageName$index", label = "Label $index"
     )
 }

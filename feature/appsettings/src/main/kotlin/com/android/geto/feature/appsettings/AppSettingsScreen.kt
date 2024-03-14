@@ -261,20 +261,15 @@ internal fun AppSettingsScreen(
     }
 
     if (updateShortcutDialogState.showDialog) {
-        UpdateShortcutDialog(shortcutDialogState = updateShortcutDialogState,
-                             onDismissRequest = { updateShortcutDialogState.updateShowDialog(false) },
-                             onRefreshShortcut = {
-                                 onRefreshShortcut()
-                                 updateShortcutDialogState.updateShowDialog(false)
-                             },
-                             onUpdateShortcut = {
-                                 updateShortcutDialogState.getShortcut(packageName = packageName)
-                                     ?.let {
-                                         onUpdateShortcut(it)
-                                         updateShortcutDialogState.resetState()
-                                     }
-                             },
-                             contentDescription = "Update Shortcut Dialog"
+        UpdateShortcutDialog(shortcutDialogState = updateShortcutDialogState, onRefreshShortcut = {
+            onRefreshShortcut()
+            updateShortcutDialogState.updateShowDialog(false)
+        }, onUpdateShortcut = {
+            updateShortcutDialogState.getShortcut(packageName = packageName)?.let {
+                onUpdateShortcut(it)
+                updateShortcutDialogState.resetState()
+            }
+        }, contentDescription = "Update Shortcut Dialog"
         )
     }
 

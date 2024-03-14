@@ -29,7 +29,7 @@ import androidx.core.graphics.drawable.toBitmap
 import com.android.geto.core.model.TargetShortcutInfoCompat
 
 @Stable
-class ShortcutDialogState {
+internal class ShortcutDialogState {
     var showDialog by mutableStateOf(false)
         private set
 

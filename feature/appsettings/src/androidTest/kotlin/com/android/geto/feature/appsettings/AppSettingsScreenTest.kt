@@ -526,24 +526,15 @@ class AppSettingsScreenTest {
     }
 }
 
-private val testAppSettingsList = listOf(
+private val testAppSettingsList = List(2) { index ->
     AppSettings(
-        id = 0,
+        id = index,
         enabled = true,
         settingsType = SettingsType.SYSTEM,
-        packageName = "packageName0",
-        label = "label0",
+        packageName = "packageName$index",
+        label = "Label $index",
         key = "key0",
-        valueOnLaunch = "valueOnLaunch0",
-        valueOnRevert = "valueOnRevert0"
-    ), AppSettings(
-        id = 1,
-        enabled = true,
-        settingsType = SettingsType.SYSTEM,
-        packageName = "packageName1",
-        label = "label1",
-        key = "key1",
-        valueOnLaunch = "valueOnLaunch1",
-        valueOnRevert = "valueOnRevert1"
+        valueOnLaunch = "valueOnLaunch$index",
+        valueOnRevert = "valueOnRevert$index"
     )
-)
+}

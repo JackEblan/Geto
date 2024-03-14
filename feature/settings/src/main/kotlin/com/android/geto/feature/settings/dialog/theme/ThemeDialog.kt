@@ -35,13 +35,7 @@ import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Stable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -52,7 +46,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 
 @Composable
-fun ThemeDialog(
+internal fun ThemeDialog(
     modifier: Modifier = Modifier,
     themeDialogState: ThemeDialogState,
     onChangeTheme: () -> Unit,
@@ -68,73 +62,84 @@ fun ThemeDialog(
                 .semantics { this.contentDescription = contentDescription },
             shape = RoundedCornerShape(16.dp),
         ) {
-            Column(
-                modifier = Modifier.padding(10.dp)
-            ) {
-                Spacer(modifier = Modifier.height(10.dp))
+            ThemeDialogScreen(
+                themeDialogState = themeDialogState, onChangeTheme = onChangeTheme
+            )
+        }
+    }
+}
 
-                Text(
-                    modifier = Modifier.padding(horizontal = 5.dp),
-                    text = "Theme",
-                    style = MaterialTheme.typography.titleLarge
-                )
+@Composable
+internal fun ThemeDialogScreen(
+    themeDialogState: ThemeDialogState, onChangeTheme: () -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(10.dp)
+    ) {
+        Spacer(modifier = Modifier.height(10.dp))
 
-                Spacer(modifier = Modifier.height(10.dp))
+        Text(
+            modifier = Modifier.padding(horizontal = 5.dp),
+            text = "Theme",
+            style = MaterialTheme.typography.titleLarge
+        )
 
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .selectableGroup()
-                ) {
-                    listOf("Default", "Android").forEachIndexed { index, text ->
-                        Row(
-                            modifier
-                                .padding(vertical = 10.dp)
-                                .selectable(selected = index == themeDialogState.selectedRadioOptionIndex,
-                                            role = Role.RadioButton,
-                                            enabled = true,
-                                            onClick = {
-                                                themeDialogState.updateSelectedRadioOptionIndex(
-                                                    index
-                                                )
-                                            })
-                                .padding(horizontal = 16.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            RadioButton(
-                                selected = index == themeDialogState.selectedRadioOptionIndex,
-                                onClick = null
-                            )
-                            Text(
-                                text = text,
-                                style = MaterialTheme.typography.bodyLarge,
-                                modifier = Modifier.padding(start = 10.dp)
-                            )
-                        }
-                    }
-                }
+        Spacer(modifier = Modifier.height(10.dp))
 
-                Spacer(modifier = Modifier.height(10.dp))
-
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .selectableGroup()
+        ) {
+            listOf("Default", "Android").forEachIndexed { index, text ->
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.End,
+                    Modifier
+                        .padding(vertical = 10.dp)
+                        .selectable(selected = index == themeDialogState.selectedRadioOptionIndex,
+                                    role = Role.RadioButton,
+                                    enabled = true,
+                                    onClick = {
+                                        themeDialogState.updateSelectedRadioOptionIndex(
+                                            index
+                                        )
+                                    })
+                        .padding(horizontal = 16.dp),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    TextButton(
-                        onClick = { themeDialogState.updateShowDialog(false) },
-                        modifier = Modifier.padding(5.dp)
-                    ) {
-                        Text("Cancel")
-                    }
-                    TextButton(
-                        onClick = onChangeTheme,
-                        modifier = Modifier
-                            .padding(5.dp)
-                            .testTag("themeDialog:change")
-                    ) {
-                        Text("Change")
-                    }
+                    RadioButton(
+                        selected = index == themeDialogState.selectedRadioOptionIndex,
+                        onClick = null
+                    )
+                    Text(
+                        text = text,
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.padding(start = 10.dp)
+                    )
                 }
+            }
+        }
+
+        Spacer(modifier = Modifier.height(10.dp))
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.End,
+        ) {
+            TextButton(
+                onClick = { themeDialogState.updateShowDialog(false) },
+                modifier = Modifier.padding(5.dp)
+            ) {
+                Text("Cancel")
+            }
+            TextButton(
+                onClick = onChangeTheme,
+                modifier = Modifier
+                    .padding(5.dp)
+                    .testTag("themeDialog:change")
+            ) {
+                Text("Change")
             }
         }
     }
@@ -144,37 +149,5 @@ fun ThemeDialog(
 fun rememberThemeDialogState(): ThemeDialogState {
     return rememberSaveable(saver = ThemeDialogState.Saver) {
         ThemeDialogState()
-    }
-}
-
-@Stable
-class ThemeDialogState {
-    var showDialog by mutableStateOf(false)
-        private set
-
-    var selectedRadioOptionIndex by mutableIntStateOf(0)
-        private set
-
-    fun updateShowDialog(value: Boolean) {
-        showDialog = value
-    }
-
-    fun updateSelectedRadioOptionIndex(value: Int) {
-        selectedRadioOptionIndex = value
-    }
-
-    companion object {
-        val Saver = listSaver<ThemeDialogState, Any>(save = { state ->
-            listOf(
-                state.showDialog,
-                state.selectedRadioOptionIndex,
-            )
-        }, restore = {
-            ThemeDialogState().apply {
-                showDialog = it[0] as Boolean
-
-                selectedRadioOptionIndex = it[1] as Int
-            }
-        })
     }
 }

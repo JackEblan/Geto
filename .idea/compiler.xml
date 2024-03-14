@@ -17,6 +17,7 @@
       <module name="Geto.feature.securesettingslist" target="17" />
       <module name="Geto.feature.settings.test" target="17" />
       <module name="Geto.feature.shortcut" target="17" />
+      <module name="Geto.ui-test-hilt-manifest.test" target="17" />
     </bytecodeTargetLevel>
   </component>
 </project>

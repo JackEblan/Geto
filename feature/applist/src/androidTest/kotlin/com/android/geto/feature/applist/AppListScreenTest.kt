@@ -18,9 +18,6 @@
 
 package com.android.geto.feature.applist
 
-import android.graphics.Color
-import android.graphics.drawable.ShapeDrawable
-import android.graphics.drawable.shapes.OvalShape
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
@@ -58,13 +55,7 @@ class AppListScreenTest {
 }
 
 private val testTargetApplicationInfoLists = List(2) { index ->
-    val icon = ShapeDrawable(OvalShape()).apply {
-        paint.color = Color.GRAY
-
-        setBounds(0, 0, (50 * 2), (50 * 2))
-    }
-
     TargetApplicationInfo(
-        flags = 0, icon = icon, packageName = "packageName$index", label = "Label $index"
+        flags = 0, packageName = "packageName$index", label = "Label $index"
     )
 }

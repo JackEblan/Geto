@@ -35,7 +35,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
+import com.android.geto.core.designsystem.component.GetoAsyncImage
 
 @Composable
 fun AppItem(
@@ -55,7 +55,7 @@ fun AppItem(
         }
         .padding(10.dp), verticalAlignment = Alignment.CenterVertically) {
 
-        AsyncImage(
+        GetoAsyncImage(
             model = icon, contentDescription = null, modifier = Modifier.size(50.dp)
         )
 
