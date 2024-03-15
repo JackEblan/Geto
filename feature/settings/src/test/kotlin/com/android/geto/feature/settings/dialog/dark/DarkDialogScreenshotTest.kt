@@ -49,7 +49,7 @@ class DarkDialogScreenshotTest {
             GetoTheme {
                 val darkDialogState = rememberDarkDialogState()
 
-                DarkDialogScreen(darkDialogState = darkDialogState, onChangeDark = {})
+                DarkDialog(darkDialogState = darkDialogState, onChangeDark = {}, contentDescription = "DarkDialog")
             }
         }
     }
@@ -67,7 +67,7 @@ class DarkDialogScreenshotTest {
                 GetoBackground {
                     val darkDialogState = rememberDarkDialogState()
 
-                    DarkDialogScreen(darkDialogState = darkDialogState, onChangeDark = {})
+                    DarkDialog(darkDialogState = darkDialogState, onChangeDark = {}, contentDescription = "DarkDialog")
                 }
             }
         }

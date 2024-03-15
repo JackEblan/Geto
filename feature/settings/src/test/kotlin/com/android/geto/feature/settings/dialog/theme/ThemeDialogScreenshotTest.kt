@@ -49,7 +49,7 @@ class ThemeDialogScreenshotTest {
             GetoTheme {
                 val themeDialogState = rememberThemeDialogState()
 
-                ThemeDialogScreen(themeDialogState = themeDialogState, onChangeTheme = {})
+                ThemeDialog(themeDialogState = themeDialogState, onChangeTheme = {}, contentDescription = "ThemeDialog")
             }
         }
     }
@@ -67,7 +67,7 @@ class ThemeDialogScreenshotTest {
                 GetoBackground {
                     val themeDialogState = rememberThemeDialogState()
 
-                    ThemeDialogScreen(themeDialogState = themeDialogState, onChangeTheme = {})
+                    ThemeDialog(themeDialogState = themeDialogState, onChangeTheme = {}, contentDescription = "ThemeDialog")
                 }
             }
         }
