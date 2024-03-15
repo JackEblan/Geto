@@ -3,9 +3,9 @@ accompanist = "0.32.0"
 androidDesugarJdkLibs = "2.0.4"
 # AGP and tools should be updated together
 androidGradlePlugin = "8.2.2"
-androidTools = "31.2.2"
+androidTools = "31.3.0"
 androidxActivity = "1.8.2"
-androidxComposeBom = "2024.02.01"
+androidxComposeBom = "2024.02.02"
 androidxCoreKtx = "1.12.0"
 androidxCoreSplashscreen = "1.0.1"
 androidxComposeCompiler = "1.5.8"
@@ -30,7 +30,7 @@ protobuf = "3.25.2"
 protobufPlugin = "0.9.4"
 room = "2.6.1"
 robolectric = "4.11.1"
-roborazzi = "1.7.0"
+roborazzi = "1.10.1"
 
 [libraries]
 accompanist-testharness = { group = "com.google.accompanist", name = "accompanist-testharness", version.ref = "accompanist" }
@@ -40,7 +40,6 @@ androidx-activity-ktx = { group = "androidx.activity", name = "activity-ktx", ve
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidxComposeBom" }
 androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation" }
 androidx-compose-foundation-layout = { group = "androidx.compose.foundation", name = "foundation-layout" }
-androidx-compose-material = { group = "androidx.compose.material", name = "material" }
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-compose-material-iconsExtended = { group = "androidx.compose.material", name = "material-icons-extended" }
 androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime" }

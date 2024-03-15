@@ -24,8 +24,8 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.android.geto.core.designsystem.component.GetoBackground
 import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.screenshot.testing.util.DefaultTestDevices
-import com.android.geto.core.screenshot.testing.util.captureForDevice
-import com.android.geto.core.screenshot.testing.util.captureMultiDevice
+import com.android.geto.core.screenshot.testing.util.captureScreenRoboImageForDevice
+import com.android.geto.core.screenshot.testing.util.captureScreenRoboImageMultiDevice
 import dagger.hilt.android.testing.HiltTestApplication
 import org.junit.Rule
 import org.junit.runner.RunWith
@@ -46,22 +46,29 @@ class AppSettingsDialogScreenshotTest {
 
     @Test
     fun app_settings_dialog_empty() {
-        composeTestRule.captureMultiDevice("AppSettingsDialogEmpty") {
+        composeTestRule.captureScreenRoboImageMultiDevice(
+            name = "AppSettingsDialog", screenshotName = "AppSettingsDialogEmpty"
+        ) {
             GetoTheme {
                 val addAppSettingsDialogState = rememberAddAppSettingsDialogState()
 
                 val scrollState = rememberScrollState()
 
-                AddAppSettingsDialogScreen(addAppSettingsDialogState = addAppSettingsDialogState,
-                                           scrollState = scrollState,
-                                           onAddSettings = {})
+                AddAppSettingsDialog(
+                    addAppSettingsDialogState = addAppSettingsDialogState,
+                    scrollState = scrollState,
+                    onAddSettings = {},
+                    contentDescription = "AppSettingsDialog"
+                )
             }
         }
     }
 
     @Test
     fun app_settings_dialog_filled_textfields() {
-        composeTestRule.captureMultiDevice("AppSettingsDialogFilledTextFields") {
+        composeTestRule.captureScreenRoboImageMultiDevice(
+            name = "AppSettingsDialog", screenshotName = "AppSettingsDialogFilledTextFields"
+        ) {
             GetoTheme {
                 val addAppSettingsDialogState = rememberAddAppSettingsDialogState()
 
@@ -77,16 +84,21 @@ class AppSettingsDialogScreenshotTest {
 
                 addAppSettingsDialogState.updateValueOnRevert("Test")
 
-                AddAppSettingsDialogScreen(addAppSettingsDialogState = addAppSettingsDialogState,
-                                           scrollState = scrollState,
-                                           onAddSettings = {})
+                AddAppSettingsDialog(
+                    addAppSettingsDialogState = addAppSettingsDialogState,
+                    scrollState = scrollState,
+                    onAddSettings = {},
+                    contentDescription = "AppSettingsDialog"
+                )
             }
         }
     }
 
     @Test
     fun app_settings_dialog_error_textfields() {
-        composeTestRule.captureMultiDevice("AppSettingsDialogErrorTextFields") {
+        composeTestRule.captureScreenRoboImageMultiDevice(
+            name = "AppSettingsDialog", screenshotName = "AppSettingsDialogErrorTextFields"
+        ) {
             GetoTheme {
                 val addAppSettingsDialogState = rememberAddAppSettingsDialogState()
 
@@ -94,16 +106,20 @@ class AppSettingsDialogScreenshotTest {
 
                 addAppSettingsDialogState.getAppSettings(packageName = "Test")
 
-                AddAppSettingsDialogScreen(addAppSettingsDialogState = addAppSettingsDialogState,
-                                           scrollState = scrollState,
-                                           onAddSettings = {})
+                AddAppSettingsDialog(
+                    addAppSettingsDialogState = addAppSettingsDialogState,
+                    scrollState = scrollState,
+                    onAddSettings = {},
+                    contentDescription = "AppSettingsDialog"
+                )
             }
         }
     }
 
     @Test
     fun app_settings_dialog_empty_dark() {
-        composeTestRule.captureForDevice(
+        composeTestRule.captureScreenRoboImageForDevice(
+            name = "AppSettingsDialog",
             deviceName = "phone_dark",
             deviceSpec = DefaultTestDevices.PHONE.spec,
             screenshotName = "AppSettingsDialogEmpty",
@@ -125,7 +141,8 @@ class AppSettingsDialogScreenshotTest {
 
     @Test
     fun app_settings_dialog_filled_textfields_dark() {
-        composeTestRule.captureForDevice(
+        composeTestRule.captureScreenRoboImageForDevice(
+            name = "AppSettingsDialog",
             deviceName = "phone_dark",
             deviceSpec = DefaultTestDevices.PHONE.spec,
             screenshotName = "AppSettingsDialogFilledTextFields",
@@ -157,7 +174,8 @@ class AppSettingsDialogScreenshotTest {
 
     @Test
     fun app_settings_dialog_error_textfields_dark() {
-        composeTestRule.captureForDevice(
+        composeTestRule.captureScreenRoboImageForDevice(
+            name = "AppSettingsDialog",
             deviceName = "phone_dark",
             deviceSpec = DefaultTestDevices.PHONE.spec,
             screenshotName = "AppSettingsDialogErrorTextFields",

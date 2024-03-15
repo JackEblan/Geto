@@ -36,6 +36,7 @@ import com.github.takahirom.roborazzi.RoborazziOptions
 import com.github.takahirom.roborazzi.RoborazziOptions.CompareOptions
 import com.github.takahirom.roborazzi.RoborazziOptions.RecordOptions
 import com.github.takahirom.roborazzi.captureRoboImage
+import com.github.takahirom.roborazzi.captureScreenRoboImage
 import com.google.accompanist.testharness.TestHarness
 import org.robolectric.RuntimeEnvironment
 
@@ -60,6 +61,22 @@ fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.c
 ) {
     DefaultTestDevices.entries.forEach {
         this.captureForDevice(it.description, it.spec, screenshotName, body = body)
+    }
+}
+
+fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.captureScreenRoboImageMultiDevice(
+    name: String,
+    screenshotName: String,
+    body: @Composable () -> Unit,
+) {
+    DefaultTestDevices.entries.forEach {
+        this.captureScreenRoboImageForDevice(
+            name = name,
+            deviceName = it.description,
+            deviceSpec = it.spec,
+            screenshotName = screenshotName,
+            body = body
+        )
     }
 }
 
@@ -88,6 +105,41 @@ fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.c
     this.onRoot().captureRoboImage(
         "src/test/screenshots/${screenshotName}_$deviceName.png",
         roborazziOptions = roborazziOptions,
+    )
+}
+
+/**
+ * Experimental feature to capture the entire screen, including dialogs combining light/dark and default/Android themes and whether dynamic color
+ * is enabled.
+ */
+@OptIn(ExperimentalRoborazziApi::class)
+fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.captureScreenRoboImageForDevice(
+    name: String,
+    deviceName: String,
+    deviceSpec: String,
+    screenshotName: String,
+    roborazziOptions: RoborazziOptions = DefaultRoborazziOptions,
+    darkMode: Boolean = false,
+    body: @Composable () -> Unit,
+) {
+    val (width, height, dpi) = extractSpecs(deviceSpec)
+
+    // Set qualifiers from specs
+    RuntimeEnvironment.setQualifiers("w${width}dp-h${height}dp-${dpi}dpi")
+
+    this.activity.setContent {
+        CompositionLocalProvider(
+            LocalInspectionMode provides true,
+        ) {
+            TestHarness(darkMode = darkMode) {
+                body()
+            }
+        }
+    }
+
+    captureScreenRoboImage(
+        "src/test/screenshots/" + "$name/$screenshotName" + "_$deviceName.png",
+        roborazziOptions = roborazziOptions
     )
 }
 

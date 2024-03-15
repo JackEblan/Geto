@@ -23,8 +23,8 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.android.geto.core.designsystem.component.GetoBackground
 import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.screenshot.testing.util.DefaultTestDevices
-import com.android.geto.core.screenshot.testing.util.captureForDevice
-import com.android.geto.core.screenshot.testing.util.captureMultiDevice
+import com.android.geto.core.screenshot.testing.util.captureScreenRoboImageForDevice
+import com.android.geto.core.screenshot.testing.util.captureScreenRoboImageMultiDevice
 import dagger.hilt.android.testing.HiltTestApplication
 import org.junit.Rule
 import org.junit.runner.RunWith
@@ -45,7 +45,9 @@ class CopyPermissionCommandDialogScreenshotTest {
 
     @Test
     fun copy_permission_command_dialog() {
-        composeTestRule.captureMultiDevice("CopyPermissionCommandDialog") {
+        composeTestRule.captureScreenRoboImageMultiDevice(
+            name = "CopyPermissionCommandDialog", screenshotName = "CopyPermissionCommandDialog"
+        ) {
             GetoTheme {
                 CopyPermissionCommandDialogScreen(onDismissRequest = {}, onCopySettings = {})
             }
@@ -54,7 +56,8 @@ class CopyPermissionCommandDialogScreenshotTest {
 
     @Test
     fun copy_permission_command_dialog_dark() {
-        composeTestRule.captureForDevice(
+        composeTestRule.captureScreenRoboImageForDevice(
+            name = "CopyPermissionCommandDialog",
             deviceName = "phone_dark",
             deviceSpec = DefaultTestDevices.PHONE.spec,
             screenshotName = "CopyPermissionCommandDialog",
