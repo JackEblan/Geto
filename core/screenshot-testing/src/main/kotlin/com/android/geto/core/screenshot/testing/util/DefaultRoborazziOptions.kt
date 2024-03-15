@@ -132,7 +132,7 @@ fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.c
     }
 
     captureScreenRoboImage(
-        "src/test/screenshots/$path/_$deviceName.png", roborazziOptions = roborazziOptions
+        "src/test/screenshots/${path}_$deviceName.png", roborazziOptions = roborazziOptions
     )
 }
 
