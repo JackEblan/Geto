@@ -19,6 +19,7 @@
 package com.android.geto.feature.appsettings
 
 import androidx.lifecycle.SavedStateHandle
+import com.android.geto.core.data.repository.ClipboardResult
 import com.android.geto.core.data.repository.ShortcutResult
 import com.android.geto.core.domain.AppSettingsResult
 import com.android.geto.core.domain.ApplyAppSettingsUseCase
@@ -383,6 +384,28 @@ class AppSettingsViewModelTest {
         viewModel.revertSettings()
 
         assertIs<AppSettingsResult.EmptyAppSettingsList>(viewModel.revertAppSettingsResult.value)
+
+    }
+
+    @Test
+    fun clipboardResultIsNotify_whenCopyPermissionCommand() = runTest {
+
+        clipboardRepository.setApi32(false)
+
+        viewModel.copyPermissionCommand()
+
+        assertIs<ClipboardResult.Notify>(viewModel.clipboardResult.value)
+
+    }
+
+    @Test
+    fun clipboardResultIsHideNotify_whenCopyPermissionCommand() = runTest {
+
+        clipboardRepository.setApi32(true)
+
+        viewModel.copyPermissionCommand()
+
+        assertIs<ClipboardResult.HideNotify>(viewModel.clipboardResult.value)
 
     }
 

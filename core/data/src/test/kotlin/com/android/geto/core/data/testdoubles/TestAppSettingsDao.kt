@@ -24,27 +24,24 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.flow.updateAndGet
 
 class TestAppSettingsDao : AppSettingsDao {
     private val _appSettingsFlow = MutableStateFlow(emptyList<AppSettingsEntity>())
 
-    override suspend fun upsert(entity: AppSettingsEntity): Long {
+    override suspend fun upsert(entity: AppSettingsEntity) {
 
         //New entity comes first so the old entity is overwritten by distinctBy
-        val newEntities = _appSettingsFlow.updateAndGet { entities ->
+        _appSettingsFlow.update { entities ->
             (entities + entity).reversed().distinctBy { AppSettingsEntity::id }
         }
-
-        return if (entity in newEntities) 1L else 0L
     }
 
-    override suspend fun delete(entity: AppSettingsEntity): Int {
-        val result = _appSettingsFlow.updateAndGet { entities ->
+    override suspend fun delete(entity: AppSettingsEntity) {
+        _appSettingsFlow.updateAndGet { entities ->
             entities.filterNot { it.id == entity.id }
         }
-
-        return if (entity !in result) 1 else 0
     }
 
     override fun getAppSettingsList(packageName: String): Flow<List<AppSettingsEntity>> {

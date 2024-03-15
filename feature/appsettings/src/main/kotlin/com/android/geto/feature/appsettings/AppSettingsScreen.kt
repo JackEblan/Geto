@@ -18,6 +18,7 @@
 
 package com.android.geto.feature.appsettings
 
+import android.content.Intent
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
@@ -65,8 +66,10 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.android.geto.core.data.repository.ClipboardResult
 import com.android.geto.core.data.repository.ShortcutResult
 import com.android.geto.core.designsystem.component.GetoLoadingWheel
 import com.android.geto.core.designsystem.icon.GetoIcons
@@ -94,6 +97,12 @@ internal fun AppSettingsRoute(
 ) {
     val context = LocalContext.current
 
+    val shortcutIntent = Intent().apply {
+        action = Intent.ACTION_VIEW
+        this.setClassName("com.android.geto", "MainActivity")
+        data = "https://www.android.geto.com/${viewModel.packageName}/${viewModel.appName}".toUri()
+    }
+
     val snackbarHostState = remember {
         SnackbarHostState()
     }
@@ -119,6 +128,8 @@ internal fun AppSettingsRoute(
         viewModel.revertAppSettingsResult.collectAsStateWithLifecycle().value
 
     val shortcutResult = viewModel.shortcutResult.collectAsStateWithLifecycle().value
+
+    val clipboardResult = viewModel.clipboardResult.collectAsStateWithLifecycle().value
 
     val addSettingsDialogState = rememberAddAppSettingsDialogState()
 
@@ -188,6 +199,17 @@ internal fun AppSettingsRoute(
         }
     }
 
+    LaunchedEffect(key1 = clipboardResult) {
+        clipboardResult?.let {
+            when (it) {
+                ClipboardResult.HideNotify -> Unit
+                is ClipboardResult.Notify -> snackbarHostState.showSnackbar(message = "Notify")
+            }
+
+            viewModel.clearClipboardResult()
+        }
+    }
+
     LaunchedEffect(key1 = launchAppIntent) {
         launchAppIntent?.let {
             context.startActivity(it)
@@ -218,6 +240,7 @@ internal fun AppSettingsRoute(
                       snackbarHostState = snackbarHostState,
                       appName = viewModel.appName,
                       packageName = viewModel.packageName,
+                      shortcutIntent = shortcutIntent,
                       appSettingsUiState = appSettingsUiState,
                       addAppSettingsDialogState = addSettingsDialogState,
                       addShortcutDialogState = addShortcutDialogState,
@@ -264,6 +287,7 @@ internal fun AppSettingsScreen(
     snackbarHostState: SnackbarHostState,
     appName: String,
     packageName: String,
+    shortcutIntent: Intent,
     appSettingsUiState: AppSettingsUiState,
     addAppSettingsDialogState: AppSettingsDialogState,
     addShortcutDialogState: ShortcutDialogState,
@@ -314,7 +338,7 @@ internal fun AppSettingsScreen(
             )
         }, onAddShortcut = {
             addShortcutDialogState.getShortcut(
-                packageName = packageName
+                packageName = packageName, shortcutIntent = shortcutIntent
             )?.let {
                 onAddShortcut(
                     it
@@ -329,7 +353,9 @@ internal fun AppSettingsScreen(
             onRefreshShortcut()
             updateShortcutDialogState.updateShowDialog(false)
         }, onUpdateShortcut = {
-            updateShortcutDialogState.getShortcut(packageName = packageName)?.let {
+            updateShortcutDialogState.getShortcut(
+                packageName = packageName, shortcutIntent = shortcutIntent
+            )?.let {
                 onUpdateShortcut(it)
                 updateShortcutDialogState.resetState()
             }

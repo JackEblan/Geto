@@ -20,5 +20,11 @@ package com.android.geto.core.data.repository
 
 interface ClipboardRepository {
 
-    fun setPrimaryClip(label: String, text: String): String?
+    fun setPrimaryClip(label: String, text: String): ClipboardResult
+}
+
+sealed interface ClipboardResult {
+    data class Notify(val text: String) : ClipboardResult
+
+    data object HideNotify : ClipboardResult
 }

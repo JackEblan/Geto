@@ -18,6 +18,7 @@
 
 package com.android.geto.feature.appsettings.dialog.shortcut
 
+import android.content.Intent
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
@@ -48,7 +49,7 @@ class AddShortcutDialogTest {
                     addShortcutDialogState.updateLongLabel("Test")
 
                     addShortcutDialogState.getShortcut(
-                        packageName = "packageName"
+                        packageName = "packageName", shortcutIntent = Intent()
                     )
                 },
                 contentDescription = "Add Shortcut Dialog"
@@ -77,7 +78,7 @@ class AddShortcutDialogTest {
                     addShortcutDialogState.updateLongLabel("")
 
                     addShortcutDialogState.getShortcut(
-                        packageName = "packageName"
+                        packageName = "packageName", shortcutIntent = Intent()
                     )
                 },
                 contentDescription = "Add Shortcut Dialog"
@@ -105,7 +106,7 @@ class AddShortcutDialogTest {
                     addShortcutDialogState.updateLongLabel("")
 
                     addShortcutDialogState.getShortcut(
-                        packageName = "packageName"
+                        packageName = "packageName", shortcutIntent = Intent()
                     )
                 },
                 contentDescription = "Add Shortcut Dialog"

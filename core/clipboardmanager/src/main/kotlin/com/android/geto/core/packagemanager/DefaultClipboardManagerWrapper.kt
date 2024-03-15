@@ -32,10 +32,9 @@ class DefaultClipboardManagerWrapper @Inject constructor(
     private val clipboardManager =
         context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
 
-    override fun setPrimaryClip(label: String, text: String): String? {
+    override fun setPrimaryClip(label: String, text: String): Boolean {
         clipboardManager.setPrimaryClip(ClipData.newPlainText(label, text))
 
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S_V2) null
-        else "$text copied to clipboard"
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.S_V2
     }
 }

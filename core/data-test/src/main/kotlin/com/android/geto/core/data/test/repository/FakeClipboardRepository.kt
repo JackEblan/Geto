@@ -19,10 +19,11 @@
 package com.android.geto.core.data.test.repository
 
 import com.android.geto.core.data.repository.ClipboardRepository
+import com.android.geto.core.data.repository.ClipboardResult
 import javax.inject.Inject
 
 class FakeClipboardRepository @Inject constructor() : ClipboardRepository {
-    override fun setPrimaryClip(label: String, text: String): String? {
-        return null
+    override fun setPrimaryClip(label: String, text: String): ClipboardResult {
+        return ClipboardResult.HideNotify
     }
 }

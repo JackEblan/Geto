@@ -20,8 +20,12 @@ package com.android.geto.core.domain
 
 sealed interface AppSettingsResult {
     data object Success : AppSettingsResult
+
     data object Failure : AppSettingsResult
+
     data object SecurityException : AppSettingsResult
+
     data object EmptyAppSettingsList : AppSettingsResult
+
     data object AppSettingsDisabled : AppSettingsResult
 }

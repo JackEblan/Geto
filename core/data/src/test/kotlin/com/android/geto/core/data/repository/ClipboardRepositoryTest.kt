@@ -19,10 +19,9 @@
 package com.android.geto.core.data.repository
 
 import com.android.geto.core.data.testdoubles.TestClipboardManagerWrapper
-import junit.framework.TestCase.assertNull
 import org.junit.Before
 import org.junit.Test
-import kotlin.test.assertNotNull
+import kotlin.test.assertIs
 
 class ClipboardRepositoryTest {
 
@@ -40,21 +39,21 @@ class ClipboardRepositoryTest {
     }
 
     @Test
-    fun clipboardRepository_set_primary_clip_no_result() {
+    fun clipboardRepository_set_primary_clip_notify() {
         clipboardManagerWrapper.setApi32(true)
 
         val result = subject.setPrimaryClip(label = "label", text = "text")
 
-        assertNull(result)
+        assertIs<ClipboardResult.HideNotify>(result)
     }
 
     @Test
-    fun clipboardRepository_set_primary_clip_show_result() {
+    fun clipboardRepository_set_primary_clip_hide_notify() {
         clipboardManagerWrapper.setApi32(false)
 
         val result = subject.setPrimaryClip(label = "label", text = "text")
 
-        assertNotNull(result)
+        assertIs<ClipboardResult.Notify>(result)
     }
 
 }

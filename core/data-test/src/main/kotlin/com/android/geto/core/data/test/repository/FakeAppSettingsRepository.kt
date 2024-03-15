@@ -26,13 +26,9 @@ import javax.inject.Inject
 
 class FakeAppSettingsRepository @Inject constructor() : AppSettingsRepository {
 
-    override suspend fun upsertAppSettings(appSettings: AppSettings): Boolean {
-        return true
-    }
+    override suspend fun upsertAppSettings(appSettings: AppSettings) {}
 
-    override suspend fun deleteAppSettings(appSettings: AppSettings): Boolean {
-        return true
-    }
+    override suspend fun deleteAppSettings(appSettings: AppSettings) {}
 
     override fun getAppSettingsList(packageName: String): Flow<List<AppSettings>> {
         return flowOf()

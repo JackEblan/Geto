@@ -18,6 +18,7 @@
 
 package com.android.geto.feature.appsettings
 
+import android.content.Intent
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.SnackbarHostState
@@ -52,8 +53,7 @@ class AppSettingsScreenTest {
             val scrollState = rememberScrollState()
 
             AppSettingsScreen(snackbarHostState = SnackbarHostState(),
-                              appName = "Geto",
-                              packageName = "Geto",
+                              appName = "Geto", packageName = "Geto", shortcutIntent = Intent(),
                               appSettingsUiState = AppSettingsUiState.Loading,
                               addAppSettingsDialogState = addAppSettingsDialogState,
                               addShortcutDialogState = addShortcutDialogState,
@@ -90,8 +90,7 @@ class AppSettingsScreenTest {
             val scrollState = rememberScrollState()
 
             AppSettingsScreen(snackbarHostState = SnackbarHostState(),
-                              appName = "Geto",
-                              packageName = "Geto",
+                              appName = "Geto", packageName = "Geto", shortcutIntent = Intent(),
                               appSettingsUiState = AppSettingsUiState.Empty,
                               addAppSettingsDialogState = addAppSettingsDialogState,
                               addShortcutDialogState = addShortcutDialogState,
@@ -128,8 +127,7 @@ class AppSettingsScreenTest {
             val scrollState = rememberScrollState()
 
             AppSettingsScreen(snackbarHostState = SnackbarHostState(),
-                              appName = "Geto",
-                              packageName = "Geto",
+                              appName = "Geto", packageName = "Geto", shortcutIntent = Intent(),
                               appSettingsUiState = AppSettingsUiState.Success(testAppSettingsList),
                               addAppSettingsDialogState = addAppSettingsDialogState,
                               addShortcutDialogState = addShortcutDialogState,
@@ -166,8 +164,7 @@ class AppSettingsScreenTest {
             val scrollState = rememberScrollState()
 
             AppSettingsScreen(snackbarHostState = SnackbarHostState(),
-                              appName = "Geto",
-                              packageName = "Geto",
+                              appName = "Geto", packageName = "Geto", shortcutIntent = Intent(),
                               appSettingsUiState = AppSettingsUiState.Success(testAppSettingsList),
                               addAppSettingsDialogState = addAppSettingsDialogState,
                               addShortcutDialogState = addShortcutDialogState,
@@ -206,8 +203,7 @@ class AppSettingsScreenTest {
             val scrollState = rememberScrollState()
 
             AppSettingsScreen(snackbarHostState = SnackbarHostState(),
-                              appName = "Geto",
-                              packageName = "Geto",
+                              appName = "Geto", packageName = "Geto", shortcutIntent = Intent(),
                               appSettingsUiState = AppSettingsUiState.Empty,
                               addAppSettingsDialogState = addAppSettingsDialogState,
                               addShortcutDialogState = addShortcutDialogState,
@@ -246,8 +242,7 @@ class AppSettingsScreenTest {
             val scrollState = rememberScrollState()
 
             AppSettingsScreen(snackbarHostState = SnackbarHostState(),
-                              appName = "Geto",
-                              packageName = "Geto",
+                              appName = "Geto", packageName = "Geto", shortcutIntent = Intent(),
                               appSettingsUiState = AppSettingsUiState.Empty,
                               addAppSettingsDialogState = addAppSettingsDialogState,
                               addShortcutDialogState = addShortcutDialogState,
@@ -288,8 +283,7 @@ class AppSettingsScreenTest {
             val scrollState = rememberScrollState()
 
             AppSettingsScreen(snackbarHostState = SnackbarHostState(),
-                              appName = "Geto",
-                              packageName = "Geto",
+                              appName = "Geto", packageName = "Geto", shortcutIntent = Intent(),
                               appSettingsUiState = AppSettingsUiState.Empty,
                               addAppSettingsDialogState = addAppSettingsDialogState,
                               addShortcutDialogState = addShortcutDialogState,
@@ -327,8 +321,7 @@ class AppSettingsScreenTest {
             val scrollState = rememberScrollState()
 
             AppSettingsScreen(snackbarHostState = SnackbarHostState(),
-                              appName = "Geto",
-                              packageName = "Geto",
+                              appName = "Geto", packageName = "Geto", shortcutIntent = Intent(),
                               appSettingsUiState = AppSettingsUiState.Empty,
                               addAppSettingsDialogState = addAppSettingsDialogState,
                               addShortcutDialogState = addShortcutDialogState,
@@ -369,8 +362,7 @@ class AppSettingsScreenTest {
             val scrollState = rememberScrollState()
 
             AppSettingsScreen(snackbarHostState = SnackbarHostState(),
-                              appName = "Geto",
-                              packageName = "Geto",
+                              appName = "Geto", packageName = "Geto", shortcutIntent = Intent(),
                               appSettingsUiState = AppSettingsUiState.Empty,
                               addAppSettingsDialogState = addAppSettingsDialogState,
                               addShortcutDialogState = addShortcutDialogState,
@@ -411,8 +403,7 @@ class AppSettingsScreenTest {
             val scrollState = rememberScrollState()
 
             AppSettingsScreen(snackbarHostState = SnackbarHostState(),
-                              appName = "Geto",
-                              packageName = "Geto",
+                              appName = "Geto", packageName = "Geto", shortcutIntent = Intent(),
                               appSettingsUiState = AppSettingsUiState.Empty,
                               addAppSettingsDialogState = addAppSettingsDialogState,
                               addShortcutDialogState = addShortcutDialogState,
@@ -453,8 +444,7 @@ class AppSettingsScreenTest {
             val scrollState = rememberScrollState()
 
             AppSettingsScreen(snackbarHostState = SnackbarHostState(),
-                              appName = "Geto",
-                              packageName = "Geto",
+                              appName = "Geto", packageName = "Geto", shortcutIntent = Intent(),
                               appSettingsUiState = AppSettingsUiState.Empty,
                               addAppSettingsDialogState = addAppSettingsDialogState,
                               addShortcutDialogState = addShortcutDialogState,
@@ -495,8 +485,7 @@ class AppSettingsScreenTest {
             val scrollState = rememberScrollState()
 
             AppSettingsScreen(snackbarHostState = SnackbarHostState(),
-                              appName = "Geto",
-                              packageName = "Geto",
+                              appName = "Geto", packageName = "Geto", shortcutIntent = Intent(),
                               appSettingsUiState = AppSettingsUiState.Empty,
                               addAppSettingsDialogState = addAppSettingsDialogState,
                               addShortcutDialogState = addShortcutDialogState,

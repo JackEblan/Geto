@@ -24,10 +24,8 @@ import com.android.geto.core.model.SettingsType
 
 interface SecureSettingsRepository {
 
-    @Throws(SecurityException::class)
     suspend fun applySecureSettings(appSettingsList: List<AppSettings>): Boolean
 
-    @Throws(SecurityException::class)
     suspend fun revertSecureSettings(appSettingsList: List<AppSettings>): Boolean
 
     suspend fun getSecureSettings(settingsType: SettingsType): List<SecureSettings>

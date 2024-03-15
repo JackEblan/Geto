@@ -18,6 +18,7 @@
 
 package com.android.geto.feature.appsettings.dialog.shortcut
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import androidx.compose.runtime.Stable
@@ -70,14 +71,18 @@ internal class ShortcutDialogState {
         shortLabel = ""
     }
 
-    fun getShortcut(packageName: String): TargetShortcutInfoCompat? {
+    fun getShortcut(packageName: String, shortcutIntent: Intent): TargetShortcutInfoCompat? {
         shortLabelError = if (shortLabel.isBlank()) "Short label is blank" else ""
 
         longLabelError = if (longLabel.isBlank()) "Long label is blank" else ""
 
         return if (shortLabelError.isBlank() && longLabelError.isBlank()) {
             TargetShortcutInfoCompat(
-                icon = icon, id = packageName, shortLabel = shortLabel, longLabel = longLabel
+                icon = icon,
+                id = packageName,
+                shortLabel = shortLabel,
+                longLabel = longLabel,
+                shortcutIntent = shortcutIntent
             )
         } else {
             null

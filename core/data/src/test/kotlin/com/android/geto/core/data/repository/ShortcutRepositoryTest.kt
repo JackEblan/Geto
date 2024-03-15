@@ -18,6 +18,7 @@
 
 package com.android.geto.core.data.repository
 
+import android.content.Intent
 import com.android.geto.core.data.testdoubles.TestShortcutManagerCompatWrapper
 import com.android.geto.core.model.TargetShortcutInfoCompat
 import org.junit.Before
@@ -49,7 +50,11 @@ class ShortcutRepositoryTest {
 
         val result = subject.requestPinShortcut(
             TargetShortcutInfoCompat(
-                icon = null, id = "id", shortLabel = "shortLabel", longLabel = "longLabel"
+                icon = null,
+                id = "id",
+                shortLabel = "shortLabel",
+                longLabel = "longLabel",
+                shortcutIntent = Intent()
             )
         )
 
@@ -83,7 +88,11 @@ class ShortcutRepositoryTest {
 
         val result = subject.updateRequestPinShortcut(
             TargetShortcutInfoCompat(
-                icon = null, id = "id", shortLabel = "shortLabel", longLabel = "longLabel"
+                icon = null,
+                id = "id",
+                shortLabel = "shortLabel",
+                longLabel = "longLabel",
+                shortcutIntent = Intent()
             )
         )
 
@@ -104,7 +113,11 @@ class ShortcutRepositoryTest {
 
         val result = subject.updateRequestPinShortcut(
             TargetShortcutInfoCompat(
-                icon = null, id = "id", shortLabel = "shortLabel", longLabel = "longLabel"
+                icon = null,
+                id = "id",
+                shortLabel = "shortLabel",
+                longLabel = "longLabel",
+                shortcutIntent = Intent()
             )
         )
 

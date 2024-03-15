@@ -19,21 +19,22 @@
 package com.android.geto.core.data.test.repository
 
 import com.android.geto.core.data.repository.ShortcutRepository
+import com.android.geto.core.data.repository.ShortcutResult
 import com.android.geto.core.model.TargetShortcutInfoCompat
 import javax.inject.Inject
 
 class FakeShortcutRepository @Inject constructor() : ShortcutRepository {
 
-    override fun requestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat): String {
-        return ""
+    override fun requestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat): ShortcutResult {
+        return ShortcutResult.SupportedLauncher
     }
 
-    override fun updateRequestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat): String {
-        return ""
+    override fun updateRequestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat): ShortcutResult {
+        return ShortcutResult.ShortcutUpdateSuccess
     }
 
-    override fun enableShortcuts(id: String, enabled: Boolean): String {
-        return ""
+    override fun enableShortcuts(id: String, enabled: Boolean): ShortcutResult {
+        return ShortcutResult.ShortcutEnable
     }
 
     override fun getShortcut(id: String): TargetShortcutInfoCompat? {

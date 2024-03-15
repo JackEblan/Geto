@@ -56,7 +56,6 @@ import com.android.geto.core.designsystem.component.GetoAsyncImage
 import com.android.geto.core.designsystem.icon.GetoIcons
 import com.android.geto.core.designsystem.theme.GetoTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun AddShortcutDialog(
     modifier: Modifier = Modifier,

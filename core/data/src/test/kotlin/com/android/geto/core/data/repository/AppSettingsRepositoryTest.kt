@@ -19,12 +19,14 @@
 package com.android.geto.core.data.repository
 
 import com.android.geto.core.data.testdoubles.TestAppSettingsDao
+import com.android.geto.core.database.model.asEntity
 import com.android.geto.core.model.AppSettings
 import com.android.geto.core.model.SettingsType
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import kotlin.test.Test
+import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class AppSettingsRepositoryTest {
@@ -41,25 +43,7 @@ class AppSettingsRepositoryTest {
     }
 
     @Test
-    fun appSettingsRepository_upsert_app_settings() = runTest {
-        val appSettings = AppSettings(
-            id = 0,
-            enabled = true,
-            settingsType = SettingsType.SECURE,
-            packageName = "packageName",
-            label = "label",
-            key = "key",
-            valueOnLaunch = "0",
-            valueOnRevert = "1"
-        )
-
-        val result = subject.upsertAppSettings(appSettings)
-
-        assertTrue(result)
-    }
-
-    @Test
-    fun appSettingsRepository_delete_app_settings() = runTest {
+    fun appSettingsRepository_upsert_app_settings_delegates_to_dao() = runTest {
         val appSettings = AppSettings(
             id = 0,
             enabled = true,
@@ -73,9 +57,32 @@ class AppSettingsRepositoryTest {
 
         subject.upsertAppSettings(appSettings)
 
-        val result = subject.deleteAppSettings(appSettings)
+        assertTrue {
+            appSettings.asEntity() in appSettingsDao.getAppSettingsList("packageName").first()
+        }
+    }
 
-        assertTrue(result)
+    @Test
+    fun appSettingsRepository_delete_app_settings_delegates_to_dao() = runTest {
+        val appSettings = AppSettings(
+            id = 0,
+            enabled = true,
+            settingsType = SettingsType.SECURE,
+            packageName = "packageName",
+            label = "label",
+            key = "key",
+            valueOnLaunch = "0",
+            valueOnRevert = "1"
+        )
+
+        subject.upsertAppSettings(appSettings)
+
+        subject.deleteAppSettings(appSettings)
+
+        assertFalse {
+            appSettings.asEntity() in appSettingsDao.getAppSettingsList("packageName").first()
+
+        }
     }
 
     @Test

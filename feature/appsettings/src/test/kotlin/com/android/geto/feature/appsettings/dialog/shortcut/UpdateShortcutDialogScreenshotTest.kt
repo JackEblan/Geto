@@ -18,6 +18,7 @@
 
 package com.android.geto.feature.appsettings.dialog.shortcut
 
+import android.content.Intent
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.android.geto.core.designsystem.component.GetoBackground
@@ -78,7 +79,7 @@ class UpdateShortcutDialogScreenshotTest {
             GetoTheme {
                 val shortcutDialogState = rememberUpdateShortcutDialogState()
 
-                shortcutDialogState.getShortcut(packageName = "Test")
+                shortcutDialogState.getShortcut(packageName = "Test", shortcutIntent = Intent())
 
                 UpdateShortcutDialogScreen(shortcutDialogState = shortcutDialogState,
                                            onRefreshShortcut = {},
@@ -143,7 +144,7 @@ class UpdateShortcutDialogScreenshotTest {
                 GetoBackground {
                     val shortcutDialogState = rememberUpdateShortcutDialogState()
 
-                    shortcutDialogState.getShortcut(packageName = "Test")
+                    shortcutDialogState.getShortcut(packageName = "Test", shortcutIntent = Intent())
 
                     UpdateShortcutDialogScreen(shortcutDialogState = shortcutDialogState,
                                                onRefreshShortcut = {},

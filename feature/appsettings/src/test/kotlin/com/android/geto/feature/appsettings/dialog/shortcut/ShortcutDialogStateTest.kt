@@ -18,6 +18,7 @@
 
 package com.android.geto.feature.appsettings.dialog.shortcut
 
+import android.content.Intent
 import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertNotNull
@@ -35,7 +36,7 @@ class ShortcutDialogStateTest {
     fun shortLabelErrorIsNotBlank_whenShortLabelIsBlank() {
         shortcutDialogState.updateShortLabel("")
 
-        shortcutDialogState.getShortcut(packageName = "packageName")
+        shortcutDialogState.getShortcut(packageName = "packageName", shortcutIntent = Intent())
 
         assertTrue { shortcutDialogState.shortLabelError.isNotBlank() }
     }
@@ -44,7 +45,7 @@ class ShortcutDialogStateTest {
     fun shortLabelErrorIsBlank_whenShortLabelIsNotBlank() {
         shortcutDialogState.updateShortLabel("Test")
 
-        shortcutDialogState.getShortcut(packageName = "packageName")
+        shortcutDialogState.getShortcut(packageName = "packageName", shortcutIntent = Intent())
 
         assertTrue { shortcutDialogState.shortLabelError.isBlank() }
     }
@@ -53,7 +54,7 @@ class ShortcutDialogStateTest {
     fun longLabelErrorIsNotBlank_whenLongLabelIsBlank() {
         shortcutDialogState.updateLongLabel("")
 
-        shortcutDialogState.getShortcut(packageName = "packageName")
+        shortcutDialogState.getShortcut(packageName = "packageName", shortcutIntent = Intent())
 
         assertTrue { shortcutDialogState.longLabelError.isNotBlank() }
     }
@@ -62,7 +63,7 @@ class ShortcutDialogStateTest {
     fun longLabelErrorIsBlank_whenLongLabelIsNotBlank() {
         shortcutDialogState.updateLongLabel("Test")
 
-        shortcutDialogState.getShortcut(packageName = "packageName")
+        shortcutDialogState.getShortcut(packageName = "packageName", shortcutIntent = Intent())
 
         assertTrue { shortcutDialogState.longLabelError.isBlank() }
     }
@@ -75,7 +76,7 @@ class ShortcutDialogStateTest {
 
         assertNotNull(
             shortcutDialogState.getShortcut(
-                packageName = "packageName"
+                packageName = "packageName", shortcutIntent = Intent()
             )
         )
     }

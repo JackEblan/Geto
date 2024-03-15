@@ -24,9 +24,8 @@ import com.android.geto.core.packagemanager.ClipboardManagerWrapper
 class TestClipboardManagerWrapper : ClipboardManagerWrapper {
     private var api32 = false
 
-    override fun setPrimaryClip(label: String, text: String): String? {
-        return if (api32) null
-        else "$label copied to clipboard"
+    override fun setPrimaryClip(label: String, text: String): Boolean {
+        return api32
     }
 
     /**

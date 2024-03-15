@@ -25,6 +25,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.android.geto.core.data.repository.AppSettingsRepository
 import com.android.geto.core.data.repository.ClipboardRepository
+import com.android.geto.core.data.repository.ClipboardResult
 import com.android.geto.core.data.repository.PackageRepository
 import com.android.geto.core.data.repository.SecureSettingsRepository
 import com.android.geto.core.data.repository.ShortcutRepository
@@ -87,6 +88,10 @@ class AppSettingsViewModel @Inject constructor(
 
     val shortcutResult = _shortcutResult.asStateFlow()
 
+    private val _clipboardResult = MutableStateFlow<ClipboardResult?>(null)
+
+    val clipboardResult = _clipboardResult.asStateFlow()
+
     private val appSettingsArgs: AppSettingsArgs = AppSettingsArgs(savedStateHandle)
 
     val packageName = appSettingsArgs.packageName
@@ -138,10 +143,12 @@ class AppSettingsViewModel @Inject constructor(
     }
 
     fun copyPermissionCommand() {
-        clipboardRepository.setPrimaryClip(
-            label = "Command",
-            text = "pm grant com.android.geto android.permission.WRITE_SECURE_SETTINGS"
-        )
+        _clipboardResult.update {
+            clipboardRepository.setPrimaryClip(
+                label = "Command",
+                text = "pm grant com.android.geto android.permission.WRITE_SECURE_SETTINGS"
+            )
+        }
     }
 
     fun revertSettings() {
@@ -188,6 +195,10 @@ class AppSettingsViewModel @Inject constructor(
 
     fun clearShortcutResult() {
         _shortcutResult.update { null }
+    }
+
+    fun clearClipboardResult() {
+        _clipboardResult.update { null }
     }
 
     fun clearLaunchAppIntent() {

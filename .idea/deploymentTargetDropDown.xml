@@ -2,25 +2,10 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="AddAppSettingsDialogScreenPreview">
-        <State />
-      </entry>
-      <entry key="AppSettingsScreenTest">
-        <State />
-      </entry>
-      <entry key="SettingsScreenTest">
-        <State />
-      </entry>
       <entry key="app">
         <State />
       </entry>
       <entry key="feature.shortcut">
-        <State />
-      </entry>
-      <entry key="getoOverlayLoadingWheelIsDisplayed_whenAppSettingsUiStateIsLoading()">
-        <State />
-      </entry>
-      <entry key="getoOverlayLoadingWheel_whenAppListUiStateIsLoading()">
         <State />
       </entry>
     </value>

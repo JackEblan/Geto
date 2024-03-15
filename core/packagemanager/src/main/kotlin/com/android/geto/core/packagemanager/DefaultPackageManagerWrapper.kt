@@ -18,6 +18,7 @@
 
 package com.android.geto.core.packagemanager
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -31,6 +32,7 @@ class DefaultPackageManagerWrapper @Inject constructor(@ApplicationContext priva
 
     private val packageManager = context.packageManager
 
+    @SuppressLint("QueryPermissionsNeeded")
     override fun getInstalledApplications(): List<TargetApplicationInfo> {
         return packageManager.getInstalledApplications(PackageManager.GET_META_DATA)
             .map { applicationInfo ->

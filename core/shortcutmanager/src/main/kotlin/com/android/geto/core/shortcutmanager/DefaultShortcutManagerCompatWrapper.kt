@@ -42,11 +42,11 @@ class DefaultShortcutManagerCompatWrapper @Inject constructor(@ApplicationContex
     }
 
     override fun requestPinShortcut(
-        icon: Bitmap?, id: String, shortLabel: String, longLabel: String
+        icon: Bitmap?, id: String, shortLabel: String, longLabel: String, intent: Intent
     ): Boolean {
         val shortcutInfo = if (icon != null) {
             ShortcutInfoCompat.Builder(context, id).setIcon(IconCompat.createWithBitmap(icon))
-                .setShortLabel(shortLabel).setLongLabel(longLabel).build()
+                .setShortLabel(shortLabel).setLongLabel(longLabel).setIntent(intent).build()
         } else {
             ShortcutInfoCompat.Builder(context, id).setShortLabel(shortLabel)
                 .setLongLabel(longLabel).build()
@@ -58,11 +58,11 @@ class DefaultShortcutManagerCompatWrapper @Inject constructor(@ApplicationContex
     }
 
     override fun updateShortcuts(
-        icon: Bitmap?, id: String, shortLabel: String, longLabel: String
+        icon: Bitmap?, id: String, shortLabel: String, longLabel: String, intent: Intent
     ): Boolean {
         val shortcutInfo = if (icon != null) {
             ShortcutInfoCompat.Builder(context, id).setIcon(IconCompat.createWithBitmap(icon))
-                .setShortLabel(shortLabel).setLongLabel(longLabel).build()
+                .setShortLabel(shortLabel).setLongLabel(longLabel).setIntent(intent).build()
         } else {
             ShortcutInfoCompat.Builder(context, id).setShortLabel(shortLabel)
                 .setLongLabel(longLabel).build()

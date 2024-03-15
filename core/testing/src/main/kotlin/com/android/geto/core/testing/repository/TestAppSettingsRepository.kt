@@ -25,28 +25,24 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.updateAndGet
+import kotlinx.coroutines.flow.update
 
 class TestAppSettingsRepository : AppSettingsRepository {
 
     private val _appSettingsFlow = MutableStateFlow(emptyList<AppSettings>())
 
-    override suspend fun upsertAppSettings(appSettings: AppSettings): Boolean {
+    override suspend fun upsertAppSettings(appSettings: AppSettings) {
 
         //New entity comes first so the old entity is overwritten by distinctBy
-        val newAppSettings = _appSettingsFlow.updateAndGet { oldValues ->
+        _appSettingsFlow.update { oldValues ->
             (oldValues + appSettings).reversed().distinctBy { AppSettingsEntity::id }
         }
-
-        return appSettings in newAppSettings
     }
 
-    override suspend fun deleteAppSettings(appSettings: AppSettings): Boolean {
-        val result = _appSettingsFlow.updateAndGet { updatedList ->
+    override suspend fun deleteAppSettings(appSettings: AppSettings) {
+        _appSettingsFlow.update { updatedList ->
             updatedList.filterNot { it.id == appSettings.id }
         }
-
-        return appSettings !in result
     }
 
     override fun getAppSettingsList(packageName: String): Flow<List<AppSettings>> {

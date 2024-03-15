@@ -47,7 +47,6 @@ class FakePackageManagerWrapper @Inject constructor() : PackageManagerWrapper {
         }
     }
 
-    @Throws(PackageManager.NameNotFoundException::class)
     override fun getApplicationIcon(packageName: String): Drawable {
         throw PackageManager.NameNotFoundException()
     }

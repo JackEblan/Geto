@@ -33,7 +33,6 @@ class TestPackageManagerWrapper : PackageManagerWrapper {
         return _installedApplications
     }
 
-    @Throws(PackageManager.NameNotFoundException::class)
     override fun getApplicationIcon(packageName: String): Drawable {
         return if (packageName in _installedApplications.map { it.packageName }) ColorDrawable() else throw PackageManager.NameNotFoundException()
     }
