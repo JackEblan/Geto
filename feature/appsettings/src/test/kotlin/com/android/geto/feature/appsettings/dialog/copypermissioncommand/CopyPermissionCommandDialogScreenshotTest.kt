@@ -49,7 +49,7 @@ class CopyPermissionCommandDialogScreenshotTest {
             name = "CopyPermissionCommandDialog", screenshotName = "CopyPermissionCommandDialog"
         ) {
             GetoTheme {
-                CopyPermissionCommandDialogScreen(onDismissRequest = {}, onCopySettings = {})
+                CopyPermissionCommandDialog(onDismissRequest = {}, onCopySettings = {}, contentDescription = "CopyPermissionCommandDialog")
             }
         }
     }
@@ -65,7 +65,7 @@ class CopyPermissionCommandDialogScreenshotTest {
         ) {
             GetoTheme {
                 GetoBackground {
-                    CopyPermissionCommandDialogScreen(onDismissRequest = {}, onCopySettings = {})
+                    CopyPermissionCommandDialog(onDismissRequest = {}, onCopySettings = {}, contentDescription = "CopyPermissionCommandDialog")
                 }
             }
         }

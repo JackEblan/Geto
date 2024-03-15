@@ -51,9 +51,10 @@ class AddShortcutDialogScreenshotTest {
             GetoTheme {
                 val shortcutDialogState = rememberAddShortcutDialogState()
 
-                AddShortcutDialogScreen(shortcutDialogState = shortcutDialogState,
+                AddShortcutDialog(shortcutDialogState = shortcutDialogState,
                                         onRefreshShortcut = {},
-                                        onAddShortcut = {})
+                                        onAddShortcut = {},
+                                        contentDescription = "AddShortcutDialog")
             }
         }
     }
@@ -70,9 +71,10 @@ class AddShortcutDialogScreenshotTest {
 
                 shortcutDialogState.updateLongLabel("Long Label")
 
-                AddShortcutDialogScreen(shortcutDialogState = shortcutDialogState,
+                AddShortcutDialog(shortcutDialogState = shortcutDialogState,
                                         onRefreshShortcut = {},
-                                        onAddShortcut = {})
+                                        onAddShortcut = {},
+                                        contentDescription = "AddShortcutDialog")
             }
         }
     }
@@ -87,9 +89,10 @@ class AddShortcutDialogScreenshotTest {
 
                 shortcutDialogState.getShortcut(packageName = "Test", shortcutIntent = Intent())
 
-                AddShortcutDialogScreen(shortcutDialogState = shortcutDialogState,
+                AddShortcutDialog(shortcutDialogState = shortcutDialogState,
                                         onRefreshShortcut = {},
-                                        onAddShortcut = {})
+                                        onAddShortcut = {},
+                                        contentDescription = "AddShortcutDialog")
             }
         }
     }
@@ -107,9 +110,10 @@ class AddShortcutDialogScreenshotTest {
                 GetoBackground {
                     val shortcutDialogState = rememberAddShortcutDialogState()
 
-                    AddShortcutDialogScreen(shortcutDialogState = shortcutDialogState,
+                    AddShortcutDialog(shortcutDialogState = shortcutDialogState,
                                             onRefreshShortcut = {},
-                                            onAddShortcut = {})
+                                            onAddShortcut = {},
+                                            contentDescription = "AddShortcutDialog")
                 }
             }
         }
@@ -132,9 +136,10 @@ class AddShortcutDialogScreenshotTest {
 
                     shortcutDialogState.updateLongLabel("Long Label")
 
-                    AddShortcutDialogScreen(shortcutDialogState = shortcutDialogState,
+                    AddShortcutDialog(shortcutDialogState = shortcutDialogState,
                                             onRefreshShortcut = {},
-                                            onAddShortcut = {})
+                                            onAddShortcut = {},
+                                            contentDescription = "AddShortcutDialog")
                 }
             }
         }
@@ -155,9 +160,10 @@ class AddShortcutDialogScreenshotTest {
 
                     shortcutDialogState.getShortcut(packageName = "Test", shortcutIntent = Intent())
 
-                    AddShortcutDialogScreen(shortcutDialogState = shortcutDialogState,
+                    AddShortcutDialog(shortcutDialogState = shortcutDialogState,
                                             onRefreshShortcut = {},
-                                            onAddShortcut = {})
+                                            onAddShortcut = {},
+                                            contentDescription = "AddShortcutDialog")
                 }
             }
         }

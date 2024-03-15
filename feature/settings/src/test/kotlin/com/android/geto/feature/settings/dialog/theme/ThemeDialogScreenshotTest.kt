@@ -23,8 +23,8 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.android.geto.core.designsystem.component.GetoBackground
 import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.screenshot.testing.util.DefaultTestDevices
-import com.android.geto.core.screenshot.testing.util.captureForDevice
-import com.android.geto.core.screenshot.testing.util.captureMultiDevice
+import com.android.geto.core.screenshot.testing.util.captureScreenRoboImageForDevice
+import com.android.geto.core.screenshot.testing.util.captureScreenRoboImageMultiDevice
 import dagger.hilt.android.testing.HiltTestApplication
 import org.junit.Rule
 import org.junit.runner.RunWith
@@ -44,18 +44,20 @@ class ThemeDialogScreenshotTest {
 
     @Test
     fun theme_dialog() {
-        composeTestRule.captureMultiDevice("ThemeDialog") {
+        composeTestRule.captureScreenRoboImageMultiDevice(
+            name = "ThemeDialog", screenshotName = "ThemeDialog") {
             GetoTheme {
                 val themeDialogState = rememberThemeDialogState()
 
-                ThemeDialogScreen(themeDialogState = themeDialogState, onChangeTheme = {})
+                ThemeDialog(themeDialogState = themeDialogState, onChangeTheme = {}, contentDescription = "ThemeDialog")
             }
         }
     }
 
     @Test
     fun theme_dialog_dark() {
-        composeTestRule.captureForDevice(
+        composeTestRule.captureScreenRoboImageForDevice(
+            name = "ThemeDialog",
             deviceName = "phone_dark",
             deviceSpec = DefaultTestDevices.PHONE.spec,
             screenshotName = "ThemeDialog",
@@ -65,7 +67,7 @@ class ThemeDialogScreenshotTest {
                 GetoBackground {
                     val themeDialogState = rememberThemeDialogState()
 
-                    ThemeDialogScreen(themeDialogState = themeDialogState, onChangeTheme = {})
+                    ThemeDialog(themeDialogState = themeDialogState, onChangeTheme = {}, contentDescription = "ThemeDialog")
                 }
             }
         }
