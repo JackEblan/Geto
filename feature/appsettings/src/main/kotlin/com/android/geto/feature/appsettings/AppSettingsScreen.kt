@@ -63,6 +63,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
@@ -95,11 +96,32 @@ internal fun AppSettingsRoute(
     viewModel: AppSettingsViewModel = hiltViewModel(),
     onNavigationIconClick: () -> Unit
 ) {
+
+    val appSettingsDisabled = stringResource(id = R.string.app_settings_disabled)
+    val emptyAppSettingsList = stringResource(id = R.string.empty_app_settings_list)
+    val applyFailure = stringResource(id = R.string.apply_failure)
+    val applySuccess = stringResource(id = R.string.apply_success)
+    val revertFailure = stringResource(id = R.string.revert_failure)
+    val revertSuccess = stringResource(id = R.string.revert_success)
+    val shortcutIdNotFound = stringResource(id = R.string.shortcut_id_not_found)
+    val shortcutDisabled = stringResource(id = R.string.shortcut_disabled)
+    val shortcutEnabled = stringResource(id = R.string.shortcut_enabled)
+    val shortcutDisableImmutableShortcuts =
+        stringResource(id = R.string.shortcut_disable_immutable_shortcuts)
+    val shortcutUpdateImmutableShortcuts =
+        stringResource(id = R.string.shortcut_update_immutable_shortcuts)
+    val shortcutUpdateFailed = stringResource(id = R.string.shortcut_update_failed)
+    val shortcutUpdateSuccess = stringResource(id = R.string.shortcut_update_success)
+    val supportedLauncher = stringResource(id = R.string.supported_launcher)
+    val unsupportedLauncher = stringResource(id = R.string.supported_launcher)
+    val userIsLocked = stringResource(id = R.string.user_is_locked)
+    val copiedToClipboard = stringResource(id = R.string.copied_to_clipboard)
+
     val context = LocalContext.current
 
     val shortcutIntent = Intent().apply {
         action = Intent.ACTION_VIEW
-        this.setClassName("com.android.geto", "MainActivity")
+        this.setClassName("com.android.geto", "com.android.geto.MainActivity")
         data = "https://www.android.geto.com/${viewModel.packageName}/${viewModel.appName}".toUri()
     }
 
@@ -149,11 +171,11 @@ internal fun AppSettingsRoute(
     LaunchedEffect(key1 = applyAppSettingsResult) {
         applyAppSettingsResult?.let {
             when (it) {
-                AppSettingsResult.AppSettingsDisabled -> snackbarHostState.showSnackbar(message = "AppSettingsDisabled")
-                AppSettingsResult.EmptyAppSettingsList -> snackbarHostState.showSnackbar(message = "EmptyAppSettingsList")
-                AppSettingsResult.Failure -> snackbarHostState.showSnackbar(message = "Failure")
+                AppSettingsResult.AppSettingsDisabled -> snackbarHostState.showSnackbar(message = appSettingsDisabled)
+                AppSettingsResult.EmptyAppSettingsList -> snackbarHostState.showSnackbar(message = emptyAppSettingsList)
+                AppSettingsResult.Failure -> snackbarHostState.showSnackbar(message = applyFailure)
                 AppSettingsResult.SecurityException -> showCopyPermissionCommandDialog = true
-                AppSettingsResult.Success -> snackbarHostState.showSnackbar(message = "Success")
+                AppSettingsResult.Success -> snackbarHostState.showSnackbar(message = applySuccess)
             }
 
             viewModel.clearAppSettingsResult()
@@ -163,11 +185,11 @@ internal fun AppSettingsRoute(
     LaunchedEffect(key1 = revertAppSettingsResult) {
         revertAppSettingsResult?.let {
             when (it) {
-                AppSettingsResult.AppSettingsDisabled -> snackbarHostState.showSnackbar(message = "AppSettingsDisabled")
-                AppSettingsResult.EmptyAppSettingsList -> snackbarHostState.showSnackbar(message = "EmptyAppSettingsList")
-                AppSettingsResult.Failure -> snackbarHostState.showSnackbar(message = "Failure")
+                AppSettingsResult.AppSettingsDisabled -> snackbarHostState.showSnackbar(message = appSettingsDisabled)
+                AppSettingsResult.EmptyAppSettingsList -> snackbarHostState.showSnackbar(message = emptyAppSettingsList)
+                AppSettingsResult.Failure -> snackbarHostState.showSnackbar(message = revertFailure)
                 AppSettingsResult.SecurityException -> showCopyPermissionCommandDialog = true
-                AppSettingsResult.Success -> snackbarHostState.showSnackbar(message = "Success")
+                AppSettingsResult.Success -> snackbarHostState.showSnackbar(message = revertSuccess)
             }
 
             viewModel.clearAppSettingsResult()
@@ -177,22 +199,22 @@ internal fun AppSettingsRoute(
     LaunchedEffect(key1 = shortcutResult) {
         shortcutResult?.let {
             when (it) {
-                ShortcutResult.IDNotFound -> snackbarHostState.showSnackbar(message = "IDNotFound")
-                ShortcutResult.ShortcutDisable -> snackbarHostState.showSnackbar(message = "ShortcutDisable")
+                ShortcutResult.IDNotFound -> snackbarHostState.showSnackbar(message = shortcutIdNotFound)
+                ShortcutResult.ShortcutDisable -> snackbarHostState.showSnackbar(message = shortcutDisabled)
                 ShortcutResult.ShortcutDisableImmutableShortcuts -> snackbarHostState.showSnackbar(
-                    message = "ShortcutDisableImmutableShortcuts"
+                    message = shortcutDisableImmutableShortcuts
                 )
 
-                ShortcutResult.ShortcutEnable -> snackbarHostState.showSnackbar(message = "ShortcutEnable")
-                ShortcutResult.ShortcutUpdateFailed -> snackbarHostState.showSnackbar(message = "ShortcutUpdateFailed")
+                ShortcutResult.ShortcutEnable -> snackbarHostState.showSnackbar(message = shortcutEnabled)
+                ShortcutResult.ShortcutUpdateFailed -> snackbarHostState.showSnackbar(message = shortcutUpdateFailed)
                 ShortcutResult.ShortcutUpdateImmutableShortcuts -> snackbarHostState.showSnackbar(
-                    message = "ShortcutUpdateImmutableShortcuts"
+                    message = shortcutUpdateImmutableShortcuts
                 )
 
-                ShortcutResult.ShortcutUpdateSuccess -> snackbarHostState.showSnackbar(message = "ShortcutUpdateSuccess")
-                ShortcutResult.SupportedLauncher -> snackbarHostState.showSnackbar(message = "SupportedLauncher")
-                ShortcutResult.UnsupportedLauncher -> snackbarHostState.showSnackbar(message = "UnsupportedLauncher")
-                ShortcutResult.UserIsLocked -> snackbarHostState.showSnackbar(message = "UserIsLocked")
+                ShortcutResult.ShortcutUpdateSuccess -> snackbarHostState.showSnackbar(message = shortcutUpdateSuccess)
+                ShortcutResult.SupportedLauncher -> snackbarHostState.showSnackbar(message = supportedLauncher)
+                ShortcutResult.UnsupportedLauncher -> snackbarHostState.showSnackbar(message = unsupportedLauncher)
+                ShortcutResult.UserIsLocked -> snackbarHostState.showSnackbar(message = userIsLocked)
             }
 
             viewModel.clearShortcutResult()
@@ -203,7 +225,11 @@ internal fun AppSettingsRoute(
         clipboardResult?.let {
             when (it) {
                 ClipboardResult.HideNotify -> Unit
-                is ClipboardResult.Notify -> snackbarHostState.showSnackbar(message = "Notify")
+                is ClipboardResult.Notify -> snackbarHostState.showSnackbar(
+                    message = String.format(
+                        copiedToClipboard, it.text
+                    )
+                )
             }
 
             viewModel.clearClipboardResult()

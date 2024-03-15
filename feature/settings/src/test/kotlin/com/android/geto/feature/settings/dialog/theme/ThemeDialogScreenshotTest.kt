@@ -45,11 +45,16 @@ class ThemeDialogScreenshotTest {
     @Test
     fun theme_dialog() {
         composeTestRule.captureScreenRoboImageMultiDevice(
-            name = "ThemeDialog", screenshotName = "ThemeDialog") {
+            path = "ThemeDialog/ThemeDialog"
+        ) {
             GetoTheme {
                 val themeDialogState = rememberThemeDialogState()
 
-                ThemeDialog(themeDialogState = themeDialogState, onChangeTheme = {}, contentDescription = "ThemeDialog")
+                ThemeDialog(
+                    themeDialogState = themeDialogState,
+                    onChangeTheme = {},
+                    contentDescription = "ThemeDialog"
+                )
             }
         }
     }
@@ -57,17 +62,20 @@ class ThemeDialogScreenshotTest {
     @Test
     fun theme_dialog_dark() {
         composeTestRule.captureScreenRoboImageForDevice(
-            name = "ThemeDialog",
+            path = "ThemeDialog/ThemeDialog",
             deviceName = "phone_dark",
             deviceSpec = DefaultTestDevices.PHONE.spec,
-            screenshotName = "ThemeDialog",
             darkMode = true,
         ) {
             GetoTheme {
                 GetoBackground {
                     val themeDialogState = rememberThemeDialogState()
 
-                    ThemeDialog(themeDialogState = themeDialogState, onChangeTheme = {}, contentDescription = "ThemeDialog")
+                    ThemeDialog(
+                        themeDialogState = themeDialogState,
+                        onChangeTheme = {},
+                        contentDescription = "ThemeDialog"
+                    )
                 }
             }
         }

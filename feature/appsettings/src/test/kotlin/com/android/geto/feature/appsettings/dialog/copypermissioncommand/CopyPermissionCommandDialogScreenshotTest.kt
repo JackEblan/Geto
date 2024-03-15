@@ -46,10 +46,14 @@ class CopyPermissionCommandDialogScreenshotTest {
     @Test
     fun copy_permission_command_dialog() {
         composeTestRule.captureScreenRoboImageMultiDevice(
-            name = "CopyPermissionCommandDialog", screenshotName = "CopyPermissionCommandDialog"
+            path = "CopyPermissionCommandDialog/CopyPermissionCommandDialog"
         ) {
             GetoTheme {
-                CopyPermissionCommandDialog(onDismissRequest = {}, onCopySettings = {}, contentDescription = "CopyPermissionCommandDialog")
+                CopyPermissionCommandDialog(
+                    onDismissRequest = {},
+                    onCopySettings = {},
+                    contentDescription = "CopyPermissionCommandDialog"
+                )
             }
         }
     }
@@ -57,15 +61,18 @@ class CopyPermissionCommandDialogScreenshotTest {
     @Test
     fun copy_permission_command_dialog_dark() {
         composeTestRule.captureScreenRoboImageForDevice(
-            name = "CopyPermissionCommandDialog",
+            path = "CopyPermissionCommandDialog/CopyPermissionCommandDialog",
             deviceName = "phone_dark",
             deviceSpec = DefaultTestDevices.PHONE.spec,
-            screenshotName = "CopyPermissionCommandDialog",
             darkMode = true,
         ) {
             GetoTheme {
                 GetoBackground {
-                    CopyPermissionCommandDialog(onDismissRequest = {}, onCopySettings = {}, contentDescription = "CopyPermissionCommandDialog")
+                    CopyPermissionCommandDialog(
+                        onDismissRequest = {},
+                        onCopySettings = {},
+                        contentDescription = "CopyPermissionCommandDialog"
+                    )
                 }
             }
         }
