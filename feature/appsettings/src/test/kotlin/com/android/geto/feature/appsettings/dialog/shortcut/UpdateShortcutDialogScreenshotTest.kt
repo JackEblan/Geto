@@ -51,9 +51,10 @@ class UpdateShortcutDialogScreenshotTest {
             GetoTheme {
                 val shortcutDialogState = rememberUpdateShortcutDialogState()
 
-                UpdateShortcutDialogScreen(shortcutDialogState = shortcutDialogState,
+                UpdateShortcutDialog(shortcutDialogState = shortcutDialogState,
                                            onRefreshShortcut = {},
-                                           onUpdateShortcut = {})
+                                           onUpdateShortcut = {},
+                                           contentDescription = "UpdateShortcutDialog")
             }
         }
     }
@@ -70,9 +71,10 @@ class UpdateShortcutDialogScreenshotTest {
 
                 shortcutDialogState.updateLongLabel("Long Label")
 
-                UpdateShortcutDialogScreen(shortcutDialogState = shortcutDialogState,
+                UpdateShortcutDialog(shortcutDialogState = shortcutDialogState,
                                            onRefreshShortcut = {},
-                                           onUpdateShortcut = {})
+                                           onUpdateShortcut = {},
+                                           contentDescription = "UpdateShortcutDialog")
             }
         }
     }
@@ -87,9 +89,10 @@ class UpdateShortcutDialogScreenshotTest {
 
                 shortcutDialogState.getShortcut(packageName = "Test", shortcutIntent = Intent())
 
-                UpdateShortcutDialogScreen(shortcutDialogState = shortcutDialogState,
+                UpdateShortcutDialog(shortcutDialogState = shortcutDialogState,
                                            onRefreshShortcut = {},
-                                           onUpdateShortcut = {})
+                                           onUpdateShortcut = {},
+                                           contentDescription = "UpdateShortcutDialog")
             }
         }
     }
@@ -107,9 +110,10 @@ class UpdateShortcutDialogScreenshotTest {
                 GetoBackground {
                     val shortcutDialogState = rememberUpdateShortcutDialogState()
 
-                    UpdateShortcutDialogScreen(shortcutDialogState = shortcutDialogState,
-                                               onRefreshShortcut = {},
-                                               onUpdateShortcut = {})
+                    UpdateShortcutDialog(shortcutDialogState = shortcutDialogState,
+                                           onRefreshShortcut = {},
+                                           onUpdateShortcut = {},
+                                           contentDescription = "UpdateShortcutDialog")
                 }
             }
         }
@@ -132,9 +136,10 @@ class UpdateShortcutDialogScreenshotTest {
 
                     shortcutDialogState.updateLongLabel("Long Label")
 
-                    UpdateShortcutDialogScreen(shortcutDialogState = shortcutDialogState,
-                                               onRefreshShortcut = {},
-                                               onUpdateShortcut = {})
+                    UpdateShortcutDialog(shortcutDialogState = shortcutDialogState,
+                                           onRefreshShortcut = {},
+                                           onUpdateShortcut = {},
+                                           contentDescription = "UpdateShortcutDialog")
                 }
             }
         }
@@ -155,9 +160,10 @@ class UpdateShortcutDialogScreenshotTest {
 
                     shortcutDialogState.getShortcut(packageName = "Test", shortcutIntent = Intent())
 
-                    UpdateShortcutDialogScreen(shortcutDialogState = shortcutDialogState,
-                                               onRefreshShortcut = {},
-                                               onUpdateShortcut = {})
+                    UpdateShortcutDialog(shortcutDialogState = shortcutDialogState,
+                                           onRefreshShortcut = {},
+                                           onUpdateShortcut = {},
+                                           contentDescription = "UpdateShortcutDialog")
                 }
             }
         }
