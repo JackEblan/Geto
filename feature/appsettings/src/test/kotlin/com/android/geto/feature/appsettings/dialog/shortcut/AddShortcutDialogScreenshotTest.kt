@@ -46,15 +46,16 @@ class AddShortcutDialogScreenshotTest {
     @Test
     fun add_shortcut_dialog_empty() {
         composeTestRule.captureScreenRoboImageMultiDevice(
-            name = "AddShortcutDialog", screenshotName = "AddShortcutDialogEmpty"
+            path = "AddShortcutDialog/AddShortcutDialogEmpty"
         ) {
             GetoTheme {
                 val shortcutDialogState = rememberAddShortcutDialogState()
 
                 AddShortcutDialog(shortcutDialogState = shortcutDialogState,
-                                        onRefreshShortcut = {},
-                                        onAddShortcut = {},
-                                        contentDescription = "AddShortcutDialog")
+                                  onRefreshShortcut = {},
+                                  onAddShortcut = {},
+                                  contentDescription = "AddShortcutDialog"
+                )
             }
         }
     }
@@ -62,7 +63,7 @@ class AddShortcutDialogScreenshotTest {
     @Test
     fun add_shortcut_dialog_filled_textfields() {
         composeTestRule.captureScreenRoboImageMultiDevice(
-            name = "AddShortcutDialog", screenshotName = "AddShortcutDialogFilledTextFields"
+            path = "AddShortcutDialog/AddShortcutDialogFilledTextFields"
         ) {
             GetoTheme {
                 val shortcutDialogState = rememberAddShortcutDialogState()
@@ -72,9 +73,10 @@ class AddShortcutDialogScreenshotTest {
                 shortcutDialogState.updateLongLabel("Long Label")
 
                 AddShortcutDialog(shortcutDialogState = shortcutDialogState,
-                                        onRefreshShortcut = {},
-                                        onAddShortcut = {},
-                                        contentDescription = "AddShortcutDialog")
+                                  onRefreshShortcut = {},
+                                  onAddShortcut = {},
+                                  contentDescription = "AddShortcutDialog"
+                )
             }
         }
     }
@@ -82,7 +84,7 @@ class AddShortcutDialogScreenshotTest {
     @Test
     fun add_shortcut_dialog_error_textfields() {
         composeTestRule.captureScreenRoboImageMultiDevice(
-            name = "AddShortcutDialog", screenshotName = "AddShortcutDialogErrorTextFields"
+            path = "AddShortcutDialog/AddShortcutDialogErrorTextFields"
         ) {
             GetoTheme {
                 val shortcutDialogState = rememberAddShortcutDialogState()
@@ -90,9 +92,10 @@ class AddShortcutDialogScreenshotTest {
                 shortcutDialogState.getShortcut(packageName = "Test", shortcutIntent = Intent())
 
                 AddShortcutDialog(shortcutDialogState = shortcutDialogState,
-                                        onRefreshShortcut = {},
-                                        onAddShortcut = {},
-                                        contentDescription = "AddShortcutDialog")
+                                  onRefreshShortcut = {},
+                                  onAddShortcut = {},
+                                  contentDescription = "AddShortcutDialog"
+                )
             }
         }
     }
@@ -100,10 +103,9 @@ class AddShortcutDialogScreenshotTest {
     @Test
     fun add_shortcut_dialog_empty_dark() {
         composeTestRule.captureScreenRoboImageForDevice(
-            name = "AddShortcutDialog",
+            path = "AddShortcutDialog/AddShortcutDialogEmpty",
             deviceName = "phone_dark",
             deviceSpec = DefaultTestDevices.PHONE.spec,
-            screenshotName = "AddShortcutDialogEmpty",
             darkMode = true,
         ) {
             GetoTheme {
@@ -111,9 +113,10 @@ class AddShortcutDialogScreenshotTest {
                     val shortcutDialogState = rememberAddShortcutDialogState()
 
                     AddShortcutDialog(shortcutDialogState = shortcutDialogState,
-                                            onRefreshShortcut = {},
-                                            onAddShortcut = {},
-                                            contentDescription = "AddShortcutDialog")
+                                      onRefreshShortcut = {},
+                                      onAddShortcut = {},
+                                      contentDescription = "AddShortcutDialog"
+                    )
                 }
             }
         }
@@ -122,10 +125,9 @@ class AddShortcutDialogScreenshotTest {
     @Test
     fun add_shortcut_dialog_filled_textfields_dark() {
         composeTestRule.captureScreenRoboImageForDevice(
-            name = "AddShortcutDialog",
+            path = "AddShortcutDialog/AddShortcutDialogFilledTextFields",
             deviceName = "phone_dark",
             deviceSpec = DefaultTestDevices.PHONE.spec,
-            screenshotName = "AddShortcutDialogFilledTextFields",
             darkMode = true,
         ) {
             GetoTheme {
@@ -137,9 +139,10 @@ class AddShortcutDialogScreenshotTest {
                     shortcutDialogState.updateLongLabel("Long Label")
 
                     AddShortcutDialog(shortcutDialogState = shortcutDialogState,
-                                            onRefreshShortcut = {},
-                                            onAddShortcut = {},
-                                            contentDescription = "AddShortcutDialog")
+                                      onRefreshShortcut = {},
+                                      onAddShortcut = {},
+                                      contentDescription = "AddShortcutDialog"
+                    )
                 }
             }
         }
@@ -148,10 +151,10 @@ class AddShortcutDialogScreenshotTest {
     @Test
     fun add_shortcut_dialog_error_textfields_dark() {
         composeTestRule.captureScreenRoboImageForDevice(
-            name = "AddShortcutDialog",
+            path = "AddShortcutDialog/AddShortcutDialogErrorTextFields",
             deviceName = "phone_dark",
             deviceSpec = DefaultTestDevices.PHONE.spec,
-            screenshotName = "AddShortcutDialogErrorTextFields",
+
             darkMode = true,
         ) {
             GetoTheme {
@@ -161,9 +164,10 @@ class AddShortcutDialogScreenshotTest {
                     shortcutDialogState.getShortcut(packageName = "Test", shortcutIntent = Intent())
 
                     AddShortcutDialog(shortcutDialogState = shortcutDialogState,
-                                            onRefreshShortcut = {},
-                                            onAddShortcut = {},
-                                            contentDescription = "AddShortcutDialog")
+                                      onRefreshShortcut = {},
+                                      onAddShortcut = {},
+                                      contentDescription = "AddShortcutDialog"
+                    )
                 }
             }
         }

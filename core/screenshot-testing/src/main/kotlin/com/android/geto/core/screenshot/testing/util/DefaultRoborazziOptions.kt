@@ -65,17 +65,12 @@ fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.c
 }
 
 fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.captureScreenRoboImageMultiDevice(
-    name: String,
-    screenshotName: String,
+    path: String,
     body: @Composable () -> Unit,
 ) {
     DefaultTestDevices.entries.forEach {
         this.captureScreenRoboImageForDevice(
-            name = name,
-            deviceName = it.description,
-            deviceSpec = it.spec,
-            screenshotName = screenshotName,
-            body = body
+            path = path, deviceName = it.description, deviceSpec = it.spec, body = body
         )
     }
 }
@@ -114,10 +109,9 @@ fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.c
  */
 @OptIn(ExperimentalRoborazziApi::class)
 fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.captureScreenRoboImageForDevice(
-    name: String,
+    path: String,
     deviceName: String,
     deviceSpec: String,
-    screenshotName: String,
     roborazziOptions: RoborazziOptions = DefaultRoborazziOptions,
     darkMode: Boolean = false,
     body: @Composable () -> Unit,
@@ -138,8 +132,7 @@ fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.c
     }
 
     captureScreenRoboImage(
-        "src/test/screenshots/" + "$name/$screenshotName" + "_$deviceName.png",
-        roborazziOptions = roborazziOptions
+        "src/test/screenshots/${path}_$deviceName.png", roborazziOptions = roborazziOptions
     )
 }
 
