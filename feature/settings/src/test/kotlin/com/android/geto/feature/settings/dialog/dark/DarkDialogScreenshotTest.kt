@@ -23,8 +23,8 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.android.geto.core.designsystem.component.GetoBackground
 import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.screenshot.testing.util.DefaultTestDevices
-import com.android.geto.core.screenshot.testing.util.captureForDevice
-import com.android.geto.core.screenshot.testing.util.captureMultiDevice
+import com.android.geto.core.screenshot.testing.util.captureScreenRoboImageForDevice
+import com.android.geto.core.screenshot.testing.util.captureScreenRoboImageMultiDevice
 import dagger.hilt.android.testing.HiltTestApplication
 import org.junit.Rule
 import org.junit.runner.RunWith
@@ -44,7 +44,8 @@ class DarkDialogScreenshotTest {
 
     @Test
     fun dark_dialog() {
-        composeTestRule.captureMultiDevice("DarkDialog") {
+        composeTestRule.captureScreenRoboImageMultiDevice(
+            name = "DarkDialog", screenshotName = "DarkDialog") {
             GetoTheme {
                 val darkDialogState = rememberDarkDialogState()
 
@@ -55,7 +56,8 @@ class DarkDialogScreenshotTest {
 
     @Test
     fun dark_dialog_dark() {
-        composeTestRule.captureForDevice(
+        composeTestRule.captureScreenRoboImageForDevice(
+            name = "DarkDialog",
             deviceName = "phone_dark",
             deviceSpec = DefaultTestDevices.PHONE.spec,
             screenshotName = "DarkDialog",
