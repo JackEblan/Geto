@@ -1,6 +1,6 @@
 <div align = "center">
 
-<img width="" src="app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.webp" alt="Geto" align="center">
+<img width="" src="app/src/main/ic_launcher-playstore.png" alt="Geto" align="center">
 
 # Geto
 
