@@ -18,22 +18,16 @@
 
 package com.android.geto.feature.appsettings
 
-import android.content.Intent
 import androidx.activity.ComponentActivity
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.longClick
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
-import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTouchInput
 import com.android.geto.core.model.AppSettings
 import com.android.geto.core.model.SettingsType
-import com.android.geto.feature.appsettings.dialog.appsettings.rememberAddAppSettingsDialogState
-import com.android.geto.feature.appsettings.dialog.shortcut.rememberAddShortcutDialogState
-import com.android.geto.feature.appsettings.dialog.shortcut.rememberUpdateShortcutDialogState
 import org.junit.Rule
 import org.junit.Test
 
@@ -44,72 +38,34 @@ class AppSettingsScreenTest {
     @Test
     fun getoOverlayLoadingWheelIsDisplayed_whenAppSettingsUiStateIsLoading() {
         composeTestRule.setContent {
-            val addAppSettingsDialogState = rememberAddAppSettingsDialogState()
-
-            val addShortcutDialogState = rememberAddShortcutDialogState()
-
-            val updateShortcutDialogState = rememberUpdateShortcutDialogState()
-
-            val scrollState = rememberScrollState()
-
             AppSettingsScreen(snackbarHostState = SnackbarHostState(),
-                              appName = "Geto", packageName = "Geto", shortcutIntent = Intent(),
+                              appName = "Geto",
                               appSettingsUiState = AppSettingsUiState.Loading,
-                              addAppSettingsDialogState = addAppSettingsDialogState,
-                              addShortcutDialogState = addShortcutDialogState,
-                              updateShortcutDialogState = updateShortcutDialogState,
-                              showCopyPermissionCommandDialog = false,
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
                               onSettingsIconClick = {},
                               onShortcutIconClick = {},
                               onAppSettingsItemCheckBoxChange = { _, _ -> },
                               onDeleteAppSettingsItem = {},
-                              onLaunchApp = {},
-                              scrollState = scrollState,
-                              onAddSettings = {},
-                              onAddShortcut = {},
-                              onUpdateShortcut = {},
-                              onCopyPermissionCommand = {},
-                              onRefreshShortcut = {},
-                              onDismissRequestCopyPermissionCommand = {})
+                              onLaunchApp = {})
         }
 
         composeTestRule.onNodeWithContentDescription("GetoOverlayLoadingWheel").assertIsDisplayed()
     }
 
     @Test
-    fun emptyListPlaceHolderScreenIsDisplayed_whenAppSettingsUiStateIsEmpty() {
+    fun emptyListPlaceHolderScreenIsDisplayed_whenDataIsEmpty() {
         composeTestRule.setContent {
-            val addAppSettingsDialogState = rememberAddAppSettingsDialogState()
-
-            val addShortcutDialogState = rememberAddShortcutDialogState()
-
-            val updateShortcutDialogState = rememberUpdateShortcutDialogState()
-
-            val scrollState = rememberScrollState()
-
             AppSettingsScreen(snackbarHostState = SnackbarHostState(),
-                              appName = "Geto", packageName = "Geto", shortcutIntent = Intent(),
-                              appSettingsUiState = AppSettingsUiState.Empty,
-                              addAppSettingsDialogState = addAppSettingsDialogState,
-                              addShortcutDialogState = addShortcutDialogState,
-                              updateShortcutDialogState = updateShortcutDialogState,
-                              showCopyPermissionCommandDialog = false,
+                              appName = "Geto",
+                              appSettingsUiState = AppSettingsUiState.Success(emptyList()),
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
                               onSettingsIconClick = {},
                               onShortcutIconClick = {},
                               onAppSettingsItemCheckBoxChange = { _, _ -> },
                               onDeleteAppSettingsItem = {},
-                              onLaunchApp = {},
-                              scrollState = scrollState,
-                              onAddSettings = {},
-                              onAddShortcut = {},
-                              onUpdateShortcut = {},
-                              onCopyPermissionCommand = {},
-                              onRefreshShortcut = {},
-                              onDismissRequestCopyPermissionCommand = {})
+                              onLaunchApp = {})
         }
 
         composeTestRule.onNodeWithTag("appsettings:emptyListPlaceHolderScreen").assertIsDisplayed()
@@ -118,311 +74,34 @@ class AppSettingsScreenTest {
     @Test
     fun lazyColumnIsDisplayed_whenAppSettingsUiStateIsSuccess() {
         composeTestRule.setContent {
-            val addAppSettingsDialogState = rememberAddAppSettingsDialogState()
-
-            val addShortcutDialogState = rememberAddShortcutDialogState()
-
-            val updateShortcutDialogState = rememberUpdateShortcutDialogState()
-
-            val scrollState = rememberScrollState()
-
             AppSettingsScreen(snackbarHostState = SnackbarHostState(),
-                              appName = "Geto", packageName = "Geto", shortcutIntent = Intent(),
+                              appName = "Geto",
                               appSettingsUiState = AppSettingsUiState.Success(testAppSettingsList),
-                              addAppSettingsDialogState = addAppSettingsDialogState,
-                              addShortcutDialogState = addShortcutDialogState,
-                              updateShortcutDialogState = updateShortcutDialogState,
-                              showCopyPermissionCommandDialog = false,
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
                               onSettingsIconClick = {},
                               onShortcutIconClick = {},
                               onAppSettingsItemCheckBoxChange = { _, _ -> },
                               onDeleteAppSettingsItem = {},
-                              onLaunchApp = {},
-                              scrollState = scrollState,
-                              onAddSettings = {},
-                              onAddShortcut = {},
-                              onUpdateShortcut = {},
-                              onCopyPermissionCommand = {},
-                              onRefreshShortcut = {},
-                              onDismissRequestCopyPermissionCommand = {})
+                              onLaunchApp = {})
         }
 
         composeTestRule.onNodeWithTag("appsettings:lazyColumn").assertIsDisplayed()
     }
 
     @Test
-    fun snackbarExists_whenRevertIconIsClicked_appSettingsUiStateIsEmpty() {
-        composeTestRule.setContent {
-            val addAppSettingsDialogState = rememberAddAppSettingsDialogState()
-
-            val addShortcutDialogState = rememberAddShortcutDialogState()
-
-            val updateShortcutDialogState = rememberUpdateShortcutDialogState()
-
-            val scrollState = rememberScrollState()
-
-            AppSettingsScreen(snackbarHostState = SnackbarHostState(),
-                              appName = "Geto", packageName = "Geto", shortcutIntent = Intent(),
-                              appSettingsUiState = AppSettingsUiState.Success(testAppSettingsList),
-                              addAppSettingsDialogState = addAppSettingsDialogState,
-                              addShortcutDialogState = addShortcutDialogState,
-                              updateShortcutDialogState = updateShortcutDialogState,
-                              showCopyPermissionCommandDialog = false,
-                              onNavigationIconClick = {},
-                              onRevertSettingsIconClick = {},
-                              onSettingsIconClick = {},
-                              onShortcutIconClick = {},
-                              onAppSettingsItemCheckBoxChange = { _, _ -> },
-                              onDeleteAppSettingsItem = {},
-                              onLaunchApp = {},
-                              scrollState = scrollState,
-                              onAddSettings = {},
-                              onAddShortcut = {},
-                              onUpdateShortcut = {},
-                              onCopyPermissionCommand = {},
-                              onRefreshShortcut = {},
-                              onDismissRequestCopyPermissionCommand = {})
-        }
-
-        composeTestRule.onNodeWithContentDescription("Revert icon").performClick()
-
-        composeTestRule.onNodeWithTag("appsettings:snackbar").assertExists()
-    }
-
-    @Test
-    fun snackbarExists_whenLaunchIconIsClicked_appSettingsUiStateIsEmpty() {
-        composeTestRule.setContent {
-            val addAppSettingsDialogState = rememberAddAppSettingsDialogState()
-
-            val addShortcutDialogState = rememberAddShortcutDialogState()
-
-            val updateShortcutDialogState = rememberUpdateShortcutDialogState()
-
-            val scrollState = rememberScrollState()
-
-            AppSettingsScreen(snackbarHostState = SnackbarHostState(),
-                              appName = "Geto", packageName = "Geto", shortcutIntent = Intent(),
-                              appSettingsUiState = AppSettingsUiState.Empty,
-                              addAppSettingsDialogState = addAppSettingsDialogState,
-                              addShortcutDialogState = addShortcutDialogState,
-                              updateShortcutDialogState = updateShortcutDialogState,
-                              showCopyPermissionCommandDialog = false,
-                              onNavigationIconClick = {},
-                              onRevertSettingsIconClick = {},
-                              onSettingsIconClick = {},
-                              onShortcutIconClick = {},
-                              onAppSettingsItemCheckBoxChange = { _, _ -> },
-                              onDeleteAppSettingsItem = {},
-                              onLaunchApp = {},
-                              scrollState = scrollState,
-                              onAddSettings = {},
-                              onAddShortcut = {},
-                              onUpdateShortcut = {},
-                              onCopyPermissionCommand = {},
-                              onRefreshShortcut = {},
-                              onDismissRequestCopyPermissionCommand = {})
-        }
-
-        composeTestRule.onNodeWithContentDescription("Launch icon").performClick()
-
-        composeTestRule.onNodeWithTag("appsettings:snackbar").assertExists()
-    }
-
-    @Test
-    fun addAppSettingsDialogIsDisplayed_whenSettingsIconIsClicked() {
-        composeTestRule.setContent {
-            val addAppSettingsDialogState = rememberAddAppSettingsDialogState()
-
-            val addShortcutDialogState = rememberAddShortcutDialogState()
-
-            val updateShortcutDialogState = rememberUpdateShortcutDialogState()
-
-            val scrollState = rememberScrollState()
-
-            AppSettingsScreen(snackbarHostState = SnackbarHostState(),
-                              appName = "Geto", packageName = "Geto", shortcutIntent = Intent(),
-                              appSettingsUiState = AppSettingsUiState.Empty,
-                              addAppSettingsDialogState = addAppSettingsDialogState,
-                              addShortcutDialogState = addShortcutDialogState,
-                              updateShortcutDialogState = updateShortcutDialogState,
-                              showCopyPermissionCommandDialog = false,
-                              onNavigationIconClick = {},
-                              onRevertSettingsIconClick = {},
-                              onSettingsIconClick = {
-                                  addAppSettingsDialogState.updateShowDialog(true)
-                              },
-                              onShortcutIconClick = {},
-                              onAppSettingsItemCheckBoxChange = { _, _ -> },
-                              onDeleteAppSettingsItem = {},
-                              onLaunchApp = {},
-                              scrollState = scrollState,
-                              onAddSettings = {},
-                              onAddShortcut = {},
-                              onUpdateShortcut = {},
-                              onCopyPermissionCommand = {},
-                              onRefreshShortcut = {},
-                              onDismissRequestCopyPermissionCommand = {})
-        }
-
-        composeTestRule.onNodeWithContentDescription("Settings icon").performClick()
-
-        composeTestRule.onNodeWithContentDescription("Add App Settings Dialog").assertIsDisplayed()
-    }
-
-    @Test
-    fun copyPermissionCommandDialogIsDisplayed_whenShowCopyPermissionCommandDialogIsTrue() {
-        composeTestRule.setContent {
-            val addAppSettingsDialogState = rememberAddAppSettingsDialogState()
-
-            val addShortcutDialogState = rememberAddShortcutDialogState()
-
-            val updateShortcutDialogState = rememberUpdateShortcutDialogState()
-
-            val scrollState = rememberScrollState()
-
-            AppSettingsScreen(snackbarHostState = SnackbarHostState(),
-                              appName = "Geto", packageName = "Geto", shortcutIntent = Intent(),
-                              appSettingsUiState = AppSettingsUiState.Empty,
-                              addAppSettingsDialogState = addAppSettingsDialogState,
-                              addShortcutDialogState = addShortcutDialogState,
-                              updateShortcutDialogState = updateShortcutDialogState,
-                              showCopyPermissionCommandDialog = true,
-                              onNavigationIconClick = {},
-                              onRevertSettingsIconClick = {},
-                              onSettingsIconClick = {},
-                              onShortcutIconClick = {},
-                              onAppSettingsItemCheckBoxChange = { _, _ -> },
-                              onDeleteAppSettingsItem = {},
-                              onLaunchApp = {},
-                              scrollState = scrollState,
-                              onAddSettings = {},
-                              onAddShortcut = {},
-                              onUpdateShortcut = {},
-                              onCopyPermissionCommand = {},
-                              onRefreshShortcut = {},
-                              onDismissRequestCopyPermissionCommand = {})
-        }
-
-        composeTestRule.onNodeWithContentDescription("Copy Permission Command Dialog")
-            .assertIsDisplayed()
-    }
-
-    @Test
-    fun addShortcutDialogIsDisplayed_whenShortcutIconIsClicked() {
-        composeTestRule.setContent {
-            val addAppSettingsDialogState = rememberAddAppSettingsDialogState()
-
-            val addShortcutDialogState = rememberAddShortcutDialogState()
-
-            val updateShortcutDialogState = rememberUpdateShortcutDialogState()
-
-            val scrollState = rememberScrollState()
-
-            AppSettingsScreen(snackbarHostState = SnackbarHostState(),
-                              appName = "Geto", packageName = "Geto", shortcutIntent = Intent(),
-                              appSettingsUiState = AppSettingsUiState.Empty,
-                              addAppSettingsDialogState = addAppSettingsDialogState,
-                              addShortcutDialogState = addShortcutDialogState,
-                              updateShortcutDialogState = updateShortcutDialogState,
-                              showCopyPermissionCommandDialog = false,
-                              onNavigationIconClick = {},
-                              onRevertSettingsIconClick = {},
-                              onSettingsIconClick = {},
-                              onShortcutIconClick = {
-                                  addShortcutDialogState.updateShowDialog(true)
-                              },
-                              onAppSettingsItemCheckBoxChange = { _, _ -> },
-                              onDeleteAppSettingsItem = {},
-                              onLaunchApp = {},
-                              scrollState = scrollState,
-                              onAddSettings = {},
-                              onAddShortcut = {},
-                              onUpdateShortcut = {},
-                              onCopyPermissionCommand = {},
-                              onRefreshShortcut = {},
-                              onDismissRequestCopyPermissionCommand = {})
-        }
-
-        composeTestRule.onNodeWithContentDescription("Shortcut icon").performClick()
-
-        composeTestRule.onNodeWithContentDescription("Add Shortcut Dialog").assertIsDisplayed()
-    }
-
-    @Test
-    fun updateShortcutDialogIsDisplayed_whenShortcutIconIsClicked() {
-        composeTestRule.setContent {
-            val addAppSettingsDialogState = rememberAddAppSettingsDialogState()
-
-            val addShortcutDialogState = rememberAddShortcutDialogState()
-
-            val updateShortcutDialogState = rememberUpdateShortcutDialogState()
-
-            val scrollState = rememberScrollState()
-
-            AppSettingsScreen(snackbarHostState = SnackbarHostState(),
-                              appName = "Geto", packageName = "Geto", shortcutIntent = Intent(),
-                              appSettingsUiState = AppSettingsUiState.Empty,
-                              addAppSettingsDialogState = addAppSettingsDialogState,
-                              addShortcutDialogState = addShortcutDialogState,
-                              updateShortcutDialogState = updateShortcutDialogState,
-                              showCopyPermissionCommandDialog = false,
-                              onNavigationIconClick = {},
-                              onRevertSettingsIconClick = {},
-                              onSettingsIconClick = {},
-                              onShortcutIconClick = {
-                                  updateShortcutDialogState.updateShowDialog(true)
-                              },
-                              onAppSettingsItemCheckBoxChange = { _, _ -> },
-                              onDeleteAppSettingsItem = {},
-                              onLaunchApp = {},
-                              scrollState = scrollState,
-                              onAddSettings = {},
-                              onAddShortcut = {},
-                              onUpdateShortcut = {},
-                              onRefreshShortcut = {},
-                              onCopyPermissionCommand = {},
-                              onDismissRequestCopyPermissionCommand = {})
-        }
-
-        composeTestRule.onNodeWithContentDescription("Shortcut icon").performClick()
-
-        composeTestRule.onNodeWithContentDescription("Update Shortcut Dialog").assertIsDisplayed()
-    }
-
-    @Test
     fun revertTooltipIsDisplayed_whenRevertIconIsLongClicked() {
         composeTestRule.setContent {
-            val addAppSettingsDialogState = rememberAddAppSettingsDialogState()
-
-            val addShortcutDialogState = rememberAddShortcutDialogState()
-
-            val updateShortcutDialogState = rememberUpdateShortcutDialogState()
-
-            val scrollState = rememberScrollState()
-
             AppSettingsScreen(snackbarHostState = SnackbarHostState(),
-                              appName = "Geto", packageName = "Geto", shortcutIntent = Intent(),
-                              appSettingsUiState = AppSettingsUiState.Empty,
-                              addAppSettingsDialogState = addAppSettingsDialogState,
-                              addShortcutDialogState = addShortcutDialogState,
-                              updateShortcutDialogState = updateShortcutDialogState,
-                              showCopyPermissionCommandDialog = false,
+                              appName = "Geto",
+                              appSettingsUiState = AppSettingsUiState.Success(testAppSettingsList),
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
                               onSettingsIconClick = {},
                               onShortcutIconClick = {},
                               onAppSettingsItemCheckBoxChange = { _, _ -> },
                               onDeleteAppSettingsItem = {},
-                              onLaunchApp = {},
-                              scrollState = scrollState,
-                              onAddSettings = {},
-                              onAddShortcut = {},
-                              onUpdateShortcut = {},
-                              onRefreshShortcut = {},
-                              onCopyPermissionCommand = {},
-                              onDismissRequestCopyPermissionCommand = {})
+                              onLaunchApp = {})
         }
 
         composeTestRule.onNodeWithContentDescription("Revert icon").performTouchInput {
@@ -435,35 +114,16 @@ class AppSettingsScreenTest {
     @Test
     fun settingsTooltipIsDisplayed_whenSettingsIconIsLongClicked() {
         composeTestRule.setContent {
-            val addAppSettingsDialogState = rememberAddAppSettingsDialogState()
-
-            val addShortcutDialogState = rememberAddShortcutDialogState()
-
-            val updateShortcutDialogState = rememberUpdateShortcutDialogState()
-
-            val scrollState = rememberScrollState()
-
             AppSettingsScreen(snackbarHostState = SnackbarHostState(),
-                              appName = "Geto", packageName = "Geto", shortcutIntent = Intent(),
-                              appSettingsUiState = AppSettingsUiState.Empty,
-                              addAppSettingsDialogState = addAppSettingsDialogState,
-                              addShortcutDialogState = addShortcutDialogState,
-                              updateShortcutDialogState = updateShortcutDialogState,
-                              showCopyPermissionCommandDialog = false,
+                              appName = "Geto",
+                              appSettingsUiState = AppSettingsUiState.Success(testAppSettingsList),
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
                               onSettingsIconClick = {},
                               onShortcutIconClick = {},
                               onAppSettingsItemCheckBoxChange = { _, _ -> },
                               onDeleteAppSettingsItem = {},
-                              onLaunchApp = {},
-                              scrollState = scrollState,
-                              onAddSettings = {},
-                              onAddShortcut = {},
-                              onUpdateShortcut = {},
-                              onRefreshShortcut = {},
-                              onCopyPermissionCommand = {},
-                              onDismissRequestCopyPermissionCommand = {})
+                              onLaunchApp = {})
         }
 
         composeTestRule.onNodeWithContentDescription("Settings icon").performTouchInput {
@@ -476,35 +136,16 @@ class AppSettingsScreenTest {
     @Test
     fun shortcutTooltipIsDisplayed_whenShortcutIconIsLongClicked() {
         composeTestRule.setContent {
-            val addAppSettingsDialogState = rememberAddAppSettingsDialogState()
-
-            val addShortcutDialogState = rememberAddShortcutDialogState()
-
-            val updateShortcutDialogState = rememberUpdateShortcutDialogState()
-
-            val scrollState = rememberScrollState()
-
             AppSettingsScreen(snackbarHostState = SnackbarHostState(),
-                              appName = "Geto", packageName = "Geto", shortcutIntent = Intent(),
-                              appSettingsUiState = AppSettingsUiState.Empty,
-                              addAppSettingsDialogState = addAppSettingsDialogState,
-                              addShortcutDialogState = addShortcutDialogState,
-                              updateShortcutDialogState = updateShortcutDialogState,
-                              showCopyPermissionCommandDialog = false,
+                              appName = "Geto",
+                              appSettingsUiState = AppSettingsUiState.Success(testAppSettingsList),
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
                               onSettingsIconClick = {},
                               onShortcutIconClick = {},
                               onAppSettingsItemCheckBoxChange = { _, _ -> },
                               onDeleteAppSettingsItem = {},
-                              onLaunchApp = {},
-                              scrollState = scrollState,
-                              onAddSettings = {},
-                              onAddShortcut = {},
-                              onUpdateShortcut = {},
-                              onRefreshShortcut = {},
-                              onCopyPermissionCommand = {},
-                              onDismissRequestCopyPermissionCommand = {})
+                              onLaunchApp = {})
         }
 
         composeTestRule.onNodeWithContentDescription("Shortcut icon").performTouchInput {

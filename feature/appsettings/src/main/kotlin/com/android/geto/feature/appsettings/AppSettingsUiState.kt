@@ -24,6 +24,4 @@ sealed interface AppSettingsUiState {
     data class Success(val appSettingsList: List<AppSettings>) : AppSettingsUiState
 
     data object Loading : AppSettingsUiState
-
-    data object Empty : AppSettingsUiState
 }

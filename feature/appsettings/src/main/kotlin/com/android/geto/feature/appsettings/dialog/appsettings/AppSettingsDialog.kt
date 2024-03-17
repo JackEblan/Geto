@@ -61,7 +61,7 @@ import com.android.geto.core.model.SettingsType
 internal fun AddAppSettingsDialog(
     modifier: Modifier = Modifier,
     addAppSettingsDialogState: AppSettingsDialogState,
-    scrollState: ScrollState,
+    scrollState: ScrollState = rememberScrollState(),
     onAddSettings: () -> Unit,
     contentDescription: String
 ) {

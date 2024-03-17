@@ -27,8 +27,6 @@ import com.android.geto.core.model.ThemeBrand
 import com.android.geto.core.screenshot.testing.util.DefaultTestDevices
 import com.android.geto.core.screenshot.testing.util.captureForDevice
 import com.android.geto.core.screenshot.testing.util.captureMultiDevice
-import com.android.geto.feature.settings.dialog.dark.rememberDarkDialogState
-import com.android.geto.feature.settings.dialog.theme.rememberThemeDialogState
 import dagger.hilt.android.testing.HiltTestApplication
 import org.junit.Rule
 import org.junit.runner.RunWith
@@ -51,23 +49,14 @@ class SettingsScreenScreenshotTest {
     fun settings_populated() {
         composeTestRule.captureMultiDevice("SettingsPopulated") {
             GetoTheme {
-                val themeDialogState = rememberThemeDialogState()
-
-                val darkDialogState = rememberDarkDialogState()
-
                 SettingsScreen(settingsUiState = SettingsUiState.Success(
                     settings = UserEditableSettings(
                         brand = ThemeBrand.DEFAULT,
                         useDynamicColor = false,
                         darkThemeConfig = DarkThemeConfig.DARK
                     )
-                ),
-                               themeDialogState = themeDialogState,
-                               darkDialogState = darkDialogState,
-                               supportDynamicColor = false,
-                               onChangeThemeBrand = {},
+                ), onThemeDialog = {}, onDarkDialog = {},
                                onChangeDynamicColorPreference = {},
-                               onChangeDarkThemeConfig = {},
                                onNavigationIconClick = {})
             }
         }
@@ -77,17 +66,10 @@ class SettingsScreenScreenshotTest {
     fun settings_loading() {
         composeTestRule.captureMultiDevice("SettingsLoading") {
             GetoTheme {
-                val themeDialogState = rememberThemeDialogState()
-
-                val darkDialogState = rememberDarkDialogState()
-
                 SettingsScreen(settingsUiState = SettingsUiState.Loading,
-                               themeDialogState = themeDialogState,
-                               darkDialogState = darkDialogState,
-                               supportDynamicColor = false,
-                               onChangeThemeBrand = {},
+                               onThemeDialog = {},
+                               onDarkDialog = {},
                                onChangeDynamicColorPreference = {},
-                               onChangeDarkThemeConfig = {},
                                onNavigationIconClick = {})
             }
         }
@@ -97,23 +79,14 @@ class SettingsScreenScreenshotTest {
     fun settings_dynamic_color_enabled() {
         composeTestRule.captureMultiDevice("SettingsDynamicColorEnabled") {
             GetoTheme {
-                val themeDialogState = rememberThemeDialogState()
-
-                val darkDialogState = rememberDarkDialogState()
-
                 SettingsScreen(settingsUiState = SettingsUiState.Success(
                     settings = UserEditableSettings(
                         brand = ThemeBrand.DEFAULT,
                         useDynamicColor = true,
                         darkThemeConfig = DarkThemeConfig.DARK
                     )
-                ),
-                               themeDialogState = themeDialogState,
-                               darkDialogState = darkDialogState,
-                               supportDynamicColor = true,
-                               onChangeThemeBrand = {},
+                ), onThemeDialog = {}, onDarkDialog = {},
                                onChangeDynamicColorPreference = {},
-                               onChangeDarkThemeConfig = {},
                                onNavigationIconClick = {})
             }
         }
@@ -129,23 +102,14 @@ class SettingsScreenScreenshotTest {
         ) {
             GetoTheme {
                 GetoBackground {
-                    val themeDialogState = rememberThemeDialogState()
-
-                    val darkDialogState = rememberDarkDialogState()
-
                     SettingsScreen(settingsUiState = SettingsUiState.Success(
                         settings = UserEditableSettings(
                             brand = ThemeBrand.DEFAULT,
                             useDynamicColor = false,
                             darkThemeConfig = DarkThemeConfig.DARK
                         )
-                    ),
-                                   themeDialogState = themeDialogState,
-                                   darkDialogState = darkDialogState,
-                                   supportDynamicColor = false,
-                                   onChangeThemeBrand = {},
+                    ), onThemeDialog = {}, onDarkDialog = {},
                                    onChangeDynamicColorPreference = {},
-                                   onChangeDarkThemeConfig = {},
                                    onNavigationIconClick = {})
                 }
             }
@@ -162,18 +126,11 @@ class SettingsScreenScreenshotTest {
         ) {
             GetoTheme {
                 GetoBackground {
-                    val themeDialogState = rememberThemeDialogState()
-
-                    val darkDialogState = rememberDarkDialogState()
-
                     SettingsScreen(
                         settingsUiState = SettingsUiState.Loading,
-                        themeDialogState = themeDialogState,
-                        darkDialogState = darkDialogState,
-                        supportDynamicColor = false,
-                        onChangeThemeBrand = {},
+                        onThemeDialog = {},
+                        onDarkDialog = {},
                         onChangeDynamicColorPreference = {},
-                                   onChangeDarkThemeConfig = {},
                                    onNavigationIconClick = {})
                 }
             }
@@ -190,23 +147,14 @@ class SettingsScreenScreenshotTest {
         ) {
             GetoTheme {
                 GetoBackground {
-                    val themeDialogState = rememberThemeDialogState()
-
-                    val darkDialogState = rememberDarkDialogState()
-
                     SettingsScreen(settingsUiState = SettingsUiState.Success(
                         settings = UserEditableSettings(
                             brand = ThemeBrand.DEFAULT,
                             useDynamicColor = true,
                             darkThemeConfig = DarkThemeConfig.DARK
                         )
-                    ),
-                                   themeDialogState = themeDialogState,
-                                   darkDialogState = darkDialogState,
-                                   supportDynamicColor = true,
-                                   onChangeThemeBrand = {},
+                    ), onThemeDialog = {}, onDarkDialog = {},
                                    onChangeDynamicColorPreference = {},
-                                   onChangeDarkThemeConfig = {},
                                    onNavigationIconClick = {})
                 }
             }

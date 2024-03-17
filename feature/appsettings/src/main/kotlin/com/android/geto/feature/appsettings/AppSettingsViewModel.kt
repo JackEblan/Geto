@@ -44,6 +44,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -61,35 +62,27 @@ class AppSettingsViewModel @Inject constructor(
     private val revertAppSettingsUseCase: RevertAppSettingsUseCase
 ) : ViewModel() {
     private var _launchAppIntent = MutableStateFlow<Intent?>(null)
-
     val launchAppIntent = _launchAppIntent.asStateFlow()
 
     private var _secureSettings = MutableStateFlow<List<SecureSettings>>(emptyList())
-
     val secureSettings = _secureSettings.asStateFlow()
 
     private var _icon = MutableStateFlow<Drawable?>(null)
-
     val icon = _icon.asStateFlow()
 
     private var _shortcut = MutableStateFlow<TargetShortcutInfoCompat?>(null)
-
     val shortcut = _shortcut.asStateFlow()
 
     private val _applyAppSettingsResult = MutableStateFlow<AppSettingsResult?>(null)
-
     val applyAppSettingsResult = _applyAppSettingsResult.asStateFlow()
 
     private val _revertAppSettingsResult = MutableStateFlow<AppSettingsResult?>(null)
-
     val revertAppSettingsResult = _revertAppSettingsResult.asStateFlow()
 
     private val _shortcutResult = MutableStateFlow<ShortcutResult?>(null)
-
     val shortcutResult = _shortcutResult.asStateFlow()
 
     private val _clipboardResult = MutableStateFlow<ClipboardResult?>(null)
-
     val clipboardResult = _clipboardResult.asStateFlow()
 
     private val appSettingsArgs: AppSettingsArgs = AppSettingsArgs(savedStateHandle)
@@ -99,14 +92,13 @@ class AppSettingsViewModel @Inject constructor(
     val appName = appSettingsArgs.appName
 
     val appSettingsUiState: StateFlow<AppSettingsUiState> =
-        appSettingsRepository.getAppSettingsList(packageName).map { appSettingsList ->
-            if (appSettingsList.isNotEmpty()) AppSettingsUiState.Success(appSettingsList)
-            else AppSettingsUiState.Empty
-        }.stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5_000),
-            initialValue = AppSettingsUiState.Loading
-        )
+        appSettingsRepository.getAppSettingsList(packageName)
+            .map<List<AppSettings>, AppSettingsUiState>(AppSettingsUiState::Success)
+            .onStart { emit(AppSettingsUiState.Loading) }.stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5_000),
+                initialValue = AppSettingsUiState.Loading
+            )
 
     fun launchApp() {
         viewModelScope.launch {

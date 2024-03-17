@@ -43,6 +43,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -54,10 +55,8 @@ import com.android.geto.core.designsystem.theme.supportsDynamicTheming
 import com.android.geto.core.model.DarkThemeConfig
 import com.android.geto.core.model.ThemeBrand
 import com.android.geto.feature.settings.dialog.dark.DarkDialog
-import com.android.geto.feature.settings.dialog.dark.DarkDialogState
 import com.android.geto.feature.settings.dialog.dark.rememberDarkDialogState
 import com.android.geto.feature.settings.dialog.theme.ThemeDialog
-import com.android.geto.feature.settings.dialog.theme.ThemeDialogState
 import com.android.geto.feature.settings.dialog.theme.rememberThemeDialogState
 
 @Composable
@@ -85,14 +84,33 @@ internal fun SettingsRoute(
         }
     }
 
+    if (themeDialogState.showDialog) {
+        ThemeDialog(
+            modifier = Modifier.testTag("settings:themeDialog"),
+            themeDialogState = themeDialogState,
+            onChangeTheme = {
+                viewModel.updateThemeBrand(ThemeBrand.entries[themeDialogState.selectedRadioOptionIndex])
+                themeDialogState.updateShowDialog(false)
+            },
+            contentDescription = "Theme Dialog"
+        )
+    }
+
+    if (darkDialogState.showDialog) {
+        DarkDialog(
+            darkDialogState = darkDialogState, onChangeDark = {
+                viewModel.updateDarkThemeConfig(DarkThemeConfig.entries[darkDialogState.selectedRadioOptionIndex])
+                darkDialogState.updateShowDialog(false)
+            }, contentDescription = "Dark Dialog"
+        )
+    }
+
     SettingsScreen(
         modifier = modifier,
         settingsUiState = settingsUiState,
-        themeDialogState = themeDialogState,
-        darkDialogState = darkDialogState,
-        onChangeThemeBrand = viewModel::updateThemeBrand,
+        onThemeDialog = { themeDialogState.updateShowDialog(true) },
+        onDarkDialog = { darkDialogState.updateShowDialog(true) },
         onChangeDynamicColorPreference = viewModel::updateDynamicColorPreference,
-        onChangeDarkThemeConfig = viewModel::updateDarkThemeConfig,
         onNavigationIconClick = onNavigationIconClick,
     )
 }
@@ -102,38 +120,15 @@ internal fun SettingsRoute(
 internal fun SettingsScreen(
     modifier: Modifier = Modifier,
     settingsUiState: SettingsUiState,
-    themeDialogState: ThemeDialogState,
-    darkDialogState: DarkDialogState,
     supportDynamicColor: Boolean = supportsDynamicTheming(),
-    onChangeThemeBrand: (themeBrand: ThemeBrand) -> Unit,
+    onThemeDialog: () -> Unit,
+    onDarkDialog: () -> Unit,
     onChangeDynamicColorPreference: (useDynamicColor: Boolean) -> Unit,
-    onChangeDarkThemeConfig: (darkThemeConfig: DarkThemeConfig) -> Unit,
     onNavigationIconClick: () -> Unit
 ) {
-
-    if (themeDialogState.showDialog) {
-        ThemeDialog(
-            modifier = Modifier.testTag("settings:themeDialog"),
-            themeDialogState = themeDialogState,
-            onChangeTheme = {
-                onChangeThemeBrand(ThemeBrand.entries[themeDialogState.selectedRadioOptionIndex])
-                themeDialogState.updateShowDialog(false)
-            }, contentDescription = "Theme Dialog"
-        )
-    }
-
-    if (darkDialogState.showDialog) {
-        DarkDialog(
-            darkDialogState = darkDialogState, onChangeDark = {
-                onChangeDarkThemeConfig(DarkThemeConfig.entries[darkDialogState.selectedRadioOptionIndex])
-                darkDialogState.updateShowDialog(false)
-            }, contentDescription = "Dark Dialog"
-        )
-    }
-
     Scaffold(topBar = {
         TopAppBar(title = {
-            Text(text = "Settings")
+            Text(text = stringResource(id = R.string.settings))
         }, navigationIcon = {
             IconButton(onClick = onNavigationIconClick) {
                 Icon(imageVector = GetoIcons.Back, contentDescription = "Navigation icon")
@@ -157,12 +152,8 @@ internal fun SettingsScreen(
                         contentPadding = innerPadding,
                         settingsUiState = settingsUiState,
                         supportDynamicColor = supportDynamicColor,
-                        onThemeDialog = {
-                            themeDialogState.updateShowDialog(true)
-                        },
-                        onDarkDialog = {
-                            darkDialogState.updateShowDialog(true)
-                        },
+                        onThemeDialog = onThemeDialog,
+                        onDarkDialog = onDarkDialog,
                         onChangeDynamicColorPreference = onChangeDynamicColorPreference
                     )
                 }
@@ -221,7 +212,7 @@ fun SuccessState(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Dynamic Color",
+                    text = stringResource(R.string.dynamic_color),
                     style = MaterialTheme.typography.bodyLarge,
                     modifier = Modifier.weight(1f)
                 )
@@ -241,7 +232,10 @@ fun SuccessState(
             .clickable { onDarkDialog() }
             .padding(10.dp)
             .testTag("settings:dark")) {
-            Text(text = "Dark Mode", style = MaterialTheme.typography.bodyLarge)
+            Text(
+                text = stringResource(R.string.dark_mode),
+                style = MaterialTheme.typography.bodyLarge
+            )
 
             Spacer(modifier = Modifier.height(8.dp))
 

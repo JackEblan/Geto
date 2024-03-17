@@ -18,9 +18,7 @@
 
 package com.android.geto.feature.appsettings
 
-import android.content.Intent
 import androidx.activity.ComponentActivity
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.android.geto.core.designsystem.component.GetoBackground
@@ -30,9 +28,6 @@ import com.android.geto.core.model.SettingsType
 import com.android.geto.core.screenshot.testing.util.DefaultTestDevices
 import com.android.geto.core.screenshot.testing.util.captureForDevice
 import com.android.geto.core.screenshot.testing.util.captureMultiDevice
-import com.android.geto.feature.appsettings.dialog.appsettings.rememberAddAppSettingsDialogState
-import com.android.geto.feature.appsettings.dialog.shortcut.rememberAddShortcutDialogState
-import com.android.geto.feature.appsettings.dialog.shortcut.rememberUpdateShortcutDialogState
 import dagger.hilt.android.testing.HiltTestApplication
 import org.junit.Rule
 import org.junit.runner.RunWith
@@ -55,37 +50,16 @@ class AppSettingsScreenScreenshotTest {
     fun app_settings_populated() {
         composeTestRule.captureMultiDevice("AppSettingsPopulated") {
             GetoTheme {
-                val addAppSettingsDialogState = rememberAddAppSettingsDialogState()
-
-                val addShortcutDialogState = rememberAddShortcutDialogState()
-
-                val updateShortcutDialogState = rememberUpdateShortcutDialogState()
-
-                val scrollState = rememberScrollState()
-
-                AppSettingsScreen(snackbarHostState = SnackbarHostState(),
-                                  appName = "Geto", packageName = "Geto", shortcutIntent = Intent(),
+                AppSettingsScreen(snackbarHostState = SnackbarHostState(), appName = "Geto",
                                   appSettingsUiState = AppSettingsUiState.Success(
                                       testAppSettingsList
                                   ),
-                                  addAppSettingsDialogState = addAppSettingsDialogState,
-                                  addShortcutDialogState = addShortcutDialogState,
-                                  updateShortcutDialogState = updateShortcutDialogState,
-                                  showCopyPermissionCommandDialog = false,
                                   onNavigationIconClick = {},
                                   onRevertSettingsIconClick = {},
                                   onSettingsIconClick = {},
                                   onShortcutIconClick = {},
                                   onAppSettingsItemCheckBoxChange = { _, _ -> },
-                                  onDeleteAppSettingsItem = {},
-                                  onLaunchApp = {},
-                                  scrollState = scrollState,
-                                  onAddSettings = {},
-                                  onAddShortcut = {},
-                                  onUpdateShortcut = {},
-                                  onCopyPermissionCommand = {},
-                                  onRefreshShortcut = {},
-                                  onDismissRequestCopyPermissionCommand = {})
+                                  onDeleteAppSettingsItem = {}, onLaunchApp = {})
             }
         }
     }
@@ -94,35 +68,14 @@ class AppSettingsScreenScreenshotTest {
     fun app_settings_loading() {
         composeTestRule.captureMultiDevice("AppSettingsLoading") {
             GetoTheme {
-                val addAppSettingsDialogState = rememberAddAppSettingsDialogState()
-
-                val addShortcutDialogState = rememberAddShortcutDialogState()
-
-                val updateShortcutDialogState = rememberUpdateShortcutDialogState()
-
-                val scrollState = rememberScrollState()
-
-                AppSettingsScreen(snackbarHostState = SnackbarHostState(),
-                                  appName = "Geto", packageName = "Geto", shortcutIntent = Intent(),
+                AppSettingsScreen(snackbarHostState = SnackbarHostState(), appName = "Geto",
                                   appSettingsUiState = AppSettingsUiState.Loading,
-                                  addAppSettingsDialogState = addAppSettingsDialogState,
-                                  addShortcutDialogState = addShortcutDialogState,
-                                  updateShortcutDialogState = updateShortcutDialogState,
-                                  showCopyPermissionCommandDialog = false,
                                   onNavigationIconClick = {},
                                   onRevertSettingsIconClick = {},
                                   onSettingsIconClick = {},
                                   onShortcutIconClick = {},
                                   onAppSettingsItemCheckBoxChange = { _, _ -> },
-                                  onDeleteAppSettingsItem = {},
-                                  onLaunchApp = {},
-                                  scrollState = scrollState,
-                                  onAddSettings = {},
-                                  onAddShortcut = {},
-                                  onUpdateShortcut = {},
-                                  onCopyPermissionCommand = {},
-                                  onRefreshShortcut = {},
-                                  onDismissRequestCopyPermissionCommand = {})
+                                  onDeleteAppSettingsItem = {}, onLaunchApp = {})
             }
         }
     }
@@ -131,35 +84,16 @@ class AppSettingsScreenScreenshotTest {
     fun app_settings_empty() {
         composeTestRule.captureMultiDevice("AppSettingsEmpty") {
             GetoTheme {
-                val addAppSettingsDialogState = rememberAddAppSettingsDialogState()
-
-                val addShortcutDialogState = rememberAddShortcutDialogState()
-
-                val updateShortcutDialogState = rememberUpdateShortcutDialogState()
-
-                val scrollState = rememberScrollState()
-
                 AppSettingsScreen(snackbarHostState = SnackbarHostState(),
-                                  appName = "Geto", packageName = "Geto", shortcutIntent = Intent(),
-                                  appSettingsUiState = AppSettingsUiState.Empty,
-                                  addAppSettingsDialogState = addAppSettingsDialogState,
-                                  addShortcutDialogState = addShortcutDialogState,
-                                  updateShortcutDialogState = updateShortcutDialogState,
-                                  showCopyPermissionCommandDialog = false,
+                                  appName = "Geto",
+                                  appSettingsUiState = AppSettingsUiState.Success(emptyList()),
                                   onNavigationIconClick = {},
                                   onRevertSettingsIconClick = {},
                                   onSettingsIconClick = {},
                                   onShortcutIconClick = {},
                                   onAppSettingsItemCheckBoxChange = { _, _ -> },
                                   onDeleteAppSettingsItem = {},
-                                  onLaunchApp = {},
-                                  scrollState = scrollState,
-                                  onAddSettings = {},
-                                  onAddShortcut = {},
-                                  onUpdateShortcut = {},
-                                  onCopyPermissionCommand = {},
-                                  onRefreshShortcut = {},
-                                  onDismissRequestCopyPermissionCommand = {})
+                                  onLaunchApp = {})
             }
         }
     }
@@ -174,39 +108,17 @@ class AppSettingsScreenScreenshotTest {
         ) {
             GetoTheme {
                 GetoBackground {
-                    val addAppSettingsDialogState = rememberAddAppSettingsDialogState()
-
-                    val addShortcutDialogState = rememberAddShortcutDialogState()
-
-                    val updateShortcutDialogState = rememberUpdateShortcutDialogState()
-
-                    val scrollState = rememberScrollState()
-
                     AppSettingsScreen(snackbarHostState = SnackbarHostState(),
                                       appName = "Geto",
-                                      packageName = "Geto",
-                                      shortcutIntent = Intent(),
                                       appSettingsUiState = AppSettingsUiState.Success(
                                           testAppSettingsList
                                       ),
-                                      addAppSettingsDialogState = addAppSettingsDialogState,
-                                      addShortcutDialogState = addShortcutDialogState,
-                                      updateShortcutDialogState = updateShortcutDialogState,
-                                      showCopyPermissionCommandDialog = false,
                                       onNavigationIconClick = {},
                                       onRevertSettingsIconClick = {},
                                       onSettingsIconClick = {},
                                       onShortcutIconClick = {},
                                       onAppSettingsItemCheckBoxChange = { _, _ -> },
-                                      onDeleteAppSettingsItem = {},
-                                      onLaunchApp = {},
-                                      scrollState = scrollState,
-                                      onAddSettings = {},
-                                      onAddShortcut = {},
-                                      onUpdateShortcut = {},
-                                      onCopyPermissionCommand = {},
-                                      onRefreshShortcut = {},
-                                      onDismissRequestCopyPermissionCommand = {})
+                                      onDeleteAppSettingsItem = {}, onLaunchApp = {})
                 }
             }
         }
@@ -222,37 +134,15 @@ class AppSettingsScreenScreenshotTest {
         ) {
             GetoTheme {
                 GetoBackground {
-                    val addAppSettingsDialogState = rememberAddAppSettingsDialogState()
-
-                    val addShortcutDialogState = rememberAddShortcutDialogState()
-
-                    val updateShortcutDialogState = rememberUpdateShortcutDialogState()
-
-                    val scrollState = rememberScrollState()
-
                     AppSettingsScreen(snackbarHostState = SnackbarHostState(),
                                       appName = "Geto",
-                                      packageName = "Geto",
-                                      shortcutIntent = Intent(),
                                       appSettingsUiState = AppSettingsUiState.Loading,
-                                      addAppSettingsDialogState = addAppSettingsDialogState,
-                                      addShortcutDialogState = addShortcutDialogState,
-                                      updateShortcutDialogState = updateShortcutDialogState,
-                                      showCopyPermissionCommandDialog = false,
                                       onNavigationIconClick = {},
                                       onRevertSettingsIconClick = {},
                                       onSettingsIconClick = {},
                                       onShortcutIconClick = {},
                                       onAppSettingsItemCheckBoxChange = { _, _ -> },
-                                      onDeleteAppSettingsItem = {},
-                                      onLaunchApp = {},
-                                      scrollState = scrollState,
-                                      onAddSettings = {},
-                                      onAddShortcut = {},
-                                      onUpdateShortcut = {},
-                                      onCopyPermissionCommand = {},
-                                      onRefreshShortcut = {},
-                                      onDismissRequestCopyPermissionCommand = {})
+                                      onDeleteAppSettingsItem = {}, onLaunchApp = {})
                 }
             }
         }
@@ -268,37 +158,16 @@ class AppSettingsScreenScreenshotTest {
         ) {
             GetoTheme {
                 GetoBackground {
-                    val addAppSettingsDialogState = rememberAddAppSettingsDialogState()
-
-                    val addShortcutDialogState = rememberAddShortcutDialogState()
-
-                    val updateShortcutDialogState = rememberUpdateShortcutDialogState()
-
-                    val scrollState = rememberScrollState()
-
                     AppSettingsScreen(snackbarHostState = SnackbarHostState(),
                                       appName = "Geto",
-                                      packageName = "Geto",
-                                      shortcutIntent = Intent(),
-                                      appSettingsUiState = AppSettingsUiState.Empty,
-                                      addAppSettingsDialogState = addAppSettingsDialogState,
-                                      addShortcutDialogState = addShortcutDialogState,
-                                      updateShortcutDialogState = updateShortcutDialogState,
-                                      showCopyPermissionCommandDialog = false,
+                                      appSettingsUiState = AppSettingsUiState.Success(emptyList()),
                                       onNavigationIconClick = {},
                                       onRevertSettingsIconClick = {},
                                       onSettingsIconClick = {},
                                       onShortcutIconClick = {},
                                       onAppSettingsItemCheckBoxChange = { _, _ -> },
                                       onDeleteAppSettingsItem = {},
-                                      onLaunchApp = {},
-                                      scrollState = scrollState,
-                                      onAddSettings = {},
-                                      onAddShortcut = {},
-                                      onUpdateShortcut = {},
-                                      onCopyPermissionCommand = {},
-                                      onRefreshShortcut = {},
-                                      onDismissRequestCopyPermissionCommand = {})
+                                      onLaunchApp = {})
                 }
             }
         }

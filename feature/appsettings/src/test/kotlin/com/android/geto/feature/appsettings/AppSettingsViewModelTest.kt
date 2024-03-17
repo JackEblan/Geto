@@ -140,20 +140,6 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun appSettingsUiStateIsEmpty_whenDataIsEmpty() = runTest {
-        val collectJob =
-            launch(UnconfinedTestDispatcher()) { viewModel.appSettingsUiState.collect() }
-
-        appSettingsRepository.setAppSettings(emptyList())
-
-        val item = viewModel.appSettingsUiState.value
-
-        assertIs<AppSettingsUiState.Empty>(item)
-
-        collectJob.cancel()
-    }
-
-    @Test
     fun applyAppSettingsResultIsSuccess_whenLaunchApp() = runTest {
         packageRepository.setNonSystemApps(
             listOf(
