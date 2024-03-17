@@ -1,6 +1,6 @@
 <div align = "center">
 
-<img width="" src="app/src/main/ic_launcher-playstore.png" alt="Geto" align="center">
+<img width="100" src="app/src/main/ic_launcher-playstore.png" alt="Geto" align="center">
 
 # Geto
 
