@@ -55,8 +55,7 @@ class SettingsScreenTest {
             SettingsScreen(settingsUiState = SettingsUiState.Success(
                 UserEditableSettings(
                     brand = ThemeBrand.DEFAULT,
-                    useDynamicColor = true,
-                    darkThemeConfig = DarkThemeConfig.DARK
+                    useDynamicColor = true, darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM
                 )
             ), onThemeDialog = {}, onDarkDialog = {},
                            onChangeDynamicColorPreference = {},
@@ -72,10 +71,9 @@ class SettingsScreenTest {
             SettingsScreen(settingsUiState = SettingsUiState.Success(
                 UserEditableSettings(
                     brand = ThemeBrand.DEFAULT,
-                    useDynamicColor = true,
-                    darkThemeConfig = DarkThemeConfig.DARK
+                    useDynamicColor = true, darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM
                 )
-            ), onThemeDialog = {}, onDarkDialog = {},
+            ), supportDynamicColor = true, onThemeDialog = {}, onDarkDialog = {},
                            onChangeDynamicColorPreference = {},
                            onNavigationIconClick = {})
         }
@@ -84,15 +82,14 @@ class SettingsScreenTest {
     }
 
     @Test
-    fun dynamicColorSwitchIsOff_whenDynamicColorIsFalse() {
+    fun dynamicColorSwitchIsOff_whenUseDynamicColorIsFalse() {
         composeTestRule.setContent {
             SettingsScreen(settingsUiState = SettingsUiState.Success(
                 UserEditableSettings(
                     brand = ThemeBrand.DEFAULT,
-                    useDynamicColor = false,
-                    darkThemeConfig = DarkThemeConfig.DARK
+                    useDynamicColor = false, darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM
                 )
-            ), onThemeDialog = {}, onDarkDialog = {},
+            ), supportDynamicColor = true, onThemeDialog = {}, onDarkDialog = {},
                            onChangeDynamicColorPreference = {},
                            onNavigationIconClick = {})
         }
@@ -106,10 +103,9 @@ class SettingsScreenTest {
             SettingsScreen(settingsUiState = SettingsUiState.Success(
                 UserEditableSettings(
                     brand = ThemeBrand.DEFAULT,
-                    useDynamicColor = true,
-                    darkThemeConfig = DarkThemeConfig.DARK
+                    useDynamicColor = true, darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM
                 )
-            ), onThemeDialog = {}, onDarkDialog = {},
+            ), supportDynamicColor = true, onThemeDialog = {}, onDarkDialog = {},
                            onChangeDynamicColorPreference = {},
                            onNavigationIconClick = {})
         }
@@ -123,10 +119,28 @@ class SettingsScreenTest {
             SettingsScreen(settingsUiState = SettingsUiState.Success(
                 UserEditableSettings(
                     brand = ThemeBrand.ANDROID,
-                    useDynamicColor = true,
-                    darkThemeConfig = DarkThemeConfig.DARK
+                    useDynamicColor = true, darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM
                 )
-            ), onThemeDialog = {}, onDarkDialog = {},
+            ), supportDynamicColor = true, onThemeDialog = {}, onDarkDialog = {},
+                           onChangeDynamicColorPreference = {},
+                           onNavigationIconClick = {})
+        }
+
+        composeTestRule.onNodeWithTag("settings:dynamic").assertIsNotDisplayed()
+    }
+
+    @Test
+    fun dynamicRowIsNotDisplayed_whenUnSupportDynamicColor() {
+        composeTestRule.setContent {
+            SettingsScreen(settingsUiState = SettingsUiState.Success(
+                UserEditableSettings(
+                    brand = ThemeBrand.ANDROID,
+                    useDynamicColor = true, darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM
+                )
+            ),
+                           supportDynamicColor = false,
+                           onThemeDialog = {},
+                           onDarkDialog = {},
                            onChangeDynamicColorPreference = {},
                            onNavigationIconClick = {})
         }
