@@ -2,10 +2,19 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
+      <entry key="AppSettingsScreenTest">
+        <State />
+      </entry>
+      <entry key="SettingsScreenTest">
+        <State />
+      </entry>
       <entry key="app">
         <State />
       </entry>
       <entry key="feature.shortcut">
+        <State />
+      </entry>
+      <entry key="snackbarExists_whenLaunchIconIsClicked_dataIsEmpty()">
         <State />
       </entry>
     </value>

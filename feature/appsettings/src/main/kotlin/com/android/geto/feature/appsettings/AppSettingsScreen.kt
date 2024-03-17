@@ -21,7 +21,6 @@ package com.android.geto.feature.appsettings
 import android.content.Intent
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,7 +33,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -78,14 +76,11 @@ import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.domain.AppSettingsResult
 import com.android.geto.core.model.AppSettings
 import com.android.geto.core.model.SettingsType
-import com.android.geto.core.model.TargetShortcutInfoCompat
 import com.android.geto.core.ui.AppSettingsPreviewParameterProvider
 import com.android.geto.feature.appsettings.dialog.appsettings.AddAppSettingsDialog
-import com.android.geto.feature.appsettings.dialog.appsettings.AppSettingsDialogState
 import com.android.geto.feature.appsettings.dialog.appsettings.rememberAddAppSettingsDialogState
 import com.android.geto.feature.appsettings.dialog.copypermissioncommand.CopyPermissionCommandDialog
 import com.android.geto.feature.appsettings.dialog.shortcut.AddShortcutDialog
-import com.android.geto.feature.appsettings.dialog.shortcut.ShortcutDialogState
 import com.android.geto.feature.appsettings.dialog.shortcut.UpdateShortcutDialog
 import com.android.geto.feature.appsettings.dialog.shortcut.rememberAddShortcutDialogState
 import com.android.geto.feature.appsettings.dialog.shortcut.rememberUpdateShortcutDialogState
@@ -96,7 +91,6 @@ internal fun AppSettingsRoute(
     viewModel: AppSettingsViewModel = hiltViewModel(),
     onNavigationIconClick: () -> Unit
 ) {
-
     val appSettingsDisabled = stringResource(id = R.string.app_settings_disabled)
     val emptyAppSettingsList = stringResource(id = R.string.empty_app_settings_list)
     val applyFailure = stringResource(id = R.string.apply_failure)
@@ -153,15 +147,13 @@ internal fun AppSettingsRoute(
 
     val clipboardResult = viewModel.clipboardResult.collectAsStateWithLifecycle().value
 
-    val addSettingsDialogState = rememberAddAppSettingsDialogState()
+    val addAppSettingsDialogState = rememberAddAppSettingsDialogState()
 
     val addShortcutDialogState = rememberAddShortcutDialogState()
 
     val updateShortcutDialogState = rememberUpdateShortcutDialogState()
 
-    val keyDebounce = addSettingsDialogState.keyDebounce.collectAsStateWithLifecycle("").value
-
-    val scrollState = rememberScrollState()
+    val keyDebounce = addAppSettingsDialogState.keyDebounce.collectAsStateWithLifecycle("").value
 
     LaunchedEffect(key1 = true) {
         viewModel.getShortcut(viewModel.packageName)
@@ -244,15 +236,17 @@ internal fun AppSettingsRoute(
     }
 
     LaunchedEffect(
-        key1 = addSettingsDialogState.selectedRadioOptionIndex, key2 = keyDebounce
+        key1 = addAppSettingsDialogState.selectedRadioOptionIndex, key2 = keyDebounce
     ) {
-        val settingsType = SettingsType.entries[addSettingsDialogState.selectedRadioOptionIndex]
+        val settingsType = SettingsType.entries[addAppSettingsDialogState.selectedRadioOptionIndex]
 
-        viewModel.getSecureSettings(text = addSettingsDialogState.key, settingsType = settingsType)
+        viewModel.getSecureSettings(
+            text = addAppSettingsDialogState.key, settingsType = settingsType
+        )
     }
 
     LaunchedEffect(key1 = secureSettings) {
-        addSettingsDialogState.updateSecureSettings(secureSettings)
+        addAppSettingsDialogState.updateSecureSettings(secureSettings)
     }
 
     LaunchedEffect(key1 = applicationIcon) {
@@ -262,47 +256,79 @@ internal fun AppSettingsRoute(
         }
     }
 
-    AppSettingsScreen(modifier = modifier,
-                      snackbarHostState = snackbarHostState,
-                      appName = viewModel.appName,
-                      packageName = viewModel.packageName,
-                      shortcutIntent = shortcutIntent,
-                      appSettingsUiState = appSettingsUiState,
-                      addAppSettingsDialogState = addSettingsDialogState,
-                      addShortcutDialogState = addShortcutDialogState,
-                      updateShortcutDialogState = updateShortcutDialogState,
-                      showCopyPermissionCommandDialog = showCopyPermissionCommandDialog,
-                      onNavigationIconClick = onNavigationIconClick,
-                      onRevertSettingsIconClick = viewModel::revertSettings,
-                      onSettingsIconClick = {
-                          addSettingsDialogState.updateShowDialog(true)
-                      },
-                      onShortcutIconClick = {
-                          if (shortcut != null) {
-                              updateShortcutDialogState.updateShortLabel(shortcut.shortLabel!!)
-                              updateShortcutDialogState.updateLongLabel(shortcut.longLabel!!)
-                              updateShortcutDialogState.updateShowDialog(true)
-                          } else {
-                              addShortcutDialogState.updateShowDialog(true)
-                          }
-                      },
-                      onAppSettingsItemCheckBoxChange = viewModel::appSettingsItemCheckBoxChange,
-                      onDeleteAppSettingsItem = viewModel::deleteAppSettingsItem,
-                      onLaunchApp = viewModel::launchApp,
-                      scrollState = scrollState,
-                      onAddSettings = viewModel::addSettings,
-                      onAddShortcut = viewModel::requestPinShortcut,
-                      onUpdateShortcut = viewModel::updateRequestPinShortcut,
-                      onRefreshShortcut = {
-                          viewModel.getShortcut(viewModel.packageName)
-                      },
-                      onCopyPermissionCommand = {
-                          viewModel.copyPermissionCommand()
-                          showCopyPermissionCommandDialog = false
-                      },
-                      onDismissRequestCopyPermissionCommand = {
-                          showCopyPermissionCommandDialog = false
-                      })
+    if (addAppSettingsDialogState.showDialog) {
+        AddAppSettingsDialog(
+            addAppSettingsDialogState = addAppSettingsDialogState, onAddSettings = {
+                addAppSettingsDialogState.getAppSettings(packageName = viewModel.packageName)?.let {
+                    viewModel.addSettings(it)
+                    addAppSettingsDialogState.resetState()
+                }
+            }, contentDescription = "Add App Settings Dialog"
+        )
+    }
+
+    if (showCopyPermissionCommandDialog) {
+        CopyPermissionCommandDialog(onDismissRequest = { showCopyPermissionCommandDialog = false },
+                                    onCopySettings = {
+                                        viewModel.copyPermissionCommand()
+                                        showCopyPermissionCommandDialog = false
+                                    },
+                                    contentDescription = "Copy Permission Command Dialog"
+        )
+    }
+
+    if (addShortcutDialogState.showDialog) {
+        AddShortcutDialog(shortcutDialogState = addShortcutDialogState, onRefreshShortcut = {
+            viewModel.getShortcut(viewModel.packageName)
+            addShortcutDialogState.updateShowDialog(false)
+        }, onAddShortcut = {
+            addShortcutDialogState.getShortcut(
+                packageName = viewModel.packageName, shortcutIntent = shortcutIntent
+            )?.let {
+                viewModel.requestPinShortcut(it)
+                addShortcutDialogState.resetState()
+            }
+        }, contentDescription = "Add Shortcut Dialog")
+    }
+
+    if (updateShortcutDialogState.showDialog) {
+        UpdateShortcutDialog(shortcutDialogState = updateShortcutDialogState, onRefreshShortcut = {
+            viewModel.getShortcut(viewModel.packageName)
+            updateShortcutDialogState.updateShowDialog(false)
+        }, onUpdateShortcut = {
+            updateShortcutDialogState.getShortcut(
+                packageName = viewModel.packageName, shortcutIntent = shortcutIntent
+            )?.let {
+                viewModel.updateRequestPinShortcut(it)
+                updateShortcutDialogState.resetState()
+            }
+        }, contentDescription = "Update Shortcut Dialog"
+        )
+    }
+
+    AppSettingsScreen(
+        modifier = modifier,
+        snackbarHostState = snackbarHostState,
+        appName = viewModel.appName,
+        appSettingsUiState = appSettingsUiState,
+        onNavigationIconClick = onNavigationIconClick,
+        onRevertSettingsIconClick = viewModel::revertSettings,
+        onSettingsIconClick = {
+            addAppSettingsDialogState.updateShowDialog(true)
+        },
+        onShortcutIconClick = {
+            if (shortcut != null) {
+                updateShortcutDialogState.updateShortLabel(shortcut.shortLabel!!)
+                updateShortcutDialogState.updateLongLabel(shortcut.longLabel!!)
+                updateShortcutDialogState.updateShowDialog(true)
+            } else {
+                addShortcutDialogState.updateShowDialog(true)
+            }
+        },
+        onAppSettingsItemCheckBoxChange = viewModel::appSettingsItemCheckBoxChange,
+        onDeleteAppSettingsItem = viewModel::deleteAppSettingsItem,
+        onLaunchApp = viewModel::launchApp
+    )
 }
 
 @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
@@ -312,13 +338,7 @@ internal fun AppSettingsScreen(
     modifier: Modifier = Modifier,
     snackbarHostState: SnackbarHostState,
     appName: String,
-    packageName: String,
-    shortcutIntent: Intent,
     appSettingsUiState: AppSettingsUiState,
-    addAppSettingsDialogState: AppSettingsDialogState,
-    addShortcutDialogState: ShortcutDialogState,
-    updateShortcutDialogState: ShortcutDialogState,
-    showCopyPermissionCommandDialog: Boolean,
     onNavigationIconClick: () -> Unit,
     onRevertSettingsIconClick: () -> Unit,
     onSettingsIconClick: () -> Unit,
@@ -326,69 +346,7 @@ internal fun AppSettingsScreen(
     onAppSettingsItemCheckBoxChange: (Boolean, AppSettings) -> Unit,
     onDeleteAppSettingsItem: (AppSettings) -> Unit,
     onLaunchApp: () -> Unit,
-    scrollState: ScrollState,
-    onAddSettings: (appSettings: AppSettings) -> Unit,
-    onAddShortcut: (targetShortcutInfoCompat: TargetShortcutInfoCompat) -> Unit,
-    onUpdateShortcut: (targetShortcutInfoCompat: TargetShortcutInfoCompat) -> Unit,
-    onRefreshShortcut: () -> Unit,
-    onCopyPermissionCommand: () -> Unit,
-    onDismissRequestCopyPermissionCommand: () -> Unit,
 ) {
-    if (addAppSettingsDialogState.showDialog) {
-        AddAppSettingsDialog(
-            addAppSettingsDialogState = addAppSettingsDialogState,
-            scrollState = scrollState,
-            onAddSettings = {
-                addAppSettingsDialogState.getAppSettings(packageName = packageName)?.let {
-                    onAddSettings(it)
-                    addAppSettingsDialogState.resetState()
-                }
-            },
-            contentDescription = "Add App Settings Dialog"
-        )
-    }
-
-    if (showCopyPermissionCommandDialog) {
-        CopyPermissionCommandDialog(
-            onDismissRequest = onDismissRequestCopyPermissionCommand,
-            onCopySettings = onCopyPermissionCommand,
-            contentDescription = "Copy Permission Command Dialog"
-        )
-    }
-
-    if (addShortcutDialogState.showDialog) {
-        AddShortcutDialog(shortcutDialogState = addShortcutDialogState, onRefreshShortcut = {
-            onRefreshShortcut()
-            addShortcutDialogState.updateShowDialog(
-                false
-            )
-        }, onAddShortcut = {
-            addShortcutDialogState.getShortcut(
-                packageName = packageName, shortcutIntent = shortcutIntent
-            )?.let {
-                onAddShortcut(
-                    it
-                )
-                addShortcutDialogState.resetState()
-            }
-        }, contentDescription = "Add Shortcut Dialog")
-    }
-
-    if (updateShortcutDialogState.showDialog) {
-        UpdateShortcutDialog(shortcutDialogState = updateShortcutDialogState, onRefreshShortcut = {
-            onRefreshShortcut()
-            updateShortcutDialogState.updateShowDialog(false)
-        }, onUpdateShortcut = {
-            updateShortcutDialogState.getShortcut(
-                packageName = packageName, shortcutIntent = shortcutIntent
-            )?.let {
-                onUpdateShortcut(it)
-                updateShortcutDialogState.resetState()
-            }
-        }, contentDescription = "Update Shortcut Dialog"
-        )
-    }
-
     Scaffold(topBar = {
         TopAppBar(title = {
             Text(text = appName, maxLines = 1)
@@ -406,7 +364,7 @@ internal fun AppSettingsScreen(
                 positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
                 tooltip = {
                     PlainTooltip {
-                        Text("Revert the applied settings to their original values")
+                        Text(stringResource(R.string.revert_the_applied_settings_to_their_original_values))
                     }
                 },
                 state = rememberTooltipState()
@@ -423,7 +381,7 @@ internal fun AppSettingsScreen(
                 positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
                 tooltip = {
                     PlainTooltip {
-                        Text("Add a custom settings to this app")
+                        Text(stringResource(R.string.add_a_custom_settings_to_this_app))
                     }
                 },
                 state = rememberTooltipState()
@@ -442,7 +400,7 @@ internal fun AppSettingsScreen(
                 positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
                 tooltip = {
                     PlainTooltip {
-                        Text("Add a shortcut to this app")
+                        Text(stringResource(R.string.add_a_shortcut_to_this_app))
                     }
                 },
                 state = rememberTooltipState()
@@ -477,21 +435,21 @@ internal fun AppSettingsScreen(
                 .consumeWindowInsets(innerPadding)
         ) {
             when (appSettingsUiState) {
-                AppSettingsUiState.Empty -> {
-                    EmptyState()
-                }
-
                 AppSettingsUiState.Loading -> {
                     LoadingState(modifier = Modifier.align(Alignment.Center))
                 }
 
                 is AppSettingsUiState.Success -> {
-                    SuccessState(
-                        appSettingsList = appSettingsUiState.appSettingsList,
-                        contentPadding = innerPadding,
-                        onAppSettingsItemCheckBoxChange = onAppSettingsItemCheckBoxChange,
-                        onDeleteAppSettingsItem = onDeleteAppSettingsItem
-                    )
+                    if (appSettingsUiState.appSettingsList.isNotEmpty()) {
+                        SuccessState(
+                            appSettingsList = appSettingsUiState.appSettingsList,
+                            contentPadding = innerPadding,
+                            onAppSettingsItemCheckBoxChange = onAppSettingsItemCheckBoxChange,
+                            onDeleteAppSettingsItem = onDeleteAppSettingsItem
+                        )
+                    } else {
+                        EmptyState()
+                    }
                 }
             }
         }
