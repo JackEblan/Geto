@@ -142,7 +142,7 @@ class AppSettingsDialogScreenshotTest {
     @Test
     fun app_settings_dialog_filled_textfields_dark() {
         composeTestRule.captureScreenRoboImageForDevice(
-            path = "AppSettingsDialog/AppSettingsDialogErrorTextFields",
+            path = "AppSettingsDialog/AppSettingsDialogFilledTextFields",
             deviceName = "phone_dark",
             deviceSpec = DefaultTestDevices.PHONE.spec,
             darkMode = true,
