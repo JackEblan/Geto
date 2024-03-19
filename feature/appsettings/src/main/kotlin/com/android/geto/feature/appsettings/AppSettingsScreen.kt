@@ -20,6 +20,7 @@ package com.android.geto.feature.appsettings
 
 import android.content.Intent
 import androidx.annotation.VisibleForTesting
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -28,7 +29,9 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
@@ -511,13 +514,18 @@ private fun SuccessState(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 private fun LazyListScope.appSettings(
     appSettingsList: List<AppSettings>,
     onAppSettingsItemCheckBoxChange: (Boolean, AppSettings) -> Unit,
     onDeleteAppSettingsItem: (AppSettings) -> Unit,
 ) {
-    items(appSettingsList) { appSettings ->
-        AppSettingsItem(enabled = appSettings.enabled,
+    items(appSettingsList, key = { it.key }) { appSettings ->
+        AppSettingsItem(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 10.dp, horizontal = 5.dp)
+                .animateItemPlacement(), enabled = appSettings.enabled,
                         label = appSettings.label,
                         settingsTypeLabel = appSettings.settingsType.label,
                         key = appSettings.key,

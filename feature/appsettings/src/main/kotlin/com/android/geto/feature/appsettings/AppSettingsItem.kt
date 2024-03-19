@@ -21,9 +21,7 @@ package com.android.geto.feature.appsettings
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Checkbox
@@ -49,10 +47,8 @@ fun AppSettingsItem(
     onDeleteUserAppSettingsItem: () -> Unit,
 ) {
     Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(vertical = 10.dp, horizontal = 5.dp),
-        verticalAlignment = Alignment.CenterVertically
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Checkbox(checked = enabled, onCheckedChange = {
             onUserAppSettingsItemCheckBoxChange(it)
