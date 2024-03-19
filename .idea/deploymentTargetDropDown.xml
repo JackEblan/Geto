@@ -2,22 +2,19 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
+      <entry key="AddAppSettingsDialogTest">
+        <State />
+      </entry>
       <entry key="AppSettingsScreenTest">
         <State />
       </entry>
-      <entry key="SettingsScreenTest">
+      <entry key="UpdateShortcutDialogTest">
         <State />
       </entry>
       <entry key="app">
         <State />
       </entry>
-      <entry key="dynamicColorSwitchIsOff_whenUseDynamicColorIsFalse()">
-        <State />
-      </entry>
       <entry key="feature.shortcut">
-        <State />
-      </entry>
-      <entry key="snackbarExists_whenLaunchIconIsClicked_dataIsEmpty()">
         <State />
       </entry>
     </value>

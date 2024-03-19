@@ -21,6 +21,7 @@ package com.android.geto.feature.appsettings.dialog.appsettings
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.test.core.app.ApplicationProvider
 import com.android.geto.core.designsystem.component.GetoBackground
 import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.screenshot.testing.util.DefaultTestDevices
@@ -44,11 +45,14 @@ class AppSettingsDialogScreenshotTest {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
+    private val context = ApplicationProvider.getApplicationContext<HiltTestApplication>()
+
     @Test
     fun app_settings_dialog_empty() {
         composeTestRule.captureScreenRoboImageMultiDevice(path = "AppSettingsDialog/AppSettingsDialogEmpty") {
             GetoTheme {
-                val addAppSettingsDialogState = rememberAddAppSettingsDialogState()
+                val addAppSettingsDialogState =
+                    rememberAddAppSettingsDialogState(resources = context.resources)
 
                 val scrollState = rememberScrollState()
 
@@ -68,7 +72,8 @@ class AppSettingsDialogScreenshotTest {
             path = "AppSettingsDialog/AppSettingsDialogFilledTextFields"
         ) {
             GetoTheme {
-                val addAppSettingsDialogState = rememberAddAppSettingsDialogState()
+                val addAppSettingsDialogState =
+                    rememberAddAppSettingsDialogState(resources = context.resources)
 
                 val scrollState = rememberScrollState()
 
@@ -98,7 +103,8 @@ class AppSettingsDialogScreenshotTest {
             path = "AppSettingsDialog/AppSettingsDialogErrorTextFields"
         ) {
             GetoTheme {
-                val addAppSettingsDialogState = rememberAddAppSettingsDialogState()
+                val addAppSettingsDialogState =
+                    rememberAddAppSettingsDialogState(resources = context.resources)
 
                 val scrollState = rememberScrollState()
 
@@ -124,7 +130,8 @@ class AppSettingsDialogScreenshotTest {
         ) {
             GetoTheme {
                 GetoBackground {
-                    val addAppSettingsDialogState = rememberAddAppSettingsDialogState()
+                    val addAppSettingsDialogState =
+                        rememberAddAppSettingsDialogState(resources = context.resources)
 
                     val scrollState = rememberScrollState()
 
@@ -149,7 +156,8 @@ class AppSettingsDialogScreenshotTest {
         ) {
             GetoTheme {
                 GetoBackground {
-                    val addAppSettingsDialogState = rememberAddAppSettingsDialogState()
+                    val addAppSettingsDialogState =
+                        rememberAddAppSettingsDialogState(resources = context.resources)
 
                     val scrollState = rememberScrollState()
 
@@ -184,7 +192,8 @@ class AppSettingsDialogScreenshotTest {
         ) {
             GetoTheme {
                 GetoBackground {
-                    val addAppSettingsDialogState = rememberAddAppSettingsDialogState()
+                    val addAppSettingsDialogState =
+                        rememberAddAppSettingsDialogState(resources = context.resources)
 
                     val scrollState = rememberScrollState()
 
