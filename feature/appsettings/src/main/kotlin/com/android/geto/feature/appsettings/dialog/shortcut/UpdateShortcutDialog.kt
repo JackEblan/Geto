@@ -18,6 +18,7 @@
 
 package com.android.geto.feature.appsettings.dialog.shortcut
 
+import android.content.res.Resources
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -104,7 +105,8 @@ internal fun UpdateShortcutDialogScreen(
             Text(
                 modifier = Modifier
                     .padding(horizontal = 5.dp)
-                    .weight(1f), text = stringResource(R.string.update_shortcut),
+                    .weight(1f),
+                text = stringResource(R.string.update_shortcut),
                 style = MaterialTheme.typography.titleLarge
             )
 
@@ -202,9 +204,9 @@ internal fun UpdateShortcutDialogScreen(
 }
 
 @Composable
-internal fun rememberUpdateShortcutDialogState(): ShortcutDialogState {
+internal fun rememberUpdateShortcutDialogState(resources: Resources): ShortcutDialogState {
     return rememberSaveable(saver = ShortcutDialogState.Saver) {
-        ShortcutDialogState()
+        ShortcutDialogState(resources = resources)
     }
 }
 

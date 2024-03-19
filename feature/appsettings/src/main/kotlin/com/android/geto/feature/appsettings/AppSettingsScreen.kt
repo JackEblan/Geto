@@ -147,11 +147,11 @@ internal fun AppSettingsRoute(
 
     val clipboardResult = viewModel.clipboardResult.collectAsStateWithLifecycle().value
 
-    val addAppSettingsDialogState = rememberAddAppSettingsDialogState()
+    val addAppSettingsDialogState = rememberAddAppSettingsDialogState(resources = context.resources)
 
-    val addShortcutDialogState = rememberAddShortcutDialogState()
+    val addShortcutDialogState = rememberAddShortcutDialogState(resources = context.resources)
 
-    val updateShortcutDialogState = rememberUpdateShortcutDialogState()
+    val updateShortcutDialogState = rememberUpdateShortcutDialogState(resources = context.resources)
 
     val keyDebounce = addAppSettingsDialogState.keyDebounce.collectAsStateWithLifecycle("").value
 

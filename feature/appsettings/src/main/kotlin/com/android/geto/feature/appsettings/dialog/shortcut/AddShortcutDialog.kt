@@ -18,6 +18,7 @@
 
 package com.android.geto.feature.appsettings.dialog.shortcut
 
+import android.content.res.Resources
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -201,13 +202,10 @@ internal fun AddShortcutDialogScreen(
 }
 
 @Composable
-internal fun rememberAddShortcutDialogState(): ShortcutDialogState {
-    val shortcutDialogState = ShortcutDialogState()
-
-    shortcutDialogState.GetStringResources()
+internal fun rememberAddShortcutDialogState(resources: Resources): ShortcutDialogState {
 
     return rememberSaveable(saver = ShortcutDialogState.Saver) {
-        shortcutDialogState
+        ShortcutDialogState(resources = resources)
     }
 }
 

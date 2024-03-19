@@ -19,21 +19,20 @@
 package com.android.geto.feature.appsettings.dialog.shortcut
 
 import android.content.Intent
+import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.res.stringResource
 import androidx.core.graphics.drawable.toBitmap
 import com.android.geto.core.model.TargetShortcutInfoCompat
 import com.android.geto.feature.appsettings.R
 
 @Stable
-internal class ShortcutDialogState {
+internal class ShortcutDialogState(private val resources: Resources? = null) {
     var showDialog by mutableStateOf(false)
         private set
 
@@ -52,10 +51,6 @@ internal class ShortcutDialogState {
     var longLabelError by mutableStateOf("")
         private set
 
-    private var shortLabelErrorStringRes = ""
-
-    private var longLabelErrorStringRes = ""
-
     fun updateShowDialog(value: Boolean) {
         showDialog = value
     }
@@ -72,12 +67,6 @@ internal class ShortcutDialogState {
         longLabel = value
     }
 
-    @Composable
-    fun GetStringResources() {
-        shortLabelErrorStringRes = stringResource(R.string.short_label_is_blank)
-        longLabelErrorStringRes = stringResource(R.string.long_label_is_blank)
-    }
-
     fun resetState() {
         showDialog = false
         longLabel = ""
@@ -85,9 +74,11 @@ internal class ShortcutDialogState {
     }
 
     fun getShortcut(packageName: String, shortcutIntent: Intent): TargetShortcutInfoCompat? {
-        shortLabelError = if (shortLabel.isBlank()) shortLabelErrorStringRes else ""
+        shortLabelError =
+            if (shortLabel.isBlank()) resources!!.getString(R.string.short_label_is_blank) else ""
 
-        longLabelError = if (longLabel.isBlank()) longLabelErrorStringRes else ""
+        longLabelError =
+            if (longLabel.isBlank()) resources!!.getString(R.string.long_label_is_blank) else ""
 
         return if (shortLabelError.isBlank() && longLabelError.isBlank()) {
             TargetShortcutInfoCompat(
