@@ -46,6 +46,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.ImeAction
@@ -55,6 +56,7 @@ import androidx.compose.ui.window.Dialog
 import com.android.geto.core.designsystem.component.GetoAsyncImage
 import com.android.geto.core.designsystem.icon.GetoIcons
 import com.android.geto.core.designsystem.theme.GetoTheme
+import com.android.geto.feature.appsettings.R
 
 @Composable
 internal fun AddShortcutDialog(
@@ -102,8 +104,7 @@ internal fun AddShortcutDialogScreen(
             Text(
                 modifier = Modifier
                     .padding(horizontal = 5.dp)
-                    .weight(1f),
-                text = "Add Shortcut",
+                    .weight(1f), text = stringResource(R.string.add_shortcut),
                 style = MaterialTheme.typography.titleLarge
             )
 
@@ -112,7 +113,7 @@ internal fun AddShortcutDialogScreen(
                 positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
                 tooltip = {
                     PlainTooltip {
-                        Text("Refresh shortcut info")
+                        Text(stringResource(R.string.refresh_shortcut_info))
                     }
                 },
                 state = rememberTooltipState()
@@ -144,7 +145,7 @@ internal fun AddShortcutDialogScreen(
             value = shortcutDialogState.shortLabel,
             onValueChange = shortcutDialogState::updateShortLabel,
             label = {
-                Text(text = "Short label")
+                Text(text = stringResource(R.string.short_label))
             },
             isError = shortcutDialogState.shortLabelError.isNotBlank(),
             supportingText = {
@@ -164,7 +165,7 @@ internal fun AddShortcutDialogScreen(
             value = shortcutDialogState.longLabel,
             onValueChange = shortcutDialogState::updateLongLabel,
             label = {
-                Text(text = "Long label")
+                Text(text = stringResource(R.string.long_label))
             },
             isError = shortcutDialogState.longLabelError.isNotBlank(),
             supportingText = {
@@ -185,7 +186,7 @@ internal fun AddShortcutDialogScreen(
                 onClick = { shortcutDialogState.updateShowDialog(false) },
                 modifier = Modifier.padding(5.dp)
             ) {
-                Text("Cancel")
+                Text(stringResource(id = R.string.cancel))
             }
             TextButton(
                 onClick = onAddShortcut,
@@ -193,7 +194,7 @@ internal fun AddShortcutDialogScreen(
                     .padding(5.dp)
                     .testTag("addShortcutDialog:add")
             ) {
-                Text("Add")
+                Text(stringResource(id = R.string.add))
             }
         }
     }
@@ -201,8 +202,12 @@ internal fun AddShortcutDialogScreen(
 
 @Composable
 internal fun rememberAddShortcutDialogState(): ShortcutDialogState {
+    val shortcutDialogState = ShortcutDialogState()
+
+    shortcutDialogState.GetStringResources()
+
     return rememberSaveable(saver = ShortcutDialogState.Saver) {
-        ShortcutDialogState()
+        shortcutDialogState
     }
 }
 

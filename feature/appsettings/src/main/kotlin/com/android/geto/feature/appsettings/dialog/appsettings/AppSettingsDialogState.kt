@@ -26,9 +26,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.res.stringResource
 import com.android.geto.core.model.AppSettings
 import com.android.geto.core.model.SecureSettings
 import com.android.geto.core.model.SettingsType
+import com.android.geto.feature.appsettings.R
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.debounce
@@ -36,8 +38,12 @@ import kotlinx.coroutines.flow.debounce
 
 @Composable
 internal fun rememberAddAppSettingsDialogState(): AppSettingsDialogState {
+    val appSettingsDialogState = AppSettingsDialogState()
+
+    appSettingsDialogState.GetStringResources()
+
     return rememberSaveable(saver = AppSettingsDialogState.Saver) {
-        AppSettingsDialogState()
+        appSettingsDialogState
     }
 }
 
@@ -82,6 +88,15 @@ internal class AppSettingsDialogState {
 
     private val _keyDebounce = MutableStateFlow("")
 
+    private var keyErrorStringRes = ""
+    private var settingskeyNotFoundErrorStringRes = ""
+
+    private var labelErrorStringRes = ""
+
+    private var valueOnLaunchErrorStringRes = ""
+
+    private var valueOnRevertErrorStringRes = ""
+
     @OptIn(FlowPreview::class)
     val keyDebounce = _keyDebounce.debounce(500)
 
@@ -118,6 +133,15 @@ internal class AppSettingsDialogState {
         valueOnRevert = value
     }
 
+    @Composable
+    fun GetStringResources() {
+        labelErrorStringRes = stringResource(R.string.settings_label_is_blank)
+        keyErrorStringRes = stringResource(R.string.settings_key_is_blank)
+        settingskeyNotFoundErrorStringRes = stringResource(R.string.settings_key_not_found)
+        valueOnLaunchErrorStringRes = stringResource(R.string.settings_value_on_launch_is_blank)
+        valueOnRevertErrorStringRes = stringResource(R.string.settings_value_on_revert_is_blank)
+    }
+
     fun resetState() {
         secureSettingsExpanded = false
         secureSettings = emptyList()
@@ -129,20 +153,18 @@ internal class AppSettingsDialogState {
     }
 
     fun getAppSettings(packageName: String): AppSettings? {
-        labelError = if (label.isBlank()) "Settings label is blank" else ""
+        labelError = if (label.isBlank()) labelErrorStringRes else ""
 
-        keyError = if (key.isBlank()) "Settings key is blank"
+        keyError = if (key.isBlank()) keyErrorStringRes
         else ""
 
         settingsKeyNotFoundError = if (key.isNotBlank() && !secureSettings.mapNotNull { it.name }
-                .contains(key)) "Settings key not found"
+                .contains(key)) settingskeyNotFoundErrorStringRes
         else ""
 
-        valueOnLaunchError =
-            if (valueOnLaunch.isBlank()) "Settings value on launch is blank" else ""
+        valueOnLaunchError = if (valueOnLaunch.isBlank()) valueOnLaunchErrorStringRes else ""
 
-        valueOnRevertError =
-            if (valueOnRevert.isBlank()) "Settings value on revert is blank" else ""
+        valueOnRevertError = if (valueOnRevert.isBlank()) valueOnRevertErrorStringRes else ""
 
         return if (labelError.isBlank() && settingsKeyNotFoundError.isBlank() && keyError.isBlank() && valueOnLaunchError.isBlank() && valueOnRevertError.isBlank()) {
             AppSettings(

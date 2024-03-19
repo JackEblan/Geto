@@ -39,6 +39,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -46,12 +47,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.android.geto.core.designsystem.theme.GetoTheme
+import com.android.geto.feature.settings.R
 
 @Composable
 internal fun DarkDialog(
-    modifier: Modifier = Modifier,
-    darkDialogState: DarkDialogState, 
-    onChangeDark: () -> Unit, 
+    modifier: Modifier = Modifier, darkDialogState: DarkDialogState, onChangeDark: () -> Unit,
     contentDescription: String
 ) {
     Dialog(onDismissRequest = { darkDialogState.updateShowDialog(false) }) {
@@ -72,6 +72,11 @@ internal fun DarkDialog(
 internal fun DarkDialogScreen(
     darkDialogState: DarkDialogState, onChangeDark: () -> Unit
 ) {
+    val darkMode = stringResource(id = R.string.dark_mode)
+    val followSystem = stringResource(id = R.string.follow_system)
+    val light = stringResource(id = R.string.light)
+    val dark = stringResource(id = R.string.dark)
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -80,8 +85,7 @@ internal fun DarkDialogScreen(
         Spacer(modifier = Modifier.height(10.dp))
 
         Text(
-            modifier = Modifier.padding(horizontal = 5.dp),
-            text = "Dark Mode",
+            modifier = Modifier.padding(horizontal = 5.dp), text = darkMode,
             style = MaterialTheme.typography.titleLarge
         )
 
@@ -92,7 +96,7 @@ internal fun DarkDialogScreen(
                 .fillMaxWidth()
                 .selectableGroup()
         ) {
-            listOf("Follow System", "Light", "Dark").forEachIndexed { index, text ->
+            listOf(followSystem, light, dark).forEachIndexed { index, text ->
                 Row(
                     Modifier
                         .padding(vertical = 10.dp)
@@ -129,7 +133,7 @@ internal fun DarkDialogScreen(
                 onClick = { darkDialogState.updateShowDialog(false) },
                 modifier = Modifier.padding(5.dp)
             ) {
-                Text("Cancel")
+                Text(stringResource(R.string.cancel))
             }
             TextButton(
                 onClick = onChangeDark,
@@ -137,7 +141,7 @@ internal fun DarkDialogScreen(
                     .padding(5.dp)
                     .testTag("darkDialog:change")
             ) {
-                Text("Change")
+                Text(stringResource(R.string.change))
             }
         }
     }

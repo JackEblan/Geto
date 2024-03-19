@@ -34,12 +34,14 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.android.geto.core.designsystem.theme.GetoTheme
+import com.android.geto.feature.appsettings.R
 
 @Composable
 internal fun CopyPermissionCommandDialog(
@@ -77,7 +79,7 @@ internal fun CopyPermissionCommandDialogScreen(
 
         Text(
             modifier = Modifier.padding(horizontal = 5.dp),
-            text = "Permission Error",
+            text = stringResource(R.string.permission_error),
             style = MaterialTheme.typography.titleLarge
         )
 
@@ -85,7 +87,7 @@ internal fun CopyPermissionCommandDialogScreen(
 
         Text(
             modifier = Modifier.padding(horizontal = 5.dp),
-            text = "Geto is not allowed to modify your settings database. Please allow WRITE_SECURE_SETTINGS in your terminal and execute it. You can copy the command here.",
+            text = stringResource(R.string.copy_permission_command_message),
             style = MaterialTheme.typography.bodyLarge
         )
 
@@ -99,7 +101,7 @@ internal fun CopyPermissionCommandDialogScreen(
                 onClick = { onDismissRequest() },
                 modifier = Modifier.padding(5.dp),
             ) {
-                Text("Cancel")
+                Text(stringResource(id = R.string.cancel))
             }
             TextButton(
                 onClick = { onCopySettings() },
@@ -107,7 +109,7 @@ internal fun CopyPermissionCommandDialogScreen(
                     .padding(5.dp)
                     .testTag(":appsettings:copysettingsdialog:copy"),
             ) {
-                Text("Copy")
+                Text(stringResource(R.string.copy))
             }
         }
     }

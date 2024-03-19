@@ -39,6 +39,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -46,6 +47,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.android.geto.core.designsystem.theme.GetoTheme
+import com.android.geto.feature.settings.R
 
 @Composable
 internal fun ThemeDialog(
@@ -74,6 +76,9 @@ internal fun ThemeDialog(
 internal fun ThemeDialogScreen(
     themeDialogState: ThemeDialogState, onChangeTheme: () -> Unit
 ) {
+    val defaultTheme = stringResource(R.string.default_theme)
+    val androidTheme = stringResource(R.string.android_theme)
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -94,7 +99,7 @@ internal fun ThemeDialogScreen(
                 .fillMaxWidth()
                 .selectableGroup()
         ) {
-            listOf("Default", "Android").forEachIndexed { index, text ->
+            listOf(defaultTheme, androidTheme).forEachIndexed { index, text ->
                 Row(
                     Modifier
                         .padding(vertical = 10.dp)
@@ -132,7 +137,7 @@ internal fun ThemeDialogScreen(
                 onClick = { themeDialogState.updateShowDialog(false) },
                 modifier = Modifier.padding(5.dp)
             ) {
-                Text("Cancel")
+                Text(stringResource(R.string.cancel))
             }
             TextButton(
                 onClick = onChangeTheme,
@@ -140,7 +145,7 @@ internal fun ThemeDialogScreen(
                     .padding(5.dp)
                     .testTag("themeDialog:change")
             ) {
-                Text("Change")
+                Text(stringResource(R.string.change))
             }
         }
     }

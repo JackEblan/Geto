@@ -47,6 +47,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -56,6 +57,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.model.SettingsType
+import com.android.geto.feature.appsettings.R
 
 @Composable
 internal fun AddAppSettingsDialog(
@@ -101,7 +103,7 @@ internal fun AddAppSettingsDialogScreen(
 
         Text(
             modifier = Modifier.padding(horizontal = 5.dp),
-            text = "Add App Settings",
+            text = stringResource(R.string.add_app_settings),
             style = MaterialTheme.typography.titleLarge
         )
 
@@ -149,7 +151,7 @@ internal fun AddAppSettingsDialogScreen(
             value = addAppSettingsDialogState.label,
             onValueChange = addAppSettingsDialogState::updateLabel,
             label = {
-                Text(text = "Settings label")
+                Text(text = stringResource(R.string.settings_label))
             },
             isError = addAppSettingsDialogState.labelError.isNotBlank(),
             supportingText = {
@@ -176,7 +178,7 @@ internal fun AddAppSettingsDialogScreen(
                 value = addAppSettingsDialogState.key,
                 onValueChange = addAppSettingsDialogState::updateKey,
                 label = {
-                    Text(text = "Settings key")
+                    Text(text = stringResource(R.string.settings_key))
                 },
                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = addAppSettingsDialogState.secureSettingsExpanded) },
                 colors = ExposedDropdownMenuDefaults.textFieldColors(),
@@ -239,7 +241,7 @@ internal fun AddAppSettingsDialogScreen(
             value = addAppSettingsDialogState.valueOnLaunch,
             onValueChange = addAppSettingsDialogState::updateValueOnLaunch,
             label = {
-                Text(text = "Settings value on launch")
+                Text(text = stringResource(R.string.settings_value_on_launch))
             },
             isError = addAppSettingsDialogState.valueOnLaunchError.isNotBlank(),
             supportingText = {
@@ -260,7 +262,7 @@ internal fun AddAppSettingsDialogScreen(
             value = addAppSettingsDialogState.valueOnRevert,
             onValueChange = addAppSettingsDialogState::updateValueOnRevert,
             label = {
-                Text(text = "Settings value on revert")
+                Text(text = stringResource(R.string.settings_value_on_revert))
             },
             isError = addAppSettingsDialogState.valueOnRevertError.isNotBlank(),
             supportingText = {
@@ -281,7 +283,7 @@ internal fun AddAppSettingsDialogScreen(
                 onClick = { addAppSettingsDialogState.updateShowDialog(false) },
                 modifier = Modifier.padding(5.dp)
             ) {
-                Text("Cancel")
+                Text(stringResource(R.string.cancel))
             }
             TextButton(
                 onClick = onAddSettings,
@@ -289,7 +291,7 @@ internal fun AddAppSettingsDialogScreen(
                     .padding(5.dp)
                     .testTag("addAppSettingsDialog:add")
             ) {
-                Text("Add")
+                Text(stringResource(R.string.add))
             }
         }
     }

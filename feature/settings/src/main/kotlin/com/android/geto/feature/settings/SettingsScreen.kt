@@ -191,7 +191,7 @@ fun SuccessState(
             .clickable { onThemeDialog() }
             .padding(10.dp)
             .testTag("settings:theme")) {
-            Text(text = "Theme", style = MaterialTheme.typography.bodyLarge)
+            Text(text = stringResource(R.string.theme), style = MaterialTheme.typography.bodyLarge)
 
             Spacer(modifier = Modifier.height(8.dp))
 

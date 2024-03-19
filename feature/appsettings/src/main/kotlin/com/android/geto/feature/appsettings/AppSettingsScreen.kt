@@ -448,7 +448,7 @@ internal fun AppSettingsScreen(
                             onDeleteAppSettingsItem = onDeleteAppSettingsItem
                         )
                     } else {
-                        EmptyState()
+                        EmptyState(text = stringResource(R.string.nothing_is_here))
                     }
                 }
             }
@@ -458,7 +458,7 @@ internal fun AppSettingsScreen(
 
 @Composable
 private fun EmptyState(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier, text: String
 ) {
     Column(
         modifier = modifier
@@ -478,7 +478,7 @@ private fun EmptyState(
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        Text(text = "Nothing is here")
+        Text(text = text)
     }
 }
 
@@ -544,7 +544,7 @@ private fun LoadingStatePreview() {
 @Composable
 private fun EmptyStatePreview() {
     GetoTheme {
-        EmptyState()
+        EmptyState(text = "Nothing is here")
     }
 }
 
