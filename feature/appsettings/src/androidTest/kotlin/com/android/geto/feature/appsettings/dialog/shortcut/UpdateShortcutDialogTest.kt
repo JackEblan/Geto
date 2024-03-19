@@ -18,12 +18,14 @@
 
 package com.android.geto.feature.appsettings.dialog.shortcut
 
+import android.content.Context
 import android.content.Intent
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
+import androidx.test.platform.app.InstrumentationRegistry
 import org.junit.Rule
 import org.junit.Test
 
@@ -31,11 +33,14 @@ class UpdateShortcutDialogTest {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
+    private val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
+
     @Test
     fun shortLabelSupportingTextIsDisplayed_whenShortLabelTextFieldIsBlank() {
         composeTestRule.setContent {
 
-            val updateShortcutDialogState = rememberUpdateShortcutDialogState()
+            val updateShortcutDialogState =
+                rememberUpdateShortcutDialogState(resources = context.resources)
 
             UpdateShortcutDialog(shortcutDialogState = updateShortcutDialogState,
                                  onRefreshShortcut = {},
@@ -62,7 +67,8 @@ class UpdateShortcutDialogTest {
     fun longLabelSupportingTextIsDisplayed_whenLongLabelTextFieldIsBlank() {
         composeTestRule.setContent {
 
-            val updateShortcutDialogState = rememberUpdateShortcutDialogState()
+            val updateShortcutDialogState =
+                rememberUpdateShortcutDialogState(resources = context.resources)
 
             UpdateShortcutDialog(shortcutDialogState = updateShortcutDialogState,
                                  onRefreshShortcut = {},

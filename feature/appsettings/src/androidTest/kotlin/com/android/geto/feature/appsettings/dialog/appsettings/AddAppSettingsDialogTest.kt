@@ -18,6 +18,7 @@
 
 package com.android.geto.feature.appsettings.dialog.appsettings
 
+import android.content.Context
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.ui.test.assertIsDisplayed
@@ -26,6 +27,7 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.test.platform.app.InstrumentationRegistry
 import com.android.geto.core.model.SecureSettings
 import org.junit.Rule
 import org.junit.Test
@@ -34,11 +36,14 @@ class AddAppSettingsDialogTest {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
+    private val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
+
     @Test
     fun labelSupportingTextIsDisplayed_whenLabelTextFieldIsBlank() {
         composeTestRule.setContent {
 
-            val addAppSettingsDialogState = rememberAddAppSettingsDialogState()
+            val addAppSettingsDialogState =
+                rememberAddAppSettingsDialogState(resources = context.resources)
 
             val scrollState = rememberScrollState()
 
@@ -74,7 +79,8 @@ class AddAppSettingsDialogTest {
     fun keySupportingTextIsDisplayed_whenKeyTextFieldIsBlank() {
         composeTestRule.setContent {
 
-            val addAppSettingsDialogState = rememberAddAppSettingsDialogState()
+            val addAppSettingsDialogState =
+                rememberAddAppSettingsDialogState(resources = context.resources)
 
             val scrollState = rememberScrollState()
 
@@ -109,7 +115,8 @@ class AddAppSettingsDialogTest {
     fun settingsKeyNotFoundSupportingTextIsDisplayed_whenSettingsKeyNotFound() {
         composeTestRule.setContent {
 
-            val addAppSettingsDialogState = rememberAddAppSettingsDialogState()
+            val addAppSettingsDialogState =
+                rememberAddAppSettingsDialogState(resources = context.resources)
 
             val scrollState = rememberScrollState()
 
@@ -149,7 +156,8 @@ class AddAppSettingsDialogTest {
     fun valueOnLaunchSupportingTextIsDisplayed_whenValueOnLaunchTextFieldIsBlank() {
         composeTestRule.setContent {
 
-            val addAppSettingsDialogState = rememberAddAppSettingsDialogState()
+            val addAppSettingsDialogState =
+                rememberAddAppSettingsDialogState(resources = context.resources)
 
             val scrollState = rememberScrollState()
 
@@ -184,7 +192,8 @@ class AddAppSettingsDialogTest {
     fun valueOnRevertSupportingTextIsDisplayed_whenValueOnRevertTextFieldIsBlank() {
         composeTestRule.setContent {
 
-            val addAppSettingsDialogState = rememberAddAppSettingsDialogState()
+            val addAppSettingsDialogState =
+                rememberAddAppSettingsDialogState(resources = context.resources)
 
             val scrollState = rememberScrollState()
 
@@ -220,7 +229,8 @@ class AddAppSettingsDialogTest {
     fun exposedDropdownMenuBoxIsDisplayed_whenSecureSettingsListExpandedIsTrue() {
         composeTestRule.setContent {
 
-            val addAppSettingsDialogState = rememberAddAppSettingsDialogState()
+            val addAppSettingsDialogState =
+                rememberAddAppSettingsDialogState(resources = context.resources)
 
             val scrollState = rememberScrollState()
 
@@ -257,7 +267,8 @@ class AddAppSettingsDialogTest {
     fun keyTextFieldValue_whenSecureSettingsListItemIsClicked() {
         composeTestRule.setContent {
 
-            val addAppSettingsDialogState = rememberAddAppSettingsDialogState()
+            val addAppSettingsDialogState =
+                rememberAddAppSettingsDialogState(resources = context.resources)
 
             val scrollState = rememberScrollState()
 
