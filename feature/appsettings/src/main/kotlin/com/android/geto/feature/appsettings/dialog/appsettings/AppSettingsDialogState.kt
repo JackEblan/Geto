@@ -30,6 +30,7 @@ import com.android.geto.core.model.AppSettings
 import com.android.geto.core.model.SecureSettings
 import com.android.geto.core.model.SettingsType
 import com.android.geto.core.resources.ResourcesWrapper
+import com.android.geto.core.ui.LocalResources
 import com.android.geto.feature.appsettings.R
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -37,7 +38,9 @@ import kotlinx.coroutines.flow.debounce
 
 
 @Composable
-internal fun rememberAppSettingsDialogState(resourcesWrapper: ResourcesWrapper): AppSettingsDialogState {
+internal fun rememberAppSettingsDialogState(): AppSettingsDialogState {
+    val resourcesWrapper = LocalResources.current
+
     return rememberSaveable(saver = AppSettingsDialogState.createSaver(resourcesWrapper = resourcesWrapper)) {
         AppSettingsDialogState(resourcesWrapper = resourcesWrapper)
     }

@@ -80,7 +80,6 @@ import com.android.geto.core.domain.AppSettingsResult
 import com.android.geto.core.model.AppSettings
 import com.android.geto.core.model.SettingsType
 import com.android.geto.core.ui.AppSettingsPreviewParameterProvider
-import com.android.geto.core.ui.LocalResources
 import com.android.geto.feature.appsettings.dialog.appsettings.AddAppSettingsDialog
 import com.android.geto.feature.appsettings.dialog.appsettings.rememberAppSettingsDialogState
 import com.android.geto.feature.appsettings.dialog.copypermissioncommand.CopyPermissionCommandDialog
@@ -92,7 +91,8 @@ import com.android.geto.feature.appsettings.dialog.shortcut.rememberUpdateShortc
 @Composable
 internal fun AppSettingsRoute(
     modifier: Modifier = Modifier,
-    viewModel: AppSettingsViewModel = hiltViewModel(), onNavigationIconClick: () -> Unit
+    viewModel: AppSettingsViewModel = hiltViewModel(),
+    onNavigationIconClick: () -> Unit
 ) {
     val appSettingsDisabled = stringResource(id = R.string.app_settings_disabled)
     val emptyAppSettingsList = stringResource(id = R.string.empty_app_settings_list)
@@ -115,8 +115,6 @@ internal fun AppSettingsRoute(
     val copiedToClipboard = stringResource(id = R.string.copied_to_clipboard)
 
     val context = LocalContext.current
-
-    val resourcesWrapper = LocalResources.current
 
     val shortcutIntent = Intent().apply {
         action = Intent.ACTION_VIEW
@@ -152,12 +150,11 @@ internal fun AppSettingsRoute(
 
     val clipboardResult = viewModel.clipboardResult.collectAsStateWithLifecycle().value
 
-    val appSettingsDialogState = rememberAppSettingsDialogState(resourcesWrapper = resourcesWrapper)
+    val appSettingsDialogState = rememberAppSettingsDialogState()
 
-    val addShortcutDialogState = rememberAddShortcutDialogState(resourcesWrapper = resourcesWrapper)
+    val addShortcutDialogState = rememberAddShortcutDialogState()
 
-    val updateShortcutDialogState =
-        rememberUpdateShortcutDialogState(resourcesWrapper = resourcesWrapper)
+    val updateShortcutDialogState = rememberUpdateShortcutDialogState()
 
     val keyDebounce = appSettingsDialogState.keyDebounce.collectAsStateWithLifecycle("").value
 

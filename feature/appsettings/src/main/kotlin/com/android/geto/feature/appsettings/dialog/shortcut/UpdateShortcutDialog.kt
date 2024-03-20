@@ -57,7 +57,7 @@ import androidx.compose.ui.window.Dialog
 import com.android.geto.core.designsystem.component.GetoAsyncImage
 import com.android.geto.core.designsystem.icon.GetoIcons
 import com.android.geto.core.designsystem.theme.GetoTheme
-import com.android.geto.core.resources.ResourcesWrapper
+import com.android.geto.core.ui.LocalResources
 import com.android.geto.feature.appsettings.R
 
 @Composable
@@ -218,7 +218,9 @@ internal fun UpdateShortcutDialogScreen(
 }
 
 @Composable
-internal fun rememberUpdateShortcutDialogState(resourcesWrapper: ResourcesWrapper): ShortcutDialogState {
+internal fun rememberUpdateShortcutDialogState(): ShortcutDialogState {
+    val resourcesWrapper = LocalResources.current
+
     return rememberSaveable(saver = ShortcutDialogState.createSaver(resourcesWrapper = resourcesWrapper)) {
         ShortcutDialogState(resourcesWrapper = resourcesWrapper)
     }

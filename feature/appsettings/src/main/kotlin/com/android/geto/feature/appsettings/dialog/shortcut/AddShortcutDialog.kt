@@ -57,7 +57,7 @@ import androidx.compose.ui.window.Dialog
 import com.android.geto.core.designsystem.component.GetoAsyncImage
 import com.android.geto.core.designsystem.icon.GetoIcons
 import com.android.geto.core.designsystem.theme.GetoTheme
-import com.android.geto.core.resources.ResourcesWrapper
+import com.android.geto.core.ui.LocalResources
 import com.android.geto.feature.appsettings.R
 
 @Composable
@@ -158,10 +158,13 @@ internal fun AddShortcutDialogScreen(
         OutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 5.dp), value = shortLabel, onValueChange = onUpdateShortLabel,
+                .padding(horizontal = 5.dp),
+            value = shortLabel,
+            onValueChange = onUpdateShortLabel,
             label = {
                 Text(text = stringResource(R.string.short_label))
-            }, isError = shortLabelError.isNotBlank(),
+            },
+            isError = shortLabelError.isNotBlank(),
             supportingText = {
                 if (shortLabelError.isNotBlank()) Text(
                     text = shortLabelError,
@@ -175,10 +178,13 @@ internal fun AddShortcutDialogScreen(
         OutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 5.dp), value = longLabel, onValueChange = onUpdateLongLabel,
+                .padding(horizontal = 5.dp),
+            value = longLabel,
+            onValueChange = onUpdateLongLabel,
             label = {
                 Text(text = stringResource(R.string.long_label))
-            }, isError = longLabelError.isNotBlank(),
+            },
+            isError = longLabelError.isNotBlank(),
             supportingText = {
                 if (longLabelError.isNotBlank()) Text(
                     text = longLabelError,
@@ -211,7 +217,9 @@ internal fun AddShortcutDialogScreen(
 }
 
 @Composable
-internal fun rememberAddShortcutDialogState(resourcesWrapper: ResourcesWrapper): ShortcutDialogState {
+internal fun rememberAddShortcutDialogState(): ShortcutDialogState {
+    val resourcesWrapper = LocalResources.current
+
     return rememberSaveable(saver = ShortcutDialogState.createSaver(resourcesWrapper = resourcesWrapper)) {
         ShortcutDialogState(resourcesWrapper = resourcesWrapper)
     }
