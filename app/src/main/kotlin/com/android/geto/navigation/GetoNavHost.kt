@@ -21,7 +21,6 @@ package com.android.geto.navigation
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import com.android.geto.core.resources.ResourcesWrapper
 import com.android.geto.feature.applist.navigation.APP_LIST_NAVIGATION_ROUTE
 import com.android.geto.feature.applist.navigation.appListScreen
 import com.android.geto.feature.appsettings.navigation.appSettingsScreen
@@ -30,9 +29,7 @@ import com.android.geto.feature.settings.navigation.navigateToSettings
 import com.android.geto.feature.settings.navigation.settingsScreen
 
 @Composable
-fun GetoNavHost(
-    navController: NavHostController, resourcesWrapper: ResourcesWrapper
-) {
+fun GetoNavHost(navController: NavHostController) {
     NavHost(
         navController = navController, startDestination = APP_LIST_NAVIGATION_ROUTE
     ) {
@@ -41,9 +38,7 @@ fun GetoNavHost(
             onSettingsClick = navController::navigateToSettings
         )
 
-        appSettingsScreen(
-            onNavigationIconClick = navController::popBackStack, resourcesWrapper = resourcesWrapper
-        )
+        appSettingsScreen(onNavigationIconClick = navController::popBackStack)
 
         settingsScreen(onNavigationIconClick = navController::popBackStack)
     }

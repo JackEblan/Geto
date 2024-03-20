@@ -26,6 +26,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -40,6 +41,7 @@ import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.model.DarkThemeConfig
 import com.android.geto.core.model.ThemeBrand
 import com.android.geto.core.resources.ResourcesWrapper
+import com.android.geto.core.ui.LocalResources
 import com.android.geto.navigation.GetoNavHost
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -106,17 +108,17 @@ class MainActivity : ComponentActivity() {
                 onDispose {}
             }
 
-
-            GetoTheme(
-                darkTheme = darkTheme,
-                androidTheme = shouldUseAndroidTheme(uiState),
-                disableDynamicTheming = shouldDisableDynamicTheming(uiState),
-            ) {
-                GetoBackground {
-                    GetoNavHost(
-                        navController = navController, resourcesWrapper = resourcesWrapper
-                    )
+            CompositionLocalProvider(LocalResources provides resourcesWrapper) {
+                GetoTheme(
+                    darkTheme = darkTheme,
+                    androidTheme = shouldUseAndroidTheme(uiState),
+                    disableDynamicTheming = shouldDisableDynamicTheming(uiState),
+                ) {
+                    GetoBackground {
+                        GetoNavHost(navController = navController)
+                    }
                 }
+
             }
         }
     }
