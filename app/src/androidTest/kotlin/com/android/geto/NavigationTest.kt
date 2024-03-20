@@ -28,6 +28,7 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.testing.TestNavHostController
+import com.android.geto.core.testing.resources.TestResourcesWrapper
 import com.android.geto.feature.applist.navigation.APP_LIST_NAVIGATION_ROUTE
 import com.android.geto.feature.settings.navigation.SETTINGS_NAVIGATION_ROUTE
 import com.android.geto.navigation.GetoNavHost
@@ -47,17 +48,21 @@ class NavigationTest {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<MainActivity>()
 
+    private lateinit var resourcesWrapper: TestResourcesWrapper
+
     private lateinit var navController: TestNavHostController
 
     @Before
     fun setUp() {
         hiltRule.inject()
 
+        resourcesWrapper = TestResourcesWrapper()
+
         composeTestRule.activity.setContent {
             navController = TestNavHostController(LocalContext.current)
             navController.navigatorProvider.addNavigator(ComposeNavigator())
 
-            GetoNavHost(navController = navController)
+            GetoNavHost(navController = navController, resourcesWrapper = resourcesWrapper)
 
         }
     }

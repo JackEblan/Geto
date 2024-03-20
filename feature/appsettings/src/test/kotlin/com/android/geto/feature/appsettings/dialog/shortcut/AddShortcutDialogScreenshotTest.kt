@@ -21,21 +21,26 @@ package com.android.geto.feature.appsettings.dialog.shortcut
 import android.content.Intent
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.test.core.app.ApplicationProvider
 import com.android.geto.core.designsystem.component.GetoBackground
 import com.android.geto.core.designsystem.theme.GetoTheme
+import com.android.geto.core.resources.ResourcesWrapper
 import com.android.geto.core.screenshot.testing.util.DefaultTestDevices
 import com.android.geto.core.screenshot.testing.util.captureScreenRoboImageForDevice
 import com.android.geto.core.screenshot.testing.util.captureScreenRoboImageMultiDevice
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication
+import org.junit.Before
 import org.junit.Rule
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.GraphicsMode
 import org.robolectric.annotation.LooperMode
+import javax.inject.Inject
 import kotlin.test.Test
 
+@HiltAndroidTest
 @RunWith(RobolectricTestRunner::class)
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 @Config(application = HiltTestApplication::class)
@@ -44,7 +49,20 @@ class AddShortcutDialogScreenshotTest {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
-    private val context = ApplicationProvider.getApplicationContext<HiltTestApplication>()
+    @get:Rule
+    val hiltRule = HiltAndroidRule(this)
+
+    @Inject
+    lateinit var resourcesWrapper: ResourcesWrapper
+
+    private lateinit var shortcutDialogState: ShortcutDialogState
+
+    @Before
+    fun setUp() {
+        hiltRule.inject()
+
+        shortcutDialogState = ShortcutDialogState(resourcesWrapper = resourcesWrapper)
+    }
 
     @Test
     fun add_shortcut_dialog_empty() {
@@ -52,9 +70,6 @@ class AddShortcutDialogScreenshotTest {
             path = "AddShortcutDialog/AddShortcutDialogEmpty"
         ) {
             GetoTheme {
-                val shortcutDialogState =
-                    rememberAddShortcutDialogState(resources = context.resources)
-
                 AddShortcutDialog(shortcutDialogState = shortcutDialogState,
                                   onRefreshShortcut = {},
                                   onAddShortcut = {},
@@ -66,17 +81,14 @@ class AddShortcutDialogScreenshotTest {
 
     @Test
     fun add_shortcut_dialog_filled_textfields() {
+        shortcutDialogState.updateShortLabel("Short Label")
+
+        shortcutDialogState.updateLongLabel("Long Label")
+
         composeTestRule.captureScreenRoboImageMultiDevice(
             path = "AddShortcutDialog/AddShortcutDialogFilledTextFields"
         ) {
             GetoTheme {
-                val shortcutDialogState =
-                    rememberAddShortcutDialogState(resources = context.resources)
-
-                shortcutDialogState.updateShortLabel("Short Label")
-
-                shortcutDialogState.updateLongLabel("Long Label")
-
                 AddShortcutDialog(shortcutDialogState = shortcutDialogState,
                                   onRefreshShortcut = {},
                                   onAddShortcut = {},
@@ -88,15 +100,12 @@ class AddShortcutDialogScreenshotTest {
 
     @Test
     fun add_shortcut_dialog_error_textfields() {
+        shortcutDialogState.getShortcut(packageName = "Test", shortcutIntent = Intent())
+
         composeTestRule.captureScreenRoboImageMultiDevice(
             path = "AddShortcutDialog/AddShortcutDialogErrorTextFields"
         ) {
             GetoTheme {
-                val shortcutDialogState =
-                    rememberAddShortcutDialogState(resources = context.resources)
-
-                shortcutDialogState.getShortcut(packageName = "Test", shortcutIntent = Intent())
-
                 AddShortcutDialog(shortcutDialogState = shortcutDialogState,
                                   onRefreshShortcut = {},
                                   onAddShortcut = {},
@@ -116,9 +125,6 @@ class AddShortcutDialogScreenshotTest {
         ) {
             GetoTheme {
                 GetoBackground {
-                    val shortcutDialogState =
-                        rememberAddShortcutDialogState(resources = context.resources)
-
                     AddShortcutDialog(shortcutDialogState = shortcutDialogState,
                                       onRefreshShortcut = {},
                                       onAddShortcut = {},
@@ -131,6 +137,10 @@ class AddShortcutDialogScreenshotTest {
 
     @Test
     fun add_shortcut_dialog_filled_textfields_dark() {
+        shortcutDialogState.updateShortLabel("Short Label")
+
+        shortcutDialogState.updateLongLabel("Long Label")
+
         composeTestRule.captureScreenRoboImageForDevice(
             path = "AddShortcutDialog/AddShortcutDialogFilledTextFields",
             deviceName = "phone_dark",
@@ -139,13 +149,6 @@ class AddShortcutDialogScreenshotTest {
         ) {
             GetoTheme {
                 GetoBackground {
-                    val shortcutDialogState =
-                        rememberAddShortcutDialogState(resources = context.resources)
-
-                    shortcutDialogState.updateShortLabel("Short Label")
-
-                    shortcutDialogState.updateLongLabel("Long Label")
-
                     AddShortcutDialog(shortcutDialogState = shortcutDialogState,
                                       onRefreshShortcut = {},
                                       onAddShortcut = {},
@@ -158,6 +161,8 @@ class AddShortcutDialogScreenshotTest {
 
     @Test
     fun add_shortcut_dialog_error_textfields_dark() {
+        shortcutDialogState.getShortcut(packageName = "Test", shortcutIntent = Intent())
+
         composeTestRule.captureScreenRoboImageForDevice(
             path = "AddShortcutDialog/AddShortcutDialogErrorTextFields",
             deviceName = "phone_dark",
@@ -167,11 +172,6 @@ class AddShortcutDialogScreenshotTest {
         ) {
             GetoTheme {
                 GetoBackground {
-                    val shortcutDialogState =
-                        rememberAddShortcutDialogState(resources = context.resources)
-
-                    shortcutDialogState.getShortcut(packageName = "Test", shortcutIntent = Intent())
-
                     AddShortcutDialog(shortcutDialogState = shortcutDialogState,
                                       onRefreshShortcut = {},
                                       onAddShortcut = {},

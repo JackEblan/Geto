@@ -39,14 +39,18 @@ import com.android.geto.core.designsystem.component.GetoBackground
 import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.model.DarkThemeConfig
 import com.android.geto.core.model.ThemeBrand
+import com.android.geto.core.resources.ResourcesWrapper
 import com.android.geto.navigation.GetoNavHost
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @Inject
+    lateinit var resourcesWrapper: ResourcesWrapper
 
     private val viewModel: MainActivityViewModel by viewModels()
 
@@ -81,9 +85,9 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val darkTheme = shouldUseDarkTheme(uiState)
-            
+
             val navController = rememberNavController()
-            
+
             // Update the edge to edge configuration to match the theme
             // This is the same parameters as the default enableEdgeToEdge call, but we manually
             // resolve whether or not to show dark theme using uiState, since it can be different
@@ -109,7 +113,9 @@ class MainActivity : ComponentActivity() {
                 disableDynamicTheming = shouldDisableDynamicTheming(uiState),
             ) {
                 GetoBackground {
-                    GetoNavHost(navController = navController)
+                    GetoNavHost(
+                        navController = navController, resourcesWrapper = resourcesWrapper
+                    )
                 }
             }
         }

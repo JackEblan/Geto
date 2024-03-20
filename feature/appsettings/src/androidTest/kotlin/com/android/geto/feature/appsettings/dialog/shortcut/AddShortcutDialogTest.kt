@@ -18,7 +18,6 @@
 
 package com.android.geto.feature.appsettings.dialog.shortcut
 
-import android.content.Context
 import android.content.Intent
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.assertIsDisplayed
@@ -28,23 +27,37 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTouchInput
-import androidx.test.platform.app.InstrumentationRegistry
+import com.android.geto.core.resources.ResourcesWrapper
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import javax.inject.Inject
 
+@HiltAndroidTest
 class AddShortcutDialogTest {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
-    private val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
+    @get:Rule
+    val hiltRule = HiltAndroidRule(this)
+
+    @Inject
+    lateinit var resourcesWrapper: ResourcesWrapper
+
+    private lateinit var addShortcutDialogState: ShortcutDialogState
+
+    @Before
+    fun setUp() {
+        hiltRule.inject()
+
+        addShortcutDialogState = ShortcutDialogState(resourcesWrapper = resourcesWrapper)
+    }
 
     @Test
     fun shortLabelSupportingTextIsDisplayed_whenShortLabelTextFieldIsBlank() {
         composeTestRule.setContent {
-
-            val addShortcutDialogState =
-                rememberAddShortcutDialogState(resources = context.resources)
-
             AddShortcutDialog(
                 shortcutDialogState = addShortcutDialogState,
                 onRefreshShortcut = {},
@@ -71,10 +84,6 @@ class AddShortcutDialogTest {
     @Test
     fun longLabelSupportingTextIsDisplayed_whenLongLabelTextFieldIsBlank() {
         composeTestRule.setContent {
-
-            val addShortcutDialogState =
-                rememberAddShortcutDialogState(resources = context.resources)
-
             AddShortcutDialog(
                 shortcutDialogState = addShortcutDialogState,
                 onRefreshShortcut = {},
@@ -101,9 +110,6 @@ class AddShortcutDialogTest {
     @Test
     fun refreshTooltipIsDisplayed_whenRefreshIconIsLongClicked() {
         composeTestRule.setContent {
-            val addShortcutDialogState =
-                rememberAddShortcutDialogState(resources = context.resources)
-
             AddShortcutDialog(
                 shortcutDialogState = addShortcutDialogState,
                 onRefreshShortcut = {},

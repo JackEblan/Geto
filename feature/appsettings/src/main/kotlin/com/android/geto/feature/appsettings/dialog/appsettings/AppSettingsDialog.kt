@@ -56,6 +56,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.android.geto.core.designsystem.theme.GetoTheme
+import com.android.geto.core.model.SecureSettings
 import com.android.geto.core.model.SettingsType
 import com.android.geto.feature.appsettings.R
 
@@ -76,11 +77,29 @@ internal fun AddAppSettingsDialog(
                 .semantics { this.contentDescription = contentDescription },
             shape = RoundedCornerShape(16.dp),
         ) {
-            AddAppSettingsDialogScreen(
-                addAppSettingsDialogState = addAppSettingsDialogState,
-                scrollState = scrollState,
-                onAddSettings = onAddSettings
-            )
+            AddAppSettingsDialogScreen(selectedRadioOptionIndex = addAppSettingsDialogState.selectedRadioOptionIndex,
+                                       onUpdateSelectedRadioOptionIndex = addAppSettingsDialogState::updateSelectedRadioOptionIndex,
+                                       secureSettingsExpanded = addAppSettingsDialogState.secureSettingsExpanded,
+                                       onUpdateSecureSettingsExpanded = addAppSettingsDialogState::updateSecureSettingsExpanded,
+                                       secureSettings = addAppSettingsDialogState.secureSettings,
+                                       label = addAppSettingsDialogState.label,
+                                       labelError = addAppSettingsDialogState.labelError,
+                                       onUpdateLabel = addAppSettingsDialogState::updateLabel,
+                                       key = addAppSettingsDialogState.key,
+                                       keyError = addAppSettingsDialogState.keyError,
+                                       settingsKeyNotFoundError = addAppSettingsDialogState.settingsKeyNotFoundError,
+                                       onUpdateKey = addAppSettingsDialogState::updateKey,
+                                       valueOnLaunch = addAppSettingsDialogState.valueOnLaunch,
+                                       valueOnLaunchError = addAppSettingsDialogState.valueOnLaunchError,
+                                       onUpdateValueOnLaunch = addAppSettingsDialogState::updateValueOnLaunch,
+                                       valueOnRevert = addAppSettingsDialogState.valueOnRevert,
+                                       valueOnRevertError = addAppSettingsDialogState.valueOnRevertError,
+                                       onUpdateValueOnRevert = addAppSettingsDialogState::updateValueOnRevert,
+                                       scrollState = scrollState,
+                                       onAddSettings = onAddSettings,
+                                       onCancel = {
+                                           addAppSettingsDialogState.updateShowDialog(false)
+                                       })
         }
     }
 }
@@ -89,9 +108,27 @@ internal fun AddAppSettingsDialog(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun AddAppSettingsDialogScreen(
-    addAppSettingsDialogState: AppSettingsDialogState,
+    selectedRadioOptionIndex: Int,
+    onUpdateSelectedRadioOptionIndex: (Int) -> Unit,
+    secureSettingsExpanded: Boolean,
+    onUpdateSecureSettingsExpanded: (Boolean) -> Unit,
+    secureSettings: List<SecureSettings>,
+    label: String,
+    labelError: String,
+    onUpdateLabel: (String) -> Unit,
+    key: String,
+    keyError: String,
+    settingsKeyNotFoundError: String,
+    onUpdateKey: (String) -> Unit,
+    valueOnLaunch: String,
+    valueOnLaunchError: String,
+    onUpdateValueOnLaunch: (String) -> Unit,
+    valueOnRevert: String,
+    valueOnRevertError: String,
+    onUpdateValueOnRevert: (String) -> Unit,
     scrollState: ScrollState,
     onAddSettings: () -> Unit,
+    onCancel: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -118,20 +155,17 @@ internal fun AddAppSettingsDialogScreen(
                 Row(
                     Modifier
                         .padding(vertical = 10.dp)
-                        .selectable(selected = index == addAppSettingsDialogState.selectedRadioOptionIndex,
+                        .selectable(selected = index == selectedRadioOptionIndex,
                                     role = Role.RadioButton,
                                     enabled = true,
                                     onClick = {
-                                        addAppSettingsDialogState.updateSelectedRadioOptionIndex(
-                                            index
-                                        )
+                                        onUpdateSelectedRadioOptionIndex(index)
                                     })
                         .padding(horizontal = 16.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     RadioButton(
-                        selected = index == addAppSettingsDialogState.selectedRadioOptionIndex,
-                        onClick = null
+                        selected = index == selectedRadioOptionIndex, onClick = null
                     )
                     Text(
                         text = text.lowercase().replaceFirstChar { it.uppercase() },
@@ -147,16 +181,13 @@ internal fun AddAppSettingsDialogScreen(
         OutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 5.dp),
-            value = addAppSettingsDialogState.label,
-            onValueChange = addAppSettingsDialogState::updateLabel,
+                .padding(horizontal = 5.dp), value = label, onValueChange = onUpdateLabel,
             label = {
                 Text(text = stringResource(R.string.settings_label))
-            },
-            isError = addAppSettingsDialogState.labelError.isNotBlank(),
+            }, isError = labelError.isNotBlank(),
             supportingText = {
-                if (addAppSettingsDialogState.labelError.isNotBlank()) Text(
-                    text = addAppSettingsDialogState.labelError,
+                if (labelError.isNotBlank()) Text(
+                    text = labelError,
                     modifier = Modifier.testTag("addAppSettingsDialog:labelSupportingText")
                 )
             },
@@ -165,8 +196,7 @@ internal fun AddAppSettingsDialogScreen(
         )
 
         ExposedDropdownMenuBox(
-            expanded = addAppSettingsDialogState.secureSettingsExpanded,
-            onExpandedChange = addAppSettingsDialogState::updateSecureSettingsExpanded,
+            expanded = secureSettingsExpanded, onExpandedChange = onUpdateSecureSettingsExpanded,
             modifier = Modifier.testTag("addAppSettingsDialog:exposedDropdownMenuBox")
         ) {
             OutlinedTextField(
@@ -175,22 +205,22 @@ internal fun AddAppSettingsDialogScreen(
                     .fillMaxWidth()
                     .padding(horizontal = 5.dp)
                     .testTag("addAppSettingsDialog:keyTextField"),
-                value = addAppSettingsDialogState.key,
-                onValueChange = addAppSettingsDialogState::updateKey,
+                value = key,
+                onValueChange = onUpdateKey,
                 label = {
                     Text(text = stringResource(R.string.settings_key))
                 },
-                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = addAppSettingsDialogState.secureSettingsExpanded) },
+                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = secureSettingsExpanded) },
                 colors = ExposedDropdownMenuDefaults.textFieldColors(),
-                isError = addAppSettingsDialogState.keyError.isNotBlank() || addAppSettingsDialogState.settingsKeyNotFoundError.isNotBlank(),
+                isError = keyError.isNotBlank() || settingsKeyNotFoundError.isNotBlank(),
                 supportingText = {
-                    if (addAppSettingsDialogState.keyError.isNotBlank()) Text(
-                        text = addAppSettingsDialogState.keyError,
+                    if (keyError.isNotBlank()) Text(
+                        text = keyError,
                         modifier = Modifier.testTag("addAppSettingsDialog:keySupportingText")
                     )
 
-                    if (addAppSettingsDialogState.settingsKeyNotFoundError.isNotBlank()) Text(
-                        text = addAppSettingsDialogState.settingsKeyNotFoundError,
+                    if (settingsKeyNotFoundError.isNotBlank()) Text(
+                        text = settingsKeyNotFoundError,
                         modifier = Modifier.testTag("addAppSettingsDialog:settingsKeyNotFoundSupportingText")
                     )
                 },
@@ -198,14 +228,14 @@ internal fun AddAppSettingsDialogScreen(
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
             )
 
-            if (addAppSettingsDialogState.secureSettings.isNotEmpty()) {
+            if (secureSettings.isNotEmpty()) {
                 ExposedDropdownMenu(
-                    expanded = addAppSettingsDialogState.secureSettingsExpanded,
+                    expanded = secureSettingsExpanded,
                     onDismissRequest = {
-                        addAppSettingsDialogState.updateSecureSettingsExpanded(false)
+                        onUpdateSecureSettingsExpanded(false)
                     },
                 ) {
-                    addAppSettingsDialogState.secureSettings.forEach { secureSetting ->
+                    secureSettings.forEach { secureSetting ->
                         DropdownMenuItem(
                             text = {
                                 Text(
@@ -214,15 +244,15 @@ internal fun AddAppSettingsDialogScreen(
                                 )
                             },
                             onClick = {
-                                addAppSettingsDialogState.updateKey(
+                                onUpdateKey(
                                     secureSetting.name ?: "null"
                                 )
 
-                                addAppSettingsDialogState.updateValueOnRevert(
+                                onUpdateValueOnRevert(
                                     secureSetting.value ?: "null"
                                 )
 
-                                addAppSettingsDialogState.updateSecureSettingsExpanded(
+                                onUpdateSecureSettingsExpanded(
                                     false
                                 )
                             },
@@ -238,15 +268,15 @@ internal fun AddAppSettingsDialogScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 5.dp),
-            value = addAppSettingsDialogState.valueOnLaunch,
-            onValueChange = addAppSettingsDialogState::updateValueOnLaunch,
+            value = valueOnLaunch,
+            onValueChange = onUpdateValueOnLaunch,
             label = {
                 Text(text = stringResource(R.string.settings_value_on_launch))
             },
-            isError = addAppSettingsDialogState.valueOnLaunchError.isNotBlank(),
+            isError = valueOnLaunchError.isNotBlank(),
             supportingText = {
-                if (addAppSettingsDialogState.valueOnLaunchError.isNotBlank()) Text(
-                    text = addAppSettingsDialogState.valueOnLaunchError,
+                if (valueOnLaunchError.isNotBlank()) Text(
+                    text = valueOnLaunchError,
                     modifier = Modifier.testTag("addAppSettingsDialog:valueOnLaunchSupportingText")
                 )
             },
@@ -259,15 +289,15 @@ internal fun AddAppSettingsDialogScreen(
                 .fillMaxWidth()
                 .padding(horizontal = 5.dp)
                 .testTag("addAppSettingsDialog:valueOnRevertTextField"),
-            value = addAppSettingsDialogState.valueOnRevert,
-            onValueChange = addAppSettingsDialogState::updateValueOnRevert,
+            value = valueOnRevert,
+            onValueChange = onUpdateValueOnRevert,
             label = {
                 Text(text = stringResource(R.string.settings_value_on_revert))
             },
-            isError = addAppSettingsDialogState.valueOnRevertError.isNotBlank(),
+            isError = valueOnRevertError.isNotBlank(),
             supportingText = {
-                if (addAppSettingsDialogState.valueOnRevertError.isNotBlank()) Text(
-                    text = addAppSettingsDialogState.valueOnRevertError,
+                if (valueOnRevertError.isNotBlank()) Text(
+                    text = valueOnRevertError,
                     modifier = Modifier.testTag("addAppSettingsDialog:valueOnRevertSupportingText")
                 )
             },
@@ -280,8 +310,7 @@ internal fun AddAppSettingsDialogScreen(
             horizontalArrangement = Arrangement.End,
         ) {
             TextButton(
-                onClick = { addAppSettingsDialogState.updateShowDialog(false) },
-                modifier = Modifier.padding(5.dp)
+                onClick = onCancel, modifier = Modifier.padding(5.dp)
             ) {
                 Text(stringResource(R.string.cancel))
             }
@@ -301,8 +330,26 @@ internal fun AddAppSettingsDialogScreen(
 @Composable
 private fun AddAppSettingsDialogScreenPreview() {
     GetoTheme {
-        AddAppSettingsDialogScreen(addAppSettingsDialogState = AppSettingsDialogState(),
-                                   scrollState = rememberScrollState(),
-                                   onAddSettings = {})
+        AddAppSettingsDialogScreen(selectedRadioOptionIndex = 0,
+                                   onUpdateSelectedRadioOptionIndex = {},
+                                   secureSettingsExpanded = false,
+                                   onUpdateSecureSettingsExpanded = {},
+                                   secureSettings = listOf(),
+                                   label = "",
+                                   labelError = "",
+                                   onUpdateLabel = {},
+                                   key = "",
+                                   keyError = "",
+                                   settingsKeyNotFoundError = "",
+                                   onUpdateKey = {},
+                                   valueOnLaunch = "",
+                                   valueOnLaunchError = "",
+                                   onUpdateValueOnLaunch = {},
+                                   valueOnRevert = "",
+                                   valueOnRevertError = "",
+                                   onUpdateValueOnRevert = {},
+                                   scrollState = ScrollState(0),
+                                   onAddSettings = {},
+                                   onCancel = {})
     }
 }

@@ -24,6 +24,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navDeepLink
+import com.android.geto.core.resources.ResourcesWrapper
 import com.android.geto.feature.appsettings.AppSettingsRoute
 import java.net.URLDecoder
 import kotlin.text.Charsets.UTF_8
@@ -53,7 +54,9 @@ fun NavController.navigateToAppSettings(packageName: String, appName: String) {
     navigate("app_settings_route/$packageName/$appName")
 }
 
-fun NavGraphBuilder.appSettingsScreen(onNavigationIconClick: () -> Unit) {
+fun NavGraphBuilder.appSettingsScreen(
+    onNavigationIconClick: () -> Unit, resourcesWrapper: ResourcesWrapper
+) {
     composable(
         route = "app_settings_route/{$PACKAGE_NAME_ARG}/{$APP_NAME_ARG}",
         deepLinks = listOf(navDeepLink {
@@ -61,7 +64,7 @@ fun NavGraphBuilder.appSettingsScreen(onNavigationIconClick: () -> Unit) {
         })
     ) {
         AppSettingsRoute(
-            onNavigationIconClick = onNavigationIconClick
+            onNavigationIconClick = onNavigationIconClick, resourcesWrapper = resourcesWrapper
         )
     }
 }

@@ -18,7 +18,7 @@
 
 package com.android.geto.feature.appsettings.dialog.shortcut
 
-import android.content.res.Resources
+import android.graphics.Bitmap
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -57,6 +57,7 @@ import androidx.compose.ui.window.Dialog
 import com.android.geto.core.designsystem.component.GetoAsyncImage
 import com.android.geto.core.designsystem.icon.GetoIcons
 import com.android.geto.core.designsystem.theme.GetoTheme
+import com.android.geto.core.resources.ResourcesWrapper
 import com.android.geto.feature.appsettings.R
 
 @Composable
@@ -76,11 +77,18 @@ internal fun AddShortcutDialog(
                 .semantics { this.contentDescription = contentDescription },
             shape = RoundedCornerShape(16.dp),
         ) {
-            AddShortcutDialogScreen(
-                shortcutDialogState = shortcutDialogState,
-                onRefreshShortcut = onRefreshShortcut,
-                onAddShortcut = onAddShortcut
-            )
+            AddShortcutDialogScreen(icon = shortcutDialogState.icon,
+                                    shortLabel = shortcutDialogState.shortLabel,
+                                    shortLabelError = shortcutDialogState.shortLabelError,
+                                    longLabel = shortcutDialogState.longLabel,
+                                    longLabelError = shortcutDialogState.longLabelError,
+                                    onUpdateShortLabel = shortcutDialogState::updateShortLabel,
+                                    onUpdateLongLabel = shortcutDialogState::updateLongLabel,
+                                    onRefreshShortcut = onRefreshShortcut,
+                                    onAddShortcut = onAddShortcut,
+                                    onCancel = {
+                                        shortcutDialogState.updateShowDialog(false)
+                                    })
         }
     }
 }
@@ -88,9 +96,16 @@ internal fun AddShortcutDialog(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun AddShortcutDialogScreen(
-    shortcutDialogState: ShortcutDialogState,
+    icon: Bitmap?,
+    shortLabel: String,
+    shortLabelError: String,
+    longLabel: String,
+    longLabelError: String,
+    onUpdateShortLabel: (label: String) -> Unit,
+    onUpdateLongLabel: (label: String) -> Unit,
     onRefreshShortcut: () -> Unit,
-    onAddShortcut: () -> Unit
+    onAddShortcut: () -> Unit,
+    onCancel: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -105,7 +120,8 @@ internal fun AddShortcutDialogScreen(
             Text(
                 modifier = Modifier
                     .padding(horizontal = 5.dp)
-                    .weight(1f), text = stringResource(R.string.add_shortcut),
+                    .weight(1f),
+                text = stringResource(R.string.add_shortcut),
                 style = MaterialTheme.typography.titleLarge
             )
 
@@ -130,7 +146,7 @@ internal fun AddShortcutDialogScreen(
         Spacer(modifier = Modifier.height(10.dp))
 
         GetoAsyncImage(
-            model = shortcutDialogState.icon,
+            model = icon,
             contentDescription = null,
             modifier = Modifier
                 .size(50.dp)
@@ -142,16 +158,13 @@ internal fun AddShortcutDialogScreen(
         OutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 5.dp),
-            value = shortcutDialogState.shortLabel,
-            onValueChange = shortcutDialogState::updateShortLabel,
+                .padding(horizontal = 5.dp), value = shortLabel, onValueChange = onUpdateShortLabel,
             label = {
                 Text(text = stringResource(R.string.short_label))
-            },
-            isError = shortcutDialogState.shortLabelError.isNotBlank(),
+            }, isError = shortLabelError.isNotBlank(),
             supportingText = {
-                if (shortcutDialogState.shortLabelError.isNotBlank()) Text(
-                    text = shortcutDialogState.shortLabelError,
+                if (shortLabelError.isNotBlank()) Text(
+                    text = shortLabelError,
                     modifier = Modifier.testTag("addShortcutDialog:shortLabelSupportingText")
                 )
             },
@@ -162,16 +175,13 @@ internal fun AddShortcutDialogScreen(
         OutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 5.dp),
-            value = shortcutDialogState.longLabel,
-            onValueChange = shortcutDialogState::updateLongLabel,
+                .padding(horizontal = 5.dp), value = longLabel, onValueChange = onUpdateLongLabel,
             label = {
                 Text(text = stringResource(R.string.long_label))
-            },
-            isError = shortcutDialogState.longLabelError.isNotBlank(),
+            }, isError = longLabelError.isNotBlank(),
             supportingText = {
-                if (shortcutDialogState.longLabelError.isNotBlank()) Text(
-                    text = shortcutDialogState.longLabelError,
+                if (longLabelError.isNotBlank()) Text(
+                    text = longLabelError,
                     modifier = Modifier.testTag("addShortcutDialog:longLabelSupportingText")
                 )
             },
@@ -184,8 +194,7 @@ internal fun AddShortcutDialogScreen(
             horizontalArrangement = Arrangement.End,
         ) {
             TextButton(
-                onClick = { shortcutDialogState.updateShowDialog(false) },
-                modifier = Modifier.padding(5.dp)
+                onClick = onCancel, modifier = Modifier.padding(5.dp)
             ) {
                 Text(stringResource(id = R.string.cancel))
             }
@@ -202,10 +211,9 @@ internal fun AddShortcutDialogScreen(
 }
 
 @Composable
-internal fun rememberAddShortcutDialogState(resources: Resources): ShortcutDialogState {
-
-    return rememberSaveable(saver = ShortcutDialogState.Saver) {
-        ShortcutDialogState(resources = resources)
+internal fun rememberAddShortcutDialogState(resourcesWrapper: ResourcesWrapper): ShortcutDialogState {
+    return rememberSaveable(saver = ShortcutDialogState.createSaver(resourcesWrapper = resourcesWrapper)) {
+        ShortcutDialogState(resourcesWrapper = resourcesWrapper)
     }
 }
 
@@ -213,9 +221,16 @@ internal fun rememberAddShortcutDialogState(resources: Resources): ShortcutDialo
 @Composable
 private fun AddShortcutDialogScreenPreview() {
     GetoTheme {
-        AddShortcutDialogScreen(shortcutDialogState = ShortcutDialogState(),
+        AddShortcutDialogScreen(icon = null,
+                                shortLabel = "Short Label",
+                                shortLabelError = "",
+                                longLabel = "Long Label",
+                                longLabelError = "",
+                                onUpdateShortLabel = {},
+                                onUpdateLongLabel = {},
                                 onRefreshShortcut = {},
-                                onAddShortcut = {})
+                                onAddShortcut = {},
+                                onCancel = {})
     }
 }
 

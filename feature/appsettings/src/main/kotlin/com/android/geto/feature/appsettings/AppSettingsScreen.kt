@@ -79,9 +79,10 @@ import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.domain.AppSettingsResult
 import com.android.geto.core.model.AppSettings
 import com.android.geto.core.model.SettingsType
+import com.android.geto.core.resources.ResourcesWrapper
 import com.android.geto.core.ui.AppSettingsPreviewParameterProvider
 import com.android.geto.feature.appsettings.dialog.appsettings.AddAppSettingsDialog
-import com.android.geto.feature.appsettings.dialog.appsettings.rememberAddAppSettingsDialogState
+import com.android.geto.feature.appsettings.dialog.appsettings.rememberAppSettingsDialogState
 import com.android.geto.feature.appsettings.dialog.copypermissioncommand.CopyPermissionCommandDialog
 import com.android.geto.feature.appsettings.dialog.shortcut.AddShortcutDialog
 import com.android.geto.feature.appsettings.dialog.shortcut.UpdateShortcutDialog
@@ -92,7 +93,8 @@ import com.android.geto.feature.appsettings.dialog.shortcut.rememberUpdateShortc
 internal fun AppSettingsRoute(
     modifier: Modifier = Modifier,
     viewModel: AppSettingsViewModel = hiltViewModel(),
-    onNavigationIconClick: () -> Unit
+    onNavigationIconClick: () -> Unit,
+    resourcesWrapper: ResourcesWrapper
 ) {
     val appSettingsDisabled = stringResource(id = R.string.app_settings_disabled)
     val emptyAppSettingsList = stringResource(id = R.string.empty_app_settings_list)
@@ -150,13 +152,14 @@ internal fun AppSettingsRoute(
 
     val clipboardResult = viewModel.clipboardResult.collectAsStateWithLifecycle().value
 
-    val addAppSettingsDialogState = rememberAddAppSettingsDialogState(resources = context.resources)
+    val appSettingsDialogState = rememberAppSettingsDialogState(resourcesWrapper = resourcesWrapper)
 
-    val addShortcutDialogState = rememberAddShortcutDialogState(resources = context.resources)
+    val addShortcutDialogState = rememberAddShortcutDialogState(resourcesWrapper = resourcesWrapper)
 
-    val updateShortcutDialogState = rememberUpdateShortcutDialogState(resources = context.resources)
+    val updateShortcutDialogState =
+        rememberUpdateShortcutDialogState(resourcesWrapper = resourcesWrapper)
 
-    val keyDebounce = addAppSettingsDialogState.keyDebounce.collectAsStateWithLifecycle("").value
+    val keyDebounce = appSettingsDialogState.keyDebounce.collectAsStateWithLifecycle("").value
 
     LaunchedEffect(key1 = true) {
         viewModel.getShortcut(viewModel.packageName)
@@ -239,17 +242,17 @@ internal fun AppSettingsRoute(
     }
 
     LaunchedEffect(
-        key1 = addAppSettingsDialogState.selectedRadioOptionIndex, key2 = keyDebounce
+        key1 = appSettingsDialogState.selectedRadioOptionIndex, key2 = keyDebounce
     ) {
-        val settingsType = SettingsType.entries[addAppSettingsDialogState.selectedRadioOptionIndex]
+        val settingsType = SettingsType.entries[appSettingsDialogState.selectedRadioOptionIndex]
 
         viewModel.getSecureSettings(
-            text = addAppSettingsDialogState.key, settingsType = settingsType
+            text = appSettingsDialogState.key, settingsType = settingsType
         )
     }
 
     LaunchedEffect(key1 = secureSettings) {
-        addAppSettingsDialogState.updateSecureSettings(secureSettings)
+        appSettingsDialogState.updateSecureSettings(secureSettings)
     }
 
     LaunchedEffect(key1 = applicationIcon) {
@@ -259,12 +262,12 @@ internal fun AppSettingsRoute(
         }
     }
 
-    if (addAppSettingsDialogState.showDialog) {
+    if (appSettingsDialogState.showDialog) {
         AddAppSettingsDialog(
-            addAppSettingsDialogState = addAppSettingsDialogState, onAddSettings = {
-                addAppSettingsDialogState.getAppSettings(packageName = viewModel.packageName)?.let {
+            addAppSettingsDialogState = appSettingsDialogState, onAddSettings = {
+                appSettingsDialogState.getAppSettings(packageName = viewModel.packageName)?.let {
                     viewModel.addSettings(it)
-                    addAppSettingsDialogState.resetState()
+                    appSettingsDialogState.resetState()
                 }
             }, contentDescription = "Add App Settings Dialog"
         )
@@ -317,7 +320,7 @@ internal fun AppSettingsRoute(
         onNavigationIconClick = onNavigationIconClick,
         onRevertSettingsIconClick = viewModel::revertSettings,
         onSettingsIconClick = {
-            addAppSettingsDialogState.updateShowDialog(true)
+            appSettingsDialogState.updateShowDialog(true)
         },
         onShortcutIconClick = {
             if (shortcut != null) {

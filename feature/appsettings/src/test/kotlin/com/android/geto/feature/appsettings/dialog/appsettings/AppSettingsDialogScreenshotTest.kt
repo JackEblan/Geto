@@ -19,23 +19,28 @@
 package com.android.geto.feature.appsettings.dialog.appsettings
 
 import androidx.activity.ComponentActivity
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.ScrollState
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.test.core.app.ApplicationProvider
 import com.android.geto.core.designsystem.component.GetoBackground
 import com.android.geto.core.designsystem.theme.GetoTheme
+import com.android.geto.core.resources.ResourcesWrapper
 import com.android.geto.core.screenshot.testing.util.DefaultTestDevices
 import com.android.geto.core.screenshot.testing.util.captureScreenRoboImageForDevice
 import com.android.geto.core.screenshot.testing.util.captureScreenRoboImageMultiDevice
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication
+import org.junit.Before
 import org.junit.Rule
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.GraphicsMode
 import org.robolectric.annotation.LooperMode
+import javax.inject.Inject
 import kotlin.test.Test
 
+@HiltAndroidTest
 @RunWith(RobolectricTestRunner::class)
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 @Config(application = HiltTestApplication::class)
@@ -45,17 +50,29 @@ class AppSettingsDialogScreenshotTest {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
-    private val context = ApplicationProvider.getApplicationContext<HiltTestApplication>()
+    @get:Rule
+    val hiltRule = HiltAndroidRule(this)
+
+    @Inject
+    lateinit var resourcesWrapper: ResourcesWrapper
+
+    private lateinit var addAppSettingsDialogState: AppSettingsDialogState
+
+    private lateinit var scrollState: ScrollState
+
+    @Before
+    fun setUp() {
+        hiltRule.inject()
+
+        addAppSettingsDialogState = AppSettingsDialogState(resourcesWrapper = resourcesWrapper)
+
+        scrollState = ScrollState(0)
+    }
 
     @Test
     fun app_settings_dialog_empty() {
         composeTestRule.captureScreenRoboImageMultiDevice(path = "AppSettingsDialog/AppSettingsDialogEmpty") {
             GetoTheme {
-                val addAppSettingsDialogState =
-                    rememberAddAppSettingsDialogState(resources = context.resources)
-
-                val scrollState = rememberScrollState()
-
                 AddAppSettingsDialog(
                     addAppSettingsDialogState = addAppSettingsDialogState,
                     scrollState = scrollState,
@@ -68,25 +85,20 @@ class AppSettingsDialogScreenshotTest {
 
     @Test
     fun app_settings_dialog_filled_textfields() {
+        addAppSettingsDialogState.updateSelectedRadioOptionIndex(1)
+
+        addAppSettingsDialogState.updateKey("Test")
+
+        addAppSettingsDialogState.updateLabel("Test")
+
+        addAppSettingsDialogState.updateValueOnLaunch("Test")
+
+        addAppSettingsDialogState.updateValueOnRevert("Test")
+
         composeTestRule.captureScreenRoboImageMultiDevice(
             path = "AppSettingsDialog/AppSettingsDialogFilledTextFields"
         ) {
             GetoTheme {
-                val addAppSettingsDialogState =
-                    rememberAddAppSettingsDialogState(resources = context.resources)
-
-                val scrollState = rememberScrollState()
-
-                addAppSettingsDialogState.updateSelectedRadioOptionIndex(1)
-
-                addAppSettingsDialogState.updateKey("Test")
-
-                addAppSettingsDialogState.updateLabel("Test")
-
-                addAppSettingsDialogState.updateValueOnLaunch("Test")
-
-                addAppSettingsDialogState.updateValueOnRevert("Test")
-
                 AddAppSettingsDialog(
                     addAppSettingsDialogState = addAppSettingsDialogState,
                     scrollState = scrollState,
@@ -99,17 +111,12 @@ class AppSettingsDialogScreenshotTest {
 
     @Test
     fun app_settings_dialog_error_textfields() {
+        addAppSettingsDialogState.getAppSettings(packageName = "Test")
+
         composeTestRule.captureScreenRoboImageMultiDevice(
             path = "AppSettingsDialog/AppSettingsDialogErrorTextFields"
         ) {
             GetoTheme {
-                val addAppSettingsDialogState =
-                    rememberAddAppSettingsDialogState(resources = context.resources)
-
-                val scrollState = rememberScrollState()
-
-                addAppSettingsDialogState.getAppSettings(packageName = "Test")
-
                 AddAppSettingsDialog(
                     addAppSettingsDialogState = addAppSettingsDialogState,
                     scrollState = scrollState,
@@ -130,11 +137,6 @@ class AppSettingsDialogScreenshotTest {
         ) {
             GetoTheme {
                 GetoBackground {
-                    val addAppSettingsDialogState =
-                        rememberAddAppSettingsDialogState(resources = context.resources)
-
-                    val scrollState = rememberScrollState()
-
                     AddAppSettingsDialog(
                         addAppSettingsDialogState = addAppSettingsDialogState,
                         scrollState = scrollState,
@@ -148,6 +150,16 @@ class AppSettingsDialogScreenshotTest {
 
     @Test
     fun app_settings_dialog_filled_textfields_dark() {
+        addAppSettingsDialogState.updateSelectedRadioOptionIndex(1)
+
+        addAppSettingsDialogState.updateKey("Test")
+
+        addAppSettingsDialogState.updateLabel("Test")
+
+        addAppSettingsDialogState.updateValueOnLaunch("Test")
+
+        addAppSettingsDialogState.updateValueOnRevert("Test")
+
         composeTestRule.captureScreenRoboImageForDevice(
             path = "AppSettingsDialog/AppSettingsDialogFilledTextFields",
             deviceName = "phone_dark",
@@ -156,21 +168,6 @@ class AppSettingsDialogScreenshotTest {
         ) {
             GetoTheme {
                 GetoBackground {
-                    val addAppSettingsDialogState =
-                        rememberAddAppSettingsDialogState(resources = context.resources)
-
-                    val scrollState = rememberScrollState()
-
-                    addAppSettingsDialogState.updateSelectedRadioOptionIndex(1)
-
-                    addAppSettingsDialogState.updateKey("Test")
-
-                    addAppSettingsDialogState.updateLabel("Test")
-
-                    addAppSettingsDialogState.updateValueOnLaunch("Test")
-
-                    addAppSettingsDialogState.updateValueOnRevert("Test")
-
                     AddAppSettingsDialog(
                         addAppSettingsDialogState = addAppSettingsDialogState,
                         scrollState = scrollState,
@@ -184,6 +181,8 @@ class AppSettingsDialogScreenshotTest {
 
     @Test
     fun app_settings_dialog_error_textfields_dark() {
+        addAppSettingsDialogState.getAppSettings(packageName = "Test")
+
         composeTestRule.captureScreenRoboImageForDevice(
             path = "AppSettingsDialog/AppSettingsDialogErrorTextFields",
             deviceName = "phone_dark",
@@ -192,13 +191,6 @@ class AppSettingsDialogScreenshotTest {
         ) {
             GetoTheme {
                 GetoBackground {
-                    val addAppSettingsDialogState =
-                        rememberAddAppSettingsDialogState(resources = context.resources)
-
-                    val scrollState = rememberScrollState()
-
-                    addAppSettingsDialogState.getAppSettings(packageName = "Test")
-
                     AddAppSettingsDialog(
                         addAppSettingsDialogState = addAppSettingsDialogState,
                         scrollState = scrollState,

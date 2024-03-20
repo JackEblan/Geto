@@ -5,7 +5,10 @@
       <entry key="AddAppSettingsDialogTest">
         <State />
       </entry>
-      <entry key="AppSettingsScreenTest">
+      <entry key="AddShortcutDialogTest">
+        <State />
+      </entry>
+      <entry key="NavigationTest">
         <State />
       </entry>
       <entry key="UpdateShortcutDialogTest">
