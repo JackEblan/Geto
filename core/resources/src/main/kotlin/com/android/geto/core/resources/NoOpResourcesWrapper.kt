@@ -16,26 +16,13 @@
  *
  */
 
-plugins {
-    alias(libs.plugins.com.android.geto.library)
-    alias(libs.plugins.com.android.geto.libraryCompose)
-}
+package com.android.geto.core.resources
 
-android {
-    namespace = "com.android.geto.core.ui"
-
-    defaultConfig {
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+/**
+ * Implementation of Resources wrapper which does nothing, Useful for tests and previews.
+ */
+class NoOpResourcesWrapper : ResourcesWrapper {
+    override fun getString(id: Int): String {
+        return ""
     }
-}
-
-dependencies {
-    api(projects.core.designsystem)
-    api(projects.core.model)
-    api(projects.core.resources)
-
-    implementation(libs.androidx.core.ktx)
-
-    testImplementation(projects.core.testing)
-    androidTestImplementation(projects.core.testing)
 }

@@ -16,26 +16,10 @@
  *
  */
 
-plugins {
-    alias(libs.plugins.com.android.geto.library)
-    alias(libs.plugins.com.android.geto.libraryCompose)
-}
+package com.android.geto.core.resources
 
-android {
-    namespace = "com.android.geto.core.ui"
+import androidx.annotation.StringRes
 
-    defaultConfig {
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-}
-
-dependencies {
-    api(projects.core.designsystem)
-    api(projects.core.model)
-    api(projects.core.resources)
-
-    implementation(libs.androidx.core.ktx)
-
-    testImplementation(projects.core.testing)
-    androidTestImplementation(projects.core.testing)
+interface ResourcesWrapper {
+    fun getString(@StringRes id: Int): String
 }

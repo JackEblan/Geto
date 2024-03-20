@@ -16,26 +16,10 @@
  *
  */
 
-plugins {
-    alias(libs.plugins.com.android.geto.library)
-    alias(libs.plugins.com.android.geto.libraryCompose)
-}
+package com.android.geto.core.ui
 
-android {
-    namespace = "com.android.geto.core.ui"
+import androidx.compose.runtime.staticCompositionLocalOf
+import com.android.geto.core.resources.NoOpResourcesWrapper
+import com.android.geto.core.resources.ResourcesWrapper
 
-    defaultConfig {
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-}
-
-dependencies {
-    api(projects.core.designsystem)
-    api(projects.core.model)
-    api(projects.core.resources)
-
-    implementation(libs.androidx.core.ktx)
-
-    testImplementation(projects.core.testing)
-    androidTestImplementation(projects.core.testing)
-}
+val LocalResources = staticCompositionLocalOf<ResourcesWrapper> { NoOpResourcesWrapper() }

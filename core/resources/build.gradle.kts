@@ -18,24 +18,14 @@
 
 plugins {
     alias(libs.plugins.com.android.geto.library)
-    alias(libs.plugins.com.android.geto.libraryCompose)
+    alias(libs.plugins.com.android.geto.libraryJacoco)
+    alias(libs.plugins.com.android.geto.hilt)
 }
 
 android {
-    namespace = "com.android.geto.core.ui"
-
-    defaultConfig {
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
+    namespace = "com.android.geto.core.resources"
 }
 
 dependencies {
-    api(projects.core.designsystem)
-    api(projects.core.model)
-    api(projects.core.resources)
-
-    implementation(libs.androidx.core.ktx)
-
-    testImplementation(projects.core.testing)
-    androidTestImplementation(projects.core.testing)
+    implementation(projects.core.model)
 }

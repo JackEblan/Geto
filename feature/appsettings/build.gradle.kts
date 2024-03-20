@@ -36,5 +36,6 @@ dependencies {
     testImplementation(projects.core.screenshotTesting)
     testDemoImplementation(libs.roborazzi)
 
+    androidTestImplementation(libs.hilt.android.testing)
     androidTestImplementation(projects.core.testing)
 }

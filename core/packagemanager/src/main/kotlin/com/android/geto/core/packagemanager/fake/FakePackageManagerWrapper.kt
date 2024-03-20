@@ -20,10 +20,7 @@ package com.android.geto.core.packagemanager.fake
 
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Color
 import android.graphics.drawable.Drawable
-import android.graphics.drawable.ShapeDrawable
-import android.graphics.drawable.shapes.OvalShape
 import com.android.geto.core.model.TargetApplicationInfo
 import com.android.geto.core.packagemanager.PackageManagerWrapper
 import javax.inject.Inject
@@ -35,14 +32,8 @@ class FakePackageManagerWrapper @Inject constructor() : PackageManagerWrapper {
 
     override fun getInstalledApplications(): List<TargetApplicationInfo> {
         return List(5) { index ->
-            val icon = ShapeDrawable(OvalShape()).apply {
-                paint.color = Color.GRAY
-
-                setBounds(0, 0, (50 * 2), (50 * 2))
-            }
-
             TargetApplicationInfo(
-                flags = 0, icon = icon, packageName = "packageName$index", label = "Label $index"
+                flags = 0, packageName = "packageName$index", label = "Label $index"
             )
         }
     }

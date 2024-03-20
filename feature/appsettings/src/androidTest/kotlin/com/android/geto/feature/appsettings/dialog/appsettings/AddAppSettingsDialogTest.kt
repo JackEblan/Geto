@@ -19,7 +19,7 @@
 package com.android.geto.feature.appsettings.dialog.appsettings
 
 import androidx.activity.ComponentActivity
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.ScrollState
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
@@ -27,37 +27,57 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import com.android.geto.core.model.SecureSettings
+import com.android.geto.core.resources.ResourcesWrapper
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import javax.inject.Inject
 
+@HiltAndroidTest
 class AddAppSettingsDialogTest {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
+    @get:Rule
+    val hiltRule = HiltAndroidRule(this)
+
+    @Inject
+    lateinit var resourcesWrapper: ResourcesWrapper
+
+    private lateinit var appSettingsDialogState: AppSettingsDialogState
+
+    private lateinit var scrollState: ScrollState
+
+    @Before
+    fun setUp() {
+        hiltRule.inject()
+
+        appSettingsDialogState = AppSettingsDialogState(resourcesWrapper = resourcesWrapper)
+
+        scrollState = ScrollState(0)
+    }
+
     @Test
     fun labelSupportingTextIsDisplayed_whenLabelTextFieldIsBlank() {
         composeTestRule.setContent {
-
-            val addAppSettingsDialogState = rememberAddAppSettingsDialogState()
-
-            val scrollState = rememberScrollState()
-
             AddAppSettingsDialog(
-                addAppSettingsDialogState = addAppSettingsDialogState,
+                addAppSettingsDialogState = appSettingsDialogState,
                 scrollState = scrollState,
                 onAddSettings = {
 
-                    addAppSettingsDialogState.updateSelectedRadioOptionIndex(1)
+                    appSettingsDialogState.updateSelectedRadioOptionIndex(1)
 
-                    addAppSettingsDialogState.updateLabel("")
+                    appSettingsDialogState.updateLabel("")
 
-                    addAppSettingsDialogState.updateKey("Test")
+                    appSettingsDialogState.updateKey("Test")
 
-                    addAppSettingsDialogState.updateValueOnLaunch("Test")
+                    appSettingsDialogState.updateValueOnLaunch("Test")
 
-                    addAppSettingsDialogState.updateValueOnRevert("Test")
+                    appSettingsDialogState.updateValueOnRevert("Test")
 
-                    addAppSettingsDialogState.getAppSettings(packageName = "packageName")
+                    appSettingsDialogState.getAppSettings(packageName = "packageName")
                 },
                 contentDescription = "Add App Settings Dialog"
             )
@@ -73,26 +93,21 @@ class AddAppSettingsDialogTest {
     @Test
     fun keySupportingTextIsDisplayed_whenKeyTextFieldIsBlank() {
         composeTestRule.setContent {
-
-            val addAppSettingsDialogState = rememberAddAppSettingsDialogState()
-
-            val scrollState = rememberScrollState()
-
             AddAppSettingsDialog(
-                addAppSettingsDialogState = addAppSettingsDialogState,
+                addAppSettingsDialogState = appSettingsDialogState,
                 scrollState = scrollState,
                 onAddSettings = {
-                    addAppSettingsDialogState.updateSelectedRadioOptionIndex(1)
+                    appSettingsDialogState.updateSelectedRadioOptionIndex(1)
 
-                    addAppSettingsDialogState.updateLabel("Test")
+                    appSettingsDialogState.updateLabel("Test")
 
-                    addAppSettingsDialogState.updateKey("")
+                    appSettingsDialogState.updateKey("")
 
-                    addAppSettingsDialogState.updateValueOnLaunch("Test")
+                    appSettingsDialogState.updateValueOnLaunch("Test")
 
-                    addAppSettingsDialogState.updateValueOnRevert("Test")
+                    appSettingsDialogState.updateValueOnRevert("Test")
 
-                    addAppSettingsDialogState.getAppSettings(packageName = "packageName")
+                    appSettingsDialogState.getAppSettings(packageName = "packageName")
                 },
                 contentDescription = "Add App Settings Dialog"
             )
@@ -108,30 +123,25 @@ class AddAppSettingsDialogTest {
     @Test
     fun settingsKeyNotFoundSupportingTextIsDisplayed_whenSettingsKeyNotFound() {
         composeTestRule.setContent {
-
-            val addAppSettingsDialogState = rememberAddAppSettingsDialogState()
-
-            val scrollState = rememberScrollState()
-
             AddAppSettingsDialog(
-                addAppSettingsDialogState = addAppSettingsDialogState,
+                addAppSettingsDialogState = appSettingsDialogState,
                 scrollState = scrollState,
                 onAddSettings = {
-                    addAppSettingsDialogState.updateSecureSettings(
+                    appSettingsDialogState.updateSecureSettings(
                         testSecureSettingsList
                     )
 
-                    addAppSettingsDialogState.updateSelectedRadioOptionIndex(1)
+                    appSettingsDialogState.updateSelectedRadioOptionIndex(1)
 
-                    addAppSettingsDialogState.updateLabel("Test")
+                    appSettingsDialogState.updateLabel("Test")
 
-                    addAppSettingsDialogState.updateKey("nameNotFound")
+                    appSettingsDialogState.updateKey("nameNotFound")
 
-                    addAppSettingsDialogState.updateValueOnLaunch("Test")
+                    appSettingsDialogState.updateValueOnLaunch("Test")
 
-                    addAppSettingsDialogState.updateValueOnRevert("Test")
+                    appSettingsDialogState.updateValueOnRevert("Test")
 
-                    addAppSettingsDialogState.getAppSettings(packageName = "packageName")
+                    appSettingsDialogState.getAppSettings(packageName = "packageName")
                 },
                 contentDescription = "Add App Settings Dialog"
             )
@@ -148,26 +158,21 @@ class AddAppSettingsDialogTest {
     @Test
     fun valueOnLaunchSupportingTextIsDisplayed_whenValueOnLaunchTextFieldIsBlank() {
         composeTestRule.setContent {
-
-            val addAppSettingsDialogState = rememberAddAppSettingsDialogState()
-
-            val scrollState = rememberScrollState()
-
             AddAppSettingsDialog(
-                addAppSettingsDialogState = addAppSettingsDialogState,
+                addAppSettingsDialogState = appSettingsDialogState,
                 scrollState = scrollState,
                 onAddSettings = {
-                    addAppSettingsDialogState.updateSelectedRadioOptionIndex(1)
+                    appSettingsDialogState.updateSelectedRadioOptionIndex(1)
 
-                    addAppSettingsDialogState.updateKey("Test")
+                    appSettingsDialogState.updateKey("Test")
 
-                    addAppSettingsDialogState.updateLabel("Test")
+                    appSettingsDialogState.updateLabel("Test")
 
-                    addAppSettingsDialogState.updateValueOnLaunch("")
+                    appSettingsDialogState.updateValueOnLaunch("")
 
-                    addAppSettingsDialogState.updateValueOnRevert("Test")
+                    appSettingsDialogState.updateValueOnRevert("Test")
 
-                    addAppSettingsDialogState.getAppSettings(packageName = "packageName")
+                    appSettingsDialogState.getAppSettings(packageName = "packageName")
                 },
                 contentDescription = "Add App Settings Dialog"
             )
@@ -183,27 +188,22 @@ class AddAppSettingsDialogTest {
     @Test
     fun valueOnRevertSupportingTextIsDisplayed_whenValueOnRevertTextFieldIsBlank() {
         composeTestRule.setContent {
-
-            val addAppSettingsDialogState = rememberAddAppSettingsDialogState()
-
-            val scrollState = rememberScrollState()
-
             AddAppSettingsDialog(
-                addAppSettingsDialogState = addAppSettingsDialogState,
+                addAppSettingsDialogState = appSettingsDialogState,
                 scrollState = scrollState,
                 onAddSettings = {
 
-                    addAppSettingsDialogState.updateSelectedRadioOptionIndex(1)
+                    appSettingsDialogState.updateSelectedRadioOptionIndex(1)
 
-                    addAppSettingsDialogState.updateKey("Test")
+                    appSettingsDialogState.updateKey("Test")
 
-                    addAppSettingsDialogState.updateLabel("Test")
+                    appSettingsDialogState.updateLabel("Test")
 
-                    addAppSettingsDialogState.updateValueOnLaunch("Test")
+                    appSettingsDialogState.updateValueOnLaunch("Test")
 
-                    addAppSettingsDialogState.updateValueOnRevert("")
+                    appSettingsDialogState.updateValueOnRevert("")
 
-                    addAppSettingsDialogState.getAppSettings(packageName = "packageName")
+                    appSettingsDialogState.getAppSettings(packageName = "packageName")
                 },
                 contentDescription = "Add App Settings Dialog"
             )
@@ -219,28 +219,23 @@ class AddAppSettingsDialogTest {
     @Test
     fun exposedDropdownMenuBoxIsDisplayed_whenSecureSettingsListExpandedIsTrue() {
         composeTestRule.setContent {
-
-            val addAppSettingsDialogState = rememberAddAppSettingsDialogState()
-
-            val scrollState = rememberScrollState()
-
-            addAppSettingsDialogState.updateSecureSettings(testSecureSettingsList)
+            appSettingsDialogState.updateSecureSettings(testSecureSettingsList)
 
             AddAppSettingsDialog(
-                addAppSettingsDialogState = addAppSettingsDialogState,
+                addAppSettingsDialogState = appSettingsDialogState,
                 scrollState = scrollState,
                 onAddSettings = {
-                    addAppSettingsDialogState.updateSelectedRadioOptionIndex(1)
+                    appSettingsDialogState.updateSelectedRadioOptionIndex(1)
 
-                    addAppSettingsDialogState.updateKey("Test")
+                    appSettingsDialogState.updateKey("Test")
 
-                    addAppSettingsDialogState.updateLabel("Test")
+                    appSettingsDialogState.updateLabel("Test")
 
-                    addAppSettingsDialogState.updateValueOnLaunch("")
+                    appSettingsDialogState.updateValueOnLaunch("")
 
-                    addAppSettingsDialogState.updateValueOnRevert("Test")
+                    appSettingsDialogState.updateValueOnRevert("Test")
 
-                    addAppSettingsDialogState.getAppSettings(packageName = "packageName")
+                    appSettingsDialogState.getAppSettings(packageName = "packageName")
                 },
                 contentDescription = "Add App Settings Dialog"
             )
@@ -256,28 +251,23 @@ class AddAppSettingsDialogTest {
     @Test
     fun keyTextFieldValue_whenSecureSettingsListItemIsClicked() {
         composeTestRule.setContent {
-
-            val addAppSettingsDialogState = rememberAddAppSettingsDialogState()
-
-            val scrollState = rememberScrollState()
-
-            addAppSettingsDialogState.updateSecureSettings(testSecureSettingsList)
+            appSettingsDialogState.updateSecureSettings(testSecureSettingsList)
 
             AddAppSettingsDialog(
-                addAppSettingsDialogState = addAppSettingsDialogState,
+                addAppSettingsDialogState = appSettingsDialogState,
                 scrollState = scrollState,
                 onAddSettings = {
-                    addAppSettingsDialogState.updateSelectedRadioOptionIndex(1)
+                    appSettingsDialogState.updateSelectedRadioOptionIndex(1)
 
-                    addAppSettingsDialogState.updateKey("Test")
+                    appSettingsDialogState.updateKey("Test")
 
-                    addAppSettingsDialogState.updateLabel("Test")
+                    appSettingsDialogState.updateLabel("Test")
 
-                    addAppSettingsDialogState.updateValueOnLaunch("")
+                    appSettingsDialogState.updateValueOnLaunch("")
 
-                    addAppSettingsDialogState.updateValueOnRevert("Test")
+                    appSettingsDialogState.updateValueOnRevert("Test")
 
-                    addAppSettingsDialogState.getAppSettings(packageName = "packageName")
+                    appSettingsDialogState.getAppSettings(packageName = "packageName")
                 },
                 contentDescription = "Add App Settings Dialog"
             )

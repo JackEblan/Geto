@@ -16,26 +16,21 @@
  *
  */
 
-plugins {
-    alias(libs.plugins.com.android.geto.library)
-    alias(libs.plugins.com.android.geto.libraryCompose)
-}
+package com.android.geto.core.testing.resources
 
-android {
-    namespace = "com.android.geto.core.ui"
+import com.android.geto.core.resources.ResourcesWrapper
 
-    defaultConfig {
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+class TestResourcesWrapper : ResourcesWrapper {
+    private var stringRes = ""
+
+    override fun getString(id: Int): String {
+        return stringRes
     }
-}
 
-dependencies {
-    api(projects.core.designsystem)
-    api(projects.core.model)
-    api(projects.core.resources)
-
-    implementation(libs.androidx.core.ktx)
-
-    testImplementation(projects.core.testing)
-    androidTestImplementation(projects.core.testing)
+    /**
+     * A test-only API to set string resource.
+     */
+    fun setString(value: String) {
+        stringRes = value
+    }
 }

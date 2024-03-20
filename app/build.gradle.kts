@@ -59,6 +59,7 @@ dependencies {
     implementation(projects.core.data)
     implementation(projects.core.designsystem)
     implementation(projects.core.packagemanager)
+    implementation(projects.core.resources)
     implementation(projects.core.ui)
 
     implementation(projects.feature.applist)

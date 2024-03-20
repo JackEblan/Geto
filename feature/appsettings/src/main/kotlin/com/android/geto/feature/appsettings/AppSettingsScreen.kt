@@ -20,6 +20,7 @@ package com.android.geto.feature.appsettings
 
 import android.content.Intent
 import androidx.annotation.VisibleForTesting
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -28,7 +29,9 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
@@ -78,7 +81,7 @@ import com.android.geto.core.model.AppSettings
 import com.android.geto.core.model.SettingsType
 import com.android.geto.core.ui.AppSettingsPreviewParameterProvider
 import com.android.geto.feature.appsettings.dialog.appsettings.AddAppSettingsDialog
-import com.android.geto.feature.appsettings.dialog.appsettings.rememberAddAppSettingsDialogState
+import com.android.geto.feature.appsettings.dialog.appsettings.rememberAppSettingsDialogState
 import com.android.geto.feature.appsettings.dialog.copypermissioncommand.CopyPermissionCommandDialog
 import com.android.geto.feature.appsettings.dialog.shortcut.AddShortcutDialog
 import com.android.geto.feature.appsettings.dialog.shortcut.UpdateShortcutDialog
@@ -147,13 +150,13 @@ internal fun AppSettingsRoute(
 
     val clipboardResult = viewModel.clipboardResult.collectAsStateWithLifecycle().value
 
-    val addAppSettingsDialogState = rememberAddAppSettingsDialogState()
+    val appSettingsDialogState = rememberAppSettingsDialogState()
 
     val addShortcutDialogState = rememberAddShortcutDialogState()
 
     val updateShortcutDialogState = rememberUpdateShortcutDialogState()
 
-    val keyDebounce = addAppSettingsDialogState.keyDebounce.collectAsStateWithLifecycle("").value
+    val keyDebounce = appSettingsDialogState.keyDebounce.collectAsStateWithLifecycle("").value
 
     LaunchedEffect(key1 = true) {
         viewModel.getShortcut(viewModel.packageName)
@@ -236,17 +239,17 @@ internal fun AppSettingsRoute(
     }
 
     LaunchedEffect(
-        key1 = addAppSettingsDialogState.selectedRadioOptionIndex, key2 = keyDebounce
+        key1 = appSettingsDialogState.selectedRadioOptionIndex, key2 = keyDebounce
     ) {
-        val settingsType = SettingsType.entries[addAppSettingsDialogState.selectedRadioOptionIndex]
+        val settingsType = SettingsType.entries[appSettingsDialogState.selectedRadioOptionIndex]
 
         viewModel.getSecureSettings(
-            text = addAppSettingsDialogState.key, settingsType = settingsType
+            text = appSettingsDialogState.key, settingsType = settingsType
         )
     }
 
     LaunchedEffect(key1 = secureSettings) {
-        addAppSettingsDialogState.updateSecureSettings(secureSettings)
+        appSettingsDialogState.updateSecureSettings(secureSettings)
     }
 
     LaunchedEffect(key1 = applicationIcon) {
@@ -256,12 +259,12 @@ internal fun AppSettingsRoute(
         }
     }
 
-    if (addAppSettingsDialogState.showDialog) {
+    if (appSettingsDialogState.showDialog) {
         AddAppSettingsDialog(
-            addAppSettingsDialogState = addAppSettingsDialogState, onAddSettings = {
-                addAppSettingsDialogState.getAppSettings(packageName = viewModel.packageName)?.let {
+            addAppSettingsDialogState = appSettingsDialogState, onAddSettings = {
+                appSettingsDialogState.getAppSettings(packageName = viewModel.packageName)?.let {
                     viewModel.addSettings(it)
-                    addAppSettingsDialogState.resetState()
+                    appSettingsDialogState.resetState()
                 }
             }, contentDescription = "Add App Settings Dialog"
         )
@@ -314,7 +317,7 @@ internal fun AppSettingsRoute(
         onNavigationIconClick = onNavigationIconClick,
         onRevertSettingsIconClick = viewModel::revertSettings,
         onSettingsIconClick = {
-            addAppSettingsDialogState.updateShowDialog(true)
+            appSettingsDialogState.updateShowDialog(true)
         },
         onShortcutIconClick = {
             if (shortcut != null) {
@@ -511,13 +514,18 @@ private fun SuccessState(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 private fun LazyListScope.appSettings(
     appSettingsList: List<AppSettings>,
     onAppSettingsItemCheckBoxChange: (Boolean, AppSettings) -> Unit,
     onDeleteAppSettingsItem: (AppSettings) -> Unit,
 ) {
-    items(appSettingsList) { appSettings ->
-        AppSettingsItem(enabled = appSettings.enabled,
+    items(appSettingsList, key = { it.key }) { appSettings ->
+        AppSettingsItem(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 10.dp, horizontal = 5.dp)
+                .animateItemPlacement(), enabled = appSettings.enabled,
                         label = appSettings.label,
                         settingsTypeLabel = appSettings.settingsType.label,
                         key = appSettings.key,

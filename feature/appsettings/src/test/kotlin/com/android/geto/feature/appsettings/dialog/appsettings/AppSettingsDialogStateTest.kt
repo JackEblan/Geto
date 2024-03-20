@@ -19,6 +19,7 @@
 package com.android.geto.feature.appsettings.dialog.appsettings
 
 import com.android.geto.core.model.SecureSettings
+import com.android.geto.core.testing.resources.TestResourcesWrapper
 import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertNotNull
@@ -28,9 +29,11 @@ class AppSettingsDialogStateTest {
 
     private lateinit var appSettingsDialogState: AppSettingsDialogState
 
+    private val resourcesWrapper = TestResourcesWrapper()
+
     @Before
     fun setup() {
-        appSettingsDialogState = AppSettingsDialogState()
+        appSettingsDialogState = AppSettingsDialogState(resourcesWrapper = resourcesWrapper)
 
         appSettingsDialogState.updateSecureSettings(
             listOf(
@@ -43,6 +46,8 @@ class AppSettingsDialogStateTest {
 
     @Test
     fun labelErrorIsNotBlank_whenLabelIsBlank() {
+        resourcesWrapper.setString("Settings label is blank")
+
         appSettingsDialogState.updateLabel("")
 
         appSettingsDialogState.getAppSettings(packageName = "packageName")
@@ -61,6 +66,8 @@ class AppSettingsDialogStateTest {
 
     @Test
     fun keyErrorIsNotBlank_whenKeyIsBlank() {
+        resourcesWrapper.setString("Settings key is blank")
+
         appSettingsDialogState.updateKey("")
 
         appSettingsDialogState.getAppSettings(packageName = "packageName")
@@ -79,6 +86,8 @@ class AppSettingsDialogStateTest {
 
     @Test
     fun settingsKeyNotFoundErrorIsNotBlank_whenSettingsKeyNotFound() {
+        resourcesWrapper.setString("Settings key not found")
+
         appSettingsDialogState.updateKey("keyNotFound")
 
         appSettingsDialogState.getAppSettings(packageName = "packageName")
@@ -97,6 +106,8 @@ class AppSettingsDialogStateTest {
 
     @Test
     fun valueOnLaunchErrorIsNotBlank_whenValueOnLaunchIsBlank() {
+        resourcesWrapper.setString("Settings value on launch is blank")
+
         appSettingsDialogState.updateValueOnLaunch("")
 
         appSettingsDialogState.getAppSettings(packageName = "packageName")
@@ -115,6 +126,8 @@ class AppSettingsDialogStateTest {
 
     @Test
     fun valueOnRevertErrorIsNotBlank_whenValueOnRevertIsBlank() {
+        resourcesWrapper.setString("Settings value on revert is blank")
+
         appSettingsDialogState.updateValueOnRevert("")
 
         appSettingsDialogState.getAppSettings(packageName = "packageName")

@@ -65,16 +65,22 @@ internal fun ThemeDialog(
                 .semantics { this.contentDescription = contentDescription },
             shape = RoundedCornerShape(16.dp),
         ) {
-            ThemeDialogScreen(
-                themeDialogState = themeDialogState, onChangeTheme = onChangeTheme
-            )
+            ThemeDialogScreen(selectedRadioOptionIndex = themeDialogState.selectedRadioOptionIndex,
+                              onUpdateSelectedRadioOptionIndex = themeDialogState::updateSelectedRadioOptionIndex,
+                              onChangeTheme = onChangeTheme,
+                              onCancel = {
+                                  themeDialogState.updateShowDialog(false)
+                              })
         }
     }
 }
 
 @Composable
 internal fun ThemeDialogScreen(
-    themeDialogState: ThemeDialogState, onChangeTheme: () -> Unit
+    selectedRadioOptionIndex: Int,
+    onUpdateSelectedRadioOptionIndex: (Int) -> Unit,
+    onChangeTheme: () -> Unit,
+    onCancel: () -> Unit
 ) {
     val defaultTheme = stringResource(R.string.default_theme)
     val androidTheme = stringResource(R.string.android_theme)
@@ -103,20 +109,17 @@ internal fun ThemeDialogScreen(
                 Row(
                     Modifier
                         .padding(vertical = 10.dp)
-                        .selectable(selected = index == themeDialogState.selectedRadioOptionIndex,
+                        .selectable(selected = index == selectedRadioOptionIndex,
                                     role = Role.RadioButton,
                                     enabled = true,
                                     onClick = {
-                                        themeDialogState.updateSelectedRadioOptionIndex(
-                                            index
-                                        )
+                                        onUpdateSelectedRadioOptionIndex(index)
                                     })
                         .padding(horizontal = 16.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     RadioButton(
-                        selected = index == themeDialogState.selectedRadioOptionIndex,
-                        onClick = null
+                        selected = index == selectedRadioOptionIndex, onClick = null
                     )
                     Text(
                         text = text,
@@ -134,8 +137,7 @@ internal fun ThemeDialogScreen(
             horizontalArrangement = Arrangement.End,
         ) {
             TextButton(
-                onClick = { themeDialogState.updateShowDialog(false) },
-                modifier = Modifier.padding(5.dp)
+                onClick = onCancel, modifier = Modifier.padding(5.dp)
             ) {
                 Text(stringResource(R.string.cancel))
             }
@@ -162,6 +164,9 @@ fun rememberThemeDialogState(): ThemeDialogState {
 @Composable
 private fun ThemeDialogScreenPreview() {
     GetoTheme {
-        ThemeDialogScreen(themeDialogState = ThemeDialogState(), onChangeTheme = {})
+        ThemeDialogScreen(selectedRadioOptionIndex = 0,
+                          onUpdateSelectedRadioOptionIndex = {},
+                          onChangeTheme = {},
+                          onCancel = {})
     }
 }

@@ -43,5 +43,6 @@ dependencies {
     implementation(projects.core.domain)
     implementation(projects.core.model)
     implementation(projects.core.packagemanager)
+    implementation(projects.core.resources)
     implementation(projects.core.securesettings)
 }

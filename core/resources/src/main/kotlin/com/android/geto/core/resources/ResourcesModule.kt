@@ -16,26 +16,19 @@
  *
  */
 
-plugins {
-    alias(libs.plugins.com.android.geto.library)
-    alias(libs.plugins.com.android.geto.libraryCompose)
-}
+package com.android.geto.core.resources
 
-android {
-    namespace = "com.android.geto.core.ui"
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
-    defaultConfig {
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-}
+@Module
+@InstallIn(SingletonComponent::class)
+interface ResourcesModule {
 
-dependencies {
-    api(projects.core.designsystem)
-    api(projects.core.model)
-    api(projects.core.resources)
-
-    implementation(libs.androidx.core.ktx)
-
-    testImplementation(projects.core.testing)
-    androidTestImplementation(projects.core.testing)
+    @Binds
+    @Singleton
+    fun resourcesWrapper(impl: DefaultResourcesWrapper): ResourcesWrapper
 }

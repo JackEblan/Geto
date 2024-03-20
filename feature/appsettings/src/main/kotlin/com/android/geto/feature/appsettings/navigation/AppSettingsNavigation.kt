@@ -60,8 +60,6 @@ fun NavGraphBuilder.appSettingsScreen(onNavigationIconClick: () -> Unit) {
             uriPattern = "$deepLinkUri/{$PACKAGE_NAME_ARG}/{$APP_NAME_ARG}"
         })
     ) {
-        AppSettingsRoute(
-            onNavigationIconClick = onNavigationIconClick
-        )
+        AppSettingsRoute(onNavigationIconClick = onNavigationIconClick)
     }
 }

@@ -52,7 +52,6 @@ class NavigationTest {
     @Before
     fun setUp() {
         hiltRule.inject()
-
         composeTestRule.activity.setContent {
             navController = TestNavHostController(LocalContext.current)
             navController.navigatorProvider.addNavigator(ComposeNavigator())

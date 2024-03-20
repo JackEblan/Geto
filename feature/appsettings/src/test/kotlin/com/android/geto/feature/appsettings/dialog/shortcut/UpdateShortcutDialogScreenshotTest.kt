@@ -23,18 +23,24 @@ import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.android.geto.core.designsystem.component.GetoBackground
 import com.android.geto.core.designsystem.theme.GetoTheme
+import com.android.geto.core.resources.ResourcesWrapper
 import com.android.geto.core.screenshot.testing.util.DefaultTestDevices
 import com.android.geto.core.screenshot.testing.util.captureScreenRoboImageForDevice
 import com.android.geto.core.screenshot.testing.util.captureScreenRoboImageMultiDevice
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication
+import org.junit.Before
 import org.junit.Rule
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.GraphicsMode
 import org.robolectric.annotation.LooperMode
+import javax.inject.Inject
 import kotlin.test.Test
 
+@HiltAndroidTest
 @RunWith(RobolectricTestRunner::class)
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 @Config(application = HiltTestApplication::class)
@@ -43,14 +49,27 @@ class UpdateShortcutDialogScreenshotTest {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
+    @get:Rule
+    val hiltRule = HiltAndroidRule(this)
+
+    @Inject
+    lateinit var resourcesWrapper: ResourcesWrapper
+
+    private lateinit var shortcutDialogState: ShortcutDialogState
+
+    @Before
+    fun setUp() {
+        hiltRule.inject()
+
+        shortcutDialogState = ShortcutDialogState(resourcesWrapper = resourcesWrapper)
+    }
+
     @Test
     fun update_shortcut_dialog_empty() {
         composeTestRule.captureScreenRoboImageMultiDevice(
             path = "UpdateShortcutDialog/UpdateShortcutDialogEmpty"
         ) {
             GetoTheme {
-                val shortcutDialogState = rememberUpdateShortcutDialogState()
-
                 UpdateShortcutDialog(shortcutDialogState = shortcutDialogState,
                                      onRefreshShortcut = {},
                                      onUpdateShortcut = {},
@@ -62,16 +81,14 @@ class UpdateShortcutDialogScreenshotTest {
 
     @Test
     fun update_shortcut_dialog_filled_textfields() {
+        shortcutDialogState.updateShortLabel("Short Label")
+
+        shortcutDialogState.updateLongLabel("Long Label")
+
         composeTestRule.captureScreenRoboImageMultiDevice(
             path = "UpdateShortcutDialog/UpdateShortcutDialogFilledTextFields"
         ) {
             GetoTheme {
-                val shortcutDialogState = rememberUpdateShortcutDialogState()
-
-                shortcutDialogState.updateShortLabel("Short Label")
-
-                shortcutDialogState.updateLongLabel("Long Label")
-
                 UpdateShortcutDialog(shortcutDialogState = shortcutDialogState,
                                      onRefreshShortcut = {},
                                      onUpdateShortcut = {},
@@ -83,14 +100,12 @@ class UpdateShortcutDialogScreenshotTest {
 
     @Test
     fun update_shortcut_dialog_error_textfields() {
+        shortcutDialogState.getShortcut(packageName = "Test", shortcutIntent = Intent())
+
         composeTestRule.captureScreenRoboImageMultiDevice(
             path = "UpdateShortcutDialog/UpdateShortcutDialogErrorTextFields"
         ) {
             GetoTheme {
-                val shortcutDialogState = rememberUpdateShortcutDialogState()
-
-                shortcutDialogState.getShortcut(packageName = "Test", shortcutIntent = Intent())
-
                 UpdateShortcutDialog(shortcutDialogState = shortcutDialogState,
                                      onRefreshShortcut = {},
                                      onUpdateShortcut = {},
@@ -110,8 +125,6 @@ class UpdateShortcutDialogScreenshotTest {
         ) {
             GetoTheme {
                 GetoBackground {
-                    val shortcutDialogState = rememberUpdateShortcutDialogState()
-
                     UpdateShortcutDialog(shortcutDialogState = shortcutDialogState,
                                          onRefreshShortcut = {},
                                          onUpdateShortcut = {},
@@ -124,6 +137,10 @@ class UpdateShortcutDialogScreenshotTest {
 
     @Test
     fun update_shortcut_dialog_filled_textfields_dark() {
+        shortcutDialogState.updateShortLabel("Short Label")
+
+        shortcutDialogState.updateLongLabel("Long Label")
+
         composeTestRule.captureScreenRoboImageForDevice(
             path = "UpdateShortcutDialog/UpdateShortcutDialogFilledTextFields",
             deviceName = "phone_dark",
@@ -132,12 +149,6 @@ class UpdateShortcutDialogScreenshotTest {
         ) {
             GetoTheme {
                 GetoBackground {
-                    val shortcutDialogState = rememberUpdateShortcutDialogState()
-
-                    shortcutDialogState.updateShortLabel("Short Label")
-
-                    shortcutDialogState.updateLongLabel("Long Label")
-
                     UpdateShortcutDialog(shortcutDialogState = shortcutDialogState,
                                          onRefreshShortcut = {},
                                          onUpdateShortcut = {},
@@ -150,6 +161,8 @@ class UpdateShortcutDialogScreenshotTest {
 
     @Test
     fun update_shortcut_dialog_error_textfields_dark() {
+        shortcutDialogState.getShortcut(packageName = "Test", shortcutIntent = Intent())
+
         composeTestRule.captureScreenRoboImageForDevice(
             path = "UpdateShortcutDialog/UpdateShortcutDialogErrorTextFields",
             deviceName = "phone_dark",
@@ -158,10 +171,6 @@ class UpdateShortcutDialogScreenshotTest {
         ) {
             GetoTheme {
                 GetoBackground {
-                    val shortcutDialogState = rememberUpdateShortcutDialogState()
-
-                    shortcutDialogState.getShortcut(packageName = "Test", shortcutIntent = Intent())
-
                     UpdateShortcutDialog(shortcutDialogState = shortcutDialogState,
                                          onRefreshShortcut = {},
                                          onUpdateShortcut = {},

@@ -16,26 +16,18 @@
  *
  */
 
-plugins {
-    alias(libs.plugins.com.android.geto.library)
-    alias(libs.plugins.com.android.geto.libraryCompose)
-}
+package com.android.geto.core.resources
 
-android {
-    namespace = "com.android.geto.core.ui"
+import android.content.Context
+import androidx.annotation.StringRes
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
 
-    defaultConfig {
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+class DefaultResourcesWrapper @Inject constructor(@ApplicationContext private val context: Context) :
+    ResourcesWrapper {
+    private val resources = context.resources
+
+    override fun getString(@StringRes id: Int): String {
+        return resources.getString(id)
     }
-}
-
-dependencies {
-    api(projects.core.designsystem)
-    api(projects.core.model)
-    api(projects.core.resources)
-
-    implementation(libs.androidx.core.ktx)
-
-    testImplementation(projects.core.testing)
-    androidTestImplementation(projects.core.testing)
 }

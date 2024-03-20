@@ -162,8 +162,7 @@ private val testAppSettingsList = List(2) { index ->
         enabled = true,
         settingsType = SettingsType.SYSTEM,
         packageName = "packageName$index",
-        label = "Label $index",
-        key = "key0",
+        label = "Label $index", key = "key$index",
         valueOnLaunch = "valueOnLaunch$index",
         valueOnRevert = "valueOnRevert$index"
     )

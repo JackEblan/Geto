@@ -21,19 +21,18 @@ package com.android.geto.feature.appsettings.dialog.shortcut
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.res.stringResource
 import androidx.core.graphics.drawable.toBitmap
 import com.android.geto.core.model.TargetShortcutInfoCompat
+import com.android.geto.core.resources.ResourcesWrapper
 import com.android.geto.feature.appsettings.R
 
 @Stable
-internal class ShortcutDialogState {
+internal class ShortcutDialogState(private val resourcesWrapper: ResourcesWrapper) {
     var showDialog by mutableStateOf(false)
         private set
 
@@ -52,10 +51,6 @@ internal class ShortcutDialogState {
     var longLabelError by mutableStateOf("")
         private set
 
-    private var shortLabelErrorStringRes = ""
-
-    private var longLabelErrorStringRes = ""
-
     fun updateShowDialog(value: Boolean) {
         showDialog = value
     }
@@ -72,12 +67,6 @@ internal class ShortcutDialogState {
         longLabel = value
     }
 
-    @Composable
-    fun GetStringResources() {
-        shortLabelErrorStringRes = stringResource(R.string.short_label_is_blank)
-        longLabelErrorStringRes = stringResource(R.string.long_label_is_blank)
-    }
-
     fun resetState() {
         showDialog = false
         longLabel = ""
@@ -85,9 +74,11 @@ internal class ShortcutDialogState {
     }
 
     fun getShortcut(packageName: String, shortcutIntent: Intent): TargetShortcutInfoCompat? {
-        shortLabelError = if (shortLabel.isBlank()) shortLabelErrorStringRes else ""
+        shortLabelError =
+            if (shortLabel.isBlank()) resourcesWrapper.getString(R.string.short_label_is_blank) else ""
 
-        longLabelError = if (longLabel.isBlank()) longLabelErrorStringRes else ""
+        longLabelError =
+            if (longLabel.isBlank()) resourcesWrapper.getString(R.string.long_label_is_blank) else ""
 
         return if (shortLabelError.isBlank() && longLabelError.isBlank()) {
             TargetShortcutInfoCompat(
@@ -103,26 +94,27 @@ internal class ShortcutDialogState {
     }
 
     companion object {
-        val Saver = listSaver<ShortcutDialogState, Any>(save = { state ->
-            listOf(
-                state.showDialog,
-                state.shortLabel,
-                state.shortLabelError,
-                state.longLabel,
-                state.longLabelError
-            )
-        }, restore = {
-            ShortcutDialogState().apply {
-                showDialog = it[0] as Boolean
+        fun createSaver(resourcesWrapper: ResourcesWrapper) =
+            listSaver<ShortcutDialogState, Any>(save = { state ->
+                listOf(
+                    state.showDialog,
+                    state.shortLabel,
+                    state.shortLabelError,
+                    state.longLabel,
+                    state.longLabelError
+                )
+            }, restore = {
+                ShortcutDialogState(resourcesWrapper = resourcesWrapper).apply {
+                    showDialog = it[0] as Boolean
 
-                shortLabel = it[1] as String
+                    shortLabel = it[1] as String
 
-                shortLabelError = it[2] as String
+                    shortLabelError = it[2] as String
 
-                longLabel = it[3] as String
+                    longLabel = it[3] as String
 
-                longLabelError = it[4] as String
-            }
-        })
+                    longLabelError = it[4] as String
+                }
+            })
     }
 }
