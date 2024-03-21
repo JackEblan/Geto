@@ -26,12 +26,13 @@ import androidx.lifecycle.viewModelScope
 import com.android.geto.core.data.repository.AppSettingsRepository
 import com.android.geto.core.data.repository.ClipboardRepository
 import com.android.geto.core.data.repository.ClipboardResult
-import com.android.geto.core.data.repository.PackageRepository
 import com.android.geto.core.data.repository.SecureSettingsRepository
 import com.android.geto.core.data.repository.ShortcutRepository
 import com.android.geto.core.data.repository.ShortcutResult
 import com.android.geto.core.domain.AppSettingsResult
 import com.android.geto.core.domain.ApplyAppSettingsUseCase
+import com.android.geto.core.domain.GetShortcutResult
+import com.android.geto.core.domain.GetShortcutUseCase
 import com.android.geto.core.domain.RevertAppSettingsUseCase
 import com.android.geto.core.model.AppSettings
 import com.android.geto.core.model.SecureSettings
@@ -57,9 +58,9 @@ class AppSettingsViewModel @Inject constructor(
     private val clipboardRepository: ClipboardRepository,
     private val secureSettingsRepository: SecureSettingsRepository,
     private val shortcutRepository: ShortcutRepository,
-    private val packageRepository: PackageRepository,
     private val applyAppSettingsUseCase: ApplyAppSettingsUseCase,
-    private val revertAppSettingsUseCase: RevertAppSettingsUseCase
+    private val revertAppSettingsUseCase: RevertAppSettingsUseCase,
+    private val getShortcutUseCase: GetShortcutUseCase,
 ) : ViewModel() {
     private var _launchAppIntent = MutableStateFlow<Intent?>(null)
     val launchAppIntent = _launchAppIntent.asStateFlow()
@@ -70,8 +71,8 @@ class AppSettingsViewModel @Inject constructor(
     private var _icon = MutableStateFlow<Drawable?>(null)
     val icon = _icon.asStateFlow()
 
-    private var _shortcut = MutableStateFlow<TargetShortcutInfoCompat?>(null)
-    val shortcut = _shortcut.asStateFlow()
+    private var _getShortcutResult = MutableStateFlow<GetShortcutResult>(GetShortcutResult.None)
+    val getShortcutResult = _getShortcutResult.asStateFlow()
 
     private val _applyAppSettingsResult = MutableStateFlow<AppSettingsResult?>(null)
     val applyAppSettingsResult = _applyAppSettingsResult.asStateFlow()
@@ -128,9 +129,9 @@ class AppSettingsViewModel @Inject constructor(
         }
     }
 
-    fun getShortcut(id: String) {
+    fun getShortcut(id: String = packageName) {
         viewModelScope.launch {
-            _shortcut.update { shortcutRepository.getShortcut(id) }
+            _getShortcutResult.update { getShortcutUseCase(id) }
         }
     }
 
@@ -165,12 +166,6 @@ class AppSettingsViewModel @Inject constructor(
         }
     }
 
-    fun getApplicationIcon() {
-        viewModelScope.launch {
-            _icon.update { packageRepository.getApplicationIcon(packageName) }
-        }
-    }
-
     fun getSecureSettings(text: String, settingsType: SettingsType) {
         viewModelScope.launch {
             val filteredSecureSettings = secureSettingsRepository.getSecureSettings(settingsType)
@@ -187,6 +182,10 @@ class AppSettingsViewModel @Inject constructor(
 
     fun clearShortcutResult() {
         _shortcutResult.update { null }
+    }
+
+    fun clearGetShortcutResult() {
+        _getShortcutResult.update { GetShortcutResult.None }
     }
 
     fun clearClipboardResult() {

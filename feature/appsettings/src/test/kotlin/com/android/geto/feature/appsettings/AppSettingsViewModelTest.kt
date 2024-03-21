@@ -23,6 +23,8 @@ import com.android.geto.core.data.repository.ClipboardResult
 import com.android.geto.core.data.repository.ShortcutResult
 import com.android.geto.core.domain.AppSettingsResult
 import com.android.geto.core.domain.ApplyAppSettingsUseCase
+import com.android.geto.core.domain.GetShortcutResult
+import com.android.geto.core.domain.GetShortcutUseCase
 import com.android.geto.core.domain.RevertAppSettingsUseCase
 import com.android.geto.core.model.AppSettings
 import com.android.geto.core.model.SecureSettings
@@ -46,8 +48,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertIs
-import kotlin.test.assertNotNull
-import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -69,10 +69,6 @@ class AppSettingsViewModelTest {
 
     private lateinit var viewModel: AppSettingsViewModel
 
-    private val packageNameTest = "packageNameTest"
-
-    private val appNameTest = "appNameTest"
-
     @Before
     fun setup() {
         appSettingsRepository = TestAppSettingsRepository()
@@ -85,9 +81,9 @@ class AppSettingsViewModelTest {
 
         shortcutRepository = TestShortcutRepository()
 
-        savedStateHandle[PACKAGE_NAME_ARG] = packageNameTest
+        savedStateHandle[PACKAGE_NAME_ARG] = PACKAGE_NAME_TEST
 
-        savedStateHandle[APP_NAME_ARG] = appNameTest
+        savedStateHandle[APP_NAME_ARG] = APP_NAME_TEST
 
         viewModel = AppSettingsViewModel(
             savedStateHandle = savedStateHandle,
@@ -95,7 +91,6 @@ class AppSettingsViewModelTest {
             clipboardRepository = clipboardRepository,
             secureSettingsRepository = secureSettingsRepository,
             shortcutRepository = shortcutRepository,
-            packageRepository = packageRepository,
             applyAppSettingsUseCase = ApplyAppSettingsUseCase(
                 appSettingsRepository = appSettingsRepository,
                 secureSettingsRepository = secureSettingsRepository
@@ -103,6 +98,8 @@ class AppSettingsViewModelTest {
             revertAppSettingsUseCase = RevertAppSettingsUseCase(
                 appSettingsRepository = appSettingsRepository,
                 secureSettingsRepository = secureSettingsRepository
+            ), getShortcutUseCase = GetShortcutUseCase(
+                packageRepository = packageRepository, shortcutRepository = shortcutRepository
             )
         )
     }
@@ -123,7 +120,7 @@ class AppSettingsViewModelTest {
                     id = 0,
                     enabled = true,
                     settingsType = SettingsType.SYSTEM,
-                    packageName = packageNameTest,
+                    packageName = PACKAGE_NAME_TEST,
                     label = "system",
                     key = "key",
                     valueOnLaunch = "test",
@@ -144,7 +141,7 @@ class AppSettingsViewModelTest {
         packageRepository.setNonSystemApps(
             listOf(
                 TargetApplicationInfo(
-                    flags = 0, packageName = packageNameTest, label = "label"
+                    flags = 0, packageName = PACKAGE_NAME_TEST, label = "label"
                 )
             )
         )
@@ -152,9 +149,10 @@ class AppSettingsViewModelTest {
         appSettingsRepository.setAppSettings(
             listOf(
                 AppSettings(
-                    id = 0, enabled = true,
+                    id = 0,
+                    enabled = true,
                     settingsType = SettingsType.SYSTEM,
-                    packageName = packageNameTest,
+                    packageName = PACKAGE_NAME_TEST,
                     label = "system",
                     key = "key",
                     valueOnLaunch = "test",
@@ -176,7 +174,7 @@ class AppSettingsViewModelTest {
         packageRepository.setNonSystemApps(
             listOf(
                 TargetApplicationInfo(
-                    flags = 0, packageName = packageNameTest, label = "label"
+                    flags = 0, packageName = PACKAGE_NAME_TEST, label = "label"
                 )
             )
         )
@@ -187,7 +185,7 @@ class AppSettingsViewModelTest {
                     id = 0,
                     enabled = true,
                     settingsType = SettingsType.SYSTEM,
-                    packageName = packageNameTest,
+                    packageName = PACKAGE_NAME_TEST,
                     label = "system",
                     key = "key",
                     valueOnLaunch = "test",
@@ -209,7 +207,7 @@ class AppSettingsViewModelTest {
         packageRepository.setNonSystemApps(
             listOf(
                 TargetApplicationInfo(
-                    flags = 0, packageName = packageNameTest, label = "label"
+                    flags = 0, packageName = PACKAGE_NAME_TEST, label = "label"
                 )
             )
         )
@@ -217,9 +215,10 @@ class AppSettingsViewModelTest {
         appSettingsRepository.setAppSettings(
             listOf(
                 AppSettings(
-                    id = 0, enabled = false,
+                    id = 0,
+                    enabled = false,
                     settingsType = SettingsType.SYSTEM,
-                    packageName = packageNameTest,
+                    packageName = PACKAGE_NAME_TEST,
                     label = "system",
                     key = "key",
                     valueOnLaunch = "test",
@@ -241,7 +240,7 @@ class AppSettingsViewModelTest {
         packageRepository.setNonSystemApps(
             listOf(
                 TargetApplicationInfo(
-                    flags = 0, packageName = packageNameTest, label = "label"
+                    flags = 0, packageName = PACKAGE_NAME_TEST, label = "label"
                 )
             )
         )
@@ -261,7 +260,7 @@ class AppSettingsViewModelTest {
         packageRepository.setNonSystemApps(
             listOf(
                 TargetApplicationInfo(
-                    flags = 0, packageName = packageNameTest, label = "label"
+                    flags = 0, packageName = PACKAGE_NAME_TEST, label = "label"
                 )
             )
         )
@@ -272,7 +271,7 @@ class AppSettingsViewModelTest {
                     id = 0,
                     enabled = true,
                     settingsType = SettingsType.SYSTEM,
-                    packageName = packageNameTest,
+                    packageName = PACKAGE_NAME_TEST,
                     label = "system",
                     key = "key",
                     valueOnLaunch = "test",
@@ -294,7 +293,7 @@ class AppSettingsViewModelTest {
         packageRepository.setNonSystemApps(
             listOf(
                 TargetApplicationInfo(
-                    flags = 0, packageName = packageNameTest, label = "label"
+                    flags = 0, packageName = PACKAGE_NAME_TEST, label = "label"
                 )
             )
         )
@@ -302,9 +301,10 @@ class AppSettingsViewModelTest {
         appSettingsRepository.setAppSettings(
             listOf(
                 AppSettings(
-                    id = 0, enabled = true,
+                    id = 0,
+                    enabled = true,
                     settingsType = SettingsType.SYSTEM,
-                    packageName = packageNameTest,
+                    packageName = PACKAGE_NAME_TEST,
                     label = "system",
                     key = "key",
                     valueOnLaunch = "test",
@@ -326,7 +326,7 @@ class AppSettingsViewModelTest {
         packageRepository.setNonSystemApps(
             listOf(
                 TargetApplicationInfo(
-                    flags = 0, packageName = packageNameTest, label = "label"
+                    flags = 0, packageName = PACKAGE_NAME_TEST, label = "label"
                 )
             )
         )
@@ -334,9 +334,10 @@ class AppSettingsViewModelTest {
         appSettingsRepository.setAppSettings(
             listOf(
                 AppSettings(
-                    id = 0, enabled = false,
+                    id = 0,
+                    enabled = false,
                     settingsType = SettingsType.SYSTEM,
-                    packageName = packageNameTest,
+                    packageName = PACKAGE_NAME_TEST,
                     label = "system",
                     key = "key",
                     valueOnLaunch = "test",
@@ -358,7 +359,7 @@ class AppSettingsViewModelTest {
         packageRepository.setNonSystemApps(
             listOf(
                 TargetApplicationInfo(
-                    flags = 0, packageName = packageNameTest, label = "label"
+                    flags = 0, packageName = PACKAGE_NAME_TEST, label = "label"
                 )
             )
         )
@@ -396,38 +397,6 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun applicationIconIsNotNull_whenGetApplicationIcon() = runTest {
-        packageRepository.setNonSystemApps(
-            listOf(
-                TargetApplicationInfo(
-                    flags = 0, packageName = packageNameTest, label = "label"
-                )
-            )
-        )
-
-        appSettingsRepository.setAppSettings(
-            listOf(
-                AppSettings(
-                    id = 0,
-                    enabled = true,
-                    settingsType = SettingsType.SYSTEM,
-                    packageName = packageNameTest,
-                    label = "system",
-                    key = "key",
-                    valueOnLaunch = "test",
-                    valueOnRevert = "test"
-                )
-            )
-        )
-
-        secureSettingsRepository.setWriteSecureSettings(true)
-
-        viewModel.getApplicationIcon()
-
-        assertNotNull(viewModel.icon.value)
-    }
-
-    @Test
     fun secureSettingsIsNotEmpty_whenGetSecureSettings() = runTest {
         secureSettingsRepository.setSecureSettings(testSecureSettingsList)
 
@@ -450,25 +419,30 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun shortcutIsNull_whenGetShortcut() = runTest {
-        shortcutRepository.setShortcuts(testShortcutsLists)
-
-        viewModel.getShortcut("idNotFound")
-
-        val item = viewModel.shortcut.value
-
-        assertNull(item)
+    fun shortcutResultIsNone_whenStarted() = runTest {
+        assertIs<GetShortcutResult.None>(viewModel.getShortcutResult.value)
     }
 
     @Test
-    fun shortcutIsNotNull_whenGetShortcut() = runTest {
+    fun shortcutResultIsGetShortcut_whenGetShortcut() = runTest {
         shortcutRepository.setShortcuts(testShortcutsLists)
 
-        viewModel.getShortcut("id0")
+        viewModel.getShortcut()
 
-        val item = viewModel.shortcut.value
+        val item = viewModel.getShortcutResult.value
 
-        assertNotNull(item)
+        assertIs<GetShortcutResult.GetShortcut>(item)
+    }
+
+    @Test
+    fun shortcutResultIsNoShortcut_whenGetShortcut() = runTest {
+        shortcutRepository.setShortcuts(testShortcutsLists)
+
+        viewModel.getShortcut("")
+
+        val item = viewModel.getShortcutResult.value
+
+        assertIs<GetShortcutResult.NoShortcut>(item)
     }
 
     @Test
@@ -524,12 +498,17 @@ class AppSettingsViewModelTest {
     }
 }
 
+
+private const val PACKAGE_NAME_TEST = "packageNameTest"
+
+private const val APP_NAME_TEST = "appNameTest"
+
 private val testSecureSettingsList = listOf(
     SecureSettings(id = 0L, name = "name0", value = "value0"),
     SecureSettings(id = 1L, name = "name1", value = "value1")
 )
 
 private val testShortcutsLists = listOf(
-    TargetShortcutInfoCompat(id = "id0"),
-    TargetShortcutInfoCompat(id = "id1"),
+    TargetShortcutInfoCompat(id = PACKAGE_NAME_TEST),
+    TargetShortcutInfoCompat(id = PACKAGE_NAME_TEST),
 )

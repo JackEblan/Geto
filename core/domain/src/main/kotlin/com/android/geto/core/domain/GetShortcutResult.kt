@@ -16,12 +16,19 @@
  *
  */
 
-plugins {
-    alias(libs.plugins.com.android.geto.library)
-    alias(libs.plugins.com.android.geto.libraryJacoco)
-    alias(libs.plugins.com.android.geto.hilt)
-}
+package com.android.geto.core.domain
 
-android {
-    namespace = "com.android.geto.core.resources"
+import android.graphics.drawable.Drawable
+import com.android.geto.core.model.TargetShortcutInfoCompat
+
+sealed interface GetShortcutResult {
+
+    data class GetShortcut(
+        val targetShortcutInfoCompat: TargetShortcutInfoCompat,
+        val applicationIcon: Drawable?
+    ) : GetShortcutResult
+
+    data class NoShortcut(val applicationIcon: Drawable?) : GetShortcutResult
+
+    data object None : GetShortcutResult
 }

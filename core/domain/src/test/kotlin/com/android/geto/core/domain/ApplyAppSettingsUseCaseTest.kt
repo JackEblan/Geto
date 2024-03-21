@@ -16,10 +16,8 @@
  *
  */
 
-package com.android.geto.core.domain.usecase
+package com.android.geto.core.domain
 
-import com.android.geto.core.domain.AppSettingsResult
-import com.android.geto.core.domain.ApplyAppSettingsUseCase
 import com.android.geto.core.model.AppSettings
 import com.android.geto.core.model.SettingsType
 import com.android.geto.core.testing.repository.TestAppSettingsRepository

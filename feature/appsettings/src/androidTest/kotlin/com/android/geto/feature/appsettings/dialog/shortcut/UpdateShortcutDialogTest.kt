@@ -55,17 +55,16 @@ class UpdateShortcutDialogTest {
     @Test
     fun shortLabelSupportingTextIsDisplayed_whenShortLabelTextFieldIsBlank() {
         composeTestRule.setContent {
-            UpdateShortcutDialog(shortcutDialogState = updateShortcutDialogState,
-                                 onRefreshShortcut = {},
-                                 onUpdateShortcut = {
-                                     updateShortcutDialogState.updateShortLabel("")
+            UpdateShortcutDialog(
+                shortcutDialogState = updateShortcutDialogState, onUpdateShortcut = {
+                    updateShortcutDialogState.updateShortLabel("")
 
-                                     updateShortcutDialogState.updateLongLabel("Test")
+                    updateShortcutDialogState.updateLongLabel("Test")
 
-                                     updateShortcutDialogState.getShortcut(
-                                         packageName = "packageName", shortcutIntent = Intent()
-                                     )
-                                 }, contentDescription = "Update Shortcut Dialog"
+                    updateShortcutDialogState.getShortcut(
+                        packageName = "packageName", shortcutIntent = Intent()
+                    )
+                }, contentDescription = "Update Shortcut Dialog"
             )
         }
 
@@ -79,17 +78,16 @@ class UpdateShortcutDialogTest {
     @Test
     fun longLabelSupportingTextIsDisplayed_whenLongLabelTextFieldIsBlank() {
         composeTestRule.setContent {
-            UpdateShortcutDialog(shortcutDialogState = updateShortcutDialogState,
-                                 onRefreshShortcut = {},
-                                 onUpdateShortcut = {
-                                     updateShortcutDialogState.updateShortLabel("Test")
+            UpdateShortcutDialog(
+                shortcutDialogState = updateShortcutDialogState, onUpdateShortcut = {
+                    updateShortcutDialogState.updateShortLabel("Test")
 
-                                     updateShortcutDialogState.updateLongLabel("")
+                    updateShortcutDialogState.updateLongLabel("")
 
-                                     updateShortcutDialogState.getShortcut(
-                                         packageName = "packageName", shortcutIntent = Intent()
-                                     )
-                                 }, contentDescription = "Update Shortcut Dialog"
+                    updateShortcutDialogState.getShortcut(
+                        packageName = "packageName", shortcutIntent = Intent()
+                    )
+                }, contentDescription = "Update Shortcut Dialog"
             )
         }
 

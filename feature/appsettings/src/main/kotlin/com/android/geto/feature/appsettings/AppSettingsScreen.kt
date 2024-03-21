@@ -77,6 +77,7 @@ import com.android.geto.core.designsystem.component.GetoLoadingWheel
 import com.android.geto.core.designsystem.icon.GetoIcons
 import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.domain.AppSettingsResult
+import com.android.geto.core.domain.GetShortcutResult
 import com.android.geto.core.model.AppSettings
 import com.android.geto.core.model.SettingsType
 import com.android.geto.core.ui.AppSettingsPreviewParameterProvider
@@ -110,7 +111,7 @@ internal fun AppSettingsRoute(
     val shortcutUpdateFailed = stringResource(id = R.string.shortcut_update_failed)
     val shortcutUpdateSuccess = stringResource(id = R.string.shortcut_update_success)
     val supportedLauncher = stringResource(id = R.string.supported_launcher)
-    val unsupportedLauncher = stringResource(id = R.string.supported_launcher)
+    val unsupportedLauncher = stringResource(id = R.string.unsupported_launcher)
     val userIsLocked = stringResource(id = R.string.user_is_locked)
     val copiedToClipboard = stringResource(id = R.string.copied_to_clipboard)
 
@@ -138,8 +139,6 @@ internal fun AppSettingsRoute(
 
     val applicationIcon = viewModel.icon.collectAsStateWithLifecycle().value
 
-    val shortcut = viewModel.shortcut.collectAsStateWithLifecycle().value
-
     val applyAppSettingsResult =
         viewModel.applyAppSettingsResult.collectAsStateWithLifecycle().value
 
@@ -147,6 +146,8 @@ internal fun AppSettingsRoute(
         viewModel.revertAppSettingsResult.collectAsStateWithLifecycle().value
 
     val shortcutResult = viewModel.shortcutResult.collectAsStateWithLifecycle().value
+
+    val getShortcutResult = viewModel.getShortcutResult.collectAsStateWithLifecycle().value
 
     val clipboardResult = viewModel.clipboardResult.collectAsStateWithLifecycle().value
 
@@ -157,11 +158,6 @@ internal fun AppSettingsRoute(
     val updateShortcutDialogState = rememberUpdateShortcutDialogState()
 
     val keyDebounce = appSettingsDialogState.keyDebounce.collectAsStateWithLifecycle("").value
-
-    LaunchedEffect(key1 = true) {
-        viewModel.getShortcut(viewModel.packageName)
-        viewModel.getApplicationIcon()
-    }
 
     LaunchedEffect(key1 = applyAppSettingsResult) {
         applyAppSettingsResult?.let {
@@ -214,6 +210,26 @@ internal fun AppSettingsRoute(
 
             viewModel.clearShortcutResult()
         }
+    }
+
+    LaunchedEffect(key1 = getShortcutResult) {
+        when (getShortcutResult) {
+            GetShortcutResult.None -> Unit
+            is GetShortcutResult.GetShortcut -> {
+                updateShortcutDialogState.updateIcon(getShortcutResult.applicationIcon)
+                updateShortcutDialogState.updateShortLabel(getShortcutResult.targetShortcutInfoCompat.shortLabel!!)
+                updateShortcutDialogState.updateLongLabel(getShortcutResult.targetShortcutInfoCompat.longLabel!!)
+                updateShortcutDialogState.updateShowDialog(true)
+            }
+
+            is GetShortcutResult.NoShortcut -> {
+                addShortcutDialogState.updateIcon(getShortcutResult.applicationIcon)
+                addShortcutDialogState.updateShowDialog(true)
+            }
+        }
+
+        viewModel.clearGetShortcutResult()
+
     }
 
     LaunchedEffect(key1 = clipboardResult) {
@@ -281,10 +297,7 @@ internal fun AppSettingsRoute(
     }
 
     if (addShortcutDialogState.showDialog) {
-        AddShortcutDialog(shortcutDialogState = addShortcutDialogState, onRefreshShortcut = {
-            viewModel.getShortcut(viewModel.packageName)
-            addShortcutDialogState.updateShowDialog(false)
-        }, onAddShortcut = {
+        AddShortcutDialog(shortcutDialogState = addShortcutDialogState, onAddShortcut = {
             addShortcutDialogState.getShortcut(
                 packageName = viewModel.packageName, shortcutIntent = shortcutIntent
             )?.let {
@@ -295,17 +308,15 @@ internal fun AppSettingsRoute(
     }
 
     if (updateShortcutDialogState.showDialog) {
-        UpdateShortcutDialog(shortcutDialogState = updateShortcutDialogState, onRefreshShortcut = {
-            viewModel.getShortcut(viewModel.packageName)
-            updateShortcutDialogState.updateShowDialog(false)
-        }, onUpdateShortcut = {
-            updateShortcutDialogState.getShortcut(
-                packageName = viewModel.packageName, shortcutIntent = shortcutIntent
-            )?.let {
-                viewModel.updateRequestPinShortcut(it)
-                updateShortcutDialogState.resetState()
-            }
-        }, contentDescription = "Update Shortcut Dialog"
+        UpdateShortcutDialog(
+            shortcutDialogState = updateShortcutDialogState, onUpdateShortcut = {
+                updateShortcutDialogState.getShortcut(
+                    packageName = viewModel.packageName, shortcutIntent = shortcutIntent
+                )?.let {
+                    viewModel.updateRequestPinShortcut(it)
+                    updateShortcutDialogState.resetState()
+                }
+            }, contentDescription = "Update Shortcut Dialog"
         )
     }
 
@@ -318,16 +329,7 @@ internal fun AppSettingsRoute(
         onRevertSettingsIconClick = viewModel::revertSettings,
         onSettingsIconClick = {
             appSettingsDialogState.updateShowDialog(true)
-        },
-        onShortcutIconClick = {
-            if (shortcut != null) {
-                updateShortcutDialogState.updateShortLabel(shortcut.shortLabel!!)
-                updateShortcutDialogState.updateLongLabel(shortcut.longLabel!!)
-                updateShortcutDialogState.updateShowDialog(true)
-            } else {
-                addShortcutDialogState.updateShowDialog(true)
-            }
-        },
+        }, onShortcutIconClick = viewModel::getShortcut,
         onAppSettingsItemCheckBoxChange = viewModel::appSettingsItemCheckBoxChange,
         onDeleteAppSettingsItem = viewModel::deleteAppSettingsItem,
         onLaunchApp = viewModel::launchApp
