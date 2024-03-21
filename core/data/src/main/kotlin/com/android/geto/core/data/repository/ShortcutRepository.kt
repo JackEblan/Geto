@@ -18,16 +18,21 @@
 
 package com.android.geto.core.data.repository
 
+import android.graphics.Bitmap
 import com.android.geto.core.model.TargetShortcutInfoCompat
 
 interface ShortcutRepository {
-    fun requestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat): ShortcutResult
+    fun requestPinShortcut(
+        icon: Bitmap?, targetShortcutInfoCompat: TargetShortcutInfoCompat
+    ): ShortcutResult
 
-    fun updateRequestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat): ShortcutResult
+    fun updateRequestPinShortcut(
+        icon: Bitmap?, targetShortcutInfoCompat: TargetShortcutInfoCompat
+    ): ShortcutResult
 
     fun enableShortcuts(id: String, enabled: Boolean): ShortcutResult
 
-    fun getShortcut(id: String): TargetShortcutInfoCompat?
+    fun getShortcut(id: String): ShortcutResult
 }
 
 sealed interface ShortcutResult {
@@ -50,4 +55,10 @@ sealed interface ShortcutResult {
     data object ShortcutEnable : ShortcutResult
 
     data object ShortcutDisable : ShortcutResult
+
+    data class GetShortcut(
+        val targetShortcutInfoCompat: TargetShortcutInfoCompat
+    ) : ShortcutResult
+
+    data object NoShortcut : ShortcutResult
 }

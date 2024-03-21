@@ -82,7 +82,6 @@ internal class ShortcutDialogState(private val resourcesWrapper: ResourcesWrappe
 
         return if (shortLabelError.isBlank() && longLabelError.isBlank()) {
             TargetShortcutInfoCompat(
-                icon = icon,
                 id = packageName,
                 shortLabel = shortLabel,
                 longLabel = longLabel,

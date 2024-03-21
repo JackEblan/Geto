@@ -23,8 +23,6 @@ import com.android.geto.core.data.repository.ClipboardResult
 import com.android.geto.core.data.repository.ShortcutResult
 import com.android.geto.core.domain.AppSettingsResult
 import com.android.geto.core.domain.ApplyAppSettingsUseCase
-import com.android.geto.core.domain.GetShortcutResult
-import com.android.geto.core.domain.GetShortcutUseCase
 import com.android.geto.core.domain.RevertAppSettingsUseCase
 import com.android.geto.core.model.AppSettings
 import com.android.geto.core.model.SecureSettings
@@ -88,7 +86,7 @@ class AppSettingsViewModelTest {
         viewModel = AppSettingsViewModel(
             savedStateHandle = savedStateHandle,
             appSettingsRepository = appSettingsRepository,
-            clipboardRepository = clipboardRepository,
+            clipboardRepository = clipboardRepository, packageRepository = packageRepository,
             secureSettingsRepository = secureSettingsRepository,
             shortcutRepository = shortcutRepository,
             applyAppSettingsUseCase = ApplyAppSettingsUseCase(
@@ -98,8 +96,6 @@ class AppSettingsViewModelTest {
             revertAppSettingsUseCase = RevertAppSettingsUseCase(
                 appSettingsRepository = appSettingsRepository,
                 secureSettingsRepository = secureSettingsRepository
-            ), getShortcutUseCase = GetShortcutUseCase(
-                packageRepository = packageRepository, shortcutRepository = shortcutRepository
             )
         )
     }
@@ -419,33 +415,6 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun shortcutResultIsNone_whenStarted() = runTest {
-        assertIs<GetShortcutResult.None>(viewModel.getShortcutResult.value)
-    }
-
-    @Test
-    fun shortcutResultIsGetShortcut_whenGetShortcut() = runTest {
-        shortcutRepository.setShortcuts(testShortcutsLists)
-
-        viewModel.getShortcut()
-
-        val item = viewModel.getShortcutResult.value
-
-        assertIs<GetShortcutResult.GetShortcut>(item)
-    }
-
-    @Test
-    fun shortcutResultIsNoShortcut_whenGetShortcut() = runTest {
-        shortcutRepository.setShortcuts(testShortcutsLists)
-
-        viewModel.getShortcut("")
-
-        val item = viewModel.getShortcutResult.value
-
-        assertIs<GetShortcutResult.NoShortcut>(item)
-    }
-
-    @Test
     fun shortcutResultIsSupportedLauncher_whenRequestPinShortcut() = runTest {
         shortcutRepository.setRequestPinShortcutSupported(true)
 
@@ -495,6 +464,28 @@ class AppSettingsViewModelTest {
         )
 
         assertIs<ShortcutResult.ShortcutUpdateSuccess>(viewModel.shortcutResult.value)
+    }
+
+    @Test
+    fun shortcutResultIsGetShortcut_whenGetShortcut() = runTest {
+        shortcutRepository.setUpdateImmutableShortcuts(false)
+
+        shortcutRepository.setShortcuts(testShortcutsLists)
+
+        viewModel.getShortcut()
+
+        assertIs<ShortcutResult.GetShortcut>(viewModel.shortcutResult.value)
+    }
+
+    @Test
+    fun shortcutResultIsNoShortcut_whenGetShortcut() = runTest {
+        shortcutRepository.setUpdateImmutableShortcuts(false)
+
+        shortcutRepository.setShortcuts(testShortcutsLists)
+
+        viewModel.getShortcut("")
+
+        assertIs<ShortcutResult.NoShortcut>(viewModel.shortcutResult.value)
     }
 }
 

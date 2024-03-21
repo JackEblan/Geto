@@ -20,19 +20,19 @@ package com.android.geto.feature.appsettings
 
 import android.content.Intent
 import android.graphics.drawable.Drawable
+import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.android.geto.core.data.repository.AppSettingsRepository
 import com.android.geto.core.data.repository.ClipboardRepository
 import com.android.geto.core.data.repository.ClipboardResult
+import com.android.geto.core.data.repository.PackageRepository
 import com.android.geto.core.data.repository.SecureSettingsRepository
 import com.android.geto.core.data.repository.ShortcutRepository
 import com.android.geto.core.data.repository.ShortcutResult
 import com.android.geto.core.domain.AppSettingsResult
 import com.android.geto.core.domain.ApplyAppSettingsUseCase
-import com.android.geto.core.domain.GetShortcutResult
-import com.android.geto.core.domain.GetShortcutUseCase
 import com.android.geto.core.domain.RevertAppSettingsUseCase
 import com.android.geto.core.model.AppSettings
 import com.android.geto.core.model.SecureSettings
@@ -56,23 +56,17 @@ class AppSettingsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val appSettingsRepository: AppSettingsRepository,
     private val clipboardRepository: ClipboardRepository,
+    private val packageRepository: PackageRepository,
     private val secureSettingsRepository: SecureSettingsRepository,
     private val shortcutRepository: ShortcutRepository,
     private val applyAppSettingsUseCase: ApplyAppSettingsUseCase,
-    private val revertAppSettingsUseCase: RevertAppSettingsUseCase,
-    private val getShortcutUseCase: GetShortcutUseCase,
+    private val revertAppSettingsUseCase: RevertAppSettingsUseCase
 ) : ViewModel() {
     private var _launchAppIntent = MutableStateFlow<Intent?>(null)
     val launchAppIntent = _launchAppIntent.asStateFlow()
 
     private var _secureSettings = MutableStateFlow<List<SecureSettings>>(emptyList())
     val secureSettings = _secureSettings.asStateFlow()
-
-    private var _icon = MutableStateFlow<Drawable?>(null)
-    val icon = _icon.asStateFlow()
-
-    private var _getShortcutResult = MutableStateFlow<GetShortcutResult>(GetShortcutResult.None)
-    val getShortcutResult = _getShortcutResult.asStateFlow()
 
     private val _applyAppSettingsResult = MutableStateFlow<AppSettingsResult?>(null)
     val applyAppSettingsResult = _applyAppSettingsResult.asStateFlow()
@@ -85,6 +79,9 @@ class AppSettingsViewModel @Inject constructor(
 
     private val _clipboardResult = MutableStateFlow<ClipboardResult?>(null)
     val clipboardResult = _clipboardResult.asStateFlow()
+
+    private val _applicationIcon = MutableStateFlow<Drawable?>(null)
+    val applicationIcon = _applicationIcon.asStateFlow()
 
     private val appSettingsArgs: AppSettingsArgs = AppSettingsArgs(savedStateHandle)
 
@@ -131,7 +128,7 @@ class AppSettingsViewModel @Inject constructor(
 
     fun getShortcut(id: String = packageName) {
         viewModelScope.launch {
-            _getShortcutResult.update { getShortcutUseCase(id) }
+            _shortcutResult.update { shortcutRepository.getShortcut(id) }
         }
     }
 
@@ -152,15 +149,23 @@ class AppSettingsViewModel @Inject constructor(
 
     fun requestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat) {
         viewModelScope.launch {
-            _shortcutResult.update { shortcutRepository.requestPinShortcut(targetShortcutInfoCompat) }
+            val icon = packageRepository.getApplicationIcon(packageName = packageName)
+
+            _shortcutResult.update {
+                shortcutRepository.requestPinShortcut(
+                    icon = icon?.toBitmap(), targetShortcutInfoCompat = targetShortcutInfoCompat
+                )
+            }
         }
     }
 
     fun updateRequestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat) {
         viewModelScope.launch {
+            val icon = packageRepository.getApplicationIcon(packageName = packageName)
+
             _shortcutResult.update {
                 shortcutRepository.updateRequestPinShortcut(
-                    targetShortcutInfoCompat
+                    icon = icon?.toBitmap(), targetShortcutInfoCompat
                 )
             }
         }
@@ -175,6 +180,12 @@ class AppSettingsViewModel @Inject constructor(
         }
     }
 
+    fun getApplicationIcon(id: String = packageName) {
+        viewModelScope.launch {
+            _applicationIcon.update { packageRepository.getApplicationIcon(packageName = id) }
+        }
+    }
+
     fun clearAppSettingsResult() {
         _applyAppSettingsResult.update { null }
         _revertAppSettingsResult.update { null }
@@ -182,10 +193,6 @@ class AppSettingsViewModel @Inject constructor(
 
     fun clearShortcutResult() {
         _shortcutResult.update { null }
-    }
-
-    fun clearGetShortcutResult() {
-        _getShortcutResult.update { GetShortcutResult.None }
     }
 
     fun clearClipboardResult() {
