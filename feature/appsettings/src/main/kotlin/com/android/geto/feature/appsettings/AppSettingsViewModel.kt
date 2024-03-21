@@ -20,6 +20,7 @@ package com.android.geto.feature.appsettings
 
 import android.content.Intent
 import android.graphics.drawable.Drawable
+import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -55,9 +56,9 @@ class AppSettingsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val appSettingsRepository: AppSettingsRepository,
     private val clipboardRepository: ClipboardRepository,
+    private val packageRepository: PackageRepository,
     private val secureSettingsRepository: SecureSettingsRepository,
     private val shortcutRepository: ShortcutRepository,
-    private val packageRepository: PackageRepository,
     private val applyAppSettingsUseCase: ApplyAppSettingsUseCase,
     private val revertAppSettingsUseCase: RevertAppSettingsUseCase
 ) : ViewModel() {
@@ -66,12 +67,6 @@ class AppSettingsViewModel @Inject constructor(
 
     private var _secureSettings = MutableStateFlow<List<SecureSettings>>(emptyList())
     val secureSettings = _secureSettings.asStateFlow()
-
-    private var _icon = MutableStateFlow<Drawable?>(null)
-    val icon = _icon.asStateFlow()
-
-    private var _shortcut = MutableStateFlow<TargetShortcutInfoCompat?>(null)
-    val shortcut = _shortcut.asStateFlow()
 
     private val _applyAppSettingsResult = MutableStateFlow<AppSettingsResult?>(null)
     val applyAppSettingsResult = _applyAppSettingsResult.asStateFlow()
@@ -84,6 +79,9 @@ class AppSettingsViewModel @Inject constructor(
 
     private val _clipboardResult = MutableStateFlow<ClipboardResult?>(null)
     val clipboardResult = _clipboardResult.asStateFlow()
+
+    private val _applicationIcon = MutableStateFlow<Drawable?>(null)
+    val applicationIcon = _applicationIcon.asStateFlow()
 
     private val appSettingsArgs: AppSettingsArgs = AppSettingsArgs(savedStateHandle)
 
@@ -128,9 +126,9 @@ class AppSettingsViewModel @Inject constructor(
         }
     }
 
-    fun getShortcut(id: String) {
+    fun getShortcut(id: String = packageName) {
         viewModelScope.launch {
-            _shortcut.update { shortcutRepository.getShortcut(id) }
+            _shortcutResult.update { shortcutRepository.getShortcut(id) }
         }
     }
 
@@ -151,23 +149,25 @@ class AppSettingsViewModel @Inject constructor(
 
     fun requestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat) {
         viewModelScope.launch {
-            _shortcutResult.update { shortcutRepository.requestPinShortcut(targetShortcutInfoCompat) }
-        }
-    }
+            val icon = packageRepository.getApplicationIcon(packageName = packageName)
 
-    fun updateRequestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat) {
-        viewModelScope.launch {
             _shortcutResult.update {
-                shortcutRepository.updateRequestPinShortcut(
-                    targetShortcutInfoCompat
+                shortcutRepository.requestPinShortcut(
+                    icon = icon?.toBitmap(), targetShortcutInfoCompat = targetShortcutInfoCompat
                 )
             }
         }
     }
 
-    fun getApplicationIcon() {
+    fun updateRequestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat) {
         viewModelScope.launch {
-            _icon.update { packageRepository.getApplicationIcon(packageName) }
+            val icon = packageRepository.getApplicationIcon(packageName = packageName)
+
+            _shortcutResult.update {
+                shortcutRepository.updateRequestPinShortcut(
+                    icon = icon?.toBitmap(), targetShortcutInfoCompat
+                )
+            }
         }
     }
 
@@ -177,6 +177,12 @@ class AppSettingsViewModel @Inject constructor(
                 .filter { it.name!!.contains(text) }.take(20)
 
             _secureSettings.update { filteredSecureSettings }
+        }
+    }
+
+    fun getApplicationIcon(id: String = packageName) {
+        viewModelScope.launch {
+            _applicationIcon.update { packageRepository.getApplicationIcon(packageName = id) }
         }
     }
 

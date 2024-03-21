@@ -70,10 +70,10 @@ class UpdateShortcutDialogScreenshotTest {
             path = "UpdateShortcutDialog/UpdateShortcutDialogEmpty"
         ) {
             GetoTheme {
-                UpdateShortcutDialog(shortcutDialogState = shortcutDialogState,
-                                     onRefreshShortcut = {},
-                                     onUpdateShortcut = {},
-                                     contentDescription = "UpdateShortcutDialog"
+                UpdateShortcutDialog(
+                    shortcutDialogState = shortcutDialogState,
+                    onUpdateShortcut = {},
+                    contentDescription = "UpdateShortcutDialog"
                 )
             }
         }
@@ -89,10 +89,10 @@ class UpdateShortcutDialogScreenshotTest {
             path = "UpdateShortcutDialog/UpdateShortcutDialogFilledTextFields"
         ) {
             GetoTheme {
-                UpdateShortcutDialog(shortcutDialogState = shortcutDialogState,
-                                     onRefreshShortcut = {},
-                                     onUpdateShortcut = {},
-                                     contentDescription = "UpdateShortcutDialog"
+                UpdateShortcutDialog(
+                    shortcutDialogState = shortcutDialogState,
+                    onUpdateShortcut = {},
+                    contentDescription = "UpdateShortcutDialog"
                 )
             }
         }
@@ -106,10 +106,10 @@ class UpdateShortcutDialogScreenshotTest {
             path = "UpdateShortcutDialog/UpdateShortcutDialogErrorTextFields"
         ) {
             GetoTheme {
-                UpdateShortcutDialog(shortcutDialogState = shortcutDialogState,
-                                     onRefreshShortcut = {},
-                                     onUpdateShortcut = {},
-                                     contentDescription = "UpdateShortcutDialog"
+                UpdateShortcutDialog(
+                    shortcutDialogState = shortcutDialogState,
+                    onUpdateShortcut = {},
+                    contentDescription = "UpdateShortcutDialog"
                 )
             }
         }
@@ -125,10 +125,10 @@ class UpdateShortcutDialogScreenshotTest {
         ) {
             GetoTheme {
                 GetoBackground {
-                    UpdateShortcutDialog(shortcutDialogState = shortcutDialogState,
-                                         onRefreshShortcut = {},
-                                         onUpdateShortcut = {},
-                                         contentDescription = "UpdateShortcutDialog"
+                    UpdateShortcutDialog(
+                        shortcutDialogState = shortcutDialogState,
+                        onUpdateShortcut = {},
+                        contentDescription = "UpdateShortcutDialog"
                     )
                 }
             }
@@ -149,10 +149,10 @@ class UpdateShortcutDialogScreenshotTest {
         ) {
             GetoTheme {
                 GetoBackground {
-                    UpdateShortcutDialog(shortcutDialogState = shortcutDialogState,
-                                         onRefreshShortcut = {},
-                                         onUpdateShortcut = {},
-                                         contentDescription = "UpdateShortcutDialog"
+                    UpdateShortcutDialog(
+                        shortcutDialogState = shortcutDialogState,
+                        onUpdateShortcut = {},
+                        contentDescription = "UpdateShortcutDialog"
                     )
                 }
             }
@@ -171,10 +171,10 @@ class UpdateShortcutDialogScreenshotTest {
         ) {
             GetoTheme {
                 GetoBackground {
-                    UpdateShortcutDialog(shortcutDialogState = shortcutDialogState,
-                                         onRefreshShortcut = {},
-                                         onUpdateShortcut = {},
-                                         contentDescription = "UpdateShortcutDialog"
+                    UpdateShortcutDialog(
+                        shortcutDialogState = shortcutDialogState,
+                        onUpdateShortcut = {},
+                        contentDescription = "UpdateShortcutDialog"
                     )
                 }
             }

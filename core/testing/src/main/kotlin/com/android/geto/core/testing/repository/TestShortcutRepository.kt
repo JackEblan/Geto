@@ -18,6 +18,7 @@
 
 package com.android.geto.core.testing.repository
 
+import android.graphics.Bitmap
 import com.android.geto.core.data.repository.ShortcutRepository
 import com.android.geto.core.data.repository.ShortcutResult
 import com.android.geto.core.model.TargetShortcutInfoCompat
@@ -34,13 +35,17 @@ class TestShortcutRepository : ShortcutRepository {
 
     private var userIsLocked = false
 
-    override fun requestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat): ShortcutResult {
+    override fun requestPinShortcut(
+        icon: Bitmap?, targetShortcutInfoCompat: TargetShortcutInfoCompat
+    ): ShortcutResult {
         return if (requestPinShortcutSupported) {
             ShortcutResult.SupportedLauncher
         } else ShortcutResult.UnsupportedLauncher
     }
 
-    override fun updateRequestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat): ShortcutResult {
+    override fun updateRequestPinShortcut(
+        icon: Bitmap?, targetShortcutInfoCompat: TargetShortcutInfoCompat
+    ): ShortcutResult {
         return if (updateImmutableShortcuts) {
             ShortcutResult.ShortcutUpdateImmutableShortcuts
         } else ShortcutResult.ShortcutUpdateSuccess
@@ -56,16 +61,18 @@ class TestShortcutRepository : ShortcutRepository {
         }
     }
 
-    override fun getShortcut(id: String): TargetShortcutInfoCompat? {
+    override fun getShortcut(id: String): ShortcutResult {
         val shortcutInfoCompat = targetShortcutInfoCompats.find { it.id == id }
 
         return if (shortcutInfoCompat != null) {
-            TargetShortcutInfoCompat(
-                shortLabel = shortcutInfoCompat.shortLabel.toString(),
-                longLabel = shortcutInfoCompat.longLabel.toString()
+            ShortcutResult.GetShortcut(
+                targetShortcutInfoCompat = TargetShortcutInfoCompat(
+                    shortLabel = shortcutInfoCompat.shortLabel.toString(),
+                    longLabel = shortcutInfoCompat.longLabel.toString()
+                )
             )
         } else {
-            null
+            ShortcutResult.NoShortcut
         }
     }
 

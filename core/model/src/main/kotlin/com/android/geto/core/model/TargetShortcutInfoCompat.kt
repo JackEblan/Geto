@@ -19,10 +19,8 @@
 package com.android.geto.core.model
 
 import android.content.Intent
-import android.graphics.Bitmap
 
 data class TargetShortcutInfoCompat(
-    val icon: Bitmap? = null,
     val id: String? = null,
     val shortLabel: String? = null,
     val longLabel: String? = null,

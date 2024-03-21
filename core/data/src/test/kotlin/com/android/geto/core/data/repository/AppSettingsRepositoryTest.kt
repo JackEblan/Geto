@@ -87,8 +87,6 @@ class AppSettingsRepositoryTest {
 
     @Test
     fun appSettingsRepository_get_app_settings_list() = runTest {
-        val packageName = "packageNameToFilter"
-
         val appSettings = AppSettings(
             id = 0,
             enabled = true,
@@ -102,7 +100,7 @@ class AppSettingsRepositoryTest {
 
         subject.upsertAppSettings(appSettings)
 
-        val result = subject.getAppSettingsList(packageName).first()
+        val result = subject.getAppSettingsList("packageNameToFilter").first()
 
         assertTrue(result.isNotEmpty())
     }

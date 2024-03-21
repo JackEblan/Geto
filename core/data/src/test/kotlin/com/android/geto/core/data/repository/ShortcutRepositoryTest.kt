@@ -24,8 +24,6 @@ import com.android.geto.core.model.TargetShortcutInfoCompat
 import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertIs
-import kotlin.test.assertNotNull
-import kotlin.test.assertNull
 
 class ShortcutRepositoryTest {
 
@@ -49,8 +47,7 @@ class ShortcutRepositoryTest {
         shortcutManagerCompatWrapper.setRequestPinShortcut(true)
 
         val result = subject.requestPinShortcut(
-            TargetShortcutInfoCompat(
-                icon = null,
+            icon = null, TargetShortcutInfoCompat(
                 id = "id",
                 shortLabel = "shortLabel",
                 longLabel = "longLabel",
@@ -66,8 +63,8 @@ class ShortcutRepositoryTest {
         shortcutManagerCompatWrapper.setRequestPinShortcutSupported(false)
 
         val result = subject.requestPinShortcut(
-            TargetShortcutInfoCompat(
-                icon = null, id = "id", shortLabel = "shortLabel", longLabel = "longLabel"
+            icon = null, TargetShortcutInfoCompat(
+                id = "id", shortLabel = "shortLabel", longLabel = "longLabel"
             )
         )
 
@@ -81,14 +78,13 @@ class ShortcutRepositoryTest {
         shortcutManagerCompatWrapper.setShortcuts(
             listOf(
                 TargetShortcutInfoCompat(
-                    icon = null, id = "id", shortLabel = "shortLabel", longLabel = "longLabel"
+                    id = "id", shortLabel = "shortLabel", longLabel = "longLabel"
                 )
             )
         )
 
         val result = subject.updateRequestPinShortcut(
-            TargetShortcutInfoCompat(
-                icon = null,
+            icon = null, TargetShortcutInfoCompat(
                 id = "id",
                 shortLabel = "shortLabel",
                 longLabel = "longLabel",
@@ -106,14 +102,13 @@ class ShortcutRepositoryTest {
         shortcutManagerCompatWrapper.setShortcuts(
             listOf(
                 TargetShortcutInfoCompat(
-                    icon = null, id = "id", shortLabel = "shortLabel", longLabel = "longLabel"
+                    id = "id", shortLabel = "shortLabel", longLabel = "longLabel"
                 )
             )
         )
 
         val result = subject.updateRequestPinShortcut(
-            TargetShortcutInfoCompat(
-                icon = null,
+            icon = null, TargetShortcutInfoCompat(
                 id = "id",
                 shortLabel = "shortLabel",
                 longLabel = "longLabel",
@@ -178,7 +173,7 @@ class ShortcutRepositoryTest {
 
         val result = subject.getShortcut("TestIdNotFound")
 
-        assertNull(result)
+        assertIs<ShortcutResult.NoShortcut>(result)
     }
 
     @Test
@@ -195,6 +190,6 @@ class ShortcutRepositoryTest {
 
         val result = subject.getShortcut("TestId")
 
-        assertNotNull(result)
+        assertIs<ShortcutResult.GetShortcut>(result)
     }
 }

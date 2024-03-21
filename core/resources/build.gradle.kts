@@ -25,7 +25,3 @@ plugins {
 android {
     namespace = "com.android.geto.core.resources"
 }
-
-dependencies {
-    implementation(projects.core.model)
-}

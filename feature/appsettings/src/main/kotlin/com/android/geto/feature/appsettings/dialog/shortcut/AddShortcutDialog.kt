@@ -31,17 +31,10 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Card
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.PlainTooltip
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TooltipBox
-import androidx.compose.material3.TooltipDefaults
-import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -55,7 +48,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.android.geto.core.designsystem.component.GetoAsyncImage
-import com.android.geto.core.designsystem.icon.GetoIcons
 import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.ui.LocalResources
 import com.android.geto.feature.appsettings.R
@@ -64,7 +56,6 @@ import com.android.geto.feature.appsettings.R
 internal fun AddShortcutDialog(
     modifier: Modifier = Modifier,
     shortcutDialogState: ShortcutDialogState,
-    onRefreshShortcut: () -> Unit,
     onAddShortcut: () -> Unit,
     contentDescription: String
 ) {
@@ -84,7 +75,6 @@ internal fun AddShortcutDialog(
                                     longLabelError = shortcutDialogState.longLabelError,
                                     onUpdateShortLabel = shortcutDialogState::updateShortLabel,
                                     onUpdateLongLabel = shortcutDialogState::updateLongLabel,
-                                    onRefreshShortcut = onRefreshShortcut,
                                     onAddShortcut = onAddShortcut,
                                     onCancel = {
                                         shortcutDialogState.updateShowDialog(false)
@@ -93,7 +83,6 @@ internal fun AddShortcutDialog(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun AddShortcutDialogScreen(
     icon: Bitmap?,
@@ -103,7 +92,6 @@ internal fun AddShortcutDialogScreen(
     longLabelError: String,
     onUpdateShortLabel: (label: String) -> Unit,
     onUpdateLongLabel: (label: String) -> Unit,
-    onRefreshShortcut: () -> Unit,
     onAddShortcut: () -> Unit,
     onCancel: () -> Unit
 ) {
@@ -114,34 +102,11 @@ internal fun AddShortcutDialogScreen(
     ) {
         Spacer(modifier = Modifier.height(10.dp))
 
-        Row(
-            modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                modifier = Modifier
-                    .padding(horizontal = 5.dp)
-                    .weight(1f),
-                text = stringResource(R.string.add_shortcut),
-                style = MaterialTheme.typography.titleLarge
-            )
-
-            TooltipBox(
-                modifier = Modifier.testTag("addShortcutDialog:tooltip:refresh"),
-                positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
-                tooltip = {
-                    PlainTooltip {
-                        Text(stringResource(R.string.refresh_shortcut_info))
-                    }
-                },
-                state = rememberTooltipState()
-            ) {
-                IconButton(onClick = onRefreshShortcut) {
-                    Icon(
-                        imageVector = GetoIcons.Refresh, contentDescription = "Refresh icon"
-                    )
-                }
-            }
-        }
+        Text(
+            modifier = Modifier.padding(horizontal = 5.dp),
+            text = stringResource(R.string.add_shortcut),
+            style = MaterialTheme.typography.titleLarge
+        )
 
         Spacer(modifier = Modifier.height(10.dp))
 
@@ -236,7 +201,6 @@ private fun AddShortcutDialogScreenPreview() {
                                 longLabelError = "",
                                 onUpdateShortLabel = {},
                                 onUpdateLongLabel = {},
-                                onRefreshShortcut = {},
                                 onAddShortcut = {},
                                 onCancel = {})
     }

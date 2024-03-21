@@ -70,10 +70,10 @@ class AddShortcutDialogScreenshotTest {
             path = "AddShortcutDialog/AddShortcutDialogEmpty"
         ) {
             GetoTheme {
-                AddShortcutDialog(shortcutDialogState = shortcutDialogState,
-                                  onRefreshShortcut = {},
-                                  onAddShortcut = {},
-                                  contentDescription = "AddShortcutDialog"
+                AddShortcutDialog(
+                    shortcutDialogState = shortcutDialogState,
+                    onAddShortcut = {},
+                    contentDescription = "AddShortcutDialog"
                 )
             }
         }
@@ -89,10 +89,10 @@ class AddShortcutDialogScreenshotTest {
             path = "AddShortcutDialog/AddShortcutDialogFilledTextFields"
         ) {
             GetoTheme {
-                AddShortcutDialog(shortcutDialogState = shortcutDialogState,
-                                  onRefreshShortcut = {},
-                                  onAddShortcut = {},
-                                  contentDescription = "AddShortcutDialog"
+                AddShortcutDialog(
+                    shortcutDialogState = shortcutDialogState,
+                    onAddShortcut = {},
+                    contentDescription = "AddShortcutDialog"
                 )
             }
         }
@@ -106,10 +106,10 @@ class AddShortcutDialogScreenshotTest {
             path = "AddShortcutDialog/AddShortcutDialogErrorTextFields"
         ) {
             GetoTheme {
-                AddShortcutDialog(shortcutDialogState = shortcutDialogState,
-                                  onRefreshShortcut = {},
-                                  onAddShortcut = {},
-                                  contentDescription = "AddShortcutDialog"
+                AddShortcutDialog(
+                    shortcutDialogState = shortcutDialogState,
+                    onAddShortcut = {},
+                    contentDescription = "AddShortcutDialog"
                 )
             }
         }
@@ -125,10 +125,10 @@ class AddShortcutDialogScreenshotTest {
         ) {
             GetoTheme {
                 GetoBackground {
-                    AddShortcutDialog(shortcutDialogState = shortcutDialogState,
-                                      onRefreshShortcut = {},
-                                      onAddShortcut = {},
-                                      contentDescription = "AddShortcutDialog"
+                    AddShortcutDialog(
+                        shortcutDialogState = shortcutDialogState,
+                        onAddShortcut = {},
+                        contentDescription = "AddShortcutDialog"
                     )
                 }
             }
@@ -149,10 +149,10 @@ class AddShortcutDialogScreenshotTest {
         ) {
             GetoTheme {
                 GetoBackground {
-                    AddShortcutDialog(shortcutDialogState = shortcutDialogState,
-                                      onRefreshShortcut = {},
-                                      onAddShortcut = {},
-                                      contentDescription = "AddShortcutDialog"
+                    AddShortcutDialog(
+                        shortcutDialogState = shortcutDialogState,
+                        onAddShortcut = {},
+                        contentDescription = "AddShortcutDialog"
                     )
                 }
             }
@@ -172,10 +172,10 @@ class AddShortcutDialogScreenshotTest {
         ) {
             GetoTheme {
                 GetoBackground {
-                    AddShortcutDialog(shortcutDialogState = shortcutDialogState,
-                                      onRefreshShortcut = {},
-                                      onAddShortcut = {},
-                                      contentDescription = "AddShortcutDialog"
+                    AddShortcutDialog(
+                        shortcutDialogState = shortcutDialogState,
+                        onAddShortcut = {},
+                        contentDescription = "AddShortcutDialog"
                     )
                 }
             }
