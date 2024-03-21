@@ -214,18 +214,18 @@ internal fun AppSettingsRoute(
 
     LaunchedEffect(key1 = getShortcutResult) {
         when (getShortcutResult) {
-            GetShortcutResult.None -> Unit
-            is GetShortcutResult.GetShortcut -> {
-                updateShortcutDialogState.updateIcon(getShortcutResult.applicationIcon)
+            GetShortcutResult.None -> {
+            addShortcutDialogState.updateIcon(getShortcutResult.applicationIcon)
+            updateShortcutDialogState.updateIcon(getShortcutResult.applicationIcon)
+            }
+            
+            is GetShortcutResult.GetShortcut -> {               
                 updateShortcutDialogState.updateShortLabel(getShortcutResult.targetShortcutInfoCompat.shortLabel!!)
                 updateShortcutDialogState.updateLongLabel(getShortcutResult.targetShortcutInfoCompat.longLabel!!)
                 updateShortcutDialogState.updateShowDialog(true)
             }
 
-            is GetShortcutResult.NoShortcut -> {
-                addShortcutDialogState.updateIcon(getShortcutResult.applicationIcon)
-                addShortcutDialogState.updateShowDialog(true)
-            }
+            is GetShortcutResult.NoShortcut -> addShortcutDialogState.updateShowDialog(true)
         }
 
         viewModel.clearGetShortcutResult()
