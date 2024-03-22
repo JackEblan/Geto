@@ -19,33 +19,42 @@
 package com.android.geto.core.domain
 
 import com.android.geto.core.data.repository.AppSettingsRepository
+import com.android.geto.core.data.repository.PackageRepository
 import com.android.geto.core.data.repository.SecureSettingsRepository
+import com.android.geto.core.data.repository.UserDataRepository
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
-
-class RevertAppSettingsUseCase @Inject constructor(
+class AutoLaunchUseCase @Inject constructor(
+    private val packageRepository: PackageRepository,
+    private val userDataRepository: UserDataRepository,
     private val appSettingsRepository: AppSettingsRepository,
     private val secureSettingsRepository: SecureSettingsRepository
 ) {
     suspend operator fun invoke(packageName: String): AppSettingsResult {
+        val intent = packageRepository.getLaunchIntentForPackage(packageName)
+
+        val userData = userDataRepository.userData.first()
+
         val appSettingsList = appSettingsRepository.getAppSettingsList(packageName).first()
 
         return when {
-            appSettingsList.isEmpty() -> AppSettingsResult.EmptyAppSettingsList
+            appSettingsList.isEmpty() -> AutoLaunchResult.Ignore
 
-            appSettingsList.any { !it.enabled } -> AppSettingsResult.AppSettingsDisabled
+            appSettingsList.any { !it.enabled } -> AutoLaunchResult.Ignore
 
-            else -> try {
-                val applied = secureSettingsRepository.revertSecureSettings(appSettingsList)
+            userData.useAutoLaunch -> try {
+                val applied = secureSettingsRepository.applySecureSettings(appSettingsList)
                 if (applied) {
-                    AppSettingsResult.Success(null)
+                    AppSettingsResult.Success(intent = intent)
                 } else {
                     AppSettingsResult.Failure
                 }
             } catch (e: SecurityException) {
                 AppSettingsResult.SecurityException
             }
+
+            else -> AutoLaunchResult.Ignore
         }
     }
 }

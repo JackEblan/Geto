@@ -30,7 +30,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.time.Duration.Companion.seconds
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
@@ -41,12 +40,12 @@ class SettingsViewModel @Inject constructor(
             settings = UserEditableSettings(
                 brand = userData.themeBrand,
                 useDynamicColor = userData.useDynamicColor,
-                darkThemeConfig = userData.darkThemeConfig,
+                darkThemeConfig = userData.darkThemeConfig, useAutoLaunch = userData.useAutoLaunch
             ),
         )
     }.stateIn(
         scope = viewModelScope,
-        started = WhileSubscribed(5.seconds.inWholeMilliseconds),
+        started = WhileSubscribed(5_000),
         initialValue = SettingsUiState.Loading,
     )
 
@@ -67,6 +66,12 @@ class SettingsViewModel @Inject constructor(
             userDataRepository.setDynamicColorPreference(useDynamicColor)
         }
     }
+
+    fun updateAutoLaunchPreference(useAutoLaunch: Boolean) {
+        viewModelScope.launch {
+            userDataRepository.setAutoLaunchPreference(useAutoLaunch)
+        }
+    }
 }
 
 /**
@@ -75,7 +80,7 @@ class SettingsViewModel @Inject constructor(
 data class UserEditableSettings(
     val brand: ThemeBrand,
     val useDynamicColor: Boolean,
-    val darkThemeConfig: DarkThemeConfig,
+    val darkThemeConfig: DarkThemeConfig, val useAutoLaunch: Boolean
 )
 
 sealed interface SettingsUiState {

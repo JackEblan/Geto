@@ -28,4 +28,8 @@
     <string name="default_theme">Default</string>
     <string name="android_theme">Android</string>
     <string name="theme">Theme</string>
+    <string name="auto_launch">Auto-Launch</string>
+    <string name="automatically_launch_the_selected_application_instead_of_manually_clicking_it">Automatically launch the selected application instead of manually clicking it</string>
+    <string name="available_on_android_12">Available on Android 12 +</string>
+    <string name="application">Application</string>
 </resources>

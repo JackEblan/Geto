@@ -30,6 +30,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -111,6 +112,7 @@ internal fun SettingsRoute(
         onThemeDialog = { themeDialogState.updateShowDialog(true) },
         onDarkDialog = { darkDialogState.updateShowDialog(true) },
         onChangeDynamicColorPreference = viewModel::updateDynamicColorPreference,
+        onChangeAutoLaunchPreference = viewModel::updateAutoLaunchPreference,
         onNavigationIconClick = onNavigationIconClick,
     )
 }
@@ -124,6 +126,7 @@ internal fun SettingsScreen(
     onThemeDialog: () -> Unit,
     onDarkDialog: () -> Unit,
     onChangeDynamicColorPreference: (useDynamicColor: Boolean) -> Unit,
+    onChangeAutoLaunchPreference: (useAutoLaunch: Boolean) -> Unit,
     onNavigationIconClick: () -> Unit
 ) {
     Scaffold(topBar = {
@@ -154,7 +157,8 @@ internal fun SettingsScreen(
                         supportDynamicColor = supportDynamicColor,
                         onThemeDialog = onThemeDialog,
                         onDarkDialog = onDarkDialog,
-                        onChangeDynamicColorPreference = onChangeDynamicColorPreference
+                        onChangeDynamicColorPreference = onChangeDynamicColorPreference,
+                        onChangeAutoLaunchPreference = onChangeAutoLaunchPreference
                     )
                 }
             }
@@ -177,7 +181,8 @@ fun SuccessState(
     supportDynamicColor: Boolean = supportsDynamicTheming(),
     onThemeDialog: () -> Unit,
     onDarkDialog: () -> Unit,
-    onChangeDynamicColorPreference: (useDynamicColor: Boolean) -> Unit
+    onChangeDynamicColorPreference: (useDynamicColor: Boolean) -> Unit,
+    onChangeAutoLaunchPreference: (useAutoLaunch: Boolean) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -211,11 +216,19 @@ fun SuccessState(
                     .testTag("settings:dynamic"),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    text = stringResource(R.string.dynamic_color),
-                    style = MaterialTheme.typography.bodyLarge,
-                    modifier = Modifier.weight(1f)
-                )
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = stringResource(R.string.dynamic_color),
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+
+                    Spacer(modifier = Modifier.height(4.dp))
+
+                    Text(
+                        text = stringResource(R.string.available_on_android_12),
+                        style = MaterialTheme.typography.bodySmall
+                    )
+                }
 
                 Switch(
                     modifier = Modifier.testTag("settings:dynamic:switch"),
@@ -244,6 +257,55 @@ fun SuccessState(
                 style = MaterialTheme.typography.bodySmall
             )
         }
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        HorizontalDivider(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 10.dp)
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Text(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 10.dp),
+            text = stringResource(R.string.application),
+            color = MaterialTheme.colorScheme.primary,
+            style = MaterialTheme.typography.bodySmall
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(10.dp)
+                .testTag("settings:autolaunch"),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = stringResource(R.string.auto_launch),
+                    style = MaterialTheme.typography.bodyLarge
+                )
+
+                Spacer(modifier = Modifier.height(4.dp))
+
+                Text(
+                    text = stringResource(R.string.automatically_launch_the_selected_application_instead_of_manually_clicking_it),
+                    style = MaterialTheme.typography.bodySmall
+                )
+            }
+
+            Switch(
+                modifier = Modifier.testTag("settings:autolaunch:switch"),
+                checked = settingsUiState.settings.useAutoLaunch,
+                onCheckedChange = onChangeAutoLaunchPreference
+            )
+        }
     }
 }
 
@@ -265,12 +327,14 @@ private fun SuccessStatePreview() {
                          settings = UserEditableSettings(
                              brand = ThemeBrand.DEFAULT,
                              useDynamicColor = true,
-                             darkThemeConfig = DarkThemeConfig.DARK
+                             darkThemeConfig = DarkThemeConfig.DARK,
+                             useAutoLaunch = false
                          )
                      ),
                      supportDynamicColor = true,
                      onThemeDialog = {},
                      onDarkDialog = {},
-                     onChangeDynamicColorPreference = {})
+                     onChangeDynamicColorPreference = {},
+                     onChangeAutoLaunchPreference = {})
     }
 }

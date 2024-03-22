@@ -42,4 +42,8 @@ class DefaultUserDataRepository @Inject constructor(
     override suspend fun setDynamicColorPreference(useDynamicColor: Boolean) {
         getoPreferencesDataSource.setDynamicColorPreference(useDynamicColor)
     }
+
+    override suspend fun setAutoLaunchPreference(useAutoLaunch: Boolean) {
+        getoPreferencesDataSource.setAutoLaunchPreference(useAutoLaunch)
+    }
 }
