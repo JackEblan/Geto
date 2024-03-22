@@ -99,8 +99,7 @@ internal fun AppListScreen(
                 )
 
                 is AppListUiState.Success -> SuccessState(
-                    modifier = modifier,
-                    targetApplicationInfoList = appListUiState.targetApplicationInfoList,
+                    modifier = modifier, appListUiState = appListUiState,
                     contentPadding = innerPadding,
                     onItemClick = onItemClick
                 )
@@ -118,8 +117,7 @@ private fun LoadingState(modifier: Modifier = Modifier) {
 
 @Composable
 fun SuccessState(
-    modifier: Modifier = Modifier,
-    targetApplicationInfoList: List<TargetApplicationInfo>,
+    modifier: Modifier = Modifier, appListUiState: AppListUiState,
     contentPadding: PaddingValues,
     onItemClick: (String, String) -> Unit
 ) {
@@ -130,21 +128,23 @@ fun SuccessState(
         contentPadding = contentPadding
     ) {
         appItems(
-            targetApplicationInfoList = targetApplicationInfoList, onItemClick = onItemClick
+            appListUiState = appListUiState, onItemClick = onItemClick
         )
     }
 }
 
 private fun LazyListScope.appItems(
-    targetApplicationInfoList: List<TargetApplicationInfo>, onItemClick: (String, String) -> Unit
+    appListUiState: AppListUiState, onItemClick: (String, String) -> Unit
 ) {
-    items(targetApplicationInfoList) { nonSystemApp ->
-        AppItem(
-            icon = nonSystemApp.icon,
-            packageName = nonSystemApp.packageName,
-            label = nonSystemApp.label,
-            onItemClick = onItemClick
-        )
+    when (appListUiState) {
+        AppListUiState.Loading -> Unit
+        is AppListUiState.Success -> {
+            items(appListUiState.targetApplicationInfoList) { targetApplicationInfo ->
+                AppItem(
+                    targetApplicationInfo = targetApplicationInfo, onItemClick = onItemClick
+                )
+            }
+        }
     }
 }
 
@@ -162,7 +162,8 @@ private fun SuccessStatePreview(
     @PreviewParameter(TargetApplicationInfoPreviewParameterProvider::class) targetApplicationInfoLists: List<TargetApplicationInfo>
 ) {
     GetoTheme {
-        SuccessState(targetApplicationInfoList = targetApplicationInfoLists,
+        SuccessState(
+            appListUiState = AppListUiState.Success(targetApplicationInfoLists),
                      contentPadding = PaddingValues(20.dp),
                      onItemClick = { _, _ -> })
     }

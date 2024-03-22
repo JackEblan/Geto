@@ -51,7 +51,7 @@ class GetoPreferencesDataSource @Inject constructor(
 
                 DarkThemeConfigProto.DARK_THEME_CONFIG_LIGHT -> DarkThemeConfig.LIGHT
                 DarkThemeConfigProto.DARK_THEME_CONFIG_DARK -> DarkThemeConfig.DARK
-            }, useDynamicColor = it.useDynamicColor
+            }, useDynamicColor = it.useDynamicColor, useAutoLaunch = it.useAutoLaunch
         )
     }
 
@@ -81,6 +81,12 @@ class GetoPreferencesDataSource @Inject constructor(
                     DarkThemeConfig.DARK -> DarkThemeConfigProto.DARK_THEME_CONFIG_DARK
                 }
             }
+        }
+    }
+
+    suspend fun setAutoLaunchPreference(useAutoLaunch: Boolean) {
+        userPreferences.updateData {
+            it.copy { this.useAutoLaunch = useAutoLaunch }
         }
     }
 }

@@ -20,7 +20,6 @@
     <string name="app_settings_disabled">Please enable atleast one setting</string>
     <string name="empty_app_settings_list">No settings found</string>
     <string name="apply_failure">Settings apply failed</string>
-    <string name="apply_success">Settings applied</string>
     <string name="revert_failure">Settings revert failed</string>
     <string name="revert_success">Settings reverted</string>
     <string name="shortcut_id_not_found">Shortcut id not found</string>
@@ -37,7 +36,7 @@
     <string name="revert_the_applied_settings_to_their_original_values">Revert the applied settings to their original values</string>
     <string name="add_a_custom_settings_to_this_app">Add a custom settings to this app</string>
     <string name="add_a_shortcut_to_this_app">Add a shortcut to this app</string>
-    <string name="nothing_is_here">Nothing is here</string>
+    <string name="add_your_first_settings">Add your first settings</string>
     <string name="add_app_settings">Add App Settings</string>
     <string name="settings_label">Settings label</string>
     <string name="settings_key">Settings key</string>

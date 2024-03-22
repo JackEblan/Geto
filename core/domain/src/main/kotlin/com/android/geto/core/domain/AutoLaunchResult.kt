@@ -16,21 +16,8 @@
  *
  */
 
-syntax = "proto3";
+package com.android.geto.core.domain
 
-import "com/android/geto/core/data/dark_theme_config.proto";
-import "com/android/geto/core/data/theme_brand.proto";
-
-option java_package = "com.android.geto.core.datastore";
-option java_multiple_files = true;
-
-message UserPreferences {
-
-  ThemeBrandProto theme_brand = 16;
-  DarkThemeConfigProto dark_theme_config = 17;
-
-  bool use_dynamic_color = 19;
-
-  bool use_auto_launch = 20;
+sealed class AutoLaunchResult : AppSettingsResult() {
+    data object Ignore : AutoLaunchResult()
 }
-

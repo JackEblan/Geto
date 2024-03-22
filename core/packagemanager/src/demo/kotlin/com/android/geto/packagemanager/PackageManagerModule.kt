@@ -19,7 +19,7 @@
 package com.android.geto.packagemanager
 
 import com.android.geto.core.packagemanager.PackageManagerWrapper
-import com.android.geto.core.packagemanager.fake.FakePackageManagerWrapper
+import com.android.geto.core.packagemanager.demo.DemoPackageManagerWrapper
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -32,6 +32,6 @@ interface PackageManagerModule {
 
     @Binds
     @Singleton
-    fun packageManagerWrapper(impl: FakePackageManagerWrapper): PackageManagerWrapper
+    fun packageManagerWrapper(impl: DemoPackageManagerWrapper): PackageManagerWrapper
 
 }

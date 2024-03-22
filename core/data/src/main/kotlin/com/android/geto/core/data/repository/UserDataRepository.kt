@@ -32,4 +32,6 @@ interface UserDataRepository {
     suspend fun setDarkThemeConfig(darkThemeConfig: DarkThemeConfig)
 
     suspend fun setDynamicColorPreference(useDynamicColor: Boolean)
+
+    suspend fun setAutoLaunchPreference(useAutoLaunch: Boolean)
 }

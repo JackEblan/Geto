@@ -18,24 +18,40 @@
 
 package com.android.geto.core.designsystem.component
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
+import coil.compose.AsyncImagePainter
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
+import coil.size.Size
 import com.android.geto.core.designsystem.R
 
 @Composable
-fun GetoAsyncImage(
+fun DynamicAsyncImage(
     model: Any?, contentDescription: String?, modifier: Modifier = Modifier,
     placeholder: Painter = painterResource(R.drawable.ic_launcher_round),
 ) {
-    AsyncImage(
-        model = model,
-        contentDescription = contentDescription,
-        modifier = modifier.size(50.dp),
-        placeholder = placeholder
+    var isError by remember { mutableStateOf(false) }
+
+    val imageLoader =
+        rememberAsyncImagePainter(model = ImageRequest.Builder(LocalContext.current).data(model)
+            .size(Size.ORIGINAL).build(),
+                                  onState = { state ->
+                                      isError = state is AsyncImagePainter.State.Error
+                                  })
+
+    Image(
+        painter = if (isError.not()) imageLoader else placeholder,
+        contentDescription = contentDescription, modifier = modifier.size(50.dp)
     )
 }

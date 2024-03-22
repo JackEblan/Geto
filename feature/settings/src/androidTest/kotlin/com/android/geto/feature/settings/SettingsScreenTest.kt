@@ -42,7 +42,7 @@ class SettingsScreenTest {
             SettingsScreen(settingsUiState = SettingsUiState.Loading,
                            onThemeDialog = {},
                            onDarkDialog = {},
-                           onChangeDynamicColorPreference = {},
+                           onChangeDynamicColorPreference = {}, onChangeAutoLaunchPreference = {},
                            onNavigationIconClick = {})
         }
 
@@ -55,10 +55,12 @@ class SettingsScreenTest {
             SettingsScreen(settingsUiState = SettingsUiState.Success(
                 UserEditableSettings(
                     brand = ThemeBrand.DEFAULT,
-                    useDynamicColor = true, darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM
+                    useDynamicColor = true,
+                    darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+                    useAutoLaunch = false
                 )
             ), onThemeDialog = {}, onDarkDialog = {},
-                           onChangeDynamicColorPreference = {},
+                           onChangeDynamicColorPreference = {}, onChangeAutoLaunchPreference = {},
                            onNavigationIconClick = {})
         }
 
@@ -71,10 +73,12 @@ class SettingsScreenTest {
             SettingsScreen(settingsUiState = SettingsUiState.Success(
                 UserEditableSettings(
                     brand = ThemeBrand.DEFAULT,
-                    useDynamicColor = true, darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM
+                    useDynamicColor = true,
+                    darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+                    useAutoLaunch = false
                 )
             ), supportDynamicColor = true, onThemeDialog = {}, onDarkDialog = {},
-                           onChangeDynamicColorPreference = {},
+                           onChangeDynamicColorPreference = {}, onChangeAutoLaunchPreference = {},
                            onNavigationIconClick = {})
         }
 
@@ -87,10 +91,12 @@ class SettingsScreenTest {
             SettingsScreen(settingsUiState = SettingsUiState.Success(
                 UserEditableSettings(
                     brand = ThemeBrand.DEFAULT,
-                    useDynamicColor = false, darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM
+                    useDynamicColor = false,
+                    darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+                    useAutoLaunch = false
                 )
             ), supportDynamicColor = true, onThemeDialog = {}, onDarkDialog = {},
-                           onChangeDynamicColorPreference = {},
+                           onChangeDynamicColorPreference = {}, onChangeAutoLaunchPreference = {},
                            onNavigationIconClick = {})
         }
 
@@ -103,10 +109,12 @@ class SettingsScreenTest {
             SettingsScreen(settingsUiState = SettingsUiState.Success(
                 UserEditableSettings(
                     brand = ThemeBrand.DEFAULT,
-                    useDynamicColor = true, darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM
+                    useDynamicColor = true,
+                    darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+                    useAutoLaunch = false
                 )
             ), supportDynamicColor = true, onThemeDialog = {}, onDarkDialog = {},
-                           onChangeDynamicColorPreference = {},
+                           onChangeDynamicColorPreference = {}, onChangeAutoLaunchPreference = {},
                            onNavigationIconClick = {})
         }
 
@@ -119,10 +127,12 @@ class SettingsScreenTest {
             SettingsScreen(settingsUiState = SettingsUiState.Success(
                 UserEditableSettings(
                     brand = ThemeBrand.ANDROID,
-                    useDynamicColor = true, darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM
+                    useDynamicColor = true,
+                    darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+                    useAutoLaunch = false
                 )
             ), supportDynamicColor = true, onThemeDialog = {}, onDarkDialog = {},
-                           onChangeDynamicColorPreference = {},
+                           onChangeDynamicColorPreference = {}, onChangeAutoLaunchPreference = {},
                            onNavigationIconClick = {})
         }
 
@@ -135,16 +145,62 @@ class SettingsScreenTest {
             SettingsScreen(settingsUiState = SettingsUiState.Success(
                 UserEditableSettings(
                     brand = ThemeBrand.ANDROID,
-                    useDynamicColor = true, darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM
+                    useDynamicColor = true,
+                    darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+                    useAutoLaunch = false
                 )
             ),
                            supportDynamicColor = false,
                            onThemeDialog = {},
                            onDarkDialog = {},
-                           onChangeDynamicColorPreference = {},
+                           onChangeDynamicColorPreference = {}, onChangeAutoLaunchPreference = {},
                            onNavigationIconClick = {})
         }
 
         composeTestRule.onNodeWithTag("settings:dynamic").assertIsNotDisplayed()
+    }
+
+    @Test
+    fun autoLaunchSwitchIsOff_whenUseAutoLaunchIsFalse() {
+        composeTestRule.setContent {
+            SettingsScreen(settingsUiState = SettingsUiState.Success(
+                UserEditableSettings(
+                    brand = ThemeBrand.DEFAULT,
+                    useDynamicColor = false,
+                    darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+                    useAutoLaunch = false
+                )
+            ),
+                           supportDynamicColor = true,
+                           onThemeDialog = {},
+                           onDarkDialog = {},
+                           onChangeDynamicColorPreference = {},
+                           onChangeAutoLaunchPreference = {},
+                           onNavigationIconClick = {})
+        }
+
+        composeTestRule.onNodeWithTag("settings:autolaunch:switch").assertIsOff()
+    }
+
+    @Test
+    fun autoLaunchSwitchIsOn_whenUseAutoLaunchIsTrue() {
+        composeTestRule.setContent {
+            SettingsScreen(settingsUiState = SettingsUiState.Success(
+                UserEditableSettings(
+                    brand = ThemeBrand.DEFAULT,
+                    useDynamicColor = false,
+                    darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+                    useAutoLaunch = true
+                )
+            ),
+                           supportDynamicColor = true,
+                           onThemeDialog = {},
+                           onDarkDialog = {},
+                           onChangeDynamicColorPreference = {},
+                           onChangeAutoLaunchPreference = {},
+                           onNavigationIconClick = {})
+        }
+
+        composeTestRule.onNodeWithTag("settings:autolaunch:switch").assertIsOn()
     }
 }

@@ -18,7 +18,6 @@
 
 package com.android.geto.feature.appsettings
 
-import android.content.Intent
 import android.graphics.drawable.Drawable
 import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.SavedStateHandle
@@ -33,6 +32,7 @@ import com.android.geto.core.data.repository.ShortcutRepository
 import com.android.geto.core.data.repository.ShortcutResult
 import com.android.geto.core.domain.AppSettingsResult
 import com.android.geto.core.domain.ApplyAppSettingsUseCase
+import com.android.geto.core.domain.AutoLaunchUseCase
 import com.android.geto.core.domain.RevertAppSettingsUseCase
 import com.android.geto.core.model.AppSettings
 import com.android.geto.core.model.SecureSettings
@@ -60,11 +60,9 @@ class AppSettingsViewModel @Inject constructor(
     private val secureSettingsRepository: SecureSettingsRepository,
     private val shortcutRepository: ShortcutRepository,
     private val applyAppSettingsUseCase: ApplyAppSettingsUseCase,
-    private val revertAppSettingsUseCase: RevertAppSettingsUseCase
+    private val revertAppSettingsUseCase: RevertAppSettingsUseCase,
+    private val autoLaunchUseCase: AutoLaunchUseCase
 ) : ViewModel() {
-    private var _launchAppIntent = MutableStateFlow<Intent?>(null)
-    val launchAppIntent = _launchAppIntent.asStateFlow()
-
     private var _secureSettings = MutableStateFlow<List<SecureSettings>>(emptyList())
     val secureSettings = _secureSettings.asStateFlow()
 
@@ -98,9 +96,15 @@ class AppSettingsViewModel @Inject constructor(
                 initialValue = AppSettingsUiState.Loading
             )
 
-    fun launchApp() {
+    fun applySettings() {
         viewModelScope.launch {
             _applyAppSettingsResult.update { applyAppSettingsUseCase(packageName = packageName) }
+        }
+    }
+
+    fun autoLaunchApp() {
+        viewModelScope.launch {
+            _applyAppSettingsResult.update { autoLaunchUseCase(packageName = packageName) }
         }
     }
 
@@ -197,9 +201,5 @@ class AppSettingsViewModel @Inject constructor(
 
     fun clearClipboardResult() {
         _clipboardResult.update { null }
-    }
-
-    fun clearLaunchAppIntent() {
-        _launchAppIntent.update { null }
     }
 }
