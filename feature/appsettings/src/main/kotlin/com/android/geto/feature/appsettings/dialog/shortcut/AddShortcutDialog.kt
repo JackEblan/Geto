@@ -47,7 +47,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import com.android.geto.core.designsystem.component.DynamicAsyncImage
+import coil.compose.AsyncImage
 import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.ui.LocalResources
 import com.android.geto.feature.appsettings.R
@@ -110,7 +110,7 @@ internal fun AddShortcutDialogScreen(
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        DynamicAsyncImage(
+        AsyncImage(
             model = icon,
             contentDescription = null,
             modifier = Modifier

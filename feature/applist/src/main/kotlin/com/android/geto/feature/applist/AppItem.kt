@@ -35,7 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.android.geto.core.designsystem.component.DynamicAsyncImage
+import coil.compose.AsyncImage
 import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.model.TargetApplicationInfo
 
@@ -54,7 +54,7 @@ fun AppItem(
         }
         .padding(10.dp), verticalAlignment = Alignment.CenterVertically) {
 
-        DynamicAsyncImage(
+        AsyncImage(
             model = targetApplicationInfo.icon,
             contentDescription = null,
             modifier = Modifier.size(50.dp)

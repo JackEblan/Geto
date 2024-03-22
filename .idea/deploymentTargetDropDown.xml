@@ -2,10 +2,10 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="app">
+      <entry key="NavigationTest">
         <State />
       </entry>
-      <entry key="autoLaunchSwitchIsOn_whenUseAutoLaunchIsTrue()">
+      <entry key="app">
         <State />
       </entry>
       <entry key="feature.shortcut">

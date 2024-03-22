@@ -58,7 +58,11 @@ internal fun AppListRoute(
     val appListUiState = viewModel.appListUiState.collectAsStateWithLifecycle().value
 
     LaunchedEffect(key1 = true) {
-        viewModel.getNonSystemApps()
+        // Prevent the invokation of getNonSystemApps again,
+        // when navigating back from appSettingsScreen.
+        if (appListUiState is AppListUiState.Loading) {
+            viewModel.getNonSystemApps()
+        }
     }
 
     AppListScreen(

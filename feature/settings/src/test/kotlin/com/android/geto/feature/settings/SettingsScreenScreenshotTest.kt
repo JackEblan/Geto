@@ -53,11 +53,15 @@ class SettingsScreenScreenshotTest {
                     settings = UserEditableSettings(
                         brand = ThemeBrand.DEFAULT,
                         useDynamicColor = false,
-                        darkThemeConfig = DarkThemeConfig.DARK
+                        darkThemeConfig = DarkThemeConfig.DARK,
+                        useAutoLaunch = false
                     )
-                ), onThemeDialog = {}, onDarkDialog = {},
+                ),
+                               onThemeDialog = {},
+                               onDarkDialog = {},
                                onChangeDynamicColorPreference = {},
-                               onNavigationIconClick = {})
+                               onNavigationIconClick = {},
+                               onChangeAutoLaunchPreference = {})
             }
         }
     }
@@ -70,24 +74,8 @@ class SettingsScreenScreenshotTest {
                                onThemeDialog = {},
                                onDarkDialog = {},
                                onChangeDynamicColorPreference = {},
-                               onNavigationIconClick = {})
-            }
-        }
-    }
-
-    @Test
-    fun settings_dynamic_color_enabled() {
-        composeTestRule.captureMultiDevice("SettingsDynamicColorEnabled") {
-            GetoTheme {
-                SettingsScreen(settingsUiState = SettingsUiState.Success(
-                    settings = UserEditableSettings(
-                        brand = ThemeBrand.DEFAULT,
-                        useDynamicColor = true,
-                        darkThemeConfig = DarkThemeConfig.DARK
-                    )
-                ), onThemeDialog = {}, onDarkDialog = {},
-                               onChangeDynamicColorPreference = {},
-                               onNavigationIconClick = {})
+                               onNavigationIconClick = {},
+                               onChangeAutoLaunchPreference = {})
             }
         }
     }
@@ -106,11 +94,15 @@ class SettingsScreenScreenshotTest {
                         settings = UserEditableSettings(
                             brand = ThemeBrand.DEFAULT,
                             useDynamicColor = false,
-                            darkThemeConfig = DarkThemeConfig.DARK
+                            darkThemeConfig = DarkThemeConfig.DARK,
+                            useAutoLaunch = false
                         )
-                    ), onThemeDialog = {}, onDarkDialog = {},
+                    ),
+                                   onThemeDialog = {},
+                                   onDarkDialog = {},
                                    onChangeDynamicColorPreference = {},
-                                   onNavigationIconClick = {})
+                                   onNavigationIconClick = {},
+                                   onChangeAutoLaunchPreference = {})
                 }
             }
         }
@@ -126,36 +118,12 @@ class SettingsScreenScreenshotTest {
         ) {
             GetoTheme {
                 GetoBackground {
-                    SettingsScreen(
-                        settingsUiState = SettingsUiState.Loading,
-                        onThemeDialog = {},
-                        onDarkDialog = {},
-                        onChangeDynamicColorPreference = {},
-                                   onNavigationIconClick = {})
-                }
-            }
-        }
-    }
-
-    @Test
-    fun settings_dynamic_color_enabled_dark() {
-        composeTestRule.captureForDevice(
-            deviceName = "phone_dark",
-            deviceSpec = DefaultTestDevices.PHONE.spec,
-            screenshotName = "SettingsDynamicColorEnabled",
-            darkMode = true,
-        ) {
-            GetoTheme {
-                GetoBackground {
-                    SettingsScreen(settingsUiState = SettingsUiState.Success(
-                        settings = UserEditableSettings(
-                            brand = ThemeBrand.DEFAULT,
-                            useDynamicColor = true,
-                            darkThemeConfig = DarkThemeConfig.DARK
-                        )
-                    ), onThemeDialog = {}, onDarkDialog = {},
+                    SettingsScreen(settingsUiState = SettingsUiState.Loading,
+                                   onThemeDialog = {},
+                                   onDarkDialog = {},
                                    onChangeDynamicColorPreference = {},
-                                   onNavigationIconClick = {})
+                                   onNavigationIconClick = {},
+                                   onChangeAutoLaunchPreference = {})
                 }
             }
         }

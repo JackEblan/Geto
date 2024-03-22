@@ -20,6 +20,7 @@ package com.android.geto.core.data.test.repository
 
 import com.android.geto.core.data.repository.AppSettingsRepository
 import com.android.geto.core.model.AppSettings
+import com.android.geto.core.model.SettingsType
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
@@ -31,6 +32,19 @@ class FakeAppSettingsRepository @Inject constructor() : AppSettingsRepository {
     override suspend fun deleteAppSettings(appSettings: AppSettings) {}
 
     override fun getAppSettingsList(packageName: String): Flow<List<AppSettings>> {
-        return flowOf()
+        val appSettings = List(5) { index ->
+            AppSettings(
+                id = index,
+                enabled = false,
+                settingsType = SettingsType.SECURE,
+                packageName = "com.android.geto$index",
+                label = "Geto $index",
+                key = "key$index",
+                valueOnLaunch = "0",
+                valueOnRevert = "1"
+            )
+        }
+
+        return flowOf(appSettings)
     }
 }

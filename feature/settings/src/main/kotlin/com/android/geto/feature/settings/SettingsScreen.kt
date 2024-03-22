@@ -295,7 +295,7 @@ fun SuccessState(
                 Spacer(modifier = Modifier.height(4.dp))
 
                 Text(
-                    text = stringResource(R.string.automatically_launch_the_selected_application_instead_of_manually_clicking_it),
+                    text = stringResource(R.string.automatically_launch_the_selected_application),
                     style = MaterialTheme.typography.bodySmall
                 )
             }
