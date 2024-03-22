@@ -18,14 +18,16 @@
 
 package com.android.geto.core.domain
 
-sealed interface AppSettingsResult {
-    data object Success : AppSettingsResult
+import android.content.Intent
 
-    data object Failure : AppSettingsResult
+sealed class AppSettingsResult {
+    data class Success(val intent: Intent?) : AppSettingsResult()
 
-    data object SecurityException : AppSettingsResult
+    data object Failure : AppSettingsResult()
 
-    data object EmptyAppSettingsList : AppSettingsResult
+    data object SecurityException : AppSettingsResult()
 
-    data object AppSettingsDisabled : AppSettingsResult
+    data object EmptyAppSettingsList : AppSettingsResult()
+
+    data object AppSettingsDisabled : AppSettingsResult()
 }

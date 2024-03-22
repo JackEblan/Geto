@@ -77,6 +77,7 @@ import com.android.geto.core.designsystem.component.GetoLoadingWheel
 import com.android.geto.core.designsystem.icon.GetoIcons
 import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.domain.AppSettingsResult
+import com.android.geto.core.domain.AutoLaunchResult
 import com.android.geto.core.model.AppSettings
 import com.android.geto.core.model.SettingsType
 import com.android.geto.core.ui.AppSettingsPreviewParameterProvider
@@ -97,7 +98,6 @@ internal fun AppSettingsRoute(
     val appSettingsDisabled = stringResource(id = R.string.app_settings_disabled)
     val emptyAppSettingsList = stringResource(id = R.string.empty_app_settings_list)
     val applyFailure = stringResource(id = R.string.apply_failure)
-    val applySuccess = stringResource(id = R.string.apply_success)
     val revertFailure = stringResource(id = R.string.revert_failure)
     val revertSuccess = stringResource(id = R.string.revert_success)
     val shortcutIdNotFound = stringResource(id = R.string.shortcut_id_not_found)
@@ -132,8 +132,6 @@ internal fun AppSettingsRoute(
         mutableStateOf(false)
     }
 
-    val launchAppIntent = viewModel.launchAppIntent.collectAsStateWithLifecycle().value
-
     val secureSettings = viewModel.secureSettings.collectAsStateWithLifecycle().value
 
     val applyAppSettingsResult =
@@ -156,6 +154,10 @@ internal fun AppSettingsRoute(
 
     val keyDebounce = appSettingsDialogState.keyDebounce.collectAsStateWithLifecycle("").value
 
+    LaunchedEffect(key1 = true) {
+        viewModel.autoLaunchApp()
+    }
+
     LaunchedEffect(key1 = applyAppSettingsResult) {
         applyAppSettingsResult?.let {
             when (it) {
@@ -163,7 +165,8 @@ internal fun AppSettingsRoute(
                 AppSettingsResult.EmptyAppSettingsList -> snackbarHostState.showSnackbar(message = emptyAppSettingsList)
                 AppSettingsResult.Failure -> snackbarHostState.showSnackbar(message = applyFailure)
                 AppSettingsResult.SecurityException -> showCopyPermissionCommandDialog = true
-                AppSettingsResult.Success -> snackbarHostState.showSnackbar(message = applySuccess)
+                is AppSettingsResult.Success -> it.intent?.let(context::startActivity)
+                AutoLaunchResult.Ignore -> Unit
             }
 
             viewModel.clearAppSettingsResult()
@@ -177,7 +180,8 @@ internal fun AppSettingsRoute(
                 AppSettingsResult.EmptyAppSettingsList -> snackbarHostState.showSnackbar(message = emptyAppSettingsList)
                 AppSettingsResult.Failure -> snackbarHostState.showSnackbar(message = revertFailure)
                 AppSettingsResult.SecurityException -> showCopyPermissionCommandDialog = true
-                AppSettingsResult.Success -> snackbarHostState.showSnackbar(message = revertSuccess)
+                is AppSettingsResult.Success -> snackbarHostState.showSnackbar(message = revertSuccess)
+                AutoLaunchResult.Ignore -> Unit
             }
 
             viewModel.clearAppSettingsResult()
@@ -228,13 +232,6 @@ internal fun AppSettingsRoute(
             }
 
             viewModel.clearClipboardResult()
-        }
-    }
-
-    LaunchedEffect(key1 = launchAppIntent) {
-        launchAppIntent?.let {
-            context.startActivity(it)
-            viewModel.clearLaunchAppIntent()
         }
     }
 
@@ -313,13 +310,14 @@ internal fun AppSettingsRoute(
         onRevertSettingsIconClick = viewModel::revertSettings,
         onSettingsIconClick = {
             appSettingsDialogState.updateShowDialog(true)
-        }, onShortcutIconClick = {
+        },
+        onShortcutIconClick = {
             viewModel.getShortcut()
             viewModel.getApplicationIcon()
         },
         onAppSettingsItemCheckBoxChange = viewModel::appSettingsItemCheckBoxChange,
         onDeleteAppSettingsItem = viewModel::deleteAppSettingsItem,
-        onLaunchApp = viewModel::launchApp
+        onLaunchApp = viewModel::applySettings
     )
 }
 
@@ -434,13 +432,13 @@ internal fun AppSettingsScreen(
                 is AppSettingsUiState.Success -> {
                     if (appSettingsUiState.appSettingsList.isNotEmpty()) {
                         SuccessState(
-                            appSettingsList = appSettingsUiState.appSettingsList,
+                            appSettingsUiState = appSettingsUiState,
                             contentPadding = innerPadding,
                             onAppSettingsItemCheckBoxChange = onAppSettingsItemCheckBoxChange,
                             onDeleteAppSettingsItem = onDeleteAppSettingsItem
                         )
                     } else {
-                        EmptyState(text = stringResource(R.string.nothing_is_here))
+                        EmptyState(text = stringResource(R.string.add_your_first_settings))
                     }
                 }
             }
@@ -483,23 +481,27 @@ private fun LoadingState(modifier: Modifier = Modifier) {
 
 @Composable
 private fun SuccessState(
-    modifier: Modifier = Modifier,
-    appSettingsList: List<AppSettings>,
+    modifier: Modifier = Modifier, appSettingsUiState: AppSettingsUiState,
     contentPadding: PaddingValues,
     onAppSettingsItemCheckBoxChange: (Boolean, AppSettings) -> Unit,
     onDeleteAppSettingsItem: (AppSettings) -> Unit
 ) {
-    LazyColumn(
-        modifier = modifier
-            .fillMaxSize()
-            .testTag("appsettings:lazyColumn"),
-        contentPadding = contentPadding
-    ) {
-        appSettings(
-            appSettingsList = appSettingsList,
-            onAppSettingsItemCheckBoxChange = onAppSettingsItemCheckBoxChange,
-            onDeleteAppSettingsItem = onDeleteAppSettingsItem
-        )
+    when (appSettingsUiState) {
+        AppSettingsUiState.Loading -> Unit
+        is AppSettingsUiState.Success -> {
+            LazyColumn(
+                modifier = modifier
+                    .fillMaxSize()
+                    .testTag("appsettings:lazyColumn"),
+                contentPadding = contentPadding
+            ) {
+                appSettings(
+                    appSettingsList = appSettingsUiState.appSettingsList,
+                    onAppSettingsItemCheckBoxChange = onAppSettingsItemCheckBoxChange,
+                    onDeleteAppSettingsItem = onDeleteAppSettingsItem
+                )
+            }
+        }
     }
 }
 
@@ -514,10 +516,7 @@ private fun LazyListScope.appSettings(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 10.dp, horizontal = 5.dp)
-                .animateItemPlacement(), enabled = appSettings.enabled,
-                        label = appSettings.label,
-                        settingsTypeLabel = appSettings.settingsType.label,
-                        key = appSettings.key,
+                .animateItemPlacement(), appSettings = appSettings,
                         onUserAppSettingsItemCheckBoxChange = { check ->
                             onAppSettingsItemCheckBoxChange(
                                 check, appSettings
@@ -551,7 +550,8 @@ private fun SuccessStatePreview(
     @PreviewParameter(AppSettingsPreviewParameterProvider::class) appSettingsLists: List<AppSettings>
 ) {
     GetoTheme {
-        SuccessState(appSettingsList = appSettingsLists,
+        SuccessState(
+            appSettingsUiState = AppSettingsUiState.Success(appSettingsLists),
                      contentPadding = PaddingValues(20.dp),
                      onAppSettingsItemCheckBoxChange = { _, _ -> },
                      onDeleteAppSettingsItem = {})

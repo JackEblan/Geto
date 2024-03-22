@@ -19,15 +19,19 @@
 package com.android.geto.core.domain
 
 import com.android.geto.core.data.repository.AppSettingsRepository
+import com.android.geto.core.data.repository.PackageRepository
 import com.android.geto.core.data.repository.SecureSettingsRepository
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 class ApplyAppSettingsUseCase @Inject constructor(
+    private val packageRepository: PackageRepository,
     private val appSettingsRepository: AppSettingsRepository,
     private val secureSettingsRepository: SecureSettingsRepository
 ) {
     suspend operator fun invoke(packageName: String): AppSettingsResult {
+        val intent = packageRepository.getLaunchIntentForPackage(packageName)
+
         val appSettingsList = appSettingsRepository.getAppSettingsList(packageName).first()
 
         return when {
@@ -38,7 +42,7 @@ class ApplyAppSettingsUseCase @Inject constructor(
             else -> try {
                 val applied = secureSettingsRepository.applySecureSettings(appSettingsList)
                 if (applied) {
-                    AppSettingsResult.Success
+                    AppSettingsResult.Success(intent = intent)
                 } else {
                     AppSettingsResult.Failure
                 }

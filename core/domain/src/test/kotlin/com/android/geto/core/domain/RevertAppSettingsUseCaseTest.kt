@@ -28,13 +28,11 @@ import org.junit.Test
 import kotlin.test.assertIs
 
 class RevertAppSettingsUseCaseTest {
-    private lateinit var revertAppSettingsUseCase: ApplyAppSettingsUseCase
+    private lateinit var revertAppSettingsUseCase: RevertAppSettingsUseCase
 
     private lateinit var appSettingsRepository: TestAppSettingsRepository
 
     private lateinit var secureSettingsRepository: TestSecureSettingsRepository
-
-    private val packageNameTest = "packageNameTest"
 
     @Before
     fun setup() {
@@ -42,7 +40,7 @@ class RevertAppSettingsUseCaseTest {
 
         appSettingsRepository = TestAppSettingsRepository()
 
-        revertAppSettingsUseCase = ApplyAppSettingsUseCase(
+        revertAppSettingsUseCase = RevertAppSettingsUseCase(
             appSettingsRepository = appSettingsRepository,
             secureSettingsRepository = secureSettingsRepository
         )
@@ -52,7 +50,7 @@ class RevertAppSettingsUseCaseTest {
     fun revertAppSettingsUseCase_empty_app_settings_list() = runTest {
         appSettingsRepository.setAppSettings(emptyList())
 
-        val result = revertAppSettingsUseCase(packageName = packageNameTest)
+        val result = revertAppSettingsUseCase(packageName = PACKAGE_NAME_TEST)
 
         assertIs<AppSettingsResult.EmptyAppSettingsList>(result)
     }
@@ -65,8 +63,7 @@ class RevertAppSettingsUseCaseTest {
                 AppSettings(
                     id = 0,
                     enabled = false,
-                    settingsType = SettingsType.SYSTEM,
-                    packageName = packageNameTest,
+                    settingsType = SettingsType.SYSTEM, packageName = PACKAGE_NAME_TEST,
                     label = "system",
                     key = "key",
                     valueOnLaunch = "test",
@@ -75,7 +72,7 @@ class RevertAppSettingsUseCaseTest {
             )
         )
 
-        val result = revertAppSettingsUseCase(packageName = packageNameTest)
+        val result = revertAppSettingsUseCase(packageName = PACKAGE_NAME_TEST)
 
         assertIs<AppSettingsResult.AppSettingsDisabled>(result)
     }
@@ -89,8 +86,7 @@ class RevertAppSettingsUseCaseTest {
                 AppSettings(
                     id = 0,
                     enabled = true,
-                    settingsType = SettingsType.SYSTEM,
-                    packageName = packageNameTest,
+                    settingsType = SettingsType.SYSTEM, packageName = PACKAGE_NAME_TEST,
                     label = "system",
                     key = "key",
                     valueOnLaunch = "test",
@@ -99,7 +95,7 @@ class RevertAppSettingsUseCaseTest {
             )
         )
 
-        val result = revertAppSettingsUseCase(packageName = packageNameTest)
+        val result = revertAppSettingsUseCase(packageName = PACKAGE_NAME_TEST)
 
         assertIs<AppSettingsResult.Success>(result)
     }
@@ -113,8 +109,7 @@ class RevertAppSettingsUseCaseTest {
                 AppSettings(
                     id = 0,
                     enabled = true,
-                    settingsType = SettingsType.SYSTEM,
-                    packageName = packageNameTest,
+                    settingsType = SettingsType.SYSTEM, packageName = PACKAGE_NAME_TEST,
                     label = "system",
                     key = "key",
                     valueOnLaunch = "test",
@@ -123,8 +118,10 @@ class RevertAppSettingsUseCaseTest {
             )
         )
 
-        val result = revertAppSettingsUseCase(packageName = packageNameTest)
+        val result = revertAppSettingsUseCase(packageName = PACKAGE_NAME_TEST)
 
         assertIs<AppSettingsResult.SecurityException>(result)
     }
 }
+
+private const val PACKAGE_NAME_TEST = "PACKAGE_NAME_TEST"

@@ -18,7 +18,6 @@
 
 package com.android.geto.feature.applist
 
-import android.graphics.drawable.Drawable
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -36,15 +35,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.android.geto.core.designsystem.component.GetoAsyncImage
+import com.android.geto.core.designsystem.component.DynamicAsyncImage
 import com.android.geto.core.designsystem.theme.GetoTheme
+import com.android.geto.core.model.TargetApplicationInfo
 
 @Composable
 fun AppItem(
-    modifier: Modifier = Modifier,
-    icon: Drawable?,
-    packageName: String,
-    label: String,
+    modifier: Modifier = Modifier, targetApplicationInfo: TargetApplicationInfo,
     onItemClick: (String, String) -> Unit
 ) {
     Row(modifier = modifier
@@ -52,26 +49,28 @@ fun AppItem(
         .testTag("applist:appItem")
         .clickable {
             onItemClick(
-                packageName, label
+                targetApplicationInfo.packageName, targetApplicationInfo.label
             )
         }
         .padding(10.dp), verticalAlignment = Alignment.CenterVertically) {
 
-        GetoAsyncImage(
-            model = icon, contentDescription = null, modifier = Modifier.size(50.dp)
+        DynamicAsyncImage(
+            model = targetApplicationInfo.icon,
+            contentDescription = null,
+            modifier = Modifier.size(50.dp)
         )
 
         Spacer(modifier = Modifier.width(10.dp))
 
         Column(modifier = Modifier.weight(1f)) {
             Text(
-                text = label, style = MaterialTheme.typography.bodyLarge
+                text = targetApplicationInfo.label, style = MaterialTheme.typography.bodyLarge
             )
 
             Spacer(modifier = Modifier.height(5.dp))
 
             Text(
-                text = packageName, style = MaterialTheme.typography.bodySmall
+                text = targetApplicationInfo.packageName, style = MaterialTheme.typography.bodySmall
             )
         }
     }
@@ -81,9 +80,8 @@ fun AppItem(
 @Composable
 private fun AppItemPreview() {
     GetoTheme {
-        AppItem(icon = null,
-                packageName = "packageName",
-                label = "Label",
-                onItemClick = { _, _ -> })
+        AppItem(targetApplicationInfo = TargetApplicationInfo(
+            flags = 0, packageName = "com.android.geto", label = "Geto"
+        ), onItemClick = { _, _ -> })
     }
 }

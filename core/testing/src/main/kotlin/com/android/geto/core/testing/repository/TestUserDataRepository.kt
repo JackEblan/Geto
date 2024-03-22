@@ -29,8 +29,7 @@ import kotlinx.coroutines.flow.filterNotNull
 
 val emptyUserData = UserData(
     themeBrand = ThemeBrand.DEFAULT,
-    darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
-    useDynamicColor = false
+    darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM, useDynamicColor = false, useAutoLaunch = false
 )
 
 class TestUserDataRepository : UserDataRepository {
@@ -55,6 +54,12 @@ class TestUserDataRepository : UserDataRepository {
     override suspend fun setDynamicColorPreference(useDynamicColor: Boolean) {
         currentUserData.let { current ->
             _userData.tryEmit(current.copy(useDynamicColor = useDynamicColor))
+        }
+    }
+
+    override suspend fun setAutoLaunchPreference(useAutoLaunch: Boolean) {
+        currentUserData.let { current ->
+            _userData.tryEmit(current.copy(useAutoLaunch = useAutoLaunch))
         }
     }
 

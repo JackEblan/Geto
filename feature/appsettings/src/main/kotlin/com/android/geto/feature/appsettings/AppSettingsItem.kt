@@ -35,14 +35,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.android.geto.core.designsystem.theme.GetoTheme
+import com.android.geto.core.model.AppSettings
+import com.android.geto.core.model.SettingsType
 
 @Composable
 fun AppSettingsItem(
     modifier: Modifier = Modifier,
-    enabled: Boolean,
-    label: String,
-    settingsTypeLabel: String,
-    key: String,
+    appSettings: AppSettings,
     onUserAppSettingsItemCheckBoxChange: (Boolean) -> Unit,
     onDeleteUserAppSettingsItem: () -> Unit,
 ) {
@@ -50,25 +49,25 @@ fun AppSettingsItem(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Checkbox(checked = enabled, onCheckedChange = {
+        Checkbox(checked = appSettings.enabled, onCheckedChange = {
             onUserAppSettingsItemCheckBoxChange(it)
         })
 
         Column(modifier = Modifier.weight(1f)) {
             Text(
-                text = label, style = MaterialTheme.typography.bodyLarge
+                text = appSettings.label, style = MaterialTheme.typography.bodyLarge
             )
 
             Spacer(modifier = Modifier.height(5.dp))
 
             Text(
-                text = settingsTypeLabel, style = MaterialTheme.typography.bodySmall
+                text = appSettings.settingsType.label, style = MaterialTheme.typography.bodySmall
             )
 
             Spacer(modifier = Modifier.height(5.dp))
 
             Text(
-                text = key, style = MaterialTheme.typography.bodySmall
+                text = appSettings.key, style = MaterialTheme.typography.bodySmall
             )
         }
 
@@ -84,11 +83,15 @@ fun AppSettingsItem(
 @Composable
 private fun AppSettingsItemPreview() {
     GetoTheme {
-        AppSettingsItem(enabled = true,
-                        label = "Label",
-                        settingsTypeLabel = "System",
-                        key = "Key",
-                        onUserAppSettingsItemCheckBoxChange = {},
-                        onDeleteUserAppSettingsItem = {})
+        AppSettingsItem(appSettings = AppSettings(
+            id = 0,
+            enabled = false,
+            settingsType = SettingsType.SECURE,
+            packageName = "com.android.geto",
+            label = "Label",
+            key = "key",
+            valueOnLaunch = "0",
+            valueOnRevert = "1"
+        ), onUserAppSettingsItemCheckBoxChange = {}, onDeleteUserAppSettingsItem = {})
     }
 }
