@@ -48,7 +48,6 @@
     <string name="copy">Copy</string>
     <string name="permission_error">Permission Error</string>
     <string name="add_shortcut">Add Shortcut</string>
-    <string name="refresh_shortcut_info">Refresh shortcut info</string>
     <string name="short_label">Short label</string>
     <string name="long_label">Long label</string>
     <string name="update_shortcut">Update Shortcut</string>

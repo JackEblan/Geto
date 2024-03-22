@@ -85,6 +85,8 @@ class AppSettingsViewModelTest {
 
         shortcutRepository = TestShortcutRepository()
 
+        userDataRepository = TestUserDataRepository()
+
         savedStateHandle[PACKAGE_NAME_ARG] = PACKAGE_NAME_TEST
 
         savedStateHandle[APP_NAME_ARG] = APP_NAME_TEST

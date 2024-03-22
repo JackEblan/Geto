@@ -62,7 +62,7 @@ class SettingsViewModelTest {
                 UserEditableSettings(
                     brand = ThemeBrand.ANDROID,
                     darkThemeConfig = DarkThemeConfig.DARK,
-                    useDynamicColor = false,
+                    useDynamicColor = false, useAutoLaunch = false
                 ),
             ),
             viewModel.settingsUiState.value,
