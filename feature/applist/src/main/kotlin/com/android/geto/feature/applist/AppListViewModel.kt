@@ -36,9 +36,9 @@ class AppListViewModel @Inject constructor(
 
     val appListUiState = _appListUiState.asStateFlow()
 
-    fun getNonSystemApps() {
+    fun getInstalledApplications() {
         viewModelScope.launch {
-            _appListUiState.update { AppListUiState.Success(packageRepository.getNonSystemApps()) }
+            _appListUiState.update { AppListUiState.Success(packageRepository.getInstalledApplications()) }
         }
     }
 }

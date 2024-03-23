@@ -18,6 +18,6 @@
 
 package com.android.geto.core.domain
 
-sealed class AutoLaunchResult : AppSettingsResult() {
-    data object Ignore : AutoLaunchResult()
+sealed interface AutoLaunchResult : AppSettingsResult {
+    data object Ignore : AutoLaunchResult
 }

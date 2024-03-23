@@ -114,7 +114,7 @@ class AutoLaunchUseCaseTest {
 
     @Test
     fun autoLaunchAppUseCase_launchApp() = runTest {
-        packageRepository.setNonSystemApps(testTargetApplicationInfo)
+        packageRepository.setInstalledApplications(testTargetApplicationInfo)
 
         secureSettingsRepository.setWriteSecureSettings(true)
 
@@ -180,6 +180,41 @@ class AutoLaunchUseCaseTest {
         val result = autoLaunchUseCase(packageName = PACKAGE_NAME_TEST)
 
         assertIs<AppSettingsResult.SecurityException>(result)
+    }
+
+    @Test
+    fun autoLaunchAppUseCase_illegal_argument_exception() = runTest {
+        secureSettingsRepository.setWriteSecureSettings(true)
+
+        secureSettingsRepository.setInvalidValues(true)
+
+        userDataRepository.setUserData(
+            userData = UserData(
+                themeBrand = ThemeBrand.DEFAULT,
+                darkThemeConfig = DarkThemeConfig.DARK,
+                useDynamicColor = false,
+                useAutoLaunch = true
+            )
+        )
+
+        appSettingsRepository.setAppSettings(
+            listOf(
+                AppSettings(
+                    id = 0,
+                    enabled = true,
+                    settingsType = SettingsType.SYSTEM,
+                    packageName = PACKAGE_NAME_TEST,
+                    label = "system",
+                    key = "key",
+                    valueOnLaunch = "test",
+                    valueOnRevert = "test"
+                )
+            )
+        )
+
+        val result = autoLaunchUseCase(packageName = PACKAGE_NAME_TEST)
+
+        assertIs<AppSettingsResult.IllegalArgumentException>(result)
     }
 
     @Test

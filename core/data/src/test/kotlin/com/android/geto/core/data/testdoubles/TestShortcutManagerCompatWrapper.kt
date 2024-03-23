@@ -89,7 +89,7 @@ class TestShortcutManagerCompatWrapper : ShortcutManagerCompatWrapper {
     }
 
     /**
-     * A test-only API to set set shortcuts
+     * A test-only API to set a list of [TargetShortcutInfoCompat].
      */
     fun setShortcuts(value: List<TargetShortcutInfoCompat>) {
         targetShortcutInfoCompats = value

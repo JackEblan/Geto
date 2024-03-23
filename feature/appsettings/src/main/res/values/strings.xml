@@ -59,4 +59,5 @@
     <string name="settings_key_not_found">Settings key not found</string>
     <string name="settings_value_on_launch_is_blank">Settings value on launch is blank</string>
     <string name="settings_value_on_revert_is_blank">Settings value on revert is blank</string>
+    <string name="settings_has_invalid_values">Settings has invalid values</string>
 </resources>

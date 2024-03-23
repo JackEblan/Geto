@@ -151,7 +151,7 @@ class AppSettingsViewModelTest {
 
     @Test
     fun applyAppSettingsResultIsSuccess_whenAutoLaunchApp() = runTest {
-        packageRepository.setNonSystemApps(
+        packageRepository.setInstalledApplications(
             listOf(
                 TargetApplicationInfo(
                     flags = 0, packageName = PACKAGE_NAME_TEST, label = "label"
@@ -184,7 +184,7 @@ class AppSettingsViewModelTest {
 
     @Test
     fun applyAppSettingsResultIsSuccess_whenApplySettings() = runTest {
-        packageRepository.setNonSystemApps(
+        packageRepository.setInstalledApplications(
             listOf(
                 TargetApplicationInfo(
                     flags = 0, packageName = PACKAGE_NAME_TEST, label = "label"
@@ -217,7 +217,7 @@ class AppSettingsViewModelTest {
 
     @Test
     fun applyAppSettingsResultIsSecurityException_whenApplySettings() = runTest {
-        packageRepository.setNonSystemApps(
+        packageRepository.setInstalledApplications(
             listOf(
                 TargetApplicationInfo(
                     flags = 0, packageName = PACKAGE_NAME_TEST, label = "label"
@@ -249,8 +249,43 @@ class AppSettingsViewModelTest {
     }
 
     @Test
+    fun applyAppSettingsResultIsIllegalArgumentException_whenApplySettings() = runTest {
+        packageRepository.setInstalledApplications(
+            listOf(
+                TargetApplicationInfo(
+                    flags = 0, packageName = PACKAGE_NAME_TEST, label = "label"
+                )
+            )
+        )
+
+        appSettingsRepository.setAppSettings(
+            listOf(
+                AppSettings(
+                    id = 0,
+                    enabled = true,
+                    settingsType = SettingsType.SYSTEM,
+                    packageName = PACKAGE_NAME_TEST,
+                    label = "system",
+                    key = "key",
+                    valueOnLaunch = "test",
+                    valueOnRevert = "test"
+                )
+            )
+        )
+
+        secureSettingsRepository.setWriteSecureSettings(true)
+
+        secureSettingsRepository.setInvalidValues(true)
+
+        viewModel.applySettings()
+
+        assertIs<AppSettingsResult.IllegalArgumentException>(viewModel.applyAppSettingsResult.value)
+
+    }
+
+    @Test
     fun applyAppSettingsResultIsEmptyAppSettingsList_whenApplySettings() = runTest {
-        packageRepository.setNonSystemApps(
+        packageRepository.setInstalledApplications(
             listOf(
                 TargetApplicationInfo(
                     flags = 0, packageName = PACKAGE_NAME_TEST, label = "label"
@@ -283,7 +318,7 @@ class AppSettingsViewModelTest {
 
     @Test
     fun applyAppSettingsResultIsAppSettingsDisabled_whenApplySettings() = runTest {
-        packageRepository.setNonSystemApps(
+        packageRepository.setInstalledApplications(
             listOf(
                 TargetApplicationInfo(
                     flags = 0, packageName = PACKAGE_NAME_TEST, label = "label"
@@ -303,7 +338,7 @@ class AppSettingsViewModelTest {
 
     @Test
     fun revertAppSettingsResultIsSuccess_whenRevertSettings() = runTest {
-        packageRepository.setNonSystemApps(
+        packageRepository.setInstalledApplications(
             listOf(
                 TargetApplicationInfo(
                     flags = 0, packageName = PACKAGE_NAME_TEST, label = "label"
@@ -336,7 +371,7 @@ class AppSettingsViewModelTest {
 
     @Test
     fun revertAppSettingsResultIsSecurityException_whenRevertSettings() = runTest {
-        packageRepository.setNonSystemApps(
+        packageRepository.setInstalledApplications(
             listOf(
                 TargetApplicationInfo(
                     flags = 0, packageName = PACKAGE_NAME_TEST, label = "label"
@@ -368,8 +403,43 @@ class AppSettingsViewModelTest {
     }
 
     @Test
+    fun revertAppSettingsResultIsIllegalArgumentException_whenRevertSettings() = runTest {
+        packageRepository.setInstalledApplications(
+            listOf(
+                TargetApplicationInfo(
+                    flags = 0, packageName = PACKAGE_NAME_TEST, label = "label"
+                )
+            )
+        )
+
+        appSettingsRepository.setAppSettings(
+            listOf(
+                AppSettings(
+                    id = 0,
+                    enabled = true,
+                    settingsType = SettingsType.SYSTEM,
+                    packageName = PACKAGE_NAME_TEST,
+                    label = "system",
+                    key = "key",
+                    valueOnLaunch = "test",
+                    valueOnRevert = "test"
+                )
+            )
+        )
+
+        secureSettingsRepository.setWriteSecureSettings(true)
+
+        secureSettingsRepository.setInvalidValues(true)
+
+        viewModel.revertSettings()
+
+        assertIs<AppSettingsResult.IllegalArgumentException>(viewModel.revertAppSettingsResult.value)
+
+    }
+
+    @Test
     fun revertAppSettingsResultIsEmptyAppSettingsList_whenRevertSettings() = runTest {
-        packageRepository.setNonSystemApps(
+        packageRepository.setInstalledApplications(
             listOf(
                 TargetApplicationInfo(
                     flags = 0, packageName = PACKAGE_NAME_TEST, label = "label"
@@ -402,7 +472,7 @@ class AppSettingsViewModelTest {
 
     @Test
     fun revertAppSettingsResultIsAppSettingsDisabled_whenRevertSettings() = runTest {
-        packageRepository.setNonSystemApps(
+        packageRepository.setInstalledApplications(
             listOf(
                 TargetApplicationInfo(
                     flags = 0, packageName = PACKAGE_NAME_TEST, label = "label"
@@ -540,7 +610,7 @@ class AppSettingsViewModelTest {
 
     @Test
     fun applicationIconIsNotNull_whenGetApplicationIcon() = runTest {
-        packageRepository.setNonSystemApps(testTargetApplicationInfo)
+        packageRepository.setInstalledApplications(testTargetApplicationInfo)
 
         viewModel.getApplicationIcon()
 
@@ -549,7 +619,7 @@ class AppSettingsViewModelTest {
 
     @Test
     fun applicationIconIsNull_whenGetApplicationIcon() = runTest {
-        packageRepository.setNonSystemApps(testTargetApplicationInfo)
+        packageRepository.setInstalledApplications(testTargetApplicationInfo)
 
         viewModel.getApplicationIcon("")
 

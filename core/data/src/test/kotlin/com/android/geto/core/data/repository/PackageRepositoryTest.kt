@@ -45,7 +45,7 @@ class PackageRepositoryTest {
     }
 
     @Test
-    fun packageRepository_get_non_system_apps_is_not_empty() = runTest(testDispatcher) {
+    fun packageRepository_get_installed_applications_is_not_empty() = runTest(testDispatcher) {
         packageManagerWrapper.setInstalledApplications(
             listOf(
                 TargetApplicationInfo(
@@ -54,13 +54,13 @@ class PackageRepositoryTest {
             )
         )
 
-        val nonSystemApps = subject.getNonSystemApps()
+        val installedApplications = subject.getInstalledApplications()
 
-        assertTrue { nonSystemApps.isNotEmpty() }
+        assertTrue { installedApplications.isNotEmpty() }
     }
 
     @Test
-    fun packageRepository_get_non_system_apps_is_empty() = runTest(testDispatcher) {
+    fun packageRepository_get_installed_applications_is_empty() = runTest(testDispatcher) {
         packageManagerWrapper.setInstalledApplications(
             listOf(
                 TargetApplicationInfo(
@@ -69,9 +69,9 @@ class PackageRepositoryTest {
             )
         )
 
-        val nonSystemApps = subject.getNonSystemApps()
+        val installedApplications = subject.getInstalledApplications()
 
-        assertTrue { nonSystemApps.isEmpty() }
+        assertTrue { installedApplications.isEmpty() }
     }
 
     @Test

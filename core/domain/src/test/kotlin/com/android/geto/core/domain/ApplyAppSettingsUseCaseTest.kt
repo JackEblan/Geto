@@ -71,7 +71,8 @@ class ApplyAppSettingsUseCaseTest {
                 AppSettings(
                     id = 0,
                     enabled = false,
-                    settingsType = SettingsType.SYSTEM, packageName = PACKAGE_NAME_TEST,
+                    settingsType = SettingsType.SYSTEM,
+                    packageName = PACKAGE_NAME_TEST,
                     label = "system",
                     key = "key",
                     valueOnLaunch = "test",
@@ -87,7 +88,7 @@ class ApplyAppSettingsUseCaseTest {
 
     @Test
     fun applyAppSettingsUseCase_launchApp() = runTest {
-        packageRepository.setNonSystemApps(testTargetApplicationInfo)
+        packageRepository.setInstalledApplications(testTargetApplicationInfo)
 
         secureSettingsRepository.setWriteSecureSettings(true)
 
@@ -96,7 +97,8 @@ class ApplyAppSettingsUseCaseTest {
                 AppSettings(
                     id = 0,
                     enabled = true,
-                    settingsType = SettingsType.SYSTEM, packageName = PACKAGE_NAME_TEST,
+                    settingsType = SettingsType.SYSTEM,
+                    packageName = PACKAGE_NAME_TEST,
                     label = "system",
                     key = "key",
                     valueOnLaunch = "test",
@@ -121,7 +123,8 @@ class ApplyAppSettingsUseCaseTest {
                 AppSettings(
                     id = 0,
                     enabled = true,
-                    settingsType = SettingsType.SYSTEM, packageName = PACKAGE_NAME_TEST,
+                    settingsType = SettingsType.SYSTEM,
+                    packageName = PACKAGE_NAME_TEST,
                     label = "system",
                     key = "key",
                     valueOnLaunch = "test",
@@ -133,6 +136,32 @@ class ApplyAppSettingsUseCaseTest {
         val result = applyAppSettingsUseCase(packageName = PACKAGE_NAME_TEST)
 
         assertIs<AppSettingsResult.SecurityException>(result)
+    }
+
+    @Test
+    fun applyAppSettingsUseCase_illegal_argument_exception() = runTest {
+        secureSettingsRepository.setWriteSecureSettings(true)
+
+        secureSettingsRepository.setInvalidValues(true)
+
+        appSettingsRepository.setAppSettings(
+            listOf(
+                AppSettings(
+                    id = 0,
+                    enabled = true,
+                    settingsType = SettingsType.SYSTEM,
+                    packageName = PACKAGE_NAME_TEST,
+                    label = "system",
+                    key = "key",
+                    valueOnLaunch = "test",
+                    valueOnRevert = "test"
+                )
+            )
+        )
+
+        val result = applyAppSettingsUseCase(packageName = PACKAGE_NAME_TEST)
+
+        assertIs<AppSettingsResult.IllegalArgumentException>(result)
     }
 }
 

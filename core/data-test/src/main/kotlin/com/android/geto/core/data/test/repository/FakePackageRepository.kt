@@ -37,7 +37,7 @@ class FakePackageRepository @Inject constructor(
     @Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher
 ) : PackageRepository {
 
-    override suspend fun getNonSystemApps(): List<TargetApplicationInfo> {
+    override suspend fun getInstalledApplications(): List<TargetApplicationInfo> {
         return withContext(ioDispatcher) {
             packageManagerWrapper.getInstalledApplications().filter { applicationInfo ->
                 (applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM) == 0

@@ -113,6 +113,7 @@ internal fun AppSettingsRoute(
     val unsupportedLauncher = stringResource(id = R.string.unsupported_launcher)
     val userIsLocked = stringResource(id = R.string.user_is_locked)
     val copiedToClipboard = stringResource(id = R.string.copied_to_clipboard)
+    val invalidValues = stringResource(R.string.settings_has_invalid_values)
 
     val context = LocalContext.current
 
@@ -167,6 +168,7 @@ internal fun AppSettingsRoute(
                 AppSettingsResult.SecurityException -> showCopyPermissionCommandDialog = true
                 is AppSettingsResult.Success -> it.intent?.let(context::startActivity)
                 AutoLaunchResult.Ignore -> Unit
+                AppSettingsResult.IllegalArgumentException -> snackbarHostState.showSnackbar(message = invalidValues)
             }
 
             viewModel.clearAppSettingsResult()
@@ -182,6 +184,7 @@ internal fun AppSettingsRoute(
                 AppSettingsResult.SecurityException -> showCopyPermissionCommandDialog = true
                 is AppSettingsResult.Success -> snackbarHostState.showSnackbar(message = revertSuccess)
                 AutoLaunchResult.Ignore -> Unit
+                AppSettingsResult.IllegalArgumentException -> snackbarHostState.showSnackbar(message = invalidValues)
             }
 
             viewModel.clearAppSettingsResult()

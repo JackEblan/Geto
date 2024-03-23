@@ -26,7 +26,6 @@ import com.android.geto.core.model.TargetApplicationInfo
 import com.android.geto.core.packagemanager.PackageManagerWrapper
 
 class TestPackageManagerWrapper : PackageManagerWrapper {
-
     private var _installedApplications = listOf<TargetApplicationInfo>()
 
     override fun getInstalledApplications(): List<TargetApplicationInfo> {
@@ -42,7 +41,7 @@ class TestPackageManagerWrapper : PackageManagerWrapper {
     }
 
     /**
-     * A test-only API to set installed applications.
+     * A test-only API to set a list of [TargetApplicationInfo].
      */
     fun setInstalledApplications(value: List<TargetApplicationInfo>) {
         _installedApplications = value

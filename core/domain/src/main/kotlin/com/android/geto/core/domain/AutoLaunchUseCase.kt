@@ -52,6 +52,8 @@ class AutoLaunchUseCase @Inject constructor(
                 }
             } catch (e: SecurityException) {
                 AppSettingsResult.SecurityException
+            } catch (e: IllegalArgumentException) {
+                AppSettingsResult.IllegalArgumentException
             }
 
             else -> AutoLaunchResult.Ignore

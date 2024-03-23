@@ -23,7 +23,7 @@ import android.graphics.drawable.Drawable
 import com.android.geto.core.model.TargetApplicationInfo
 
 interface PackageRepository {
-    suspend fun getNonSystemApps(): List<TargetApplicationInfo>
+    suspend fun getInstalledApplications(): List<TargetApplicationInfo>
 
     suspend fun getApplicationIcon(packageName: String): Drawable?
 

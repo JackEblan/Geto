@@ -25,24 +25,24 @@ import com.android.geto.core.data.repository.PackageRepository
 import com.android.geto.core.model.TargetApplicationInfo
 
 class TestPackageRepository : PackageRepository {
-    private var nonSystemAppsTestData: List<TargetApplicationInfo> = emptyList()
+    private var _installedApplications = listOf<TargetApplicationInfo>()
 
-    override suspend fun getNonSystemApps(): List<TargetApplicationInfo> {
-        return nonSystemAppsTestData
+    override suspend fun getInstalledApplications(): List<TargetApplicationInfo> {
+        return _installedApplications
     }
 
     override suspend fun getApplicationIcon(packageName: String): Drawable? {
-        return if (packageName in nonSystemAppsTestData.map { it.packageName }) ColorDrawable() else null
+        return if (packageName in _installedApplications.map { it.packageName }) ColorDrawable() else null
     }
 
     override fun getLaunchIntentForPackage(packageName: String): Intent? {
-        return if (packageName in nonSystemAppsTestData.map { it.packageName }) Intent() else null
+        return if (packageName in _installedApplications.map { it.packageName }) Intent() else null
     }
 
     /**
-     * A test-only API to add non system apps list data.
+     * A test-only API to set a list of [TargetApplicationInfo].
      */
-    fun setNonSystemApps(value: List<TargetApplicationInfo>) {
-        nonSystemAppsTestData = value
+    fun setInstalledApplications(value: List<TargetApplicationInfo>) {
+        _installedApplications = value
     }
 }

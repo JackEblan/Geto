@@ -26,14 +26,20 @@ import com.android.geto.core.model.SettingsType
 class TestSecureSettingsRepository : SecureSettingsRepository {
     private var writeSecureSettings = false
 
-    private var secureSettingsList: List<SecureSettings> = emptyList()
+    private var invalidValues = false
+
+    private var secureSettingsList = listOf<SecureSettings>()
 
     override suspend fun applySecureSettings(appSettingsList: List<AppSettings>): Boolean {
-        return if (!writeSecureSettings) throw SecurityException() else true
+        return if (!writeSecureSettings) throw SecurityException()
+        else if (invalidValues) throw IllegalArgumentException()
+        else true
     }
 
     override suspend fun revertSecureSettings(appSettingsList: List<AppSettings>): Boolean {
-        return if (!writeSecureSettings) throw SecurityException() else true
+        return if (!writeSecureSettings) throw SecurityException()
+        else if (invalidValues) throw IllegalArgumentException()
+        else true
     }
 
     override suspend fun getSecureSettings(settingsType: SettingsType): List<SecureSettings> {
@@ -48,7 +54,15 @@ class TestSecureSettingsRepository : SecureSettingsRepository {
     }
 
     /**
-     * A test-only API to add secureSettingsList data.
+     * A test-only API to throw Illegal Argument Exception. This is a hidden exception thrown
+     * by the Android Framework when putting invalid values to the Settings Database
+     */
+    fun setInvalidValues(value: Boolean) {
+        invalidValues = value
+    }
+
+    /**
+     * A test-only API to set a list of [SecureSettings].
      */
     fun setSecureSettings(value: List<SecureSettings>) {
         secureSettingsList = value

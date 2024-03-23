@@ -52,7 +52,7 @@ class TestAppSettingsRepository : AppSettingsRepository {
     }
 
     /**
-     * A test-only API to add app settings list data.
+     * A test-only API to set a list of [AppSettings].
      */
     fun setAppSettings(value: List<AppSettings>) {
         _appSettingsFlow.value = value.toMutableList()

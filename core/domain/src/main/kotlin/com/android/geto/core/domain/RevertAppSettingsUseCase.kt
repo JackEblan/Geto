@@ -45,6 +45,8 @@ class RevertAppSettingsUseCase @Inject constructor(
                 }
             } catch (e: SecurityException) {
                 AppSettingsResult.SecurityException
+            } catch (e: IllegalArgumentException) {
+                AppSettingsResult.IllegalArgumentException
             }
         }
     }
