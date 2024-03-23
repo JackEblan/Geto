@@ -28,4 +28,8 @@ interface AppSettingsRepository {
     suspend fun deleteAppSettings(appSettings: AppSettings)
 
     fun getAppSettingsList(packageName: String): Flow<List<AppSettings>>
+
+    fun getAllAppSettingsList(): Flow<List<AppSettings>>
+
+    suspend fun deleteAppSettingsByPackageName(packageNames: List<String>)
 }

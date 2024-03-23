@@ -58,7 +58,7 @@ class SettingsScreenScreenshotTest {
                     )
                 ),
                                onThemeDialog = {},
-                               onDarkDialog = {},
+                               onDarkDialog = {}, onCleanDialog = {},
                                onChangeDynamicColorPreference = {},
                                onNavigationIconClick = {},
                                onChangeAutoLaunchPreference = {})
@@ -72,7 +72,7 @@ class SettingsScreenScreenshotTest {
             GetoTheme {
                 SettingsScreen(settingsUiState = SettingsUiState.Loading,
                                onThemeDialog = {},
-                               onDarkDialog = {},
+                               onDarkDialog = {}, onCleanDialog = {},
                                onChangeDynamicColorPreference = {},
                                onNavigationIconClick = {},
                                onChangeAutoLaunchPreference = {})
@@ -99,7 +99,7 @@ class SettingsScreenScreenshotTest {
                         )
                     ),
                                    onThemeDialog = {},
-                                   onDarkDialog = {},
+                                   onDarkDialog = {}, onCleanDialog = {},
                                    onChangeDynamicColorPreference = {},
                                    onNavigationIconClick = {},
                                    onChangeAutoLaunchPreference = {})
@@ -120,7 +120,7 @@ class SettingsScreenScreenshotTest {
                 GetoBackground {
                     SettingsScreen(settingsUiState = SettingsUiState.Loading,
                                    onThemeDialog = {},
-                                   onDarkDialog = {},
+                                   onDarkDialog = {}, onCleanDialog = {},
                                    onChangeDynamicColorPreference = {},
                                    onNavigationIconClick = {},
                                    onChangeAutoLaunchPreference = {})

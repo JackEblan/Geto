@@ -51,6 +51,16 @@ class TestAppSettingsRepository : AppSettingsRepository {
         }
     }
 
+    override fun getAllAppSettingsList(): Flow<List<AppSettings>> {
+        return _appSettingsFlow.asStateFlow()
+    }
+
+    override suspend fun deleteAppSettingsByPackageName(packageNames: List<String>) {
+        _appSettingsFlow.update { entities ->
+            entities.filterNot { it.packageName in packageNames }
+        }
+    }
+
     /**
      * A test-only API to set a list of [AppSettings].
      */

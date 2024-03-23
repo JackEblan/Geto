@@ -86,6 +86,49 @@ class AppSettingsRepositoryTest {
     }
 
     @Test
+    fun appSettingsRepository_delete_app_settings_by_package_name_delegates_to_dao() = runTest {
+        val oldAppSettings = List(10) { index ->
+            AppSettings(
+                enabled = false,
+                settingsType = SettingsType.GLOBAL,
+                packageName = "com.android.geto",
+                label = "Geto",
+                key = "$index",
+                valueOnLaunch = "0",
+                valueOnRevert = "1"
+            )
+        }
+
+        val newAppSettings = List(10) { index ->
+            AppSettings(
+                enabled = false,
+                settingsType = SettingsType.GLOBAL,
+                packageName = "com.android.sample",
+                label = "Sample",
+                key = "$index",
+                valueOnLaunch = "0",
+                valueOnRevert = "1"
+            )
+        }
+
+        oldAppSettings.forEach { appSettings ->
+            subject.upsertAppSettings(appSettings)
+        }
+
+        newAppSettings.forEach { appSettings ->
+            subject.upsertAppSettings(appSettings)
+        }
+
+        subject.deleteAppSettingsByPackageName(packageNames = listOf("com.android.geto"))
+
+        val appSettingsList = subject.getAllAppSettingsList().first()
+
+        assertFalse {
+            appSettingsList.containsAll(oldAppSettings)
+        }
+    }
+
+    @Test
     fun appSettingsRepository_get_app_settings_list() = runTest {
         val appSettings = AppSettings(
             id = 0,

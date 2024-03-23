@@ -25,7 +25,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.flow.updateAndGet
 
 class TestAppSettingsDao : AppSettingsDao {
     private val _appSettingsFlow = MutableStateFlow(emptyList<AppSettingsEntity>())
@@ -39,8 +38,18 @@ class TestAppSettingsDao : AppSettingsDao {
     }
 
     override suspend fun delete(entity: AppSettingsEntity) {
-        _appSettingsFlow.updateAndGet { entities ->
+        _appSettingsFlow.update { entities ->
             entities.filterNot { it.id == entity.id }
+        }
+    }
+
+    override fun getAllAppSettingsList(): Flow<List<AppSettingsEntity>> {
+        return _appSettingsFlow.asStateFlow()
+    }
+
+    override suspend fun deleteAppSettingsByPackageName(packageNames: List<String>) {
+        _appSettingsFlow.update { entities ->
+            entities.filterNot { it.packageName in packageNames }
         }
     }
 

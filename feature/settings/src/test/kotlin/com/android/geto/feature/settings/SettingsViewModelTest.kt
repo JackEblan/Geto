@@ -18,8 +18,11 @@
 
 package com.android.geto.feature.settings
 
+import com.android.geto.core.domain.CleanAppSettingsUseCase
 import com.android.geto.core.model.DarkThemeConfig
 import com.android.geto.core.model.ThemeBrand
+import com.android.geto.core.testing.repository.TestAppSettingsRepository
+import com.android.geto.core.testing.repository.TestPackageRepository
 import com.android.geto.core.testing.repository.TestUserDataRepository
 import com.android.geto.core.testing.util.MainDispatcherRule
 import kotlinx.coroutines.flow.collect
@@ -38,11 +41,20 @@ class SettingsViewModelTest {
 
     private val userDataRepository = TestUserDataRepository()
 
+    private val packageRepository = TestPackageRepository()
+
+    private val appSettingsRepository = TestAppSettingsRepository()
+
     private lateinit var viewModel: SettingsViewModel
 
     @Before
     fun setup() {
-        viewModel = SettingsViewModel(userDataRepository)
+        viewModel = SettingsViewModel(
+            userDataRepository = userDataRepository,
+            cleanAppSettingsUseCase = CleanAppSettingsUseCase(
+                packageRepository = packageRepository, appSettingsRepository = appSettingsRepository
+            )
+        )
     }
 
     @Test

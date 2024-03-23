@@ -42,7 +42,9 @@ class SettingsScreenTest {
             SettingsScreen(settingsUiState = SettingsUiState.Loading,
                            onThemeDialog = {},
                            onDarkDialog = {},
-                           onChangeDynamicColorPreference = {}, onChangeAutoLaunchPreference = {},
+                           onCleanDialog = {},
+                           onChangeDynamicColorPreference = {},
+                           onChangeAutoLaunchPreference = {},
                            onNavigationIconClick = {})
         }
 
@@ -59,8 +61,12 @@ class SettingsScreenTest {
                     darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
                     useAutoLaunch = false
                 )
-            ), onThemeDialog = {}, onDarkDialog = {},
-                           onChangeDynamicColorPreference = {}, onChangeAutoLaunchPreference = {},
+            ),
+                           onThemeDialog = {},
+                           onDarkDialog = {},
+                           onCleanDialog = {},
+                           onChangeDynamicColorPreference = {},
+                           onChangeAutoLaunchPreference = {},
                            onNavigationIconClick = {})
         }
 
@@ -77,8 +83,13 @@ class SettingsScreenTest {
                     darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
                     useAutoLaunch = false
                 )
-            ), supportDynamicColor = true, onThemeDialog = {}, onDarkDialog = {},
-                           onChangeDynamicColorPreference = {}, onChangeAutoLaunchPreference = {},
+            ),
+                           supportDynamicColor = true,
+                           onThemeDialog = {},
+                           onDarkDialog = {},
+                           onCleanDialog = {},
+                           onChangeDynamicColorPreference = {},
+                           onChangeAutoLaunchPreference = {},
                            onNavigationIconClick = {})
         }
 
@@ -95,8 +106,13 @@ class SettingsScreenTest {
                     darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
                     useAutoLaunch = false
                 )
-            ), supportDynamicColor = true, onThemeDialog = {}, onDarkDialog = {},
-                           onChangeDynamicColorPreference = {}, onChangeAutoLaunchPreference = {},
+            ),
+                           supportDynamicColor = true,
+                           onThemeDialog = {},
+                           onDarkDialog = {},
+                           onCleanDialog = {},
+                           onChangeDynamicColorPreference = {},
+                           onChangeAutoLaunchPreference = {},
                            onNavigationIconClick = {})
         }
 
@@ -113,8 +129,13 @@ class SettingsScreenTest {
                     darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
                     useAutoLaunch = false
                 )
-            ), supportDynamicColor = true, onThemeDialog = {}, onDarkDialog = {},
-                           onChangeDynamicColorPreference = {}, onChangeAutoLaunchPreference = {},
+            ),
+                           supportDynamicColor = true,
+                           onThemeDialog = {},
+                           onDarkDialog = {},
+                           onCleanDialog = {},
+                           onChangeDynamicColorPreference = {},
+                           onChangeAutoLaunchPreference = {},
                            onNavigationIconClick = {})
         }
 
@@ -131,8 +152,13 @@ class SettingsScreenTest {
                     darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
                     useAutoLaunch = false
                 )
-            ), supportDynamicColor = true, onThemeDialog = {}, onDarkDialog = {},
-                           onChangeDynamicColorPreference = {}, onChangeAutoLaunchPreference = {},
+            ),
+                           supportDynamicColor = true,
+                           onThemeDialog = {},
+                           onDarkDialog = {},
+                           onCleanDialog = {},
+                           onChangeDynamicColorPreference = {},
+                           onChangeAutoLaunchPreference = {},
                            onNavigationIconClick = {})
         }
 
@@ -153,7 +179,9 @@ class SettingsScreenTest {
                            supportDynamicColor = false,
                            onThemeDialog = {},
                            onDarkDialog = {},
-                           onChangeDynamicColorPreference = {}, onChangeAutoLaunchPreference = {},
+                           onCleanDialog = {},
+                           onChangeDynamicColorPreference = {},
+                           onChangeAutoLaunchPreference = {},
                            onNavigationIconClick = {})
         }
 
@@ -173,7 +201,7 @@ class SettingsScreenTest {
             ),
                            supportDynamicColor = true,
                            onThemeDialog = {},
-                           onDarkDialog = {},
+                           onDarkDialog = {}, onCleanDialog = {},
                            onChangeDynamicColorPreference = {},
                            onChangeAutoLaunchPreference = {},
                            onNavigationIconClick = {})
@@ -195,7 +223,7 @@ class SettingsScreenTest {
             ),
                            supportDynamicColor = true,
                            onThemeDialog = {},
-                           onDarkDialog = {},
+                           onDarkDialog = {}, onCleanDialog = {},
                            onChangeDynamicColorPreference = {},
                            onChangeAutoLaunchPreference = {},
                            onNavigationIconClick = {})
