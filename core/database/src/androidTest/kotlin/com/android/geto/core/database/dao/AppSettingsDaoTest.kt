@@ -30,6 +30,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 
 class AppSettingsDaoTest {
     private lateinit var appSettingsDao: AppSettingsDao
@@ -81,8 +82,50 @@ class AppSettingsDaoTest {
 
         val userAppSettingsList = appSettingsDao.getAppSettingsList("com.android.geto").first()
 
-        assertEquals(
-            expected = listOf("com.android.geto"),
-            actual = userAppSettingsList.map { it.packageName })
+        assertEquals(expected = listOf("com.android.geto"),
+                     actual = userAppSettingsList.map { it.packageName })
+    }
+
+    @Test
+    fun appSettingsDao_delete_by_package_name() = runTest {
+        val oldAppSettingsEntities = List(10) { index ->
+            AppSettingsEntity(
+                enabled = false,
+                settingsType = SettingsType.GLOBAL,
+                packageName = "com.android.geto",
+                label = "Geto",
+                key = "$index",
+                valueOnLaunch = "0",
+                valueOnRevert = "1"
+            )
+        }
+
+        val newAppSettingsEntities = List(10) { index ->
+            AppSettingsEntity(
+                enabled = false,
+                settingsType = SettingsType.GLOBAL,
+                packageName = "com.android.sample",
+                label = "Sample",
+                key = "$index",
+                valueOnLaunch = "0",
+                valueOnRevert = "1"
+            )
+        }
+
+        oldAppSettingsEntities.forEach { appSettingsEntity ->
+            appSettingsDao.upsert(appSettingsEntity)
+        }
+
+        newAppSettingsEntities.forEach { appSettingsEntity ->
+            appSettingsDao.upsert(appSettingsEntity)
+        }
+
+        appSettingsDao.deleteAppSettingsByPackageName(packageNames = listOf("com.android.geto"))
+
+        val appSettingsList = appSettingsDao.getAllAppSettingsList().first()
+
+        assertFalse {
+            appSettingsList.containsAll(oldAppSettingsEntities)
+        }
     }
 }

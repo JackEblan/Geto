@@ -32,4 +32,7 @@
     <string name="automatically_launch_the_selected_application">Automatically launch the selected application instead of manually clicking the launch icon</string>
     <string name="available_on_android_12">Available on Android 12 +</string>
     <string name="application">Application</string>
+    <string name="clean_app_settings">Clean App Settings</string>
+    <string name="are_you_sure_you_want_to_clean_app_settings_from_the_uninstalled_applications">Are you sure you want to clean app settings from the uninstalled applications?</string>
+    <string name="clean">Clean</string>
 </resources>

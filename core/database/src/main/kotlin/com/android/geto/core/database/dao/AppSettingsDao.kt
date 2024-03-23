@@ -36,4 +36,10 @@ interface AppSettingsDao {
 
     @Query("SELECT * FROM AppSettingsEntity WHERE packageName = :packageName")
     fun getAppSettingsList(packageName: String): Flow<List<AppSettingsEntity>>
+
+    @Query("SELECT * FROM AppSettingsEntity")
+    fun getAllAppSettingsList(): Flow<List<AppSettingsEntity>>
+
+    @Query("DELETE FROM AppSettingsEntity WHERE packageName IN (:packageNames)")
+    suspend fun deleteAppSettingsByPackageName(packageNames: List<String>)
 }

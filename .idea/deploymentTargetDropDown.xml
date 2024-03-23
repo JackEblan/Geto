@@ -2,10 +2,10 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="NavigationTest">
+      <entry key="app">
         <State />
       </entry>
-      <entry key="app">
+      <entry key="appSettingsDao_delete_by_package_name()">
         <State />
       </entry>
       <entry key="feature.shortcut">

@@ -41,6 +41,9 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -55,6 +58,7 @@ import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.designsystem.theme.supportsDynamicTheming
 import com.android.geto.core.model.DarkThemeConfig
 import com.android.geto.core.model.ThemeBrand
+import com.android.geto.feature.settings.dialog.clean.CleanDialog
 import com.android.geto.feature.settings.dialog.dark.DarkDialog
 import com.android.geto.feature.settings.dialog.dark.rememberDarkDialogState
 import com.android.geto.feature.settings.dialog.theme.ThemeDialog
@@ -72,6 +76,10 @@ internal fun SettingsRoute(
     val themeDialogState = rememberThemeDialogState()
 
     val darkDialogState = rememberDarkDialogState()
+
+    var showCleanDialog by remember {
+        mutableStateOf(false)
+    }
 
     LaunchedEffect(key1 = settingsUiState) {
         if (settingsUiState is SettingsUiState.Success) {
@@ -106,11 +114,22 @@ internal fun SettingsRoute(
         )
     }
 
+    if (showCleanDialog) {
+        CleanDialog(onDismissRequest = { showCleanDialog = false }, onClean = {
+            viewModel.cleanAppSettings()
+            showCleanDialog = false
+        }, contentDescription = "Clean Dialog"
+        )
+    }
+
     SettingsScreen(
         modifier = modifier,
         settingsUiState = settingsUiState,
         onThemeDialog = { themeDialogState.updateShowDialog(true) },
         onDarkDialog = { darkDialogState.updateShowDialog(true) },
+        onCleanDialog = {
+            showCleanDialog = true
+        },
         onChangeDynamicColorPreference = viewModel::updateDynamicColorPreference,
         onChangeAutoLaunchPreference = viewModel::updateAutoLaunchPreference,
         onNavigationIconClick = onNavigationIconClick,
@@ -124,7 +143,7 @@ internal fun SettingsScreen(
     settingsUiState: SettingsUiState,
     supportDynamicColor: Boolean = supportsDynamicTheming(),
     onThemeDialog: () -> Unit,
-    onDarkDialog: () -> Unit,
+    onDarkDialog: () -> Unit, onCleanDialog: () -> Unit,
     onChangeDynamicColorPreference: (useDynamicColor: Boolean) -> Unit,
     onChangeAutoLaunchPreference: (useAutoLaunch: Boolean) -> Unit,
     onNavigationIconClick: () -> Unit
@@ -156,7 +175,7 @@ internal fun SettingsScreen(
                         settingsUiState = settingsUiState,
                         supportDynamicColor = supportDynamicColor,
                         onThemeDialog = onThemeDialog,
-                        onDarkDialog = onDarkDialog,
+                        onDarkDialog = onDarkDialog, onCleanDialog = onCleanDialog,
                         onChangeDynamicColorPreference = onChangeDynamicColorPreference,
                         onChangeAutoLaunchPreference = onChangeAutoLaunchPreference
                     )
@@ -180,7 +199,7 @@ fun SuccessState(
     settingsUiState: SettingsUiState.Success,
     supportDynamicColor: Boolean = supportsDynamicTheming(),
     onThemeDialog: () -> Unit,
-    onDarkDialog: () -> Unit,
+    onDarkDialog: () -> Unit, onCleanDialog: () -> Unit,
     onChangeDynamicColorPreference: (useDynamicColor: Boolean) -> Unit,
     onChangeAutoLaunchPreference: (useAutoLaunch: Boolean) -> Unit
 ) {
@@ -306,6 +325,23 @@ fun SuccessState(
                 onCheckedChange = onChangeAutoLaunchPreference
             )
         }
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Column(modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onCleanDialog() }
+            .padding(10.dp)
+            .testTag("settings:clean")) {
+            Text(text = "Clean App Settings", style = MaterialTheme.typography.bodyLarge)
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Text(
+                text = "Remove all app settings from the uninstalled applications",
+                style = MaterialTheme.typography.bodySmall
+            )
+        }
     }
 }
 
@@ -333,7 +369,7 @@ private fun SuccessStatePreview() {
                      ),
                      supportDynamicColor = true,
                      onThemeDialog = {},
-                     onDarkDialog = {},
+                     onDarkDialog = {}, onCleanDialog = {},
                      onChangeDynamicColorPreference = {},
                      onChangeAutoLaunchPreference = {})
     }

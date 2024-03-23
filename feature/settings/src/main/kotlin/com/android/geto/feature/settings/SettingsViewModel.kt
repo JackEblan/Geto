@@ -21,6 +21,7 @@ package com.android.geto.feature.settings
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.android.geto.core.data.repository.UserDataRepository
+import com.android.geto.core.domain.CleanAppSettingsUseCase
 import com.android.geto.core.model.DarkThemeConfig
 import com.android.geto.core.model.ThemeBrand
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -34,13 +35,15 @@ import javax.inject.Inject
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val userDataRepository: UserDataRepository,
+    private val cleanAppSettingsUseCase: CleanAppSettingsUseCase
 ) : ViewModel() {
     val settingsUiState: StateFlow<SettingsUiState> = userDataRepository.userData.map { userData ->
         SettingsUiState.Success(
             settings = UserEditableSettings(
                 brand = userData.themeBrand,
                 useDynamicColor = userData.useDynamicColor,
-                darkThemeConfig = userData.darkThemeConfig, useAutoLaunch = userData.useAutoLaunch
+                darkThemeConfig = userData.darkThemeConfig,
+                useAutoLaunch = userData.useAutoLaunch
             ),
         )
     }.stateIn(
@@ -72,6 +75,12 @@ class SettingsViewModel @Inject constructor(
             userDataRepository.setAutoLaunchPreference(useAutoLaunch)
         }
     }
+
+    fun cleanAppSettings() {
+        viewModelScope.launch {
+            cleanAppSettingsUseCase()
+        }
+    }
 }
 
 /**
@@ -79,8 +88,7 @@ class SettingsViewModel @Inject constructor(
  */
 data class UserEditableSettings(
     val brand: ThemeBrand,
-    val useDynamicColor: Boolean,
-    val darkThemeConfig: DarkThemeConfig, val useAutoLaunch: Boolean
+    val useDynamicColor: Boolean, val darkThemeConfig: DarkThemeConfig, val useAutoLaunch: Boolean
 )
 
 sealed interface SettingsUiState {

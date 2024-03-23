@@ -57,17 +57,17 @@ class AppSettingsViewModelTest {
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
-    private lateinit var packageRepository: TestPackageRepository
+    private val packageRepository = TestPackageRepository()
 
-    private lateinit var appSettingsRepository: TestAppSettingsRepository
+    private val appSettingsRepository = TestAppSettingsRepository()
 
-    private lateinit var secureSettingsRepository: TestSecureSettingsRepository
+    private val secureSettingsRepository = TestSecureSettingsRepository()
 
-    private lateinit var clipboardRepository: TestClipboardRepository
+    private val clipboardRepository = TestClipboardRepository()
 
-    private lateinit var shortcutRepository: TestShortcutRepository
+    private val shortcutRepository = TestShortcutRepository()
 
-    private lateinit var userDataRepository: TestUserDataRepository
+    private val userDataRepository = TestUserDataRepository()
 
     private val savedStateHandle = SavedStateHandle()
 
@@ -75,18 +75,6 @@ class AppSettingsViewModelTest {
 
     @Before
     fun setup() {
-        appSettingsRepository = TestAppSettingsRepository()
-
-        secureSettingsRepository = TestSecureSettingsRepository()
-
-        clipboardRepository = TestClipboardRepository()
-
-        packageRepository = TestPackageRepository()
-
-        shortcutRepository = TestShortcutRepository()
-
-        userDataRepository = TestUserDataRepository()
-
         savedStateHandle[PACKAGE_NAME_ARG] = PACKAGE_NAME_TEST
 
         savedStateHandle[APP_NAME_ARG] = APP_NAME_TEST

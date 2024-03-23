@@ -22,6 +22,7 @@ import com.android.geto.core.data.repository.AppSettingsRepository
 import com.android.geto.core.model.AppSettings
 import com.android.geto.core.model.SettingsType
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
@@ -47,4 +48,10 @@ class FakeAppSettingsRepository @Inject constructor() : AppSettingsRepository {
 
         return flowOf(appSettings)
     }
+
+    override fun getAllAppSettingsList(): Flow<List<AppSettings>> {
+        return emptyFlow()
+    }
+
+    override suspend fun deleteAppSettingsByPackageName(packageNames: List<String>) {}
 }

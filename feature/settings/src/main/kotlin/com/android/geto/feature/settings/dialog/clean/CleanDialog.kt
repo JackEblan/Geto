@@ -16,7 +16,7 @@
  *
  */
 
-package com.android.geto.feature.appsettings.dialog.copypermissioncommand
+package com.android.geto.feature.settings.dialog.clean
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -41,13 +41,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.android.geto.core.designsystem.theme.GetoTheme
-import com.android.geto.feature.appsettings.R
+import com.android.geto.feature.settings.R
 
 @Composable
-internal fun CopyPermissionCommandDialog(
+internal fun CleanDialog(
     modifier: Modifier = Modifier,
     onDismissRequest: () -> Unit,
-    onCopySettings: () -> Unit,
+    onClean: () -> Unit,
     contentDescription: String
 ) {
     Dialog(onDismissRequest = { onDismissRequest() }) {
@@ -59,16 +59,16 @@ internal fun CopyPermissionCommandDialog(
                 .semantics { this.contentDescription = contentDescription },
             shape = RoundedCornerShape(16.dp),
         ) {
-            CopyPermissionCommandDialogScreen(
-                onDismissRequest = onDismissRequest, onCopySettings = onCopySettings
+            CleanDialogScreen(
+                onDismissRequest = onDismissRequest, onClean = onClean
             )
         }
     }
 }
 
 @Composable
-internal fun CopyPermissionCommandDialogScreen(
-    onDismissRequest: () -> Unit, onCopySettings: () -> Unit
+internal fun CleanDialogScreen(
+    onDismissRequest: () -> Unit, onClean: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -79,7 +79,7 @@ internal fun CopyPermissionCommandDialogScreen(
 
         Text(
             modifier = Modifier.padding(horizontal = 5.dp),
-            text = stringResource(R.string.permission_error),
+            text = stringResource(R.string.clean_app_settings),
             style = MaterialTheme.typography.titleLarge
         )
 
@@ -87,7 +87,7 @@ internal fun CopyPermissionCommandDialogScreen(
 
         Text(
             modifier = Modifier.padding(horizontal = 5.dp),
-            text = stringResource(R.string.copy_permission_command_message),
+            text = stringResource(R.string.are_you_sure_you_want_to_clean_app_settings_from_the_uninstalled_applications),
             style = MaterialTheme.typography.bodyLarge
         )
 
@@ -104,12 +104,12 @@ internal fun CopyPermissionCommandDialogScreen(
                 Text(stringResource(id = R.string.cancel))
             }
             TextButton(
-                onClick = { onCopySettings() },
+                onClick = { onClean() },
                 modifier = Modifier
                     .padding(5.dp)
-                    .testTag(":appsettings:copysettingsdialog:copy"),
+                    .testTag(":appsettings:cleandialog:clean"),
             ) {
-                Text(stringResource(R.string.copy))
+                Text(stringResource(R.string.clean))
             }
         }
     }
@@ -117,8 +117,8 @@ internal fun CopyPermissionCommandDialogScreen(
 
 @Preview
 @Composable
-private fun CopyPermissionCommandDialogScreenPreview() {
+private fun CleanDialogScreenPreview() {
     GetoTheme {
-        CopyPermissionCommandDialogScreen(onDismissRequest = {}, onCopySettings = {})
+        CleanDialogScreen(onDismissRequest = {}, onClean = {})
     }
 }
