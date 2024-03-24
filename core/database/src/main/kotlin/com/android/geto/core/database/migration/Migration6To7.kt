@@ -21,28 +21,27 @@ package com.android.geto.core.database.migration
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
-class Migration3To4 : Migration(3, 4) {
+class Migration6To7 : Migration(6, 7) {
     override fun migrate(db: SupportSQLiteDatabase) {
         db.execSQL(
             """
            CREATE TABLE IF NOT EXISTS new_table (
                id INTEGER PRIMARY KEY AUTOINCREMENT,
                enabled INTEGER NOT NULL,
-               settingsType TEXT NOT NULL,
+               settingType TEXT NOT NULL,
                packageName TEXT NOT NULL,
                label TEXT NOT NULL,
                key TEXT NOT NULL,
                valueOnLaunch TEXT NOT NULL,
-               valueOnRevert TEXT NOT NULL,
-               safeToWrite INTEGER NOT NULL DEFAULT 1
+               valueOnRevert TEXT NOT NULL
            )
        """.trimIndent()
         )
 
-        db.execSQL("INSERT INTO new_table (id, enabled, settingsType, packageName, label, key, valueOnLaunch, valueOnRevert) SELECT * FROM AppSettingsItemEntity")
+        db.execSQL("INSERT INTO new_table (id, enabled, settingType, packageName, label, key, valueOnLaunch, valueOnRevert) SELECT id, enabled, settingType, packageName, label, key, valueOnLaunch, valueOnRevert FROM AppSettingsEntity")
 
-        db.execSQL("DROP TABLE AppSettingsItemEntity")
+        db.execSQL("DROP TABLE AppSettingsEntity")
 
-        db.execSQL("ALTER TABLE new_table RENAME TO AppSettingsItemEntity")
+        db.execSQL("ALTER TABLE new_table RENAME TO AppSettingEntity")
     }
 }

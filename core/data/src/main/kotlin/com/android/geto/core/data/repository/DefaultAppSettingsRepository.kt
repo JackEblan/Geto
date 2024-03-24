@@ -33,7 +33,7 @@ class DefaultAppSettingsRepository @Inject constructor(
 ) : AppSettingsRepository {
 
     override val appSettings: Flow<List<AppSetting>> =
-        appSettingsDao.getAppSettings().distinctUntilChanged().map { entities ->
+        appSettingsDao.getAppSettingEntities().distinctUntilChanged().map { entities ->
             entities.map(AppSettingEntity::asExternalModel)
         }
 
@@ -46,13 +46,13 @@ class DefaultAppSettingsRepository @Inject constructor(
     }
 
     override fun getAppSettingsByPackageName(packageName: String): Flow<List<AppSetting>> {
-        return appSettingsDao.getAppSettingsByPackageName(packageName).distinctUntilChanged()
+        return appSettingsDao.getAppSettingEntitiesByPackageName(packageName).distinctUntilChanged()
             .map { entities ->
                 entities.map(AppSettingEntity::asExternalModel)
             }
     }
 
     override suspend fun deleteAppSettingsByPackageName(packageNames: List<String>) {
-        appSettingsDao.deleteAppSettingsByPackageName(packageNames = packageNames)
+        appSettingsDao.deleteAppSettingEntitiesByPackageName(packageNames = packageNames)
     }
 }

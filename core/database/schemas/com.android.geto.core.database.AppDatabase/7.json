@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 7,
-    "identityHash": "47df97d94a8bc8f76aaa5e5df98617b0",
+    "identityHash": "69dea2c00c59fa0a41c2e8336d710fbe",
     "entities": [
       {
         "tableName": "AppSettingEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER, `enabled` INTEGER NOT NULL, `settingType` TEXT NOT NULL, `packageName` TEXT NOT NULL, `label` TEXT NOT NULL, `key` TEXT NOT NULL, `valueOnLaunch` TEXT NOT NULL, `valueOnRevert` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `enabled` INTEGER NOT NULL, `settingType` TEXT NOT NULL, `packageName` TEXT NOT NULL, `label` TEXT NOT NULL, `key` TEXT NOT NULL, `valueOnLaunch` TEXT NOT NULL, `valueOnRevert` TEXT NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -58,7 +58,7 @@
           }
         ],
         "primaryKey": {
-          "autoGenerate": false,
+          "autoGenerate": true,
           "columnNames": [
             "id"
           ]
@@ -70,7 +70,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '47df97d94a8bc8f76aaa5e5df98617b0')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '69dea2c00c59fa0a41c2e8336d710fbe')"
     ]
   }
 }

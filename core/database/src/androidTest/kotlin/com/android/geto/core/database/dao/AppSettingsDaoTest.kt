@@ -29,8 +29,8 @@ import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 class AppSettingsDaoTest {
     private lateinit var appSettingsDao: AppSettingsDao
@@ -38,7 +38,7 @@ class AppSettingsDaoTest {
     private lateinit var db: AppDatabase
 
     @Before
-    fun setup() {
+    fun setUp() {
         val context = ApplicationProvider.getApplicationContext<Context>()
 
         db = Room.inMemoryDatabaseBuilder(
@@ -55,44 +55,40 @@ class AppSettingsDaoTest {
     }
 
     @Test
-    fun appSettingsDao_filters_by_package_name() = runTest {
-        val appSettingEntity1 = AppSettingEntity(
-            enabled = false, settingType = SettingType.GLOBAL,
-            packageName = "com.android.geto",
-            label = "Geto",
-            key = "0",
-            valueOnLaunch = "0",
-            valueOnRevert = "1"
-        )
+    fun appSettingsDao_getAppSettingsByPackageName() = runTest {
+        val appSettingsEntities = List(10) { index ->
+            AppSettingEntity(
+                id = index,
+                enabled = false,
+                settingType = SettingType.GLOBAL,
+                packageName = "com.android.geto",
+                label = "Geto",
+                key = "Geto",
+                valueOnLaunch = "0",
+                valueOnRevert = "1"
+            )
+        }
 
-        val appSettingEntity2 = AppSettingEntity(
-            enabled = false, settingType = SettingType.GLOBAL,
-            packageName = "com.android.settings",
-            label = "Settings",
-            key = "1",
-            valueOnLaunch = "0",
-            valueOnRevert = "1"
-        )
+        appSettingsDao.upsertAppSettingEntities(appSettingsEntities)
 
-        appSettingsDao.upsertAppSettingEntity(appSettingEntity1)
+        val appSettingEntitiesByPackageName =
+            appSettingsDao.getAppSettingEntitiesByPackageName("com.android.geto").first()
 
-        appSettingsDao.upsertAppSettingEntity(appSettingEntity2)
-
-        val userAppSettingsList =
-            appSettingsDao.getAppSettingsByPackageName("com.android.geto").first()
-
-        assertEquals(expected = listOf("com.android.geto"),
-                     actual = userAppSettingsList.map { it.packageName })
+        assertTrue {
+            appSettingEntitiesByPackageName.containsAll(appSettingsEntities)
+        }
     }
 
     @Test
-    fun appSettingsDao_delete_by_package_name() = runTest {
+    fun appSettingsDao_deleteAppSettingsByPackageName() = runTest {
         val oldAppSettingsEntities = List(10) { index ->
             AppSettingEntity(
-                enabled = false, settingType = SettingType.GLOBAL,
-                packageName = "com.android.geto",
+                id = index,
+                enabled = false,
+                settingType = SettingType.GLOBAL,
+                packageName = "com.android.geto.old",
                 label = "Geto",
-                key = "$index",
+                key = "Geto",
                 valueOnLaunch = "0",
                 valueOnRevert = "1"
             )
@@ -100,29 +96,29 @@ class AppSettingsDaoTest {
 
         val newAppSettingsEntities = List(10) { index ->
             AppSettingEntity(
-                enabled = false, settingType = SettingType.GLOBAL,
-                packageName = "com.android.sample",
-                label = "Sample",
+                id = index,
+                enabled = false,
+                settingType = SettingType.GLOBAL,
+                packageName = "com.android.geto.new",
+                label = "Geto",
                 key = "$index",
                 valueOnLaunch = "0",
                 valueOnRevert = "1"
             )
         }
 
-        oldAppSettingsEntities.forEach { appSettingEntity ->
-            appSettingsDao.upsertAppSettingEntity(appSettingEntity)
-        }
+        appSettingsDao.upsertAppSettingEntities(oldAppSettingsEntities + newAppSettingsEntities)
 
-        newAppSettingsEntities.forEach { appSettingEntity ->
-            appSettingsDao.upsertAppSettingEntity(appSettingEntity)
-        }
+        appSettingsDao.deleteAppSettingEntitiesByPackageName(packageNames = listOf("com.android.geto.old"))
 
-        appSettingsDao.deleteAppSettingsByPackageName(packageNames = listOf("com.android.geto"))
-
-        val appSettingsList = appSettingsDao.getAppSettings().first()
+        val appSettingsList = appSettingsDao.getAppSettingEntities().first()
 
         assertFalse {
             appSettingsList.containsAll(oldAppSettingsEntities)
+        }
+
+        assertTrue {
+            appSettingsList.containsAll(newAppSettingsEntities)
         }
     }
 }

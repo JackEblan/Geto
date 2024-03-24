@@ -39,13 +39,10 @@ class Migration4To5 : Migration(4, 5) {
        """.trimIndent()
         )
 
-        // Copy the data from the old table to the new table
         db.execSQL("INSERT INTO new_table (id, enabled, settingsType, packageName, label, key, valueOnLaunch, valueOnRevert, safeToWrite) SELECT * FROM AppSettingsItemEntity")
 
-        // Delete the old table
         db.execSQL("DROP TABLE AppSettingsItemEntity")
 
-        // Rename the new table to the old table name
         db.execSQL("ALTER TABLE new_table RENAME TO AppSettingsEntity")
     }
 }

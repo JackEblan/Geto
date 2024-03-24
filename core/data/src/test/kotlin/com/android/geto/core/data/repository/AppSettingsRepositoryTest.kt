@@ -61,7 +61,7 @@ class AppSettingsRepositoryTest {
         subject.upsertAppSetting(appSetting)
 
         assertTrue {
-            appSetting.asEntity() in appSettingsDao.getAppSettingsByPackageName("com.android.geto")
+            appSetting.asEntity() in appSettingsDao.getAppSettingEntitiesByPackageName("com.android.geto")
                 .first()
         }
     }
@@ -84,7 +84,7 @@ class AppSettingsRepositoryTest {
         subject.deleteAppSetting(appSetting)
 
         assertFalse {
-            appSetting.asEntity() in appSettingsDao.getAppSettingsByPackageName("com.android.geto")
+            appSetting.asEntity() in appSettingsDao.getAppSettingEntitiesByPackageName("com.android.geto")
                 .first()
         }
     }

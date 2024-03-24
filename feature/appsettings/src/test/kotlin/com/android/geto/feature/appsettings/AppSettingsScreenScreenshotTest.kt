@@ -46,7 +46,7 @@ class AppSettingsScreenScreenshotTest {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
-    private val installedApplications = List(5) { index ->
+    private val appSettings = List(5) { index ->
         AppSetting(
             id = index,
             enabled = true,
@@ -65,9 +65,7 @@ class AppSettingsScreenScreenshotTest {
             GetoTheme {
                 AppSettingsScreen(snackbarHostState = SnackbarHostState(),
                                   appName = "Geto",
-                                  appSettingsUiState = AppSettingsUiState.Success(
-                                      installedApplications
-                                  ),
+                                  appSettingsUiState = AppSettingsUiState.Success(appSettings),
                                   onNavigationIconClick = {},
                                   onRevertSettingsIconClick = {},
                                   onSettingsIconClick = {},
@@ -127,9 +125,7 @@ class AppSettingsScreenScreenshotTest {
                 GetoBackground {
                     AppSettingsScreen(snackbarHostState = SnackbarHostState(),
                                       appName = "Geto",
-                                      appSettingsUiState = AppSettingsUiState.Success(
-                                          installedApplications
-                                      ),
+                                      appSettingsUiState = AppSettingsUiState.Success(appSettings),
                                       onNavigationIconClick = {},
                                       onRevertSettingsIconClick = {},
                                       onSettingsIconClick = {},
