@@ -56,8 +56,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.android.geto.core.designsystem.theme.GetoTheme
-import com.android.geto.core.model.SecureSettings
-import com.android.geto.core.model.SettingsType
+import com.android.geto.core.model.SecureSetting
+import com.android.geto.core.model.SettingType
 import com.android.geto.feature.appsettings.R
 
 @Composable
@@ -111,8 +111,7 @@ internal fun AddAppSettingsDialogScreen(
     selectedRadioOptionIndex: Int,
     onUpdateSelectedRadioOptionIndex: (Int) -> Unit,
     secureSettingsExpanded: Boolean,
-    onUpdateSecureSettingsExpanded: (Boolean) -> Unit,
-    secureSettings: List<SecureSettings>,
+    onUpdateSecureSettingsExpanded: (Boolean) -> Unit, secureSettings: List<SecureSetting>,
     label: String,
     labelError: String,
     onUpdateLabel: (String) -> Unit,
@@ -151,7 +150,7 @@ internal fun AddAppSettingsDialogScreen(
                 .fillMaxWidth()
                 .selectableGroup()
         ) {
-            SettingsType.entries.map(SettingsType::name).forEachIndexed { index, text ->
+            SettingType.entries.map(SettingType::name).forEachIndexed { index, text ->
                 Row(
                     Modifier
                         .padding(vertical = 10.dp)

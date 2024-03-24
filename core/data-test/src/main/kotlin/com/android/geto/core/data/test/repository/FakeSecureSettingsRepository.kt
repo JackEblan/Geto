@@ -19,21 +19,21 @@
 package com.android.geto.core.data.test.repository
 
 import com.android.geto.core.data.repository.SecureSettingsRepository
-import com.android.geto.core.model.AppSettings
-import com.android.geto.core.model.SecureSettings
-import com.android.geto.core.model.SettingsType
+import com.android.geto.core.model.AppSetting
+import com.android.geto.core.model.SecureSetting
+import com.android.geto.core.model.SettingType
 import javax.inject.Inject
 
 class FakeSecureSettingsRepository @Inject constructor() : SecureSettingsRepository {
-    override suspend fun applySecureSettings(appSettingsList: List<AppSettings>): Boolean {
+    override suspend fun applySecureSettings(appSettingList: List<AppSetting>): Boolean {
         return true
     }
 
-    override suspend fun revertSecureSettings(appSettingsList: List<AppSettings>): Boolean {
+    override suspend fun revertSecureSettings(appSettingList: List<AppSetting>): Boolean {
         return true
     }
 
-    override suspend fun getSecureSettings(settingsType: SettingsType): List<SecureSettings> {
+    override suspend fun getSecureSettings(settingType: SettingType): List<SecureSetting> {
         return emptyList()
     }
 }

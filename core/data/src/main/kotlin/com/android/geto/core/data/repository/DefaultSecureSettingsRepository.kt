@@ -18,32 +18,32 @@
 
 package com.android.geto.core.data.repository
 
-import com.android.geto.core.model.AppSettings
-import com.android.geto.core.model.SecureSettings
-import com.android.geto.core.model.SettingsType
+import com.android.geto.core.model.AppSetting
+import com.android.geto.core.model.SecureSetting
+import com.android.geto.core.model.SettingType
 import com.android.geto.core.securesettings.SecureSettingsPermissionWrapper
 import javax.inject.Inject
 
 class DefaultSecureSettingsRepository @Inject constructor(
     private val secureSettingsPermissionWrapper: SecureSettingsPermissionWrapper
 ) : SecureSettingsRepository {
-    override suspend fun applySecureSettings(appSettingsList: List<AppSettings>): Boolean {
-        return appSettingsList.all { appSettings ->
+    override suspend fun applySecureSettings(appSettingList: List<AppSetting>): Boolean {
+        return appSettingList.all { appSettings ->
             secureSettingsPermissionWrapper.canWriteSecureSettings(
-                appSettings = appSettings,
+                appSetting = appSettings,
                 valueSelector = { appSettings.valueOnLaunch })
         }
     }
 
-    override suspend fun revertSecureSettings(appSettingsList: List<AppSettings>): Boolean {
-        return appSettingsList.all { appSettings ->
+    override suspend fun revertSecureSettings(appSettingList: List<AppSetting>): Boolean {
+        return appSettingList.all { appSettings ->
             secureSettingsPermissionWrapper.canWriteSecureSettings(
-                appSettings = appSettings,
+                appSetting = appSettings,
                 valueSelector = { appSettings.valueOnRevert })
         }
     }
 
-    override suspend fun getSecureSettings(settingsType: SettingsType): List<SecureSettings> {
-        return secureSettingsPermissionWrapper.getSecureSettings(settingsType)
+    override suspend fun getSecureSettings(settingType: SettingType): List<SecureSetting> {
+        return secureSettingsPermissionWrapper.getSecureSettings(settingType)
     }
 }

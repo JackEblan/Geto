@@ -20,6 +20,8 @@ package com.android.geto.core.domain
 
 import com.android.geto.core.data.repository.AppSettingsRepository
 import com.android.geto.core.data.repository.PackageRepository
+import com.android.geto.core.model.AppSetting
+import com.android.geto.core.model.TargetApplicationInfo
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
@@ -30,10 +32,10 @@ class CleanAppSettingsUseCase @Inject constructor(
 
     suspend operator fun invoke() {
         val packageNamesFromInstalledApplications =
-            packageRepository.getInstalledApplications().map { it.packageName }
+            packageRepository.getInstalledApplications().map(TargetApplicationInfo::packageName)
 
         val packageNamesFromAppSettings =
-            appSettingsRepository.getAllAppSettingsList().first().map { it.packageName }
+            appSettingsRepository.appSettings.first().map(AppSetting::packageName)
 
         val oldPackageNames = packageNamesFromAppSettings.filterNot { packageName ->
             packageName in packageNamesFromInstalledApplications

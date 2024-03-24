@@ -22,24 +22,24 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Query
 import androidx.room.Upsert
-import com.android.geto.core.database.model.AppSettingsEntity
+import com.android.geto.core.database.model.AppSettingEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface AppSettingsDao {
 
     @Upsert
-    suspend fun upsert(entity: AppSettingsEntity)
+    suspend fun upsertAppSettingEntity(entity: AppSettingEntity)
 
     @Delete
-    suspend fun delete(entity: AppSettingsEntity)
+    suspend fun deleteAppSettingEntity(entity: AppSettingEntity)
 
-    @Query("SELECT * FROM AppSettingsEntity WHERE packageName = :packageName")
-    fun getAppSettingsList(packageName: String): Flow<List<AppSettingsEntity>>
+    @Query("SELECT * FROM AppSettingEntity WHERE packageName = :packageName")
+    fun getAppSettingsByPackageName(packageName: String): Flow<List<AppSettingEntity>>
 
-    @Query("SELECT * FROM AppSettingsEntity")
-    fun getAllAppSettingsList(): Flow<List<AppSettingsEntity>>
+    @Query("SELECT * FROM AppSettingEntity")
+    fun getAppSettings(): Flow<List<AppSettingEntity>>
 
-    @Query("DELETE FROM AppSettingsEntity WHERE packageName IN (:packageNames)")
+    @Query("DELETE FROM AppSettingEntity WHERE packageName IN (:packageNames)")
     suspend fun deleteAppSettingsByPackageName(packageNames: List<String>)
 }

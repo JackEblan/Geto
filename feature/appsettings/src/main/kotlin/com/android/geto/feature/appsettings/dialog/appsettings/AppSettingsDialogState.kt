@@ -26,9 +26,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import com.android.geto.core.model.AppSettings
-import com.android.geto.core.model.SecureSettings
-import com.android.geto.core.model.SettingsType
+import com.android.geto.core.model.AppSetting
+import com.android.geto.core.model.SecureSetting
+import com.android.geto.core.model.SettingType
 import com.android.geto.core.resources.ResourcesWrapper
 import com.android.geto.core.ui.LocalResources
 import com.android.geto.feature.appsettings.R
@@ -48,7 +48,7 @@ internal fun rememberAppSettingsDialogState(): AppSettingsDialogState {
 
 @Stable
 internal class AppSettingsDialogState(private val resourcesWrapper: ResourcesWrapper) {
-    var secureSettings by mutableStateOf<List<SecureSettings>>(emptyList())
+    var secureSettings by mutableStateOf<List<SecureSetting>>(emptyList())
 
     var secureSettingsExpanded by mutableStateOf(false)
 
@@ -90,7 +90,7 @@ internal class AppSettingsDialogState(private val resourcesWrapper: ResourcesWra
     @OptIn(FlowPreview::class)
     val keyDebounce = _keyDebounce.debounce(500)
 
-    fun updateSecureSettings(value: List<SecureSettings>) {
+    fun updateSecureSettings(value: List<SecureSetting>) {
         secureSettings = value
     }
 
@@ -133,7 +133,7 @@ internal class AppSettingsDialogState(private val resourcesWrapper: ResourcesWra
         valueOnRevert = ""
     }
 
-    fun getAppSettings(packageName: String): AppSettings? {
+    fun getAppSettings(packageName: String): AppSetting? {
         labelError =
             if (label.isBlank()) resourcesWrapper.getString(R.string.settings_label_is_blank) else ""
 
@@ -151,9 +151,8 @@ internal class AppSettingsDialogState(private val resourcesWrapper: ResourcesWra
             if (valueOnRevert.isBlank()) resourcesWrapper.getString(R.string.settings_value_on_revert_is_blank) else ""
 
         return if (labelError.isBlank() && settingsKeyNotFoundError.isBlank() && keyError.isBlank() && valueOnLaunchError.isBlank() && valueOnRevertError.isBlank()) {
-            AppSettings(
-                enabled = true,
-                settingsType = SettingsType.entries[selectedRadioOptionIndex],
+            AppSetting(
+                enabled = true, settingType = SettingType.entries[selectedRadioOptionIndex],
                 packageName = packageName,
                 label = label,
                 key = key,

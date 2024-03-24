@@ -32,21 +32,21 @@ class AutoLaunchUseCase @Inject constructor(
     private val secureSettingsRepository: SecureSettingsRepository
 ) {
     suspend operator fun invoke(packageName: String): AppSettingsResult {
-        val intent = packageRepository.getLaunchIntentForPackage(packageName)
+        val launchIntent = packageRepository.getLaunchIntentForPackage(packageName)
 
         val userData = userDataRepository.userData.first()
 
-        val appSettingsList = appSettingsRepository.getAppSettingsList(packageName).first()
+        val appSettings = appSettingsRepository.getAppSettingsByPackageName(packageName).first()
 
         return when {
-            appSettingsList.isEmpty() -> AutoLaunchResult.Ignore
+            appSettings.isEmpty() -> AutoLaunchResult.Ignore
 
-            appSettingsList.any { !it.enabled } -> AutoLaunchResult.Ignore
+            appSettings.any { !it.enabled } -> AutoLaunchResult.Ignore
 
             userData.useAutoLaunch -> try {
-                val applied = secureSettingsRepository.applySecureSettings(appSettingsList)
+                val applied = secureSettingsRepository.applySecureSettings(appSettings)
                 if (applied) {
-                    AppSettingsResult.Success(intent = intent)
+                    AppSettingsResult.Success(launchIntent = launchIntent)
                 } else {
                     AppSettingsResult.Failure
                 }

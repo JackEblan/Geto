@@ -26,7 +26,7 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
-import com.android.geto.core.model.SecureSettings
+import com.android.geto.core.model.SecureSetting
 import com.android.geto.core.resources.ResourcesWrapper
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -128,7 +128,7 @@ class AddAppSettingsDialogTest {
                 scrollState = scrollState,
                 onAddSettings = {
                     appSettingsDialogState.updateSecureSettings(
-                        testSecureSettingsList
+                        testSecureSettingList
                     )
 
                     appSettingsDialogState.updateSelectedRadioOptionIndex(1)
@@ -219,7 +219,7 @@ class AddAppSettingsDialogTest {
     @Test
     fun exposedDropdownMenuBoxIsDisplayed_whenSecureSettingsListExpandedIsTrue() {
         composeTestRule.setContent {
-            appSettingsDialogState.updateSecureSettings(testSecureSettingsList)
+            appSettingsDialogState.updateSecureSettings(testSecureSettingList)
 
             AddAppSettingsDialog(
                 addAppSettingsDialogState = appSettingsDialogState,
@@ -251,7 +251,7 @@ class AddAppSettingsDialogTest {
     @Test
     fun keyTextFieldValue_whenSecureSettingsListItemIsClicked() {
         composeTestRule.setContent {
-            appSettingsDialogState.updateSecureSettings(testSecureSettingsList)
+            appSettingsDialogState.updateSecureSettings(testSecureSettingList)
 
             AddAppSettingsDialog(
                 addAppSettingsDialogState = appSettingsDialogState,
@@ -287,6 +287,6 @@ class AddAppSettingsDialogTest {
     }
 }
 
-private val testSecureSettingsList = listOf(
-    SecureSettings(id = 0, name = "name0", value = "value0"),
+private val testSecureSettingList = listOf(
+    SecureSetting(id = 0, name = "name0", value = "value0"),
 )

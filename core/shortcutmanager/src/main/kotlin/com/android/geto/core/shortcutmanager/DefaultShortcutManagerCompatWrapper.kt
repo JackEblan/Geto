@@ -35,12 +35,6 @@ class DefaultShortcutManagerCompatWrapper @Inject constructor(@ApplicationContex
         return ShortcutManagerCompat.isRequestPinShortcutSupported(context)
     }
 
-    override fun createShortcutResultIntent(shortcutInfoCompat: ShortcutInfoCompat): Intent {
-        return ShortcutManagerCompat.createShortcutResultIntent(
-            context, shortcutInfoCompat
-        )
-    }
-
     override fun requestPinShortcut(
         icon: Bitmap?, id: String, shortLabel: String, longLabel: String, intent: Intent
     ): Boolean {
@@ -69,16 +63,6 @@ class DefaultShortcutManagerCompatWrapper @Inject constructor(@ApplicationContex
         }
 
         return ShortcutManagerCompat.updateShortcuts(context, listOf(shortcutInfo))
-    }
-
-    override fun enableShortcuts(id: String) {
-        val shortcutInfo = ShortcutInfoCompat.Builder(context, id).build()
-
-        ShortcutManagerCompat.enableShortcuts(context, listOf(shortcutInfo))
-    }
-
-    override fun disableShortcuts(id: String) {
-        ShortcutManagerCompat.disableShortcuts(context, listOf(id), "Shortcut already disabled")
     }
 
     override fun getShortcuts(matchFlags: Int): List<TargetShortcutInfoCompat> {

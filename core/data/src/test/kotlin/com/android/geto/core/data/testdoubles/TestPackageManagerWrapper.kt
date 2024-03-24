@@ -40,9 +40,6 @@ class TestPackageManagerWrapper : PackageManagerWrapper {
         return if (packageName in _installedApplications.map { it.packageName }) Intent() else null
     }
 
-    /**
-     * A test-only API to set a list of [TargetApplicationInfo].
-     */
     fun setInstalledApplications(value: List<TargetApplicationInfo>) {
         _installedApplications = value
     }

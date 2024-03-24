@@ -19,52 +19,42 @@
 package com.android.geto.core.testing.repository
 
 import com.android.geto.core.data.repository.SecureSettingsRepository
-import com.android.geto.core.model.AppSettings
-import com.android.geto.core.model.SecureSettings
-import com.android.geto.core.model.SettingsType
+import com.android.geto.core.model.AppSetting
+import com.android.geto.core.model.SecureSetting
+import com.android.geto.core.model.SettingType
 
 class TestSecureSettingsRepository : SecureSettingsRepository {
     private var writeSecureSettings = false
 
     private var invalidValues = false
 
-    private var secureSettingsList = listOf<SecureSettings>()
+    private var secureSettingList = listOf<SecureSetting>()
 
-    override suspend fun applySecureSettings(appSettingsList: List<AppSettings>): Boolean {
+    override suspend fun applySecureSettings(appSettingList: List<AppSetting>): Boolean {
         return if (!writeSecureSettings) throw SecurityException()
         else if (invalidValues) throw IllegalArgumentException()
         else true
     }
 
-    override suspend fun revertSecureSettings(appSettingsList: List<AppSettings>): Boolean {
+    override suspend fun revertSecureSettings(appSettingList: List<AppSetting>): Boolean {
         return if (!writeSecureSettings) throw SecurityException()
         else if (invalidValues) throw IllegalArgumentException()
         else true
     }
 
-    override suspend fun getSecureSettings(settingsType: SettingsType): List<SecureSettings> {
-        return secureSettingsList
+    override suspend fun getSecureSettings(settingType: SettingType): List<SecureSetting> {
+        return secureSettingList
     }
 
-    /**
-     * A test-only API to set WRITE_SECURE_SETTINGS_PERMISSION.
-     */
     fun setWriteSecureSettings(value: Boolean) {
         writeSecureSettings = value
     }
 
-    /**
-     * A test-only API to throw Illegal Argument Exception. This is a hidden exception thrown
-     * by the Android Framework when putting invalid values to the Settings Database
-     */
     fun setInvalidValues(value: Boolean) {
         invalidValues = value
     }
 
-    /**
-     * A test-only API to set a list of [SecureSettings].
-     */
-    fun setSecureSettings(value: List<SecureSettings>) {
-        secureSettingsList = value
+    fun setSecureSettings(value: List<SecureSetting>) {
+        secureSettingList = value
     }
 }

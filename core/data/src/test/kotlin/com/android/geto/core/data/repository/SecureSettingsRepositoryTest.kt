@@ -19,8 +19,8 @@
 package com.android.geto.core.data.repository
 
 import com.android.geto.core.data.testdoubles.TestSecureSettingsPermissionWrapper
-import com.android.geto.core.model.AppSettings
-import com.android.geto.core.model.SettingsType
+import com.android.geto.core.model.AppSetting
+import com.android.geto.core.model.SettingType
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
@@ -44,13 +44,12 @@ class SecureSettingsRepositoryTest {
     }
 
     @Test
-    fun secureSettingsRepository_applied_global_settings() = runTest(testDispatcher) {
+    fun secureSettingsRepository_applyGlobalSettings() = runTest(testDispatcher) {
         secureSettingsPermissionWrapper.setWriteSecureSettings(true)
 
-        val appSettingsList = listOf(
-            AppSettings(
-                enabled = true,
-                settingsType = SettingsType.GLOBAL,
+        val appSettings = listOf(
+            AppSetting(
+                enabled = true, settingType = SettingType.GLOBAL,
                 packageName = "com.android.geto",
                 label = "Test",
                 key = "test",
@@ -59,19 +58,18 @@ class SecureSettingsRepositoryTest {
             )
         )
 
-        val result = subject.applySecureSettings(appSettingsList)
+        val result = subject.applySecureSettings(appSettings)
 
         assertTrue(result)
     }
 
     @Test
-    fun secureSettingsRepository_applied_secure_settings() = runTest(testDispatcher) {
+    fun secureSettingsRepository_applySecureSettings() = runTest(testDispatcher) {
         secureSettingsPermissionWrapper.setWriteSecureSettings(true)
 
-        val appSettingsList = listOf(
-            AppSettings(
-                enabled = true,
-                settingsType = SettingsType.SECURE,
+        val appSettings = listOf(
+            AppSetting(
+                enabled = true, settingType = SettingType.SECURE,
                 packageName = "com.android.geto",
                 label = "Test",
                 key = "test",
@@ -80,19 +78,18 @@ class SecureSettingsRepositoryTest {
             )
         )
 
-        val result = subject.applySecureSettings(appSettingsList)
+        val result = subject.applySecureSettings(appSettings)
 
         assertTrue(result)
     }
 
     @Test
-    fun secureSettingsRepository_applied_system_settings() = runTest(testDispatcher) {
+    fun secureSettingsRepository_applySystemSettings() = runTest(testDispatcher) {
         secureSettingsPermissionWrapper.setWriteSecureSettings(true)
 
-        val appSettingsList = listOf(
-            AppSettings(
-                enabled = true,
-                settingsType = SettingsType.SYSTEM,
+        val appSettings = listOf(
+            AppSetting(
+                enabled = true, settingType = SettingType.SYSTEM,
                 packageName = "com.android.geto",
                 label = "Test",
                 key = "test",
@@ -101,19 +98,18 @@ class SecureSettingsRepositoryTest {
             )
         )
 
-        val result = subject.applySecureSettings(appSettingsList)
+        val result = subject.applySecureSettings(appSettings)
 
         assertTrue(result)
     }
 
     @Test
-    fun secureSettingsRepository_reverted_global_settings() = runTest(testDispatcher) {
+    fun secureSettingsRepository_revertGlobalSettings() = runTest(testDispatcher) {
         secureSettingsPermissionWrapper.setWriteSecureSettings(true)
 
-        val appSettingsList = listOf(
-            AppSettings(
-                enabled = true,
-                settingsType = SettingsType.GLOBAL,
+        val appSettings = listOf(
+            AppSetting(
+                enabled = true, settingType = SettingType.GLOBAL,
                 packageName = "com.android.geto",
                 label = "Test",
                 key = "test",
@@ -122,19 +118,18 @@ class SecureSettingsRepositoryTest {
             )
         )
 
-        val result = subject.revertSecureSettings(appSettingsList)
+        val result = subject.revertSecureSettings(appSettings)
 
         assertTrue(result)
     }
 
     @Test
-    fun secureSettingsRepository_reverted_secure_settings() = runTest(testDispatcher) {
+    fun secureSettingsRepository_revertSecureSettings() = runTest(testDispatcher) {
         secureSettingsPermissionWrapper.setWriteSecureSettings(true)
 
-        val appSettingsList = listOf(
-            AppSettings(
-                enabled = true,
-                settingsType = SettingsType.SECURE,
+        val appSettings = listOf(
+            AppSetting(
+                enabled = true, settingType = SettingType.SECURE,
                 packageName = "com.android.geto",
                 label = "Test",
                 key = "test",
@@ -143,19 +138,18 @@ class SecureSettingsRepositoryTest {
             )
         )
 
-        val result = subject.revertSecureSettings(appSettingsList)
+        val result = subject.revertSecureSettings(appSettings)
 
         assertTrue(result)
     }
 
     @Test
-    fun secureSettingsRepository_reverted_system_settings() = runTest(testDispatcher) {
+    fun secureSettingsRepository_revertSystemSettings() = runTest(testDispatcher) {
         secureSettingsPermissionWrapper.setWriteSecureSettings(true)
 
-        val appSettingsList = listOf(
-            AppSettings(
-                enabled = true,
-                settingsType = SettingsType.SYSTEM,
+        val appSettings = listOf(
+            AppSetting(
+                enabled = true, settingType = SettingType.SYSTEM,
                 packageName = "com.android.geto",
                 label = "Test",
                 key = "test",
@@ -164,19 +158,18 @@ class SecureSettingsRepositoryTest {
             )
         )
 
-        val result = subject.revertSecureSettings(appSettingsList)
+        val result = subject.revertSecureSettings(appSettings)
 
         assertTrue(result)
     }
 
     @Test
-    fun secureSettingsRepository_failed_to_apply_global_settings() = runTest(testDispatcher) {
+    fun secureSettingsRepository_applyGlobalSettings_isFailure() = runTest(testDispatcher) {
         secureSettingsPermissionWrapper.setWriteSecureSettings(false)
 
-        val appSettingsList = listOf(
-            AppSettings(
-                enabled = true,
-                settingsType = SettingsType.GLOBAL,
+        val appSettings = listOf(
+            AppSetting(
+                enabled = true, settingType = SettingType.GLOBAL,
                 packageName = "com.android.geto",
                 label = "Test",
                 key = "test",
@@ -185,17 +178,16 @@ class SecureSettingsRepositoryTest {
             )
         )
 
-        assertFailsWith<SecurityException> { subject.applySecureSettings(appSettingsList) }
+        assertFailsWith<SecurityException> { subject.applySecureSettings(appSettings) }
     }
 
     @Test
-    fun secureSettingsRepository_failed_to_apply_secure_settings() = runTest(testDispatcher) {
+    fun secureSettingsRepository_applySecureSettings_isFailure() = runTest(testDispatcher) {
         secureSettingsPermissionWrapper.setWriteSecureSettings(false)
 
-        val appSettingsList = listOf(
-            AppSettings(
-                enabled = true,
-                settingsType = SettingsType.SECURE,
+        val appSettings = listOf(
+            AppSetting(
+                enabled = true, settingType = SettingType.SECURE,
                 packageName = "com.android.geto",
                 label = "Test",
                 key = "test",
@@ -204,17 +196,16 @@ class SecureSettingsRepositoryTest {
             )
         )
 
-        assertFailsWith<SecurityException> { subject.applySecureSettings(appSettingsList) }
+        assertFailsWith<SecurityException> { subject.applySecureSettings(appSettings) }
     }
 
     @Test
-    fun secureSettingsRepository_failed_to_apply_system_settings() = runTest(testDispatcher) {
+    fun secureSettingsRepository_applySystemSettings_isFailure() = runTest(testDispatcher) {
         secureSettingsPermissionWrapper.setWriteSecureSettings(false)
 
-        val appSettingsList = listOf(
-            AppSettings(
-                enabled = true,
-                settingsType = SettingsType.SYSTEM,
+        val appSettings = listOf(
+            AppSetting(
+                enabled = true, settingType = SettingType.SYSTEM,
                 packageName = "com.android.geto",
                 label = "Test",
                 key = "test",
@@ -223,17 +214,16 @@ class SecureSettingsRepositoryTest {
             )
         )
 
-        assertFailsWith<SecurityException> { subject.applySecureSettings(appSettingsList) }
+        assertFailsWith<SecurityException> { subject.applySecureSettings(appSettings) }
     }
 
     @Test
-    fun secureSettingsRepository_failed_to_revert_global_settings() = runTest(testDispatcher) {
+    fun secureSettingsRepository_revertGlobalSettings_isFailure() = runTest(testDispatcher) {
         secureSettingsPermissionWrapper.setWriteSecureSettings(false)
 
-        val appSettingsList = listOf(
-            AppSettings(
-                enabled = true,
-                settingsType = SettingsType.GLOBAL,
+        val appSettings = listOf(
+            AppSetting(
+                enabled = true, settingType = SettingType.GLOBAL,
                 packageName = "com.android.geto",
                 label = "Test",
                 key = "test",
@@ -242,17 +232,16 @@ class SecureSettingsRepositoryTest {
             )
         )
 
-        assertFailsWith<SecurityException> { subject.revertSecureSettings(appSettingsList) }
+        assertFailsWith<SecurityException> { subject.revertSecureSettings(appSettings) }
     }
 
     @Test
-    fun secureSettingsRepository_failed_to_revert_secure_settings() = runTest(testDispatcher) {
+    fun secureSettingsRepository_revertSecureSettings_isFailure() = runTest(testDispatcher) {
         secureSettingsPermissionWrapper.setWriteSecureSettings(false)
 
-        val appSettingsList = listOf(
-            AppSettings(
-                enabled = true,
-                settingsType = SettingsType.SECURE,
+        val appSettings = listOf(
+            AppSetting(
+                enabled = true, settingType = SettingType.SECURE,
                 packageName = "com.android.geto",
                 label = "Test",
                 key = "test",
@@ -261,17 +250,16 @@ class SecureSettingsRepositoryTest {
             )
         )
 
-        assertFailsWith<SecurityException> { subject.revertSecureSettings(appSettingsList) }
+        assertFailsWith<SecurityException> { subject.revertSecureSettings(appSettings) }
     }
 
     @Test
-    fun secureSettingsRepository_failed_to_revert_system_settings() = runTest(testDispatcher) {
+    fun secureSettingsRepository_revertSystemSettings_isFailure() = runTest(testDispatcher) {
         secureSettingsPermissionWrapper.setWriteSecureSettings(false)
 
-        val appSettingsList = listOf(
-            AppSettings(
-                enabled = true,
-                settingsType = SettingsType.SYSTEM,
+        val appSettings = listOf(
+            AppSetting(
+                enabled = true, settingType = SettingType.SYSTEM,
                 packageName = "com.android.geto",
                 label = "Test",
                 key = "test",
@@ -280,6 +268,6 @@ class SecureSettingsRepositoryTest {
             )
         )
 
-        assertFailsWith<SecurityException> { subject.revertSecureSettings(appSettingsList) }
+        assertFailsWith<SecurityException> { subject.revertSecureSettings(appSettings) }
     }
 }

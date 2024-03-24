@@ -22,9 +22,7 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import com.android.geto.core.model.TargetApplicationInfo
 
-/**
- * We have to map the ApplicationInfo to TargetApplicationInfo so we can test this.
- */
+
 fun ApplicationInfo.asTargetApplicationInfo(packageManager: PackageManager): TargetApplicationInfo {
     val label = try {
         packageManager.getApplicationLabel(this)

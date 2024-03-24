@@ -18,39 +18,15 @@
 
 package com.android.geto.core.securesettings
 
-import com.android.geto.core.model.AppSettings
-import com.android.geto.core.model.SecureSettings
-import com.android.geto.core.model.SettingsType
+import com.android.geto.core.model.AppSetting
+import com.android.geto.core.model.SecureSetting
+import com.android.geto.core.model.SettingType
 
 interface SecureSettingsPermissionWrapper {
-
-    /**
-     * Determines if the application has permission to write secure settings.
-     *
-     * Checks if the application has the necessary permissions to modify secure settings.
-     * It takes an instance of [AppSettings] and a lambda function that selects a specific value from
-     * the [AppSettings] to be used in the permission check.
-     *
-     * @param appSettings An instance of [AppSettings] containing the settings of the application.
-     * @param valueSelector A lambda function that takes [AppSettings] as input and returns a [String]
-     * representing the specific setting value to check permissions for.
-     * @return [Boolean] indicating whether the application has permission to write secure settings.
-     * @throws SecurityException if the application does not have the required permissions.
-     */
     suspend fun canWriteSecureSettings(
-        appSettings: AppSettings,
-        valueSelector: (AppSettings) -> String,
+        appSetting: AppSetting,
+        valueSelector: (AppSetting) -> String,
     ): Boolean
 
-    /**
-     * Retrieves a list of secure settings based on the specified settings type.
-     *
-     * Fetches secure settings from the system or application layer, filtered by the
-     * provided [SettingsType]. It is useful for obtaining a collection of settings that match a
-     * particular criteria or category defined by [SettingsType].
-     *
-     * @param settingsType An instance of [SettingsType] indicating the type of settings to retrieve.
-     * @return A list of [SecureSettings] that match the specified [SettingsType].
-     */
-    suspend fun getSecureSettings(settingsType: SettingsType): List<SecureSettings>
+    suspend fun getSecureSettings(settingType: SettingType): List<SecureSetting>
 }

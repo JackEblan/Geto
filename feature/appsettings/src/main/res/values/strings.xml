@@ -23,8 +23,6 @@
     <string name="revert_failure">Settings revert failed</string>
     <string name="revert_success">Settings reverted</string>
     <string name="shortcut_id_not_found">Shortcut id not found</string>
-    <string name="shortcut_disabled">Shortcut disabled</string>
-    <string name="shortcut_enabled">Shortcut enabled</string>
     <string name="shortcut_disable_immutable_shortcuts">Cannot disable immutable shortcuts</string>
     <string name="shortcut_update_immutable_shortcuts">Cannot update immutable shortcuts</string>
     <string name="shortcut_update_failed">Shortcut update failed</string>

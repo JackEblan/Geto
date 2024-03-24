@@ -30,8 +30,6 @@ interface ShortcutRepository {
         icon: Bitmap?, targetShortcutInfoCompat: TargetShortcutInfoCompat
     ): ShortcutResult
 
-    fun enableShortcuts(id: String, enabled: Boolean): ShortcutResult
-
     fun getShortcut(id: String): ShortcutResult
 }
 
@@ -51,10 +49,6 @@ sealed interface ShortcutResult {
     data object ShortcutDisableImmutableShortcuts : ShortcutResult
 
     data object UserIsLocked : ShortcutResult
-
-    data object ShortcutEnable : ShortcutResult
-
-    data object ShortcutDisable : ShortcutResult
 
     data class GetShortcut(
         val targetShortcutInfoCompat: TargetShortcutInfoCompat

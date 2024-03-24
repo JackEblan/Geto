@@ -26,8 +26,8 @@ import androidx.compose.ui.test.longClick
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performTouchInput
-import com.android.geto.core.model.AppSettings
-import com.android.geto.core.model.SettingsType
+import com.android.geto.core.model.AppSetting
+import com.android.geto.core.model.SettingType
 import org.junit.Rule
 import org.junit.Test
 
@@ -76,7 +76,7 @@ class AppSettingsScreenTest {
         composeTestRule.setContent {
             AppSettingsScreen(snackbarHostState = SnackbarHostState(),
                               appName = "Geto",
-                              appSettingsUiState = AppSettingsUiState.Success(testAppSettingsList),
+                              appSettingsUiState = AppSettingsUiState.Success(testAppSettingList),
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
                               onSettingsIconClick = {},
@@ -94,7 +94,7 @@ class AppSettingsScreenTest {
         composeTestRule.setContent {
             AppSettingsScreen(snackbarHostState = SnackbarHostState(),
                               appName = "Geto",
-                              appSettingsUiState = AppSettingsUiState.Success(testAppSettingsList),
+                              appSettingsUiState = AppSettingsUiState.Success(testAppSettingList),
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
                               onSettingsIconClick = {},
@@ -116,7 +116,7 @@ class AppSettingsScreenTest {
         composeTestRule.setContent {
             AppSettingsScreen(snackbarHostState = SnackbarHostState(),
                               appName = "Geto",
-                              appSettingsUiState = AppSettingsUiState.Success(testAppSettingsList),
+                              appSettingsUiState = AppSettingsUiState.Success(testAppSettingList),
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
                               onSettingsIconClick = {},
@@ -138,7 +138,7 @@ class AppSettingsScreenTest {
         composeTestRule.setContent {
             AppSettingsScreen(snackbarHostState = SnackbarHostState(),
                               appName = "Geto",
-                              appSettingsUiState = AppSettingsUiState.Success(testAppSettingsList),
+                              appSettingsUiState = AppSettingsUiState.Success(testAppSettingList),
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
                               onSettingsIconClick = {},
@@ -156,11 +156,10 @@ class AppSettingsScreenTest {
     }
 }
 
-private val testAppSettingsList = List(2) { index ->
-    AppSettings(
+private val testAppSettingList = List(2) { index ->
+    AppSetting(
         id = index,
-        enabled = true,
-        settingsType = SettingsType.SYSTEM,
+        enabled = true, settingType = SettingType.SYSTEM,
         packageName = "packageName$index",
         label = "Label $index", key = "key$index",
         valueOnLaunch = "valueOnLaunch$index",

@@ -44,7 +44,7 @@ class CopyPermissionCommandDialogScreenshotTest {
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     @Test
-    fun copy_permission_command_dialog() {
+    fun copyPermissionCommandDialog() {
         composeTestRule.captureScreenRoboImageMultiDevice(
             path = "CopyPermissionCommandDialog/CopyPermissionCommandDialog"
         ) {
@@ -59,7 +59,7 @@ class CopyPermissionCommandDialogScreenshotTest {
     }
 
     @Test
-    fun copy_permission_command_dialog_dark() {
+    fun copyPermissionCommandDialog_dark() {
         composeTestRule.captureScreenRoboImageForDevice(
             path = "CopyPermissionCommandDialog/CopyPermissionCommandDialog",
             deviceName = "phone_dark",

@@ -24,9 +24,9 @@ import androidx.core.database.getLongOrNull
 import androidx.core.database.getStringOrNull
 import com.android.geto.core.common.Dispatcher
 import com.android.geto.core.common.GetoDispatchers.IO
-import com.android.geto.core.model.AppSettings
-import com.android.geto.core.model.SecureSettings
-import com.android.geto.core.model.SettingsType
+import com.android.geto.core.model.AppSetting
+import com.android.geto.core.model.SecureSetting
+import com.android.geto.core.model.SettingType
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
@@ -46,38 +46,38 @@ class DefaultSecureSettingsPermissionWrapper @Inject constructor(
     )
 
     override suspend fun canWriteSecureSettings(
-        appSettings: AppSettings,
-        valueSelector: (AppSettings) -> String,
+        appSetting: AppSetting,
+        valueSelector: (AppSetting) -> String,
     ): Boolean {
         return withContext(ioDispatcher) {
-            when (appSettings.settingsType) {
-                SettingsType.SYSTEM -> Settings.System.putString(
-                    contentResolver, appSettings.key, valueSelector(appSettings)
+            when (appSetting.settingType) {
+                SettingType.SYSTEM -> Settings.System.putString(
+                    contentResolver, appSetting.key, valueSelector(appSetting)
                 )
 
-                SettingsType.SECURE -> Settings.Secure.putString(
-                    contentResolver, appSettings.key, valueSelector(appSettings)
+                SettingType.SECURE -> Settings.Secure.putString(
+                    contentResolver, appSetting.key, valueSelector(appSetting)
                 )
 
-                SettingsType.GLOBAL -> Settings.Global.putString(
-                    contentResolver, appSettings.key, valueSelector(appSettings)
+                SettingType.GLOBAL -> Settings.Global.putString(
+                    contentResolver, appSetting.key, valueSelector(appSetting)
                 )
             }
         }
     }
 
-    override suspend fun getSecureSettings(settingsType: SettingsType): List<SecureSettings> {
+    override suspend fun getSecureSettings(settingType: SettingType): List<SecureSetting> {
         return withContext(ioDispatcher) {
-            val cursor = when (settingsType) {
-                SettingsType.SYSTEM -> contentResolver.query(
+            val cursor = when (settingType) {
+                SettingType.SYSTEM -> contentResolver.query(
                     Settings.System.CONTENT_URI, settingsProjection, null, null, null
                 )
 
-                SettingsType.SECURE -> contentResolver.query(
+                SettingType.SECURE -> contentResolver.query(
                     Settings.Secure.CONTENT_URI, settingsProjection, null, null, null
                 )
 
-                SettingsType.GLOBAL -> contentResolver.query(
+                SettingType.GLOBAL -> contentResolver.query(
                     Settings.Global.CONTENT_URI, settingsProjection, null, null, null
                 )
             }
@@ -92,7 +92,7 @@ class DefaultSecureSettingsPermissionWrapper @Inject constructor(
                     val name = cursor.getStringOrNull(nameIndex)
                     val value = cursor.getStringOrNull(valueIndex)
 
-                    SecureSettings(
+                    SecureSetting(
                         id = id, name = name, value = value
                     )
                 }.sortedBy { it.name }.toList()

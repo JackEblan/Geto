@@ -32,7 +32,7 @@ class AppListScreenTest {
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     @Test
-    fun getoOverlayLoadingWheel_whenAppListUiStateIsLoading() {
+    fun getoOverlayLoadingWheel_isDisplayed_whenAppListUiState_isLoading() {
         composeTestRule.setContent {
             AppListScreen(appListUiState = AppListUiState.Loading,
                           onItemClick = { _, _ -> },
@@ -43,19 +43,20 @@ class AppListScreenTest {
     }
 
     @Test
-    fun lazyColumnIsDisplayed_whenAppListUiStateIsSuccess() {
+    fun lazyColumn_isDisplayed_whenAppListUiState_isSuccess() {
+        val installedApplications = List(2) { index ->
+            TargetApplicationInfo(
+                flags = 0, packageName = "packageName$index", label = "Label $index"
+            )
+        }
+
         composeTestRule.setContent {
-            AppListScreen(appListUiState = AppListUiState.Success(testTargetApplicationInfoLists),
+            AppListScreen(
+                appListUiState = AppListUiState.Success(installedApplications),
                           onItemClick = { _, _ -> },
                           onSettingsClick = {})
         }
 
         composeTestRule.onNodeWithTag("applist:lazyColumn").assertIsDisplayed()
     }
-}
-
-private val testTargetApplicationInfoLists = List(2) { index ->
-    TargetApplicationInfo(
-        flags = 0, packageName = "packageName$index", label = "Label $index"
-    )
 }

@@ -35,13 +35,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.android.geto.core.designsystem.theme.GetoTheme
-import com.android.geto.core.model.AppSettings
-import com.android.geto.core.model.SettingsType
+import com.android.geto.core.model.AppSetting
+import com.android.geto.core.model.SettingType
 
 @Composable
 fun AppSettingsItem(
     modifier: Modifier = Modifier,
-    appSettings: AppSettings,
+    appSetting: AppSetting,
     onUserAppSettingsItemCheckBoxChange: (Boolean) -> Unit,
     onDeleteUserAppSettingsItem: () -> Unit,
 ) {
@@ -49,25 +49,25 @@ fun AppSettingsItem(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Checkbox(checked = appSettings.enabled, onCheckedChange = {
+        Checkbox(checked = appSetting.enabled, onCheckedChange = {
             onUserAppSettingsItemCheckBoxChange(it)
         })
 
         Column(modifier = Modifier.weight(1f)) {
             Text(
-                text = appSettings.label, style = MaterialTheme.typography.bodyLarge
+                text = appSetting.label, style = MaterialTheme.typography.bodyLarge
             )
 
             Spacer(modifier = Modifier.height(5.dp))
 
             Text(
-                text = appSettings.settingsType.label, style = MaterialTheme.typography.bodySmall
+                text = appSetting.settingType.label, style = MaterialTheme.typography.bodySmall
             )
 
             Spacer(modifier = Modifier.height(5.dp))
 
             Text(
-                text = appSettings.key, style = MaterialTheme.typography.bodySmall
+                text = appSetting.key, style = MaterialTheme.typography.bodySmall
             )
         }
 
@@ -83,10 +83,10 @@ fun AppSettingsItem(
 @Composable
 private fun AppSettingsItemPreview() {
     GetoTheme {
-        AppSettingsItem(appSettings = AppSettings(
+        AppSettingsItem(
+            appSetting = AppSetting(
             id = 0,
-            enabled = false,
-            settingsType = SettingsType.SECURE,
+            enabled = false, settingType = SettingType.SECURE,
             packageName = "com.android.geto",
             label = "Label",
             key = "key",

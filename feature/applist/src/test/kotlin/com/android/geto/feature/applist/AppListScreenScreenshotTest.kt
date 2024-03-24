@@ -45,11 +45,18 @@ class AppListScreenScreenshotTest {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
+    private val installedApplications = List(5) { index ->
+        TargetApplicationInfo(
+            flags = 0, packageName = "packageName$index", label = "Geto $index"
+        )
+    }
+
     @Test
-    fun app_list_populated() {
-        composeTestRule.captureMultiDevice("AppListPopulated") {
+    fun appListScreen_populated() {
+        composeTestRule.captureMultiDevice("AppListScreenPopulated") {
             GetoTheme {
-                AppListScreen(appListUiState = AppListUiState.Success(testTargetApplicationInfoLists),
+                AppListScreen(
+                    appListUiState = AppListUiState.Success(installedApplications),
                               onItemClick = { _, _ -> },
                               onSettingsClick = {})
             }
@@ -57,8 +64,8 @@ class AppListScreenScreenshotTest {
     }
 
     @Test
-    fun app_list_loading() {
-        composeTestRule.captureMultiDevice("AppListLoading") {
+    fun appListScreen_loading() {
+        composeTestRule.captureMultiDevice("AppListScreenLoading") {
             GetoTheme {
                 AppListScreen(appListUiState = AppListUiState.Loading,
                               onItemClick = { _, _ -> },
@@ -68,17 +75,17 @@ class AppListScreenScreenshotTest {
     }
 
     @Test
-    fun app_list_populated_dark() {
+    fun appListScreen_populated_dark() {
         composeTestRule.captureForDevice(
             deviceName = "phone_dark",
             deviceSpec = DefaultTestDevices.PHONE.spec,
-            screenshotName = "AppListPopulated",
+            screenshotName = "AppListScreenPopulated",
             darkMode = true,
         ) {
             GetoTheme {
                 GetoBackground {
                     AppListScreen(appListUiState = AppListUiState.Success(
-                        testTargetApplicationInfoLists
+                        installedApplications
                     ), onItemClick = { _, _ -> }, onSettingsClick = {})
                 }
             }
@@ -86,11 +93,11 @@ class AppListScreenScreenshotTest {
     }
 
     @Test
-    fun app_list_loading_dark() {
+    fun appListScreen_loading_dark() {
         composeTestRule.captureForDevice(
             deviceName = "phone_dark",
             deviceSpec = DefaultTestDevices.PHONE.spec,
-            screenshotName = "AppListLoading",
+            screenshotName = "AppListScreenLoading",
             darkMode = true,
         ) {
             GetoTheme {
@@ -102,10 +109,4 @@ class AppListScreenScreenshotTest {
             }
         }
     }
-}
-
-private val testTargetApplicationInfoLists = List(2) { index ->
-    TargetApplicationInfo(
-        flags = 0, packageName = "packageName$index", label = "Label $index"
-    )
 }

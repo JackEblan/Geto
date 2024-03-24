@@ -18,18 +18,18 @@
 
 package com.android.geto.core.data.repository
 
-import com.android.geto.core.model.AppSettings
+import com.android.geto.core.model.AppSetting
 import kotlinx.coroutines.flow.Flow
 
 interface AppSettingsRepository {
 
-    suspend fun upsertAppSettings(appSettings: AppSettings)
+    val appSettings: Flow<List<AppSetting>>
 
-    suspend fun deleteAppSettings(appSettings: AppSettings)
+    suspend fun upsertAppSetting(appSetting: AppSetting)
 
-    fun getAppSettingsList(packageName: String): Flow<List<AppSettings>>
+    suspend fun deleteAppSetting(appSetting: AppSetting)
 
-    fun getAllAppSettingsList(): Flow<List<AppSettings>>
+    fun getAppSettingsByPackageName(packageName: String): Flow<List<AppSetting>>
 
     suspend fun deleteAppSettingsByPackageName(packageNames: List<String>)
 }

@@ -25,9 +25,9 @@ import com.android.geto.core.domain.AppSettingsResult
 import com.android.geto.core.domain.ApplyAppSettingsUseCase
 import com.android.geto.core.domain.AutoLaunchUseCase
 import com.android.geto.core.domain.RevertAppSettingsUseCase
-import com.android.geto.core.model.AppSettings
-import com.android.geto.core.model.SecureSettings
-import com.android.geto.core.model.SettingsType
+import com.android.geto.core.model.AppSetting
+import com.android.geto.core.model.SecureSetting
+import com.android.geto.core.model.SettingType
 import com.android.geto.core.model.TargetApplicationInfo
 import com.android.geto.core.model.TargetShortcutInfoCompat
 import com.android.geto.core.testing.repository.TestAppSettingsRepository
@@ -71,13 +71,42 @@ class AppSettingsViewModelTest {
 
     private val savedStateHandle = SavedStateHandle()
 
+    private lateinit var applyAppSettingsUseCase: ApplyAppSettingsUseCase
+
+    private lateinit var revertAppSettingsUseCase: RevertAppSettingsUseCase
+
+    private lateinit var autoLaunchUseCase: AutoLaunchUseCase
+
     private lateinit var viewModel: AppSettingsViewModel
+
+    private val packageName = "com.android.geto"
+
+    private val appName = "Geto"
 
     @Before
     fun setup() {
-        savedStateHandle[PACKAGE_NAME_ARG] = PACKAGE_NAME_TEST
+        savedStateHandle[PACKAGE_NAME_ARG] = packageName
 
-        savedStateHandle[APP_NAME_ARG] = APP_NAME_TEST
+        savedStateHandle[APP_NAME_ARG] = appName
+
+        applyAppSettingsUseCase = ApplyAppSettingsUseCase(
+            packageRepository = packageRepository,
+            appSettingsRepository = appSettingsRepository,
+            secureSettingsRepository = secureSettingsRepository
+        )
+
+        revertAppSettingsUseCase = RevertAppSettingsUseCase(
+            appSettingsRepository = appSettingsRepository,
+            secureSettingsRepository = secureSettingsRepository
+        )
+
+        autoLaunchUseCase = AutoLaunchUseCase(
+            packageRepository = packageRepository,
+            userDataRepository = userDataRepository,
+            appSettingsRepository = appSettingsRepository,
+            secureSettingsRepository = secureSettingsRepository
+
+        )
 
         viewModel = AppSettingsViewModel(
             savedStateHandle = savedStateHandle,
@@ -86,51 +115,38 @@ class AppSettingsViewModelTest {
             packageRepository = packageRepository,
             secureSettingsRepository = secureSettingsRepository,
             shortcutRepository = shortcutRepository,
-            applyAppSettingsUseCase = ApplyAppSettingsUseCase(
-                packageRepository = packageRepository,
-                appSettingsRepository = appSettingsRepository,
-                secureSettingsRepository = secureSettingsRepository
-            ),
-            revertAppSettingsUseCase = RevertAppSettingsUseCase(
-                appSettingsRepository = appSettingsRepository,
-                secureSettingsRepository = secureSettingsRepository
-            ),
-            autoLaunchUseCase = AutoLaunchUseCase(
-                packageRepository = packageRepository,
-                userDataRepository = userDataRepository,
-                appSettingsRepository = appSettingsRepository,
-                secureSettingsRepository = secureSettingsRepository
-
-            )
+            applyAppSettingsUseCase = applyAppSettingsUseCase,
+            revertAppSettingsUseCase = revertAppSettingsUseCase,
+            autoLaunchUseCase = autoLaunchUseCase
         )
     }
 
     @Test
-    fun appSettingsUiStateIsLoading_whenStarted() = runTest {
-        assertIs<AppSettingsUiState.Loading>(viewModel.appSettingsUiState.value)
+    fun appSettingsUiState_isLoading_whenStarted() = runTest {
+        assertIs<AppSettingsUiState.Loading>(viewModel.appSettingUiState.value)
     }
 
     @Test
-    fun appSettingsUiStateIsSuccess_whenDataIsNotEmpty() = runTest {
+    fun appSettingsUiState_isSuccess_whenAppSettings_isNotEmpty() = runTest {
         val collectJob =
-            launch(UnconfinedTestDispatcher()) { viewModel.appSettingsUiState.collect() }
+            launch(UnconfinedTestDispatcher()) { viewModel.appSettingUiState.collect() }
 
-        appSettingsRepository.setAppSettings(
-            listOf(
-                AppSettings(
-                    id = 0,
-                    enabled = true,
-                    settingsType = SettingsType.SYSTEM,
-                    packageName = PACKAGE_NAME_TEST,
-                    label = "system",
-                    key = "key",
-                    valueOnLaunch = "test",
-                    valueOnRevert = "test"
-                )
+        val appSettings = List(5) { index ->
+            AppSetting(
+                id = index,
+                enabled = false,
+                settingType = SettingType.SYSTEM,
+                packageName = packageName,
+                label = "Geto",
+                key = "Geto",
+                valueOnLaunch = "0",
+                valueOnRevert = "1"
             )
-        )
+        }
 
-        val item = viewModel.appSettingsUiState.value
+        appSettingsRepository.setAppSettings(appSettings)
+
+        val item = viewModel.appSettingUiState.value
 
         assertIs<AppSettingsUiState.Success>(item)
 
@@ -138,95 +154,45 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun applyAppSettingsResultIsSuccess_whenAutoLaunchApp() = runTest {
-        packageRepository.setInstalledApplications(
-            listOf(
-                TargetApplicationInfo(
-                    flags = 0, packageName = PACKAGE_NAME_TEST, label = "label"
-                )
+    fun applyAppSettingsResult_isSuccess_whenApplySettings() = runTest {
+        val appSettings = List(5) { index ->
+            AppSetting(
+                id = index,
+                enabled = true,
+                settingType = SettingType.SYSTEM,
+                packageName = packageName,
+                label = "Geto",
+                key = "Geto",
+                valueOnLaunch = "0",
+                valueOnRevert = "1"
             )
-        )
+        }
 
-        appSettingsRepository.setAppSettings(
-            listOf(
-                AppSettings(
-                    id = 0,
-                    enabled = true,
-                    settingsType = SettingsType.SYSTEM,
-                    packageName = PACKAGE_NAME_TEST,
-                    label = "system",
-                    key = "key",
-                    valueOnLaunch = "test",
-                    valueOnRevert = "test"
-                )
-            )
-        )
+        appSettingsRepository.setAppSettings(appSettings)
 
         secureSettingsRepository.setWriteSecureSettings(true)
 
         viewModel.applySettings()
 
         assertIs<AppSettingsResult.Success>(viewModel.applyAppSettingsResult.value)
-
     }
 
     @Test
-    fun applyAppSettingsResultIsSuccess_whenApplySettings() = runTest {
-        packageRepository.setInstalledApplications(
-            listOf(
-                TargetApplicationInfo(
-                    flags = 0, packageName = PACKAGE_NAME_TEST, label = "label"
-                )
+    fun applyAppSettingsResult_isSecurityException_whenApplySettings() = runTest {
+        val appSettings = List(5) { index ->
+            AppSetting(
+                id = index,
+                enabled = true,
+                settingType = SettingType.SYSTEM,
+                packageName = packageName,
+                label = "Geto",
+                key = "Geto",
+                valueOnLaunch = "0",
+                valueOnRevert = "1"
             )
-        )
+        }
 
-        appSettingsRepository.setAppSettings(
-            listOf(
-                AppSettings(
-                    id = 0,
-                    enabled = true,
-                    settingsType = SettingsType.SYSTEM,
-                    packageName = PACKAGE_NAME_TEST,
-                    label = "system",
-                    key = "key",
-                    valueOnLaunch = "test",
-                    valueOnRevert = "test"
-                )
-            )
-        )
-
-        secureSettingsRepository.setWriteSecureSettings(true)
-
-        viewModel.applySettings()
-
-        assertIs<AppSettingsResult.Success>(viewModel.applyAppSettingsResult.value)
-
-    }
-
-    @Test
-    fun applyAppSettingsResultIsSecurityException_whenApplySettings() = runTest {
-        packageRepository.setInstalledApplications(
-            listOf(
-                TargetApplicationInfo(
-                    flags = 0, packageName = PACKAGE_NAME_TEST, label = "label"
-                )
-            )
-        )
-
-        appSettingsRepository.setAppSettings(
-            listOf(
-                AppSettings(
-                    id = 0,
-                    enabled = true,
-                    settingsType = SettingsType.SYSTEM,
-                    packageName = PACKAGE_NAME_TEST,
-                    label = "system",
-                    key = "key",
-                    valueOnLaunch = "test",
-                    valueOnRevert = "test"
-                )
-            )
-        )
+        appSettingsRepository.setAppSettings(appSettings)
 
         secureSettingsRepository.setWriteSecureSettings(false)
 
@@ -237,29 +203,21 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun applyAppSettingsResultIsIllegalArgumentException_whenApplySettings() = runTest {
-        packageRepository.setInstalledApplications(
-            listOf(
-                TargetApplicationInfo(
-                    flags = 0, packageName = PACKAGE_NAME_TEST, label = "label"
-                )
+    fun applyAppSettingsResult_isIllegalArgumentException_whenApplySettings() = runTest {
+        val appSettings = List(5) { index ->
+            AppSetting(
+                id = index,
+                enabled = true,
+                settingType = SettingType.SYSTEM,
+                packageName = packageName,
+                label = "Geto",
+                key = "Geto",
+                valueOnLaunch = "0",
+                valueOnRevert = "1"
             )
-        )
+        }
 
-        appSettingsRepository.setAppSettings(
-            listOf(
-                AppSettings(
-                    id = 0,
-                    enabled = true,
-                    settingsType = SettingsType.SYSTEM,
-                    packageName = PACKAGE_NAME_TEST,
-                    label = "system",
-                    key = "key",
-                    valueOnLaunch = "test",
-                    valueOnRevert = "test"
-                )
-            )
-        )
+        appSettingsRepository.setAppSettings(appSettings)
 
         secureSettingsRepository.setWriteSecureSettings(true)
 
@@ -272,31 +230,35 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun applyAppSettingsResultIsEmptyAppSettingsList_whenApplySettings() = runTest {
-        packageRepository.setInstalledApplications(
-            listOf(
-                TargetApplicationInfo(
-                    flags = 0, packageName = PACKAGE_NAME_TEST, label = "label"
-                )
-            )
-        )
+    fun applyAppSettingsResult_isEmptyAppSettingsList_whenApplySettings() = runTest {
+        appSettingsRepository.setAppSettings(emptyList())
 
-        appSettingsRepository.setAppSettings(
-            listOf(
-                AppSettings(
-                    id = 0,
-                    enabled = false,
-                    settingsType = SettingsType.SYSTEM,
-                    packageName = PACKAGE_NAME_TEST,
-                    label = "system",
-                    key = "key",
-                    valueOnLaunch = "test",
-                    valueOnRevert = "test"
-                )
-            )
-        )
+        secureSettingsRepository.setWriteSecureSettings(true)
 
-        secureSettingsRepository.setWriteSecureSettings(false)
+        viewModel.applySettings()
+
+        assertIs<AppSettingsResult.EmptyAppSettings>(viewModel.applyAppSettingsResult.value)
+
+    }
+
+    @Test
+    fun applyAppSettingsResult_isAppSettingsDisabled_whenApplySettings() = runTest {
+        val appSettings = List(5) { index ->
+            AppSetting(
+                id = index,
+                enabled = false,
+                settingType = SettingType.SYSTEM,
+                packageName = packageName,
+                label = "Geto",
+                key = "Geto",
+                valueOnLaunch = "0",
+                valueOnRevert = "1"
+            )
+        }
+
+        appSettingsRepository.setAppSettings(appSettings)
+
+        secureSettingsRepository.setWriteSecureSettings(true)
 
         viewModel.applySettings()
 
@@ -305,51 +267,23 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun applyAppSettingsResultIsAppSettingsDisabled_whenApplySettings() = runTest {
-        packageRepository.setInstalledApplications(
-            listOf(
-                TargetApplicationInfo(
-                    flags = 0, packageName = PACKAGE_NAME_TEST, label = "label"
-                )
+    fun revertAppSettingsResult_isSuccess_whenRevertSettings() = runTest {
+        val appSettings = List(5) { index ->
+            AppSetting(
+                id = index,
+                enabled = true,
+                settingType = SettingType.SYSTEM,
+                packageName = packageName,
+                label = "Geto",
+                key = "Geto",
+                valueOnLaunch = "0",
+                valueOnRevert = "1"
             )
-        )
-
-        appSettingsRepository.setAppSettings(emptyList())
-
-        secureSettingsRepository.setWriteSecureSettings(false)
-
-        viewModel.applySettings()
-
-        assertIs<AppSettingsResult.EmptyAppSettingsList>(viewModel.applyAppSettingsResult.value)
-
-    }
-
-    @Test
-    fun revertAppSettingsResultIsSuccess_whenRevertSettings() = runTest {
-        packageRepository.setInstalledApplications(
-            listOf(
-                TargetApplicationInfo(
-                    flags = 0, packageName = PACKAGE_NAME_TEST, label = "label"
-                )
-            )
-        )
-
-        appSettingsRepository.setAppSettings(
-            listOf(
-                AppSettings(
-                    id = 0,
-                    enabled = true,
-                    settingsType = SettingsType.SYSTEM,
-                    packageName = PACKAGE_NAME_TEST,
-                    label = "system",
-                    key = "key",
-                    valueOnLaunch = "test",
-                    valueOnRevert = "test"
-                )
-            )
-        )
+        }
 
         secureSettingsRepository.setWriteSecureSettings(true)
+
+        appSettingsRepository.setAppSettings(appSettings)
 
         viewModel.revertSettings()
 
@@ -358,31 +292,23 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun revertAppSettingsResultIsSecurityException_whenRevertSettings() = runTest {
-        packageRepository.setInstalledApplications(
-            listOf(
-                TargetApplicationInfo(
-                    flags = 0, packageName = PACKAGE_NAME_TEST, label = "label"
-                )
+    fun revertAppSettingsResult_isSecurityException_whenRevertSettings() = runTest {
+        val appSettings = List(5) { index ->
+            AppSetting(
+                id = index,
+                enabled = true,
+                settingType = SettingType.SYSTEM,
+                packageName = packageName,
+                label = "Geto",
+                key = "Geto",
+                valueOnLaunch = "0",
+                valueOnRevert = "1"
             )
-        )
-
-        appSettingsRepository.setAppSettings(
-            listOf(
-                AppSettings(
-                    id = 0,
-                    enabled = true,
-                    settingsType = SettingsType.SYSTEM,
-                    packageName = PACKAGE_NAME_TEST,
-                    label = "system",
-                    key = "key",
-                    valueOnLaunch = "test",
-                    valueOnRevert = "test"
-                )
-            )
-        )
+        }
 
         secureSettingsRepository.setWriteSecureSettings(false)
+
+        appSettingsRepository.setAppSettings(appSettings)
 
         viewModel.revertSettings()
 
@@ -391,29 +317,21 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun revertAppSettingsResultIsIllegalArgumentException_whenRevertSettings() = runTest {
-        packageRepository.setInstalledApplications(
-            listOf(
-                TargetApplicationInfo(
-                    flags = 0, packageName = PACKAGE_NAME_TEST, label = "label"
-                )
+    fun revertAppSettingsResultI_isIllegalArgumentException_whenRevertSettings() = runTest {
+        val appSettings = List(5) { index ->
+            AppSetting(
+                id = index,
+                enabled = true,
+                settingType = SettingType.SYSTEM,
+                packageName = packageName,
+                label = "Geto",
+                key = "Geto",
+                valueOnLaunch = "0",
+                valueOnRevert = "1"
             )
-        )
+        }
 
-        appSettingsRepository.setAppSettings(
-            listOf(
-                AppSettings(
-                    id = 0,
-                    enabled = true,
-                    settingsType = SettingsType.SYSTEM,
-                    packageName = PACKAGE_NAME_TEST,
-                    label = "system",
-                    key = "key",
-                    valueOnLaunch = "test",
-                    valueOnRevert = "test"
-                )
-            )
-        )
+        appSettingsRepository.setAppSettings(appSettings)
 
         secureSettingsRepository.setWriteSecureSettings(true)
 
@@ -426,31 +344,33 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun revertAppSettingsResultIsEmptyAppSettingsList_whenRevertSettings() = runTest {
-        packageRepository.setInstalledApplications(
-            listOf(
-                TargetApplicationInfo(
-                    flags = 0, packageName = PACKAGE_NAME_TEST, label = "label"
-                )
-            )
-        )
+    fun revertAppSettingsResult_isEmptyAppSettingsList_whenRevertSettings() = runTest {
+        appSettingsRepository.setAppSettings(emptyList())
 
-        appSettingsRepository.setAppSettings(
-            listOf(
-                AppSettings(
-                    id = 0,
-                    enabled = false,
-                    settingsType = SettingsType.SYSTEM,
-                    packageName = PACKAGE_NAME_TEST,
-                    label = "system",
-                    key = "key",
-                    valueOnLaunch = "test",
-                    valueOnRevert = "test"
-                )
-            )
-        )
+        viewModel.revertSettings()
 
-        secureSettingsRepository.setWriteSecureSettings(false)
+        assertIs<AppSettingsResult.EmptyAppSettings>(viewModel.revertAppSettingsResult.value)
+
+    }
+
+    @Test
+    fun revertAppSettingsResult_isAppSettingsDisabled_whenRevertSettings() = runTest {
+        val appSettings = List(5) { index ->
+            AppSetting(
+                id = index,
+                enabled = false,
+                settingType = SettingType.SYSTEM,
+                packageName = packageName,
+                label = "Geto",
+                key = "Geto",
+                valueOnLaunch = "0",
+                valueOnRevert = "1"
+            )
+        }
+
+        appSettingsRepository.setAppSettings(appSettings)
+
+        secureSettingsRepository.setWriteSecureSettings(true)
 
         viewModel.revertSettings()
 
@@ -459,29 +379,8 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun revertAppSettingsResultIsAppSettingsDisabled_whenRevertSettings() = runTest {
-        packageRepository.setInstalledApplications(
-            listOf(
-                TargetApplicationInfo(
-                    flags = 0, packageName = PACKAGE_NAME_TEST, label = "label"
-                )
-            )
-        )
-
-        appSettingsRepository.setAppSettings(emptyList())
-
-        secureSettingsRepository.setWriteSecureSettings(false)
-
-        viewModel.revertSettings()
-
-        assertIs<AppSettingsResult.EmptyAppSettingsList>(viewModel.revertAppSettingsResult.value)
-
-    }
-
-    @Test
-    fun clipboardResultIsNotify_whenCopyPermissionCommand() = runTest {
-
-        clipboardRepository.setApi32(false)
+    fun clipboardResult_isNotify_whenCopyPermissionCommand() = runTest {
+        clipboardRepository.setApi32AndHigher(false)
 
         viewModel.copyPermissionCommand()
 
@@ -490,9 +389,8 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun clipboardResultIsHideNotify_whenCopyPermissionCommand() = runTest {
-
-        clipboardRepository.setApi32(true)
+    fun clipboardResult_isHideNotify_whenCopyPermissionCommand() = runTest {
+        clipboardRepository.setApi32AndHigher(true)
 
         viewModel.copyPermissionCommand()
 
@@ -501,10 +399,14 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun secureSettingsIsNotEmpty_whenGetSecureSettings() = runTest {
-        secureSettingsRepository.setSecureSettings(testSecureSettingsList)
+    fun secureSettings_isNotEmpty_whenGetSecureSettings() = runTest {
+        val secureSettings = List(5) { index ->
+            SecureSetting(id = index.toLong(), name = "Geto", value = "0")
+        }
 
-        viewModel.getSecureSettings(text = "name0", settingsType = SettingsType.GLOBAL)
+        secureSettingsRepository.setSecureSettings(secureSettings)
+
+        viewModel.getSecureSettings(text = "Geto", settingType = SettingType.GLOBAL)
 
         val item = viewModel.secureSettings.value
 
@@ -512,10 +414,14 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun secureSettingsIsEmpty_whenGetSecureSettings() = runTest {
-        secureSettingsRepository.setSecureSettings(testSecureSettingsList)
+    fun secureSettings_isEmpty_whenGetSecureSettings() = runTest {
+        val secureSettings = List(5) { index ->
+            SecureSetting(id = index.toLong(), name = "Geto", value = "0")
+        }
 
-        viewModel.getSecureSettings(text = "nameNotFound", settingsType = SettingsType.GLOBAL)
+        secureSettingsRepository.setSecureSettings(secureSettings)
+
+        viewModel.getSecureSettings(text = "_", settingType = SettingType.GLOBAL)
 
         val item = viewModel.secureSettings.value
 
@@ -523,7 +429,7 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun shortcutResultIsSupportedLauncher_whenRequestPinShortcut() = runTest {
+    fun shortcutResult_isSupportedLauncher_whenRequestPinShortcut() = runTest {
         shortcutRepository.setRequestPinShortcutSupported(true)
 
         viewModel.requestPinShortcut(
@@ -536,7 +442,7 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun shortcutResultIsUnSupportedLauncher_whenRequestPinShortcut() = runTest {
+    fun shortcutResult_isUnSupportedLauncher_whenRequestPinShortcut() = runTest {
         shortcutRepository.setRequestPinShortcutSupported(false)
 
         viewModel.requestPinShortcut(
@@ -549,12 +455,12 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun shortcutResultIsShortcutUpdateImmutableShortcuts_whenUpdateRequestPinShortcut() = runTest {
+    fun shortcutResult_isShortcutUpdateImmutableShortcuts_whenUpdateRequestPinShortcut() = runTest {
         shortcutRepository.setUpdateImmutableShortcuts(true)
 
         viewModel.updateRequestPinShortcut(
             targetShortcutInfoCompat = TargetShortcutInfoCompat(
-                id = "0", shortLabel = "shortLabel", longLabel = "longLabel"
+                id = "0", shortLabel = "Geto", longLabel = "Geto"
             )
         )
 
@@ -562,12 +468,12 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun shortcutResultIsShortcutUpdateSuccess_whenUpdateRequestPinShortcut() = runTest {
+    fun shortcutResult_isShortcutUpdateSuccess_whenUpdateRequestPinShortcut() = runTest {
         shortcutRepository.setUpdateImmutableShortcuts(false)
 
         viewModel.updateRequestPinShortcut(
             targetShortcutInfoCompat = TargetShortcutInfoCompat(
-                id = "0", shortLabel = "shortLabel", longLabel = "longLabel"
+                id = "0", shortLabel = "Geto", longLabel = "Geto"
             )
         )
 
@@ -575,10 +481,16 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun shortcutResultIsGetShortcut_whenGetShortcut() = runTest {
+    fun shortcutResult_isGetShortcut_whenGetShortcut() = runTest {
+        val shortcuts = List(2) {
+            TargetShortcutInfoCompat(
+                id = "com.android.geto", shortLabel = "Geto", longLabel = "Geto"
+            )
+        }
+
         shortcutRepository.setUpdateImmutableShortcuts(false)
 
-        shortcutRepository.setShortcuts(testShortcutsLists)
+        shortcutRepository.setShortcuts(shortcuts)
 
         viewModel.getShortcut()
 
@@ -586,10 +498,16 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun shortcutResultIsNoShortcut_whenGetShortcut() = runTest {
+    fun shortcutResult_isNoShortcut_whenGetShortcut() = runTest {
+        val shortcuts = List(2) {
+            TargetShortcutInfoCompat(
+                id = "com.android.geto", shortLabel = "Geto", longLabel = "Geto"
+            )
+        }
+
         shortcutRepository.setUpdateImmutableShortcuts(false)
 
-        shortcutRepository.setShortcuts(testShortcutsLists)
+        shortcutRepository.setShortcuts(shortcuts)
 
         viewModel.getShortcut("")
 
@@ -597,8 +515,14 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun applicationIconIsNotNull_whenGetApplicationIcon() = runTest {
-        packageRepository.setInstalledApplications(testTargetApplicationInfo)
+    fun applicationIcon_isNotNull_whenGetApplicationIcon() = runTest {
+        val installedApplications = List(1) { _ ->
+            TargetApplicationInfo(
+                flags = 0, packageName = "com.android.geto", label = "Geto"
+            )
+        }
+
+        packageRepository.setInstalledApplications(installedApplications)
 
         viewModel.getApplicationIcon()
 
@@ -606,31 +530,17 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun applicationIconIsNull_whenGetApplicationIcon() = runTest {
-        packageRepository.setInstalledApplications(testTargetApplicationInfo)
+    fun applicationIcon_isNull_whenGetApplicationIcon() = runTest {
+        val installedApplications = List(1) { _ ->
+            TargetApplicationInfo(
+                flags = 0, packageName = "com.android.geto", label = "Geto"
+            )
+        }
+
+        packageRepository.setInstalledApplications(installedApplications)
 
         viewModel.getApplicationIcon("")
 
         assertNull(viewModel.applicationIcon.value)
     }
 }
-
-
-private const val PACKAGE_NAME_TEST = "packageNameTest"
-
-private const val APP_NAME_TEST = "appNameTest"
-
-private val testTargetApplicationInfo = listOf(
-    TargetApplicationInfo(flags = 0, packageName = PACKAGE_NAME_TEST, label = "Label 0"),
-    TargetApplicationInfo(flags = 0, packageName = PACKAGE_NAME_TEST, label = "Label 1")
-)
-
-private val testSecureSettingsList = listOf(
-    SecureSettings(id = 0L, name = "name0", value = "value0"),
-    SecureSettings(id = 1L, name = "name1", value = "value1")
-)
-
-private val testShortcutsLists = listOf(
-    TargetShortcutInfoCompat(id = PACKAGE_NAME_TEST),
-    TargetShortcutInfoCompat(id = PACKAGE_NAME_TEST),
-)

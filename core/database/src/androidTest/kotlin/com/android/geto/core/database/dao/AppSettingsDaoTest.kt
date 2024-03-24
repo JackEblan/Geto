@@ -22,8 +22,8 @@ import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import com.android.geto.core.database.AppDatabase
-import com.android.geto.core.database.model.AppSettingsEntity
-import com.android.geto.core.model.SettingsType
+import com.android.geto.core.database.model.AppSettingEntity
+import com.android.geto.core.model.SettingType
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -56,9 +56,8 @@ class AppSettingsDaoTest {
 
     @Test
     fun appSettingsDao_filters_by_package_name() = runTest {
-        val appSettingsEntity1 = AppSettingsEntity(
-            enabled = false,
-            settingsType = SettingsType.GLOBAL,
+        val appSettingEntity1 = AppSettingEntity(
+            enabled = false, settingType = SettingType.GLOBAL,
             packageName = "com.android.geto",
             label = "Geto",
             key = "0",
@@ -66,9 +65,8 @@ class AppSettingsDaoTest {
             valueOnRevert = "1"
         )
 
-        val appSettingsEntity2 = AppSettingsEntity(
-            enabled = false,
-            settingsType = SettingsType.GLOBAL,
+        val appSettingEntity2 = AppSettingEntity(
+            enabled = false, settingType = SettingType.GLOBAL,
             packageName = "com.android.settings",
             label = "Settings",
             key = "1",
@@ -76,11 +74,12 @@ class AppSettingsDaoTest {
             valueOnRevert = "1"
         )
 
-        appSettingsDao.upsert(appSettingsEntity1)
+        appSettingsDao.upsertAppSettingEntity(appSettingEntity1)
 
-        appSettingsDao.upsert(appSettingsEntity2)
+        appSettingsDao.upsertAppSettingEntity(appSettingEntity2)
 
-        val userAppSettingsList = appSettingsDao.getAppSettingsList("com.android.geto").first()
+        val userAppSettingsList =
+            appSettingsDao.getAppSettingsByPackageName("com.android.geto").first()
 
         assertEquals(expected = listOf("com.android.geto"),
                      actual = userAppSettingsList.map { it.packageName })
@@ -89,9 +88,8 @@ class AppSettingsDaoTest {
     @Test
     fun appSettingsDao_delete_by_package_name() = runTest {
         val oldAppSettingsEntities = List(10) { index ->
-            AppSettingsEntity(
-                enabled = false,
-                settingsType = SettingsType.GLOBAL,
+            AppSettingEntity(
+                enabled = false, settingType = SettingType.GLOBAL,
                 packageName = "com.android.geto",
                 label = "Geto",
                 key = "$index",
@@ -101,9 +99,8 @@ class AppSettingsDaoTest {
         }
 
         val newAppSettingsEntities = List(10) { index ->
-            AppSettingsEntity(
-                enabled = false,
-                settingsType = SettingsType.GLOBAL,
+            AppSettingEntity(
+                enabled = false, settingType = SettingType.GLOBAL,
                 packageName = "com.android.sample",
                 label = "Sample",
                 key = "$index",
@@ -112,17 +109,17 @@ class AppSettingsDaoTest {
             )
         }
 
-        oldAppSettingsEntities.forEach { appSettingsEntity ->
-            appSettingsDao.upsert(appSettingsEntity)
+        oldAppSettingsEntities.forEach { appSettingEntity ->
+            appSettingsDao.upsertAppSettingEntity(appSettingEntity)
         }
 
-        newAppSettingsEntities.forEach { appSettingsEntity ->
-            appSettingsDao.upsert(appSettingsEntity)
+        newAppSettingsEntities.forEach { appSettingEntity ->
+            appSettingsDao.upsertAppSettingEntity(appSettingEntity)
         }
 
         appSettingsDao.deleteAppSettingsByPackageName(packageNames = listOf("com.android.geto"))
 
-        val appSettingsList = appSettingsDao.getAllAppSettingsList().first()
+        val appSettingsList = appSettingsDao.getAppSettings().first()
 
         assertFalse {
             appSettingsList.containsAll(oldAppSettingsEntities)

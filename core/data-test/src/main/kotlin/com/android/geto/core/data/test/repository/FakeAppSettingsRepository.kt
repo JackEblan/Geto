@@ -19,25 +19,25 @@
 package com.android.geto.core.data.test.repository
 
 import com.android.geto.core.data.repository.AppSettingsRepository
-import com.android.geto.core.model.AppSettings
-import com.android.geto.core.model.SettingsType
+import com.android.geto.core.model.AppSetting
+import com.android.geto.core.model.SettingType
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
 class FakeAppSettingsRepository @Inject constructor() : AppSettingsRepository {
+    override val appSettings: Flow<List<AppSetting>> = emptyFlow()
 
-    override suspend fun upsertAppSettings(appSettings: AppSettings) {}
+    override suspend fun upsertAppSetting(appSetting: AppSetting) {}
 
-    override suspend fun deleteAppSettings(appSettings: AppSettings) {}
+    override suspend fun deleteAppSetting(appSetting: AppSetting) {}
 
-    override fun getAppSettingsList(packageName: String): Flow<List<AppSettings>> {
+    override fun getAppSettingsByPackageName(packageName: String): Flow<List<AppSetting>> {
         val appSettings = List(5) { index ->
-            AppSettings(
+            AppSetting(
                 id = index,
-                enabled = false,
-                settingsType = SettingsType.SECURE,
+                enabled = false, settingType = SettingType.SECURE,
                 packageName = "com.android.geto$index",
                 label = "Geto $index",
                 key = "key$index",
@@ -47,10 +47,6 @@ class FakeAppSettingsRepository @Inject constructor() : AppSettingsRepository {
         }
 
         return flowOf(appSettings)
-    }
-
-    override fun getAllAppSettingsList(): Flow<List<AppSettings>> {
-        return emptyFlow()
     }
 
     override suspend fun deleteAppSettingsByPackageName(packageNames: List<String>) {}

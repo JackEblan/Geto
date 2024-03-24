@@ -45,44 +45,39 @@ class PackageRepositoryTest {
     }
 
     @Test
-    fun packageRepository_get_installed_applications_is_not_empty() = runTest(testDispatcher) {
-        packageManagerWrapper.setInstalledApplications(
-            listOf(
-                TargetApplicationInfo(
-                    flags = 0, packageName = "Test", label = "Test"
-                )
+    fun packageRepository_getInstalledApplications_isNotEmpty() = runTest(testDispatcher) {
+        val installedApplications = List(20) { index ->
+            TargetApplicationInfo(
+                flags = 0, packageName = "com.android.geto$index", label = "Geto $index"
             )
-        )
+        }
+        packageManagerWrapper.setInstalledApplications(installedApplications)
 
-        val installedApplications = subject.getInstalledApplications()
-
-        assertTrue { installedApplications.isNotEmpty() }
+        assertTrue { subject.getInstalledApplications().isNotEmpty() }
     }
 
     @Test
-    fun packageRepository_get_installed_applications_is_empty() = runTest(testDispatcher) {
-        packageManagerWrapper.setInstalledApplications(
-            listOf(
-                TargetApplicationInfo(
-                    flags = 1, packageName = "Test", label = "Test"
-                )
+    fun packageRepository_getInstalledApplications_isEmpty() = runTest(testDispatcher) {
+        val installedApplications = List(20) { index ->
+            TargetApplicationInfo(
+                flags = 1, packageName = "com.android.geto$index", label = "Geto $index"
             )
-        )
+        }
 
-        val installedApplications = subject.getInstalledApplications()
+        packageManagerWrapper.setInstalledApplications(installedApplications)
 
-        assertTrue { installedApplications.isEmpty() }
+        assertTrue { subject.getInstalledApplications().isEmpty() }
     }
 
     @Test
-    fun packageRepository_get_application_icon_not_found() = runTest(testDispatcher) {
-        packageManagerWrapper.setInstalledApplications(
-            listOf(
-                TargetApplicationInfo(
-                    flags = 0, packageName = "Test", label = "Test"
-                )
+    fun packageRepository_getApplicationIcon_isNull() = runTest(testDispatcher) {
+        val installedApplications = List(20) { index ->
+            TargetApplicationInfo(
+                flags = 0, packageName = "com.android.geto$index", label = "Geto $index"
             )
-        )
+        }
+
+        packageManagerWrapper.setInstalledApplications(installedApplications)
 
         val applicationIcon = subject.getApplicationIcon("")
 
@@ -90,47 +85,47 @@ class PackageRepositoryTest {
     }
 
     @Test
-    fun packageRepository_get_application_icon_found() = runTest(testDispatcher) {
-        packageManagerWrapper.setInstalledApplications(
-            listOf(
-                TargetApplicationInfo(
-                    flags = 0, packageName = "Test", label = "Test"
-                )
+    fun packageRepository_getApplicationIcon_isNotNull() = runTest(testDispatcher) {
+        val installedApplications = List(20) { index ->
+            TargetApplicationInfo(
+                flags = 0, packageName = "com.android.geto$index", label = "Geto $index"
             )
-        )
+        }
 
-        val applicationIcon = subject.getApplicationIcon("Test")
+        packageManagerWrapper.setInstalledApplications(installedApplications)
+
+        val applicationIcon = subject.getApplicationIcon("com.android.geto1")
 
         assertNotNull(applicationIcon)
     }
 
     @Test
-    fun packageRepository_get_launch_intent_for_package_not_found() = runTest(testDispatcher) {
-        packageManagerWrapper.setInstalledApplications(
-            listOf(
-                TargetApplicationInfo(
-                    flags = 0, packageName = "Test", label = "Test"
-                )
+    fun packageRepository_getLaunchIntentForPackage_isNull() = runTest(testDispatcher) {
+        val installedApplications = List(20) { index ->
+            TargetApplicationInfo(
+                flags = 0, packageName = "com.android.geto$index", label = "Geto $index"
             )
-        )
+        }
 
-        val applicationIcon = subject.getLaunchIntentForPackage("")
+        packageManagerWrapper.setInstalledApplications(installedApplications)
 
-        assertNull(applicationIcon)
+        val launchIntentForPackage = subject.getLaunchIntentForPackage("")
+
+        assertNull(launchIntentForPackage)
     }
 
     @Test
-    fun packageRepository_get_launch_intent_for_package_found() = runTest(testDispatcher) {
-        packageManagerWrapper.setInstalledApplications(
-            listOf(
-                TargetApplicationInfo(
-                    flags = 0, packageName = "Test", label = "Test"
-                )
+    fun packageRepository_getLaunchIntentForPackage_isNotNull() = runTest(testDispatcher) {
+        val installedApplications = List(20) { index ->
+            TargetApplicationInfo(
+                flags = 0, packageName = "com.android.geto$index", label = "Geto $index"
             )
-        )
+        }
 
-        val applicationIcon = subject.getLaunchIntentForPackage("Test")
+        packageManagerWrapper.setInstalledApplications(installedApplications)
 
-        assertNotNull(applicationIcon)
+        val launchIntentForPackage = subject.getLaunchIntentForPackage("com.android.geto1")
+
+        assertNotNull(launchIntentForPackage)
     }
 }

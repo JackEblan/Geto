@@ -23,8 +23,8 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.android.geto.core.designsystem.component.GetoBackground
 import com.android.geto.core.designsystem.theme.GetoTheme
-import com.android.geto.core.model.AppSettings
-import com.android.geto.core.model.SettingsType
+import com.android.geto.core.model.AppSetting
+import com.android.geto.core.model.SettingType
 import com.android.geto.core.screenshot.testing.util.DefaultTestDevices
 import com.android.geto.core.screenshot.testing.util.captureForDevice
 import com.android.geto.core.screenshot.testing.util.captureMultiDevice
@@ -46,43 +46,60 @@ class AppSettingsScreenScreenshotTest {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
+    private val installedApplications = List(5) { index ->
+        AppSetting(
+            id = index,
+            enabled = true,
+            settingType = SettingType.SYSTEM,
+            packageName = "com.android.geto",
+            label = "Geto",
+            key = "Geto",
+            valueOnLaunch = "0",
+            valueOnRevert = "1"
+        )
+    }
+
     @Test
-    fun app_settings_populated() {
-        composeTestRule.captureMultiDevice("AppSettingsPopulated") {
+    fun appSettingsScreen_populated() {
+        composeTestRule.captureMultiDevice("AppSettingsScreenPopulated") {
             GetoTheme {
-                AppSettingsScreen(snackbarHostState = SnackbarHostState(), appName = "Geto",
+                AppSettingsScreen(snackbarHostState = SnackbarHostState(),
+                                  appName = "Geto",
                                   appSettingsUiState = AppSettingsUiState.Success(
-                                      testAppSettingsList
+                                      installedApplications
                                   ),
                                   onNavigationIconClick = {},
                                   onRevertSettingsIconClick = {},
                                   onSettingsIconClick = {},
                                   onShortcutIconClick = {},
                                   onAppSettingsItemCheckBoxChange = { _, _ -> },
-                                  onDeleteAppSettingsItem = {}, onLaunchApp = {})
+                                  onDeleteAppSettingsItem = {},
+                                  onLaunchApp = {})
             }
         }
     }
 
     @Test
-    fun app_settings_loading() {
-        composeTestRule.captureMultiDevice("AppSettingsLoading") {
+    fun appSettingsScreen_loading() {
+        composeTestRule.captureMultiDevice("AppSettingsScreenLoading") {
             GetoTheme {
-                AppSettingsScreen(snackbarHostState = SnackbarHostState(), appName = "Geto",
+                AppSettingsScreen(snackbarHostState = SnackbarHostState(),
+                                  appName = "Geto",
                                   appSettingsUiState = AppSettingsUiState.Loading,
                                   onNavigationIconClick = {},
                                   onRevertSettingsIconClick = {},
                                   onSettingsIconClick = {},
                                   onShortcutIconClick = {},
                                   onAppSettingsItemCheckBoxChange = { _, _ -> },
-                                  onDeleteAppSettingsItem = {}, onLaunchApp = {})
+                                  onDeleteAppSettingsItem = {},
+                                  onLaunchApp = {})
             }
         }
     }
 
     @Test
-    fun app_settings_empty() {
-        composeTestRule.captureMultiDevice("AppSettingsEmpty") {
+    fun appSettingsScreen_empty() {
+        composeTestRule.captureMultiDevice("AppSettingsScreenEmpty") {
             GetoTheme {
                 AppSettingsScreen(snackbarHostState = SnackbarHostState(),
                                   appName = "Geto",
@@ -99,11 +116,11 @@ class AppSettingsScreenScreenshotTest {
     }
 
     @Test
-    fun app_settings_populated_dark() {
+    fun appSettingsScreen_populated_dark() {
         composeTestRule.captureForDevice(
             deviceName = "phone_dark",
             deviceSpec = DefaultTestDevices.PHONE.spec,
-            screenshotName = "AppSettingsPopulated",
+            screenshotName = "AppSettingsScreenPopulated",
             darkMode = true,
         ) {
             GetoTheme {
@@ -111,25 +128,26 @@ class AppSettingsScreenScreenshotTest {
                     AppSettingsScreen(snackbarHostState = SnackbarHostState(),
                                       appName = "Geto",
                                       appSettingsUiState = AppSettingsUiState.Success(
-                                          testAppSettingsList
+                                          installedApplications
                                       ),
                                       onNavigationIconClick = {},
                                       onRevertSettingsIconClick = {},
                                       onSettingsIconClick = {},
                                       onShortcutIconClick = {},
                                       onAppSettingsItemCheckBoxChange = { _, _ -> },
-                                      onDeleteAppSettingsItem = {}, onLaunchApp = {})
+                                      onDeleteAppSettingsItem = {},
+                                      onLaunchApp = {})
                 }
             }
         }
     }
 
     @Test
-    fun app_settings_loading_dark() {
+    fun appSettingsScreen_loading_dark() {
         composeTestRule.captureForDevice(
             deviceName = "phone_dark",
             deviceSpec = DefaultTestDevices.PHONE.spec,
-            screenshotName = "AppSettingsLoading",
+            screenshotName = "AppSettingsScreenLoading",
             darkMode = true,
         ) {
             GetoTheme {
@@ -142,18 +160,19 @@ class AppSettingsScreenScreenshotTest {
                                       onSettingsIconClick = {},
                                       onShortcutIconClick = {},
                                       onAppSettingsItemCheckBoxChange = { _, _ -> },
-                                      onDeleteAppSettingsItem = {}, onLaunchApp = {})
+                                      onDeleteAppSettingsItem = {},
+                                      onLaunchApp = {})
                 }
             }
         }
     }
 
     @Test
-    fun app_settings_empty_dark() {
+    fun appSettingsScreen_empty_dark() {
         composeTestRule.captureForDevice(
             deviceName = "phone_dark",
             deviceSpec = DefaultTestDevices.PHONE.spec,
-            screenshotName = "AppSettingsEmpty",
+            screenshotName = "AppSettingsScreenEmpty",
             darkMode = true,
         ) {
             GetoTheme {
@@ -172,26 +191,4 @@ class AppSettingsScreenScreenshotTest {
             }
         }
     }
-
-    private val testAppSettingsList = listOf(
-        AppSettings(
-            id = 0,
-            enabled = true,
-            settingsType = SettingsType.SYSTEM,
-            packageName = "packageName0",
-            label = "label0",
-            key = "key0",
-            valueOnLaunch = "valueOnLaunch0",
-            valueOnRevert = "valueOnRevert0"
-        ), AppSettings(
-            id = 1,
-            enabled = true,
-            settingsType = SettingsType.SYSTEM,
-            packageName = "packageName1",
-            label = "label1",
-            key = "key1",
-            valueOnLaunch = "valueOnLaunch1",
-            valueOnRevert = "valueOnRevert1"
-        )
-    )
 }

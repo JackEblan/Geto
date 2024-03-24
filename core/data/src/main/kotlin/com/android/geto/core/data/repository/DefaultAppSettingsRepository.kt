@@ -19,10 +19,10 @@
 package com.android.geto.core.data.repository
 
 import com.android.geto.core.database.dao.AppSettingsDao
-import com.android.geto.core.database.model.AppSettingsEntity
+import com.android.geto.core.database.model.AppSettingEntity
 import com.android.geto.core.database.model.asEntity
 import com.android.geto.core.database.model.asExternalModel
-import com.android.geto.core.model.AppSettings
+import com.android.geto.core.model.AppSetting
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
@@ -32,25 +32,24 @@ class DefaultAppSettingsRepository @Inject constructor(
     private val appSettingsDao: AppSettingsDao
 ) : AppSettingsRepository {
 
-    override suspend fun upsertAppSettings(appSettings: AppSettings) {
-        appSettingsDao.upsert(appSettings.asEntity())
-    }
-
-    override suspend fun deleteAppSettings(appSettings: AppSettings) {
-        appSettingsDao.delete(appSettings.asEntity())
-    }
-
-    override fun getAppSettingsList(packageName: String): Flow<List<AppSettings>> {
-        return appSettingsDao.getAppSettingsList(packageName).distinctUntilChanged()
-            .map { entities ->
-                entities.map(AppSettingsEntity::asExternalModel)
-            }
-    }
-
-    override fun getAllAppSettingsList(): Flow<List<AppSettings>> {
-        return appSettingsDao.getAllAppSettingsList().distinctUntilChanged().map { entities ->
-            entities.map(AppSettingsEntity::asExternalModel)
+    override val appSettings: Flow<List<AppSetting>> =
+        appSettingsDao.getAppSettings().distinctUntilChanged().map { entities ->
+            entities.map(AppSettingEntity::asExternalModel)
         }
+
+    override suspend fun upsertAppSetting(appSetting: AppSetting) {
+        appSettingsDao.upsertAppSettingEntity(appSetting.asEntity())
+    }
+
+    override suspend fun deleteAppSetting(appSetting: AppSetting) {
+        appSettingsDao.deleteAppSettingEntity(appSetting.asEntity())
+    }
+
+    override fun getAppSettingsByPackageName(packageName: String): Flow<List<AppSetting>> {
+        return appSettingsDao.getAppSettingsByPackageName(packageName).distinctUntilChanged()
+            .map { entities ->
+                entities.map(AppSettingEntity::asExternalModel)
+            }
     }
 
     override suspend fun deleteAppSettingsByPackageName(packageNames: List<String>) {

@@ -18,15 +18,15 @@
 
 package com.android.geto.core.data.repository
 
-import com.android.geto.core.model.AppSettings
-import com.android.geto.core.model.SecureSettings
-import com.android.geto.core.model.SettingsType
+import com.android.geto.core.model.AppSetting
+import com.android.geto.core.model.SecureSetting
+import com.android.geto.core.model.SettingType
 
 interface SecureSettingsRepository {
 
-    suspend fun applySecureSettings(appSettingsList: List<AppSettings>): Boolean
+    suspend fun applySecureSettings(appSettingList: List<AppSetting>): Boolean
 
-    suspend fun revertSecureSettings(appSettingsList: List<AppSettings>): Boolean
+    suspend fun revertSecureSettings(appSettingList: List<AppSetting>): Boolean
 
-    suspend fun getSecureSettings(settingsType: SettingsType): List<SecureSettings>
+    suspend fun getSecureSettings(settingType: SettingType): List<SecureSetting>
 }

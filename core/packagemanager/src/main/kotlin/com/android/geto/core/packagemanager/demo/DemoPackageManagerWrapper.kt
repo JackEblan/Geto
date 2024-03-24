@@ -25,11 +25,7 @@ import com.android.geto.core.model.TargetApplicationInfo
 import com.android.geto.core.packagemanager.PackageManagerWrapper
 import javax.inject.Inject
 
-/**
- * A fake package manager wrapper that provides a fake data to Navigation UI Tests
- */
 class DemoPackageManagerWrapper @Inject constructor() : PackageManagerWrapper {
-
     override fun getInstalledApplications(): List<TargetApplicationInfo> {
         return List(5) { index ->
             TargetApplicationInfo(

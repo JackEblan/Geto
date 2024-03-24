@@ -37,7 +37,7 @@ class SettingsScreenTest {
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     @Test
-    fun getoOverlayLoadingWheelIsDisplayed_whenSettingsUiStateIsLoading() {
+    fun getoOverlayLoadingWheelIsDisplayed_whenSettingsUiState_isLoading() {
         composeTestRule.setContent {
             SettingsScreen(settingsUiState = SettingsUiState.Loading,
                            onThemeDialog = {},
@@ -52,7 +52,7 @@ class SettingsScreenTest {
     }
 
     @Test
-    fun settingsIsDisplayed_whenSettingsUiStateIsSuccess() {
+    fun settings_isDisplayed_whenSettingsUiState_isSuccess() {
         composeTestRule.setContent {
             SettingsScreen(settingsUiState = SettingsUiState.Success(
                 UserEditableSettings(
@@ -74,7 +74,7 @@ class SettingsScreenTest {
     }
 
     @Test
-    fun dynamicColorSwitchIsOn_whenUseDynamicColorIsTrue() {
+    fun dynamicColorSwitch_isOn_whenUseDynamicColor_isTrue() {
         composeTestRule.setContent {
             SettingsScreen(settingsUiState = SettingsUiState.Success(
                 UserEditableSettings(
@@ -97,7 +97,7 @@ class SettingsScreenTest {
     }
 
     @Test
-    fun dynamicColorSwitchIsOff_whenUseDynamicColorIsFalse() {
+    fun dynamicColorSwitch_isOff_whenUseDynamicColor_isFalse() {
         composeTestRule.setContent {
             SettingsScreen(settingsUiState = SettingsUiState.Success(
                 UserEditableSettings(
@@ -120,7 +120,7 @@ class SettingsScreenTest {
     }
 
     @Test
-    fun dynamicRowIsDisplayed_whenThemeBrandIsDefault() {
+    fun dynamicRow_isDisplayed_whenThemeBrand_isDefault() {
         composeTestRule.setContent {
             SettingsScreen(settingsUiState = SettingsUiState.Success(
                 UserEditableSettings(
@@ -143,7 +143,7 @@ class SettingsScreenTest {
     }
 
     @Test
-    fun dynamicRowIsNotDisplayed_whenThemeBrandIsAndroid() {
+    fun dynamicRow_isNotDisplayed_whenThemeBrand_isAndroid() {
         composeTestRule.setContent {
             SettingsScreen(settingsUiState = SettingsUiState.Success(
                 UserEditableSettings(
@@ -166,7 +166,7 @@ class SettingsScreenTest {
     }
 
     @Test
-    fun dynamicRowIsNotDisplayed_whenUnSupportDynamicColor() {
+    fun dynamicRow_isNotDisplayed_whenUnSupportDynamicColor() {
         composeTestRule.setContent {
             SettingsScreen(settingsUiState = SettingsUiState.Success(
                 UserEditableSettings(
@@ -189,7 +189,7 @@ class SettingsScreenTest {
     }
 
     @Test
-    fun autoLaunchSwitchIsOff_whenUseAutoLaunchIsFalse() {
+    fun autoLaunchSwitch_isOff_whenUseAutoLaunch_isFalse() {
         composeTestRule.setContent {
             SettingsScreen(settingsUiState = SettingsUiState.Success(
                 UserEditableSettings(
@@ -211,7 +211,7 @@ class SettingsScreenTest {
     }
 
     @Test
-    fun autoLaunchSwitchIsOn_whenUseAutoLaunchIsTrue() {
+    fun autoLaunchSwitch_isOn_whenUseAutoLaunch_isTrue() {
         composeTestRule.setContent {
             SettingsScreen(settingsUiState = SettingsUiState.Success(
                 UserEditableSettings(

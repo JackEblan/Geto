@@ -27,30 +27,26 @@ import kotlin.test.assertIs
 
 class ShortcutRepositoryTest {
 
-    private lateinit var shortcutManagerCompatWrapper: TestShortcutManagerCompatWrapper
+    private val shortcutManagerCompatWrapper = TestShortcutManagerCompatWrapper()
 
     private lateinit var subject: ShortcutRepository
 
     @Before
     fun setUp() {
-        shortcutManagerCompatWrapper = TestShortcutManagerCompatWrapper()
-
         subject = DefaultShortcutRepository(
             shortcutManagerCompatWrapper = shortcutManagerCompatWrapper
         )
     }
 
     @Test
-    fun shortcutRepository_can_request_pin_shortcut() {
+    fun shortcutRepository_requestPinShortcut_isSupportedLauncher() {
         shortcutManagerCompatWrapper.setRequestPinShortcutSupported(true)
 
         shortcutManagerCompatWrapper.setRequestPinShortcut(true)
 
         val result = subject.requestPinShortcut(
             icon = null, TargetShortcutInfoCompat(
-                id = "id",
-                shortLabel = "shortLabel",
-                longLabel = "longLabel",
+                id = "com.android.geto", shortLabel = "Geto", longLabel = "Geto",
                 shortcutIntent = Intent()
             )
         )
@@ -59,12 +55,12 @@ class ShortcutRepositoryTest {
     }
 
     @Test
-    fun shortcutRepository_cannot_request_pin_shortcut() {
+    fun shortcutRepository_requestPinShortcut_isUnSupportedLauncher() {
         shortcutManagerCompatWrapper.setRequestPinShortcutSupported(false)
 
         val result = subject.requestPinShortcut(
             icon = null, TargetShortcutInfoCompat(
-                id = "id", shortLabel = "shortLabel", longLabel = "longLabel"
+                id = "com.android.geto", shortLabel = "Geto", longLabel = "Geto"
             )
         )
 
@@ -72,22 +68,20 @@ class ShortcutRepositoryTest {
     }
 
     @Test
-    fun shortcutRepository_cannot_update_pin_shortcut() {
+    fun shortcutRepository_updateRequestPinShortcut_isShortcutUpdateImmutableShortcuts() {
         shortcutManagerCompatWrapper.setUpdateImmutableShortcuts(true)
 
         shortcutManagerCompatWrapper.setShortcuts(
             listOf(
                 TargetShortcutInfoCompat(
-                    id = "id", shortLabel = "shortLabel", longLabel = "longLabel"
+                    id = "com.android.geto", shortLabel = "Geto", longLabel = "Geto"
                 )
             )
         )
 
         val result = subject.updateRequestPinShortcut(
             icon = null, TargetShortcutInfoCompat(
-                id = "id",
-                shortLabel = "shortLabel",
-                longLabel = "longLabel",
+                id = "com.android.geto", shortLabel = "Geto", longLabel = "Geto",
                 shortcutIntent = Intent()
             )
         )
@@ -96,22 +90,22 @@ class ShortcutRepositoryTest {
     }
 
     @Test
-    fun shortcutRepository_can_update_pin_shortcut() {
+    fun shortcutRepository_updateRequestPinShortcut_isShortcutUpdateSuccess() {
         shortcutManagerCompatWrapper.setUpdateImmutableShortcuts(false)
+
+        shortcutManagerCompatWrapper.setRequestPinShortcutSupported(true)
 
         shortcutManagerCompatWrapper.setShortcuts(
             listOf(
                 TargetShortcutInfoCompat(
-                    id = "id", shortLabel = "shortLabel", longLabel = "longLabel"
+                    id = "com.android.geto", shortLabel = "Geto", longLabel = "Geto"
                 )
             )
         )
 
         val result = subject.updateRequestPinShortcut(
             icon = null, TargetShortcutInfoCompat(
-                id = "id",
-                shortLabel = "shortLabel",
-                longLabel = "longLabel",
+                id = "com.android.geto", shortLabel = "Geto", longLabel = "Geto",
                 shortcutIntent = Intent()
             )
         )
@@ -120,75 +114,61 @@ class ShortcutRepositoryTest {
     }
 
     @Test
-    fun shortcutRepository_enable_shortcuts() {
-        val result = subject.enableShortcuts(id = "id", enabled = true)
+    fun shortcutRepository_updateRequestPinShortcut_isShortcutUpdateFailed() {
+        shortcutManagerCompatWrapper.setUpdateImmutableShortcuts(false)
 
-        assertIs<ShortcutResult.ShortcutEnable>(result)
-    }
+        shortcutManagerCompatWrapper.setRequestPinShortcutSupported(false)
 
-    @Test
-    fun shortcutRepository_disable_shortcuts() {
-        shortcutManagerCompatWrapper.setDisableImmutableShortcuts(false)
-
-        shortcutManagerCompatWrapper.setUserIsLocked(false)
-
-        val result = subject.enableShortcuts(id = "id", enabled = false)
-
-        assertIs<ShortcutResult.ShortcutDisable>(result)
-    }
-
-    @Test
-    fun shortcutRepository_disable_shortcuts_on_disableImmutableShortcuts() {
-        shortcutManagerCompatWrapper.setDisableImmutableShortcuts(true)
-
-        val result = subject.enableShortcuts(
-            id = "id", enabled = false
+        shortcutManagerCompatWrapper.setShortcuts(
+            listOf(
+                TargetShortcutInfoCompat(
+                    id = "com.android.geto", shortLabel = "Geto", longLabel = "Geto"
+                )
+            )
         )
 
-        assertIs<ShortcutResult.ShortcutDisableImmutableShortcuts>(result)
-    }
-
-    @Test
-    fun shortcutRepository_disable_shortcuts_on_userIsLocked() {
-        shortcutManagerCompatWrapper.setUserIsLocked(true)
-
-        val result = subject.enableShortcuts(
-            id = "id", enabled = false
+        val result = subject.updateRequestPinShortcut(
+            icon = null, TargetShortcutInfoCompat(
+                id = "com.android.geto",
+                shortLabel = "Geto",
+                longLabel = "Geto",
+                shortcutIntent = Intent()
+            )
         )
 
-        assertIs<ShortcutResult.UserIsLocked>(result)
+        assertIs<ShortcutResult.ShortcutUpdateFailed>(result)
     }
 
     @Test
-    fun shortcutRepository_shortcut_not_found() {
+    fun shortcutRepository_getShortcut_isNoShortcut() {
         shortcutManagerCompatWrapper.setRequestPinShortcutSupported(true)
 
         shortcutManagerCompatWrapper.setShortcuts(
             listOf(
                 TargetShortcutInfoCompat(
-                    id = "TestId", shortLabel = "shortLabel", longLabel = "longLabel"
+                    id = "com.android.geto", shortLabel = "Geto", longLabel = "Geto"
                 )
             )
         )
 
-        val result = subject.getShortcut("TestIdNotFound")
+        val result = subject.getShortcut("com.android.sample")
 
         assertIs<ShortcutResult.NoShortcut>(result)
     }
 
     @Test
-    fun shortcutRepository_shortcut_found() {
+    fun shortcutRepository_getShortcut_isGetShortcut() {
         shortcutManagerCompatWrapper.setRequestPinShortcutSupported(true)
 
         shortcutManagerCompatWrapper.setShortcuts(
             listOf(
                 TargetShortcutInfoCompat(
-                    id = "TestId", shortLabel = "shortLabel", longLabel = "longLabel"
+                    id = "com.android.geto", shortLabel = "Geto", longLabel = "Geto"
                 )
             )
         )
 
-        val result = subject.getShortcut("TestId")
+        val result = subject.getShortcut("com.android.geto")
 
         assertIs<ShortcutResult.GetShortcut>(result)
     }

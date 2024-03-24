@@ -27,9 +27,6 @@ class TestResourcesWrapper : ResourcesWrapper {
         return stringRes
     }
 
-    /**
-     * A test-only API to set string resource.
-     */
     fun setString(value: String) {
         stringRes = value
     }

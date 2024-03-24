@@ -22,18 +22,21 @@ import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.android.geto.core.database.dao.AppSettingsDao
-import com.android.geto.core.database.migration.DeleteColumnSafeToWrite
+import com.android.geto.core.database.migration.DeleteSafeToWrite
+import com.android.geto.core.database.migration.RenameAppSettingsEntityToAppSettingEntity
 import com.android.geto.core.database.migration.RenameAppSettingsItemEntityToAppSettingsEntity
 import com.android.geto.core.database.migration.RenameUserAppSettingsItemEntityToAppSettingsItemEntity
-import com.android.geto.core.database.model.AppSettingsEntity
+import com.android.geto.core.database.model.AppSettingEntity
 
 @Database(
-    entities = [AppSettingsEntity::class], version = 6, autoMigrations = [AutoMigration(
+    entities = [AppSettingEntity::class], version = 7, autoMigrations = [AutoMigration(
         from = 1, to = 2, spec = RenameUserAppSettingsItemEntityToAppSettingsItemEntity::class
     ), AutoMigration(
         from = 4, to = 5, spec = RenameAppSettingsItemEntityToAppSettingsEntity::class
     ), AutoMigration(
-        from = 5, to = 6, spec = DeleteColumnSafeToWrite::class
+        from = 5, to = 6, spec = DeleteSafeToWrite::class
+    ), AutoMigration(
+        from = 6, to = 7, spec = RenameAppSettingsEntityToAppSettingEntity::class
     )], exportSchema = true
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -43,5 +46,4 @@ abstract class AppDatabase : RoomDatabase() {
     companion object {
         const val DATABASE_NAME = "Geto.db"
     }
-
 }

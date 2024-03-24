@@ -65,7 +65,7 @@ class AddShortcutDialogScreenshotTest {
     }
 
     @Test
-    fun add_shortcut_dialog_empty() {
+    fun addShortcutDialog_empty() {
         composeTestRule.captureScreenRoboImageMultiDevice(
             path = "AddShortcutDialog/AddShortcutDialogEmpty"
         ) {
@@ -80,7 +80,7 @@ class AddShortcutDialogScreenshotTest {
     }
 
     @Test
-    fun add_shortcut_dialog_filled_textfields() {
+    fun addShortcutDialog_filled_textfields() {
         shortcutDialogState.updateShortLabel("Short Label")
 
         shortcutDialogState.updateLongLabel("Long Label")
@@ -99,7 +99,7 @@ class AddShortcutDialogScreenshotTest {
     }
 
     @Test
-    fun add_shortcut_dialog_error_textfields() {
+    fun addShortcutDialog_error_textfields() {
         shortcutDialogState.getShortcut(packageName = "Test", shortcutIntent = Intent())
 
         composeTestRule.captureScreenRoboImageMultiDevice(
@@ -116,7 +116,7 @@ class AddShortcutDialogScreenshotTest {
     }
 
     @Test
-    fun add_shortcut_dialog_empty_dark() {
+    fun addShortcutDialog_empty_dark() {
         composeTestRule.captureScreenRoboImageForDevice(
             path = "AddShortcutDialog/AddShortcutDialogEmpty",
             deviceName = "phone_dark",
@@ -136,7 +136,7 @@ class AddShortcutDialogScreenshotTest {
     }
 
     @Test
-    fun add_shortcut_dialog_filled_textfields_dark() {
+    fun addShortcutDialog_filled_textfields_dark() {
         shortcutDialogState.updateShortLabel("Short Label")
 
         shortcutDialogState.updateLongLabel("Long Label")
@@ -160,7 +160,7 @@ class AddShortcutDialogScreenshotTest {
     }
 
     @Test
-    fun add_shortcut_dialog_error_textfields_dark() {
+    fun addShortcutDialog_error_textfields_dark() {
         shortcutDialogState.getShortcut(packageName = "Test", shortcutIntent = Intent())
 
         composeTestRule.captureScreenRoboImageForDevice(

@@ -19,15 +19,5 @@
 package com.android.geto.core.packagemanager
 
 interface ClipboardManagerWrapper {
-
-    /**
-     * Sets the primary clip on the clipboard.
-     *
-     * Checks if the device's Android version is S_V2 or higher, returning true if it is, and false otherwise.
-     *
-     * @param label The label for the clip.
-     * @param text The text to be copied to the clipboard.
-     * @return `true` if the device's Android version is S_V2 or higher, `false` otherwise.
-     */
     fun setPrimaryClip(label: String, text: String): Boolean
 }

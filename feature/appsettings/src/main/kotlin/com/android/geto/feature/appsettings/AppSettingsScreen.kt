@@ -78,8 +78,8 @@ import com.android.geto.core.designsystem.icon.GetoIcons
 import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.domain.AppSettingsResult
 import com.android.geto.core.domain.AutoLaunchResult
-import com.android.geto.core.model.AppSettings
-import com.android.geto.core.model.SettingsType
+import com.android.geto.core.model.AppSetting
+import com.android.geto.core.model.SettingType
 import com.android.geto.core.ui.AppSettingsPreviewParameterProvider
 import com.android.geto.feature.appsettings.dialog.appsettings.AddAppSettingsDialog
 import com.android.geto.feature.appsettings.dialog.appsettings.rememberAppSettingsDialogState
@@ -101,8 +101,6 @@ internal fun AppSettingsRoute(
     val revertFailure = stringResource(id = R.string.revert_failure)
     val revertSuccess = stringResource(id = R.string.revert_success)
     val shortcutIdNotFound = stringResource(id = R.string.shortcut_id_not_found)
-    val shortcutDisabled = stringResource(id = R.string.shortcut_disabled)
-    val shortcutEnabled = stringResource(id = R.string.shortcut_enabled)
     val shortcutDisableImmutableShortcuts =
         stringResource(id = R.string.shortcut_disable_immutable_shortcuts)
     val shortcutUpdateImmutableShortcuts =
@@ -127,7 +125,7 @@ internal fun AppSettingsRoute(
         SnackbarHostState()
     }
 
-    val appSettingsUiState = viewModel.appSettingsUiState.collectAsStateWithLifecycle().value
+    val appSettingsUiState = viewModel.appSettingUiState.collectAsStateWithLifecycle().value
 
     var showCopyPermissionCommandDialog by remember {
         mutableStateOf(false)
@@ -163,10 +161,10 @@ internal fun AppSettingsRoute(
         applyAppSettingsResult?.let {
             when (it) {
                 AppSettingsResult.AppSettingsDisabled -> snackbarHostState.showSnackbar(message = appSettingsDisabled)
-                AppSettingsResult.EmptyAppSettingsList -> snackbarHostState.showSnackbar(message = emptyAppSettingsList)
+                AppSettingsResult.EmptyAppSettings -> snackbarHostState.showSnackbar(message = emptyAppSettingsList)
                 AppSettingsResult.Failure -> snackbarHostState.showSnackbar(message = applyFailure)
                 AppSettingsResult.SecurityException -> showCopyPermissionCommandDialog = true
-                is AppSettingsResult.Success -> it.intent?.let(context::startActivity)
+                is AppSettingsResult.Success -> it.launchIntent?.let(context::startActivity)
                 AutoLaunchResult.Ignore -> Unit
                 AppSettingsResult.IllegalArgumentException -> snackbarHostState.showSnackbar(message = invalidValues)
             }
@@ -179,7 +177,7 @@ internal fun AppSettingsRoute(
         revertAppSettingsResult?.let {
             when (it) {
                 AppSettingsResult.AppSettingsDisabled -> snackbarHostState.showSnackbar(message = appSettingsDisabled)
-                AppSettingsResult.EmptyAppSettingsList -> snackbarHostState.showSnackbar(message = emptyAppSettingsList)
+                AppSettingsResult.EmptyAppSettings -> snackbarHostState.showSnackbar(message = emptyAppSettingsList)
                 AppSettingsResult.Failure -> snackbarHostState.showSnackbar(message = revertFailure)
                 AppSettingsResult.SecurityException -> showCopyPermissionCommandDialog = true
                 is AppSettingsResult.Success -> snackbarHostState.showSnackbar(message = revertSuccess)
@@ -195,12 +193,10 @@ internal fun AppSettingsRoute(
         shortcutResult?.let {
             when (it) {
                 ShortcutResult.IDNotFound -> snackbarHostState.showSnackbar(message = shortcutIdNotFound)
-                ShortcutResult.ShortcutDisable -> snackbarHostState.showSnackbar(message = shortcutDisabled)
                 ShortcutResult.ShortcutDisableImmutableShortcuts -> snackbarHostState.showSnackbar(
                     message = shortcutDisableImmutableShortcuts
                 )
 
-                ShortcutResult.ShortcutEnable -> snackbarHostState.showSnackbar(message = shortcutEnabled)
                 ShortcutResult.ShortcutUpdateFailed -> snackbarHostState.showSnackbar(message = shortcutUpdateFailed)
                 ShortcutResult.ShortcutUpdateImmutableShortcuts -> snackbarHostState.showSnackbar(
                     message = shortcutUpdateImmutableShortcuts
@@ -241,10 +237,10 @@ internal fun AppSettingsRoute(
     LaunchedEffect(
         key1 = appSettingsDialogState.selectedRadioOptionIndex, key2 = keyDebounce
     ) {
-        val settingsType = SettingsType.entries[appSettingsDialogState.selectedRadioOptionIndex]
+        val settingType = SettingType.entries[appSettingsDialogState.selectedRadioOptionIndex]
 
         viewModel.getSecureSettings(
-            text = appSettingsDialogState.key, settingsType = settingsType
+            text = appSettingsDialogState.key, settingType = settingType
         )
     }
 
@@ -336,8 +332,8 @@ internal fun AppSettingsScreen(
     onRevertSettingsIconClick: () -> Unit,
     onSettingsIconClick: () -> Unit,
     onShortcutIconClick: () -> Unit,
-    onAppSettingsItemCheckBoxChange: (Boolean, AppSettings) -> Unit,
-    onDeleteAppSettingsItem: (AppSettings) -> Unit,
+    onAppSettingsItemCheckBoxChange: (Boolean, AppSetting) -> Unit,
+    onDeleteAppSettingsItem: (AppSetting) -> Unit,
     onLaunchApp: () -> Unit,
 ) {
     Scaffold(topBar = {
@@ -433,7 +429,7 @@ internal fun AppSettingsScreen(
                 }
 
                 is AppSettingsUiState.Success -> {
-                    if (appSettingsUiState.appSettingsList.isNotEmpty()) {
+                    if (appSettingsUiState.appSettingList.isNotEmpty()) {
                         SuccessState(
                             appSettingsUiState = appSettingsUiState,
                             contentPadding = innerPadding,
@@ -484,10 +480,11 @@ private fun LoadingState(modifier: Modifier = Modifier) {
 
 @Composable
 private fun SuccessState(
-    modifier: Modifier = Modifier, appSettingsUiState: AppSettingsUiState,
+    modifier: Modifier = Modifier,
+    appSettingsUiState: AppSettingsUiState,
     contentPadding: PaddingValues,
-    onAppSettingsItemCheckBoxChange: (Boolean, AppSettings) -> Unit,
-    onDeleteAppSettingsItem: (AppSettings) -> Unit
+    onAppSettingsItemCheckBoxChange: (Boolean, AppSetting) -> Unit,
+    onDeleteAppSettingsItem: (AppSetting) -> Unit
 ) {
     when (appSettingsUiState) {
         AppSettingsUiState.Loading -> Unit
@@ -499,7 +496,7 @@ private fun SuccessState(
                 contentPadding = contentPadding
             ) {
                 appSettings(
-                    appSettingsList = appSettingsUiState.appSettingsList,
+                    appSettingList = appSettingsUiState.appSettingList,
                     onAppSettingsItemCheckBoxChange = onAppSettingsItemCheckBoxChange,
                     onDeleteAppSettingsItem = onDeleteAppSettingsItem
                 )
@@ -510,16 +507,16 @@ private fun SuccessState(
 
 @OptIn(ExperimentalFoundationApi::class)
 private fun LazyListScope.appSettings(
-    appSettingsList: List<AppSettings>,
-    onAppSettingsItemCheckBoxChange: (Boolean, AppSettings) -> Unit,
-    onDeleteAppSettingsItem: (AppSettings) -> Unit,
+    appSettingList: List<AppSetting>,
+    onAppSettingsItemCheckBoxChange: (Boolean, AppSetting) -> Unit,
+    onDeleteAppSettingsItem: (AppSetting) -> Unit,
 ) {
-    items(appSettingsList, key = { it.key }) { appSettings ->
+    items(appSettingList, key = { it.key }) { appSettings ->
         AppSettingsItem(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 10.dp, horizontal = 5.dp)
-                .animateItemPlacement(), appSettings = appSettings,
+                .animateItemPlacement(), appSetting = appSettings,
                         onUserAppSettingsItemCheckBoxChange = { check ->
                             onAppSettingsItemCheckBoxChange(
                                 check, appSettings
@@ -550,11 +547,11 @@ private fun EmptyStatePreview() {
 @Preview
 @Composable
 private fun SuccessStatePreview(
-    @PreviewParameter(AppSettingsPreviewParameterProvider::class) appSettingsLists: List<AppSettings>
+    @PreviewParameter(AppSettingsPreviewParameterProvider::class) appSettingLists: List<AppSetting>
 ) {
     GetoTheme {
         SuccessState(
-            appSettingsUiState = AppSettingsUiState.Success(appSettingsLists),
+            appSettingsUiState = AppSettingsUiState.Success(appSettingLists),
                      contentPadding = PaddingValues(20.dp),
                      onAppSettingsItemCheckBoxChange = { _, _ -> },
                      onDeleteAppSettingsItem = {})

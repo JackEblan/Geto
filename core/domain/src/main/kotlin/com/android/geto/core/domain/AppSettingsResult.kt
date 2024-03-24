@@ -21,7 +21,7 @@ package com.android.geto.core.domain
 import android.content.Intent
 
 sealed interface AppSettingsResult {
-    data class Success(val intent: Intent?) : AppSettingsResult
+    data class Success(val launchIntent: Intent?) : AppSettingsResult
 
     data object Failure : AppSettingsResult
 
@@ -29,7 +29,7 @@ sealed interface AppSettingsResult {
 
     data object IllegalArgumentException : AppSettingsResult
 
-    data object EmptyAppSettingsList : AppSettingsResult
+    data object EmptyAppSettings : AppSettingsResult
 
     data object AppSettingsDisabled : AppSettingsResult
 }
