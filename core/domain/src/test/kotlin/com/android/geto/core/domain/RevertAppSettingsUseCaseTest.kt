@@ -18,8 +18,8 @@
 
 package com.android.geto.core.domain
 
-import com.android.geto.core.model.AppSettings
-import com.android.geto.core.model.SettingsType
+import com.android.geto.core.model.AppSetting
+import com.android.geto.core.model.SettingType
 import com.android.geto.core.testing.repository.TestAppSettingsRepository
 import com.android.geto.core.testing.repository.TestSecureSettingsRepository
 import kotlinx.coroutines.test.runTest
@@ -30,16 +30,14 @@ import kotlin.test.assertIs
 class RevertAppSettingsUseCaseTest {
     private lateinit var revertAppSettingsUseCase: RevertAppSettingsUseCase
 
-    private lateinit var appSettingsRepository: TestAppSettingsRepository
+    private val appSettingsRepository = TestAppSettingsRepository()
 
-    private lateinit var secureSettingsRepository: TestSecureSettingsRepository
+    private val secureSettingsRepository = TestSecureSettingsRepository()
+
+    private val packageName = "com.android.geto"
 
     @Before
     fun setup() {
-        secureSettingsRepository = TestSecureSettingsRepository()
-
-        appSettingsRepository = TestAppSettingsRepository()
-
         revertAppSettingsUseCase = RevertAppSettingsUseCase(
             appSettingsRepository = appSettingsRepository,
             secureSettingsRepository = secureSettingsRepository
@@ -47,110 +45,107 @@ class RevertAppSettingsUseCaseTest {
     }
 
     @Test
-    fun revertAppSettingsUseCase_empty_app_settings_list() = runTest {
+    fun revertAppSettingsUseCase_isEmptyAppSettings() = runTest {
         appSettingsRepository.setAppSettings(emptyList())
 
-        val result = revertAppSettingsUseCase(packageName = PACKAGE_NAME_TEST)
+        val result = revertAppSettingsUseCase(packageName = packageName)
 
-        assertIs<AppSettingsResult.EmptyAppSettingsList>(result)
+        assertIs<AppSettingsResult.EmptyAppSettings>(result)
     }
 
-
     @Test
-    fun revertAppSettingsUseCase_app_settings_disabled() = runTest {
-        appSettingsRepository.setAppSettings(
-            listOf(
-                AppSettings(
-                    id = 0,
-                    enabled = false,
-                    settingsType = SettingsType.SYSTEM,
-                    packageName = PACKAGE_NAME_TEST,
-                    label = "system",
-                    key = "key",
-                    valueOnLaunch = "test",
-                    valueOnRevert = "test"
-                )
+    fun revertAppSettingsUseCase_isAppSettingsDisabled() = runTest {
+        val appSettings = List(5) { index ->
+            AppSetting(
+                id = index,
+                enabled = false,
+                settingType = SettingType.SYSTEM,
+                packageName = packageName,
+                label = "Geto",
+                key = "Geto",
+                valueOnLaunch = "0",
+                valueOnRevert = "1"
             )
-        )
+        }
 
-        val result = revertAppSettingsUseCase(packageName = PACKAGE_NAME_TEST)
+        appSettingsRepository.setAppSettings(appSettings)
+
+        val result = revertAppSettingsUseCase(packageName = packageName)
 
         assertIs<AppSettingsResult.AppSettingsDisabled>(result)
     }
 
     @Test
-    fun revertAppSettingsUseCase_success() = runTest {
+    fun revertAppSettingsUseCase_isSuccess() = runTest {
+        val appSettings = List(5) { index ->
+            AppSetting(
+                id = index,
+                enabled = true,
+                settingType = SettingType.SYSTEM,
+                packageName = packageName,
+                label = "Geto",
+                key = "Geto",
+                valueOnLaunch = "0",
+                valueOnRevert = "1"
+            )
+        }
+
         secureSettingsRepository.setWriteSecureSettings(true)
 
-        appSettingsRepository.setAppSettings(
-            listOf(
-                AppSettings(
-                    id = 0,
-                    enabled = true,
-                    settingsType = SettingsType.SYSTEM,
-                    packageName = PACKAGE_NAME_TEST,
-                    label = "system",
-                    key = "key",
-                    valueOnLaunch = "test",
-                    valueOnRevert = "test"
-                )
-            )
-        )
+        appSettingsRepository.setAppSettings(appSettings)
 
-        val result = revertAppSettingsUseCase(packageName = PACKAGE_NAME_TEST)
+        val result = revertAppSettingsUseCase(packageName = packageName)
 
         assertIs<AppSettingsResult.Success>(result)
     }
 
     @Test
-    fun revertAppSettingsUseCase_security_exception() = runTest {
+    fun revertAppSettingsUseCase_isSecurityException() = runTest {
+        val appSettings = List(5) { index ->
+            AppSetting(
+                id = index,
+                enabled = true,
+                settingType = SettingType.SYSTEM,
+                packageName = packageName,
+                label = "Geto",
+                key = "Geto",
+                valueOnLaunch = "0",
+                valueOnRevert = "1"
+            )
+        }
+
         secureSettingsRepository.setWriteSecureSettings(false)
 
-        appSettingsRepository.setAppSettings(
-            listOf(
-                AppSettings(
-                    id = 0,
-                    enabled = true,
-                    settingsType = SettingsType.SYSTEM,
-                    packageName = PACKAGE_NAME_TEST,
-                    label = "system",
-                    key = "key",
-                    valueOnLaunch = "test",
-                    valueOnRevert = "test"
-                )
-            )
-        )
+        appSettingsRepository.setAppSettings(appSettings)
 
-        val result = revertAppSettingsUseCase(packageName = PACKAGE_NAME_TEST)
+        val result = revertAppSettingsUseCase(packageName = packageName)
 
         assertIs<AppSettingsResult.SecurityException>(result)
     }
 
     @Test
-    fun revertAppSettingsUseCase_illegal_argument_exception() = runTest {
+    fun revertAppSettingsUseCase_isIllegalArgumentException() = runTest {
+        val appSettings = List(5) { index ->
+            AppSetting(
+                id = index,
+                enabled = true,
+                settingType = SettingType.SYSTEM,
+                packageName = packageName,
+                label = "Geto",
+                key = "Geto",
+                valueOnLaunch = "0",
+                valueOnRevert = "1"
+            )
+        }
+
         secureSettingsRepository.setWriteSecureSettings(true)
 
         secureSettingsRepository.setInvalidValues(true)
 
-        appSettingsRepository.setAppSettings(
-            listOf(
-                AppSettings(
-                    id = 0,
-                    enabled = true,
-                    settingsType = SettingsType.SYSTEM,
-                    packageName = PACKAGE_NAME_TEST,
-                    label = "system",
-                    key = "key",
-                    valueOnLaunch = "test",
-                    valueOnRevert = "test"
-                )
-            )
-        )
+        appSettingsRepository.setAppSettings(appSettings)
 
-        val result = revertAppSettingsUseCase(packageName = PACKAGE_NAME_TEST)
+        val result = revertAppSettingsUseCase(packageName = packageName)
 
         assertIs<AppSettingsResult.IllegalArgumentException>(result)
     }
 }
-
-private const val PACKAGE_NAME_TEST = "PACKAGE_NAME_TEST"

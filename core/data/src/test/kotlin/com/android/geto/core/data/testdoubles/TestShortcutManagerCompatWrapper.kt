@@ -20,7 +20,6 @@ package com.android.geto.core.data.testdoubles
 
 import android.content.Intent
 import android.graphics.Bitmap
-import androidx.core.content.pm.ShortcutInfoCompat
 import com.android.geto.core.model.TargetShortcutInfoCompat
 import com.android.geto.core.shortcutmanager.ShortcutManagerCompatWrapper
 
@@ -32,18 +31,10 @@ class TestShortcutManagerCompatWrapper : ShortcutManagerCompatWrapper {
 
     private var updateImmutableShortcuts = false
 
-    private var disableImmutableShortcuts = false
-
-    private var userIsLocked = false
-
     private var targetShortcutInfoCompats = listOf<TargetShortcutInfoCompat>()
 
     override fun isRequestPinShortcutSupported(): Boolean {
         return requestPinShortcutSupported
-    }
-
-    override fun createShortcutResultIntent(shortcutInfoCompat: ShortcutInfoCompat): Intent {
-        return Intent()
     }
 
     override fun requestPinShortcut(
@@ -57,62 +48,26 @@ class TestShortcutManagerCompatWrapper : ShortcutManagerCompatWrapper {
     ): Boolean {
         return if (updateImmutableShortcuts) {
             throw IllegalArgumentException()
-        } else true
-    }
-
-    override fun enableShortcuts(id: String) {
-        return
-    }
-
-    override fun disableShortcuts(id: String) {
-        if (disableImmutableShortcuts) throw IllegalArgumentException()
-
-        if (userIsLocked) throw IllegalStateException()
+        } else requestPinShortcutSupported
     }
 
     override fun getShortcuts(matchFlags: Int): List<TargetShortcutInfoCompat> {
         return targetShortcutInfoCompats
     }
 
-    /**
-     * A test-only API to set isRequestPinShortcutSupported
-     */
     fun setRequestPinShortcutSupported(value: Boolean) {
         requestPinShortcutSupported = value
     }
 
-    /**
-     * A test-only API to set requestPinShortcut
-     */
     fun setRequestPinShortcut(value: Boolean) {
         requestPinShortcut = value
     }
 
-    /**
-     * A test-only API to set a list of [TargetShortcutInfoCompat].
-     */
     fun setShortcuts(value: List<TargetShortcutInfoCompat>) {
         targetShortcutInfoCompats = value
     }
 
-    /**
-     * If trying to update immutable shortcuts
-     */
     fun setUpdateImmutableShortcuts(value: Boolean) {
         updateImmutableShortcuts = value
-    }
-
-    /**
-     *  If trying to disable immutable shortcuts
-     */
-    fun setDisableImmutableShortcuts(value: Boolean) {
-        disableImmutableShortcuts = value
-    }
-
-    /**
-     *  when the user is locked
-     */
-    fun setUserIsLocked(value: Boolean) {
-        userIsLocked = value
     }
 }

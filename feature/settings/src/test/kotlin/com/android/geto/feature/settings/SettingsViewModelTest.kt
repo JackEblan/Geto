@@ -58,12 +58,12 @@ class SettingsViewModelTest {
     }
 
     @Test
-    fun stateIsLoading_whenStarted() = runTest {
+    fun state_isLoading_whenStarted() = runTest {
         assertEquals(SettingsUiState.Loading, viewModel.settingsUiState.value)
     }
 
     @Test
-    fun stateIsSuccess_afterUserDataLoaded() = runTest {
+    fun state_isSuccess_whenUserDataLoaded() = runTest {
         val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.settingsUiState.collect() }
 
         userDataRepository.setThemeBrand(ThemeBrand.ANDROID)

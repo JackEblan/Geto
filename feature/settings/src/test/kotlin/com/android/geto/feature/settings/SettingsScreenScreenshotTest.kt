@@ -46,8 +46,8 @@ class SettingsScreenScreenshotTest {
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     @Test
-    fun settings_populated() {
-        composeTestRule.captureMultiDevice("SettingsPopulated") {
+    fun settingsScreen_populated() {
+        composeTestRule.captureMultiDevice("SettingsScreenPopulated") {
             GetoTheme {
                 SettingsScreen(settingsUiState = SettingsUiState.Success(
                     settings = UserEditableSettings(
@@ -67,8 +67,8 @@ class SettingsScreenScreenshotTest {
     }
 
     @Test
-    fun settings_loading() {
-        composeTestRule.captureMultiDevice("SettingsLoading") {
+    fun settingsScreen_loading() {
+        composeTestRule.captureMultiDevice("SettingsScreenLoading") {
             GetoTheme {
                 SettingsScreen(settingsUiState = SettingsUiState.Loading,
                                onThemeDialog = {},
@@ -81,11 +81,11 @@ class SettingsScreenScreenshotTest {
     }
 
     @Test
-    fun settings_populated_dark() {
+    fun settingsScreen_populated_dark() {
         composeTestRule.captureForDevice(
             deviceName = "phone_dark",
             deviceSpec = DefaultTestDevices.PHONE.spec,
-            screenshotName = "SettingsPopulated",
+            screenshotName = "SettingsScreenPopulated",
             darkMode = true,
         ) {
             GetoTheme {
@@ -109,11 +109,11 @@ class SettingsScreenScreenshotTest {
     }
 
     @Test
-    fun settings_loading_dark() {
+    fun settingsScreen_loading_dark() {
         composeTestRule.captureForDevice(
             deviceName = "phone_dark",
             deviceSpec = DefaultTestDevices.PHONE.spec,
-            screenshotName = "SettingsLoading",
+            screenshotName = "SettingsScreenLoading",
             darkMode = true,
         ) {
             GetoTheme {

@@ -44,7 +44,7 @@ class CleanDialogScreenshotTest {
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     @Test
-    fun clean_dialog() {
+    fun cleanDialog() {
         composeTestRule.captureScreenRoboImageMultiDevice(
             path = "CleanDialog/CleanDialog"
         ) {
@@ -56,7 +56,7 @@ class CleanDialogScreenshotTest {
     }
 
     @Test
-    fun clean_dialog_dark() {
+    fun cleanDialog_dark() {
         composeTestRule.captureScreenRoboImageForDevice(
             path = "CleanDialog/CleanDialog",
             deviceName = "phone_dark",

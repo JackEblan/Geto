@@ -43,7 +43,7 @@ class ThemeDialogScreenshotTest {
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     @Test
-    fun theme_dialog() {
+    fun themeDialog() {
         composeTestRule.captureScreenRoboImageMultiDevice(
             path = "ThemeDialog/ThemeDialog"
         ) {
@@ -60,7 +60,7 @@ class ThemeDialogScreenshotTest {
     }
 
     @Test
-    fun theme_dialog_dark() {
+    fun themeDialog_dark() {
         composeTestRule.captureScreenRoboImageForDevice(
             path = "ThemeDialog/ThemeDialog",
             deviceName = "phone_dark",

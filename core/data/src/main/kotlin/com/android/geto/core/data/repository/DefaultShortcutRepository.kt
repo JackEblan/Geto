@@ -31,11 +31,11 @@ class DefaultShortcutRepository @Inject constructor(
     override fun requestPinShortcut(
         icon: Bitmap?, targetShortcutInfoCompat: TargetShortcutInfoCompat
     ): ShortcutResult {
-        if (!shortcutManagerCompatWrapper.isRequestPinShortcutSupported()) {
+        if (shortcutManagerCompatWrapper.isRequestPinShortcutSupported().not()) {
             return ShortcutResult.UnsupportedLauncher
         }
 
-        val request = shortcutManagerCompatWrapper.requestPinShortcut(
+        val requestPinShortcutSuccess = shortcutManagerCompatWrapper.requestPinShortcut(
             icon = icon,
             id = targetShortcutInfoCompat.id!!,
             shortLabel = targetShortcutInfoCompat.shortLabel!!,
@@ -43,7 +43,7 @@ class DefaultShortcutRepository @Inject constructor(
             intent = targetShortcutInfoCompat.shortcutIntent!!
         )
 
-        return if (request) {
+        return if (requestPinShortcutSuccess) {
             ShortcutResult.SupportedLauncher
         } else ShortcutResult.UnsupportedLauncher
     }
@@ -51,15 +51,16 @@ class DefaultShortcutRepository @Inject constructor(
     override fun updateRequestPinShortcut(
         icon: Bitmap?, targetShortcutInfoCompat: TargetShortcutInfoCompat
     ): ShortcutResult {
-        val ids = shortcutManagerCompatWrapper.getShortcuts(ShortcutManagerCompat.FLAG_MATCH_PINNED)
-            .map { it.id }
+        val shortcutIds =
+            shortcutManagerCompatWrapper.getShortcuts(ShortcutManagerCompat.FLAG_MATCH_PINNED)
+                .map { it.id }
 
-        if (targetShortcutInfoCompat.id !in ids) {
+        if (shortcutIds.contains(targetShortcutInfoCompat.id).not()) {
             return ShortcutResult.IDNotFound
         }
 
         return try {
-            val request = shortcutManagerCompatWrapper.updateShortcuts(
+            val updateShortcutsSuccess = shortcutManagerCompatWrapper.updateShortcuts(
                 icon = icon,
                 id = targetShortcutInfoCompat.id!!,
                 shortLabel = targetShortcutInfoCompat.shortLabel!!,
@@ -67,28 +68,12 @@ class DefaultShortcutRepository @Inject constructor(
                 intent = targetShortcutInfoCompat.shortcutIntent!!
             )
 
-            if (request) {
+            if (updateShortcutsSuccess) {
                 ShortcutResult.ShortcutUpdateSuccess
             } else ShortcutResult.ShortcutUpdateFailed
 
         } catch (e: IllegalArgumentException) {
             ShortcutResult.ShortcutUpdateImmutableShortcuts
-        }
-    }
-
-    override fun enableShortcuts(id: String, enabled: Boolean): ShortcutResult {
-        return try {
-            if (enabled) {
-                shortcutManagerCompatWrapper.enableShortcuts(id)
-                ShortcutResult.ShortcutEnable
-            } else {
-                shortcutManagerCompatWrapper.disableShortcuts(id)
-                ShortcutResult.ShortcutDisable
-            }
-        } catch (e: IllegalArgumentException) {
-            ShortcutResult.ShortcutDisableImmutableShortcuts
-        } catch (e: IllegalStateException) {
-            ShortcutResult.UserIsLocked
         }
     }
 

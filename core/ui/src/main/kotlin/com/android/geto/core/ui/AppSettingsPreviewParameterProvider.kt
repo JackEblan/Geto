@@ -19,21 +19,20 @@
 package com.android.geto.core.ui
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import com.android.geto.core.model.AppSettings
-import com.android.geto.core.model.SettingsType
-import com.android.geto.core.ui.AppSettingsPreviewParameterData.appSettingsLists
+import com.android.geto.core.model.AppSetting
+import com.android.geto.core.model.SettingType
+import com.android.geto.core.ui.AppSettingsPreviewParameterData.appSettingLists
 
-class AppSettingsPreviewParameterProvider : PreviewParameterProvider<List<AppSettings>> {
+class AppSettingsPreviewParameterProvider : PreviewParameterProvider<List<AppSetting>> {
 
-    override val values: Sequence<List<AppSettings>> = sequenceOf(appSettingsLists)
+    override val values: Sequence<List<AppSetting>> = sequenceOf(appSettingLists)
 }
 
 object AppSettingsPreviewParameterData {
-    val appSettingsLists = List(5) { index ->
-        AppSettings(
+    val appSettingLists = List(5) { index ->
+        AppSetting(
             id = index,
-            enabled = false,
-            settingsType = SettingsType.SECURE,
+            enabled = false, settingType = SettingType.SECURE,
             packageName = "packageName$index",
             label = "Label $index",
             key = "Key $index",

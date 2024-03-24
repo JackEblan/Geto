@@ -45,17 +45,23 @@ class AppListViewModelTest {
     }
 
     @Test
-    fun appListUiStateIsLoading_whenStarted() = runTest {
+    fun appListUiState_isLoading_whenStarted() = runTest {
         val item = viewModel.appListUiState.value
 
         assertIs<AppListUiState.Loading>(item)
     }
 
     @Test
-    fun appListUiStateIsSuccess_whenGetInstalledApplications() = runTest {
+    fun appListUiState_isSuccess_whenGetInstalledApplications() = runTest {
         val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.appListUiState.collect() }
 
-        packageRepository.setInstalledApplications(testTargetApplicationInfoLists)
+        val installedApplications = List(2) { index ->
+            TargetApplicationInfo(
+                flags = 0, packageName = "packageName$index", label = "Label $index"
+            )
+        }
+
+        packageRepository.setInstalledApplications(installedApplications)
 
         viewModel.getInstalledApplications()
 
@@ -65,10 +71,4 @@ class AppListViewModelTest {
 
         collectJob.cancel()
     }
-}
-
-private val testTargetApplicationInfoLists = List(2) { index ->
-    TargetApplicationInfo(
-        flags = 0, packageName = "packageName$index", label = "Label $index"
-    )
 }

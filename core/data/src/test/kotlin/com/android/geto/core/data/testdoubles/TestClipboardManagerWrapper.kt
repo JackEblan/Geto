@@ -28,9 +28,6 @@ class TestClipboardManagerWrapper : ClipboardManagerWrapper {
         return api32
     }
 
-    /**
-     * A test-only API to set Api to 32
-     */
     fun setApi32(value: Boolean) {
         api32 = value
     }

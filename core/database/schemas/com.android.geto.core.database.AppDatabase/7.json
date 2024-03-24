@@ -1,11 +1,11 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 6,
+    "version": 7,
     "identityHash": "47df97d94a8bc8f76aaa5e5df98617b0",
     "entities": [
       {
-        "tableName": "AppSettingsEntity",
+        "tableName": "AppSettingEntity",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER, `enabled` INTEGER NOT NULL, `settingType` TEXT NOT NULL, `packageName` TEXT NOT NULL, `label` TEXT NOT NULL, `key` TEXT NOT NULL, `valueOnLaunch` TEXT NOT NULL, `valueOnRevert` TEXT NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
@@ -21,8 +21,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "settingsType",
-            "columnName": "settingsType",
+            "fieldPath": "settingType",
+            "columnName": "settingType",
             "affinity": "TEXT",
             "notNull": true
           },

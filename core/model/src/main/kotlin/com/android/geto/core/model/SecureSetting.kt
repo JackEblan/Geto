@@ -18,18 +18,6 @@
 
 package com.android.geto.core.model
 
-data class AppSettings(
-    val id: Int? = null,
-    val enabled: Boolean,
-    val settingsType: SettingsType,
-    val packageName: String,
-    val label: String,
-    val key: String,
-    val valueOnLaunch: String,
-    val valueOnRevert: String
+data class SecureSetting(
+    val id: Long? = null, val name: String? = null, val value: String? = null
 )
-
-enum class SettingsType(val label: String) {
-    SYSTEM("System"), SECURE("Secure"), GLOBAL("Global")
-}
-

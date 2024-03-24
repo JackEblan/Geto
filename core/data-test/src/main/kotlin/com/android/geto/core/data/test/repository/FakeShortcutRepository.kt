@@ -38,10 +38,6 @@ class FakeShortcutRepository @Inject constructor() : ShortcutRepository {
         return ShortcutResult.ShortcutUpdateSuccess
     }
 
-    override fun enableShortcuts(id: String, enabled: Boolean): ShortcutResult {
-        return ShortcutResult.ShortcutEnable
-    }
-
     override fun getShortcut(id: String): ShortcutResult {
         return ShortcutResult.NoShortcut
     }

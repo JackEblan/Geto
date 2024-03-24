@@ -31,10 +31,6 @@ class TestShortcutRepository : ShortcutRepository {
 
     private var updateImmutableShortcuts = false
 
-    private var disableImmutableShortcuts = false
-
-    private var userIsLocked = false
-
     override fun requestPinShortcut(
         icon: Bitmap?, targetShortcutInfoCompat: TargetShortcutInfoCompat
     ): ShortcutResult {
@@ -49,16 +45,6 @@ class TestShortcutRepository : ShortcutRepository {
         return if (updateImmutableShortcuts) {
             ShortcutResult.ShortcutUpdateImmutableShortcuts
         } else ShortcutResult.ShortcutUpdateSuccess
-    }
-
-    override fun enableShortcuts(id: String, enabled: Boolean): ShortcutResult {
-        return if (enabled) {
-            ShortcutResult.ShortcutEnable
-        } else {
-            if (disableImmutableShortcuts) ShortcutResult.ShortcutDisableImmutableShortcuts
-            else if (userIsLocked) ShortcutResult.UserIsLocked
-            else ShortcutResult.ShortcutDisable
-        }
     }
 
     override fun getShortcut(id: String): ShortcutResult {
@@ -76,38 +62,15 @@ class TestShortcutRepository : ShortcutRepository {
         }
     }
 
-    /**
-     * A test-only API to set isRequestPinShortcutSupported
-     */
     fun setRequestPinShortcutSupported(value: Boolean) {
         requestPinShortcutSupported = value
     }
 
-    /**
-     * A test-only API to set a list of [TargetShortcutInfoCompat].
-     */
     fun setShortcuts(value: List<TargetShortcutInfoCompat>) {
         targetShortcutInfoCompats = value
     }
 
-    /**
-     * If trying to update immutable shortcuts
-     */
     fun setUpdateImmutableShortcuts(value: Boolean) {
         updateImmutableShortcuts = value
-    }
-
-    /**
-     *  If trying to disable immutable shortcuts
-     */
-    fun setDisableImmutableShortcuts(value: Boolean) {
-        disableImmutableShortcuts = value
-    }
-
-    /**
-     *  when the user is locked
-     */
-    fun setUserIsLocked(value: Boolean) {
-        userIsLocked = value
     }
 }

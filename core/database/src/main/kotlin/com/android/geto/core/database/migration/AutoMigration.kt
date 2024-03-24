@@ -19,6 +19,7 @@
 package com.android.geto.core.database.migration
 
 import androidx.room.DeleteColumn
+import androidx.room.RenameColumn
 import androidx.room.RenameTable
 import androidx.room.migration.AutoMigrationSpec
 
@@ -29,4 +30,12 @@ class RenameUserAppSettingsItemEntityToAppSettingsItemEntity : AutoMigrationSpec
 class RenameAppSettingsItemEntityToAppSettingsEntity : AutoMigrationSpec
 
 @DeleteColumn(tableName = "AppSettingsEntity", columnName = "safeToWrite")
-class DeleteColumnSafeToWrite : AutoMigrationSpec
+class DeleteSafeToWrite : AutoMigrationSpec
+
+@RenameTable(fromTableName = "AppSettingsEntity", toTableName = "AppSettingEntity")
+@RenameColumn(
+    tableName = "AppSettingsEntity",
+    fromColumnName = "settingsType",
+    toColumnName = "settingType"
+)
+class RenameAppSettingsEntityToAppSettingEntity : AutoMigrationSpec

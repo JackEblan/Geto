@@ -70,7 +70,7 @@ class AppSettingsDialogScreenshotTest {
     }
 
     @Test
-    fun app_settings_dialog_empty() {
+    fun appSettingsDialog_empty() {
         composeTestRule.captureScreenRoboImageMultiDevice(path = "AppSettingsDialog/AppSettingsDialogEmpty") {
             GetoTheme {
                 AddAppSettingsDialog(
@@ -84,16 +84,16 @@ class AppSettingsDialogScreenshotTest {
     }
 
     @Test
-    fun app_settings_dialog_filled_textfields() {
+    fun appSettingsDialog_filled_textfields() {
         addAppSettingsDialogState.updateSelectedRadioOptionIndex(1)
 
-        addAppSettingsDialogState.updateKey("Test")
+        addAppSettingsDialogState.updateKey("Geto")
 
-        addAppSettingsDialogState.updateLabel("Test")
+        addAppSettingsDialogState.updateLabel("Geto")
 
-        addAppSettingsDialogState.updateValueOnLaunch("Test")
+        addAppSettingsDialogState.updateValueOnLaunch("0")
 
-        addAppSettingsDialogState.updateValueOnRevert("Test")
+        addAppSettingsDialogState.updateValueOnRevert("1")
 
         composeTestRule.captureScreenRoboImageMultiDevice(
             path = "AppSettingsDialog/AppSettingsDialogFilledTextFields"
@@ -110,8 +110,8 @@ class AppSettingsDialogScreenshotTest {
     }
 
     @Test
-    fun app_settings_dialog_error_textfields() {
-        addAppSettingsDialogState.getAppSettings(packageName = "Test")
+    fun appSettingsDialog_error_textfields() {
+        addAppSettingsDialogState.getAppSettings(packageName = "")
 
         composeTestRule.captureScreenRoboImageMultiDevice(
             path = "AppSettingsDialog/AppSettingsDialogErrorTextFields"
@@ -128,7 +128,7 @@ class AppSettingsDialogScreenshotTest {
     }
 
     @Test
-    fun app_settings_dialog_empty_dark() {
+    fun appSettingsDialog_empty_dark() {
         composeTestRule.captureScreenRoboImageForDevice(
             path = "AppSettingsDialog/AppSettingsDialogEmpty",
             deviceName = "phone_dark",
@@ -149,7 +149,7 @@ class AppSettingsDialogScreenshotTest {
     }
 
     @Test
-    fun app_settings_dialog_filled_textfields_dark() {
+    fun appSettingsDialog_filled_textfields_dark() {
         addAppSettingsDialogState.updateSelectedRadioOptionIndex(1)
 
         addAppSettingsDialogState.updateKey("Test")
@@ -180,7 +180,7 @@ class AppSettingsDialogScreenshotTest {
     }
 
     @Test
-    fun app_settings_dialog_error_textfields_dark() {
+    fun appSettingsDialog_error_textfields_dark() {
         addAppSettingsDialogState.getAppSettings(packageName = "Test")
 
         composeTestRule.captureScreenRoboImageForDevice(

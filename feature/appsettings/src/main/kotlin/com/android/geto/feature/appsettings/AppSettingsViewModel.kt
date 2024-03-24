@@ -34,9 +34,9 @@ import com.android.geto.core.domain.AppSettingsResult
 import com.android.geto.core.domain.ApplyAppSettingsUseCase
 import com.android.geto.core.domain.AutoLaunchUseCase
 import com.android.geto.core.domain.RevertAppSettingsUseCase
-import com.android.geto.core.model.AppSettings
-import com.android.geto.core.model.SecureSettings
-import com.android.geto.core.model.SettingsType
+import com.android.geto.core.model.AppSetting
+import com.android.geto.core.model.SecureSetting
+import com.android.geto.core.model.SettingType
 import com.android.geto.core.model.TargetShortcutInfoCompat
 import com.android.geto.feature.appsettings.navigation.AppSettingsArgs
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -63,8 +63,8 @@ class AppSettingsViewModel @Inject constructor(
     private val revertAppSettingsUseCase: RevertAppSettingsUseCase,
     private val autoLaunchUseCase: AutoLaunchUseCase
 ) : ViewModel() {
-    private var _secureSettings = MutableStateFlow<List<SecureSettings>>(emptyList())
-    val secureSettings = _secureSettings.asStateFlow()
+    private var _secureSetting = MutableStateFlow<List<SecureSetting>>(emptyList())
+    val secureSettings = _secureSetting.asStateFlow()
 
     private val _applyAppSettingsResult = MutableStateFlow<AppSettingsResult?>(null)
     val applyAppSettingsResult = _applyAppSettingsResult.asStateFlow()
@@ -87,9 +87,9 @@ class AppSettingsViewModel @Inject constructor(
 
     val appName = appSettingsArgs.appName
 
-    val appSettingsUiState: StateFlow<AppSettingsUiState> =
-        appSettingsRepository.getAppSettingsList(packageName)
-            .map<List<AppSettings>, AppSettingsUiState>(AppSettingsUiState::Success)
+    val appSettingUiState: StateFlow<AppSettingsUiState> =
+        appSettingsRepository.getAppSettingsByPackageName(packageName)
+            .map<List<AppSetting>, AppSettingsUiState>(AppSettingsUiState::Success)
             .onStart { emit(AppSettingsUiState.Loading) }.stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5_000),
@@ -108,25 +108,25 @@ class AppSettingsViewModel @Inject constructor(
         }
     }
 
-    fun appSettingsItemCheckBoxChange(checked: Boolean, appSettings: AppSettings) {
+    fun appSettingsItemCheckBoxChange(checked: Boolean, appSetting: AppSetting) {
         viewModelScope.launch {
-            val updatedUserAppSettingsItem = appSettings.copy(enabled = checked)
+            val updatedUserAppSettingsItem = appSetting.copy(enabled = checked)
 
-            appSettingsRepository.upsertAppSettings(
+            appSettingsRepository.upsertAppSetting(
                 updatedUserAppSettingsItem
             )
         }
     }
 
-    fun deleteAppSettingsItem(appSettings: AppSettings) {
+    fun deleteAppSettingsItem(appSetting: AppSetting) {
         viewModelScope.launch {
-            appSettingsRepository.deleteAppSettings(appSettings)
+            appSettingsRepository.deleteAppSetting(appSetting)
         }
     }
 
-    fun addSettings(appSettings: AppSettings) {
+    fun addSettings(appSetting: AppSetting) {
         viewModelScope.launch {
-            appSettingsRepository.upsertAppSettings(appSettings)
+            appSettingsRepository.upsertAppSetting(appSetting)
         }
     }
 
@@ -175,12 +175,12 @@ class AppSettingsViewModel @Inject constructor(
         }
     }
 
-    fun getSecureSettings(text: String, settingsType: SettingsType) {
+    fun getSecureSettings(text: String, settingType: SettingType) {
         viewModelScope.launch {
-            val filteredSecureSettings = secureSettingsRepository.getSecureSettings(settingsType)
+            val filteredSecureSettings = secureSettingsRepository.getSecureSettings(settingType)
                 .filter { it.name!!.contains(text) }.take(20)
 
-            _secureSettings.update { filteredSecureSettings }
+            _secureSetting.update { filteredSecureSettings }
         }
     }
 

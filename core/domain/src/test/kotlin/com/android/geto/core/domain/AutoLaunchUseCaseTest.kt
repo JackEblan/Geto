@@ -18,9 +18,9 @@
 
 package com.android.geto.core.domain
 
-import com.android.geto.core.model.AppSettings
+import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.DarkThemeConfig
-import com.android.geto.core.model.SettingsType
+import com.android.geto.core.model.SettingType
 import com.android.geto.core.model.TargetApplicationInfo
 import com.android.geto.core.model.ThemeBrand
 import com.android.geto.core.model.UserData
@@ -37,24 +37,18 @@ import kotlin.test.assertNotNull
 class AutoLaunchUseCaseTest {
     private lateinit var autoLaunchUseCase: AutoLaunchUseCase
 
-    private lateinit var packageRepository: TestPackageRepository
+    private val packageRepository = TestPackageRepository()
 
-    private lateinit var appSettingsRepository: TestAppSettingsRepository
+    private val appSettingsRepository = TestAppSettingsRepository()
 
-    private lateinit var userDataRepository: TestUserDataRepository
+    private val userDataRepository = TestUserDataRepository()
 
-    private lateinit var secureSettingsRepository: TestSecureSettingsRepository
+    private val secureSettingsRepository = TestSecureSettingsRepository()
+
+    private val packageName = "com.android.geto"
 
     @Before
     fun setup() {
-        packageRepository = TestPackageRepository()
-
-        secureSettingsRepository = TestSecureSettingsRepository()
-
-        appSettingsRepository = TestAppSettingsRepository()
-
-        userDataRepository = TestUserDataRepository()
-
         autoLaunchUseCase = AutoLaunchUseCase(
             packageRepository = packageRepository,
             userDataRepository = userDataRepository,
@@ -64,7 +58,7 @@ class AutoLaunchUseCaseTest {
     }
 
     @Test
-    fun autoLaunchAppUseCase_empty_app_settings_list() = runTest {
+    fun autoLaunchAppUseCase_isEmptyAppSettings() = runTest {
         appSettingsRepository.setAppSettings(emptyList())
 
         userDataRepository.setUserData(
@@ -76,27 +70,27 @@ class AutoLaunchUseCaseTest {
             )
         )
 
-        val result = autoLaunchUseCase(packageName = PACKAGE_NAME_TEST)
+        val result = autoLaunchUseCase(packageName = packageName)
 
         assertIs<AutoLaunchResult.Ignore>(result)
     }
 
     @Test
-    fun autoLaunchAppUseCase_app_settings_disabled() = runTest {
-        appSettingsRepository.setAppSettings(
-            listOf(
-                AppSettings(
-                    id = 0,
-                    enabled = false,
-                    settingsType = SettingsType.SYSTEM,
-                    packageName = PACKAGE_NAME_TEST,
-                    label = "system",
-                    key = "key",
-                    valueOnLaunch = "test",
-                    valueOnRevert = "test"
-                )
+    fun autoLaunchAppUseCase_isAppSettingsDisabled() = runTest {
+        val appSettings = List(5) { index ->
+            AppSetting(
+                id = index,
+                enabled = false,
+                settingType = SettingType.SYSTEM,
+                packageName = packageName,
+                label = "Geto",
+                key = "Geto",
+                valueOnLaunch = "0",
+                valueOnRevert = "1"
             )
-        )
+        }
+
+        appSettingsRepository.setAppSettings(appSettings)
 
         userDataRepository.setUserData(
             userData = UserData(
@@ -107,14 +101,31 @@ class AutoLaunchUseCaseTest {
             )
         )
 
-        val result = autoLaunchUseCase(packageName = PACKAGE_NAME_TEST)
+        val result = autoLaunchUseCase(packageName = packageName)
 
         assertIs<AutoLaunchResult.Ignore>(result)
     }
 
     @Test
-    fun autoLaunchAppUseCase_launchApp() = runTest {
-        packageRepository.setInstalledApplications(testTargetApplicationInfo)
+    fun autoLaunchAppUseCase_isSuccess() = runTest {
+        val appSettings = List(5) { index ->
+            AppSetting(
+                id = index,
+                enabled = true,
+                settingType = SettingType.SYSTEM,
+                packageName = packageName,
+                label = "Geto",
+                key = "Geto",
+                valueOnLaunch = "0",
+                valueOnRevert = "1"
+            )
+        }
+
+        val installedApplications = List(5) { index ->
+            TargetApplicationInfo(flags = 0, packageName = packageName, label = "Geto $index")
+        }
+
+        packageRepository.setInstalledApplications(installedApplications)
 
         secureSettingsRepository.setWriteSecureSettings(true)
 
@@ -127,30 +138,30 @@ class AutoLaunchUseCaseTest {
             )
         )
 
-        appSettingsRepository.setAppSettings(
-            listOf(
-                AppSettings(
-                    id = 0,
-                    enabled = true,
-                    settingsType = SettingsType.SYSTEM,
-                    packageName = PACKAGE_NAME_TEST,
-                    label = "system",
-                    key = "key",
-                    valueOnLaunch = "test",
-                    valueOnRevert = "test"
-                )
-            )
-        )
+        appSettingsRepository.setAppSettings(appSettings)
 
-        val result = autoLaunchUseCase(packageName = PACKAGE_NAME_TEST)
+        val result = autoLaunchUseCase(packageName = packageName)
 
         assertIs<AppSettingsResult.Success>(result)
 
-        assertNotNull(result.intent)
+        assertNotNull(result.launchIntent)
     }
 
     @Test
-    fun autoLaunchAppUseCase_security_exception() = runTest {
+    fun autoLaunchAppUseCase_isSecurityException() = runTest {
+        val appSettings = List(5) { index ->
+            AppSetting(
+                id = index,
+                enabled = true,
+                settingType = SettingType.SYSTEM,
+                packageName = packageName,
+                label = "Geto",
+                key = "Geto",
+                valueOnLaunch = "0",
+                valueOnRevert = "1"
+            )
+        }
+
         secureSettingsRepository.setWriteSecureSettings(false)
 
         userDataRepository.setUserData(
@@ -162,28 +173,28 @@ class AutoLaunchUseCaseTest {
             )
         )
 
-        appSettingsRepository.setAppSettings(
-            listOf(
-                AppSettings(
-                    id = 0,
-                    enabled = true,
-                    settingsType = SettingsType.SYSTEM,
-                    packageName = PACKAGE_NAME_TEST,
-                    label = "system",
-                    key = "key",
-                    valueOnLaunch = "test",
-                    valueOnRevert = "test"
-                )
-            )
-        )
+        appSettingsRepository.setAppSettings(appSettings)
 
-        val result = autoLaunchUseCase(packageName = PACKAGE_NAME_TEST)
+        val result = autoLaunchUseCase(packageName = packageName)
 
         assertIs<AppSettingsResult.SecurityException>(result)
     }
 
     @Test
-    fun autoLaunchAppUseCase_illegal_argument_exception() = runTest {
+    fun autoLaunchAppUseCase_isIllegalArgumentException() = runTest {
+        val appSettings = List(5) { index ->
+            AppSetting(
+                id = index,
+                enabled = true,
+                settingType = SettingType.SYSTEM,
+                packageName = packageName,
+                label = "Geto",
+                key = "Geto",
+                valueOnLaunch = "0",
+                valueOnRevert = "1"
+            )
+        }
+
         secureSettingsRepository.setWriteSecureSettings(true)
 
         secureSettingsRepository.setInvalidValues(true)
@@ -197,28 +208,28 @@ class AutoLaunchUseCaseTest {
             )
         )
 
-        appSettingsRepository.setAppSettings(
-            listOf(
-                AppSettings(
-                    id = 0,
-                    enabled = true,
-                    settingsType = SettingsType.SYSTEM,
-                    packageName = PACKAGE_NAME_TEST,
-                    label = "system",
-                    key = "key",
-                    valueOnLaunch = "test",
-                    valueOnRevert = "test"
-                )
-            )
-        )
+        appSettingsRepository.setAppSettings(appSettings)
 
-        val result = autoLaunchUseCase(packageName = PACKAGE_NAME_TEST)
+        val result = autoLaunchUseCase(packageName = packageName)
 
         assertIs<AppSettingsResult.IllegalArgumentException>(result)
     }
 
     @Test
-    fun autoLaunchAppUseCase_ignore() = runTest {
+    fun autoLaunchAppUseCase_isIgnore() = runTest {
+        val appSettings = List(5) { index ->
+            AppSetting(
+                id = index,
+                enabled = true,
+                settingType = SettingType.SYSTEM,
+                packageName = packageName,
+                label = "Geto",
+                key = "Geto",
+                valueOnLaunch = "0",
+                valueOnRevert = "1"
+            )
+        }
+
         secureSettingsRepository.setWriteSecureSettings(true)
 
         userDataRepository.setUserData(
@@ -230,30 +241,10 @@ class AutoLaunchUseCaseTest {
             )
         )
 
-        appSettingsRepository.setAppSettings(
-            listOf(
-                AppSettings(
-                    id = 0,
-                    enabled = true,
-                    settingsType = SettingsType.SYSTEM,
-                    packageName = PACKAGE_NAME_TEST,
-                    label = "system",
-                    key = "key",
-                    valueOnLaunch = "test",
-                    valueOnRevert = "test"
-                )
-            )
-        )
+        appSettingsRepository.setAppSettings(appSettings)
 
-        val result = autoLaunchUseCase(packageName = PACKAGE_NAME_TEST)
+        val result = autoLaunchUseCase(packageName = packageName)
 
         assertIs<AutoLaunchResult.Ignore>(result)
     }
 }
-
-private const val PACKAGE_NAME_TEST = "packageNameTest"
-
-private val testTargetApplicationInfo = listOf(
-    TargetApplicationInfo(flags = 0, packageName = PACKAGE_NAME_TEST, label = "Label 0"),
-    TargetApplicationInfo(flags = 0, packageName = PACKAGE_NAME_TEST, label = "Label 1")
-)

@@ -65,7 +65,7 @@ class UpdateShortcutDialogScreenshotTest {
     }
 
     @Test
-    fun update_shortcut_dialog_empty() {
+    fun updateShortcutDialog_empty() {
         composeTestRule.captureScreenRoboImageMultiDevice(
             path = "UpdateShortcutDialog/UpdateShortcutDialogEmpty"
         ) {
@@ -80,10 +80,10 @@ class UpdateShortcutDialogScreenshotTest {
     }
 
     @Test
-    fun update_shortcut_dialog_filled_textfields() {
-        shortcutDialogState.updateShortLabel("Short Label")
+    fun updateShortcutDialog_filled_textfields() {
+        shortcutDialogState.updateShortLabel("Geto")
 
-        shortcutDialogState.updateLongLabel("Long Label")
+        shortcutDialogState.updateLongLabel("Geto")
 
         composeTestRule.captureScreenRoboImageMultiDevice(
             path = "UpdateShortcutDialog/UpdateShortcutDialogFilledTextFields"
@@ -99,8 +99,8 @@ class UpdateShortcutDialogScreenshotTest {
     }
 
     @Test
-    fun update_shortcut_dialog_error_textfields() {
-        shortcutDialogState.getShortcut(packageName = "Test", shortcutIntent = Intent())
+    fun updateShortcutDialog_error_textfields() {
+        shortcutDialogState.getShortcut(packageName = "Geto", shortcutIntent = Intent())
 
         composeTestRule.captureScreenRoboImageMultiDevice(
             path = "UpdateShortcutDialog/UpdateShortcutDialogErrorTextFields"
@@ -116,7 +116,7 @@ class UpdateShortcutDialogScreenshotTest {
     }
 
     @Test
-    fun update_shortcut_dialog_empty_dark() {
+    fun updateShortcutDialog_empty_dark() {
         composeTestRule.captureScreenRoboImageForDevice(
             path = "UpdateShortcutDialog/UpdateShortcutDialogEmpty",
             deviceName = "phone_dark",
@@ -136,10 +136,10 @@ class UpdateShortcutDialogScreenshotTest {
     }
 
     @Test
-    fun update_shortcut_dialog_filled_textfields_dark() {
-        shortcutDialogState.updateShortLabel("Short Label")
+    fun updateShortcutDialog_filled_textfields_dark() {
+        shortcutDialogState.updateShortLabel("Geto")
 
-        shortcutDialogState.updateLongLabel("Long Label")
+        shortcutDialogState.updateLongLabel("Geto")
 
         composeTestRule.captureScreenRoboImageForDevice(
             path = "UpdateShortcutDialog/UpdateShortcutDialogFilledTextFields",
@@ -160,8 +160,8 @@ class UpdateShortcutDialogScreenshotTest {
     }
 
     @Test
-    fun update_shortcut_dialog_error_textfields_dark() {
-        shortcutDialogState.getShortcut(packageName = "Test", shortcutIntent = Intent())
+    fun updateShortcutDialog_error_textfields_dark() {
+        shortcutDialogState.getShortcut(packageName = "Geto", shortcutIntent = Intent())
 
         composeTestRule.captureScreenRoboImageForDevice(
             path = "UpdateShortcutDialog/UpdateShortcutDialogErrorTextFields",

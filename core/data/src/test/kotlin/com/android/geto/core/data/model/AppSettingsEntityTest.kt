@@ -19,8 +19,8 @@
 package com.android.geto.core.data.model
 
 import com.android.geto.core.database.model.asEntity
-import com.android.geto.core.model.AppSettings
-import com.android.geto.core.model.SettingsType
+import com.android.geto.core.model.AppSetting
+import com.android.geto.core.model.SettingType
 import org.junit.Test
 import kotlin.test.assertEquals
 
@@ -28,10 +28,9 @@ class AppSettingsEntityTest {
 
     @Test
     fun appSettings_canBeMappedToEntity() {
-        val appSettings = AppSettings(
+        val appSetting = AppSetting(
             id = 1,
-            enabled = false,
-            settingsType = SettingsType.SECURE,
+            enabled = false, settingType = SettingType.SECURE,
             packageName = "packageName",
             label = "label",
             key = "key",
@@ -39,11 +38,11 @@ class AppSettingsEntityTest {
             valueOnRevert = "valueOnRevert"
         )
 
-        val entity = appSettings.asEntity()
+        val entity = appSetting.asEntity()
 
         assertEquals(1, entity.id)
         assertEquals(false, entity.enabled)
-        assertEquals(SettingsType.SECURE, entity.settingsType)
+        assertEquals(SettingType.SECURE, entity.settingType)
         assertEquals("packageName", entity.packageName)
         assertEquals("label", entity.label)
         assertEquals("key", entity.key)

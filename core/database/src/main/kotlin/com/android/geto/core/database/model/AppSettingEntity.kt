@@ -20,14 +20,13 @@ package com.android.geto.core.database.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.android.geto.core.model.AppSettings
-import com.android.geto.core.model.SettingsType
+import com.android.geto.core.model.AppSetting
+import com.android.geto.core.model.SettingType
 
 @Entity
-data class AppSettingsEntity(
+data class AppSettingEntity(
     @PrimaryKey val id: Int? = null,
-    val enabled: Boolean,
-    val settingsType: SettingsType,
+    val enabled: Boolean, val settingType: SettingType,
     val packageName: String,
     val label: String,
     val key: String,
@@ -35,11 +34,10 @@ data class AppSettingsEntity(
     val valueOnRevert: String
 )
 
-fun AppSettingsEntity.asExternalModel(): AppSettings {
-    return AppSettings(
+fun AppSettingEntity.asExternalModel(): AppSetting {
+    return AppSetting(
         id = id,
-        enabled = enabled,
-        settingsType = settingsType,
+        enabled = enabled, settingType = settingType,
         packageName = packageName,
         label = label,
         key = key,
@@ -48,11 +46,10 @@ fun AppSettingsEntity.asExternalModel(): AppSettings {
     )
 }
 
-fun AppSettings.asEntity(): AppSettingsEntity {
-    return AppSettingsEntity(
+fun AppSetting.asEntity(): AppSettingEntity {
+    return AppSettingEntity(
         id = id,
-        enabled = enabled,
-        settingsType = settingsType,
+        enabled = enabled, settingType = settingType,
         packageName = packageName,
         label = label,
         key = key,

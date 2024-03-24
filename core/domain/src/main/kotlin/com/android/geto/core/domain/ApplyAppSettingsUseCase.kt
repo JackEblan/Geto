@@ -30,19 +30,21 @@ class ApplyAppSettingsUseCase @Inject constructor(
     private val secureSettingsRepository: SecureSettingsRepository
 ) {
     suspend operator fun invoke(packageName: String): AppSettingsResult {
-        val intent = packageRepository.getLaunchIntentForPackage(packageName)
+        val launchIntent = packageRepository.getLaunchIntentForPackage(packageName)
 
-        val appSettingsList = appSettingsRepository.getAppSettingsList(packageName).first()
+        val appSettings = appSettingsRepository.getAppSettingsByPackageName(packageName).first()
 
         return when {
-            appSettingsList.isEmpty() -> AppSettingsResult.EmptyAppSettingsList
+            appSettings.isEmpty() -> AppSettingsResult.EmptyAppSettings
 
-            appSettingsList.any { !it.enabled } -> AppSettingsResult.AppSettingsDisabled
+            appSettings.any { it.enabled.not() } -> AppSettingsResult.AppSettingsDisabled
 
             else -> try {
-                val applied = secureSettingsRepository.applySecureSettings(appSettingsList)
-                if (applied) {
-                    AppSettingsResult.Success(intent = intent)
+                val applySecureSettingsSuccess =
+                    secureSettingsRepository.applySecureSettings(appSettings)
+
+                if (applySecureSettingsSuccess) {
+                    AppSettingsResult.Success(launchIntent = launchIntent)
                 } else {
                     AppSettingsResult.Failure
                 }

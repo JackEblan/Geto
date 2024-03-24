@@ -19,7 +19,7 @@
 package com.android.geto.core.data.testdoubles
 
 import com.android.geto.core.database.dao.AppSettingsDao
-import com.android.geto.core.database.model.AppSettingsEntity
+import com.android.geto.core.database.model.AppSettingEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -27,23 +27,21 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 
 class TestAppSettingsDao : AppSettingsDao {
-    private val _appSettingsFlow = MutableStateFlow(emptyList<AppSettingsEntity>())
+    private val _appSettingsFlow = MutableStateFlow(emptyList<AppSettingEntity>())
 
-    override suspend fun upsert(entity: AppSettingsEntity) {
-
-        //New entity comes first so the old entity is overwritten by distinctBy
+    override suspend fun upsertAppSettingEntity(entity: AppSettingEntity) {
         _appSettingsFlow.update { entities ->
-            (entities + entity).reversed().distinctBy { AppSettingsEntity::id }
+            (entities + entity).reversed().distinctBy(AppSettingEntity::id)
         }
     }
 
-    override suspend fun delete(entity: AppSettingsEntity) {
+    override suspend fun deleteAppSettingEntity(entity: AppSettingEntity) {
         _appSettingsFlow.update { entities ->
             entities.filterNot { it.id == entity.id }
         }
     }
 
-    override fun getAllAppSettingsList(): Flow<List<AppSettingsEntity>> {
+    override fun getAppSettings(): Flow<List<AppSettingEntity>> {
         return _appSettingsFlow.asStateFlow()
     }
 
@@ -53,7 +51,7 @@ class TestAppSettingsDao : AppSettingsDao {
         }
     }
 
-    override fun getAppSettingsList(packageName: String): Flow<List<AppSettingsEntity>> {
+    override fun getAppSettingsByPackageName(packageName: String): Flow<List<AppSettingEntity>> {
         return _appSettingsFlow.asStateFlow().map { entities ->
             entities.filter { it.packageName == packageName }
         }

@@ -30,60 +30,62 @@ class ShortcutDialogStateTest {
 
     private val resourcesWrapper = TestResourcesWrapper()
 
+    private val packageName = "com.android.geto"
+
     @Before
     fun setup() {
         shortcutDialogState = ShortcutDialogState(resourcesWrapper = resourcesWrapper)
     }
 
     @Test
-    fun shortLabelErrorIsNotBlank_whenShortLabelIsBlank() {
+    fun shortLabelError_isNotBlank_whenShortLabel_isBlank() {
         resourcesWrapper.setString("Short label is blank")
 
         shortcutDialogState.updateShortLabel("")
 
-        shortcutDialogState.getShortcut(packageName = "packageName", shortcutIntent = Intent())
+        shortcutDialogState.getShortcut(packageName = packageName, shortcutIntent = Intent())
 
         assertTrue { shortcutDialogState.shortLabelError.isNotBlank() }
     }
 
     @Test
-    fun shortLabelErrorIsBlank_whenShortLabelIsNotBlank() {
-        shortcutDialogState.updateShortLabel("Test")
+    fun shortLabelError_isBlank_whenShortLabel_isNotBlank() {
+        shortcutDialogState.updateShortLabel("Geto")
 
-        shortcutDialogState.getShortcut(packageName = "packageName", shortcutIntent = Intent())
+        shortcutDialogState.getShortcut(packageName = packageName, shortcutIntent = Intent())
 
         assertTrue { shortcutDialogState.shortLabelError.isBlank() }
     }
 
     @Test
-    fun longLabelErrorIsNotBlank_whenLongLabelIsBlank() {
+    fun longLabelError_isNotBlank_whenLongLabel_isBlank() {
         resourcesWrapper.setString("Long label is blank")
 
         shortcutDialogState.updateLongLabel("")
 
-        shortcutDialogState.getShortcut(packageName = "packageName", shortcutIntent = Intent())
+        shortcutDialogState.getShortcut(packageName = packageName, shortcutIntent = Intent())
 
         assertTrue { shortcutDialogState.longLabelError.isNotBlank() }
     }
 
     @Test
-    fun longLabelErrorIsBlank_whenLongLabelIsNotBlank() {
-        shortcutDialogState.updateLongLabel("Test")
+    fun longLabelError_isBlank_whenLongLabel_isNotBlank() {
+        shortcutDialogState.updateLongLabel("Geto")
 
-        shortcutDialogState.getShortcut(packageName = "packageName", shortcutIntent = Intent())
+        shortcutDialogState.getShortcut(packageName = packageName, shortcutIntent = Intent())
 
         assertTrue { shortcutDialogState.longLabelError.isBlank() }
     }
 
     @Test
-    fun getShortcut_whenAllFieldsAreFilled() {
-        shortcutDialogState.updateShortLabel("Test")
+    fun getShortcut_isNotNull_whenAllProperties_areFilled() {
+        shortcutDialogState.updateShortLabel("Geto")
 
-        shortcutDialogState.updateLongLabel("Test")
+        shortcutDialogState.updateLongLabel("Geto")
 
         assertNotNull(
             shortcutDialogState.getShortcut(
-                packageName = "packageName", shortcutIntent = Intent()
+                packageName = packageName, shortcutIntent = Intent()
             )
         )
     }
