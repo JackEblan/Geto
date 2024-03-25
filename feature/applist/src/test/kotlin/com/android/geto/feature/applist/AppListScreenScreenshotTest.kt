@@ -47,7 +47,7 @@ class AppListScreenScreenshotTest {
 
     private val installedApplications = List(5) { index ->
         TargetApplicationInfo(
-            flags = 0, packageName = "packageName$index", label = "Geto $index"
+            flags = 0, packageName = "com.android.geto$index", label = "Geto $index"
         )
     }
 

@@ -41,17 +41,23 @@ class TestAppSettingsDao : AppSettingsDao {
         }
     }
 
-    override fun getAppSettings(): Flow<List<AppSettingEntity>> {
+    override fun getAppSettingEntities(): Flow<List<AppSettingEntity>> {
         return _appSettingsFlow.asStateFlow()
     }
 
-    override suspend fun deleteAppSettingsByPackageName(packageNames: List<String>) {
+    override suspend fun deleteAppSettingEntitiesByPackageName(packageNames: List<String>) {
         _appSettingsFlow.update { entities ->
             entities.filterNot { it.packageName in packageNames }
         }
     }
 
-    override fun getAppSettingsByPackageName(packageName: String): Flow<List<AppSettingEntity>> {
+    override suspend fun upsertAppSettingEntities(entities: List<AppSettingEntity>) {
+        _appSettingsFlow.update { oldEntities ->
+            (oldEntities + entities).distinctBy(AppSettingEntity::id)
+        }
+    }
+
+    override fun getAppSettingEntitiesByPackageName(packageName: String): Flow<List<AppSettingEntity>> {
         return _appSettingsFlow.asStateFlow().map { entities ->
             entities.filter { it.packageName == packageName }
         }

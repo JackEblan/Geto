@@ -35,8 +35,21 @@ class AppSettingsScreenTest {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
+    private val appSettings = List(5) { index ->
+        AppSetting(
+            id = index,
+            enabled = true,
+            settingType = SettingType.SYSTEM,
+            packageName = "com.android.geto",
+            label = "Geto",
+            key = "Geto",
+            valueOnLaunch = "0",
+            valueOnRevert = "1"
+        )
+    }
+
     @Test
-    fun getoOverlayLoadingWheelIsDisplayed_whenAppSettingsUiStateIsLoading() {
+    fun getoOverlayLoadingWheel_isDisplayed_whenAppSettingsUiState_isLoading() {
         composeTestRule.setContent {
             AppSettingsScreen(snackbarHostState = SnackbarHostState(),
                               appName = "Geto",
@@ -54,7 +67,7 @@ class AppSettingsScreenTest {
     }
 
     @Test
-    fun emptyListPlaceHolderScreenIsDisplayed_whenDataIsEmpty() {
+    fun emptyListPlaceHolderScreen_isDisplayed_whenAppSettings_isEmpty() {
         composeTestRule.setContent {
             AppSettingsScreen(snackbarHostState = SnackbarHostState(),
                               appName = "Geto",
@@ -72,11 +85,11 @@ class AppSettingsScreenTest {
     }
 
     @Test
-    fun lazyColumnIsDisplayed_whenAppSettingsUiStateIsSuccess() {
+    fun lazyColumn_isDisplayed_whenAppSettingsUiState_isSuccess() {
         composeTestRule.setContent {
             AppSettingsScreen(snackbarHostState = SnackbarHostState(),
                               appName = "Geto",
-                              appSettingsUiState = AppSettingsUiState.Success(testAppSettingList),
+                              appSettingsUiState = AppSettingsUiState.Success(appSettings),
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
                               onSettingsIconClick = {},
@@ -90,11 +103,11 @@ class AppSettingsScreenTest {
     }
 
     @Test
-    fun revertTooltipIsDisplayed_whenRevertIconIsLongClicked() {
+    fun revertTooltip_isDisplayed_whenRevertIcon_isLongClicked() {
         composeTestRule.setContent {
             AppSettingsScreen(snackbarHostState = SnackbarHostState(),
                               appName = "Geto",
-                              appSettingsUiState = AppSettingsUiState.Success(testAppSettingList),
+                              appSettingsUiState = AppSettingsUiState.Success(appSettings),
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
                               onSettingsIconClick = {},
@@ -112,11 +125,11 @@ class AppSettingsScreenTest {
     }
 
     @Test
-    fun settingsTooltipIsDisplayed_whenSettingsIconIsLongClicked() {
+    fun settingsTooltip_isDisplayed_whenSettingsIcon_isLongClicked() {
         composeTestRule.setContent {
             AppSettingsScreen(snackbarHostState = SnackbarHostState(),
                               appName = "Geto",
-                              appSettingsUiState = AppSettingsUiState.Success(testAppSettingList),
+                              appSettingsUiState = AppSettingsUiState.Success(appSettings),
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
                               onSettingsIconClick = {},
@@ -134,11 +147,11 @@ class AppSettingsScreenTest {
     }
 
     @Test
-    fun shortcutTooltipIsDisplayed_whenShortcutIconIsLongClicked() {
+    fun shortcutTooltip_isDisplayed_whenShortcutIcon_isLongClicked() {
         composeTestRule.setContent {
             AppSettingsScreen(snackbarHostState = SnackbarHostState(),
                               appName = "Geto",
-                              appSettingsUiState = AppSettingsUiState.Success(testAppSettingList),
+                              appSettingsUiState = AppSettingsUiState.Success(appSettings),
                               onNavigationIconClick = {},
                               onRevertSettingsIconClick = {},
                               onSettingsIconClick = {},
@@ -154,15 +167,4 @@ class AppSettingsScreenTest {
 
         composeTestRule.onNodeWithTag("appsettings:tooltip:shortcut").assertIsDisplayed()
     }
-}
-
-private val testAppSettingList = List(2) { index ->
-    AppSetting(
-        id = index,
-        enabled = true, settingType = SettingType.SYSTEM,
-        packageName = "packageName$index",
-        label = "Label $index", key = "key$index",
-        valueOnLaunch = "valueOnLaunch$index",
-        valueOnRevert = "valueOnRevert$index"
-    )
 }

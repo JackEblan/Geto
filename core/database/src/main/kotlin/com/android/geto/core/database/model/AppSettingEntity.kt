@@ -25,8 +25,9 @@ import com.android.geto.core.model.SettingType
 
 @Entity
 data class AppSettingEntity(
-    @PrimaryKey val id: Int? = null,
-    val enabled: Boolean, val settingType: SettingType,
+    @PrimaryKey(autoGenerate = true) val id: Int? = null,
+    val enabled: Boolean,
+    val settingType: SettingType,
     val packageName: String,
     val label: String,
     val key: String,
@@ -36,8 +37,7 @@ data class AppSettingEntity(
 
 fun AppSettingEntity.asExternalModel(): AppSetting {
     return AppSetting(
-        id = id,
-        enabled = enabled, settingType = settingType,
+        id = id ?: 0, enabled = enabled, settingType = settingType,
         packageName = packageName,
         label = label,
         key = key,
@@ -48,8 +48,7 @@ fun AppSettingEntity.asExternalModel(): AppSetting {
 
 fun AppSetting.asEntity(): AppSettingEntity {
     return AppSettingEntity(
-        id = id,
-        enabled = enabled, settingType = settingType,
+        id = id, enabled = enabled, settingType = settingType,
         packageName = packageName,
         label = label,
         key = key,

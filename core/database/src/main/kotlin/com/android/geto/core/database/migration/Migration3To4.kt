@@ -23,7 +23,6 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 
 class Migration3To4 : Migration(3, 4) {
     override fun migrate(db: SupportSQLiteDatabase) {
-        // Create a new table with the same structure but with an added safeToWrite column
         db.execSQL(
             """
            CREATE TABLE IF NOT EXISTS new_table (
@@ -40,13 +39,10 @@ class Migration3To4 : Migration(3, 4) {
        """.trimIndent()
         )
 
-        // Copy the data from the old table to the new table
         db.execSQL("INSERT INTO new_table (id, enabled, settingsType, packageName, label, key, valueOnLaunch, valueOnRevert) SELECT * FROM AppSettingsItemEntity")
 
-        // Delete the old table
         db.execSQL("DROP TABLE AppSettingsItemEntity")
 
-        // Rename the new table to the old table name
         db.execSQL("ALTER TABLE new_table RENAME TO AppSettingsItemEntity")
     }
 }

@@ -53,16 +53,16 @@ class UpdateShortcutDialogTest {
     }
 
     @Test
-    fun shortLabelSupportingTextIsDisplayed_whenShortLabelTextFieldIsBlank() {
+    fun shortLabelSupportingText_isDisplayed_whenShortLabelTextField_isBlank() {
         composeTestRule.setContent {
             UpdateShortcutDialog(
                 shortcutDialogState = updateShortcutDialogState, onUpdateShortcut = {
                     updateShortcutDialogState.updateShortLabel("")
 
-                    updateShortcutDialogState.updateLongLabel("Test")
+                    updateShortcutDialogState.updateLongLabel("Geto")
 
                     updateShortcutDialogState.getShortcut(
-                        packageName = "packageName", shortcutIntent = Intent()
+                        packageName = "com.android.geto", shortcutIntent = Intent()
                     )
                 }, contentDescription = "Update Shortcut Dialog"
             )
@@ -76,16 +76,16 @@ class UpdateShortcutDialogTest {
     }
 
     @Test
-    fun longLabelSupportingTextIsDisplayed_whenLongLabelTextFieldIsBlank() {
+    fun longLabelSupportingText_isDisplayed_whenLongLabelTextField_isBlank() {
         composeTestRule.setContent {
             UpdateShortcutDialog(
                 shortcutDialogState = updateShortcutDialogState, onUpdateShortcut = {
-                    updateShortcutDialogState.updateShortLabel("Test")
+                    updateShortcutDialogState.updateShortLabel("Geto")
 
                     updateShortcutDialogState.updateLongLabel("")
 
                     updateShortcutDialogState.getShortcut(
-                        packageName = "packageName", shortcutIntent = Intent()
+                        packageName = "com.android.geto", shortcutIntent = Intent()
                     )
                 }, contentDescription = "Update Shortcut Dialog"
             )
