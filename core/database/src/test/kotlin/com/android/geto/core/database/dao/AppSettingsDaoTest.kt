@@ -29,9 +29,12 @@ import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
+@RunWith(RobolectricTestRunner::class)
 class AppSettingsDaoTest {
     private lateinit var appSettingsDao: AppSettingsDao
 
@@ -96,11 +99,10 @@ class AppSettingsDaoTest {
 
         val newAppSettingsEntities = List(10) { index ->
             AppSettingEntity(
-                id = index,
+                id = index + 11,
                 enabled = false,
                 settingType = SettingType.GLOBAL,
-                packageName = "com.android.geto.new",
-                label = "Geto", key = "Geto",
+                packageName = "com.android.geto.new", label = "Geto", key = "Geto",
                 valueOnLaunch = "0",
                 valueOnRevert = "1"
             )

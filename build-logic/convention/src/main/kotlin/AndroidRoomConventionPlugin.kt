@@ -44,7 +44,6 @@ class AndroidRoomConventionPlugin : Plugin<Project> {
                 add("implementation", libs.room.runtime)
                 add("implementation", libs.room.ktx)
                 add("ksp", libs.room.compiler)
-                add("androidTestImplementation", libs.room.testing)
             }
         }
     }
