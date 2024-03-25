@@ -39,13 +39,14 @@ dependencies {
     compileOnly(libs.android.gradlePlugin)
     compileOnly(libs.kotlin.gradlePlugin)
     compileOnly(libs.ksp.gradlePlugin)
+    compileOnly(libs.room.gradlePlugin)
     implementation(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
 }
 
 tasks {
     validatePlugins {
-        enableStricterValidation.set(true)
-        failOnWarning.set(true)
+        enableStricterValidation = true
+        failOnWarning = true
     }
 }
 
