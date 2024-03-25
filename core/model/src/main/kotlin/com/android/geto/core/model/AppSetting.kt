@@ -19,7 +19,7 @@
 package com.android.geto.core.model
 
 data class AppSetting(
-    val id: Int? = null,
+    val id: Int = 0,
     val enabled: Boolean, val settingType: SettingType,
     val packageName: String,
     val label: String,

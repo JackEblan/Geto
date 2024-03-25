@@ -46,7 +46,7 @@ class AppListScreenTest {
     fun lazyColumn_isDisplayed_whenAppListUiState_isSuccess() {
         val installedApplications = List(2) { index ->
             TargetApplicationInfo(
-                flags = 0, packageName = "packageName$index", label = "Label $index"
+                flags = 0, packageName = "com.android.geto$index", label = "Geto $index"
             )
         }
 

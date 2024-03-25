@@ -101,7 +101,7 @@ class MigrationTest {
     @Throws(IOException::class)
     fun migrate6To7() {
         helper.createDatabase(testDb, 6).apply {
-            execSQL("INSERT OR REPLACE INTO AppSettingsEntity (id, enabled, settingType, packageName, label, key, valueOnLaunch, valueOnRevert) VALUES (0, 1, 'GLOBAL', 'com.android.geto', 'label', 'key', 'valueOnLaunch', 'valueOnRevert')")
+            execSQL("INSERT OR REPLACE INTO AppSettingsEntity (id, enabled, settingsType, packageName, label, key, valueOnLaunch, valueOnRevert) VALUES (0, 1, 'GLOBAL', 'com.android.geto', 'label', 'key', 'valueOnLaunch', 'valueOnRevert')")
             close()
         }
 

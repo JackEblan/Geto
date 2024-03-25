@@ -56,7 +56,7 @@ class AppSettingsDaoTest {
 
     @Test
     fun appSettingsDao_getAppSettingsByPackageName() = runTest {
-        val appSettingsEntities = List(10) { index ->
+        val appSettingEntities = List(10) { index ->
             AppSettingEntity(
                 id = index,
                 enabled = false,
@@ -69,13 +69,13 @@ class AppSettingsDaoTest {
             )
         }
 
-        appSettingsDao.upsertAppSettingEntities(appSettingsEntities)
+        appSettingsDao.upsertAppSettingEntities(appSettingEntities)
 
         val appSettingEntitiesByPackageName =
             appSettingsDao.getAppSettingEntitiesByPackageName("com.android.geto").first()
 
         assertTrue {
-            appSettingEntitiesByPackageName.containsAll(appSettingsEntities)
+            appSettingEntitiesByPackageName.containsAll(appSettingEntities)
         }
     }
 
@@ -100,8 +100,7 @@ class AppSettingsDaoTest {
                 enabled = false,
                 settingType = SettingType.GLOBAL,
                 packageName = "com.android.geto.new",
-                label = "Geto",
-                key = "$index",
+                label = "Geto", key = "Geto",
                 valueOnLaunch = "0",
                 valueOnRevert = "1"
             )

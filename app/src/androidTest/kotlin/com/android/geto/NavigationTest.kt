@@ -40,18 +40,16 @@ import kotlin.test.assertEquals
 
 @HiltAndroidTest
 class NavigationTest {
-
-    @get:Rule
+    @get:Rule(order = 0)
     val hiltRule = HiltAndroidRule(this)
 
-    @get:Rule
+    @get:Rule(order = 1)
     val composeTestRule = createAndroidComposeRule<MainActivity>()
 
     private lateinit var navController: TestNavHostController
 
     @Before
     fun setUp() {
-        hiltRule.inject()
         composeTestRule.activity.setContent {
             navController = TestNavHostController(LocalContext.current)
             navController.navigatorProvider.addNavigator(ComposeNavigator())

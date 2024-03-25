@@ -27,7 +27,7 @@ import kotlin.test.assertTrue
 
 class AppSettingsDialogStateTest {
 
-    private lateinit var appSettingsDialogState: AppSettingsDialogState
+    private lateinit var appSettingDialogState: AppSettingDialogState
 
     private val resourcesWrapper = TestResourcesWrapper()
 
@@ -35,47 +35,47 @@ class AppSettingsDialogStateTest {
 
     @Before
     fun setup() {
-        appSettingsDialogState = AppSettingsDialogState(resourcesWrapper = resourcesWrapper)
+        appSettingDialogState = AppSettingDialogState(resourcesWrapper = resourcesWrapper)
     }
 
     @Test
     fun labelError_isNotBlank_whenLabel_isBlank() {
         resourcesWrapper.setString("Settings label is blank")
 
-        appSettingsDialogState.updateLabel("")
+        appSettingDialogState.updateLabel("")
 
-        appSettingsDialogState.getAppSettings(packageName = packageName)
+        appSettingDialogState.getAppSetting(packageName = packageName)
 
-        assertTrue { appSettingsDialogState.labelError.isNotBlank() }
+        assertTrue { appSettingDialogState.labelError.isNotBlank() }
     }
 
     @Test
     fun labelError_isBlank_whenLabel_isNotBlank() {
-        appSettingsDialogState.updateLabel("Geto")
+        appSettingDialogState.updateLabel("Geto")
 
-        appSettingsDialogState.getAppSettings(packageName = packageName)
+        appSettingDialogState.getAppSetting(packageName = packageName)
 
-        assertTrue { appSettingsDialogState.labelError.isBlank() }
+        assertTrue { appSettingDialogState.labelError.isBlank() }
     }
 
     @Test
     fun keyError_isNotBlank_whenKey_isBlank() {
         resourcesWrapper.setString("Settings key is blank")
 
-        appSettingsDialogState.updateKey("")
+        appSettingDialogState.updateKey("")
 
-        appSettingsDialogState.getAppSettings(packageName = packageName)
+        appSettingDialogState.getAppSetting(packageName = packageName)
 
-        assertTrue { appSettingsDialogState.keyError.isNotBlank() }
+        assertTrue { appSettingDialogState.keyError.isNotBlank() }
     }
 
     @Test
     fun keyError_isBlank_whenKey_isNotBlank() {
-        appSettingsDialogState.updateKey("Geto")
+        appSettingDialogState.updateKey("Geto")
 
-        appSettingsDialogState.getAppSettings(packageName = packageName)
+        appSettingDialogState.getAppSetting(packageName = packageName)
 
-        assertTrue { appSettingsDialogState.keyError.isBlank() }
+        assertTrue { appSettingDialogState.keyError.isBlank() }
     }
 
     @Test
@@ -86,13 +86,13 @@ class AppSettingsDialogStateTest {
 
         resourcesWrapper.setString("Settings key not found")
 
-        appSettingsDialogState.updateSecureSettings(secureSettings)
+        appSettingDialogState.updateSecureSettings(secureSettings)
 
-        appSettingsDialogState.updateKey("_")
+        appSettingDialogState.updateKey("_")
 
-        appSettingsDialogState.getAppSettings(packageName = packageName)
+        appSettingDialogState.getAppSetting(packageName = packageName)
 
-        assertTrue { appSettingsDialogState.settingsKeyNotFoundError.isNotBlank() }
+        assertTrue { appSettingDialogState.settingKeyNotFoundError.isNotBlank() }
     }
 
     @Test
@@ -101,53 +101,53 @@ class AppSettingsDialogStateTest {
             SecureSetting(id = index.toLong(), name = "Geto", value = "0")
         }
 
-        appSettingsDialogState.updateSecureSettings(secureSettings)
+        appSettingDialogState.updateSecureSettings(secureSettings)
 
-        appSettingsDialogState.updateKey("Geto")
+        appSettingDialogState.updateKey("Geto")
 
-        appSettingsDialogState.getAppSettings(packageName = packageName)
+        appSettingDialogState.getAppSetting(packageName = packageName)
 
-        assertTrue { appSettingsDialogState.settingsKeyNotFoundError.isBlank() }
+        assertTrue { appSettingDialogState.settingKeyNotFoundError.isBlank() }
     }
 
     @Test
     fun valueOnLaunchError_isNotBlank_whenValueOnLaunch_isBlank() {
         resourcesWrapper.setString("Settings value on launch is blank")
 
-        appSettingsDialogState.updateValueOnLaunch("")
+        appSettingDialogState.updateValueOnLaunch("")
 
-        appSettingsDialogState.getAppSettings(packageName = packageName)
+        appSettingDialogState.getAppSetting(packageName = packageName)
 
-        assertTrue { appSettingsDialogState.valueOnLaunchError.isNotBlank() }
+        assertTrue { appSettingDialogState.valueOnLaunchError.isNotBlank() }
     }
 
     @Test
     fun valueOnLaunchError_isBlank_whenValueOnLaunch_isNotBlank() {
-        appSettingsDialogState.updateValueOnLaunch("0")
+        appSettingDialogState.updateValueOnLaunch("0")
 
-        appSettingsDialogState.getAppSettings(packageName = packageName)
+        appSettingDialogState.getAppSetting(packageName = packageName)
 
-        assertTrue { appSettingsDialogState.valueOnLaunchError.isBlank() }
+        assertTrue { appSettingDialogState.valueOnLaunchError.isBlank() }
     }
 
     @Test
     fun valueOnRevertError_isNotBlank_whenValueOnRevert_isBlank() {
         resourcesWrapper.setString("Settings value on revert is blank")
 
-        appSettingsDialogState.updateValueOnRevert("")
+        appSettingDialogState.updateValueOnRevert("")
 
-        appSettingsDialogState.getAppSettings(packageName = packageName)
+        appSettingDialogState.getAppSetting(packageName = packageName)
 
-        assertTrue { appSettingsDialogState.valueOnRevertError.isNotBlank() }
+        assertTrue { appSettingDialogState.valueOnRevertError.isNotBlank() }
     }
 
     @Test
     fun valueOnRevertError_isBlank_whenValueOnRevert_isNotBlank() {
-        appSettingsDialogState.updateValueOnRevert("1")
+        appSettingDialogState.updateValueOnRevert("1")
 
-        appSettingsDialogState.getAppSettings(packageName = packageName)
+        appSettingDialogState.getAppSetting(packageName = packageName)
 
-        assertTrue { appSettingsDialogState.valueOnRevertError.isBlank() }
+        assertTrue { appSettingDialogState.valueOnRevertError.isBlank() }
     }
 
     @Test
@@ -156,18 +156,18 @@ class AppSettingsDialogStateTest {
             SecureSetting(id = index.toLong(), name = "Geto", value = "0")
         }
 
-        appSettingsDialogState.updateSecureSettings(secureSettings)
+        appSettingDialogState.updateSecureSettings(secureSettings)
 
-        appSettingsDialogState.updateSelectedRadioOptionIndex(1)
+        appSettingDialogState.updateSelectedRadioOptionIndex(1)
 
-        appSettingsDialogState.updateKey("Geto")
+        appSettingDialogState.updateKey("Geto")
 
-        appSettingsDialogState.updateLabel("Geto")
+        appSettingDialogState.updateLabel("Geto")
 
-        appSettingsDialogState.updateValueOnLaunch("0")
+        appSettingDialogState.updateValueOnLaunch("0")
 
-        appSettingsDialogState.updateValueOnRevert("1")
+        appSettingDialogState.updateValueOnRevert("1")
 
-        assertNotNull(appSettingsDialogState.getAppSettings(packageName = packageName))
+        assertNotNull(appSettingDialogState.getAppSetting(packageName = packageName))
     }
 }

@@ -2,10 +2,25 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
+      <entry key="AppSettingsDaoTest">
+        <State />
+      </entry>
+      <entry key="MigrationTest">
+        <State />
+      </entry>
       <entry key="app">
         <State />
       </entry>
+      <entry key="appSettingsDao_deleteAppSettingsByPackageName()">
+        <State />
+      </entry>
+      <entry key="appSettingsDao_getAppSettingsByPackageName()">
+        <State />
+      </entry>
       <entry key="feature.shortcut">
+        <State />
+      </entry>
+      <entry key="migrate6To7()">
         <State />
       </entry>
     </value>

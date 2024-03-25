@@ -38,7 +38,7 @@ class Migration6To7 : Migration(6, 7) {
        """.trimIndent()
         )
 
-        db.execSQL("INSERT INTO new_table (id, enabled, settingType, packageName, label, key, valueOnLaunch, valueOnRevert) SELECT id, enabled, settingType, packageName, label, key, valueOnLaunch, valueOnRevert FROM AppSettingsEntity")
+        db.execSQL("INSERT INTO new_table (id, enabled, settingType, packageName, label, key, valueOnLaunch, valueOnRevert) SELECT id, enabled, settingsType, packageName, label, key, valueOnLaunch, valueOnRevert FROM AppSettingsEntity")
 
         db.execSQL("DROP TABLE AppSettingsEntity")
 

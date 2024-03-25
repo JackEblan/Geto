@@ -45,7 +45,7 @@ import kotlin.test.Test
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 @Config(application = HiltTestApplication::class)
 @LooperMode(LooperMode.Mode.PAUSED)
-class AppSettingsDialogScreenshotTest {
+class AddAppSettingDialogScreenshotTest {
 
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
@@ -56,7 +56,7 @@ class AppSettingsDialogScreenshotTest {
     @Inject
     lateinit var resourcesWrapper: ResourcesWrapper
 
-    private lateinit var addAppSettingsDialogState: AppSettingsDialogState
+    private lateinit var addAppSettingDialogState: AppSettingDialogState
 
     private lateinit var scrollState: ScrollState
 
@@ -64,84 +64,84 @@ class AppSettingsDialogScreenshotTest {
     fun setUp() {
         hiltRule.inject()
 
-        addAppSettingsDialogState = AppSettingsDialogState(resourcesWrapper = resourcesWrapper)
+        addAppSettingDialogState = AppSettingDialogState(resourcesWrapper = resourcesWrapper)
 
         scrollState = ScrollState(0)
     }
 
     @Test
-    fun appSettingsDialog_empty() {
-        composeTestRule.captureScreenRoboImageMultiDevice(path = "AppSettingsDialog/AppSettingsDialogEmpty") {
+    fun appSettingDialog_empty() {
+        composeTestRule.captureScreenRoboImageMultiDevice(path = "AppSettingDialog/AppSettingDialogEmpty") {
             GetoTheme {
-                AddAppSettingsDialog(
-                    addAppSettingsDialogState = addAppSettingsDialogState,
+                AddAppSettingDialog(
+                    addAppSettingDialogState = addAppSettingDialogState,
                     scrollState = scrollState,
-                    onAddSettings = {},
-                    contentDescription = "AppSettingsDialog"
+                    onAddSetting = {},
+                    contentDescription = "AppSettingDialog"
                 )
             }
         }
     }
 
     @Test
-    fun appSettingsDialog_filled_textfields() {
-        addAppSettingsDialogState.updateSelectedRadioOptionIndex(1)
+    fun appSettingDialog_filled_textfields() {
+        addAppSettingDialogState.updateSelectedRadioOptionIndex(1)
 
-        addAppSettingsDialogState.updateKey("Geto")
+        addAppSettingDialogState.updateKey("Geto")
 
-        addAppSettingsDialogState.updateLabel("Geto")
+        addAppSettingDialogState.updateLabel("Geto")
 
-        addAppSettingsDialogState.updateValueOnLaunch("0")
+        addAppSettingDialogState.updateValueOnLaunch("0")
 
-        addAppSettingsDialogState.updateValueOnRevert("1")
+        addAppSettingDialogState.updateValueOnRevert("1")
 
         composeTestRule.captureScreenRoboImageMultiDevice(
-            path = "AppSettingsDialog/AppSettingsDialogFilledTextFields"
+            path = "AppSettingDialog/AppSettingDialogFilledTextFields"
         ) {
             GetoTheme {
-                AddAppSettingsDialog(
-                    addAppSettingsDialogState = addAppSettingsDialogState,
+                AddAppSettingDialog(
+                    addAppSettingDialogState = addAppSettingDialogState,
                     scrollState = scrollState,
-                    onAddSettings = {},
-                    contentDescription = "AppSettingsDialog"
+                    onAddSetting = {},
+                    contentDescription = "AppSettingDialog"
                 )
             }
         }
     }
 
     @Test
-    fun appSettingsDialog_error_textfields() {
-        addAppSettingsDialogState.getAppSettings(packageName = "")
+    fun appSettingDialog_error_textfields() {
+        addAppSettingDialogState.getAppSetting(packageName = "")
 
         composeTestRule.captureScreenRoboImageMultiDevice(
-            path = "AppSettingsDialog/AppSettingsDialogErrorTextFields"
+            path = "AppSettingDialog/AppSettingDialogErrorTextFields"
         ) {
             GetoTheme {
-                AddAppSettingsDialog(
-                    addAppSettingsDialogState = addAppSettingsDialogState,
+                AddAppSettingDialog(
+                    addAppSettingDialogState = addAppSettingDialogState,
                     scrollState = scrollState,
-                    onAddSettings = {},
-                    contentDescription = "AppSettingsDialog"
+                    onAddSetting = {},
+                    contentDescription = "AppSettingDialog"
                 )
             }
         }
     }
 
     @Test
-    fun appSettingsDialog_empty_dark() {
+    fun appSettingDialog_empty_dark() {
         composeTestRule.captureScreenRoboImageForDevice(
-            path = "AppSettingsDialog/AppSettingsDialogEmpty",
+            path = "AppSettingDialog/AppSettingDialogEmpty",
             deviceName = "phone_dark",
             deviceSpec = DefaultTestDevices.PHONE.spec,
             darkMode = true,
         ) {
             GetoTheme {
                 GetoBackground {
-                    AddAppSettingsDialog(
-                        addAppSettingsDialogState = addAppSettingsDialogState,
+                    AddAppSettingDialog(
+                        addAppSettingDialogState = addAppSettingDialogState,
                         scrollState = scrollState,
-                        onAddSettings = {},
-                        contentDescription = "AppSettingsDialog"
+                        onAddSetting = {},
+                        contentDescription = "AppSettingDialog"
                     )
                 }
             }
@@ -149,30 +149,30 @@ class AppSettingsDialogScreenshotTest {
     }
 
     @Test
-    fun appSettingsDialog_filled_textfields_dark() {
-        addAppSettingsDialogState.updateSelectedRadioOptionIndex(1)
+    fun appSettingDialog_filled_textfields_dark() {
+        addAppSettingDialogState.updateSelectedRadioOptionIndex(1)
 
-        addAppSettingsDialogState.updateKey("Test")
+        addAppSettingDialogState.updateKey("Geto")
 
-        addAppSettingsDialogState.updateLabel("Test")
+        addAppSettingDialogState.updateLabel("Geto")
 
-        addAppSettingsDialogState.updateValueOnLaunch("Test")
+        addAppSettingDialogState.updateValueOnLaunch("0")
 
-        addAppSettingsDialogState.updateValueOnRevert("Test")
+        addAppSettingDialogState.updateValueOnRevert("1")
 
         composeTestRule.captureScreenRoboImageForDevice(
-            path = "AppSettingsDialog/AppSettingsDialogFilledTextFields",
+            path = "AppSettingDialog/AppSettingDialogFilledTextFields",
             deviceName = "phone_dark",
             deviceSpec = DefaultTestDevices.PHONE.spec,
             darkMode = true,
         ) {
             GetoTheme {
                 GetoBackground {
-                    AddAppSettingsDialog(
-                        addAppSettingsDialogState = addAppSettingsDialogState,
+                    AddAppSettingDialog(
+                        addAppSettingDialogState = addAppSettingDialogState,
                         scrollState = scrollState,
-                        onAddSettings = {},
-                        contentDescription = "AppSettingsDialog"
+                        onAddSetting = {},
+                        contentDescription = "AppSettingDialog"
                     )
                 }
             }
@@ -180,22 +180,22 @@ class AppSettingsDialogScreenshotTest {
     }
 
     @Test
-    fun appSettingsDialog_error_textfields_dark() {
-        addAppSettingsDialogState.getAppSettings(packageName = "Test")
+    fun appSettingDialog_error_textfields_dark() {
+        addAppSettingDialogState.getAppSetting(packageName = "")
 
         composeTestRule.captureScreenRoboImageForDevice(
-            path = "AppSettingsDialog/AppSettingsDialogErrorTextFields",
+            path = "AppSettingDialog/AppSettingDialogErrorTextFields",
             deviceName = "phone_dark",
             deviceSpec = DefaultTestDevices.PHONE.spec,
             darkMode = true,
         ) {
             GetoTheme {
                 GetoBackground {
-                    AddAppSettingsDialog(
-                        addAppSettingsDialogState = addAppSettingsDialogState,
+                    AddAppSettingDialog(
+                        addAppSettingDialogState = addAppSettingDialogState,
                         scrollState = scrollState,
-                        onAddSettings = {},
-                        contentDescription = "AppSettingsDialog"
+                        onAddSetting = {},
+                        contentDescription = "AppSettingDialog"
                     )
                 }
             }

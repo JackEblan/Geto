@@ -21,7 +21,8 @@ About The Project
 ==================
 
 The architecture and modularization of this project are inspired
-by [Now in Android](https://github.com/android/nowinandroid)
+by [Now in Android](https://github.com/android/nowinandroid) and my goal is to apply the modern
+architectures and principles of programming to this project.
 
 The only reason I created this app is to turn off that damn Developer Options when using a banking
 app. The only annoying thing about it is you have to go to the Settings app. When you turn off that
