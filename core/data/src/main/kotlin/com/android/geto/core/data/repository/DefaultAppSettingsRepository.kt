@@ -53,6 +53,6 @@ class DefaultAppSettingsRepository @Inject constructor(
     }
 
     override suspend fun deleteAppSettingsByPackageName(packageNames: List<String>) {
-        appSettingsDao.deleteAppSettingEntitiesByPackageName(packageNames = packageNames)
+        appSettingsDao.deleteAppSettingEntitiesByPackageName(packageNames)
     }
 }

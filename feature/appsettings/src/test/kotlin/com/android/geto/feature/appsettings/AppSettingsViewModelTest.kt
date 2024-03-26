@@ -230,7 +230,7 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun applyAppSettingsResult_isEmptyAppSettingsList_whenApplySettings() = runTest {
+    fun applyAppSettingsResult_isEmptyAppSettings_whenApplySettings() = runTest {
         appSettingsRepository.setAppSettings(emptyList())
 
         secureSettingsRepository.setWriteSecureSettings(true)
@@ -344,7 +344,7 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun revertAppSettingsResult_isEmptyAppSettingsList_whenRevertSettings() = runTest {
+    fun revertAppSettingsResult_isEmptyAppSettings_whenRevertSettings() = runTest {
         appSettingsRepository.setAppSettings(emptyList())
 
         viewModel.revertSettings()

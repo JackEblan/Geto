@@ -73,7 +73,7 @@ class AddAppSettingDialogScreenshotTest {
     fun appSettingDialog_empty() {
         composeTestRule.captureScreenRoboImageMultiDevice(path = "AppSettingDialog/AppSettingDialogEmpty") {
             GetoTheme {
-                AddAppSettingDialog(
+                AppSettingDialog(
                     addAppSettingDialogState = addAppSettingDialogState,
                     scrollState = scrollState,
                     onAddSetting = {},
@@ -99,7 +99,7 @@ class AddAppSettingDialogScreenshotTest {
             path = "AppSettingDialog/AppSettingDialogFilledTextFields"
         ) {
             GetoTheme {
-                AddAppSettingDialog(
+                AppSettingDialog(
                     addAppSettingDialogState = addAppSettingDialogState,
                     scrollState = scrollState,
                     onAddSetting = {},
@@ -117,7 +117,7 @@ class AddAppSettingDialogScreenshotTest {
             path = "AppSettingDialog/AppSettingDialogErrorTextFields"
         ) {
             GetoTheme {
-                AddAppSettingDialog(
+                AppSettingDialog(
                     addAppSettingDialogState = addAppSettingDialogState,
                     scrollState = scrollState,
                     onAddSetting = {},
@@ -137,7 +137,7 @@ class AddAppSettingDialogScreenshotTest {
         ) {
             GetoTheme {
                 GetoBackground {
-                    AddAppSettingDialog(
+                    AppSettingDialog(
                         addAppSettingDialogState = addAppSettingDialogState,
                         scrollState = scrollState,
                         onAddSetting = {},
@@ -168,7 +168,7 @@ class AddAppSettingDialogScreenshotTest {
         ) {
             GetoTheme {
                 GetoBackground {
-                    AddAppSettingDialog(
+                    AppSettingDialog(
                         addAppSettingDialogState = addAppSettingDialogState,
                         scrollState = scrollState,
                         onAddSetting = {},
@@ -191,7 +191,7 @@ class AddAppSettingDialogScreenshotTest {
         ) {
             GetoTheme {
                 GetoBackground {
-                    AddAppSettingDialog(
+                    AppSettingDialog(
                         addAppSettingDialogState = addAppSettingDialogState,
                         scrollState = scrollState,
                         onAddSetting = {},

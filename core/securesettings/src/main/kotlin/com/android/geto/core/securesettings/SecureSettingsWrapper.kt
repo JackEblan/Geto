@@ -22,10 +22,10 @@ import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.SecureSetting
 import com.android.geto.core.model.SettingType
 
-interface SecureSettingsPermissionWrapper {
+interface SecureSettingsWrapper {
     suspend fun canWriteSecureSettings(
         appSetting: AppSetting,
-        valueSelector: (AppSetting) -> String,
+        value: (AppSetting) -> String,
     ): Boolean
 
     suspend fun getSecureSettings(settingType: SettingType): List<SecureSetting>

@@ -68,7 +68,7 @@ class AddAppSettingDialogTest {
     @Test
     fun labelSupportingText_isDisplayed_whenLabelTextField_isBlank() {
         composeTestRule.setContent {
-            AddAppSettingDialog(
+            AppSettingDialog(
                 addAppSettingDialogState = appSettingsDialogState,
                 scrollState = scrollState,
                 onAddSetting = {
@@ -98,7 +98,7 @@ class AddAppSettingDialogTest {
     @Test
     fun keySupportingText_isDisplayed_whenKeyTextField_isBlank() {
         composeTestRule.setContent {
-            AddAppSettingDialog(
+            AppSettingDialog(
                 addAppSettingDialogState = appSettingsDialogState,
                 scrollState = scrollState,
                 onAddSetting = {
@@ -128,7 +128,7 @@ class AddAppSettingDialogTest {
     @Test
     fun settingsKeyNotFoundSupportingText_isDisplayed_whenSettingsKey_notFound() {
         composeTestRule.setContent {
-            AddAppSettingDialog(
+            AppSettingDialog(
                 addAppSettingDialogState = appSettingsDialogState,
                 scrollState = scrollState,
                 onAddSetting = {
@@ -163,7 +163,7 @@ class AddAppSettingDialogTest {
     @Test
     fun valueOnLaunchSupportingText_isDisplayed_whenValueOnLaunchTextField_isBlank() {
         composeTestRule.setContent {
-            AddAppSettingDialog(
+            AppSettingDialog(
                 addAppSettingDialogState = appSettingsDialogState,
                 scrollState = scrollState,
                 onAddSetting = {
@@ -193,7 +193,7 @@ class AddAppSettingDialogTest {
     @Test
     fun valueOnRevertSupportingText_isDisplayed_whenValueOnRevertTextField_isBlank() {
         composeTestRule.setContent {
-            AddAppSettingDialog(
+            AppSettingDialog(
                 addAppSettingDialogState = appSettingsDialogState,
                 scrollState = scrollState,
                 onAddSetting = {
@@ -225,7 +225,7 @@ class AddAppSettingDialogTest {
         composeTestRule.setContent {
             appSettingsDialogState.updateSecureSettings(secureSettings)
 
-            AddAppSettingDialog(
+            AppSettingDialog(
                 addAppSettingDialogState = appSettingsDialogState,
                 scrollState = scrollState,
                 onAddSetting = {
@@ -255,7 +255,7 @@ class AddAppSettingDialogTest {
     @Test
     fun keyTextField_has_value_whenSecureSettingsListItem_isClicked() {
         composeTestRule.setContent {
-            AddAppSettingDialog(
+            AppSettingDialog(
                 addAppSettingDialogState = appSettingsDialogState,
                 scrollState = scrollState,
                 onAddSetting = {

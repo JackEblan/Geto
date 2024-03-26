@@ -37,6 +37,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
@@ -58,8 +59,6 @@ internal fun AppListRoute(
     val appListUiState = viewModel.appListUiState.collectAsStateWithLifecycle().value
 
     LaunchedEffect(key1 = true) {
-        // Prevent the invokation of getInstalledApplications again,
-        // when navigating back from appSettingsScreen.
         if (appListUiState is AppListUiState.Loading) {
             viewModel.getInstalledApplications()
         }
@@ -74,42 +73,66 @@ internal fun AppListRoute(
 }
 
 @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun AppListScreen(
     modifier: Modifier = Modifier,
     appListUiState: AppListUiState,
-    onItemClick: (String, String) -> Unit,
-    onSettingsClick: () -> Unit
+    onSettingsClick: () -> Unit,
+    onItemClick: (String, String) -> Unit
 ) {
     Scaffold(topBar = {
-        TopAppBar(title = {
-            Text(text = "Geto")
-        }, actions = {
-            IconButton(onClick = onSettingsClick) {
-                Icon(imageVector = GetoIcons.Settings, contentDescription = "Settings icon")
-            }
-        })
+        AppListTopAppBar(title = stringResource(R.string.geto), onSettingsClick = onSettingsClick)
     }) { innerPadding ->
-        Box(
-            modifier = modifier
-                .fillMaxSize()
-                .consumeWindowInsets(innerPadding)
-                .testTag("applist")
-        ) {
-            when (appListUiState) {
-                AppListUiState.Loading -> LoadingState(
-                    modifier = Modifier.align(Alignment.Center)
-                )
+        AppListContent(
+            modifier = modifier,
+            innerPadding = innerPadding,
+            appListUiState = appListUiState,
+            onItemClick = onItemClick
+        )
+    }
+}
 
-                is AppListUiState.Success -> SuccessState(
-                    modifier = modifier, appListUiState = appListUiState,
-                    contentPadding = innerPadding,
-                    onItemClick = onItemClick
-                )
-            }
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun AppListTopAppBar(
+    modifier: Modifier = Modifier, title: String, onSettingsClick: () -> Unit
+) {
+    TopAppBar(title = {
+        Text(text = title)
+    }, modifier = modifier.testTag("applist:topAppBar"), actions = {
+        IconButton(onClick = onSettingsClick) {
+            Icon(imageVector = GetoIcons.Settings, contentDescription = "Settings icon")
+        }
+    })
+}
+
+@Composable
+private fun AppListContent(
+    modifier: Modifier = Modifier,
+    innerPadding: PaddingValues,
+    appListUiState: AppListUiState,
+    onItemClick: (String, String) -> Unit
+) {
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .consumeWindowInsets(innerPadding)
+            .testTag("applist")
+    ) {
+        when (appListUiState) {
+            AppListUiState.Loading -> LoadingState(
+                modifier = Modifier.align(Alignment.Center)
+            )
+
+            is AppListUiState.Success -> SuccessState(
+                modifier = modifier,
+                appListUiState = appListUiState,
+                contentPadding = innerPadding,
+                onItemClick = onItemClick
+            )
         }
     }
+
 }
 
 @Composable
@@ -120,7 +143,7 @@ private fun LoadingState(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun SuccessState(
+private fun SuccessState(
     modifier: Modifier = Modifier, appListUiState: AppListUiState,
     contentPadding: PaddingValues,
     onItemClick: (String, String) -> Unit

@@ -100,83 +100,121 @@ internal fun AddShortcutDialogScreen(
             .fillMaxWidth()
             .padding(10.dp)
     ) {
-        Spacer(modifier = Modifier.height(10.dp))
+        AddShortcutDialogTitle()
 
-        Text(
-            modifier = Modifier.padding(horizontal = 5.dp),
-            text = stringResource(R.string.add_shortcut),
-            style = MaterialTheme.typography.titleLarge
-        )
-
-        Spacer(modifier = Modifier.height(10.dp))
-
-        AsyncImage(
-            model = icon,
-            contentDescription = null,
+        AddShortcutDialogApplicationIcon(
             modifier = Modifier
                 .size(50.dp)
-                .align(Alignment.CenterHorizontally)
+                .align(Alignment.CenterHorizontally), icon = icon
         )
 
-        Spacer(modifier = Modifier.height(10.dp))
-
-        OutlinedTextField(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 5.dp),
-            value = shortLabel,
-            onValueChange = onUpdateShortLabel,
-            label = {
-                Text(text = stringResource(R.string.short_label))
-            },
-            isError = shortLabelError.isNotBlank(),
-            supportingText = {
-                if (shortLabelError.isNotBlank()) Text(
-                    text = shortLabelError,
-                    modifier = Modifier.testTag("addShortcutDialog:shortLabelSupportingText")
-                )
-            },
-            singleLine = true,
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
+        AddShortcutDialogTextFields(
+            shortLabel = shortLabel,
+            shortLabelError = shortLabelError,
+            longLabel = longLabel,
+            longLabelError = longLabelError,
+            onUpdateShortLabel = onUpdateShortLabel,
+            onUpdateLongLabel = onUpdateLongLabel
         )
 
-        OutlinedTextField(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 5.dp),
-            value = longLabel,
-            onValueChange = onUpdateLongLabel,
-            label = {
-                Text(text = stringResource(R.string.long_label))
-            },
-            isError = longLabelError.isNotBlank(),
-            supportingText = {
-                if (longLabelError.isNotBlank()) Text(
-                    text = longLabelError,
-                    modifier = Modifier.testTag("addShortcutDialog:longLabelSupportingText")
-                )
-            },
-            singleLine = true,
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
+        AddShortcutDialogButtons(
+            onAddShortcut = onAddShortcut, onCancel = onCancel
         )
+    }
+}
 
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.End,
+@Composable
+private fun AddShortcutDialogTitle(modifier: Modifier = Modifier) {
+    Spacer(modifier = Modifier.height(10.dp))
+
+    Text(
+        modifier = modifier.padding(horizontal = 5.dp),
+        text = stringResource(R.string.add_shortcut),
+        style = MaterialTheme.typography.titleLarge
+    )
+}
+
+@Composable
+private fun AddShortcutDialogApplicationIcon(modifier: Modifier = Modifier, icon: Bitmap?) {
+    Spacer(modifier = Modifier.height(10.dp))
+
+    AsyncImage(
+        model = icon, contentDescription = null, modifier = modifier
+    )
+}
+
+@Composable
+private fun AddShortcutDialogTextFields(
+    shortLabel: String,
+    shortLabelError: String,
+    longLabel: String,
+    longLabelError: String,
+    onUpdateShortLabel: (label: String) -> Unit,
+    onUpdateLongLabel: (label: String) -> Unit,
+) {
+    Spacer(modifier = Modifier.height(10.dp))
+
+    OutlinedTextField(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 5.dp),
+        value = shortLabel,
+        onValueChange = onUpdateShortLabel,
+        label = {
+            Text(text = stringResource(R.string.short_label))
+        },
+        isError = shortLabelError.isNotBlank(),
+        supportingText = {
+            if (shortLabelError.isNotBlank()) Text(
+                text = shortLabelError,
+                modifier = Modifier.testTag("addShortcutDialog:shortLabelSupportingText")
+            )
+        },
+        singleLine = true,
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
+    )
+
+    OutlinedTextField(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 5.dp),
+        value = longLabel,
+        onValueChange = onUpdateLongLabel,
+        label = {
+            Text(text = stringResource(R.string.long_label))
+        },
+        isError = longLabelError.isNotBlank(),
+        supportingText = {
+            if (longLabelError.isNotBlank()) Text(
+                text = longLabelError,
+                modifier = Modifier.testTag("addShortcutDialog:longLabelSupportingText")
+            )
+        },
+        singleLine = true,
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
+    )
+}
+
+@Composable
+private fun AddShortcutDialogButtons(
+    modifier: Modifier = Modifier, onAddShortcut: () -> Unit, onCancel: () -> Unit
+) {
+    Row(
+        modifier = modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.End,
+    ) {
+        TextButton(
+            onClick = onCancel, modifier = Modifier.padding(5.dp)
         ) {
-            TextButton(
-                onClick = onCancel, modifier = Modifier.padding(5.dp)
-            ) {
-                Text(stringResource(id = R.string.cancel))
-            }
-            TextButton(
-                onClick = onAddShortcut,
-                modifier = Modifier
-                    .padding(5.dp)
-                    .testTag("addShortcutDialog:add")
-            ) {
-                Text(stringResource(id = R.string.add))
-            }
+            Text(stringResource(id = R.string.cancel))
+        }
+        TextButton(
+            onClick = onAddShortcut,
+            modifier = Modifier
+                .padding(5.dp)
+                .testTag("addShortcutDialog:add")
+        ) {
+            Text(stringResource(id = R.string.add))
         }
     }
 }
