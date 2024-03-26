@@ -28,8 +28,8 @@ android {
 
     defaultConfig {
         applicationId = "com.android.geto"
-        versionCode = 152
-        versionName = "1.15.2"
+        versionCode = 153
+        versionName = "1.15.3"
 
         vectorDrawables {
             useSupportLibrary = true
