@@ -487,7 +487,7 @@ private fun EmptyState(
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        Text(text = text)
+        Text(text = text, style = MaterialTheme.typography.bodyLarge)
     }
 }
 
