@@ -31,13 +31,12 @@ class AppSettingsPreviewParameterProvider : PreviewParameterProvider<List<AppSet
 object AppSettingsPreviewParameterData {
     val appSettingLists = List(5) { index ->
         AppSetting(
-            id = index,
             enabled = false, settingType = SettingType.SECURE,
-            packageName = "packageName$index",
-            label = "Label $index",
-            key = "Key $index",
-            valueOnLaunch = "$index",
-            valueOnRevert = "$index"
+            packageName = "com.android.geto",
+            label = "Geto",
+            key = "Geto $index",
+            valueOnLaunch = "0",
+            valueOnRevert = "1"
         )
     }
 }

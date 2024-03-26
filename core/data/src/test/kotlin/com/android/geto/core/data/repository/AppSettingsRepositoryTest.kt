@@ -20,7 +20,6 @@ package com.android.geto.core.data.repository
 
 import com.android.geto.core.data.testdoubles.TestAppSettingsDao
 import com.android.geto.core.database.model.AppSettingEntity
-import com.android.geto.core.database.model.asEntity
 import com.android.geto.core.database.model.asExternalModel
 import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.SettingType
@@ -41,7 +40,7 @@ class AppSettingsRepositoryTest {
     private lateinit var subject: AppSettingsRepository
 
     @Before
-    fun setup() {
+    fun setUp() {
         appSettingsDao = TestAppSettingsDao()
 
         subject = DefaultAppSettingsRepository(appSettingsDao = appSettingsDao)
@@ -69,24 +68,28 @@ class AppSettingsRepositoryTest {
 
     @Test
     fun appSettingsRepository_deleteAppSetting() = runTest {
-        val appSetting = AppSetting(
-            id = 0,
-            enabled = true,
-            settingType = SettingType.SECURE,
-            packageName = "com.android.geto",
-            label = "Geto",
-            key = "Geto",
-            valueOnLaunch = "0",
-            valueOnRevert = "1"
-        )
+        val collectJob = launch(UnconfinedTestDispatcher()) { subject.appSettings.collect() }
 
-        appSettingsDao.upsertAppSettingEntity(appSetting.asEntity())
-
-        subject.deleteAppSetting(appSetting)
-
-        assertFalse {
-            appSetting in subject.getAppSettingsByPackageName("com.android.geto").first()
+        val appSettingEntities = List(10) { index ->
+            AppSettingEntity(
+                id = index,
+                enabled = false,
+                settingType = SettingType.GLOBAL,
+                packageName = "com.android.geto",
+                label = "Geto",
+                key = "Geto",
+                valueOnLaunch = "0",
+                valueOnRevert = "1"
+            )
         }
+
+        appSettingsDao.upsertAppSettingEntities(appSettingEntities)
+
+        subject.deleteAppSetting(appSettingEntities.first().asExternalModel())
+
+        assertTrue { subject.appSettings.first().size == appSettingEntities.size - 1 }
+
+        collectJob.cancel()
     }
 
     @Test

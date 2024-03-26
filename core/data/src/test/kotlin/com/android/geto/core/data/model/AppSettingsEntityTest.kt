@@ -29,24 +29,23 @@ class AppSettingsEntityTest {
     @Test
     fun appSettings_canBeMappedToEntity() {
         val appSetting = AppSetting(
-            id = 1,
-            enabled = false, settingType = SettingType.SECURE,
-            packageName = "packageName",
-            label = "label",
-            key = "key",
-            valueOnLaunch = "valueOnLaunch",
-            valueOnRevert = "valueOnRevert"
+            id = 0, enabled = false, settingType = SettingType.SECURE,
+            packageName = "com.android.geto",
+            label = "Geto",
+            key = "Geto",
+            valueOnLaunch = "0",
+            valueOnRevert = "1"
         )
 
         val entity = appSetting.asEntity()
 
-        assertEquals(1, entity.id)
+        assertEquals(0, entity.id)
         assertEquals(false, entity.enabled)
         assertEquals(SettingType.SECURE, entity.settingType)
-        assertEquals("packageName", entity.packageName)
-        assertEquals("label", entity.label)
-        assertEquals("key", entity.key)
-        assertEquals("valueOnLaunch", entity.valueOnLaunch)
-        assertEquals("valueOnRevert", entity.valueOnRevert)
+        assertEquals("com.android.geto", entity.packageName)
+        assertEquals("Geto", entity.label)
+        assertEquals("Geto", entity.key)
+        assertEquals("0", entity.valueOnLaunch)
+        assertEquals("1", entity.valueOnRevert)
     }
 }

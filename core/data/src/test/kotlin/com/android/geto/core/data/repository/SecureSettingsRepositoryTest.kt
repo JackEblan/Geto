@@ -37,7 +37,7 @@ class SecureSettingsRepositoryTest {
     private lateinit var subject: SecureSettingsRepository
 
     @Before
-    fun setup() {
+    fun setUp() {
         secureSettingsPermissionWrapper = TestSecureSettingsWrapper()
 
         subject = DefaultSecureSettingsRepository(secureSettingsPermissionWrapper)
@@ -49,8 +49,11 @@ class SecureSettingsRepositoryTest {
 
         val appSettings = List(5) { index ->
             AppSetting(
-                id = index, enabled = true, settingType = SettingType.GLOBAL,
-                packageName = "com.android.geto", label = "Geto", key = "Geto",
+                enabled = true,
+                settingType = SettingType.GLOBAL,
+                packageName = "com.android.geto",
+                label = "Geto",
+                key = "Geto $index",
                 valueOnLaunch = "0",
                 valueOnRevert = "1"
             )
@@ -67,8 +70,11 @@ class SecureSettingsRepositoryTest {
 
         val appSettings = List(5) { index ->
             AppSetting(
-                id = index, enabled = true, settingType = SettingType.SECURE,
-                packageName = "com.android.geto", label = "Geto", key = "Geto",
+                enabled = true,
+                settingType = SettingType.SECURE,
+                packageName = "com.android.geto",
+                label = "Geto",
+                key = "Geto $index",
                 valueOnLaunch = "0",
                 valueOnRevert = "1"
             )
@@ -85,8 +91,11 @@ class SecureSettingsRepositoryTest {
 
         val appSettings = List(5) { index ->
             AppSetting(
-                id = index, enabled = true, settingType = SettingType.SYSTEM,
-                packageName = "com.android.geto", label = "Geto", key = "Geto",
+                enabled = true,
+                settingType = SettingType.SYSTEM,
+                packageName = "com.android.geto",
+                label = "Geto",
+                key = "Geto $index",
                 valueOnLaunch = "0",
                 valueOnRevert = "1"
             )
@@ -103,8 +112,11 @@ class SecureSettingsRepositoryTest {
 
         val appSettings = List(5) { index ->
             AppSetting(
-                id = index, enabled = true, settingType = SettingType.GLOBAL,
-                packageName = "com.android.geto", label = "Geto", key = "Geto",
+                enabled = true,
+                settingType = SettingType.GLOBAL,
+                packageName = "com.android.geto",
+                label = "Geto",
+                key = "Geto $index",
                 valueOnLaunch = "0",
                 valueOnRevert = "1"
             )
@@ -121,8 +133,11 @@ class SecureSettingsRepositoryTest {
 
         val appSettings = List(5) { index ->
             AppSetting(
-                id = index, enabled = true, settingType = SettingType.SECURE,
-                packageName = "com.android.geto", label = "Geto", key = "Geto",
+                enabled = true,
+                settingType = SettingType.SECURE,
+                packageName = "com.android.geto",
+                label = "Geto",
+                key = "Geto $index",
                 valueOnLaunch = "0",
                 valueOnRevert = "1"
             )
@@ -139,8 +154,11 @@ class SecureSettingsRepositoryTest {
 
         val appSettings = List(5) { index ->
             AppSetting(
-                id = index, enabled = true, settingType = SettingType.SYSTEM,
-                packageName = "com.android.geto", label = "Geto", key = "Geto",
+                enabled = true,
+                settingType = SettingType.SYSTEM,
+                packageName = "com.android.geto",
+                label = "Geto",
+                key = "Geto $index",
                 valueOnLaunch = "0",
                 valueOnRevert = "1"
             )
@@ -157,8 +175,11 @@ class SecureSettingsRepositoryTest {
 
         val appSettings = List(5) { index ->
             AppSetting(
-                id = index, enabled = true, settingType = SettingType.GLOBAL,
-                packageName = "com.android.geto", label = "Geto", key = "Geto",
+                enabled = true,
+                settingType = SettingType.GLOBAL,
+                packageName = "com.android.geto",
+                label = "Geto",
+                key = "Geto $index",
                 valueOnLaunch = "0",
                 valueOnRevert = "1"
             )
@@ -173,8 +194,11 @@ class SecureSettingsRepositoryTest {
 
         val appSettings = List(5) { index ->
             AppSetting(
-                id = index, enabled = true, settingType = SettingType.SECURE,
-                packageName = "com.android.geto", label = "Geto", key = "Geto",
+                enabled = true,
+                settingType = SettingType.SECURE,
+                packageName = "com.android.geto",
+                label = "Geto",
+                key = "Geto $index",
                 valueOnLaunch = "0",
                 valueOnRevert = "1"
             )
@@ -189,8 +213,11 @@ class SecureSettingsRepositoryTest {
 
         val appSettings = List(5) { index ->
             AppSetting(
-                id = index, enabled = true, settingType = SettingType.SYSTEM,
-                packageName = "com.android.geto", label = "Geto", key = "Geto",
+                enabled = true,
+                settingType = SettingType.SYSTEM,
+                packageName = "com.android.geto",
+                label = "Geto",
+                key = "Geto $index",
                 valueOnLaunch = "0",
                 valueOnRevert = "1"
             )
@@ -205,8 +232,11 @@ class SecureSettingsRepositoryTest {
 
         val appSettings = List(5) { index ->
             AppSetting(
-                id = index, enabled = true, settingType = SettingType.GLOBAL,
-                packageName = "com.android.geto", label = "Geto", key = "Geto",
+                enabled = true,
+                settingType = SettingType.GLOBAL,
+                packageName = "com.android.geto",
+                label = "Geto",
+                key = "Geto $index",
                 valueOnLaunch = "0",
                 valueOnRevert = "1"
             )
@@ -221,8 +251,11 @@ class SecureSettingsRepositoryTest {
 
         val appSettings = List(5) { index ->
             AppSetting(
-                id = index, enabled = true, settingType = SettingType.SECURE,
-                packageName = "com.android.geto", label = "Geto", key = "Geto",
+                enabled = true,
+                settingType = SettingType.SECURE,
+                packageName = "com.android.geto",
+                label = "Geto",
+                key = "Geto $index",
                 valueOnLaunch = "0",
                 valueOnRevert = "1"
             )
@@ -237,8 +270,11 @@ class SecureSettingsRepositoryTest {
 
         val appSettings = List(5) { index ->
             AppSetting(
-                id = index, enabled = true, settingType = SettingType.SYSTEM,
-                packageName = "com.android.geto", label = "Geto", key = "Geto",
+                enabled = true,
+                settingType = SettingType.SYSTEM,
+                packageName = "com.android.geto",
+                label = "Geto",
+                key = "Geto $index",
                 valueOnLaunch = "0",
                 valueOnRevert = "1"
             )

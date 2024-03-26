@@ -37,7 +37,7 @@ class RevertAppSettingsUseCaseTest {
     private val packageName = "com.android.geto"
 
     @Before
-    fun setup() {
+    fun setUp() {
         revertAppSettingsUseCase = RevertAppSettingsUseCase(
             appSettingsRepository = appSettingsRepository,
             secureSettingsRepository = secureSettingsRepository
@@ -61,8 +61,7 @@ class RevertAppSettingsUseCaseTest {
                 enabled = false,
                 settingType = SettingType.SYSTEM,
                 packageName = packageName,
-                label = "Geto",
-                key = "Geto",
+                label = "Geto", key = "Geto $index",
                 valueOnLaunch = "0",
                 valueOnRevert = "1"
             )
@@ -83,8 +82,7 @@ class RevertAppSettingsUseCaseTest {
                 enabled = true,
                 settingType = SettingType.SYSTEM,
                 packageName = packageName,
-                label = "Geto",
-                key = "Geto",
+                label = "Geto", key = "Geto $index",
                 valueOnLaunch = "0",
                 valueOnRevert = "1"
             )
@@ -107,8 +105,7 @@ class RevertAppSettingsUseCaseTest {
                 enabled = true,
                 settingType = SettingType.SYSTEM,
                 packageName = packageName,
-                label = "Geto",
-                key = "Geto",
+                label = "Geto", key = "Geto $index",
                 valueOnLaunch = "0",
                 valueOnRevert = "1"
             )
@@ -131,8 +128,7 @@ class RevertAppSettingsUseCaseTest {
                 enabled = true,
                 settingType = SettingType.SYSTEM,
                 packageName = packageName,
-                label = "Geto",
-                key = "Geto",
+                label = "Geto", key = "Geto $index",
                 valueOnLaunch = "0",
                 valueOnRevert = "1"
             )

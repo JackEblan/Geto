@@ -472,7 +472,7 @@ private fun EmptyState(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .testTag("appsettings:emptyListPlaceHolderScreen"),
+            .testTag("appSettings:emptyListPlaceHolderScreen"),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -512,7 +512,7 @@ private fun SuccessState(
             LazyColumn(
                 modifier = modifier
                     .fillMaxSize()
-                    .testTag("appsettings:lazyColumn"),
+                    .testTag("appSettings:lazyColumn"),
                 contentPadding = contentPadding
             ) {
                 appSettings(
@@ -531,7 +531,7 @@ private fun LazyListScope.appSettings(
     onAppSettingsItemCheckBoxChange: (Boolean, AppSetting) -> Unit,
     onDeleteAppSettingsItem: (AppSetting) -> Unit,
 ) {
-    items(appSettingList, key = { it.id }) { appSettings ->
+    items(appSettingList, key = { it.key }) { appSettings ->
         AppSettingsItem(
             modifier = Modifier
                 .fillMaxWidth()

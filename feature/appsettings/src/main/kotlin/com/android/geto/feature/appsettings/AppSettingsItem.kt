@@ -85,7 +85,6 @@ private fun AppSettingsItemPreview() {
     GetoTheme {
         AppSettingsItem(
             appSetting = AppSetting(
-            id = 0,
             enabled = false, settingType = SettingType.SECURE,
             packageName = "com.android.geto",
             label = "Label",

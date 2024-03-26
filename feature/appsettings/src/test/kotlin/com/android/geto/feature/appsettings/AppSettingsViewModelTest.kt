@@ -137,8 +137,7 @@ class AppSettingsViewModelTest {
                 enabled = false,
                 settingType = SettingType.SYSTEM,
                 packageName = packageName,
-                label = "Geto",
-                key = "Geto",
+                label = "Geto", key = "Geto $index",
                 valueOnLaunch = "0",
                 valueOnRevert = "1"
             )
@@ -161,8 +160,7 @@ class AppSettingsViewModelTest {
                 enabled = true,
                 settingType = SettingType.SYSTEM,
                 packageName = packageName,
-                label = "Geto",
-                key = "Geto",
+                label = "Geto", key = "Geto $index",
                 valueOnLaunch = "0",
                 valueOnRevert = "1"
             )
@@ -185,8 +183,7 @@ class AppSettingsViewModelTest {
                 enabled = true,
                 settingType = SettingType.SYSTEM,
                 packageName = packageName,
-                label = "Geto",
-                key = "Geto",
+                label = "Geto", key = "Geto $index",
                 valueOnLaunch = "0",
                 valueOnRevert = "1"
             )
@@ -210,8 +207,7 @@ class AppSettingsViewModelTest {
                 enabled = true,
                 settingType = SettingType.SYSTEM,
                 packageName = packageName,
-                label = "Geto",
-                key = "Geto",
+                label = "Geto", key = "Geto $index",
                 valueOnLaunch = "0",
                 valueOnRevert = "1"
             )
@@ -249,8 +245,7 @@ class AppSettingsViewModelTest {
                 enabled = false,
                 settingType = SettingType.SYSTEM,
                 packageName = packageName,
-                label = "Geto",
-                key = "Geto",
+                label = "Geto", key = "Geto $index",
                 valueOnLaunch = "0",
                 valueOnRevert = "1"
             )
@@ -274,8 +269,7 @@ class AppSettingsViewModelTest {
                 enabled = true,
                 settingType = SettingType.SYSTEM,
                 packageName = packageName,
-                label = "Geto",
-                key = "Geto",
+                label = "Geto", key = "Geto $index",
                 valueOnLaunch = "0",
                 valueOnRevert = "1"
             )
@@ -299,8 +293,7 @@ class AppSettingsViewModelTest {
                 enabled = true,
                 settingType = SettingType.SYSTEM,
                 packageName = packageName,
-                label = "Geto",
-                key = "Geto",
+                label = "Geto", key = "Geto $index",
                 valueOnLaunch = "0",
                 valueOnRevert = "1"
             )
@@ -324,8 +317,7 @@ class AppSettingsViewModelTest {
                 enabled = true,
                 settingType = SettingType.SYSTEM,
                 packageName = packageName,
-                label = "Geto",
-                key = "Geto",
+                label = "Geto", key = "Geto $index",
                 valueOnLaunch = "0",
                 valueOnRevert = "1"
             )
@@ -361,8 +353,7 @@ class AppSettingsViewModelTest {
                 enabled = false,
                 settingType = SettingType.SYSTEM,
                 packageName = packageName,
-                label = "Geto",
-                key = "Geto",
+                label = "Geto", key = "Geto $index",
                 valueOnLaunch = "0",
                 valueOnRevert = "1"
             )

@@ -45,8 +45,7 @@ fun AppItem(
     onItemClick: (String, String) -> Unit
 ) {
     Row(modifier = modifier
-        .fillMaxWidth()
-        .testTag("applist:appItem")
+        .fillMaxWidth().testTag("appList:appItem")
         .clickable {
             onItemClick(
                 targetApplicationInfo.packageName, targetApplicationInfo.label

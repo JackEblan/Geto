@@ -35,12 +35,10 @@ class AppSettingsScreenTest {
 
     private val appSettings = List(5) { index ->
         AppSetting(
-            id = index,
             enabled = true,
             settingType = SettingType.SYSTEM,
             packageName = "com.android.geto",
-            label = "Geto",
-            key = "Geto",
+            label = "Geto", key = "Geto $index",
             valueOnLaunch = "0",
             valueOnRevert = "1"
         )
@@ -79,7 +77,7 @@ class AppSettingsScreenTest {
                               onLaunchApp = {})
         }
 
-        composeTestRule.onNodeWithTag("appsettings:emptyListPlaceHolderScreen").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("appSettings:emptyListPlaceHolderScreen").assertIsDisplayed()
     }
 
     @Test
@@ -97,6 +95,6 @@ class AppSettingsScreenTest {
                               onLaunchApp = {})
         }
 
-        composeTestRule.onNodeWithTag("appsettings:lazyColumn").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("appSettings:lazyColumn").assertIsDisplayed()
     }
 }

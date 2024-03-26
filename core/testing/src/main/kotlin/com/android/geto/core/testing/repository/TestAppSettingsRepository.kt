@@ -33,7 +33,6 @@ class TestAppSettingsRepository : AppSettingsRepository {
     override val appSettings: Flow<List<AppSetting>> = _appSettingFlow.asStateFlow()
 
     override suspend fun upsertAppSetting(appSetting: AppSetting) {
-
         _appSettingFlow.update { oldValues ->
             (oldValues + appSetting).reversed().distinctBy { AppSettingEntity::id }
         }

@@ -37,7 +37,7 @@ data class AppSettingEntity(
 
 fun AppSettingEntity.asExternalModel(): AppSetting {
     return AppSetting(
-        id = id ?: 0, enabled = enabled, settingType = settingType,
+        id = id, enabled = enabled, settingType = settingType,
         packageName = packageName,
         label = label,
         key = key,

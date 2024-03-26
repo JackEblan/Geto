@@ -48,7 +48,7 @@ class AutoLaunchUseCaseTest {
     private val packageName = "com.android.geto"
 
     @Before
-    fun setup() {
+    fun setUp() {
         autoLaunchUseCase = AutoLaunchUseCase(
             packageRepository = packageRepository,
             userDataRepository = userDataRepository,
@@ -83,8 +83,7 @@ class AutoLaunchUseCaseTest {
                 enabled = false,
                 settingType = SettingType.SYSTEM,
                 packageName = packageName,
-                label = "Geto",
-                key = "Geto",
+                label = "Geto", key = "Geto $index",
                 valueOnLaunch = "0",
                 valueOnRevert = "1"
             )
@@ -114,8 +113,7 @@ class AutoLaunchUseCaseTest {
                 enabled = true,
                 settingType = SettingType.SYSTEM,
                 packageName = packageName,
-                label = "Geto",
-                key = "Geto",
+                label = "Geto", key = "Geto $index",
                 valueOnLaunch = "0",
                 valueOnRevert = "1"
             )
@@ -155,8 +153,7 @@ class AutoLaunchUseCaseTest {
                 enabled = true,
                 settingType = SettingType.SYSTEM,
                 packageName = packageName,
-                label = "Geto",
-                key = "Geto",
+                label = "Geto", key = "Geto $index",
                 valueOnLaunch = "0",
                 valueOnRevert = "1"
             )
@@ -188,8 +185,7 @@ class AutoLaunchUseCaseTest {
                 enabled = true,
                 settingType = SettingType.SYSTEM,
                 packageName = packageName,
-                label = "Geto",
-                key = "Geto",
+                label = "Geto", key = "Geto $index",
                 valueOnLaunch = "0",
                 valueOnRevert = "1"
             )
@@ -223,8 +219,7 @@ class AutoLaunchUseCaseTest {
                 enabled = true,
                 settingType = SettingType.SYSTEM,
                 packageName = packageName,
-                label = "Geto",
-                key = "Geto",
+                label = "Geto", key = "Geto $index",
                 valueOnLaunch = "0",
                 valueOnRevert = "1"
             )

@@ -21,10 +21,10 @@ package com.android.geto.navigation
 import androidx.activity.compose.setContent
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
-import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.testing.TestNavHostController
@@ -71,7 +71,9 @@ class NavigationTest {
 
     @Test
     fun appSettingsScreen_isDisplayed_whenTargetApplicationInfoItem_isClicked() {
-        composeTestRule.onNodeWithText("Geto 0").performClick()
+        composeTestRule.onAllNodes(hasTestTag("appList:appItem")).apply {
+            get(0).performClick()
+        }
 
         val appSettingsRoute = navController.currentBackStackEntry?.destination?.route
 
@@ -82,7 +84,9 @@ class NavigationTest {
 
     @Test
     fun appListScreen_isDisplayed_whenNavigateBackFromAppSettingsScreen() {
-        composeTestRule.onNodeWithText("Geto 0").performClick()
+        composeTestRule.onAllNodes(hasTestTag("appList:appItem")).apply {
+            get(0).performClick()
+        }
 
         composeTestRule.onNodeWithContentDescription(
             label = "Navigation icon", useUnmergedTree = true

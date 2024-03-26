@@ -36,11 +36,11 @@ class FakeAppSettingsRepository @Inject constructor() : AppSettingsRepository {
     override fun getAppSettingsByPackageName(packageName: String): Flow<List<AppSetting>> {
         val appSettings = List(5) { index ->
             AppSetting(
-                id = index,
-                enabled = false, settingType = SettingType.SECURE,
-                packageName = "com.android.geto$index",
-                label = "Geto $index",
-                key = "key$index",
+                enabled = false,
+                settingType = SettingType.SECURE,
+                packageName = "com.android.geto",
+                label = "Geto",
+                key = "Geto $index",
                 valueOnLaunch = "0",
                 valueOnRevert = "1"
             )

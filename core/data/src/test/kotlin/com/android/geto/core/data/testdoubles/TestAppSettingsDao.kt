@@ -37,7 +37,7 @@ class TestAppSettingsDao : AppSettingsDao {
 
     override suspend fun deleteAppSettingEntity(entity: AppSettingEntity) {
         _appSettingsFlow.update { entities ->
-            entities.filterNot { it.id == entity.id }
+            entities.filterNot { it == entity }
         }
     }
 

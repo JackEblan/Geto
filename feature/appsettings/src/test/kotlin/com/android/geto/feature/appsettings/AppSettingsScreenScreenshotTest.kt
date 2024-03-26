@@ -48,12 +48,10 @@ class AppSettingsScreenScreenshotTest {
 
     private val appSettings = List(5) { index ->
         AppSetting(
-            id = index,
             enabled = true,
             settingType = SettingType.SYSTEM,
             packageName = "com.android.geto",
-            label = "Geto",
-            key = "Geto",
+            label = "Geto", key = "Geto $index",
             valueOnLaunch = "0",
             valueOnRevert = "1"
         )
