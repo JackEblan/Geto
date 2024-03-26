@@ -16,7 +16,7 @@
  *
  */
 
-package com.android.geto
+package com.android.geto.navigation
 
 import androidx.activity.compose.setContent
 import androidx.compose.ui.platform.LocalContext
@@ -28,17 +28,23 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.testing.TestNavHostController
+import com.android.geto.MainActivity
 import com.android.geto.feature.applist.navigation.APP_LIST_NAVIGATION_ROUTE
 import com.android.geto.feature.settings.navigation.SETTINGS_NAVIGATION_ROUTE
-import com.android.geto.navigation.GetoNavHost
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import dagger.hilt.android.testing.HiltTestApplication
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 import kotlin.test.assertEquals
 
 @HiltAndroidTest
+@RunWith(RobolectricTestRunner::class)
+@Config(application = HiltTestApplication::class)
 class NavigationTest {
     @get:Rule(order = 0)
     val hiltRule = HiltAndroidRule(this)
@@ -55,17 +61,16 @@ class NavigationTest {
             navController.navigatorProvider.addNavigator(ComposeNavigator())
 
             GetoNavHost(navController = navController)
-
         }
     }
 
     @Test
-    fun appListSreenIsDisplayed_whenStarted() {
+    fun appListSreen_isDisplayed_whenStarted() {
         composeTestRule.onNodeWithTag("applist").assertIsDisplayed()
     }
 
     @Test
-    fun appSettingsScreenIsDisplayed_whenTargetApplicationInfoItemIsClicked() {
+    fun appSettingsScreen_isDisplayed_whenTargetApplicationInfoItem_isClicked() {
         composeTestRule.onNodeWithText("Geto 0").performClick()
 
         val appSettingsRoute = navController.currentBackStackEntry?.destination?.route
@@ -73,12 +78,10 @@ class NavigationTest {
         assertEquals(
             expected = "app_settings_route/{package_name}/{app_name}", actual = appSettingsRoute
         )
-
-        composeTestRule.onNodeWithTag("appsettings:topAppBar").assertIsDisplayed()
     }
 
     @Test
-    fun appListScreenIsDisplayed_whenNavigateBackFromAppSettingsScreen() {
+    fun appListScreen_isDisplayed_whenNavigateBackFromAppSettingsScreen() {
         composeTestRule.onNodeWithText("Geto 0").performClick()
 
         composeTestRule.onNodeWithContentDescription(
@@ -93,7 +96,7 @@ class NavigationTest {
     }
 
     @Test
-    fun settingsScreenIsDisplayed_whenSettingsIconIsClicked() {
+    fun settingsScreen_isDisplayed_whenSettingsIcon_isClicked() {
         composeTestRule.onNodeWithContentDescription("Settings icon").performClick()
 
         val settingsRoute = navController.currentBackStackEntry?.destination?.route

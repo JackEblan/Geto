@@ -31,7 +31,6 @@ android {
         versionCode = 152
         versionName = "1.15.2"
 
-        testInstrumentationRunner = "com.android.geto.core.testing.GetoTestRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -76,11 +75,9 @@ dependencies {
 
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 
+    testImplementation(libs.androidx.navigation.testing)
+    testImplementation(projects.core.dataTest)
     testImplementation(projects.core.testing)
     testImplementation(libs.hilt.android.testing)
-
-    androidTestImplementation(projects.core.dataTest)
-    androidTestImplementation(projects.core.testing)
-    androidTestImplementation(libs.androidx.navigation.testing)
-    androidTestImplementation(libs.hilt.android.testing)
+    testImplementation(libs.robolectric)
 }

@@ -31,9 +31,6 @@
     <string name="unsupported_launcher">Your current launcher does not support shortcuts</string>
     <string name="user_is_locked">User is locked</string>
     <string name="copied_to_clipboard">%s copied to clipboard</string>
-    <string name="revert_the_applied_settings_to_their_original_values">Revert the applied settings to their original values</string>
-    <string name="add_a_custom_settings_to_this_app">Add a custom settings to this app</string>
-    <string name="add_a_shortcut_to_this_app">Add a shortcut to this app</string>
     <string name="add_your_first_settings">Add your first settings</string>
     <string name="add_app_setting">Add App Setting</string>
     <string name="setting_label">Setting label</string>

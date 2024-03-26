@@ -22,10 +22,8 @@ import androidx.activity.ComponentActivity
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.compose.ui.test.longClick
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
-import androidx.compose.ui.test.performTouchInput
 import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.SettingType
 import org.junit.Rule
@@ -100,71 +98,5 @@ class AppSettingsScreenTest {
         }
 
         composeTestRule.onNodeWithTag("appsettings:lazyColumn").assertIsDisplayed()
-    }
-
-    @Test
-    fun revertTooltip_isDisplayed_whenRevertIcon_isLongClicked() {
-        composeTestRule.setContent {
-            AppSettingsScreen(snackbarHostState = SnackbarHostState(),
-                              appName = "Geto",
-                              appSettingsUiState = AppSettingsUiState.Success(appSettings),
-                              onNavigationIconClick = {},
-                              onRevertSettingsIconClick = {},
-                              onSettingsIconClick = {},
-                              onShortcutIconClick = {},
-                              onAppSettingsItemCheckBoxChange = { _, _ -> },
-                              onDeleteAppSettingsItem = {},
-                              onLaunchApp = {})
-        }
-
-        composeTestRule.onNodeWithContentDescription("Revert icon").performTouchInput {
-            longClick(durationMillis = 1000L)
-        }
-
-        composeTestRule.onNodeWithTag("appsettings:tooltip:revert").assertIsDisplayed()
-    }
-
-    @Test
-    fun settingsTooltip_isDisplayed_whenSettingsIcon_isLongClicked() {
-        composeTestRule.setContent {
-            AppSettingsScreen(snackbarHostState = SnackbarHostState(),
-                              appName = "Geto",
-                              appSettingsUiState = AppSettingsUiState.Success(appSettings),
-                              onNavigationIconClick = {},
-                              onRevertSettingsIconClick = {},
-                              onSettingsIconClick = {},
-                              onShortcutIconClick = {},
-                              onAppSettingsItemCheckBoxChange = { _, _ -> },
-                              onDeleteAppSettingsItem = {},
-                              onLaunchApp = {})
-        }
-
-        composeTestRule.onNodeWithContentDescription("Settings icon").performTouchInput {
-            longClick(durationMillis = 1000L)
-        }
-
-        composeTestRule.onNodeWithTag("appsettings:tooltip:settings").assertIsDisplayed()
-    }
-
-    @Test
-    fun shortcutTooltip_isDisplayed_whenShortcutIcon_isLongClicked() {
-        composeTestRule.setContent {
-            AppSettingsScreen(snackbarHostState = SnackbarHostState(),
-                              appName = "Geto",
-                              appSettingsUiState = AppSettingsUiState.Success(appSettings),
-                              onNavigationIconClick = {},
-                              onRevertSettingsIconClick = {},
-                              onSettingsIconClick = {},
-                              onShortcutIconClick = {},
-                              onAppSettingsItemCheckBoxChange = { _, _ -> },
-                              onDeleteAppSettingsItem = {},
-                              onLaunchApp = {})
-        }
-
-        composeTestRule.onNodeWithContentDescription("Shortcut icon").performTouchInput {
-            longClick(durationMillis = 1000L)
-        }
-
-        composeTestRule.onNodeWithTag("appsettings:tooltip:shortcut").assertIsDisplayed()
     }
 }
