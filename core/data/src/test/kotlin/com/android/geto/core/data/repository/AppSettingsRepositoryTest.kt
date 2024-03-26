@@ -19,7 +19,9 @@
 package com.android.geto.core.data.repository
 
 import com.android.geto.core.data.testdoubles.TestAppSettingsDao
+import com.android.geto.core.database.model.AppSettingEntity
 import com.android.geto.core.database.model.asEntity
+import com.android.geto.core.database.model.asExternalModel
 import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.SettingType
 import kotlinx.coroutines.flow.collect
@@ -93,42 +95,36 @@ class AppSettingsRepositoryTest {
     fun appSettingsRepository_deleteAppSettingsByPackageName_delegates_to_dao() = runTest {
         val collectJob = launch(UnconfinedTestDispatcher()) { subject.appSettings.collect() }
 
-        val oldAppSettings = List(10) { _ ->
-            AppSetting(
-                enabled = false, settingType = SettingType.GLOBAL,
-                packageName = "com.android.geto",
-                label = "Geto", key = "Geto",
+        val oldAppSettingEntities = List(10) { index ->
+            AppSettingEntity(
+                id = index, enabled = false, settingType = SettingType.GLOBAL,
+                packageName = "com.android.geto", label = "Geto", key = "Geto",
                 valueOnLaunch = "0",
                 valueOnRevert = "1"
             )
         }
 
-        val newAppSettings = List(10) { _ ->
-            AppSetting(
-                enabled = false, settingType = SettingType.GLOBAL,
-                packageName = "com.android.sample",
-                label = "Sample", key = "Sample",
+        val newAppSettingEntities = List(10) { index ->
+            AppSettingEntity(
+                id = index + 11, enabled = false, settingType = SettingType.GLOBAL,
+                packageName = "com.android.sample", label = "Sample", key = "Sample",
                 valueOnLaunch = "0",
                 valueOnRevert = "1"
             )
         }
 
-        oldAppSettings.forEach { appSettings ->
-            subject.upsertAppSetting(appSettings)
-        }
+        appSettingsDao.upsertAppSettingEntities(oldAppSettingEntities + newAppSettingEntities)
 
-        newAppSettings.forEach { appSettings ->
-            subject.upsertAppSetting(appSettings)
-        }
-
-        subject.deleteAppSettingsByPackageName(packageNames = listOf("com.android.geto"))
+        subject.deleteAppSettingsByPackageName(listOf("com.android.geto"))
 
         assertFalse {
-            subject.appSettings.first().containsAll(oldAppSettings)
+            subject.appSettings.first()
+                .containsAll(oldAppSettingEntities.map(AppSettingEntity::asExternalModel))
         }
 
         assertTrue {
-            subject.appSettings.first().containsAll(newAppSettings)
+            subject.appSettings.first()
+                .containsAll(newAppSettingEntities.map(AppSettingEntity::asExternalModel))
         }
 
         collectJob.cancel()
@@ -149,8 +145,8 @@ class AppSettingsRepositoryTest {
 
         subject.upsertAppSetting(appSetting)
 
-        val result = subject.getAppSettingsByPackageName("com.android.geto").first()
-
-        assertTrue(result.isNotEmpty())
+        assertTrue {
+            appSetting in subject.getAppSettingsByPackageName("com.android.geto").first()
+        }
     }
 }

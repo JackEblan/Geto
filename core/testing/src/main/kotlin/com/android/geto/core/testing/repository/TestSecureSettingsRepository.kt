@@ -30,13 +30,13 @@ class TestSecureSettingsRepository : SecureSettingsRepository {
 
     private var secureSettingList = listOf<SecureSetting>()
 
-    override suspend fun applySecureSettings(appSettingList: List<AppSetting>): Boolean {
+    override suspend fun applySecureSettings(appSettings: List<AppSetting>): Boolean {
         return if (!writeSecureSettings) throw SecurityException()
         else if (invalidValues) throw IllegalArgumentException()
         else true
     }
 
-    override suspend fun revertSecureSettings(appSettingList: List<AppSetting>): Boolean {
+    override suspend fun revertSecureSettings(appSettings: List<AppSetting>): Boolean {
         return if (!writeSecureSettings) throw SecurityException()
         else if (invalidValues) throw IllegalArgumentException()
         else true

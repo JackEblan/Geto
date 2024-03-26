@@ -18,7 +18,7 @@
 
 package com.android.geto.core.data.repository
 
-import com.android.geto.core.data.testdoubles.TestSecureSettingsPermissionWrapper
+import com.android.geto.core.data.testdoubles.TestSecureSettingsWrapper
 import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.SettingType
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -32,13 +32,13 @@ class SecureSettingsRepositoryTest {
 
     private val testDispatcher = StandardTestDispatcher()
 
-    private lateinit var secureSettingsPermissionWrapper: TestSecureSettingsPermissionWrapper
+    private lateinit var secureSettingsPermissionWrapper: TestSecureSettingsWrapper
 
     private lateinit var subject: SecureSettingsRepository
 
     @Before
     fun setup() {
-        secureSettingsPermissionWrapper = TestSecureSettingsPermissionWrapper()
+        secureSettingsPermissionWrapper = TestSecureSettingsWrapper()
 
         subject = DefaultSecureSettingsRepository(secureSettingsPermissionWrapper)
     }

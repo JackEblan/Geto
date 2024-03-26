@@ -32,10 +32,10 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class DefaultSecureSettingsPermissionWrapper @Inject constructor(
+class DefaultSecureSettingsWrapper @Inject constructor(
     @Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher,
     @ApplicationContext private val context: Context
-) : SecureSettingsPermissionWrapper {
+) : SecureSettingsWrapper {
 
     private val contentResolver = context.contentResolver
 
@@ -47,20 +47,20 @@ class DefaultSecureSettingsPermissionWrapper @Inject constructor(
 
     override suspend fun canWriteSecureSettings(
         appSetting: AppSetting,
-        valueSelector: (AppSetting) -> String,
+        value: (AppSetting) -> String,
     ): Boolean {
         return withContext(ioDispatcher) {
             when (appSetting.settingType) {
                 SettingType.SYSTEM -> Settings.System.putString(
-                    contentResolver, appSetting.key, valueSelector(appSetting)
+                    contentResolver, appSetting.key, value(appSetting)
                 )
 
                 SettingType.SECURE -> Settings.Secure.putString(
-                    contentResolver, appSetting.key, valueSelector(appSetting)
+                    contentResolver, appSetting.key, value(appSetting)
                 )
 
                 SettingType.GLOBAL -> Settings.Global.putString(
-                    contentResolver, appSetting.key, valueSelector(appSetting)
+                    contentResolver, appSetting.key, value(appSetting)
                 )
             }
         }

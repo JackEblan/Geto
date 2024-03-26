@@ -21,29 +21,27 @@ package com.android.geto.core.data.repository
 import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.SecureSetting
 import com.android.geto.core.model.SettingType
-import com.android.geto.core.securesettings.SecureSettingsPermissionWrapper
+import com.android.geto.core.securesettings.SecureSettingsWrapper
 import javax.inject.Inject
 
 class DefaultSecureSettingsRepository @Inject constructor(
-    private val secureSettingsPermissionWrapper: SecureSettingsPermissionWrapper
+    private val secureSettingsWrapper: SecureSettingsWrapper
 ) : SecureSettingsRepository {
-    override suspend fun applySecureSettings(appSettingList: List<AppSetting>): Boolean {
-        return appSettingList.all { appSettings ->
-            secureSettingsPermissionWrapper.canWriteSecureSettings(
-                appSetting = appSettings,
-                valueSelector = { appSettings.valueOnLaunch })
+    override suspend fun applySecureSettings(appSettings: List<AppSetting>): Boolean {
+        return appSettings.all { appSetting ->
+            secureSettingsWrapper.canWriteSecureSettings(appSetting = appSetting,
+                                                         value = { appSetting.valueOnLaunch })
         }
     }
 
-    override suspend fun revertSecureSettings(appSettingList: List<AppSetting>): Boolean {
-        return appSettingList.all { appSettings ->
-            secureSettingsPermissionWrapper.canWriteSecureSettings(
-                appSetting = appSettings,
-                valueSelector = { appSettings.valueOnRevert })
+    override suspend fun revertSecureSettings(appSettings: List<AppSetting>): Boolean {
+        return appSettings.all { appSetting ->
+            secureSettingsWrapper.canWriteSecureSettings(appSetting = appSetting,
+                                                         value = { appSetting.valueOnRevert })
         }
     }
 
     override suspend fun getSecureSettings(settingType: SettingType): List<SecureSetting> {
-        return secureSettingsPermissionWrapper.getSecureSettings(settingType)
+        return secureSettingsWrapper.getSecureSettings(settingType)
     }
 }

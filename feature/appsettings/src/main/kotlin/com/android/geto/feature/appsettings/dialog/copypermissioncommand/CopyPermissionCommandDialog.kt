@@ -75,42 +75,61 @@ internal fun CopyPermissionCommandDialogScreen(
             .fillMaxWidth()
             .padding(10.dp)
     ) {
-        Spacer(modifier = Modifier.height(10.dp))
+        CopyPermissionCommandDialogTitle()
 
-        Text(
-            modifier = Modifier.padding(horizontal = 5.dp),
-            text = stringResource(R.string.permission_error),
-            style = MaterialTheme.typography.titleLarge
+        CopyPermissionCommandDialogContent()
+
+        CopyPermissionCommandDialogButtons(
+            onDismissRequest = onDismissRequest, onCopySettings = onCopySettings
         )
+    }
+}
 
-        Spacer(modifier = Modifier.height(10.dp))
+@Composable
+private fun CopyPermissionCommandDialogTitle() {
+    Spacer(modifier = Modifier.height(10.dp))
 
-        Text(
-            modifier = Modifier.padding(horizontal = 5.dp),
-            text = stringResource(R.string.copy_permission_command_message),
-            style = MaterialTheme.typography.bodyLarge
-        )
+    Text(
+        modifier = Modifier.padding(horizontal = 5.dp),
+        text = stringResource(R.string.permission_error),
+        style = MaterialTheme.typography.titleLarge
+    )
+}
 
-        Spacer(modifier = Modifier.height(10.dp))
+@Composable
+private fun CopyPermissionCommandDialogContent() {
+    Spacer(modifier = Modifier.height(10.dp))
 
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.End,
+    Text(
+        modifier = Modifier.padding(horizontal = 5.dp),
+        text = stringResource(R.string.copy_permission_command_message),
+        style = MaterialTheme.typography.bodyLarge
+    )
+}
+
+@Composable
+private fun CopyPermissionCommandDialogButtons(
+    onDismissRequest: () -> Unit, onCopySettings: () -> Unit
+) {
+    Spacer(modifier = Modifier.height(10.dp))
+
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.End,
+    ) {
+        TextButton(
+            onClick = { onDismissRequest() },
+            modifier = Modifier.padding(5.dp),
         ) {
-            TextButton(
-                onClick = { onDismissRequest() },
-                modifier = Modifier.padding(5.dp),
-            ) {
-                Text(stringResource(id = R.string.cancel))
-            }
-            TextButton(
-                onClick = { onCopySettings() },
-                modifier = Modifier
-                    .padding(5.dp)
-                    .testTag(":appsettings:copysettingsdialog:copy"),
-            ) {
-                Text(stringResource(R.string.copy))
-            }
+            Text(stringResource(id = R.string.cancel))
+        }
+        TextButton(
+            onClick = { onCopySettings() },
+            modifier = Modifier
+                .padding(5.dp)
+                .testTag(":appsettings:copysettingsdialog:copy"),
+        ) {
+            Text(stringResource(R.string.copy))
         }
     }
 }

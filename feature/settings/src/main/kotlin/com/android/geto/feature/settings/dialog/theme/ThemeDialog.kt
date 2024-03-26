@@ -82,79 +82,101 @@ internal fun ThemeDialogScreen(
     onChangeTheme: () -> Unit,
     onCancel: () -> Unit
 ) {
-    val defaultTheme = stringResource(R.string.default_theme)
-    val androidTheme = stringResource(R.string.android_theme)
-
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(10.dp)
     ) {
-        Spacer(modifier = Modifier.height(10.dp))
+        ThemeDialogTitle()
 
-        Text(
-            modifier = Modifier.padding(horizontal = 5.dp),
-            text = "Theme",
-            style = MaterialTheme.typography.titleLarge
+        ThemeDialogChooser(
+            selectedRadioOptionIndex = selectedRadioOptionIndex,
+            onUpdateSelectedRadioOptionIndex = onUpdateSelectedRadioOptionIndex
         )
 
-        Spacer(modifier = Modifier.height(10.dp))
+        ThemeDialogButtons(onChangeTheme = onChangeTheme, onCancel = onCancel)
+    }
+}
 
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .selectableGroup()
-        ) {
-            listOf(defaultTheme, androidTheme).forEachIndexed { index, text ->
-                Row(
-                    Modifier
-                        .padding(vertical = 10.dp)
-                        .selectable(selected = index == selectedRadioOptionIndex,
-                                    role = Role.RadioButton,
-                                    enabled = true,
-                                    onClick = {
-                                        onUpdateSelectedRadioOptionIndex(index)
-                                    })
-                        .padding(horizontal = 16.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    RadioButton(
-                        selected = index == selectedRadioOptionIndex, onClick = null
-                    )
-                    Text(
-                        text = text,
-                        style = MaterialTheme.typography.bodyLarge,
-                        modifier = Modifier.padding(start = 10.dp)
-                    )
-                }
-            }
-        }
+@Composable
+private fun ThemeDialogTitle(modifier: Modifier = Modifier) {
+    Spacer(modifier = Modifier.height(10.dp))
 
-        Spacer(modifier = Modifier.height(10.dp))
+    Text(
+        modifier = modifier.padding(horizontal = 5.dp),
+        text = stringResource(id = R.string.theme),
+        style = MaterialTheme.typography.titleLarge
+    )
+}
 
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.End,
-        ) {
-            TextButton(
-                onClick = onCancel, modifier = Modifier.padding(5.dp)
+@Composable
+fun ThemeDialogChooser(
+    modifier: Modifier = Modifier, selectedRadioOptionIndex: Int,
+    onUpdateSelectedRadioOptionIndex: (Int) -> Unit,
+) {
+    val defaultTheme = stringResource(R.string.default_theme)
+    val androidTheme = stringResource(R.string.android_theme)
+
+    Spacer(modifier = Modifier.height(10.dp))
+
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .selectableGroup()
+    ) {
+        listOf(defaultTheme, androidTheme).forEachIndexed { index, text ->
+            Row(
+                Modifier
+                    .padding(vertical = 10.dp)
+                    .selectable(selected = index == selectedRadioOptionIndex,
+                                role = Role.RadioButton,
+                                enabled = true,
+                                onClick = {
+                                    onUpdateSelectedRadioOptionIndex(index)
+                                })
+                    .padding(horizontal = 16.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(stringResource(R.string.cancel))
-            }
-            TextButton(
-                onClick = onChangeTheme,
-                modifier = Modifier
-                    .padding(5.dp)
-                    .testTag("themeDialog:change")
-            ) {
-                Text(stringResource(R.string.change))
+                RadioButton(
+                    selected = index == selectedRadioOptionIndex, onClick = null
+                )
+                Text(
+                    text = text,
+                    style = MaterialTheme.typography.bodyLarge,
+                    modifier = Modifier.padding(start = 10.dp)
+                )
             }
         }
     }
 }
 
 @Composable
-fun rememberThemeDialogState(): ThemeDialogState {
+private fun ThemeDialogButtons(
+    modifier: Modifier = Modifier, onChangeTheme: () -> Unit, onCancel: () -> Unit
+) {
+    Spacer(modifier = Modifier.height(10.dp))
+
+    Row(
+        modifier = modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.End,
+    ) {
+        TextButton(
+            onClick = onCancel, modifier = Modifier.padding(5.dp)
+        ) {
+            Text(stringResource(R.string.cancel))
+        }
+        TextButton(
+            onClick = onChangeTheme, modifier = Modifier
+                .padding(5.dp)
+                .testTag("themeDialog:change")
+        ) {
+            Text(stringResource(R.string.change))
+        }
+    }
+}
+
+@Composable
+internal fun rememberThemeDialogState(): ThemeDialogState {
     return rememberSaveable(saver = ThemeDialogState.Saver) {
         ThemeDialogState()
     }

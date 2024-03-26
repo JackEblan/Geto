@@ -44,15 +44,11 @@ import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.PlainTooltip
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TooltipBox
-import androidx.compose.material3.TooltipDefaults
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -81,7 +77,7 @@ import com.android.geto.core.domain.AutoLaunchResult
 import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.SettingType
 import com.android.geto.core.ui.AppSettingsPreviewParameterProvider
-import com.android.geto.feature.appsettings.dialog.appsettings.AddAppSettingDialog
+import com.android.geto.feature.appsettings.dialog.appsettings.AppSettingDialog
 import com.android.geto.feature.appsettings.dialog.appsettings.rememberAppSettingsDialogState
 import com.android.geto.feature.appsettings.dialog.copypermissioncommand.CopyPermissionCommandDialog
 import com.android.geto.feature.appsettings.dialog.shortcut.AddShortcutDialog
@@ -256,7 +252,7 @@ internal fun AppSettingsRoute(
     }
 
     if (appSettingsDialogState.showDialog) {
-        AddAppSettingDialog(
+        AppSettingDialog(
             addAppSettingDialogState = appSettingsDialogState, onAddSetting = {
                 appSettingsDialogState.getAppSetting(packageName = viewModel.packageName)?.let {
                     viewModel.addSettings(it)
@@ -321,7 +317,6 @@ internal fun AppSettingsRoute(
 }
 
 @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun AppSettingsScreen(
     modifier: Modifier = Modifier,
@@ -337,108 +332,133 @@ internal fun AppSettingsScreen(
     onLaunchApp: () -> Unit,
 ) {
     Scaffold(topBar = {
-        TopAppBar(title = {
-            Text(text = appName, maxLines = 1)
-        }, modifier = Modifier.testTag("appsettings:topAppBar"), navigationIcon = {
-            IconButton(onClick = onNavigationIconClick) {
-                Icon(
-                    imageVector = GetoIcons.Back, contentDescription = "Navigation icon"
-                )
-            }
-        })
-    }, bottomBar = {
-        BottomAppBar(actions = {
-            TooltipBox(
-                modifier = Modifier.testTag("appsettings:tooltip:revert"),
-                positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
-                tooltip = {
-                    PlainTooltip {
-                        Text(stringResource(R.string.revert_the_applied_settings_to_their_original_values))
-                    }
-                },
-                state = rememberTooltipState()
-            ) {
-                IconButton(onClick = onRevertSettingsIconClick) {
-                    Icon(
-                        imageVector = GetoIcons.Refresh, contentDescription = "Revert icon"
-                    )
-                }
-            }
-
-            TooltipBox(
-                modifier = Modifier.testTag("appsettings:tooltip:settings"),
-                positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
-                tooltip = {
-                    PlainTooltip {
-                        Text(stringResource(R.string.add_a_custom_settings_to_this_app))
-                    }
-                },
-                state = rememberTooltipState()
-            ) {
-
-                IconButton(onClick = onSettingsIconClick) {
-                    Icon(
-                        GetoIcons.Settings,
-                        contentDescription = "Settings icon",
-                    )
-                }
-            }
-
-            TooltipBox(
-                modifier = Modifier.testTag("appsettings:tooltip:shortcut"),
-                positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
-                tooltip = {
-                    PlainTooltip {
-                        Text(stringResource(R.string.add_a_shortcut_to_this_app))
-                    }
-                },
-                state = rememberTooltipState()
-            ) {
-                IconButton(onClick = onShortcutIconClick) {
-
-                    Icon(
-                        GetoIcons.Shortcut,
-                        contentDescription = "Shortcut icon",
-                    )
-                }
-            }
-        }, floatingActionButton = {
-            FloatingActionButton(
-                onClick = onLaunchApp,
-                containerColor = BottomAppBarDefaults.bottomAppBarFabColor,
-                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
-            ) {
-                Icon(
-                    imageVector = GetoIcons.Android, contentDescription = "Launch icon"
-                )
-            }
-        })
-    }, snackbarHost = {
-        SnackbarHost(
-            hostState = snackbarHostState, modifier = Modifier.testTag("appsettings:snackbar")
+        AppSettingsTopAppBar(
+            title = appName, onNavigationIconClick = onNavigationIconClick
         )
+    }, bottomBar = {
+        AppSettingsBottomAppBar(
+            onRevertSettingsIconClick = onRevertSettingsIconClick,
+            onSettingsIconClick = onSettingsIconClick,
+            onShortcutIconClick = onShortcutIconClick,
+            onLaunchApp = onLaunchApp
+        )
+    }, snackbarHost = {
+        SnackbarHost(hostState = snackbarHostState)
     }) { innerPadding ->
-        Box(
-            modifier = modifier
-                .fillMaxSize()
-                .consumeWindowInsets(innerPadding)
-        ) {
-            when (appSettingsUiState) {
-                AppSettingsUiState.Loading -> {
-                    LoadingState(modifier = Modifier.align(Alignment.Center))
-                }
+        AppSettingsContent(
+            modifier = modifier,
+            innerPadding = innerPadding,
+            appSettingsUiState = appSettingsUiState,
+            onAppSettingsItemCheckBoxChange = onAppSettingsItemCheckBoxChange,
+            onDeleteAppSettingsItem = onDeleteAppSettingsItem
+        )
+    }
+}
 
-                is AppSettingsUiState.Success -> {
-                    if (appSettingsUiState.appSettingList.isNotEmpty()) {
-                        SuccessState(
-                            appSettingsUiState = appSettingsUiState,
-                            contentPadding = innerPadding,
-                            onAppSettingsItemCheckBoxChange = onAppSettingsItemCheckBoxChange,
-                            onDeleteAppSettingsItem = onDeleteAppSettingsItem
-                        )
-                    } else {
-                        EmptyState(text = stringResource(R.string.add_your_first_settings))
-                    }
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun AppSettingsTopAppBar(
+    title: String, onNavigationIconClick: () -> Unit
+) {
+    TopAppBar(title = {
+        Text(text = title, maxLines = 1)
+    }, navigationIcon = {
+        IconButton(onClick = onNavigationIconClick) {
+            Icon(
+                imageVector = GetoIcons.Back, contentDescription = "Navigation icon"
+            )
+        }
+    })
+}
+
+@Composable
+private fun AppSettingsBottomAppBar(
+    onRevertSettingsIconClick: () -> Unit,
+    onSettingsIconClick: () -> Unit,
+    onShortcutIconClick: () -> Unit,
+    onLaunchApp: () -> Unit
+) {
+    BottomAppBar(actions = {
+        AppSettingsBottomAppBarActions(
+            onRevertSettingsIconClick = onRevertSettingsIconClick,
+            onSettingsIconClick = onSettingsIconClick,
+            onShortcutIconClick = onShortcutIconClick
+        )
+    }, floatingActionButton = {
+        AppSettingsFloatingActionButton(
+            onClick = onLaunchApp
+        )
+    })
+}
+
+@Composable
+private fun AppSettingsFloatingActionButton(onClick: () -> Unit) {
+    FloatingActionButton(
+        onClick = onClick,
+        containerColor = BottomAppBarDefaults.bottomAppBarFabColor,
+        elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
+    ) {
+        Icon(
+            imageVector = GetoIcons.Android, contentDescription = "Launch icon"
+        )
+    }
+}
+
+@Composable
+fun AppSettingsBottomAppBarActions(
+    onRevertSettingsIconClick: () -> Unit,
+    onSettingsIconClick: () -> Unit,
+    onShortcutIconClick: () -> Unit
+) {
+    IconButton(onClick = onRevertSettingsIconClick) {
+        Icon(
+            imageVector = GetoIcons.Refresh, contentDescription = "Revert icon"
+        )
+    }
+
+    IconButton(onClick = onSettingsIconClick) {
+        Icon(
+            GetoIcons.Settings,
+            contentDescription = "Settings icon",
+        )
+    }
+
+    IconButton(onClick = onShortcutIconClick) {
+        Icon(
+            GetoIcons.Shortcut,
+            contentDescription = "Shortcut icon",
+        )
+    }
+}
+
+@Composable
+private fun AppSettingsContent(
+    modifier: Modifier = Modifier,
+    innerPadding: PaddingValues,
+    appSettingsUiState: AppSettingsUiState,
+    onAppSettingsItemCheckBoxChange: (Boolean, AppSetting) -> Unit,
+    onDeleteAppSettingsItem: (AppSetting) -> Unit,
+) {
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .consumeWindowInsets(innerPadding)
+    ) {
+        when (appSettingsUiState) {
+            AppSettingsUiState.Loading -> {
+                LoadingState(modifier = Modifier.align(Alignment.Center))
+            }
+
+            is AppSettingsUiState.Success -> {
+                if (appSettingsUiState.appSettingList.isNotEmpty()) {
+                    SuccessState(
+                        appSettingsUiState = appSettingsUiState,
+                        contentPadding = innerPadding,
+                        onAppSettingsItemCheckBoxChange = onAppSettingsItemCheckBoxChange,
+                        onDeleteAppSettingsItem = onDeleteAppSettingsItem
+                    )
+                } else {
+                    EmptyState(text = stringResource(R.string.add_your_first_settings))
                 }
             }
         }

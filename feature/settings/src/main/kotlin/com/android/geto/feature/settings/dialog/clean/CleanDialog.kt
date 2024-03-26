@@ -75,42 +75,59 @@ internal fun CleanDialogScreen(
             .fillMaxWidth()
             .padding(10.dp)
     ) {
-        Spacer(modifier = Modifier.height(10.dp))
+        CleanDialogTitle()
 
-        Text(
-            modifier = Modifier.padding(horizontal = 5.dp),
-            text = stringResource(R.string.clean_app_settings),
-            style = MaterialTheme.typography.titleLarge
-        )
+        CleanDialogContent()
 
-        Spacer(modifier = Modifier.height(10.dp))
+        CleanDialogButtons(onDismissRequest = onDismissRequest, onClean = onClean)
+    }
+}
 
-        Text(
-            modifier = Modifier.padding(horizontal = 5.dp),
-            text = stringResource(R.string.are_you_sure_you_want_to_clean_app_settings_from_the_uninstalled_applications),
-            style = MaterialTheme.typography.bodyLarge
-        )
+@Composable
+private fun CleanDialogTitle(modifier: Modifier = Modifier) {
+    Spacer(modifier = Modifier.height(10.dp))
 
-        Spacer(modifier = Modifier.height(10.dp))
+    Text(
+        modifier = modifier.padding(horizontal = 5.dp),
+        text = stringResource(R.string.clean_app_settings),
+        style = MaterialTheme.typography.titleLarge
+    )
+}
 
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.End,
+@Composable
+private fun CleanDialogContent(modifier: Modifier = Modifier) {
+    Spacer(modifier = Modifier.height(10.dp))
+
+    Text(
+        modifier = modifier.padding(horizontal = 5.dp),
+        text = stringResource(R.string.are_you_sure_you_want_to_clean_app_settings_from_the_uninstalled_applications),
+        style = MaterialTheme.typography.bodyLarge
+    )
+}
+
+@Composable
+private fun CleanDialogButtons(
+    modifier: Modifier = Modifier, onDismissRequest: () -> Unit, onClean: () -> Unit
+) {
+    Spacer(modifier = Modifier.height(10.dp))
+
+    Row(
+        modifier = modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.End,
+    ) {
+        TextButton(
+            onClick = { onDismissRequest() },
+            modifier = Modifier.padding(5.dp),
         ) {
-            TextButton(
-                onClick = { onDismissRequest() },
-                modifier = Modifier.padding(5.dp),
-            ) {
-                Text(stringResource(id = R.string.cancel))
-            }
-            TextButton(
-                onClick = { onClean() },
-                modifier = Modifier
-                    .padding(5.dp)
-                    .testTag(":appsettings:cleandialog:clean"),
-            ) {
-                Text(stringResource(R.string.clean))
-            }
+            Text(stringResource(id = R.string.cancel))
+        }
+        TextButton(
+            onClick = { onClean() },
+            modifier = Modifier
+                .padding(5.dp)
+                .testTag(":appsettings:cleandialog:clean"),
+        ) {
+            Text(stringResource(R.string.clean))
         }
     }
 }

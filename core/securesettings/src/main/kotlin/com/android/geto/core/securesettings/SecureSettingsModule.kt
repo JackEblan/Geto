@@ -30,6 +30,6 @@ interface SecureSettingsModule {
 
     @Binds
     @Singleton
-    fun secureSettingsWrapper(impl: DefaultSecureSettingsPermissionWrapper): SecureSettingsPermissionWrapper
+    fun secureSettingsWrapper(impl: DefaultSecureSettingsWrapper): SecureSettingsWrapper
 
 }
