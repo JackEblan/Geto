@@ -70,7 +70,7 @@ class SettingsScreenTest {
                            onNavigationIconClick = {})
         }
 
-        composeTestRule.onNodeWithTag("settings:column").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("settings:success").assertIsDisplayed()
     }
 
     @Test
@@ -93,7 +93,7 @@ class SettingsScreenTest {
                            onNavigationIconClick = {})
         }
 
-        composeTestRule.onNodeWithTag("settings:dynamic:switch").assertIsOn()
+        composeTestRule.onNodeWithTag("settings:dynamicSwitch").assertIsOn()
     }
 
     @Test
@@ -116,7 +116,7 @@ class SettingsScreenTest {
                            onNavigationIconClick = {})
         }
 
-        composeTestRule.onNodeWithTag("settings:dynamic:switch").assertIsOff()
+        composeTestRule.onNodeWithTag("settings:dynamicSwitch").assertIsOff()
     }
 
     @Test
@@ -207,7 +207,7 @@ class SettingsScreenTest {
                            onNavigationIconClick = {})
         }
 
-        composeTestRule.onNodeWithTag("settings:autolaunch:switch").assertIsOff()
+        composeTestRule.onNodeWithTag("settings:autoLaunchSwitch").assertIsOff()
     }
 
     @Test
@@ -229,6 +229,6 @@ class SettingsScreenTest {
                            onNavigationIconClick = {})
         }
 
-        composeTestRule.onNodeWithTag("settings:autolaunch:switch").assertIsOn()
+        composeTestRule.onNodeWithTag("settings:autoLaunchSwitch").assertIsOn()
     }
 }

@@ -236,7 +236,7 @@ private fun SuccessState(
         modifier = modifier
             .consumeWindowInsets(contentPadding)
             .padding(contentPadding)
-            .testTag("settings:column")
+            .testTag("settings:success")
     ) {
         ThemeSetting(
             settingsUiState = settingsUiState, onThemeDialog = onThemeDialog
@@ -316,7 +316,7 @@ private fun DynamicSetting(
             }
 
             Switch(
-                modifier = Modifier.testTag("settings:dynamic:switch"),
+                modifier = Modifier.testTag("settings:dynamicSwitch"),
                 checked = settingsUiState.settings.useDynamicColor,
                 onCheckedChange = onChangeDynamicColorPreference
             )
@@ -383,7 +383,7 @@ private fun AutoLaunchSetting(
         modifier = modifier
             .fillMaxWidth()
             .padding(10.dp)
-            .testTag("settings:autolaunch"),
+            .testTag("settings:autoLaunch"),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column(modifier = Modifier.weight(1f)) {
@@ -401,7 +401,7 @@ private fun AutoLaunchSetting(
         }
 
         Switch(
-            modifier = Modifier.testTag("settings:autolaunch:switch"),
+            modifier = Modifier.testTag("settings:autoLaunchSwitch"),
             checked = settingsUiState.settings.useAutoLaunch,
             onCheckedChange = onChangeAutoLaunchPreference
         )

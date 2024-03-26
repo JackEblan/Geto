@@ -16,7 +16,7 @@
  *
  */
 
-package com.android.geto.feature.appsettings.dialog.appsettings
+package com.android.geto.feature.appsettings.dialog.appsetting
 
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Arrangement
@@ -249,7 +249,7 @@ private fun AppSettingDialogTextFields(
         supportingText = {
             if (labelError.isNotBlank()) Text(
                 text = labelError,
-                modifier = Modifier.testTag("addAppSettingDialog:labelSupportingText")
+                modifier = Modifier.testTag("appSettingDialog:labelSupportingText")
             )
         },
         singleLine = true,
@@ -280,7 +280,7 @@ private fun AppSettingDialogTextFields(
         supportingText = {
             if (valueOnLaunchError.isNotBlank()) Text(
                 text = valueOnLaunchError,
-                modifier = Modifier.testTag("addAppSettingDialog:valueOnLaunchSupportingText")
+                modifier = Modifier.testTag("appSettingDialog:valueOnLaunchSupportingText")
             )
         },
         singleLine = true,
@@ -291,7 +291,7 @@ private fun AppSettingDialogTextFields(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 5.dp)
-            .testTag("addAppSettingDialog:valueOnRevertTextField"),
+            .testTag("appSettingDialog:valueOnRevertTextField"),
         value = valueOnRevert,
         onValueChange = onUpdateValueOnRevert,
         label = {
@@ -301,7 +301,7 @@ private fun AppSettingDialogTextFields(
         supportingText = {
             if (valueOnRevertError.isNotBlank()) Text(
                 text = valueOnRevertError,
-                modifier = Modifier.testTag("addAppSettingDialog:valueOnRevertSupportingText")
+                modifier = Modifier.testTag("appSettingDialog:valueOnRevertSupportingText")
             )
         },
         singleLine = true,
@@ -324,14 +324,14 @@ private fun AppSettingDialogTextFieldWithDropdownMenu(
     ExposedDropdownMenuBox(
         expanded = secureSettingsExpanded,
         onExpandedChange = onUpdateSecureSettingsExpanded,
-        modifier = Modifier.testTag("addAppSettingDialog:exposedDropdownMenuBox")
+        modifier = Modifier.testTag("appSettingDialog:exposedDropdownMenuBox")
     ) {
         OutlinedTextField(
             modifier = Modifier
                 .menuAnchor()
                 .fillMaxWidth()
                 .padding(horizontal = 5.dp)
-                .testTag("addAppSettingDialog:keyTextField"),
+                .testTag("appSettingDialog:keyTextField"),
             value = key,
             onValueChange = onUpdateKey,
             label = {
@@ -343,12 +343,12 @@ private fun AppSettingDialogTextFieldWithDropdownMenu(
             supportingText = {
                 if (keyError.isNotBlank()) Text(
                     text = keyError,
-                    modifier = Modifier.testTag("addAppSettingDialog:keySupportingText")
+                    modifier = Modifier.testTag("appSettingDialog:keySupportingText")
                 )
 
                 if (settingsKeyNotFoundError.isNotBlank()) Text(
                     text = settingsKeyNotFoundError,
-                    modifier = Modifier.testTag("addAppSettingDialog:settingsKeyNotFoundSupportingText")
+                    modifier = Modifier.testTag("appSettingDialog:settingsKeyNotFoundSupportingText")
                 )
             },
             singleLine = true,
@@ -408,7 +408,7 @@ private fun AppSettingDialogButtons(
             onClick = onAddSetting,
             modifier = Modifier
                 .padding(5.dp)
-                .testTag("addAppSettingDialog:add")
+                .testTag("appSettingDialog:add")
         ) {
             Text(stringResource(R.string.add))
         }

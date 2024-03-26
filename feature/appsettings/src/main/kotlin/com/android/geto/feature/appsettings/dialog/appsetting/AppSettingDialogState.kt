@@ -16,7 +16,7 @@
  *
  */
 
-package com.android.geto.feature.appsettings.dialog.appsettings
+package com.android.geto.feature.appsettings.dialog.appsetting
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable

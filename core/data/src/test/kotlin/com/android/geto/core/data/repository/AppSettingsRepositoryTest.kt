@@ -44,11 +44,11 @@ class AppSettingsRepositoryTest {
     fun setup() {
         appSettingsDao = TestAppSettingsDao()
 
-        subject = DefaultAppSettingsRepository(appSettingsDao)
+        subject = DefaultAppSettingsRepository(appSettingsDao = appSettingsDao)
     }
 
     @Test
-    fun appSettingsRepository_upsertAppSetting_delegates_to_dao() = runTest {
+    fun appSettingsRepository_upsertAppSetting() = runTest {
         val appSetting = AppSetting(
             id = 0,
             enabled = true,
@@ -63,13 +63,12 @@ class AppSettingsRepositoryTest {
         subject.upsertAppSetting(appSetting)
 
         assertTrue {
-            appSetting.asEntity() in appSettingsDao.getAppSettingEntitiesByPackageName("com.android.geto")
-                .first()
+            appSetting in subject.getAppSettingsByPackageName("com.android.geto").first()
         }
     }
 
     @Test
-    fun appSettingsRepository_deleteAppSetting_delegates_to_dao() = runTest {
+    fun appSettingsRepository_deleteAppSetting() = runTest {
         val appSetting = AppSetting(
             id = 0,
             enabled = true,
@@ -81,24 +80,27 @@ class AppSettingsRepositoryTest {
             valueOnRevert = "1"
         )
 
-        subject.upsertAppSetting(appSetting)
+        appSettingsDao.upsertAppSettingEntity(appSetting.asEntity())
 
         subject.deleteAppSetting(appSetting)
 
         assertFalse {
-            appSetting.asEntity() in appSettingsDao.getAppSettingEntitiesByPackageName("com.android.geto")
-                .first()
+            appSetting in subject.getAppSettingsByPackageName("com.android.geto").first()
         }
     }
 
     @Test
-    fun appSettingsRepository_deleteAppSettingsByPackageName_delegates_to_dao() = runTest {
+    fun appSettingsRepository_deleteAppSettingsByPackageName() = runTest {
         val collectJob = launch(UnconfinedTestDispatcher()) { subject.appSettings.collect() }
 
         val oldAppSettingEntities = List(10) { index ->
             AppSettingEntity(
-                id = index, enabled = false, settingType = SettingType.GLOBAL,
-                packageName = "com.android.geto", label = "Geto", key = "Geto",
+                id = index,
+                enabled = false,
+                settingType = SettingType.GLOBAL,
+                packageName = "com.android.geto",
+                label = "Geto",
+                key = "Geto",
                 valueOnLaunch = "0",
                 valueOnRevert = "1"
             )
@@ -106,8 +108,12 @@ class AppSettingsRepositoryTest {
 
         val newAppSettingEntities = List(10) { index ->
             AppSettingEntity(
-                id = index + 11, enabled = false, settingType = SettingType.GLOBAL,
-                packageName = "com.android.sample", label = "Sample", key = "Sample",
+                id = index + 11,
+                enabled = false,
+                settingType = SettingType.GLOBAL,
+                packageName = "com.android.sample",
+                label = "Sample",
+                key = "Sample",
                 valueOnLaunch = "0",
                 valueOnRevert = "1"
             )
@@ -132,21 +138,24 @@ class AppSettingsRepositoryTest {
 
     @Test
     fun appSettingsRepository_getAppSettingsByPackageName() = runTest {
-        val appSetting = AppSetting(
-            id = 0,
-            enabled = true,
-            settingType = SettingType.SECURE,
-            packageName = "com.android.geto",
-            label = "Geto",
-            key = "Geto",
-            valueOnLaunch = "0",
-            valueOnRevert = "1"
-        )
+        val appSettingEntities = List(10) { index ->
+            AppSettingEntity(
+                id = index,
+                enabled = false,
+                settingType = SettingType.GLOBAL,
+                packageName = "com.android.geto",
+                label = "Geto",
+                key = "Geto",
+                valueOnLaunch = "0",
+                valueOnRevert = "1"
+            )
+        }
 
-        subject.upsertAppSetting(appSetting)
+        appSettingsDao.upsertAppSettingEntities(appSettingEntities)
 
         assertTrue {
-            appSetting in subject.getAppSettingsByPackageName("com.android.geto").first()
+            subject.getAppSettingsByPackageName("com.android.geto").first()
+                .containsAll(appSettingEntities.map(AppSettingEntity::asExternalModel))
         }
     }
 }

@@ -2,19 +2,10 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="AddAppSettingDialogTest">
-        <State />
-      </entry>
-      <entry key="AddShortcutDialogTest">
-        <State />
-      </entry>
-      <entry key="AppSettingsScreenTest">
+      <entry key="AppSettingDialogTest">
         <State />
       </entry>
       <entry key="SettingsScreenTest">
-        <State />
-      </entry>
-      <entry key="UpdateShortcutDialogTest">
         <State />
       </entry>
       <entry key="app">

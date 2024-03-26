@@ -16,7 +16,7 @@
  *
  */
 
-package com.android.geto.feature.appsettings.dialog.appsettings
+package com.android.geto.feature.appsettings.dialog.appsetting
 
 import com.android.geto.core.model.SecureSetting
 import com.android.geto.core.testing.resources.TestResourcesWrapper

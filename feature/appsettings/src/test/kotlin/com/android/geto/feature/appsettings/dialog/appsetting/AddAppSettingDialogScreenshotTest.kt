@@ -16,7 +16,7 @@
  *
  */
 
-package com.android.geto.feature.appsettings.dialog.appsettings
+package com.android.geto.feature.appsettings.dialog.appsetting
 
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.ScrollState
