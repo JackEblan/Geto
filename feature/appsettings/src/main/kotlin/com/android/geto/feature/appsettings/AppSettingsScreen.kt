@@ -531,7 +531,7 @@ private fun LazyListScope.appSettings(
     onAppSettingsItemCheckBoxChange: (Boolean, AppSetting) -> Unit,
     onDeleteAppSettingsItem: (AppSetting) -> Unit,
 ) {
-    items(appSettingList, key = { it.key }) { appSettings ->
+    items(appSettingList, key = { it.id!! }) { appSettings ->
         AppSettingsItem(
             modifier = Modifier
                 .fillMaxWidth()
