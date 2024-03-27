@@ -83,6 +83,7 @@ class NavigationTest {
     @Test
     fun appListScreen_isDisplayed_whenNavigateBackFromAppSettingsScreen() {
         composeTestRule.onAllNodes(hasTestTag("appList:appItem")).get(0).performClick()
+        
         composeTestRule.onNodeWithContentDescription(
             label = "Navigation icon", useUnmergedTree = true
         ).performClick()
