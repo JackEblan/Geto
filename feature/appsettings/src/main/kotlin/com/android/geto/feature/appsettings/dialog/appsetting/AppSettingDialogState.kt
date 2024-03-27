@@ -124,9 +124,11 @@ internal class AppSettingDialogState(private val resourcesWrapper: ResourcesWrap
     }
 
     fun resetState() {
+        showDialog = false
         secureSettingsExpanded = false
         secureSettings = emptyList()
-        showDialog = false
+
+        selectedRadioOptionIndex = 0
         key = ""
         label = ""
         valueOnLaunch = ""
