@@ -48,6 +48,7 @@ class AppSettingsScreenScreenshotTest {
 
     private val appSettings = List(5) { index ->
         AppSetting(
+            id = index,
             enabled = true,
             settingType = SettingType.SYSTEM,
             packageName = "com.android.geto",
