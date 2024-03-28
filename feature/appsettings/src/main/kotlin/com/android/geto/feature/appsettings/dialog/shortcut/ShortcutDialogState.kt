@@ -28,11 +28,9 @@ import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.setValue
 import androidx.core.graphics.drawable.toBitmap
 import com.android.geto.core.model.TargetShortcutInfoCompat
-import com.android.geto.core.resources.ResourcesWrapper
-import com.android.geto.feature.appsettings.R
 
 @Stable
-internal class ShortcutDialogState(private val resourcesWrapper: ResourcesWrapper) {
+internal class ShortcutDialogState {
     var showDialog by mutableStateOf(false)
         private set
 
@@ -50,6 +48,10 @@ internal class ShortcutDialogState(private val resourcesWrapper: ResourcesWrappe
 
     var longLabelError by mutableStateOf("")
         private set
+
+    private var shortLabelIsBlank = ""
+
+    private var longLabelIsBlank = ""
 
     fun updateShowDialog(value: Boolean) {
         showDialog = value
@@ -73,12 +75,15 @@ internal class ShortcutDialogState(private val resourcesWrapper: ResourcesWrappe
         shortLabel = ""
     }
 
-    fun getShortcut(packageName: String, shortcutIntent: Intent): TargetShortcutInfoCompat? {
-        shortLabelError =
-            if (shortLabel.isBlank()) resourcesWrapper.getString(R.string.short_label_is_blank) else ""
+    fun setError(shortLabelIsBlank: String, longLabelIsBlank: String) {
+        this.shortLabelIsBlank = shortLabelIsBlank
+        this.longLabelIsBlank = longLabelIsBlank
+    }
 
-        longLabelError =
-            if (longLabel.isBlank()) resourcesWrapper.getString(R.string.long_label_is_blank) else ""
+    fun getShortcut(packageName: String, shortcutIntent: Intent): TargetShortcutInfoCompat? {
+        shortLabelError = if (shortLabel.isBlank()) shortLabelIsBlank else ""
+
+        longLabelError = if (longLabel.isBlank()) longLabelIsBlank else ""
 
         return if (shortLabelError.isBlank() && longLabelError.isBlank()) {
             TargetShortcutInfoCompat(
@@ -93,27 +98,26 @@ internal class ShortcutDialogState(private val resourcesWrapper: ResourcesWrappe
     }
 
     companion object {
-        fun createSaver(resourcesWrapper: ResourcesWrapper) =
-            listSaver<ShortcutDialogState, Any>(save = { state ->
-                listOf(
-                    state.showDialog,
-                    state.shortLabel,
-                    state.shortLabelError,
-                    state.longLabel,
-                    state.longLabelError
-                )
-            }, restore = {
-                ShortcutDialogState(resourcesWrapper = resourcesWrapper).apply {
-                    showDialog = it[0] as Boolean
+        val Saver = listSaver<ShortcutDialogState, Any>(save = { state ->
+            listOf(
+                state.showDialog,
+                state.shortLabel,
+                state.shortLabelError,
+                state.longLabel,
+                state.longLabelError
+            )
+        }, restore = {
+            ShortcutDialogState().apply {
+                showDialog = it[0] as Boolean
 
-                    shortLabel = it[1] as String
+                shortLabel = it[1] as String
 
-                    shortLabelError = it[2] as String
+                shortLabelError = it[2] as String
 
-                    longLabel = it[3] as String
+                longLabel = it[3] as String
 
-                    longLabelError = it[4] as String
-                }
-            })
+                longLabelError = it[4] as String
+            }
+        })
     }
 }

@@ -26,7 +26,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -40,20 +39,14 @@ import com.android.geto.core.designsystem.component.GetoBackground
 import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.model.DarkThemeConfig
 import com.android.geto.core.model.ThemeBrand
-import com.android.geto.core.resources.ResourcesWrapper
-import com.android.geto.core.ui.LocalResources
 import com.android.geto.navigation.GetoNavHost
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    @Inject
-    lateinit var resourcesWrapper: ResourcesWrapper
-
     private val viewModel: MainActivityViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -108,18 +101,16 @@ class MainActivity : ComponentActivity() {
                 onDispose {}
             }
 
-            CompositionLocalProvider(LocalResources provides resourcesWrapper) {
-                GetoTheme(
-                    darkTheme = darkTheme,
-                    androidTheme = shouldUseAndroidTheme(uiState),
-                    disableDynamicTheming = shouldDisableDynamicTheming(uiState),
-                ) {
-                    GetoBackground {
-                        GetoNavHost(navController = navController)
-                    }
+            GetoTheme(
+                darkTheme = darkTheme,
+                androidTheme = shouldUseAndroidTheme(uiState),
+                disableDynamicTheming = shouldDisableDynamicTheming(uiState),
+            ) {
+                GetoBackground {
+                    GetoNavHost(navController = navController)
                 }
-
             }
+
         }
     }
 }
