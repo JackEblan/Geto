@@ -11,6 +11,7 @@
       <module name="Geto.core.domani" target="17" />
       <module name="Geto.core.packagemanager-test" target="17" />
       <module name="Geto.core.pendingintent" target="17" />
+      <module name="Geto.core.resources" target="17" />
       <module name="Geto.core.screenshot-testing.test" target="17" />
       <module name="Geto.core.securesettings-test" target="17" />
       <module name="Geto.core.shortcutmanager-test" target="17" />
