@@ -87,7 +87,7 @@ internal fun AppSettingDialog(
                                    onUpdateLabel = addAppSettingDialogState::updateLabel,
                                    key = addAppSettingDialogState.key,
                                    keyError = addAppSettingDialogState.keyError,
-                                   settingsKeyNotFoundError = addAppSettingDialogState.settingKeyNotFoundError,
+                                   settingsKeyNotFoundError = addAppSettingDialogState.keyNotFoundError,
                                    onUpdateKey = addAppSettingDialogState::updateKey,
                                    valueOnLaunch = addAppSettingDialogState.valueOnLaunch,
                                    valueOnLaunchError = addAppSettingDialogState.valueOnLaunchError,

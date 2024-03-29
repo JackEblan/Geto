@@ -78,7 +78,7 @@ import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.SettingType
 import com.android.geto.core.ui.AppSettingsPreviewParameterProvider
 import com.android.geto.feature.appsettings.dialog.appsetting.AppSettingDialog
-import com.android.geto.feature.appsettings.dialog.appsetting.rememberAppSettingsDialogState
+import com.android.geto.feature.appsettings.dialog.appsetting.rememberAppSettingDialogState
 import com.android.geto.feature.appsettings.dialog.copypermissioncommand.CopyPermissionCommandDialog
 import com.android.geto.feature.appsettings.dialog.shortcut.AddShortcutDialog
 import com.android.geto.feature.appsettings.dialog.shortcut.UpdateShortcutDialog
@@ -141,7 +141,7 @@ internal fun AppSettingsRoute(
 
     val clipboardResult = viewModel.clipboardResult.collectAsStateWithLifecycle().value
 
-    val appSettingsDialogState = rememberAppSettingsDialogState()
+    val appSettingsDialogState = rememberAppSettingDialogState()
 
     val addShortcutDialogState = rememberAddShortcutDialogState()
 
@@ -531,7 +531,7 @@ private fun LazyListScope.appSettings(
     onAppSettingsItemCheckBoxChange: (Boolean, AppSetting) -> Unit,
     onDeleteAppSettingsItem: (AppSetting) -> Unit,
 ) {
-    items(appSettingList, key = { it.key }) { appSettings ->
+    items(appSettingList, key = { it.id!! }) { appSettings ->
         AppSettingsItem(
             modifier = Modifier
                 .fillMaxWidth()

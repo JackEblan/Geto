@@ -19,7 +19,6 @@
 package com.android.geto.feature.appsettings.dialog.shortcut
 
 import android.content.Intent
-import com.android.geto.core.testing.resources.TestResourcesWrapper
 import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertNotNull
@@ -28,19 +27,19 @@ import kotlin.test.assertTrue
 class ShortcutDialogStateTest {
     private lateinit var shortcutDialogState: ShortcutDialogState
 
-    private val resourcesWrapper = TestResourcesWrapper()
-
     private val packageName = "com.android.geto"
 
     @Before
     fun setup() {
-        shortcutDialogState = ShortcutDialogState(resourcesWrapper = resourcesWrapper)
+        shortcutDialogState = ShortcutDialogState()
+
+        shortcutDialogState.setError(
+            shortLabelIsBlank = "Short label is blank", longLabelIsBlank = "Long label is blank"
+        )
     }
 
     @Test
     fun shortLabelError_isNotBlank_whenShortLabel_isBlank() {
-        resourcesWrapper.setString("Short label is blank")
-
         shortcutDialogState.updateShortLabel("")
 
         shortcutDialogState.getShortcut(packageName = packageName, shortcutIntent = Intent())
@@ -59,8 +58,6 @@ class ShortcutDialogStateTest {
 
     @Test
     fun longLabelError_isNotBlank_whenLongLabel_isBlank() {
-        resourcesWrapper.setString("Long label is blank")
-
         shortcutDialogState.updateLongLabel("")
 
         shortcutDialogState.getShortcut(packageName = packageName, shortcutIntent = Intent())

@@ -49,7 +49,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import coil.compose.AsyncImage
 import com.android.geto.core.designsystem.theme.GetoTheme
-import com.android.geto.core.ui.LocalResources
 import com.android.geto.feature.appsettings.R
 
 @Composable
@@ -221,10 +220,15 @@ private fun UpdateShortcutDialogButtons(
 
 @Composable
 internal fun rememberUpdateShortcutDialogState(): ShortcutDialogState {
-    val resourcesWrapper = LocalResources.current
+    val shortcutDialogState = ShortcutDialogState()
 
-    return rememberSaveable(saver = ShortcutDialogState.createSaver(resourcesWrapper = resourcesWrapper)) {
-        ShortcutDialogState(resourcesWrapper = resourcesWrapper)
+    shortcutDialogState.setError(
+        shortLabelIsBlank = stringResource(id = R.string.short_label_is_blank),
+        longLabelIsBlank = stringResource(id = R.string.long_label_is_blank)
+    )
+
+    return rememberSaveable(saver = ShortcutDialogState.Saver) {
+        shortcutDialogState
     }
 }
 

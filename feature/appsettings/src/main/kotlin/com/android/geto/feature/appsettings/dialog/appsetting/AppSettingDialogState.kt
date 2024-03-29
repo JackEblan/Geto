@@ -26,11 +26,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.res.stringResource
 import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.SecureSetting
 import com.android.geto.core.model.SettingType
-import com.android.geto.core.resources.ResourcesWrapper
-import com.android.geto.core.ui.LocalResources
 import com.android.geto.feature.appsettings.R
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -38,16 +37,24 @@ import kotlinx.coroutines.flow.debounce
 
 
 @Composable
-internal fun rememberAppSettingsDialogState(): AppSettingDialogState {
-    val resourcesWrapper = LocalResources.current
+internal fun rememberAppSettingDialogState(): AppSettingDialogState {
+    val appSettingDialogState = AppSettingDialogState()
 
-    return rememberSaveable(saver = AppSettingDialogState.createSaver(resourcesWrapper = resourcesWrapper)) {
-        AppSettingDialogState(resourcesWrapper = resourcesWrapper)
+    appSettingDialogState.setError(
+        labelIsBlank = stringResource(id = R.string.setting_label_is_blank),
+        keyIsBlank = stringResource(id = R.string.setting_key_is_blank),
+        keyNotFound = stringResource(id = R.string.setting_key_not_found),
+        valueOnLaunchIsBlank = stringResource(id = R.string.setting_value_on_launch_is_blank),
+        valueOnRevertIsBlank = stringResource(id = R.string.setting_value_on_revert_is_blank)
+    )
+
+    return rememberSaveable(saver = AppSettingDialogState.Saver) {
+        appSettingDialogState
     }
 }
 
 @Stable
-internal class AppSettingDialogState(private val resourcesWrapper: ResourcesWrapper) {
+internal class AppSettingDialogState {
     var secureSettings by mutableStateOf<List<SecureSetting>>(emptyList())
 
     var secureSettingsExpanded by mutableStateOf(false)
@@ -70,7 +77,7 @@ internal class AppSettingDialogState(private val resourcesWrapper: ResourcesWrap
     var keyError by mutableStateOf("")
         private set
 
-    var settingKeyNotFoundError by mutableStateOf("")
+    var keyNotFoundError by mutableStateOf("")
         private set
 
     var valueOnLaunch by mutableStateOf("")
@@ -86,6 +93,16 @@ internal class AppSettingDialogState(private val resourcesWrapper: ResourcesWrap
         private set
 
     private val _keyDebounce = MutableStateFlow("")
+
+    private var labelIsBlank = ""
+
+    private var keyIsBlank = ""
+
+    private var keyNotFound = ""
+
+    private var valueOnLaunchIsBlank = ""
+
+    private var valueOnRevertIsBlank = ""
 
     @OptIn(FlowPreview::class)
     val keyDebounce = _keyDebounce.debounce(500)
@@ -123,10 +140,26 @@ internal class AppSettingDialogState(private val resourcesWrapper: ResourcesWrap
         valueOnRevert = value
     }
 
+    fun setError(
+        labelIsBlank: String,
+        keyIsBlank: String,
+        keyNotFound: String,
+        valueOnLaunchIsBlank: String,
+        valueOnRevertIsBlank: String
+    ) {
+        this.labelIsBlank = labelIsBlank
+        this.keyIsBlank = keyIsBlank
+        this.keyNotFound = keyNotFound
+        this.valueOnLaunchIsBlank = valueOnLaunchIsBlank
+        this.valueOnRevertIsBlank = valueOnRevertIsBlank
+    }
+
     fun resetState() {
+        showDialog = false
         secureSettingsExpanded = false
         secureSettings = emptyList()
-        showDialog = false
+
+        selectedRadioOptionIndex = 0
         key = ""
         label = ""
         valueOnLaunch = ""
@@ -134,23 +167,20 @@ internal class AppSettingDialogState(private val resourcesWrapper: ResourcesWrap
     }
 
     fun getAppSetting(packageName: String): AppSetting? {
-        labelError =
-            if (label.isBlank()) resourcesWrapper.getString(R.string.setting_label_is_blank) else ""
+        labelError = if (label.isBlank()) labelIsBlank else ""
 
-        keyError = if (key.isBlank()) resourcesWrapper.getString(R.string.setting_key_is_blank)
+        keyError = if (key.isBlank()) keyIsBlank
         else ""
 
-        settingKeyNotFoundError = if (key.isNotBlank() && !secureSettings.mapNotNull { it.name }
-                .contains(key)) resourcesWrapper.getString(R.string.setting_key_not_found)
+        keyNotFoundError = if (key.isNotBlank() && !secureSettings.mapNotNull { it.name }
+                .contains(key)) keyNotFound
         else ""
 
-        valueOnLaunchError =
-            if (valueOnLaunch.isBlank()) resourcesWrapper.getString(R.string.setting_value_on_launch_is_blank) else ""
+        valueOnLaunchError = if (valueOnLaunch.isBlank()) valueOnLaunchIsBlank else ""
 
-        valueOnRevertError =
-            if (valueOnRevert.isBlank()) resourcesWrapper.getString(R.string.setting_value_on_revert_is_blank) else ""
+        valueOnRevertError = if (valueOnRevert.isBlank()) valueOnRevertIsBlank else ""
 
-        return if (labelError.isBlank() && settingKeyNotFoundError.isBlank() && keyError.isBlank() && valueOnLaunchError.isBlank() && valueOnRevertError.isBlank()) {
+        return if (labelError.isBlank() && keyNotFoundError.isBlank() && keyError.isBlank() && valueOnLaunchError.isBlank() && valueOnRevertError.isBlank()) {
             AppSetting(
                 enabled = true, settingType = SettingType.entries[selectedRadioOptionIndex],
                 packageName = packageName,
@@ -165,44 +195,44 @@ internal class AppSettingDialogState(private val resourcesWrapper: ResourcesWrap
     }
 
     companion object {
-        fun createSaver(resourcesWrapper: ResourcesWrapper) =
-            listSaver<AppSettingDialogState, Any>(save = { state ->
-                listOf(
-                    state.showDialog,
-                    state.selectedRadioOptionIndex,
-                    state.label,
-                    state.labelError,
-                    state.key,
-                    state.keyError, state.settingKeyNotFoundError,
-                    state.valueOnLaunch,
-                    state.valueOnLaunchError,
-                    state.valueOnRevert,
-                    state.valueOnRevertError
-                )
-            }, restore = {
-                AppSettingDialogState(resourcesWrapper = resourcesWrapper).apply {
-                    showDialog = it[0] as Boolean
+        val Saver = listSaver<AppSettingDialogState, Any>(save = { state ->
+            listOf(
+                state.showDialog,
+                state.selectedRadioOptionIndex,
+                state.label,
+                state.labelError,
+                state.key,
+                state.keyError,
+                state.keyNotFoundError,
+                state.valueOnLaunch,
+                state.valueOnLaunchError,
+                state.valueOnRevert,
+                state.valueOnRevertError
+            )
+        }, restore = {
+            AppSettingDialogState().apply {
+                showDialog = it[0] as Boolean
 
-                    selectedRadioOptionIndex = it[1] as Int
+                selectedRadioOptionIndex = it[1] as Int
 
-                    label = it[2] as String
+                label = it[2] as String
 
-                    labelError = it[3] as String
+                labelError = it[3] as String
 
-                    key = it[4] as String
+                key = it[4] as String
 
-                    keyError = it[5] as String
+                keyError = it[5] as String
 
-                    settingKeyNotFoundError = it[6] as String
+                keyNotFoundError = it[6] as String
 
-                    valueOnLaunch = it[7] as String
+                valueOnLaunch = it[7] as String
 
-                    valueOnLaunchError = it[8] as String
+                valueOnLaunchError = it[8] as String
 
-                    valueOnRevert = it[9] as String
+                valueOnRevert = it[9] as String
 
-                    valueOnRevertError = it[10] as String
-                }
-            })
+                valueOnRevertError = it[10] as String
+            }
+        })
     }
 }

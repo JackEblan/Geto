@@ -19,15 +19,12 @@
 package com.android.geto.feature.appsettings.dialog.appsetting
 
 import androidx.activity.ComponentActivity
-import androidx.compose.foundation.ScrollState
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.android.geto.core.designsystem.component.GetoBackground
 import com.android.geto.core.designsystem.theme.GetoTheme
-import com.android.geto.core.resources.ResourcesWrapper
 import com.android.geto.core.screenshot.testing.util.DefaultTestDevices
 import com.android.geto.core.screenshot.testing.util.captureScreenRoboImageForDevice
 import com.android.geto.core.screenshot.testing.util.captureScreenRoboImageMultiDevice
-import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication
 import org.junit.Before
@@ -37,7 +34,6 @@ import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.GraphicsMode
 import org.robolectric.annotation.LooperMode
-import javax.inject.Inject
 import kotlin.test.Test
 
 @HiltAndroidTest
@@ -50,23 +46,19 @@ class AddAppSettingDialogScreenshotTest {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
-    @get:Rule
-    val hiltRule = HiltAndroidRule(this)
-
-    @Inject
-    lateinit var resourcesWrapper: ResourcesWrapper
-
-    private lateinit var addAppSettingDialogState: AppSettingDialogState
-
-    private lateinit var scrollState: ScrollState
+    private lateinit var appSettingDialogState: AppSettingDialogState
 
     @Before
     fun setUp() {
-        hiltRule.inject()
+        appSettingDialogState = AppSettingDialogState()
 
-        addAppSettingDialogState = AppSettingDialogState(resourcesWrapper = resourcesWrapper)
-
-        scrollState = ScrollState(0)
+        appSettingDialogState.setError(
+            labelIsBlank = "Settings label is blank",
+            keyIsBlank = "Settings key is blank",
+            keyNotFound = "Settings key not found",
+            valueOnLaunchIsBlank = "Settings value on launch is blank",
+            valueOnRevertIsBlank = "Settings value on revert is blank"
+        )
     }
 
     @Test
@@ -74,8 +66,7 @@ class AddAppSettingDialogScreenshotTest {
         composeTestRule.captureScreenRoboImageMultiDevice(path = "AppSettingDialog/AppSettingDialogEmpty") {
             GetoTheme {
                 AppSettingDialog(
-                    addAppSettingDialogState = addAppSettingDialogState,
-                    scrollState = scrollState,
+                    addAppSettingDialogState = appSettingDialogState,
                     onAddSetting = {},
                     contentDescription = "AppSettingDialog"
                 )
@@ -85,23 +76,22 @@ class AddAppSettingDialogScreenshotTest {
 
     @Test
     fun appSettingDialog_filled_textfields() {
-        addAppSettingDialogState.updateSelectedRadioOptionIndex(1)
+        appSettingDialogState.updateSelectedRadioOptionIndex(1)
 
-        addAppSettingDialogState.updateKey("Geto")
+        appSettingDialogState.updateKey("Geto")
 
-        addAppSettingDialogState.updateLabel("Geto")
+        appSettingDialogState.updateLabel("Geto")
 
-        addAppSettingDialogState.updateValueOnLaunch("0")
+        appSettingDialogState.updateValueOnLaunch("0")
 
-        addAppSettingDialogState.updateValueOnRevert("1")
+        appSettingDialogState.updateValueOnRevert("1")
 
         composeTestRule.captureScreenRoboImageMultiDevice(
             path = "AppSettingDialog/AppSettingDialogFilledTextFields"
         ) {
             GetoTheme {
                 AppSettingDialog(
-                    addAppSettingDialogState = addAppSettingDialogState,
-                    scrollState = scrollState,
+                    addAppSettingDialogState = appSettingDialogState,
                     onAddSetting = {},
                     contentDescription = "AppSettingDialog"
                 )
@@ -111,15 +101,14 @@ class AddAppSettingDialogScreenshotTest {
 
     @Test
     fun appSettingDialog_error_textfields() {
-        addAppSettingDialogState.getAppSetting(packageName = "")
+        appSettingDialogState.getAppSetting(packageName = "")
 
         composeTestRule.captureScreenRoboImageMultiDevice(
             path = "AppSettingDialog/AppSettingDialogErrorTextFields"
         ) {
             GetoTheme {
                 AppSettingDialog(
-                    addAppSettingDialogState = addAppSettingDialogState,
-                    scrollState = scrollState,
+                    addAppSettingDialogState = appSettingDialogState,
                     onAddSetting = {},
                     contentDescription = "AppSettingDialog"
                 )
@@ -138,8 +127,7 @@ class AddAppSettingDialogScreenshotTest {
             GetoTheme {
                 GetoBackground {
                     AppSettingDialog(
-                        addAppSettingDialogState = addAppSettingDialogState,
-                        scrollState = scrollState,
+                        addAppSettingDialogState = appSettingDialogState,
                         onAddSetting = {},
                         contentDescription = "AppSettingDialog"
                     )
@@ -150,15 +138,15 @@ class AddAppSettingDialogScreenshotTest {
 
     @Test
     fun appSettingDialog_filled_textfields_dark() {
-        addAppSettingDialogState.updateSelectedRadioOptionIndex(1)
+        appSettingDialogState.updateSelectedRadioOptionIndex(1)
 
-        addAppSettingDialogState.updateKey("Geto")
+        appSettingDialogState.updateKey("Geto")
 
-        addAppSettingDialogState.updateLabel("Geto")
+        appSettingDialogState.updateLabel("Geto")
 
-        addAppSettingDialogState.updateValueOnLaunch("0")
+        appSettingDialogState.updateValueOnLaunch("0")
 
-        addAppSettingDialogState.updateValueOnRevert("1")
+        appSettingDialogState.updateValueOnRevert("1")
 
         composeTestRule.captureScreenRoboImageForDevice(
             path = "AppSettingDialog/AppSettingDialogFilledTextFields",
@@ -169,8 +157,7 @@ class AddAppSettingDialogScreenshotTest {
             GetoTheme {
                 GetoBackground {
                     AppSettingDialog(
-                        addAppSettingDialogState = addAppSettingDialogState,
-                        scrollState = scrollState,
+                        addAppSettingDialogState = appSettingDialogState,
                         onAddSetting = {},
                         contentDescription = "AppSettingDialog"
                     )
@@ -181,7 +168,7 @@ class AddAppSettingDialogScreenshotTest {
 
     @Test
     fun appSettingDialog_error_textfields_dark() {
-        addAppSettingDialogState.getAppSetting(packageName = "")
+        appSettingDialogState.getAppSetting(packageName = "")
 
         composeTestRule.captureScreenRoboImageForDevice(
             path = "AppSettingDialog/AppSettingDialogErrorTextFields",
@@ -192,8 +179,7 @@ class AddAppSettingDialogScreenshotTest {
             GetoTheme {
                 GetoBackground {
                     AppSettingDialog(
-                        addAppSettingDialogState = addAppSettingDialogState,
-                        scrollState = scrollState,
+                        addAppSettingDialogState = appSettingDialogState,
                         onAddSetting = {},
                         contentDescription = "AppSettingDialog"
                     )
