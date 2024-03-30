@@ -29,7 +29,7 @@ ksp = "1.9.22-1.0.17"
 protobuf = "4.26.0"
 protobufPlugin = "0.9.4"
 room = "2.6.1"
-robolectric = "4.11.1"
+robolectric = "4.12"
 roborazzi = "1.11.0"
 
 [libraries]
