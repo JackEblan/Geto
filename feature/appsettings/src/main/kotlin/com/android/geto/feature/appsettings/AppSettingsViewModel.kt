@@ -66,16 +66,18 @@ class AppSettingsViewModel @Inject constructor(
     private var _secureSetting = MutableStateFlow<List<SecureSetting>>(emptyList())
     val secureSettings = _secureSetting.asStateFlow()
 
-    private val _applyAppSettingsResult = MutableStateFlow<AppSettingsResult?>(null)
+    private val _applyAppSettingsResult =
+        MutableStateFlow<AppSettingsResult>(AppSettingsResult.None)
     val applyAppSettingsResult = _applyAppSettingsResult.asStateFlow()
 
-    private val _revertAppSettingsResult = MutableStateFlow<AppSettingsResult?>(null)
+    private val _revertAppSettingsResult =
+        MutableStateFlow<AppSettingsResult>(AppSettingsResult.None)
     val revertAppSettingsResult = _revertAppSettingsResult.asStateFlow()
 
-    private val _shortcutResult = MutableStateFlow<ShortcutResult?>(null)
+    private val _shortcutResult = MutableStateFlow<ShortcutResult>(ShortcutResult.None)
     val shortcutResult = _shortcutResult.asStateFlow()
 
-    private val _clipboardResult = MutableStateFlow<ClipboardResult?>(null)
+    private val _clipboardResult = MutableStateFlow<ClipboardResult>(ClipboardResult.None)
     val clipboardResult = _clipboardResult.asStateFlow()
 
     private val _applicationIcon = MutableStateFlow<Drawable?>(null)
@@ -191,15 +193,15 @@ class AppSettingsViewModel @Inject constructor(
     }
 
     fun clearAppSettingsResult() {
-        _applyAppSettingsResult.update { null }
-        _revertAppSettingsResult.update { null }
+        _applyAppSettingsResult.update { AppSettingsResult.None }
+        _revertAppSettingsResult.update { AppSettingsResult.None }
     }
 
     fun clearShortcutResult() {
-        _shortcutResult.update { null }
+        _shortcutResult.update { ShortcutResult.None }
     }
 
     fun clearClipboardResult() {
-        _clipboardResult.update { null }
+        _clipboardResult.update { ClipboardResult.None }
     }
 }

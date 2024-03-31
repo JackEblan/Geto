@@ -55,4 +55,6 @@ sealed interface ShortcutResult {
     ) : ShortcutResult
 
     data object NoShortcut : ShortcutResult
+
+    data object None : ShortcutResult
 }

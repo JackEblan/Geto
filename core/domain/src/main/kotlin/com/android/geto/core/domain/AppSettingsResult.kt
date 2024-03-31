@@ -32,4 +32,6 @@ sealed interface AppSettingsResult {
     data object EmptyAppSettings : AppSettingsResult
 
     data object AppSettingsDisabled : AppSettingsResult
+
+    data object None : AppSettingsResult
 }

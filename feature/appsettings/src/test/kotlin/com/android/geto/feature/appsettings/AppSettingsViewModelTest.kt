@@ -127,6 +127,26 @@ class AppSettingsViewModelTest {
     }
 
     @Test
+    fun applyAppSettingsResult_isNone_whenStarted() = runTest {
+        assertIs<AppSettingsResult.None>(viewModel.applyAppSettingsResult.value)
+    }
+
+    @Test
+    fun revertAppSettingsResult_isNone_whenStarted() = runTest {
+        assertIs<AppSettingsResult.None>(viewModel.revertAppSettingsResult.value)
+    }
+
+    @Test
+    fun shortcutResult_isNone_whenStarted() = runTest {
+        assertIs<ShortcutResult.None>(viewModel.shortcutResult.value)
+    }
+
+    @Test
+    fun clipboardResult_isNone_whenStarted() = runTest {
+        assertIs<ClipboardResult.None>(viewModel.clipboardResult.value)
+    }
+
+    @Test
     fun appSettingsUiState_isSuccess_whenAppSettings_isNotEmpty() = runTest {
         val collectJob =
             launch(UnconfinedTestDispatcher()) { viewModel.appSettingUiState.collect() }
@@ -136,8 +156,7 @@ class AppSettingsViewModelTest {
                 id = index,
                 enabled = false,
                 settingType = SettingType.SYSTEM,
-                packageName = packageName,
-                label = "Geto", key = "Geto $index",
+                packageName = packageName, label = "Geto", key = "Geto $index",
                 valueOnLaunch = "0",
                 valueOnRevert = "1"
             )
@@ -159,8 +178,7 @@ class AppSettingsViewModelTest {
                 id = index,
                 enabled = true,
                 settingType = SettingType.SYSTEM,
-                packageName = packageName,
-                label = "Geto", key = "Geto $index",
+                packageName = packageName, label = "Geto", key = "Geto $index",
                 valueOnLaunch = "0",
                 valueOnRevert = "1"
             )
@@ -182,8 +200,7 @@ class AppSettingsViewModelTest {
                 id = index,
                 enabled = true,
                 settingType = SettingType.SYSTEM,
-                packageName = packageName,
-                label = "Geto", key = "Geto $index",
+                packageName = packageName, label = "Geto", key = "Geto $index",
                 valueOnLaunch = "0",
                 valueOnRevert = "1"
             )
@@ -206,8 +223,7 @@ class AppSettingsViewModelTest {
                 id = index,
                 enabled = true,
                 settingType = SettingType.SYSTEM,
-                packageName = packageName,
-                label = "Geto", key = "Geto $index",
+                packageName = packageName, label = "Geto", key = "Geto $index",
                 valueOnLaunch = "0",
                 valueOnRevert = "1"
             )
@@ -244,8 +260,7 @@ class AppSettingsViewModelTest {
                 id = index,
                 enabled = false,
                 settingType = SettingType.SYSTEM,
-                packageName = packageName,
-                label = "Geto", key = "Geto $index",
+                packageName = packageName, label = "Geto", key = "Geto $index",
                 valueOnLaunch = "0",
                 valueOnRevert = "1"
             )
@@ -268,8 +283,7 @@ class AppSettingsViewModelTest {
                 id = index,
                 enabled = true,
                 settingType = SettingType.SYSTEM,
-                packageName = packageName,
-                label = "Geto", key = "Geto $index",
+                packageName = packageName, label = "Geto", key = "Geto $index",
                 valueOnLaunch = "0",
                 valueOnRevert = "1"
             )
@@ -292,8 +306,7 @@ class AppSettingsViewModelTest {
                 id = index,
                 enabled = true,
                 settingType = SettingType.SYSTEM,
-                packageName = packageName,
-                label = "Geto", key = "Geto $index",
+                packageName = packageName, label = "Geto", key = "Geto $index",
                 valueOnLaunch = "0",
                 valueOnRevert = "1"
             )
@@ -316,8 +329,7 @@ class AppSettingsViewModelTest {
                 id = index,
                 enabled = true,
                 settingType = SettingType.SYSTEM,
-                packageName = packageName,
-                label = "Geto", key = "Geto $index",
+                packageName = packageName, label = "Geto", key = "Geto $index",
                 valueOnLaunch = "0",
                 valueOnRevert = "1"
             )
@@ -352,8 +364,7 @@ class AppSettingsViewModelTest {
                 id = index,
                 enabled = false,
                 settingType = SettingType.SYSTEM,
-                packageName = packageName,
-                label = "Geto", key = "Geto $index",
+                packageName = packageName, label = "Geto", key = "Geto $index",
                 valueOnLaunch = "0",
                 valueOnRevert = "1"
             )

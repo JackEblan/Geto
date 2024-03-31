@@ -154,80 +154,77 @@ internal fun AppSettingsRoute(
     }
 
     LaunchedEffect(key1 = applyAppSettingsResult) {
-        applyAppSettingsResult?.let {
-            when (it) {
-                AppSettingsResult.AppSettingsDisabled -> snackbarHostState.showSnackbar(message = appSettingsDisabled)
-                AppSettingsResult.EmptyAppSettings -> snackbarHostState.showSnackbar(message = emptyAppSettingsList)
-                AppSettingsResult.Failure -> snackbarHostState.showSnackbar(message = applyFailure)
-                AppSettingsResult.SecurityException -> showCopyPermissionCommandDialog = true
-                is AppSettingsResult.Success -> it.launchIntent?.let(context::startActivity)
-                AutoLaunchResult.Ignore -> Unit
-                AppSettingsResult.IllegalArgumentException -> snackbarHostState.showSnackbar(message = invalidValues)
-            }
-
-            viewModel.clearAppSettingsResult()
+        when (applyAppSettingsResult) {
+            AppSettingsResult.AppSettingsDisabled -> snackbarHostState.showSnackbar(message = appSettingsDisabled)
+            AppSettingsResult.EmptyAppSettings -> snackbarHostState.showSnackbar(message = emptyAppSettingsList)
+            AppSettingsResult.Failure -> snackbarHostState.showSnackbar(message = applyFailure)
+            AppSettingsResult.SecurityException -> showCopyPermissionCommandDialog = true
+            is AppSettingsResult.Success -> applyAppSettingsResult.launchIntent?.let(context::startActivity)
+            AutoLaunchResult.Ignore -> Unit
+            AppSettingsResult.IllegalArgumentException -> snackbarHostState.showSnackbar(message = invalidValues)
+            AppSettingsResult.None -> Unit
         }
+
+        viewModel.clearAppSettingsResult()
     }
 
     LaunchedEffect(key1 = revertAppSettingsResult) {
-        revertAppSettingsResult?.let {
-            when (it) {
-                AppSettingsResult.AppSettingsDisabled -> snackbarHostState.showSnackbar(message = appSettingsDisabled)
-                AppSettingsResult.EmptyAppSettings -> snackbarHostState.showSnackbar(message = emptyAppSettingsList)
-                AppSettingsResult.Failure -> snackbarHostState.showSnackbar(message = revertFailure)
-                AppSettingsResult.SecurityException -> showCopyPermissionCommandDialog = true
-                is AppSettingsResult.Success -> snackbarHostState.showSnackbar(message = revertSuccess)
-                AutoLaunchResult.Ignore -> Unit
-                AppSettingsResult.IllegalArgumentException -> snackbarHostState.showSnackbar(message = invalidValues)
-            }
-
-            viewModel.clearAppSettingsResult()
+        when (revertAppSettingsResult) {
+            AppSettingsResult.AppSettingsDisabled -> snackbarHostState.showSnackbar(message = appSettingsDisabled)
+            AppSettingsResult.EmptyAppSettings -> snackbarHostState.showSnackbar(message = emptyAppSettingsList)
+            AppSettingsResult.Failure -> snackbarHostState.showSnackbar(message = revertFailure)
+            AppSettingsResult.SecurityException -> showCopyPermissionCommandDialog = true
+            is AppSettingsResult.Success -> snackbarHostState.showSnackbar(message = revertSuccess)
+            AutoLaunchResult.Ignore -> Unit
+            AppSettingsResult.IllegalArgumentException -> snackbarHostState.showSnackbar(message = invalidValues)
+            AppSettingsResult.None -> Unit
         }
+
+        viewModel.clearAppSettingsResult()
     }
 
     LaunchedEffect(key1 = shortcutResult) {
-        shortcutResult?.let {
-            when (it) {
-                ShortcutResult.IDNotFound -> snackbarHostState.showSnackbar(message = shortcutIdNotFound)
-                ShortcutResult.ShortcutDisableImmutableShortcuts -> snackbarHostState.showSnackbar(
-                    message = shortcutDisableImmutableShortcuts
-                )
+        when (shortcutResult) {
+            ShortcutResult.IDNotFound -> snackbarHostState.showSnackbar(message = shortcutIdNotFound)
+            ShortcutResult.ShortcutDisableImmutableShortcuts -> snackbarHostState.showSnackbar(
+                message = shortcutDisableImmutableShortcuts
+            )
 
-                ShortcutResult.ShortcutUpdateFailed -> snackbarHostState.showSnackbar(message = shortcutUpdateFailed)
-                ShortcutResult.ShortcutUpdateImmutableShortcuts -> snackbarHostState.showSnackbar(
-                    message = shortcutUpdateImmutableShortcuts
-                )
+            ShortcutResult.ShortcutUpdateFailed -> snackbarHostState.showSnackbar(message = shortcutUpdateFailed)
+            ShortcutResult.ShortcutUpdateImmutableShortcuts -> snackbarHostState.showSnackbar(
+                message = shortcutUpdateImmutableShortcuts
+            )
 
-                ShortcutResult.ShortcutUpdateSuccess -> snackbarHostState.showSnackbar(message = shortcutUpdateSuccess)
-                ShortcutResult.SupportedLauncher -> snackbarHostState.showSnackbar(message = supportedLauncher)
-                ShortcutResult.UnsupportedLauncher -> snackbarHostState.showSnackbar(message = unsupportedLauncher)
-                ShortcutResult.UserIsLocked -> snackbarHostState.showSnackbar(message = userIsLocked)
-                is ShortcutResult.GetShortcut -> {
-                    updateShortcutDialogState.updateShortLabel(it.targetShortcutInfoCompat.shortLabel!!)
-                    updateShortcutDialogState.updateLongLabel(it.targetShortcutInfoCompat.longLabel!!)
-                    updateShortcutDialogState.updateShowDialog(true)
-                }
-
-                ShortcutResult.NoShortcut -> addShortcutDialogState.updateShowDialog(true)
+            ShortcutResult.ShortcutUpdateSuccess -> snackbarHostState.showSnackbar(message = shortcutUpdateSuccess)
+            ShortcutResult.SupportedLauncher -> snackbarHostState.showSnackbar(message = supportedLauncher)
+            ShortcutResult.UnsupportedLauncher -> snackbarHostState.showSnackbar(message = unsupportedLauncher)
+            ShortcutResult.UserIsLocked -> snackbarHostState.showSnackbar(message = userIsLocked)
+            is ShortcutResult.GetShortcut -> {
+                updateShortcutDialogState.updateShortLabel(shortcutResult.targetShortcutInfoCompat.shortLabel!!)
+                updateShortcutDialogState.updateLongLabel(shortcutResult.targetShortcutInfoCompat.longLabel!!)
+                updateShortcutDialogState.updateShowDialog(true)
             }
 
-            viewModel.clearShortcutResult()
+            ShortcutResult.NoShortcut -> addShortcutDialogState.updateShowDialog(true)
+            ShortcutResult.None -> Unit
         }
+
+        viewModel.clearShortcutResult()
     }
 
     LaunchedEffect(key1 = clipboardResult) {
-        clipboardResult?.let {
-            when (it) {
-                ClipboardResult.HideNotify -> Unit
-                is ClipboardResult.Notify -> snackbarHostState.showSnackbar(
-                    message = String.format(
-                        copiedToClipboard, it.text
-                    )
+        when (clipboardResult) {
+            ClipboardResult.HideNotify -> Unit
+            is ClipboardResult.Notify -> snackbarHostState.showSnackbar(
+                message = String.format(
+                    copiedToClipboard, clipboardResult.text
                 )
-            }
+            )
 
-            viewModel.clearClipboardResult()
+            ClipboardResult.None -> Unit
         }
+
+        viewModel.clearClipboardResult()
     }
 
     LaunchedEffect(

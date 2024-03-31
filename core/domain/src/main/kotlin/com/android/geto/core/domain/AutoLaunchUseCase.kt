@@ -44,8 +44,10 @@ class AutoLaunchUseCase @Inject constructor(
             appSettings.any { !it.enabled } -> AutoLaunchResult.Ignore
 
             userData.useAutoLaunch -> try {
-                val applied = secureSettingsRepository.applySecureSettings(appSettings)
-                if (applied) {
+                val applySecureSettingsSuccess =
+                    secureSettingsRepository.applySecureSettings(appSettings)
+
+                if (applySecureSettingsSuccess) {
                     AppSettingsResult.Success(launchIntent = launchIntent)
                 } else {
                     AppSettingsResult.Failure

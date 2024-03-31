@@ -26,4 +26,6 @@ sealed interface ClipboardResult {
     data class Notify(val text: String) : ClipboardResult
 
     data object HideNotify : ClipboardResult
+
+    data object None : ClipboardResult
 }
