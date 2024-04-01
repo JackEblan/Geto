@@ -40,7 +40,7 @@ enum class GetoFlavor(val dimension: FlavorDimension, val applicationIdSuffix: S
 }
 
 fun configureFlavors(
-    commonExtension: CommonExtension<*, *, *, *, *>,
+    commonExtension: CommonExtension<*, *, *, *, *, *>,
     flavorConfigurationBlock: ProductFlavor.(flavor: GetoFlavor) -> Unit = {}
 ) {
     commonExtension.apply {

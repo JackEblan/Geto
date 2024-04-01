@@ -18,7 +18,6 @@
 
 plugins {
     alias(libs.plugins.com.android.geto.library)
-    alias(libs.plugins.com.android.geto.libraryJacoco)
     alias(libs.plugins.com.android.geto.hilt)
 }
 
@@ -28,6 +27,4 @@ android {
 
 dependencies {
     implementation(projects.core.model)
-
-    testImplementation(libs.kotlinx.coroutines.test)
 }
