@@ -38,27 +38,25 @@ class AutoLaunchUseCase @Inject constructor(
 
         val appSettings = appSettingsRepository.getAppSettingsByPackageName(packageName).first()
 
-        return when {
-            appSettings.isEmpty() -> AutoLaunchResult.Ignore
+        if (appSettings.isEmpty()) return AppSettingsResult.EmptyAppSettings
 
-            appSettings.any { !it.enabled } -> AutoLaunchResult.Ignore
+        if (appSettings.any { it.enabled.not() }) return AppSettingsResult.DisabledAppSettings
 
-            userData.useAutoLaunch -> try {
-                val applySecureSettingsSuccess =
-                    secureSettingsRepository.applySecureSettings(appSettings)
+        if (userData.useAutoLaunch.not()) return AutoLaunchResult.Ignore
 
-                if (applySecureSettingsSuccess) {
-                    AppSettingsResult.Success(launchIntent = launchIntent)
-                } else {
-                    AppSettingsResult.Failure
-                }
-            } catch (e: SecurityException) {
-                AppSettingsResult.SecurityException
-            } catch (e: IllegalArgumentException) {
-                AppSettingsResult.IllegalArgumentException
+        return try {
+            val applySecureSettingsSuccess =
+                secureSettingsRepository.applySecureSettings(appSettings)
+
+            if (applySecureSettingsSuccess) {
+                AppSettingsResult.Success(launchIntent = launchIntent)
+            } else {
+                AppSettingsResult.Failure
             }
-
-            else -> AutoLaunchResult.Ignore
+        } catch (e: SecurityException) {
+            AppSettingsResult.SecurityException
+        } catch (e: IllegalArgumentException) {
+            AppSettingsResult.IllegalArgumentException
         }
     }
 }

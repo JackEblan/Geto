@@ -39,7 +39,7 @@ class ClipboardRepositoryTest {
     }
 
     @Test
-    fun clipboardRepository_setPrimaryClip_isHideNotify() {
+    fun setPrimaryClip_isHideNotify() {
         clipboardManagerWrapper.setApi32(true)
 
         val result = subject.setPrimaryClip(label = "label", text = "text")
@@ -48,7 +48,7 @@ class ClipboardRepositoryTest {
     }
 
     @Test
-    fun clipboardRepository_setPrimaryClip_isNotify() {
+    fun setPrimaryClip_isNotify() {
         clipboardManagerWrapper.setApi32(false)
 
         val result = subject.setPrimaryClip(label = "label", text = "text")

@@ -31,25 +31,23 @@ class RevertAppSettingsUseCase @Inject constructor(
     suspend operator fun invoke(packageName: String): AppSettingsResult {
         val appSettings = appSettingsRepository.getAppSettingsByPackageName(packageName).first()
 
-        return when {
-            appSettings.isEmpty() -> AppSettingsResult.EmptyAppSettings
+        if (appSettings.isEmpty()) return AppSettingsResult.EmptyAppSettings
 
-            appSettings.any { !it.enabled } -> AppSettingsResult.AppSettingsDisabled
+        if (appSettings.any { it.enabled.not() }) return AppSettingsResult.DisabledAppSettings
 
-            else -> try {
-                val revertSecureSettingsSuccess =
-                    secureSettingsRepository.revertSecureSettings(appSettings)
+        return try {
+            val revertSecureSettingsSuccess =
+                secureSettingsRepository.revertSecureSettings(appSettings)
 
-                if (revertSecureSettingsSuccess) {
-                    AppSettingsResult.Success(null)
-                } else {
-                    AppSettingsResult.Failure
-                }
-            } catch (e: SecurityException) {
-                AppSettingsResult.SecurityException
-            } catch (e: IllegalArgumentException) {
-                AppSettingsResult.IllegalArgumentException
+            if (revertSecureSettingsSuccess) {
+                AppSettingsResult.Success(null)
+            } else {
+                AppSettingsResult.Failure
             }
+        } catch (e: SecurityException) {
+            AppSettingsResult.SecurityException
+        } catch (e: IllegalArgumentException) {
+            AppSettingsResult.IllegalArgumentException
         }
     }
 }

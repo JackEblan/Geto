@@ -128,22 +128,22 @@ class AppSettingsViewModelTest {
 
     @Test
     fun applyAppSettingsResult_isNone_whenStarted() = runTest {
-        assertIs<AppSettingsResult.None>(viewModel.applyAppSettingsResult.value)
+        assertIs<AppSettingsResult.NoResult>(viewModel.applyAppSettingsResult.value)
     }
 
     @Test
     fun revertAppSettingsResult_isNone_whenStarted() = runTest {
-        assertIs<AppSettingsResult.None>(viewModel.revertAppSettingsResult.value)
+        assertIs<AppSettingsResult.NoResult>(viewModel.revertAppSettingsResult.value)
     }
 
     @Test
     fun shortcutResult_isNone_whenStarted() = runTest {
-        assertIs<ShortcutResult.None>(viewModel.shortcutResult.value)
+        assertIs<ShortcutResult.NoResult>(viewModel.shortcutResult.value)
     }
 
     @Test
     fun clipboardResult_isNone_whenStarted() = runTest {
-        assertIs<ClipboardResult.None>(viewModel.clipboardResult.value)
+        assertIs<ClipboardResult.NoResult>(viewModel.clipboardResult.value)
     }
 
     @Test
@@ -272,7 +272,7 @@ class AppSettingsViewModelTest {
 
         viewModel.applySettings()
 
-        assertIs<AppSettingsResult.AppSettingsDisabled>(viewModel.applyAppSettingsResult.value)
+        assertIs<AppSettingsResult.DisabledAppSettings>(viewModel.applyAppSettingsResult.value)
 
     }
 
@@ -376,7 +376,7 @@ class AppSettingsViewModelTest {
 
         viewModel.revertSettings()
 
-        assertIs<AppSettingsResult.AppSettingsDisabled>(viewModel.revertAppSettingsResult.value)
+        assertIs<AppSettingsResult.DisabledAppSettings>(viewModel.revertAppSettingsResult.value)
 
     }
 
@@ -483,7 +483,7 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun shortcutResult_isGetShortcut_whenGetShortcut() = runTest {
+    fun shortcutResult_isShortcutFound_whenGetShortcut() = runTest {
         val shortcuts = List(2) {
             TargetShortcutInfoCompat(
                 id = "com.android.geto", shortLabel = "Geto", longLabel = "Geto"
@@ -496,11 +496,11 @@ class AppSettingsViewModelTest {
 
         viewModel.getShortcut()
 
-        assertIs<ShortcutResult.GetShortcut>(viewModel.shortcutResult.value)
+        assertIs<ShortcutResult.ShortcutFound>(viewModel.shortcutResult.value)
     }
 
     @Test
-    fun shortcutResult_isNoShortcut_whenGetShortcut() = runTest {
+    fun shortcutResult_isNoShortcutFound_whenGetShortcut() = runTest {
         val shortcuts = List(2) {
             TargetShortcutInfoCompat(
                 id = "com.android.geto", shortLabel = "Geto", longLabel = "Geto"
@@ -513,7 +513,7 @@ class AppSettingsViewModelTest {
 
         viewModel.getShortcut("")
 
-        assertIs<ShortcutResult.NoShortcut>(viewModel.shortcutResult.value)
+        assertIs<ShortcutResult.NoShortcutFound>(viewModel.shortcutResult.value)
     }
 
     @Test

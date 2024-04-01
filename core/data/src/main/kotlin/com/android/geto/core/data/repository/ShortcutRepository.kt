@@ -50,11 +50,11 @@ sealed interface ShortcutResult {
 
     data object UserIsLocked : ShortcutResult
 
-    data class GetShortcut(
+    data class ShortcutFound(
         val targetShortcutInfoCompat: TargetShortcutInfoCompat
     ) : ShortcutResult
 
-    data object NoShortcut : ShortcutResult
+    data object NoShortcutFound : ShortcutResult
 
-    data object None : ShortcutResult
+    data object NoResult : ShortcutResult
 }

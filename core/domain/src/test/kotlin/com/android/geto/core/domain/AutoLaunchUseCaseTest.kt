@@ -58,7 +58,7 @@ class AutoLaunchUseCaseTest {
     }
 
     @Test
-    fun autoLaunchAppUseCase_isEmptyAppSettings() = runTest {
+    fun autoLaunchAppUseCase_isIgnore_whenAppSettings_isEmpty() = runTest {
         appSettingsRepository.setAppSettings(emptyList())
 
         userDataRepository.setUserData(
@@ -76,7 +76,7 @@ class AutoLaunchUseCaseTest {
     }
 
     @Test
-    fun autoLaunchAppUseCase_isAppSettingsDisabled() = runTest {
+    fun autoLaunchAppUseCase_isIgnore_whenAppSettings_isDisabled() = runTest {
         val appSettings = List(5) { index ->
             AppSetting(
                 id = index,
@@ -212,7 +212,7 @@ class AutoLaunchUseCaseTest {
     }
 
     @Test
-    fun autoLaunchAppUseCase_isIgnore() = runTest {
+    fun autoLaunchAppUseCase_isIgnore_whenUseAutoLaunch_isFalse() = runTest {
         val appSettings = List(5) { index ->
             AppSetting(
                 id = index,

@@ -51,14 +51,14 @@ class TestShortcutRepository : ShortcutRepository {
         val shortcutInfoCompat = targetShortcutInfoCompats.find { it.id == id }
 
         return if (shortcutInfoCompat != null) {
-            ShortcutResult.GetShortcut(
+            ShortcutResult.ShortcutFound(
                 targetShortcutInfoCompat = TargetShortcutInfoCompat(
                     shortLabel = shortcutInfoCompat.shortLabel.toString(),
                     longLabel = shortcutInfoCompat.longLabel.toString()
                 )
             )
         } else {
-            ShortcutResult.NoShortcut
+            ShortcutResult.NoShortcutFound
         }
     }
 

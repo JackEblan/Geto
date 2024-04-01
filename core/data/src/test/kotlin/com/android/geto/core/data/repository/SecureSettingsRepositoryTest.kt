@@ -44,7 +44,7 @@ class SecureSettingsRepositoryTest {
     }
 
     @Test
-    fun secureSettingsRepository_applyGlobalSettings() = runTest(testDispatcher) {
+    fun applyGlobalSettings() = runTest(testDispatcher) {
         secureSettingsPermissionWrapper.setWriteSecureSettings(true)
 
         val appSettings = List(5) { index ->
@@ -59,13 +59,11 @@ class SecureSettingsRepositoryTest {
             )
         }
 
-        val result = subject.applySecureSettings(appSettings)
-
-        assertTrue(result)
+        assertTrue(subject.applySecureSettings(appSettings))
     }
 
     @Test
-    fun secureSettingsRepository_applySecureSettings() = runTest(testDispatcher) {
+    fun applySecureSettings() = runTest(testDispatcher) {
         secureSettingsPermissionWrapper.setWriteSecureSettings(true)
 
         val appSettings = List(5) { index ->
@@ -80,13 +78,11 @@ class SecureSettingsRepositoryTest {
             )
         }
 
-        val result = subject.applySecureSettings(appSettings)
-
-        assertTrue(result)
+        assertTrue(subject.applySecureSettings(appSettings))
     }
 
     @Test
-    fun secureSettingsRepository_applySystemSettings() = runTest(testDispatcher) {
+    fun applySystemSettings() = runTest(testDispatcher) {
         secureSettingsPermissionWrapper.setWriteSecureSettings(true)
 
         val appSettings = List(5) { index ->
@@ -101,13 +97,11 @@ class SecureSettingsRepositoryTest {
             )
         }
 
-        val result = subject.applySecureSettings(appSettings)
-
-        assertTrue(result)
+        assertTrue(subject.applySecureSettings(appSettings))
     }
 
     @Test
-    fun secureSettingsRepository_revertGlobalSettings() = runTest(testDispatcher) {
+    fun revertGlobalSettings() = runTest(testDispatcher) {
         secureSettingsPermissionWrapper.setWriteSecureSettings(true)
 
         val appSettings = List(5) { index ->
@@ -122,13 +116,11 @@ class SecureSettingsRepositoryTest {
             )
         }
 
-        val result = subject.revertSecureSettings(appSettings)
-
-        assertTrue(result)
+        assertTrue(subject.revertSecureSettings(appSettings))
     }
 
     @Test
-    fun secureSettingsRepository_revertSecureSettings() = runTest(testDispatcher) {
+    fun revertSecureSettings() = runTest(testDispatcher) {
         secureSettingsPermissionWrapper.setWriteSecureSettings(true)
 
         val appSettings = List(5) { index ->
@@ -143,13 +135,11 @@ class SecureSettingsRepositoryTest {
             )
         }
 
-        val result = subject.revertSecureSettings(appSettings)
-
-        assertTrue(result)
+        assertTrue(subject.revertSecureSettings(appSettings))
     }
 
     @Test
-    fun secureSettingsRepository_revertSystemSettings() = runTest(testDispatcher) {
+    fun revertSystemSettings() = runTest(testDispatcher) {
         secureSettingsPermissionWrapper.setWriteSecureSettings(true)
 
         val appSettings = List(5) { index ->
@@ -164,13 +154,11 @@ class SecureSettingsRepositoryTest {
             )
         }
 
-        val result = subject.revertSecureSettings(appSettings)
-
-        assertTrue(result)
+        assertTrue(subject.revertSecureSettings(appSettings))
     }
 
     @Test
-    fun secureSettingsRepository_applyGlobalSettings_isFailure() = runTest(testDispatcher) {
+    fun applyGlobalSettings_isFailure() = runTest(testDispatcher) {
         secureSettingsPermissionWrapper.setWriteSecureSettings(false)
 
         val appSettings = List(5) { index ->
@@ -189,7 +177,7 @@ class SecureSettingsRepositoryTest {
     }
 
     @Test
-    fun secureSettingsRepository_applySecureSettings_isFailure() = runTest(testDispatcher) {
+    fun applySecureSettings_isFailure() = runTest(testDispatcher) {
         secureSettingsPermissionWrapper.setWriteSecureSettings(false)
 
         val appSettings = List(5) { index ->
@@ -208,7 +196,7 @@ class SecureSettingsRepositoryTest {
     }
 
     @Test
-    fun secureSettingsRepository_applySystemSettings_isFailure() = runTest(testDispatcher) {
+    fun applySystemSettings_isFailure() = runTest(testDispatcher) {
         secureSettingsPermissionWrapper.setWriteSecureSettings(false)
 
         val appSettings = List(5) { index ->
@@ -227,7 +215,7 @@ class SecureSettingsRepositoryTest {
     }
 
     @Test
-    fun secureSettingsRepository_revertGlobalSettings_isFailure() = runTest(testDispatcher) {
+    fun revertGlobalSettings_isFailure() = runTest(testDispatcher) {
         secureSettingsPermissionWrapper.setWriteSecureSettings(false)
 
         val appSettings = List(5) { index ->
@@ -246,7 +234,7 @@ class SecureSettingsRepositoryTest {
     }
 
     @Test
-    fun secureSettingsRepository_revertSecureSettings_isFailure() = runTest(testDispatcher) {
+    fun revertSecureSettings_isFailure() = runTest(testDispatcher) {
         secureSettingsPermissionWrapper.setWriteSecureSettings(false)
 
         val appSettings = List(5) { index ->
@@ -265,7 +253,7 @@ class SecureSettingsRepositoryTest {
     }
 
     @Test
-    fun secureSettingsRepository_revertSystemSettings_isFailure() = runTest(testDispatcher) {
+    fun revertSystemSettings_isFailure() = runTest(testDispatcher) {
         secureSettingsPermissionWrapper.setWriteSecureSettings(false)
 
         val appSettings = List(5) { index ->

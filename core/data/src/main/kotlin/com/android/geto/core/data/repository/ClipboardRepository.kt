@@ -27,5 +27,5 @@ sealed interface ClipboardResult {
 
     data object HideNotify : ClipboardResult
 
-    data object None : ClipboardResult
+    data object NoResult : ClipboardResult
 }

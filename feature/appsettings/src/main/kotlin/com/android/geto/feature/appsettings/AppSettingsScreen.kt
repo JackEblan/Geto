@@ -155,14 +155,14 @@ internal fun AppSettingsRoute(
 
     LaunchedEffect(key1 = applyAppSettingsResult) {
         when (applyAppSettingsResult) {
-            AppSettingsResult.AppSettingsDisabled -> snackbarHostState.showSnackbar(message = appSettingsDisabled)
+            AppSettingsResult.DisabledAppSettings -> snackbarHostState.showSnackbar(message = appSettingsDisabled)
             AppSettingsResult.EmptyAppSettings -> snackbarHostState.showSnackbar(message = emptyAppSettingsList)
             AppSettingsResult.Failure -> snackbarHostState.showSnackbar(message = applyFailure)
             AppSettingsResult.SecurityException -> showCopyPermissionCommandDialog = true
             is AppSettingsResult.Success -> applyAppSettingsResult.launchIntent?.let(context::startActivity)
             AutoLaunchResult.Ignore -> Unit
             AppSettingsResult.IllegalArgumentException -> snackbarHostState.showSnackbar(message = invalidValues)
-            AppSettingsResult.None -> Unit
+            AppSettingsResult.NoResult -> Unit
         }
 
         viewModel.clearAppSettingsResult()
@@ -170,14 +170,14 @@ internal fun AppSettingsRoute(
 
     LaunchedEffect(key1 = revertAppSettingsResult) {
         when (revertAppSettingsResult) {
-            AppSettingsResult.AppSettingsDisabled -> snackbarHostState.showSnackbar(message = appSettingsDisabled)
+            AppSettingsResult.DisabledAppSettings -> snackbarHostState.showSnackbar(message = appSettingsDisabled)
             AppSettingsResult.EmptyAppSettings -> snackbarHostState.showSnackbar(message = emptyAppSettingsList)
             AppSettingsResult.Failure -> snackbarHostState.showSnackbar(message = revertFailure)
             AppSettingsResult.SecurityException -> showCopyPermissionCommandDialog = true
             is AppSettingsResult.Success -> snackbarHostState.showSnackbar(message = revertSuccess)
             AutoLaunchResult.Ignore -> Unit
             AppSettingsResult.IllegalArgumentException -> snackbarHostState.showSnackbar(message = invalidValues)
-            AppSettingsResult.None -> Unit
+            AppSettingsResult.NoResult -> Unit
         }
 
         viewModel.clearAppSettingsResult()
@@ -199,14 +199,14 @@ internal fun AppSettingsRoute(
             ShortcutResult.SupportedLauncher -> snackbarHostState.showSnackbar(message = supportedLauncher)
             ShortcutResult.UnsupportedLauncher -> snackbarHostState.showSnackbar(message = unsupportedLauncher)
             ShortcutResult.UserIsLocked -> snackbarHostState.showSnackbar(message = userIsLocked)
-            is ShortcutResult.GetShortcut -> {
+            is ShortcutResult.ShortcutFound -> {
                 updateShortcutDialogState.updateShortLabel(shortcutResult.targetShortcutInfoCompat.shortLabel!!)
                 updateShortcutDialogState.updateLongLabel(shortcutResult.targetShortcutInfoCompat.longLabel!!)
                 updateShortcutDialogState.updateShowDialog(true)
             }
 
-            ShortcutResult.NoShortcut -> addShortcutDialogState.updateShowDialog(true)
-            ShortcutResult.None -> Unit
+            ShortcutResult.NoShortcutFound -> addShortcutDialogState.updateShowDialog(true)
+            ShortcutResult.NoResult -> Unit
         }
 
         viewModel.clearShortcutResult()
@@ -221,7 +221,7 @@ internal fun AppSettingsRoute(
                 )
             )
 
-            ClipboardResult.None -> Unit
+            ClipboardResult.NoResult -> Unit
         }
 
         viewModel.clearClipboardResult()

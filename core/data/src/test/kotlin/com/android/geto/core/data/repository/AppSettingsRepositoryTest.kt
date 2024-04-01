@@ -47,7 +47,7 @@ class AppSettingsRepositoryTest {
     }
 
     @Test
-    fun appSettingsRepository_upsertAppSetting() = runTest {
+    fun upsertAppSetting() = runTest {
         val appSetting = AppSetting(
             id = 0,
             enabled = true,
@@ -67,7 +67,7 @@ class AppSettingsRepositoryTest {
     }
 
     @Test
-    fun appSettingsRepository_deleteAppSetting() = runTest {
+    fun deleteAppSetting() = runTest {
         val collectJob = launch(UnconfinedTestDispatcher()) { subject.appSettings.collect() }
 
         val appSettingEntities = List(10) { index ->
@@ -93,7 +93,7 @@ class AppSettingsRepositoryTest {
     }
 
     @Test
-    fun appSettingsRepository_deleteAppSettingsByPackageName() = runTest {
+    fun deleteAppSettingsByPackageName() = runTest {
         val collectJob = launch(UnconfinedTestDispatcher()) { subject.appSettings.collect() }
 
         val oldAppSettingEntities = List(10) { index ->
@@ -140,7 +140,7 @@ class AppSettingsRepositoryTest {
     }
 
     @Test
-    fun appSettingsRepository_getAppSettingsByPackageName() = runTest {
+    fun getAppSettingsByPackageName() = runTest {
         val appSettingEntities = List(10) { index ->
             AppSettingEntity(
                 id = index,

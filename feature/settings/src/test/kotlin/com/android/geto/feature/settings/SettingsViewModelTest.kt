@@ -48,7 +48,7 @@ class SettingsViewModelTest {
     private lateinit var viewModel: SettingsViewModel
 
     @Before
-    fun setup() {
+    fun setUp() {
         viewModel = SettingsViewModel(
             userDataRepository = userDataRepository,
             cleanAppSettingsUseCase = CleanAppSettingsUseCase(
@@ -58,12 +58,12 @@ class SettingsViewModelTest {
     }
 
     @Test
-    fun state_isLoading_whenStarted() = runTest {
+    fun settingsUiState_isLoading_whenStarted() = runTest {
         assertEquals(SettingsUiState.Loading, viewModel.settingsUiState.value)
     }
 
     @Test
-    fun state_isSuccess_whenUserDataLoaded() = runTest {
+    fun settingsUiState_isSuccess_whenUserDataIsLoaded() = runTest {
         val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.settingsUiState.collect() }
 
         userDataRepository.setThemeBrand(ThemeBrand.ANDROID)

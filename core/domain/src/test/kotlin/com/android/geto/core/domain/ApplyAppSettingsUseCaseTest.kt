@@ -61,7 +61,7 @@ class ApplyAppSettingsUseCaseTest {
 
 
     @Test
-    fun applyAppSettingsUseCase_isAppSettingsDisabled() = runTest {
+    fun applyAppSettingsUseCase_isDisabledAppSettings() = runTest {
         val appSettings = List(5) { index ->
             AppSetting(
                 id = index,
@@ -78,7 +78,7 @@ class ApplyAppSettingsUseCaseTest {
 
         val result = applyAppSettingsUseCase(packageName = packageName)
 
-        assertIs<AppSettingsResult.AppSettingsDisabled>(result)
+        assertIs<AppSettingsResult.DisabledAppSettings>(result)
     }
 
     @Test

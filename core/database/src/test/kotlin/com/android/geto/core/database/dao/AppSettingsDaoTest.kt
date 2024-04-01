@@ -58,7 +58,7 @@ class AppSettingsDaoTest {
     }
 
     @Test
-    fun appSettingsDao_getAppSettingsByPackageName() = runTest {
+    fun getAppSettingsByPackageName() = runTest {
         val appSettingEntities = List(10) { index ->
             AppSettingEntity(
                 id = index,
@@ -83,7 +83,7 @@ class AppSettingsDaoTest {
     }
 
     @Test
-    fun appSettingsDao_deleteAppSettingsByPackageName() = runTest {
+    fun deleteAppSettingsByPackageName() = runTest {
         val oldAppSettingsEntities = List(10) { index ->
             AppSettingEntity(
                 id = index,

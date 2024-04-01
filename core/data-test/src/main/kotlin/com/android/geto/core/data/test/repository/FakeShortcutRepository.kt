@@ -39,6 +39,6 @@ class FakeShortcutRepository @Inject constructor() : ShortcutRepository {
     }
 
     override fun getShortcut(id: String): ShortcutResult {
-        return ShortcutResult.NoShortcut
+        return ShortcutResult.NoShortcutFound
     }
 }

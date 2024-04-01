@@ -34,25 +34,23 @@ class ApplyAppSettingsUseCase @Inject constructor(
 
         val appSettings = appSettingsRepository.getAppSettingsByPackageName(packageName).first()
 
-        return when {
-            appSettings.isEmpty() -> AppSettingsResult.EmptyAppSettings
+        if (appSettings.isEmpty()) return AppSettingsResult.EmptyAppSettings
 
-            appSettings.any { it.enabled.not() } -> AppSettingsResult.AppSettingsDisabled
+        if (appSettings.any { it.enabled.not() }) return AppSettingsResult.DisabledAppSettings
 
-            else -> try {
-                val applySecureSettingsSuccess =
-                    secureSettingsRepository.applySecureSettings(appSettings)
+        return try {
+            val applySecureSettingsSuccess =
+                secureSettingsRepository.applySecureSettings(appSettings)
 
-                if (applySecureSettingsSuccess) {
-                    AppSettingsResult.Success(launchIntent = launchIntent)
-                } else {
-                    AppSettingsResult.Failure
-                }
-            } catch (e: SecurityException) {
-                AppSettingsResult.SecurityException
-            } catch (e: IllegalArgumentException) {
-                AppSettingsResult.IllegalArgumentException
+            if (applySecureSettingsSuccess) {
+                AppSettingsResult.Success(launchIntent = launchIntent)
+            } else {
+                AppSettingsResult.Failure
             }
+        } catch (e: SecurityException) {
+            AppSettingsResult.SecurityException
+        } catch (e: IllegalArgumentException) {
+            AppSettingsResult.IllegalArgumentException
         }
     }
 }

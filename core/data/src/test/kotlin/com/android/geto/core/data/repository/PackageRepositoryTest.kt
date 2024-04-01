@@ -45,7 +45,7 @@ class PackageRepositoryTest {
     }
 
     @Test
-    fun packageRepository_getInstalledApplications_isNotEmpty() = runTest(testDispatcher) {
+    fun getInstalledApplications_isNotEmpty() = runTest(testDispatcher) {
         val installedApplications = List(20) { index ->
             TargetApplicationInfo(
                 flags = 0, packageName = "com.android.geto$index", label = "Geto $index"
@@ -53,11 +53,11 @@ class PackageRepositoryTest {
         }
         packageManagerWrapper.setInstalledApplications(installedApplications)
 
-        assertTrue { subject.getInstalledApplications().isNotEmpty() }
+        assertTrue(subject.getInstalledApplications().isNotEmpty())
     }
 
     @Test
-    fun packageRepository_getInstalledApplications_isEmpty() = runTest(testDispatcher) {
+    fun getInstalledApplications_isEmpty() = runTest(testDispatcher) {
         val installedApplications = List(20) { index ->
             TargetApplicationInfo(
                 flags = 1, packageName = "com.android.geto$index", label = "Geto $index"
@@ -66,11 +66,11 @@ class PackageRepositoryTest {
 
         packageManagerWrapper.setInstalledApplications(installedApplications)
 
-        assertTrue { subject.getInstalledApplications().isEmpty() }
+        assertTrue(subject.getInstalledApplications().isEmpty())
     }
 
     @Test
-    fun packageRepository_getApplicationIcon_isNull() = runTest(testDispatcher) {
+    fun getApplicationIcon_isNull() = runTest(testDispatcher) {
         val installedApplications = List(20) { index ->
             TargetApplicationInfo(
                 flags = 0, packageName = "com.android.geto$index", label = "Geto $index"
@@ -85,7 +85,7 @@ class PackageRepositoryTest {
     }
 
     @Test
-    fun packageRepository_getApplicationIcon_isNotNull() = runTest(testDispatcher) {
+    fun getApplicationIcon_isNotNull() = runTest(testDispatcher) {
         val installedApplications = List(20) { index ->
             TargetApplicationInfo(
                 flags = 0, packageName = "com.android.geto$index", label = "Geto $index"
@@ -100,7 +100,7 @@ class PackageRepositoryTest {
     }
 
     @Test
-    fun packageRepository_getLaunchIntentForPackage_isNull() = runTest(testDispatcher) {
+    fun getLaunchIntentForPackage_isNull() = runTest(testDispatcher) {
         val installedApplications = List(20) { index ->
             TargetApplicationInfo(
                 flags = 0, packageName = "com.android.geto$index", label = "Geto $index"
@@ -115,7 +115,7 @@ class PackageRepositoryTest {
     }
 
     @Test
-    fun packageRepository_getLaunchIntentForPackage_isNotNull() = runTest(testDispatcher) {
+    fun getLaunchIntentForPackage_isNotNull() = runTest(testDispatcher) {
         val installedApplications = List(20) { index ->
             TargetApplicationInfo(
                 flags = 0, packageName = "com.android.geto$index", label = "Geto $index"
