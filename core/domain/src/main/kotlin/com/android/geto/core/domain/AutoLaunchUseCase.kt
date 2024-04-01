@@ -38,11 +38,11 @@ class AutoLaunchUseCase @Inject constructor(
 
         val appSettings = appSettingsRepository.getAppSettingsByPackageName(packageName).first()
 
-        if (appSettings.isEmpty()) return AppSettingsResult.EmptyAppSettings
-
-        if (appSettings.any { it.enabled.not() }) return AppSettingsResult.DisabledAppSettings
-
         if (userData.useAutoLaunch.not()) return AutoLaunchResult.Ignore
+
+        if (appSettings.isEmpty()) return AutoLaunchResult.Ignore
+
+        if (appSettings.any { it.enabled.not() }) return AutoLaunchResult.Ignore
 
         return try {
             val applySecureSettingsSuccess =
