@@ -38,7 +38,7 @@ class UserDataRepositoryTest {
     val tmpFolder: TemporaryFolder = TemporaryFolder.builder().assureDeletion().build()
 
     @Before
-    fun setUp() {
+    fun setup() {
         getoPreferencesDataSource = GetoPreferencesDataSource(
             tmpFolder.testUserPreferencesDataStore(testScope),
         )

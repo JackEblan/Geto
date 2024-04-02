@@ -24,11 +24,6 @@ plugins {
 
 android {
     namespace = "com.android.geto.core.database"
-
-    sourceSets {
-        getByName("test").assets.srcDir("$projectDir/schemas")
-    }
-
     testOptions {
         unitTests {
             isIncludeAndroidResources = true
@@ -37,7 +32,7 @@ android {
 }
 
 dependencies {
-    implementation(projects.core.model)
+    api(projects.core.model)
 
     testImplementation(libs.room.testing)
     testImplementation(libs.robolectric)

@@ -32,5 +32,5 @@ object DaoModule {
 
     @Provides
     @Singleton
-    fun appSettingsDao(appDatabase: AppDatabase): AppSettingsDao = appDatabase.appSettingsDao
+    fun appSettingsDao(appDatabase: AppDatabase): AppSettingsDao = appDatabase.appSettingsDao()
 }

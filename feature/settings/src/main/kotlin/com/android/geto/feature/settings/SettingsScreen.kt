@@ -48,7 +48,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -58,6 +57,7 @@ import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.designsystem.theme.supportsDynamicTheming
 import com.android.geto.core.model.DarkThemeConfig
 import com.android.geto.core.model.ThemeBrand
+import com.android.geto.core.ui.DevicePreviews
 import com.android.geto.feature.settings.dialog.clean.CleanDialog
 import com.android.geto.feature.settings.dialog.dark.DarkDialog
 import com.android.geto.feature.settings.dialog.dark.rememberDarkDialogState
@@ -141,7 +141,9 @@ internal fun SettingsScreen(
     modifier: Modifier = Modifier,
     settingsUiState: SettingsUiState,
     supportDynamicColor: Boolean = supportsDynamicTheming(),
-    onThemeDialog: () -> Unit, onDarkDialog: () -> Unit, onCleanDialog: () -> Unit,
+    onThemeDialog: () -> Unit,
+    onDarkDialog: () -> Unit,
+    onCleanDialog: () -> Unit,
     onChangeDynamicColorPreference: (useDynamicColor: Boolean) -> Unit,
     onChangeAutoLaunchPreference: (useAutoLaunch: Boolean) -> Unit,
     onNavigationIconClick: () -> Unit
@@ -228,7 +230,9 @@ private fun SuccessState(
     contentPadding: PaddingValues,
     settingsUiState: SettingsUiState.Success,
     supportDynamicColor: Boolean = supportsDynamicTheming(),
-    onThemeDialog: () -> Unit, onDarkDialog: () -> Unit, onCleanDialog: () -> Unit,
+    onThemeDialog: () -> Unit,
+    onDarkDialog: () -> Unit,
+    onCleanDialog: () -> Unit,
     onChangeDynamicColorPreference: (useDynamicColor: Boolean) -> Unit,
     onChangeAutoLaunchPreference: (useAutoLaunch: Boolean) -> Unit
 ) {
@@ -431,30 +435,39 @@ private fun CleanSetting(
     }
 }
 
-@Preview
+@DevicePreviews
 @Composable
-private fun LoadingStatePreview() {
+private fun SettingsScreenLoadingStatePreview() {
     GetoTheme {
-        LoadingState()
+        SettingsScreen(settingsUiState = SettingsUiState.Loading,
+                       supportDynamicColor = false,
+                       onThemeDialog = {},
+                       onDarkDialog = {},
+                       onCleanDialog = {},
+                       onChangeDynamicColorPreference = {},
+                       onChangeAutoLaunchPreference = {},
+                       onNavigationIconClick = {})
     }
 }
 
-@Preview
+@DevicePreviews
 @Composable
-private fun SuccessStatePreview() {
+private fun SettingsScreenSuccessStatePreview() {
     GetoTheme {
-        SuccessState(contentPadding = PaddingValues(20.dp),
-                     settingsUiState = SettingsUiState.Success(
-                         settings = UserEditableSettings(
-                             brand = ThemeBrand.DEFAULT,
-                             useDynamicColor = true,
-                             darkThemeConfig = DarkThemeConfig.DARK,
-                             useAutoLaunch = false
-                         )
-                     ),
-                     supportDynamicColor = true,
-                     onThemeDialog = {}, onDarkDialog = {}, onCleanDialog = {},
-                     onChangeDynamicColorPreference = {},
-                     onChangeAutoLaunchPreference = {})
+        SettingsScreen(settingsUiState = SettingsUiState.Success(
+            settings = UserEditableSettings(
+                brand = ThemeBrand.DEFAULT,
+                useDynamicColor = true,
+                darkThemeConfig = DarkThemeConfig.DARK,
+                useAutoLaunch = false
+            )
+        ),
+                       supportDynamicColor = true,
+                       onThemeDialog = {},
+                       onDarkDialog = {},
+                       onCleanDialog = {},
+                       onChangeDynamicColorPreference = {},
+                       onChangeAutoLaunchPreference = {},
+                       onNavigationIconClick = {})
     }
 }

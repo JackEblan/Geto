@@ -38,7 +38,7 @@ class ShortcutRepositoryTest {
     }
 
     @Before
-    fun setUp() {
+    fun setup() {
         subject = DefaultShortcutRepository(
             shortcutManagerCompatWrapper = shortcutManagerCompatWrapper
         )

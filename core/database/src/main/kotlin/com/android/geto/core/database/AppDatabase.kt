@@ -41,7 +41,7 @@ import com.android.geto.core.database.model.AppSettingEntity
 )
 abstract class AppDatabase : RoomDatabase() {
 
-    abstract val appSettingsDao: AppSettingsDao
+    abstract fun appSettingsDao(): AppSettingsDao
 
     companion object {
         const val DATABASE_NAME = "Geto.db"

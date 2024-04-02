@@ -18,6 +18,7 @@
 
 import androidx.room.gradle.RoomExtension
 import com.android.geto.libs
+import com.google.devtools.ksp.gradle.KspExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
@@ -30,6 +31,10 @@ class AndroidRoomConventionPlugin : Plugin<Project> {
             with(pluginManager) {
                 apply(libs.plugins.room.get().pluginId)
                 apply(libs.plugins.ksp.get().pluginId)
+            }
+
+            extensions.configure<KspExtension> {
+                arg("room.generateKotlin", "true")
             }
 
             extensions.configure<RoomExtension> {

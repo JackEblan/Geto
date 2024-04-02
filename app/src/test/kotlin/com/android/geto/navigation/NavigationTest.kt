@@ -55,7 +55,7 @@ class NavigationTest {
     private lateinit var navController: TestNavHostController
 
     @Before
-    fun setUp() {
+    fun setup() {
         composeTestRule.activity.setContent {
             navController = TestNavHostController(LocalContext.current)
             navController.navigatorProvider.addNavigator(ComposeNavigator())

@@ -42,7 +42,7 @@ class ApplyAppSettingsUseCaseTest {
     private val packageName = "com.android.geto"
 
     @Before
-    fun setUp() {
+    fun setup() {
         applyAppSettingsUseCase = ApplyAppSettingsUseCase(
             packageRepository = packageRepository,
             appSettingsRepository = appSettingsRepository,

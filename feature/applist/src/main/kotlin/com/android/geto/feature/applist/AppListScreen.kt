@@ -38,15 +38,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.android.geto.core.designsystem.component.GetoLoadingWheel
 import com.android.geto.core.designsystem.icon.GetoIcons
 import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.model.TargetApplicationInfo
+import com.android.geto.core.ui.DevicePreviews
 import com.android.geto.core.ui.TargetApplicationInfoPreviewParameterProvider
 
 @Composable
@@ -175,23 +174,24 @@ private fun LazyListScope.appItems(
     }
 }
 
-@Preview
+@DevicePreviews
 @Composable
-private fun LoadingStatePreview() {
+private fun AppListScreenLoadingStatePreview() {
     GetoTheme {
-        LoadingState()
+        AppListScreen(appListUiState = AppListUiState.Loading,
+                      onSettingsClick = {},
+                      onItemClick = { _, _ -> })
     }
 }
 
-@Preview
+@DevicePreviews
 @Composable
-private fun SuccessStatePreview(
-    @PreviewParameter(TargetApplicationInfoPreviewParameterProvider::class) targetApplicationInfoLists: List<TargetApplicationInfo>
+private fun AppListScreenSuccessStatePreview(
+    @PreviewParameter(TargetApplicationInfoPreviewParameterProvider::class) installedApplications: List<TargetApplicationInfo>
 ) {
     GetoTheme {
-        SuccessState(
-            appListUiState = AppListUiState.Success(targetApplicationInfoLists),
-                     contentPadding = PaddingValues(20.dp),
-                     onItemClick = { _, _ -> })
+        AppListScreen(appListUiState = AppListUiState.Success(installedApplications),
+                      onSettingsClick = {},
+                      onItemClick = { _, _ -> })
     }
 }

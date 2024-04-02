@@ -40,7 +40,7 @@ class AppSettingsRepositoryTest {
     private lateinit var subject: AppSettingsRepository
 
     @Before
-    fun setUp() {
+    fun setup() {
         appSettingsDao = TestAppSettingsDao()
 
         subject = DefaultAppSettingsRepository(appSettingsDao = appSettingsDao)

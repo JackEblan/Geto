@@ -30,7 +30,7 @@ class ClipboardRepositoryTest {
     private lateinit var subject: DefaultClipboardRepository
 
     @Before
-    fun setUp() {
+    fun setup() {
         clipboardManagerWrapper = TestClipboardManagerWrapper()
 
         subject = DefaultClipboardRepository(

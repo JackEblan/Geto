@@ -29,19 +29,17 @@ android {
 dependencies {
     api(kotlin("test"))
     api(libs.androidx.compose.ui.test)
+    api(projects.core.clipboardmanager)
+    api(projects.core.data)
+    api(projects.core.model)
+    api(projects.core.packagemanager)
+    api(projects.core.securesettings)
+
     debugApi(libs.androidx.compose.ui.test.manifest)
 
-    implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.compose.ui.test)
     implementation(libs.androidx.test.rules)
     implementation(libs.hilt.android.testing)
     implementation(libs.kotlinx.coroutines.test)
 
-    implementation(projects.core.clipboardmanager)
-    implementation(projects.core.common)
-    implementation(projects.core.designsystem)
-    implementation(projects.core.domain)
-    implementation(projects.core.model)
-    implementation(projects.core.packagemanager)
-    implementation(projects.core.securesettings)
+
 }

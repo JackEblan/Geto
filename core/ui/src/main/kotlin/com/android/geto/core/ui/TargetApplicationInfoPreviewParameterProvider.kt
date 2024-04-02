@@ -20,17 +20,16 @@ package com.android.geto.core.ui
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.android.geto.core.model.TargetApplicationInfo
-import com.android.geto.core.ui.TargetApplicationInfoPreviewParameterData.targetApplicationInfoLists
+import com.android.geto.core.ui.TargetApplicationInfoPreviewParameterData.installedApplications
 
 class TargetApplicationInfoPreviewParameterProvider :
     PreviewParameterProvider<List<TargetApplicationInfo>> {
 
-    override val values: Sequence<List<TargetApplicationInfo>> =
-        sequenceOf(targetApplicationInfoLists)
+    override val values: Sequence<List<TargetApplicationInfo>> = sequenceOf(installedApplications)
 }
 
 object TargetApplicationInfoPreviewParameterData {
-    val targetApplicationInfoLists = List(5) { index ->
+    val installedApplications = List(5) { index ->
         TargetApplicationInfo(
             flags = 0, packageName = "packageName$index", label = "Label $index"
         )

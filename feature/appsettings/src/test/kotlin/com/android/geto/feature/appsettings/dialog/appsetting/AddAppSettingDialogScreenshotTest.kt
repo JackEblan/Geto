@@ -49,7 +49,7 @@ class AddAppSettingDialogScreenshotTest {
     private lateinit var appSettingDialogState: AppSettingDialogState
 
     @Before
-    fun setUp() {
+    fun setup() {
         appSettingDialogState = AppSettingDialogState()
 
         appSettingDialogState.setError(

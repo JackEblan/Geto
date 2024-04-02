@@ -48,7 +48,7 @@ class AutoLaunchUseCaseTest {
     private val packageName = "com.android.geto"
 
     @Before
-    fun setUp() {
+    fun setup() {
         autoLaunchUseCase = AutoLaunchUseCase(
             packageRepository = packageRepository,
             userDataRepository = userDataRepository,

@@ -41,7 +41,7 @@ class AppSettingsDaoTest {
     private lateinit var db: AppDatabase
 
     @Before
-    fun setUp() {
+    fun setup() {
         val context = ApplicationProvider.getApplicationContext<Context>()
 
         db = Room.inMemoryDatabaseBuilder(
@@ -49,7 +49,7 @@ class AppSettingsDaoTest {
             AppDatabase::class.java,
         ).build()
 
-        appSettingsDao = db.appSettingsDao
+        appSettingsDao = db.appSettingsDao()
     }
 
     @After

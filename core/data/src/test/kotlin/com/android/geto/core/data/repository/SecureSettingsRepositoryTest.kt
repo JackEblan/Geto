@@ -37,7 +37,7 @@ class SecureSettingsRepositoryTest {
     private lateinit var subject: SecureSettingsRepository
 
     @Before
-    fun setUp() {
+    fun setup() {
         secureSettingsPermissionWrapper = TestSecureSettingsWrapper()
 
         subject = DefaultSecureSettingsRepository(secureSettingsPermissionWrapper)

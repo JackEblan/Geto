@@ -36,7 +36,7 @@ class PackageRepositoryTest {
     private val testDispatcher = StandardTestDispatcher()
 
     @Before
-    fun setUp() {
+    fun setup() {
         packageManagerWrapper = TestPackageManagerWrapper()
 
         subject = DefaultPackageRepository(

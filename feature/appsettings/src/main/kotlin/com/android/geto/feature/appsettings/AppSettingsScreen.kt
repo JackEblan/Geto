@@ -61,7 +61,6 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
@@ -77,6 +76,7 @@ import com.android.geto.core.domain.AutoLaunchResult
 import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.SettingType
 import com.android.geto.core.ui.AppSettingsPreviewParameterProvider
+import com.android.geto.core.ui.DevicePreviews
 import com.android.geto.feature.appsettings.dialog.appsetting.AppSettingDialog
 import com.android.geto.feature.appsettings.dialog.appsetting.rememberAppSettingDialogState
 import com.android.geto.feature.appsettings.dialog.copypermissioncommand.CopyPermissionCommandDialog
@@ -545,32 +545,55 @@ private fun LazyListScope.appSettings(
     }
 }
 
-@Preview
+@DevicePreviews
 @Composable
-private fun LoadingStatePreview() {
+private fun AppSettingsScreenLoadingStatePreview() {
     GetoTheme {
-        LoadingState()
+        AppSettingsScreen(snackbarHostState = SnackbarHostState(),
+                          appName = "Geto",
+                          appSettingsUiState = AppSettingsUiState.Loading,
+                          onNavigationIconClick = {},
+                          onRevertSettingsIconClick = {},
+                          onSettingsIconClick = {},
+                          onShortcutIconClick = {},
+                          onAppSettingsItemCheckBoxChange = { _, _ -> },
+                          onDeleteAppSettingsItem = {},
+                          onLaunchApp = {})
     }
 }
 
-@Preview
+@DevicePreviews
 @Composable
-private fun EmptyStatePreview() {
+private fun AppSettingsScreenEmptyStatePreview() {
     GetoTheme {
-        EmptyState(text = "Nothing is here")
+        AppSettingsScreen(snackbarHostState = SnackbarHostState(),
+                          appName = "Geto",
+                          appSettingsUiState = AppSettingsUiState.Success(emptyList()),
+                          onNavigationIconClick = {},
+                          onRevertSettingsIconClick = {},
+                          onSettingsIconClick = {},
+                          onShortcutIconClick = {},
+                          onAppSettingsItemCheckBoxChange = { _, _ -> },
+                          onDeleteAppSettingsItem = {},
+                          onLaunchApp = {})
     }
 }
 
-@Preview
+@DevicePreviews
 @Composable
-private fun SuccessStatePreview(
-    @PreviewParameter(AppSettingsPreviewParameterProvider::class) appSettingLists: List<AppSetting>
+private fun AppSettingsScreenSuccessStatePreview(
+    @PreviewParameter(AppSettingsPreviewParameterProvider::class) appSettings: List<AppSetting>
 ) {
     GetoTheme {
-        SuccessState(
-            appSettingsUiState = AppSettingsUiState.Success(appSettingLists),
-                     contentPadding = PaddingValues(20.dp),
-                     onAppSettingsItemCheckBoxChange = { _, _ -> },
-                     onDeleteAppSettingsItem = {})
+        AppSettingsScreen(snackbarHostState = SnackbarHostState(),
+                          appName = "Geto",
+                          appSettingsUiState = AppSettingsUiState.Success(appSettings),
+                          onNavigationIconClick = {},
+                          onRevertSettingsIconClick = {},
+                          onSettingsIconClick = {},
+                          onShortcutIconClick = {},
+                          onAppSettingsItemCheckBoxChange = { _, _ -> },
+                          onDeleteAppSettingsItem = {},
+                          onLaunchApp = {})
     }
 }
