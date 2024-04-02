@@ -24,6 +24,11 @@ plugins {
 
 android {
     namespace = "com.android.geto.core.database"
+    
+    sourceSets {
+        getByName("test").assets.srcDir("$projectDir/schemas")
+    }
+    
     testOptions {
         unitTests {
             isIncludeAndroidResources = true
