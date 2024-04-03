@@ -58,3 +58,4 @@ include(":feature:appsettings")
 include(":feature:settings")
 
 include(":lint")
+include(":benchmarks")

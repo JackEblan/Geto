@@ -16,11 +16,15 @@
  *
  */
 
+import com.android.geto.GetoBuildType
+
 plugins {
     alias(libs.plugins.com.android.geto.application)
     alias(libs.plugins.com.android.geto.applicationCompose)
     alias(libs.plugins.com.android.geto.applicationFlavors)
     alias(libs.plugins.com.android.geto.hilt)
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.baselineprofile)
 }
 
 android {
@@ -31,18 +35,28 @@ android {
         versionCode = 153
         versionName = "1.15.3"
 
+        // Custom test runner to set up Hilt dependency graph
+        testInstrumentationRunner = "com.android.geto.core.testing.GetoTestRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
     }
 
     buildTypes {
+        debug {
+            applicationIdSuffix = GetoBuildType.DEBUG.applicationIdSuffix
+        }
         release {
             isMinifyEnabled = true
             isShrinkResources = true
+            applicationIdSuffix = GetoBuildType.RELEASE.applicationIdSuffix
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
             )
+
+            // Ensure Baseline Profile is fresh for release builds.
+            baselineProfile.automaticGenerationDuringBuild = true
         }
     }
 
@@ -72,6 +86,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.profileinstaller)
 
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 
@@ -80,4 +95,12 @@ dependencies {
     testImplementation(projects.core.testing)
     testImplementation(libs.hilt.android.testing)
     testImplementation(libs.robolectric)
+
+    baselineProfile(projects.benchmarks)
+}
+
+baselineProfile {
+    // Don't build on every iteration of a full assemble.
+    // Instead enable generation directly for the release build variant.
+    automaticGenerationDuringBuild = false
 }
