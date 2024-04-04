@@ -67,3 +67,8 @@ dependencies {
     implementation(libs.androidx.test.runner)
     implementation(libs.androidx.test.uiautomator)
 }
+
+baselineProfile {
+    managedDevices += "pixel6Api33"
+    useConnectedDevices = false
+}

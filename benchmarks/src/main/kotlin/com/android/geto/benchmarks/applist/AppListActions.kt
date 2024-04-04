@@ -16,27 +16,19 @@
  *
  */
 
-plugins {
-    alias(libs.plugins.com.android.geto.library)
-    alias(libs.plugins.com.android.geto.hilt)
-    alias(libs.plugins.com.android.geto.room)
+package com.android.geto.benchmarks.applist
+
+import androidx.benchmark.macro.MacrobenchmarkScope
+import androidx.test.uiautomator.By
+import androidx.test.uiautomator.Until
+import com.android.geto.benchmarks.flingElementDownUp
+
+fun MacrobenchmarkScope.appListWaitForContent() {
+    // Wait until content is loaded by checking if topics are loaded
+    device.wait(Until.gone(By.res("loadingWheel")), 5_000)
 }
 
-android {
-    defaultConfig {
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    namespace = "com.android.geto.core.database"
-    
-    sourceSets {
-        getByName("androidTest").assets.srcDir("$projectDir/schemas")
-    }
-}
-
-dependencies {
-    api(projects.core.model)
-
-    androidTestImplementation(libs.room.testing)
-    androidTestImplementation(projects.core.testing)
+fun MacrobenchmarkScope.appListScrollFeedDownUp() {
+    val appList = device.findObject(By.res("applist:lazyColumn"))
+    device.flingElementDownUp(appList)
 }
