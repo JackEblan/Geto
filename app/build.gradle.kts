@@ -91,10 +91,13 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 
     testImplementation(libs.androidx.navigation.testing)
-    testImplementation(projects.core.dataTest)
-    testImplementation(projects.core.testing)
     testImplementation(libs.hilt.android.testing)
     testImplementation(libs.robolectric)
+    testImplementation(projects.core.dataTest)
+    testImplementation(projects.core.testing)
+        
+    androidTestImplementation(libs.hilt.android.testing)
+    androidTestImplementation(projects.core.testing)
 
     baselineProfile(projects.benchmarks)
 }
