@@ -35,9 +35,12 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -105,6 +108,7 @@ private fun AppListTopAppBar(
     })
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 private fun AppListContent(
     modifier: Modifier = Modifier,
@@ -112,12 +116,13 @@ private fun AppListContent(
     appListUiState: AppListUiState,
     onItemClick: (String, String) -> Unit
 ) {
-    Box(
-        modifier = modifier
-            .fillMaxSize()
-            .consumeWindowInsets(innerPadding)
-            .testTag("appList")
-    ) {
+    Box(modifier = modifier
+        .fillMaxSize()
+        .consumeWindowInsets(innerPadding)
+        .semantics {
+            testTagsAsResourceId = true
+        }
+        .testTag("appList")) {
         when (appListUiState) {
             AppListUiState.Loading -> LoadingState(
                 modifier = Modifier.align(Alignment.Center)
