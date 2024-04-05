@@ -98,7 +98,7 @@ private fun AppListTopAppBar(
 ) {
     TopAppBar(title = {
         Text(text = title)
-    }, modifier = modifier.testTag("applist:topAppBar"), actions = {
+    }, modifier = modifier.testTag("appList:topAppBar"), actions = {
         IconButton(onClick = onSettingsClick) {
             Icon(imageVector = GetoIcons.Settings, contentDescription = "Settings icon")
         }
@@ -116,7 +116,7 @@ private fun AppListContent(
         modifier = modifier
             .fillMaxSize()
             .consumeWindowInsets(innerPadding)
-            .testTag("applist")
+            .testTag("appList")
     ) {
         when (appListUiState) {
             AppListUiState.Loading -> LoadingState(
@@ -137,7 +137,7 @@ private fun AppListContent(
 @Composable
 private fun LoadingState(modifier: Modifier = Modifier) {
     GetoLoadingWheel(
-        modifier = modifier, contentDescription = "GetoOverlayLoadingWheel"
+        modifier = modifier, contentDescription = "GetoLoadingWheel"
     )
 }
 
@@ -150,7 +150,7 @@ private fun SuccessState(
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
-            .testTag("applist:lazyColumn"),
+            .testTag("appList:lazyColumn"),
         contentPadding = contentPadding
     ) {
         appItems(

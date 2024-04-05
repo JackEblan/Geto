@@ -37,7 +37,7 @@ class SettingsScreenTest {
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     @Test
-    fun getoOverlayLoadingWheel_isDisplayed_whenSettingsUiState_isLoading() {
+    fun getoLoadingWheel_isDisplayed_whenSettingsUiState_isLoading() {
         composeTestRule.setContent {
             SettingsScreen(settingsUiState = SettingsUiState.Loading,
                            onThemeDialog = {},
@@ -48,7 +48,7 @@ class SettingsScreenTest {
                            onNavigationIconClick = {})
         }
 
-        composeTestRule.onNodeWithContentDescription("GetoOverlayLoadingWheel").assertIsDisplayed()
+        composeTestRule.onNodeWithContentDescription("GetoLoadingWheel").assertIsDisplayed()
     }
 
     @Test

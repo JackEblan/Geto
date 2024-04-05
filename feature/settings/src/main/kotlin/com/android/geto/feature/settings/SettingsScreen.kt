@@ -220,7 +220,7 @@ private fun SettingsContent(
 @Composable
 private fun LoadingState(modifier: Modifier = Modifier) {
     GetoLoadingWheel(
-        modifier = modifier, contentDescription = "GetoOverlayLoadingWheel"
+        modifier = modifier, contentDescription = "GetoLoadingWheel"
     )
 }
 

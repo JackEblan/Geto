@@ -46,7 +46,7 @@ class AppSettingsScreenTest {
     }
 
     @Test
-    fun getoOverlayLoadingWheel_isDisplayed_whenAppSettingsUiState_isLoading() {
+    fun getoLoadingWheel_isDisplayed_whenAppSettingsUiState_isLoading() {
         composeTestRule.setContent {
             AppSettingsScreen(snackbarHostState = SnackbarHostState(),
                               appName = "Geto",
@@ -60,7 +60,7 @@ class AppSettingsScreenTest {
                               onLaunchApp = {})
         }
 
-        composeTestRule.onNodeWithContentDescription("GetoOverlayLoadingWheel").assertIsDisplayed()
+        composeTestRule.onNodeWithContentDescription("GetoLoadingWheel").assertIsDisplayed()
     }
 
     @Test

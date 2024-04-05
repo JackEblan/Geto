@@ -20,7 +20,7 @@ package com.android.geto.benchmarks.baselineprofile
 
 import androidx.benchmark.macro.junit4.BaselineProfileRule
 import com.android.geto.benchmarks.PACKAGE_NAME
-import com.android.geto.benchmarks.applist.appListScrollFeedDownUp
+import com.android.geto.benchmarks.applist.appListScrollDownUp
 import com.android.geto.benchmarks.applist.appListWaitForContent
 import org.junit.Rule
 import org.junit.Test
@@ -33,8 +33,8 @@ class AppListBaselineProfile {
     fun generate() = baselineProfileRule.collect(PACKAGE_NAME) {
         startActivityAndWait()
 
-        // Scroll the feed critical user journey
+        // Scroll the app list critical user journey
         appListWaitForContent()
-        appListScrollFeedDownUp()
+        appListScrollDownUp()
     }
 }

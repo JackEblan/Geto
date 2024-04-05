@@ -24,11 +24,11 @@ import androidx.test.uiautomator.Until
 import com.android.geto.benchmarks.flingElementDownUp
 
 fun MacrobenchmarkScope.appListWaitForContent() {
-    // Wait until content is loaded by checking if topics are loaded
+    // Wait until content is loaded by checking if installed applications are loaded
     device.wait(Until.gone(By.res("loadingWheel")), 5_000)
 }
 
-fun MacrobenchmarkScope.appListScrollFeedDownUp() {
-    val appList = device.findObject(By.res("applist:lazyColumn"))
+fun MacrobenchmarkScope.appListScrollDownUp() {
+    val appList = device.findObject(By.res("appList:lazyColumn"))
     device.flingElementDownUp(appList)
 }

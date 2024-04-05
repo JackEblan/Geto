@@ -33,18 +33,12 @@ import com.android.geto.feature.applist.navigation.APP_LIST_NAVIGATION_ROUTE
 import com.android.geto.feature.settings.navigation.SETTINGS_NAVIGATION_ROUTE
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import dagger.hilt.android.testing.HiltTestApplication
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.robolectric.RobolectricTestRunner
-import org.robolectric.annotation.Config
 import kotlin.test.assertEquals
 
 @HiltAndroidTest
-@RunWith(RobolectricTestRunner::class)
-@Config(application = HiltTestApplication::class)
 class NavigationTest {
     @get:Rule(order = 0)
     val hiltRule = HiltAndroidRule(this)
@@ -66,7 +60,7 @@ class NavigationTest {
 
     @Test
     fun appListSreen_isDisplayed_whenStarted() {
-        composeTestRule.onNodeWithTag("applist").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("appList").assertIsDisplayed()
     }
 
     @Test
@@ -83,7 +77,7 @@ class NavigationTest {
     @Test
     fun appListScreen_isDisplayed_whenNavigateBackFromAppSettingsScreen() {
         composeTestRule.onAllNodes(hasTestTag("appList:appItem"))[0].performClick()
-        
+
         composeTestRule.onNodeWithContentDescription(
             label = "Navigation icon", useUnmergedTree = true
         ).performClick()

@@ -32,14 +32,14 @@ class AppListScreenTest {
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     @Test
-    fun getoOverlayLoadingWheel_isDisplayed_whenAppListUiState_isLoading() {
+    fun getoLoadingWheel_isDisplayed_whenAppListUiState_isLoading() {
         composeTestRule.setContent {
             AppListScreen(appListUiState = AppListUiState.Loading,
                           onItemClick = { _, _ -> },
                           onSettingsClick = {})
         }
 
-        composeTestRule.onNodeWithContentDescription("GetoOverlayLoadingWheel").assertIsDisplayed()
+        composeTestRule.onNodeWithContentDescription("GetoLoadingWheel").assertIsDisplayed()
     }
 
     @Test
@@ -57,6 +57,6 @@ class AppListScreenTest {
                           onSettingsClick = {})
         }
 
-        composeTestRule.onNodeWithTag("applist:lazyColumn").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("appList:lazyColumn").assertIsDisplayed()
     }
 }
