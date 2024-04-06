@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.core.shortcutmanager
 
 import androidx.core.content.pm.ShortcutInfoCompat

@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.core.domain
 
 import com.android.geto.core.model.AppSetting
@@ -59,7 +58,6 @@ class ApplyAppSettingsUseCaseTest {
         assertIs<AppSettingsResult.EmptyAppSettings>(result)
     }
 
-
     @Test
     fun applyAppSettingsUseCase_isDisabledAppSettings() = runTest {
         val appSettings = List(5) { index ->
@@ -68,7 +66,8 @@ class ApplyAppSettingsUseCaseTest {
                 enabled = false,
                 settingType = SettingType.SYSTEM,
                 packageName = packageName,
-                label = "Geto", key = "Geto $index",
+                label = "Geto",
+                key = "Geto $index",
                 valueOnLaunch = "0",
                 valueOnRevert = "1",
             )
@@ -89,7 +88,8 @@ class ApplyAppSettingsUseCaseTest {
                 enabled = true,
                 settingType = SettingType.SYSTEM,
                 packageName = packageName,
-                label = "Geto", key = "Geto $index",
+                label = "Geto",
+                key = "Geto $index",
                 valueOnLaunch = "0",
                 valueOnRevert = "1",
             )
@@ -120,7 +120,8 @@ class ApplyAppSettingsUseCaseTest {
                 enabled = true,
                 settingType = SettingType.SYSTEM,
                 packageName = packageName,
-                label = "Geto", key = "Geto $index",
+                label = "Geto",
+                key = "Geto $index",
                 valueOnLaunch = "0",
                 valueOnRevert = "1",
             )
@@ -143,7 +144,8 @@ class ApplyAppSettingsUseCaseTest {
                 enabled = true,
                 settingType = SettingType.SYSTEM,
                 packageName = packageName,
-                label = "Geto", key = "Geto $index",
+                label = "Geto",
+                key = "Geto $index",
                 valueOnLaunch = "0",
                 valueOnRevert = "1",
             )

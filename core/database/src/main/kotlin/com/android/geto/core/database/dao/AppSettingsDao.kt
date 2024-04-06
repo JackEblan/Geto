@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.core.database.dao
 
 import androidx.room.Dao

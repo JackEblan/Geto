@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.core.data.repository
 
 import android.graphics.Bitmap
@@ -23,11 +22,13 @@ import com.android.geto.core.model.TargetShortcutInfoCompat
 
 interface ShortcutRepository {
     fun requestPinShortcut(
-        icon: Bitmap?, targetShortcutInfoCompat: TargetShortcutInfoCompat,
+        icon: Bitmap?,
+        targetShortcutInfoCompat: TargetShortcutInfoCompat,
     ): ShortcutResult
 
     fun updateRequestPinShortcut(
-        icon: Bitmap?, targetShortcutInfoCompat: TargetShortcutInfoCompat,
+        icon: Bitmap?,
+        targetShortcutInfoCompat: TargetShortcutInfoCompat,
     ): ShortcutResult
 
     fun getShortcut(id: String): ShortcutResult

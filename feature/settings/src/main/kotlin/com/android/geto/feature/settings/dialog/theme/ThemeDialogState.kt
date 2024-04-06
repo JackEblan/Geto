@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.feature.settings.dialog.theme
 
 import androidx.compose.runtime.Stable

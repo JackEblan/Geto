@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.core.testing.repository
 
 import com.android.geto.core.data.repository.ClipboardRepository
@@ -25,8 +24,11 @@ class TestClipboardRepository : ClipboardRepository {
     private var api32AndHigher = false
 
     override fun setPrimaryClip(label: String, text: String): ClipboardResult {
-        return if (api32AndHigher) ClipboardResult.HideNotify
-        else ClipboardResult.Notify(text)
+        return if (api32AndHigher) {
+            ClipboardResult.HideNotify
+        } else {
+            ClipboardResult.Notify(text)
+        }
     }
 
     fun setApi32AndHigher(value: Boolean) {

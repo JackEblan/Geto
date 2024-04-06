@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.core.packagemanager
 
 import android.content.Intent
@@ -28,5 +27,4 @@ interface PackageManagerWrapper {
     fun getApplicationIcon(packageName: String): Drawable
 
     fun getLaunchIntentForPackage(packageName: String): Intent?
-
 }

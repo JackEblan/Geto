@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.core.designsystem.icon
 
 import androidx.compose.material.icons.Icons

@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.core.packagemanager.demo
 
 import android.content.Intent
@@ -29,7 +28,9 @@ class DemoPackageManagerWrapper @Inject constructor() : PackageManagerWrapper {
     override fun getInstalledApplications(): List<TargetApplicationInfo> {
         return List(5) { index ->
             TargetApplicationInfo(
-                flags = 0, packageName = "com.android.geto$index", label = "Geto $index",
+                flags = 0,
+                packageName = "com.android.geto$index",
+                label = "Geto $index",
             )
         }
     }

@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.core.data.repository
 
 import android.graphics.Bitmap
@@ -29,7 +28,8 @@ class DefaultShortcutRepository @Inject constructor(
 ) : ShortcutRepository {
 
     override fun requestPinShortcut(
-        icon: Bitmap?, targetShortcutInfoCompat: TargetShortcutInfoCompat,
+        icon: Bitmap?,
+        targetShortcutInfoCompat: TargetShortcutInfoCompat,
     ): ShortcutResult {
         if (shortcutManagerCompatWrapper.isRequestPinShortcutSupported().not()) {
             return ShortcutResult.UnsupportedLauncher
@@ -45,11 +45,14 @@ class DefaultShortcutRepository @Inject constructor(
 
         return if (requestPinShortcutSuccess) {
             ShortcutResult.SupportedLauncher
-        } else ShortcutResult.UnsupportedLauncher
+        } else {
+            ShortcutResult.UnsupportedLauncher
+        }
     }
 
     override fun updateRequestPinShortcut(
-        icon: Bitmap?, targetShortcutInfoCompat: TargetShortcutInfoCompat,
+        icon: Bitmap?,
+        targetShortcutInfoCompat: TargetShortcutInfoCompat,
     ): ShortcutResult {
         val shortcutIds =
             shortcutManagerCompatWrapper.getShortcuts(ShortcutManagerCompat.FLAG_MATCH_PINNED)
@@ -70,8 +73,9 @@ class DefaultShortcutRepository @Inject constructor(
 
             if (updateShortcutsSuccess) {
                 ShortcutResult.ShortcutUpdateSuccess
-            } else ShortcutResult.ShortcutUpdateFailed
-
+            } else {
+                ShortcutResult.ShortcutUpdateFailed
+            }
         } catch (e: IllegalArgumentException) {
             ShortcutResult.ShortcutUpdateImmutableShortcuts
         }

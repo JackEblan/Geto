@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.feature.settings
 
 import androidx.lifecycle.ViewModel
@@ -88,7 +87,9 @@ class SettingsViewModel @Inject constructor(
  */
 data class UserEditableSettings(
     val brand: ThemeBrand,
-    val useDynamicColor: Boolean, val darkThemeConfig: DarkThemeConfig, val useAutoLaunch: Boolean,
+    val useDynamicColor: Boolean,
+    val darkThemeConfig: DarkThemeConfig,
+    val useAutoLaunch: Boolean,
 )
 
 sealed interface SettingsUiState {

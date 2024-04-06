@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.feature.settings.dialog.dark
 
 import androidx.compose.foundation.layout.Arrangement
@@ -51,7 +50,9 @@ import com.android.geto.feature.settings.R
 
 @Composable
 internal fun DarkDialog(
-    modifier: Modifier = Modifier, darkDialogState: DarkDialogState, onChangeDark: () -> Unit,
+    modifier: Modifier = Modifier,
+    darkDialogState: DarkDialogState,
+    onChangeDark: () -> Unit,
     contentDescription: String,
 ) {
     Dialog(onDismissRequest = { darkDialogState.updateShowDialog(false) }) {
@@ -111,7 +112,8 @@ private fun DarkDialogTitle(modifier: Modifier = Modifier) {
 
 @Composable
 private fun DarkDialogChooser(
-    modifier: Modifier = Modifier, selectedRadioOptionIndex: Int,
+    modifier: Modifier = Modifier,
+    selectedRadioOptionIndex: Int,
     onUpdateSelectedRadioOptionIndex: (Int) -> Unit,
 ) {
     val followSystem = stringResource(id = R.string.follow_system)
@@ -141,7 +143,8 @@ private fun DarkDialogChooser(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 RadioButton(
-                    selected = index == selectedRadioOptionIndex, onClick = null,
+                    selected = index == selectedRadioOptionIndex,
+                    onClick = null,
                 )
                 Text(
                     text = text,
@@ -155,7 +158,9 @@ private fun DarkDialogChooser(
 
 @Composable
 private fun DarkDialogButtons(
-    modifier: Modifier = Modifier, onChangeDark: () -> Unit, onCancel: () -> Unit,
+    modifier: Modifier = Modifier,
+    onChangeDark: () -> Unit,
+    onCancel: () -> Unit,
 ) {
     Spacer(modifier = Modifier.height(10.dp))
 
@@ -164,7 +169,8 @@ private fun DarkDialogButtons(
         horizontalArrangement = Arrangement.End,
     ) {
         TextButton(
-            onClick = onCancel, modifier = Modifier.padding(5.dp),
+            onClick = onCancel,
+            modifier = Modifier.padding(5.dp),
         ) {
             Text(stringResource(R.string.cancel))
         }

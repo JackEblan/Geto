@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.core.data.repository
 
 import com.android.geto.core.packagemanager.ClipboardManagerWrapper
@@ -28,8 +27,12 @@ class DefaultClipboardRepository @Inject constructor(
         val setPrimaryClipOnApi32AndHigher =
             clipboardManagerWrapper.setPrimaryClip(label = label, text = text)
 
-        return if (setPrimaryClipOnApi32AndHigher) ClipboardResult.HideNotify else ClipboardResult.Notify(
-            text,
-        )
+        return if (setPrimaryClipOnApi32AndHigher) {
+            ClipboardResult.HideNotify
+        } else {
+            ClipboardResult.Notify(
+                text,
+            )
+        }
     }
 }

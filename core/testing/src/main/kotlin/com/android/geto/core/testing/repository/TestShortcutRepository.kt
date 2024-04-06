@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.core.testing.repository
 
 import android.graphics.Bitmap
@@ -32,19 +31,25 @@ class TestShortcutRepository : ShortcutRepository {
     private var updateImmutableShortcuts = false
 
     override fun requestPinShortcut(
-        icon: Bitmap?, targetShortcutInfoCompat: TargetShortcutInfoCompat,
+        icon: Bitmap?,
+        targetShortcutInfoCompat: TargetShortcutInfoCompat,
     ): ShortcutResult {
         return if (requestPinShortcutSupported) {
             ShortcutResult.SupportedLauncher
-        } else ShortcutResult.UnsupportedLauncher
+        } else {
+            ShortcutResult.UnsupportedLauncher
+        }
     }
 
     override fun updateRequestPinShortcut(
-        icon: Bitmap?, targetShortcutInfoCompat: TargetShortcutInfoCompat,
+        icon: Bitmap?,
+        targetShortcutInfoCompat: TargetShortcutInfoCompat,
     ): ShortcutResult {
         return if (updateImmutableShortcuts) {
             ShortcutResult.ShortcutUpdateImmutableShortcuts
-        } else ShortcutResult.ShortcutUpdateSuccess
+        } else {
+            ShortcutResult.ShortcutUpdateSuccess
+        }
     }
 
     override fun getShortcut(id: String): ShortcutResult {

@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.feature.appsettings.dialog.copypermissioncommand
 
 import androidx.activity.ComponentActivity

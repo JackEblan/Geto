@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.feature.appsettings
 
 import android.graphics.drawable.Drawable
@@ -159,7 +158,8 @@ class AppSettingsViewModel @Inject constructor(
 
             _shortcutResult.update {
                 shortcutRepository.requestPinShortcut(
-                    icon = icon?.toBitmap(), targetShortcutInfoCompat = targetShortcutInfoCompat,
+                    icon = icon?.toBitmap(),
+                    targetShortcutInfoCompat = targetShortcutInfoCompat,
                 )
             }
         }
@@ -171,7 +171,8 @@ class AppSettingsViewModel @Inject constructor(
 
             _shortcutResult.update {
                 shortcutRepository.updateRequestPinShortcut(
-                    icon = icon?.toBitmap(), targetShortcutInfoCompat,
+                    icon = icon?.toBitmap(),
+                    targetShortcutInfoCompat,
                 )
             }
         }

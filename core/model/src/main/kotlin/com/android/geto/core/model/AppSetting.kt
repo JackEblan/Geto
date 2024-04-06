@@ -15,11 +15,12 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.core.model
 
 data class AppSetting(
-    val id: Int? = null, val enabled: Boolean, val settingType: SettingType,
+    val id: Int? = null,
+    val enabled: Boolean,
+    val settingType: SettingType,
     val packageName: String,
     val label: String,
     val key: String,
@@ -28,6 +29,7 @@ data class AppSetting(
 )
 
 enum class SettingType(val label: String) {
-    SYSTEM("System"), SECURE("Secure"), GLOBAL("Global")
+    SYSTEM("System"),
+    SECURE("Secure"),
+    GLOBAL("Global"),
 }
-

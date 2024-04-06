@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.feature.settings
 
 import com.android.geto.core.domain.CleanAppSettingsUseCase
@@ -75,7 +74,8 @@ class SettingsViewModelTest {
                 UserEditableSettings(
                     brand = ThemeBrand.ANDROID,
                     darkThemeConfig = DarkThemeConfig.DARK,
-                    useDynamicColor = false, useAutoLaunch = false,
+                    useDynamicColor = false,
+                    useAutoLaunch = false,
                 ),
             ),
             viewModel.settingsUiState.value,

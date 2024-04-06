@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.feature.appsettings.dialog.copypermissioncommand
 
 import androidx.compose.foundation.layout.Arrangement
@@ -59,7 +58,8 @@ internal fun CopyPermissionCommandDialog(
             shape = RoundedCornerShape(16.dp),
         ) {
             CopyPermissionCommandDialogScreen(
-                onDismissRequest = onDismissRequest, onCopySettings = onCopySettings,
+                onDismissRequest = onDismissRequest,
+                onCopySettings = onCopySettings,
             )
         }
     }
@@ -67,7 +67,8 @@ internal fun CopyPermissionCommandDialog(
 
 @Composable
 internal fun CopyPermissionCommandDialogScreen(
-    onDismissRequest: () -> Unit, onCopySettings: () -> Unit,
+    onDismissRequest: () -> Unit,
+    onCopySettings: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -79,7 +80,8 @@ internal fun CopyPermissionCommandDialogScreen(
         CopyPermissionCommandDialogContent()
 
         CopyPermissionCommandDialogButtons(
-            onDismissRequest = onDismissRequest, onCopySettings = onCopySettings,
+            onDismissRequest = onDismissRequest,
+            onCopySettings = onCopySettings,
         )
     }
 }
@@ -108,7 +110,8 @@ private fun CopyPermissionCommandDialogContent() {
 
 @Composable
 private fun CopyPermissionCommandDialogButtons(
-    onDismissRequest: () -> Unit, onCopySettings: () -> Unit,
+    onDismissRequest: () -> Unit,
+    onCopySettings: () -> Unit,
 ) {
     Spacer(modifier = Modifier.height(10.dp))
 
@@ -123,7 +126,8 @@ private fun CopyPermissionCommandDialogButtons(
             Text(stringResource(id = R.string.cancel))
         }
         TextButton(
-            onClick = { onCopySettings() }, modifier = Modifier.padding(5.dp),
+            onClick = { onCopySettings() },
+            modifier = Modifier.padding(5.dp),
         ) {
             Text(stringResource(R.string.copy))
         }

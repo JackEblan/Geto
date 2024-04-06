@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.feature.settings.navigation
 
 import androidx.navigation.NavController
@@ -38,6 +37,6 @@ fun NavGraphBuilder.settingsScreen(
         SettingsRoute(
             onNavigationIconClick = onNavigationIconClick,
 
-            )
+        )
     }
 }

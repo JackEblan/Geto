@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.feature.applist
 
 import com.android.geto.core.model.TargetApplicationInfo

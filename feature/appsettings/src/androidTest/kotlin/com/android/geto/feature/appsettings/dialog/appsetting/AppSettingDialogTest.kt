@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.feature.appsettings.dialog.appsetting
 
 import androidx.activity.ComponentActivity
@@ -64,7 +63,8 @@ class AppSettingDialogTest {
         composeTestRule.onNodeWithTag("appSettingDialog:add").performClick()
 
         composeTestRule.onNodeWithTag(
-            testTag = "appSettingDialog:labelSupportingText", useUnmergedTree = true,
+            testTag = "appSettingDialog:labelSupportingText",
+            useUnmergedTree = true,
         ).assertIsDisplayed()
     }
 
@@ -95,7 +95,8 @@ class AppSettingDialogTest {
         composeTestRule.onNodeWithTag("appSettingDialog:add").performClick()
 
         composeTestRule.onNodeWithTag(
-            testTag = "appSettingDialog:keySupportingText", useUnmergedTree = true,
+            testTag = "appSettingDialog:keySupportingText",
+            useUnmergedTree = true,
         ).assertIsDisplayed()
     }
 
@@ -130,7 +131,8 @@ class AppSettingDialogTest {
         composeTestRule.onNodeWithTag("appSettingDialog:add").performClick()
 
         composeTestRule.onNodeWithTag(
-            testTag = "appSettingDialog:settingsKeyNotFoundSupportingText", useUnmergedTree = true,
+            testTag = "appSettingDialog:settingsKeyNotFoundSupportingText",
+            useUnmergedTree = true,
         ).assertIsDisplayed()
     }
 
@@ -161,7 +163,8 @@ class AppSettingDialogTest {
         composeTestRule.onNodeWithTag("appSettingDialog:add").performClick()
 
         composeTestRule.onNodeWithTag(
-            testTag = "appSettingDialog:valueOnLaunchSupportingText", useUnmergedTree = true,
+            testTag = "appSettingDialog:valueOnLaunchSupportingText",
+            useUnmergedTree = true,
         ).assertIsDisplayed()
     }
 
@@ -192,7 +195,8 @@ class AppSettingDialogTest {
         composeTestRule.onNodeWithTag("appSettingDialog:add").performClick()
 
         composeTestRule.onNodeWithTag(
-            testTag = "appSettingDialog:valueOnRevertSupportingText", useUnmergedTree = true,
+            testTag = "appSettingDialog:valueOnRevertSupportingText",
+            useUnmergedTree = true,
         ).assertIsDisplayed()
     }
 

@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.feature.appsettings.dialog.shortcut
 
 import android.graphics.Bitmap
@@ -120,7 +119,8 @@ internal fun UpdateShortcutDialogScreen(
         )
 
         UpdateShortcutDialogButtons(
-            onUpdateShortcut = onUpdateShortcut, onCancel = onCancel,
+            onUpdateShortcut = onUpdateShortcut,
+            onCancel = onCancel,
         )
     }
 }
@@ -141,7 +141,9 @@ private fun UpdateShortcutDialogApplicationIcon(modifier: Modifier = Modifier, i
     Spacer(modifier = Modifier.height(10.dp))
 
     AsyncImage(
-        model = icon, contentDescription = null, modifier = modifier,
+        model = icon,
+        contentDescription = null,
+        modifier = modifier,
     )
 }
 
@@ -167,10 +169,12 @@ private fun UpdateShortcutDialogTextFields(
         },
         isError = shortLabelError.isNotBlank(),
         supportingText = {
-            if (shortLabelError.isNotBlank()) Text(
-                text = shortLabelError,
-                modifier = Modifier.testTag("updateShortcutDialog:shortLabelSupportingText"),
-            )
+            if (shortLabelError.isNotBlank()) {
+                Text(
+                    text = shortLabelError,
+                    modifier = Modifier.testTag("updateShortcutDialog:shortLabelSupportingText"),
+                )
+            }
         },
         singleLine = true,
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
@@ -187,10 +191,12 @@ private fun UpdateShortcutDialogTextFields(
         },
         isError = longLabelError.isNotBlank(),
         supportingText = {
-            if (longLabelError.isNotBlank()) Text(
-                text = longLabelError,
-                modifier = Modifier.testTag("updateShortcutDialog:longLabelSupportingText"),
-            )
+            if (longLabelError.isNotBlank()) {
+                Text(
+                    text = longLabelError,
+                    modifier = Modifier.testTag("updateShortcutDialog:longLabelSupportingText"),
+                )
+            }
         },
         singleLine = true,
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
@@ -199,14 +205,17 @@ private fun UpdateShortcutDialogTextFields(
 
 @Composable
 private fun UpdateShortcutDialogButtons(
-    modifier: Modifier = Modifier, onUpdateShortcut: () -> Unit, onCancel: () -> Unit,
+    modifier: Modifier = Modifier,
+    onUpdateShortcut: () -> Unit,
+    onCancel: () -> Unit,
 ) {
     Row(
         modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.End,
     ) {
         TextButton(
-            onClick = onCancel, modifier = Modifier.padding(5.dp),
+            onClick = onCancel,
+            modifier = Modifier.padding(5.dp),
         ) {
             Text(stringResource(id = R.string.cancel))
         }

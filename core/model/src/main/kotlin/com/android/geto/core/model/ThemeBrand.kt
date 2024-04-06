@@ -15,9 +15,9 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.core.model
 
 enum class ThemeBrand(val title: String) {
-    DEFAULT("Default"), ANDROID("Android"),
+    DEFAULT("Default"),
+    ANDROID("Android"),
 }

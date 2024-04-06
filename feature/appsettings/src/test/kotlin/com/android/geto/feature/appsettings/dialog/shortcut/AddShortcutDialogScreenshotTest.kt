@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.feature.appsettings.dialog.shortcut
 
 import android.content.Intent
@@ -53,7 +52,8 @@ class AddShortcutDialogScreenshotTest {
         shortcutDialogState = ShortcutDialogState()
 
         shortcutDialogState.setError(
-            shortLabelIsBlank = "Short label is blank", longLabelIsBlank = "Long label is blank",
+            shortLabelIsBlank = "Short label is blank",
+            longLabelIsBlank = "Long label is blank",
         )
     }
 

@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.core.datastore.test
 
 import androidx.datastore.core.DataStore

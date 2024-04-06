@@ -15,13 +15,11 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.core.packagemanager
 
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import com.android.geto.core.model.TargetApplicationInfo
-
 
 fun ApplicationInfo.asTargetApplicationInfo(packageManager: PackageManager): TargetApplicationInfo {
     val label = try {
@@ -37,6 +35,9 @@ fun ApplicationInfo.asTargetApplicationInfo(packageManager: PackageManager): Tar
     }
 
     return TargetApplicationInfo(
-        flags = flags, icon = icon, packageName = packageName, label = label.toString(),
+        flags = flags,
+        icon = icon,
+        packageName = packageName,
+        label = label.toString(),
     )
 }

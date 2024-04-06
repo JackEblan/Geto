@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.feature.appsettings
 
 import androidx.compose.foundation.layout.Column
@@ -58,25 +57,29 @@ fun AppSettingsItem(
 
         Column(modifier = Modifier.weight(1f)) {
             Text(
-                text = appSetting.label, style = MaterialTheme.typography.bodyLarge,
+                text = appSetting.label,
+                style = MaterialTheme.typography.bodyLarge,
             )
 
             Spacer(modifier = Modifier.height(5.dp))
 
             Text(
-                text = appSetting.settingType.label, style = MaterialTheme.typography.bodySmall,
+                text = appSetting.settingType.label,
+                style = MaterialTheme.typography.bodySmall,
             )
 
             Spacer(modifier = Modifier.height(5.dp))
 
             Text(
-                text = appSetting.key, style = MaterialTheme.typography.bodySmall,
+                text = appSetting.key,
+                style = MaterialTheme.typography.bodySmall,
             )
         }
 
         IconButton(onClick = { onDeleteUserAppSettingsItem() }) {
             Icon(
-                imageVector = Icons.Default.Delete, contentDescription = null,
+                imageVector = Icons.Default.Delete,
+                contentDescription = null,
             )
         }
     }
@@ -88,14 +91,16 @@ private fun AppSettingsItemPreview() {
     GetoTheme {
         AppSettingsItem(
             appSetting = AppSetting(
-                enabled = false, settingType = SettingType.SECURE,
+                enabled = false,
+                settingType = SettingType.SECURE,
                 packageName = "com.android.geto",
                 label = "Label",
                 key = "key",
                 valueOnLaunch = "0",
                 valueOnRevert = "1",
             ),
-            onUserAppSettingsItemCheckBoxChange = {}, onDeleteUserAppSettingsItem = {},
+            onUserAppSettingsItemCheckBoxChange = {},
+            onDeleteUserAppSettingsItem = {},
         )
     }
 }

@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.core.database.di
 
 import android.content.Context
@@ -40,7 +39,9 @@ object DatabaseModule {
     @Singleton
     @Provides
     fun appDatabase(@ApplicationContext context: Context): AppDatabase = Room.databaseBuilder(
-        context, AppDatabase::class.java, AppDatabase.DATABASE_NAME,
+        context,
+        AppDatabase::class.java,
+        AppDatabase.DATABASE_NAME,
     ).addMigrations(
         Migration1To2(),
         Migration2To3(),

@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.feature.settings.dialog.clean
 
 import androidx.compose.foundation.layout.Arrangement
@@ -60,7 +59,8 @@ internal fun CleanDialog(
             shape = RoundedCornerShape(16.dp),
         ) {
             CleanDialogScreen(
-                onDismissRequest = onDismissRequest, onClean = onClean,
+                onDismissRequest = onDismissRequest,
+                onClean = onClean,
             )
         }
     }
@@ -68,7 +68,8 @@ internal fun CleanDialog(
 
 @Composable
 internal fun CleanDialogScreen(
-    onDismissRequest: () -> Unit, onClean: () -> Unit,
+    onDismissRequest: () -> Unit,
+    onClean: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -107,7 +108,9 @@ private fun CleanDialogContent(modifier: Modifier = Modifier) {
 
 @Composable
 private fun CleanDialogButtons(
-    modifier: Modifier = Modifier, onDismissRequest: () -> Unit, onClean: () -> Unit,
+    modifier: Modifier = Modifier,
+    onDismissRequest: () -> Unit,
+    onClean: () -> Unit,
 ) {
     Spacer(modifier = Modifier.height(10.dp))
 

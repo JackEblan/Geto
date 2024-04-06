@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.feature.applist.navigation
 
 import androidx.navigation.NavGraphBuilder
@@ -25,13 +24,15 @@ import com.android.geto.feature.applist.AppListRoute
 const val APP_LIST_NAVIGATION_ROUTE = "app_list_route"
 
 fun NavGraphBuilder.appListScreen(
-    onItemClick: (String, String) -> Unit, onSettingsClick: () -> Unit,
+    onItemClick: (String, String) -> Unit,
+    onSettingsClick: () -> Unit,
 ) {
     composable(
         route = APP_LIST_NAVIGATION_ROUTE,
     ) {
         AppListRoute(
-            onItemClick = onItemClick, onSettingsClick = onSettingsClick,
+            onItemClick = onItemClick,
+            onSettingsClick = onSettingsClick,
         )
     }
 }

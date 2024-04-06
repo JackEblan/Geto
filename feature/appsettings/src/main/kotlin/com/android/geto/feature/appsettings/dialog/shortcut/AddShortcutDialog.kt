@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.feature.appsettings.dialog.shortcut
 
 import android.graphics.Bitmap
@@ -120,7 +119,8 @@ internal fun AddShortcutDialogScreen(
         )
 
         AddShortcutDialogButtons(
-            onAddShortcut = onAddShortcut, onCancel = onCancel,
+            onAddShortcut = onAddShortcut,
+            onCancel = onCancel,
         )
     }
 }
@@ -141,7 +141,9 @@ private fun AddShortcutDialogApplicationIcon(modifier: Modifier = Modifier, icon
     Spacer(modifier = Modifier.height(10.dp))
 
     AsyncImage(
-        model = icon, contentDescription = null, modifier = modifier,
+        model = icon,
+        contentDescription = null,
+        modifier = modifier,
     )
 }
 
@@ -167,10 +169,12 @@ private fun AddShortcutDialogTextFields(
         },
         isError = shortLabelError.isNotBlank(),
         supportingText = {
-            if (shortLabelError.isNotBlank()) Text(
-                text = shortLabelError,
-                modifier = Modifier.testTag("addShortcutDialog:shortLabelSupportingText"),
-            )
+            if (shortLabelError.isNotBlank()) {
+                Text(
+                    text = shortLabelError,
+                    modifier = Modifier.testTag("addShortcutDialog:shortLabelSupportingText"),
+                )
+            }
         },
         singleLine = true,
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
@@ -187,10 +191,12 @@ private fun AddShortcutDialogTextFields(
         },
         isError = longLabelError.isNotBlank(),
         supportingText = {
-            if (longLabelError.isNotBlank()) Text(
-                text = longLabelError,
-                modifier = Modifier.testTag("addShortcutDialog:longLabelSupportingText"),
-            )
+            if (longLabelError.isNotBlank()) {
+                Text(
+                    text = longLabelError,
+                    modifier = Modifier.testTag("addShortcutDialog:longLabelSupportingText"),
+                )
+            }
         },
         singleLine = true,
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
@@ -199,14 +205,17 @@ private fun AddShortcutDialogTextFields(
 
 @Composable
 private fun AddShortcutDialogButtons(
-    modifier: Modifier = Modifier, onAddShortcut: () -> Unit, onCancel: () -> Unit,
+    modifier: Modifier = Modifier,
+    onAddShortcut: () -> Unit,
+    onCancel: () -> Unit,
 ) {
     Row(
         modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.End,
     ) {
         TextButton(
-            onClick = onCancel, modifier = Modifier.padding(5.dp),
+            onClick = onCancel,
+            modifier = Modifier.padding(5.dp),
         ) {
             Text(stringResource(id = R.string.cancel))
         }
@@ -252,8 +261,3 @@ private fun AddShortcutDialogScreenPreview() {
         )
     }
 }
-
-
-
-
-

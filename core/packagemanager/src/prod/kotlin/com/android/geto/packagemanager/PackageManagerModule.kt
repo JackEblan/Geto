@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.packagemanager
 
 import com.android.geto.core.packagemanager.DefaultPackageManagerWrapper

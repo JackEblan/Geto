@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.feature.appsettings.navigation
 
 import androidx.annotation.VisibleForTesting
@@ -28,7 +27,6 @@ import com.android.geto.feature.appsettings.AppSettingsRoute
 import java.net.URLDecoder
 import kotlin.text.Charsets.UTF_8
 
-
 private val URL_CHARACTER_ENCODING = UTF_8.name()
 
 @VisibleForTesting
@@ -37,7 +35,7 @@ internal const val PACKAGE_NAME_ARG = "package_name"
 @VisibleForTesting
 internal const val APP_NAME_ARG = "app_name"
 
-internal const val deepLinkUri = "https://www.android.geto.com"
+internal const val DEEP_LINK_URI = "https://www.android.geto.com"
 
 internal class AppSettingsArgs(val packageName: String, val appName: String) {
     constructor(savedStateHandle: SavedStateHandle) : this(
@@ -60,7 +58,7 @@ fun NavGraphBuilder.appSettingsScreen(onNavigationIconClick: () -> Unit) {
         route = "app_settings_route/{$PACKAGE_NAME_ARG}/{$APP_NAME_ARG}",
         deepLinks = listOf(
             navDeepLink {
-                uriPattern = "$deepLinkUri/{$PACKAGE_NAME_ARG}/{$APP_NAME_ARG}"
+                uriPattern = "$DEEP_LINK_URI/{$PACKAGE_NAME_ARG}/{$APP_NAME_ARG}"
             },
         ),
     ) {

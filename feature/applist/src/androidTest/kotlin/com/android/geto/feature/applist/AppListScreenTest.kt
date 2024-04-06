@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.feature.applist
 
 import androidx.activity.ComponentActivity
@@ -48,7 +47,9 @@ class AppListScreenTest {
     fun lazyColumn_isDisplayed_whenAppListUiState_isSuccess() {
         val installedApplications = List(2) { index ->
             TargetApplicationInfo(
-                flags = 0, packageName = "com.android.geto$index", label = "Geto $index",
+                flags = 0,
+                packageName = "com.android.geto$index",
+                label = "Geto $index",
             )
         }
 

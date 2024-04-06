@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.core.ui
 
 import androidx.compose.ui.tooling.preview.Preview

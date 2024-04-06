@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.feature.applist
 
 import androidx.annotation.VisibleForTesting
@@ -102,7 +101,9 @@ internal fun AppListScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun AppListTopAppBar(
-    modifier: Modifier = Modifier, title: String, onSettingsClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    title: String,
+    onSettingsClick: () -> Unit,
 ) {
     TopAppBar(
         title = {
@@ -147,19 +148,20 @@ private fun AppListContent(
             )
         }
     }
-
 }
 
 @Composable
 private fun LoadingState(modifier: Modifier = Modifier) {
     GetoLoadingWheel(
-        modifier = modifier, contentDescription = "GetoLoadingWheel",
+        modifier = modifier,
+        contentDescription = "GetoLoadingWheel",
     )
 }
 
 @Composable
 private fun SuccessState(
-    modifier: Modifier = Modifier, appListUiState: AppListUiState,
+    modifier: Modifier = Modifier,
+    appListUiState: AppListUiState,
     contentPadding: PaddingValues,
     onItemClick: (String, String) -> Unit,
 ) {
@@ -170,20 +172,23 @@ private fun SuccessState(
         contentPadding = contentPadding,
     ) {
         appItems(
-            appListUiState = appListUiState, onItemClick = onItemClick,
+            appListUiState = appListUiState,
+            onItemClick = onItemClick,
         )
     }
 }
 
 private fun LazyListScope.appItems(
-    appListUiState: AppListUiState, onItemClick: (String, String) -> Unit,
+    appListUiState: AppListUiState,
+    onItemClick: (String, String) -> Unit,
 ) {
     when (appListUiState) {
         AppListUiState.Loading -> Unit
         is AppListUiState.Success -> {
             items(appListUiState.targetApplicationInfoList) { targetApplicationInfo ->
                 AppItem(
-                    targetApplicationInfo = targetApplicationInfo, onItemClick = onItemClick,
+                    targetApplicationInfo = targetApplicationInfo,
+                    onItemClick = onItemClick,
                 )
             }
         }

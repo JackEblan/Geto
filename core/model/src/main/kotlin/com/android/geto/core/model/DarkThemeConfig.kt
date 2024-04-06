@@ -15,9 +15,10 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.core.model
 
 enum class DarkThemeConfig(val title: String) {
-    FOLLOW_SYSTEM("Follow System"), LIGHT("Light"), DARK("Dark"),
+    FOLLOW_SYSTEM("Follow System"),
+    LIGHT("Light"),
+    DARK("Dark"),
 }

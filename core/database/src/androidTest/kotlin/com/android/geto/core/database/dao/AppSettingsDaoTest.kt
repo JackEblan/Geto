@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.core.database.dao
 
 import android.content.Context
@@ -99,7 +98,9 @@ class AppSettingsDaoTest {
                 id = index + 11,
                 enabled = false,
                 settingType = SettingType.GLOBAL,
-                packageName = "com.android.geto.new", label = "Geto", key = "Geto",
+                packageName = "com.android.geto.new",
+                label = "Geto",
+                key = "Geto",
                 valueOnLaunch = "0",
                 valueOnRevert = "1",
             )

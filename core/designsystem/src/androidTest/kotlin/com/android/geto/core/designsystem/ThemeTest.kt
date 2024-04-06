@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.core.designsystem
 
 import android.os.Build.VERSION.SDK_INT

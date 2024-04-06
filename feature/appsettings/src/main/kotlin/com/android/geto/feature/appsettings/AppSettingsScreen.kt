@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.feature.appsettings
 
 import android.content.Intent
@@ -217,7 +216,8 @@ internal fun AppSettingsRoute(
             ClipboardResult.HideNotify -> Unit
             is ClipboardResult.Notify -> snackbarHostState.showSnackbar(
                 message = String.format(
-                    copiedToClipboard, clipboardResult.text,
+                    copiedToClipboard,
+                    clipboardResult.text,
                 ),
             )
 
@@ -228,12 +228,14 @@ internal fun AppSettingsRoute(
     }
 
     LaunchedEffect(
-        key1 = appSettingsDialogState.selectedRadioOptionIndex, key2 = keyDebounce,
+        key1 = appSettingsDialogState.selectedRadioOptionIndex,
+        key2 = keyDebounce,
     ) {
         val settingType = SettingType.entries[appSettingsDialogState.selectedRadioOptionIndex]
 
         viewModel.getSecureSettings(
-            text = appSettingsDialogState.key, settingType = settingType,
+            text = appSettingsDialogState.key,
+            settingType = settingType,
         )
     }
 
@@ -277,7 +279,8 @@ internal fun AppSettingsRoute(
             shortcutDialogState = addShortcutDialogState,
             onAddShortcut = {
                 addShortcutDialogState.getShortcut(
-                    packageName = viewModel.packageName, shortcutIntent = shortcutIntent,
+                    packageName = viewModel.packageName,
+                    shortcutIntent = shortcutIntent,
                 )?.let {
                     viewModel.requestPinShortcut(it)
                     addShortcutDialogState.resetState()
@@ -292,7 +295,8 @@ internal fun AppSettingsRoute(
             shortcutDialogState = updateShortcutDialogState,
             onUpdateShortcut = {
                 updateShortcutDialogState.getShortcut(
-                    packageName = viewModel.packageName, shortcutIntent = shortcutIntent,
+                    packageName = viewModel.packageName,
+                    shortcutIntent = shortcutIntent,
                 )?.let {
                     viewModel.updateRequestPinShortcut(it)
                     updateShortcutDialogState.resetState()
@@ -340,7 +344,8 @@ internal fun AppSettingsScreen(
     Scaffold(
         topBar = {
             AppSettingsTopAppBar(
-                title = appName, onNavigationIconClick = onNavigationIconClick,
+                title = appName,
+                onNavigationIconClick = onNavigationIconClick,
             )
         },
         bottomBar = {
@@ -368,7 +373,9 @@ internal fun AppSettingsScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun AppSettingsTopAppBar(
-    modifier: Modifier = Modifier, title: String, onNavigationIconClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    title: String,
+    onNavigationIconClick: () -> Unit,
 ) {
     TopAppBar(
         title = {
@@ -378,7 +385,8 @@ private fun AppSettingsTopAppBar(
         navigationIcon = {
             IconButton(onClick = onNavigationIconClick) {
                 Icon(
-                    imageVector = GetoIcons.Back, contentDescription = "Navigation icon",
+                    imageVector = GetoIcons.Back,
+                    contentDescription = "Navigation icon",
                 )
             }
         },
@@ -416,7 +424,8 @@ private fun AppSettingsFloatingActionButton(onClick: () -> Unit) {
         elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
     ) {
         Icon(
-            imageVector = GetoIcons.Android, contentDescription = "Launch icon",
+            imageVector = GetoIcons.Android,
+            contentDescription = "Launch icon",
         )
     }
 }
@@ -429,7 +438,8 @@ fun AppSettingsBottomAppBarActions(
 ) {
     IconButton(onClick = onRevertSettingsIconClick) {
         Icon(
-            imageVector = GetoIcons.Refresh, contentDescription = "Revert icon",
+            imageVector = GetoIcons.Refresh,
+            contentDescription = "Revert icon",
         )
     }
 
@@ -484,7 +494,8 @@ private fun AppSettingsContent(
 
 @Composable
 private fun EmptyState(
-    modifier: Modifier = Modifier, text: String,
+    modifier: Modifier = Modifier,
+    text: String,
 ) {
     Column(
         modifier = modifier
@@ -511,7 +522,8 @@ private fun EmptyState(
 @Composable
 private fun LoadingState(modifier: Modifier = Modifier) {
     GetoLoadingWheel(
-        modifier = modifier, contentDescription = "GetoLoadingWheel",
+        modifier = modifier,
+        contentDescription = "GetoLoadingWheel",
     )
 }
 
@@ -557,7 +569,8 @@ private fun LazyListScope.appSettings(
             appSetting = appSettings,
             onUserAppSettingsItemCheckBoxChange = { check ->
                 onAppSettingsItemCheckBoxChange(
-                    check, appSettings,
+                    check,
+                    appSettings,
                 )
             },
             onDeleteUserAppSettingsItem = {

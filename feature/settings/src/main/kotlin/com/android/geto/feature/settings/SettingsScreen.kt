@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.feature.settings
 
 import androidx.compose.foundation.clickable
@@ -70,7 +69,6 @@ internal fun SettingsRoute(
     viewModel: SettingsViewModel = hiltViewModel(),
     onNavigationIconClick: () -> Unit,
 ) {
-
     val settingsUiState by viewModel.settingsUiState.collectAsStateWithLifecycle()
 
     val themeDialogState = rememberThemeDialogState()
@@ -224,13 +222,13 @@ private fun SettingsContent(
             }
         }
     }
-
 }
 
 @Composable
 private fun LoadingState(modifier: Modifier = Modifier) {
     GetoLoadingWheel(
-        modifier = modifier, contentDescription = "GetoLoadingWheel",
+        modifier = modifier,
+        contentDescription = "GetoLoadingWheel",
     )
 }
 
@@ -253,7 +251,8 @@ private fun SuccessState(
             .testTag("settings:success"),
     ) {
         ThemeSetting(
-            settingsUiState = settingsUiState, onThemeDialog = onThemeDialog,
+            settingsUiState = settingsUiState,
+            onThemeDialog = onThemeDialog,
         )
 
         DynamicSetting(
@@ -263,7 +262,8 @@ private fun SuccessState(
         )
 
         DarkSetting(
-            settingsUiState = settingsUiState, onDarkDialog = onDarkDialog,
+            settingsUiState = settingsUiState,
+            onDarkDialog = onDarkDialog,
         )
 
         SettingHorizontalDivider(categoryTitle = stringResource(R.string.application))
@@ -295,7 +295,8 @@ private fun ThemeSetting(
         Spacer(modifier = Modifier.height(8.dp))
 
         Text(
-            text = settingsUiState.settings.brand.title, style = MaterialTheme.typography.bodySmall,
+            text = settingsUiState.settings.brand.title,
+            style = MaterialTheme.typography.bodySmall,
         )
     }
 }
@@ -342,7 +343,8 @@ private fun DynamicSetting(
 
 @Composable
 private fun DarkSetting(
-    modifier: Modifier = Modifier, settingsUiState: SettingsUiState.Success,
+    modifier: Modifier = Modifier,
+    settingsUiState: SettingsUiState.Success,
     onDarkDialog: () -> Unit,
 ) {
     Spacer(modifier = Modifier.height(8.dp))
@@ -355,7 +357,8 @@ private fun DarkSetting(
             .testTag("settings:dark"),
     ) {
         Text(
-            text = stringResource(R.string.dark_mode), style = MaterialTheme.typography.bodyLarge,
+            text = stringResource(R.string.dark_mode),
+            style = MaterialTheme.typography.bodyLarge,
         )
 
         Spacer(modifier = Modifier.height(8.dp))

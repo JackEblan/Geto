@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.feature.settings.dialog.clean
 
 import androidx.activity.ComponentActivity
@@ -50,7 +49,9 @@ class CleanDialogScreenshotTest {
         ) {
             GetoTheme {
                 CleanDialog(
-                    onDismissRequest = {}, onClean = {}, contentDescription = "CleanDialog",
+                    onDismissRequest = {},
+                    onClean = {},
+                    contentDescription = "CleanDialog",
                 )
             }
         }

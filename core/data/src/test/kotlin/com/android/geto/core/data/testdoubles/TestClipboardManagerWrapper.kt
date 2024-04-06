@@ -15,11 +15,9 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.core.data.testdoubles
 
 import com.android.geto.core.packagemanager.ClipboardManagerWrapper
-
 
 class TestClipboardManagerWrapper : ClipboardManagerWrapper {
     private var api32 = false

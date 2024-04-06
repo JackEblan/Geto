@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.core.data.repository
 
 import android.content.Intent
@@ -33,7 +32,9 @@ class ShortcutRepositoryTest {
 
     private val shortcuts = List(10) {
         TargetShortcutInfoCompat(
-            id = "com.android.geto", shortLabel = "Geto", longLabel = "Geto",
+            id = "com.android.geto",
+            shortLabel = "Geto",
+            longLabel = "Geto",
         )
     }
 
@@ -53,7 +54,9 @@ class ShortcutRepositoryTest {
         val result = subject.requestPinShortcut(
             icon = null,
             TargetShortcutInfoCompat(
-                id = "com.android.geto", shortLabel = "Geto", longLabel = "Geto",
+                id = "com.android.geto",
+                shortLabel = "Geto",
+                longLabel = "Geto",
                 shortcutIntent = Intent(),
             ),
         )
@@ -68,7 +71,9 @@ class ShortcutRepositoryTest {
         val result = subject.requestPinShortcut(
             icon = null,
             TargetShortcutInfoCompat(
-                id = "com.android.geto", shortLabel = "Geto", longLabel = "Geto",
+                id = "com.android.geto",
+                shortLabel = "Geto",
+                longLabel = "Geto",
             ),
         )
 
@@ -84,7 +89,9 @@ class ShortcutRepositoryTest {
         val result = subject.updateRequestPinShortcut(
             icon = null,
             TargetShortcutInfoCompat(
-                id = "com.android.geto", shortLabel = "Geto", longLabel = "Geto",
+                id = "com.android.geto",
+                shortLabel = "Geto",
+                longLabel = "Geto",
                 shortcutIntent = Intent(),
             ),
         )
@@ -103,7 +110,9 @@ class ShortcutRepositoryTest {
         val result = subject.updateRequestPinShortcut(
             icon = null,
             TargetShortcutInfoCompat(
-                id = "com.android.geto", shortLabel = "Geto", longLabel = "Geto",
+                id = "com.android.geto",
+                shortLabel = "Geto",
+                longLabel = "Geto",
                 shortcutIntent = Intent(),
             ),
         )

@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.core.data.repository
 
 import android.content.Intent
@@ -29,7 +28,6 @@ import com.android.geto.core.packagemanager.PackageManagerWrapper
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
-
 
 class DefaultPackageRepository @Inject constructor(
     private val packageManagerWrapper: PackageManagerWrapper,

@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.core.database.migration
 
 import androidx.room.migration.Migration
@@ -35,7 +34,7 @@ class Migration2To3 : Migration(2, 3) {
                valueOnLaunch TEXT NOT NULL,
                valueOnRevert TEXT NOT NULL
            )
-       """.trimIndent(),
+            """.trimIndent(),
         )
 
         db.execSQL("INSERT INTO new_table (enabled, settingsType, packageName, label, key, valueOnLaunch, valueOnRevert) SELECT * FROM AppSettingsItemEntity")

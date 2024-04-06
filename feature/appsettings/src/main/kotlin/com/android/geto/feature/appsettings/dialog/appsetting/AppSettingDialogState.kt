@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.feature.appsettings.dialog.appsetting
 
 import androidx.compose.runtime.Composable
@@ -34,7 +33,6 @@ import com.android.geto.feature.appsettings.R
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.debounce
-
 
 @Composable
 internal fun rememberAppSettingDialogState(): AppSettingDialogState {
@@ -169,12 +167,19 @@ internal class AppSettingDialogState {
     fun getAppSetting(packageName: String): AppSetting? {
         labelError = if (label.isBlank()) labelIsBlank else ""
 
-        keyError = if (key.isBlank()) keyIsBlank
-        else ""
+        keyError = if (key.isBlank()) {
+            keyIsBlank
+        } else {
+            ""
+        }
 
         keyNotFoundError = if (key.isNotBlank() && !secureSettings.mapNotNull { it.name }
-                .contains(key)) keyNotFound
-        else ""
+                .contains(key)
+        ) {
+            keyNotFound
+        } else {
+            ""
+        }
 
         valueOnLaunchError = if (valueOnLaunch.isBlank()) valueOnLaunchIsBlank else ""
 
@@ -182,7 +187,8 @@ internal class AppSettingDialogState {
 
         return if (labelError.isBlank() && keyNotFoundError.isBlank() && keyError.isBlank() && valueOnLaunchError.isBlank() && valueOnRevertError.isBlank()) {
             AppSetting(
-                enabled = true, settingType = SettingType.entries[selectedRadioOptionIndex],
+                enabled = true,
+                settingType = SettingType.entries[selectedRadioOptionIndex],
                 packageName = packageName,
                 label = label,
                 key = key,

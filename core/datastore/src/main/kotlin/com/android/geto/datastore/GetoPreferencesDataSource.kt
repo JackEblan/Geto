@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.datastore
 
 import androidx.datastore.core.DataStore
@@ -53,7 +52,8 @@ class GetoPreferencesDataSource @Inject constructor(
                 DarkThemeConfigProto.DARK_THEME_CONFIG_LIGHT -> DarkThemeConfig.LIGHT
                 DarkThemeConfigProto.DARK_THEME_CONFIG_DARK -> DarkThemeConfig.DARK
             },
-            useDynamicColor = it.useDynamicColor, useAutoLaunch = it.useAutoLaunch,
+            useDynamicColor = it.useDynamicColor,
+            useAutoLaunch = it.useAutoLaunch,
         )
     }
 

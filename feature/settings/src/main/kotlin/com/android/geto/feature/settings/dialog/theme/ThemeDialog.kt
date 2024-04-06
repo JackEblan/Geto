@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.feature.settings.dialog.theme
 
 import androidx.compose.foundation.layout.Arrangement
@@ -113,7 +112,8 @@ private fun ThemeDialogTitle(modifier: Modifier = Modifier) {
 
 @Composable
 fun ThemeDialogChooser(
-    modifier: Modifier = Modifier, selectedRadioOptionIndex: Int,
+    modifier: Modifier = Modifier,
+    selectedRadioOptionIndex: Int,
     onUpdateSelectedRadioOptionIndex: (Int) -> Unit,
 ) {
     val defaultTheme = stringResource(R.string.default_theme)
@@ -142,7 +142,8 @@ fun ThemeDialogChooser(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 RadioButton(
-                    selected = index == selectedRadioOptionIndex, onClick = null,
+                    selected = index == selectedRadioOptionIndex,
+                    onClick = null,
                 )
                 Text(
                     text = text,
@@ -156,7 +157,9 @@ fun ThemeDialogChooser(
 
 @Composable
 private fun ThemeDialogButtons(
-    modifier: Modifier = Modifier, onChangeTheme: () -> Unit, onCancel: () -> Unit,
+    modifier: Modifier = Modifier,
+    onChangeTheme: () -> Unit,
+    onCancel: () -> Unit,
 ) {
     Spacer(modifier = Modifier.height(10.dp))
 
@@ -165,7 +168,8 @@ private fun ThemeDialogButtons(
         horizontalArrangement = Arrangement.End,
     ) {
         TextButton(
-            onClick = onCancel, modifier = Modifier.padding(5.dp),
+            onClick = onCancel,
+            modifier = Modifier.padding(5.dp),
         ) {
             Text(stringResource(R.string.cancel))
         }

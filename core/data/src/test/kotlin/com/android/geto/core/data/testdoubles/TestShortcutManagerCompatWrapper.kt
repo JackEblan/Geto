@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.core.data.testdoubles
 
 import android.content.Intent
@@ -38,17 +37,27 @@ class TestShortcutManagerCompatWrapper : ShortcutManagerCompatWrapper {
     }
 
     override fun requestPinShortcut(
-        icon: Bitmap?, id: String, shortLabel: String, longLabel: String, intent: Intent,
+        icon: Bitmap?,
+        id: String,
+        shortLabel: String,
+        longLabel: String,
+        intent: Intent,
     ): Boolean {
         return requestPinShortcut
     }
 
     override fun updateShortcuts(
-        icon: Bitmap?, id: String, shortLabel: String, longLabel: String, intent: Intent,
+        icon: Bitmap?,
+        id: String,
+        shortLabel: String,
+        longLabel: String,
+        intent: Intent,
     ): Boolean {
         return if (updateImmutableShortcuts) {
             throw IllegalArgumentException()
-        } else requestPinShortcutSupported
+        } else {
+            requestPinShortcutSupported
+        }
     }
 
     override fun getShortcuts(matchFlags: Int): List<TargetShortcutInfoCompat> {

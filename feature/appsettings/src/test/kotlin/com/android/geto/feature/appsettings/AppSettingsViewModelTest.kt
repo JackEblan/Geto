@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.feature.appsettings
 
 import androidx.lifecycle.SavedStateHandle
@@ -106,7 +105,7 @@ class AppSettingsViewModelTest {
             appSettingsRepository = appSettingsRepository,
             secureSettingsRepository = secureSettingsRepository,
 
-            )
+        )
 
         viewModel = AppSettingsViewModel(
             savedStateHandle = savedStateHandle,
@@ -156,7 +155,9 @@ class AppSettingsViewModelTest {
                 id = index,
                 enabled = false,
                 settingType = SettingType.SYSTEM,
-                packageName = packageName, label = "Geto", key = "Geto $index",
+                packageName = packageName,
+                label = "Geto",
+                key = "Geto $index",
                 valueOnLaunch = "0",
                 valueOnRevert = "1",
             )
@@ -178,7 +179,9 @@ class AppSettingsViewModelTest {
                 id = index,
                 enabled = true,
                 settingType = SettingType.SYSTEM,
-                packageName = packageName, label = "Geto", key = "Geto $index",
+                packageName = packageName,
+                label = "Geto",
+                key = "Geto $index",
                 valueOnLaunch = "0",
                 valueOnRevert = "1",
             )
@@ -200,7 +203,9 @@ class AppSettingsViewModelTest {
                 id = index,
                 enabled = true,
                 settingType = SettingType.SYSTEM,
-                packageName = packageName, label = "Geto", key = "Geto $index",
+                packageName = packageName,
+                label = "Geto",
+                key = "Geto $index",
                 valueOnLaunch = "0",
                 valueOnRevert = "1",
             )
@@ -213,7 +218,6 @@ class AppSettingsViewModelTest {
         viewModel.applySettings()
 
         assertIs<AppSettingsResult.SecurityException>(viewModel.applyAppSettingsResult.value)
-
     }
 
     @Test
@@ -223,7 +227,9 @@ class AppSettingsViewModelTest {
                 id = index,
                 enabled = true,
                 settingType = SettingType.SYSTEM,
-                packageName = packageName, label = "Geto", key = "Geto $index",
+                packageName = packageName,
+                label = "Geto",
+                key = "Geto $index",
                 valueOnLaunch = "0",
                 valueOnRevert = "1",
             )
@@ -238,7 +244,6 @@ class AppSettingsViewModelTest {
         viewModel.applySettings()
 
         assertIs<AppSettingsResult.IllegalArgumentException>(viewModel.applyAppSettingsResult.value)
-
     }
 
     @Test
@@ -250,7 +255,6 @@ class AppSettingsViewModelTest {
         viewModel.applySettings()
 
         assertIs<AppSettingsResult.EmptyAppSettings>(viewModel.applyAppSettingsResult.value)
-
     }
 
     @Test
@@ -260,7 +264,9 @@ class AppSettingsViewModelTest {
                 id = index,
                 enabled = false,
                 settingType = SettingType.SYSTEM,
-                packageName = packageName, label = "Geto", key = "Geto $index",
+                packageName = packageName,
+                label = "Geto",
+                key = "Geto $index",
                 valueOnLaunch = "0",
                 valueOnRevert = "1",
             )
@@ -273,7 +279,6 @@ class AppSettingsViewModelTest {
         viewModel.applySettings()
 
         assertIs<AppSettingsResult.DisabledAppSettings>(viewModel.applyAppSettingsResult.value)
-
     }
 
     @Test
@@ -283,7 +288,9 @@ class AppSettingsViewModelTest {
                 id = index,
                 enabled = true,
                 settingType = SettingType.SYSTEM,
-                packageName = packageName, label = "Geto", key = "Geto $index",
+                packageName = packageName,
+                label = "Geto",
+                key = "Geto $index",
                 valueOnLaunch = "0",
                 valueOnRevert = "1",
             )
@@ -296,7 +303,6 @@ class AppSettingsViewModelTest {
         viewModel.revertSettings()
 
         assertIs<AppSettingsResult.Success>(viewModel.revertAppSettingsResult.value)
-
     }
 
     @Test
@@ -306,7 +312,9 @@ class AppSettingsViewModelTest {
                 id = index,
                 enabled = true,
                 settingType = SettingType.SYSTEM,
-                packageName = packageName, label = "Geto", key = "Geto $index",
+                packageName = packageName,
+                label = "Geto",
+                key = "Geto $index",
                 valueOnLaunch = "0",
                 valueOnRevert = "1",
             )
@@ -319,7 +327,6 @@ class AppSettingsViewModelTest {
         viewModel.revertSettings()
 
         assertIs<AppSettingsResult.SecurityException>(viewModel.revertAppSettingsResult.value)
-
     }
 
     @Test
@@ -329,7 +336,9 @@ class AppSettingsViewModelTest {
                 id = index,
                 enabled = true,
                 settingType = SettingType.SYSTEM,
-                packageName = packageName, label = "Geto", key = "Geto $index",
+                packageName = packageName,
+                label = "Geto",
+                key = "Geto $index",
                 valueOnLaunch = "0",
                 valueOnRevert = "1",
             )
@@ -344,7 +353,6 @@ class AppSettingsViewModelTest {
         viewModel.revertSettings()
 
         assertIs<AppSettingsResult.IllegalArgumentException>(viewModel.revertAppSettingsResult.value)
-
     }
 
     @Test
@@ -354,7 +362,6 @@ class AppSettingsViewModelTest {
         viewModel.revertSettings()
 
         assertIs<AppSettingsResult.EmptyAppSettings>(viewModel.revertAppSettingsResult.value)
-
     }
 
     @Test
@@ -364,7 +371,9 @@ class AppSettingsViewModelTest {
                 id = index,
                 enabled = false,
                 settingType = SettingType.SYSTEM,
-                packageName = packageName, label = "Geto", key = "Geto $index",
+                packageName = packageName,
+                label = "Geto",
+                key = "Geto $index",
                 valueOnLaunch = "0",
                 valueOnRevert = "1",
             )
@@ -377,7 +386,6 @@ class AppSettingsViewModelTest {
         viewModel.revertSettings()
 
         assertIs<AppSettingsResult.DisabledAppSettings>(viewModel.revertAppSettingsResult.value)
-
     }
 
     @Test
@@ -387,7 +395,6 @@ class AppSettingsViewModelTest {
         viewModel.copyPermissionCommand()
 
         assertIs<ClipboardResult.Notify>(viewModel.clipboardResult.value)
-
     }
 
     @Test
@@ -397,7 +404,6 @@ class AppSettingsViewModelTest {
         viewModel.copyPermissionCommand()
 
         assertIs<ClipboardResult.HideNotify>(viewModel.clipboardResult.value)
-
     }
 
     @Test
@@ -436,7 +442,9 @@ class AppSettingsViewModelTest {
 
         viewModel.requestPinShortcut(
             targetShortcutInfoCompat = TargetShortcutInfoCompat(
-                id = "0", shortLabel = "shortLabel", longLabel = "longLabel",
+                id = "0",
+                shortLabel = "shortLabel",
+                longLabel = "longLabel",
             ),
         )
 
@@ -449,7 +457,9 @@ class AppSettingsViewModelTest {
 
         viewModel.requestPinShortcut(
             targetShortcutInfoCompat = TargetShortcutInfoCompat(
-                id = "0", shortLabel = "shortLabel", longLabel = "longLabel",
+                id = "0",
+                shortLabel = "shortLabel",
+                longLabel = "longLabel",
             ),
         )
 
@@ -462,7 +472,9 @@ class AppSettingsViewModelTest {
 
         viewModel.updateRequestPinShortcut(
             targetShortcutInfoCompat = TargetShortcutInfoCompat(
-                id = "0", shortLabel = "Geto", longLabel = "Geto",
+                id = "0",
+                shortLabel = "Geto",
+                longLabel = "Geto",
             ),
         )
 
@@ -475,7 +487,9 @@ class AppSettingsViewModelTest {
 
         viewModel.updateRequestPinShortcut(
             targetShortcutInfoCompat = TargetShortcutInfoCompat(
-                id = "0", shortLabel = "Geto", longLabel = "Geto",
+                id = "0",
+                shortLabel = "Geto",
+                longLabel = "Geto",
             ),
         )
 
@@ -486,7 +500,9 @@ class AppSettingsViewModelTest {
     fun shortcutResult_isShortcutFound_whenGetShortcut() = runTest {
         val shortcuts = List(2) {
             TargetShortcutInfoCompat(
-                id = "com.android.geto", shortLabel = "Geto", longLabel = "Geto",
+                id = "com.android.geto",
+                shortLabel = "Geto",
+                longLabel = "Geto",
             )
         }
 
@@ -503,7 +519,9 @@ class AppSettingsViewModelTest {
     fun shortcutResult_isNoShortcutFound_whenGetShortcut() = runTest {
         val shortcuts = List(2) {
             TargetShortcutInfoCompat(
-                id = "com.android.geto", shortLabel = "Geto", longLabel = "Geto",
+                id = "com.android.geto",
+                shortLabel = "Geto",
+                longLabel = "Geto",
             )
         }
 
@@ -520,7 +538,9 @@ class AppSettingsViewModelTest {
     fun applicationIcon_isNotNull_whenGetApplicationIcon() = runTest {
         val installedApplications = List(1) { _ ->
             TargetApplicationInfo(
-                flags = 0, packageName = "com.android.geto", label = "Geto",
+                flags = 0,
+                packageName = "com.android.geto",
+                label = "Geto",
             )
         }
 
@@ -535,7 +555,9 @@ class AppSettingsViewModelTest {
     fun applicationIcon_isNull_whenGetApplicationIcon() = runTest {
         val installedApplications = List(1) { _ ->
             TargetApplicationInfo(
-                flags = 0, packageName = "com.android.geto", label = "Geto",
+                flags = 0,
+                packageName = "com.android.geto",
+                label = "Geto",
             )
         }
 

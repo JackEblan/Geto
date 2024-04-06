@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.feature.appsettings.dialog.appsetting
 
 import androidx.compose.foundation.ScrollState
@@ -163,7 +162,8 @@ internal fun AppSettingDialogScreen(
         )
 
         AppSettingDialogButtons(
-            onAddSetting = onAddSetting, onCancel = onCancel,
+            onAddSetting = onAddSetting,
+            onCancel = onCancel,
         )
     }
 }
@@ -181,7 +181,8 @@ private fun AppSettingDialogTitle(modifier: Modifier = Modifier) {
 
 @Composable
 private fun AppSettingDialogSettingTypeChooser(
-    modifier: Modifier = Modifier, selectedRadioOptionIndex: Int,
+    modifier: Modifier = Modifier,
+    selectedRadioOptionIndex: Int,
     onUpdateSelectedRadioOptionIndex: (Int) -> Unit,
 ) {
     Spacer(modifier = Modifier.height(10.dp))
@@ -207,7 +208,8 @@ private fun AppSettingDialogSettingTypeChooser(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 RadioButton(
-                    selected = index == selectedRadioOptionIndex, onClick = null,
+                    selected = index == selectedRadioOptionIndex,
+                    onClick = null,
                 )
                 Text(
                     text = text.lowercase().replaceFirstChar { it.uppercase() },
@@ -251,10 +253,12 @@ private fun AppSettingDialogTextFields(
         },
         isError = labelError.isNotBlank(),
         supportingText = {
-            if (labelError.isNotBlank()) Text(
-                text = labelError,
-                modifier = Modifier.testTag("appSettingDialog:labelSupportingText"),
-            )
+            if (labelError.isNotBlank()) {
+                Text(
+                    text = labelError,
+                    modifier = Modifier.testTag("appSettingDialog:labelSupportingText"),
+                )
+            }
         },
         singleLine = true,
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
@@ -282,10 +286,12 @@ private fun AppSettingDialogTextFields(
         },
         isError = valueOnLaunchError.isNotBlank(),
         supportingText = {
-            if (valueOnLaunchError.isNotBlank()) Text(
-                text = valueOnLaunchError,
-                modifier = Modifier.testTag("appSettingDialog:valueOnLaunchSupportingText"),
-            )
+            if (valueOnLaunchError.isNotBlank()) {
+                Text(
+                    text = valueOnLaunchError,
+                    modifier = Modifier.testTag("appSettingDialog:valueOnLaunchSupportingText"),
+                )
+            }
         },
         singleLine = true,
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
@@ -303,10 +309,12 @@ private fun AppSettingDialogTextFields(
         },
         isError = valueOnRevertError.isNotBlank(),
         supportingText = {
-            if (valueOnRevertError.isNotBlank()) Text(
-                text = valueOnRevertError,
-                modifier = Modifier.testTag("appSettingDialog:valueOnRevertSupportingText"),
-            )
+            if (valueOnRevertError.isNotBlank()) {
+                Text(
+                    text = valueOnRevertError,
+                    modifier = Modifier.testTag("appSettingDialog:valueOnRevertSupportingText"),
+                )
+            }
         },
         singleLine = true,
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
@@ -345,15 +353,19 @@ private fun AppSettingDialogTextFieldWithDropdownMenu(
             colors = ExposedDropdownMenuDefaults.textFieldColors(),
             isError = keyError.isNotBlank() || settingsKeyNotFoundError.isNotBlank(),
             supportingText = {
-                if (keyError.isNotBlank()) Text(
-                    text = keyError,
-                    modifier = Modifier.testTag("appSettingDialog:keySupportingText"),
-                )
+                if (keyError.isNotBlank()) {
+                    Text(
+                        text = keyError,
+                        modifier = Modifier.testTag("appSettingDialog:keySupportingText"),
+                    )
+                }
 
-                if (settingsKeyNotFoundError.isNotBlank()) Text(
-                    text = settingsKeyNotFoundError,
-                    modifier = Modifier.testTag("appSettingDialog:settingsKeyNotFoundSupportingText"),
-                )
+                if (settingsKeyNotFoundError.isNotBlank()) {
+                    Text(
+                        text = settingsKeyNotFoundError,
+                        modifier = Modifier.testTag("appSettingDialog:settingsKeyNotFoundSupportingText"),
+                    )
+                }
             },
             singleLine = true,
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
@@ -397,14 +409,17 @@ private fun AppSettingDialogTextFieldWithDropdownMenu(
 
 @Composable
 private fun AppSettingDialogButtons(
-    modifier: Modifier = Modifier, onAddSetting: () -> Unit, onCancel: () -> Unit,
+    modifier: Modifier = Modifier,
+    onAddSetting: () -> Unit,
+    onCancel: () -> Unit,
 ) {
     Row(
         modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.End,
     ) {
         TextButton(
-            onClick = onCancel, modifier = Modifier.padding(5.dp),
+            onClick = onCancel,
+            modifier = Modifier.padding(5.dp),
         ) {
             Text(stringResource(R.string.cancel))
         }

@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.core.data.model
 
 import com.android.geto.core.database.model.asEntity
@@ -29,7 +28,9 @@ class AppSettingsEntityTest {
     @Test
     fun appSettings_canBeMappedToEntity() {
         val appSetting = AppSetting(
-            id = 0, enabled = false, settingType = SettingType.SECURE,
+            id = 0,
+            enabled = false,
+            settingType = SettingType.SECURE,
             packageName = "com.android.geto",
             label = "Geto",
             key = "Geto",

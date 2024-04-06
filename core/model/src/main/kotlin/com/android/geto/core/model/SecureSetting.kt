@@ -15,9 +15,10 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.core.model
 
 data class SecureSetting(
-    val id: Long? = null, val name: String? = null, val value: String? = null,
+    val id: Long? = null,
+    val name: String? = null,
+    val value: String? = null,
 )

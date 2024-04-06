@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.core.securesettings
 
 import dagger.Binds
@@ -31,5 +30,4 @@ interface SecureSettingsModule {
     @Binds
     @Singleton
     fun secureSettingsWrapper(impl: DefaultSecureSettingsWrapper): SecureSettingsWrapper
-
 }

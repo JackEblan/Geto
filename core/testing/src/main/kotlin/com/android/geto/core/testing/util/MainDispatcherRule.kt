@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.core.testing.util
 
 import kotlinx.coroutines.Dispatchers

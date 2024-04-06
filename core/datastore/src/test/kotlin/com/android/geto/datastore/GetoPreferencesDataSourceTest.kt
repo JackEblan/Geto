@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.datastore
 
 import com.android.geto.core.datastore.test.testUserPreferencesDataStore

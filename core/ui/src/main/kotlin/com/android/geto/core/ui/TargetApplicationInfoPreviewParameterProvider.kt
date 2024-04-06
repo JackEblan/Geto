@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.core.ui
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
@@ -31,7 +30,9 @@ class TargetApplicationInfoPreviewParameterProvider :
 object TargetApplicationInfoPreviewParameterData {
     val installedApplications = List(5) { index ->
         TargetApplicationInfo(
-            flags = 0, packageName = "packageName$index", label = "Label $index",
+            flags = 0,
+            packageName = "packageName$index",
+            label = "Label $index",
         )
     }
 }

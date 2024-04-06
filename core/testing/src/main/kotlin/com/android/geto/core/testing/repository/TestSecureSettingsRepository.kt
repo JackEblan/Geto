@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.core.testing.repository
 
 import com.android.geto.core.data.repository.SecureSettingsRepository
@@ -31,15 +30,23 @@ class TestSecureSettingsRepository : SecureSettingsRepository {
     private var secureSettingList = listOf<SecureSetting>()
 
     override suspend fun applySecureSettings(appSettings: List<AppSetting>): Boolean {
-        return if (!writeSecureSettings) throw SecurityException()
-        else if (invalidValues) throw IllegalArgumentException()
-        else true
+        return if (!writeSecureSettings) {
+            throw SecurityException()
+        } else if (invalidValues) {
+            throw IllegalArgumentException()
+        } else {
+            true
+        }
     }
 
     override suspend fun revertSecureSettings(appSettings: List<AppSetting>): Boolean {
-        return if (!writeSecureSettings) throw SecurityException()
-        else if (invalidValues) throw IllegalArgumentException()
-        else true
+        return if (!writeSecureSettings) {
+            throw SecurityException()
+        } else if (invalidValues) {
+            throw IllegalArgumentException()
+        } else {
+            true
+        }
     }
 
     override suspend fun getSecureSettings(settingType: SettingType): List<SecureSetting> {

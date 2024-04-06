@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.core.ui
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
@@ -32,7 +31,8 @@ object AppSettingsPreviewParameterData {
     val appSettings = List(5) { index ->
         AppSetting(
             id = index,
-            enabled = false, settingType = SettingType.SECURE,
+            enabled = false,
+            settingType = SettingType.SECURE,
             packageName = "com.android.geto",
             label = "Geto",
             key = "Geto $index",

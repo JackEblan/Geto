@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.feature.settings
 
 import androidx.activity.ComponentActivity
@@ -59,7 +58,8 @@ class SettingsScreenScreenshotTest {
                         ),
                     ),
                     onThemeDialog = {},
-                    onDarkDialog = {}, onCleanDialog = {},
+                    onDarkDialog = {},
+                    onCleanDialog = {},
                     onChangeDynamicColorPreference = {},
                     onNavigationIconClick = {},
                     onChangeAutoLaunchPreference = {},
@@ -75,7 +75,8 @@ class SettingsScreenScreenshotTest {
                 SettingsScreen(
                     settingsUiState = SettingsUiState.Loading,
                     onThemeDialog = {},
-                    onDarkDialog = {}, onCleanDialog = {},
+                    onDarkDialog = {},
+                    onCleanDialog = {},
                     onChangeDynamicColorPreference = {},
                     onNavigationIconClick = {},
                     onChangeAutoLaunchPreference = {},
@@ -104,7 +105,8 @@ class SettingsScreenScreenshotTest {
                             ),
                         ),
                         onThemeDialog = {},
-                        onDarkDialog = {}, onCleanDialog = {},
+                        onDarkDialog = {},
+                        onCleanDialog = {},
                         onChangeDynamicColorPreference = {},
                         onNavigationIconClick = {},
                         onChangeAutoLaunchPreference = {},
@@ -127,7 +129,8 @@ class SettingsScreenScreenshotTest {
                     SettingsScreen(
                         settingsUiState = SettingsUiState.Loading,
                         onThemeDialog = {},
-                        onDarkDialog = {}, onCleanDialog = {},
+                        onDarkDialog = {},
+                        onCleanDialog = {},
                         onChangeDynamicColorPreference = {},
                         onNavigationIconClick = {},
                         onChangeAutoLaunchPreference = {},

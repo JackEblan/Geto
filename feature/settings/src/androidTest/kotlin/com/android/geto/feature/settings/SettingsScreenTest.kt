@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.feature.settings
 
 import androidx.activity.ComponentActivity
@@ -216,7 +215,8 @@ class SettingsScreenTest {
                 ),
                 supportDynamicColor = true,
                 onThemeDialog = {},
-                onDarkDialog = {}, onCleanDialog = {},
+                onDarkDialog = {},
+                onCleanDialog = {},
                 onChangeDynamicColorPreference = {},
                 onChangeAutoLaunchPreference = {},
                 onNavigationIconClick = {},
@@ -240,7 +240,8 @@ class SettingsScreenTest {
                 ),
                 supportDynamicColor = true,
                 onThemeDialog = {},
-                onDarkDialog = {}, onCleanDialog = {},
+                onDarkDialog = {},
+                onCleanDialog = {},
                 onChangeDynamicColorPreference = {},
                 onChangeAutoLaunchPreference = {},
                 onNavigationIconClick = {},

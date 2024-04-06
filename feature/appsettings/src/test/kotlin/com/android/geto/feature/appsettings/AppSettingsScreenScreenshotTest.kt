@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.feature.appsettings
 
 import androidx.activity.ComponentActivity
@@ -52,7 +51,8 @@ class AppSettingsScreenScreenshotTest {
             enabled = true,
             settingType = SettingType.SYSTEM,
             packageName = "com.android.geto",
-            label = "Geto", key = "Geto $index",
+            label = "Geto",
+            key = "Geto $index",
             valueOnLaunch = "0",
             valueOnRevert = "1",
         )

@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.core.database.migration
 
 import androidx.room.Room
@@ -40,7 +39,8 @@ class MigrationTest {
 
     @get:Rule
     val helper: MigrationTestHelper = MigrationTestHelper(
-        InstrumentationRegistry.getInstrumentation(), AppDatabase::class.java,
+        InstrumentationRegistry.getInstrumentation(),
+        AppDatabase::class.java,
     )
 
     @Test

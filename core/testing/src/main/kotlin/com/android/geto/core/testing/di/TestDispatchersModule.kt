@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.core.testing.di
 
 import com.android.geto.core.common.Dispatcher

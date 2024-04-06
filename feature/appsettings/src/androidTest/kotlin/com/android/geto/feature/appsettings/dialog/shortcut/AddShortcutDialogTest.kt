@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.feature.appsettings.dialog.shortcut
 
 import android.content.Intent
@@ -46,7 +45,8 @@ class AddShortcutDialogTest {
                     addShortcutDialogState.updateLongLabel("Geto")
 
                     addShortcutDialogState.getShortcut(
-                        packageName = "com.android.geto", shortcutIntent = Intent(),
+                        packageName = "com.android.geto",
+                        shortcutIntent = Intent(),
                     )
                 },
                 contentDescription = "Add Shortcut Dialog",
@@ -56,7 +56,8 @@ class AddShortcutDialogTest {
         composeTestRule.onNodeWithTag("addShortcutDialog:add").performClick()
 
         composeTestRule.onNodeWithTag(
-            testTag = "addShortcutDialog:shortLabelSupportingText", useUnmergedTree = true,
+            testTag = "addShortcutDialog:shortLabelSupportingText",
+            useUnmergedTree = true,
         ).assertIsDisplayed()
     }
 
@@ -73,7 +74,8 @@ class AddShortcutDialogTest {
                     addShortcutDialogState.updateLongLabel("")
 
                     addShortcutDialogState.getShortcut(
-                        packageName = "com.android.geto", shortcutIntent = Intent(),
+                        packageName = "com.android.geto",
+                        shortcutIntent = Intent(),
                     )
                 },
                 contentDescription = "Add Shortcut Dialog",
@@ -83,7 +85,8 @@ class AddShortcutDialogTest {
         composeTestRule.onNodeWithTag("addShortcutDialog:add").performClick()
 
         composeTestRule.onNodeWithTag(
-            testTag = "addShortcutDialog:longLabelSupportingText", useUnmergedTree = true,
+            testTag = "addShortcutDialog:longLabelSupportingText",
+            useUnmergedTree = true,
         ).assertIsDisplayed()
     }
 }

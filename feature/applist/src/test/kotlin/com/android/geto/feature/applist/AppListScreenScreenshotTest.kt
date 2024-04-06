@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.feature.applist
 
 import androidx.activity.ComponentActivity
@@ -35,7 +34,6 @@ import org.robolectric.annotation.GraphicsMode
 import org.robolectric.annotation.LooperMode
 import kotlin.test.Test
 
-
 @RunWith(RobolectricTestRunner::class)
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 @Config(application = HiltTestApplication::class)
@@ -47,7 +45,9 @@ class AppListScreenScreenshotTest {
 
     private val installedApplications = List(5) { index ->
         TargetApplicationInfo(
-            flags = 0, packageName = "com.android.geto$index", label = "Geto $index",
+            flags = 0,
+            packageName = "com.android.geto$index",
+            label = "Geto $index",
         )
     }
 
@@ -91,7 +91,8 @@ class AppListScreenScreenshotTest {
                         appListUiState = AppListUiState.Success(
                             installedApplications,
                         ),
-                        onItemClick = { _, _ -> }, onSettingsClick = {},
+                        onItemClick = { _, _ -> },
+                        onSettingsClick = {},
                     )
                 }
             }

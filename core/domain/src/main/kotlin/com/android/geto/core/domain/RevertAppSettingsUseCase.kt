@@ -15,14 +15,12 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.core.domain
 
 import com.android.geto.core.data.repository.AppSettingsRepository
 import com.android.geto.core.data.repository.SecureSettingsRepository
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
-
 
 class RevertAppSettingsUseCase @Inject constructor(
     private val appSettingsRepository: AppSettingsRepository,
