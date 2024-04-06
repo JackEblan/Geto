@@ -15,26 +15,33 @@
  *   limitations under the License.
  *
  */
+
 package com.android.geto.benchmarks.appsettings
 
 import androidx.benchmark.macro.MacrobenchmarkScope
 import androidx.test.uiautomator.By
 import com.android.geto.benchmarks.applist.appListClickFirstItem
-import com.android.geto.benchmarks.waitAndFindObject
 import com.android.geto.benchmarks.waitForLoadingWheelToDisappear
+import org.junit.Assert.fail
 
 fun MacrobenchmarkScope.goToAppSettingsScreen() {
     waitForLoadingWheelToDisappear()
     appListClickFirstItem()
     device.waitForIdle()
 
-    device.waitAndFindObject(By.res("appSettings:topAppBar"), 5_000)
+    getTopAppBar()
     waitForLoadingWheelToDisappear()
-    waitForAppSettingsDialog()
-    waitForShortcutDialog()
+    openAppSettingsDialog()
+    openShortcutDialog()
 }
 
-private fun MacrobenchmarkScope.waitForAppSettingsDialog() {
+private fun MacrobenchmarkScope.getTopAppBar() {
+    val topAppBar = device.findObject(By.res("appSettings:topAppBar"))
+
+    if (topAppBar.text.isNullOrEmpty()) fail("No application found.")
+}
+
+private fun MacrobenchmarkScope.openAppSettingsDialog() {
     val settingsIcon = device.findObject(By.desc("Settings icon"))
     settingsIcon.click()
     device.waitForIdle()
@@ -44,7 +51,7 @@ private fun MacrobenchmarkScope.waitForAppSettingsDialog() {
     device.waitForIdle()
 }
 
-private fun MacrobenchmarkScope.waitForShortcutDialog() {
+private fun MacrobenchmarkScope.openShortcutDialog() {
     val settingsIcon = device.findObject(By.desc("Shortcut icon"))
     settingsIcon.click()
     device.waitForIdle()
