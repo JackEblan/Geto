@@ -16,19 +16,21 @@
  *
  */
 
-package com.android.geto.benchmarks.applist
+package com.android.geto.benchmarks.baselineprofile
 
-import androidx.benchmark.macro.MacrobenchmarkScope
-import androidx.test.uiautomator.By
-import com.android.geto.benchmarks.flingElementDownUp
+import androidx.benchmark.macro.junit4.BaselineProfileRule
+import com.android.geto.benchmarks.PACKAGE_NAME
+import com.android.geto.benchmarks.appsettings.goToAppSettingsScreen
+import org.junit.Rule
+import org.junit.Test
 
-fun MacrobenchmarkScope.appListScrollDownUp() {
-    val appList = device.findObject(By.res("appList:lazyColumn"))
-    device.flingElementDownUp(appList)
-}
+class AppSettingsBaselineProfile {
+    @get:Rule
+    val baselineProfileRule = BaselineProfileRule()
 
-fun MacrobenchmarkScope.appListClickFirstItem() {
-    val appList = device.findObject(By.res("appList:lazyColumn"))
-    val firstItem = appList.findObject(By.res("appList:appItem"))
-    firstItem.click()
+    @Test
+    fun generate() = baselineProfileRule.collect(PACKAGE_NAME) {
+        startActivityAndWait()
+        goToAppSettingsScreen()
+    }
 }

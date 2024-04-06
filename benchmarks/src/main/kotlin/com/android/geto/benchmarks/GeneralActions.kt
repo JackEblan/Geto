@@ -16,19 +16,12 @@
  *
  */
 
-package com.android.geto.benchmarks.applist
+package com.android.geto.benchmarks
 
 import androidx.benchmark.macro.MacrobenchmarkScope
 import androidx.test.uiautomator.By
-import com.android.geto.benchmarks.flingElementDownUp
+import androidx.test.uiautomator.Until
 
-fun MacrobenchmarkScope.appListScrollDownUp() {
-    val appList = device.findObject(By.res("appList:lazyColumn"))
-    device.flingElementDownUp(appList)
-}
-
-fun MacrobenchmarkScope.appListClickFirstItem() {
-    val appList = device.findObject(By.res("appList:lazyColumn"))
-    val firstItem = appList.findObject(By.res("appList:appItem"))
-    firstItem.click()
+fun MacrobenchmarkScope.waitForLoadingWheelToDisappear() {
+    device.wait(Until.gone(By.res("loadingWheel")), 5_000)
 }

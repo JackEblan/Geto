@@ -21,7 +21,7 @@ package com.android.geto.benchmarks.baselineprofile
 import androidx.benchmark.macro.junit4.BaselineProfileRule
 import com.android.geto.benchmarks.PACKAGE_NAME
 import com.android.geto.benchmarks.applist.appListScrollDownUp
-import com.android.geto.benchmarks.applist.appListWaitForContent
+import com.android.geto.benchmarks.waitForLoadingWheelToDisappear
 import org.junit.Rule
 import org.junit.Test
 
@@ -32,9 +32,7 @@ class AppListBaselineProfile {
     @Test
     fun generate() = baselineProfileRule.collect(PACKAGE_NAME) {
         startActivityAndWait()
-
-        // Scroll the app list critical user journey
-        appListWaitForContent()
+        waitForLoadingWheelToDisappear()
         appListScrollDownUp()
     }
 }

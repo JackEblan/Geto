@@ -355,11 +355,11 @@ internal fun AppSettingsScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun AppSettingsTopAppBar(
-    title: String, onNavigationIconClick: () -> Unit
+    modifier: Modifier = Modifier, title: String, onNavigationIconClick: () -> Unit
 ) {
     TopAppBar(title = {
         Text(text = title, maxLines = 1)
-    }, navigationIcon = {
+    }, modifier = modifier.testTag("appSettings:topAppBar"), navigationIcon = {
         IconButton(onClick = onNavigationIconClick) {
             Icon(
                 imageVector = GetoIcons.Back, contentDescription = "Navigation icon"

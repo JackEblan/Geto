@@ -16,19 +16,19 @@
  *
  */
 
-package com.android.geto.benchmarks.applist
+package com.android.geto.benchmarks.settings
 
 import androidx.benchmark.macro.MacrobenchmarkScope
 import androidx.test.uiautomator.By
-import com.android.geto.benchmarks.flingElementDownUp
+import com.android.geto.benchmarks.waitForLoadingWheelToDisappear
 
-fun MacrobenchmarkScope.appListScrollDownUp() {
-    val appList = device.findObject(By.res("appList:lazyColumn"))
-    device.flingElementDownUp(appList)
+fun MacrobenchmarkScope.goToSettingsScreen() {
+    waitForLoadingWheelToDisappear()
+    clickSettingsIcon()
+    device.waitForIdle()
 }
 
-fun MacrobenchmarkScope.appListClickFirstItem() {
-    val appList = device.findObject(By.res("appList:lazyColumn"))
-    val firstItem = appList.findObject(By.res("appList:appItem"))
-    firstItem.click()
+private fun MacrobenchmarkScope.clickSettingsIcon() {
+    val settingsIcon = device.findObject(By.desc("Settings icon"))
+    settingsIcon.click()
 }
