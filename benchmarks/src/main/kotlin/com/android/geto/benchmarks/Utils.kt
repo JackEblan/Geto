@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.benchmarks
 
 import androidx.test.uiautomator.BySelector
@@ -23,7 +22,6 @@ import androidx.test.uiautomator.Direction
 import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.UiObject2
 import androidx.test.uiautomator.Until
-import com.android.geto.benchmarks.BuildConfig
 import java.io.ByteArrayOutputStream
 
 /**

@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.lint
 
 import com.android.tools.lint.client.api.IssueRegistry

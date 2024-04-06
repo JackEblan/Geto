@@ -1,4 +1,4 @@
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~
   ~   Copyright 2023 Einstein Blanco
   ~
@@ -15,7 +15,6 @@
   ~   limitations under the License.
   ~
   -->
-
 <animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:aapt="http://schemas.android.com/aapt">
     <aapt:attr name="android:drawable">

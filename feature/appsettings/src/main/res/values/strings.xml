@@ -15,7 +15,6 @@
   ~   limitations under the License.
   ~
   -->
-
 <resources>
     <string name="app_settings_disabled">Please enable atleast one setting</string>
     <string name="empty_app_settings_list">No settings found</string>

@@ -15,7 +15,6 @@
   ~   limitations under the License.
   ~
   -->
-
 <resources>
     <string name="settings">Settings</string>
     <string name="dynamic_color">Dynamic Color</string>

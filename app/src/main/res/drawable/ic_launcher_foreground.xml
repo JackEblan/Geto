@@ -1,4 +1,4 @@
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~
   ~   Copyright 2023 Einstein Blanco
   ~
@@ -15,7 +15,6 @@
   ~   limitations under the License.
   ~
   -->
-
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:width="108dp"

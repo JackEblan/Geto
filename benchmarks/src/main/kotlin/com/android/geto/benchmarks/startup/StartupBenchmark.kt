@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.benchmarks.startup
 
 import androidx.benchmark.macro.BaselineProfileMode.Disable

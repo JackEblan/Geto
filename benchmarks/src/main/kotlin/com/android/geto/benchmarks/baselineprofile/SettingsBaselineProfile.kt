@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.benchmarks.baselineprofile
 
 import androidx.benchmark.macro.junit4.BaselineProfileRule

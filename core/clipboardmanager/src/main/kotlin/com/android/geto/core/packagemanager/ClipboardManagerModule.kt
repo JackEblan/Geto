@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.core.packagemanager
 
 import dagger.Binds
@@ -31,5 +30,4 @@ interface ClipboardManagerModule {
     @Binds
     @Singleton
     fun clipboardManagerWrapper(impl: DefaultClipboardManagerWrapper): ClipboardManagerWrapper
-
 }

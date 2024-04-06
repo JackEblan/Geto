@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto
 
 import android.os.Bundle
@@ -110,7 +109,6 @@ class MainActivity : ComponentActivity() {
                     GetoNavHost(navController = navController)
                 }
             }
-
         }
     }
 }

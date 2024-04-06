@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.core.data.test.repository
 
 import android.content.Intent
@@ -30,7 +29,6 @@ import com.android.geto.core.packagemanager.demo.DemoPackageManagerWrapper
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
-
 
 class FakePackageRepository @Inject constructor(
     private val packageManagerWrapper: DemoPackageManagerWrapper,

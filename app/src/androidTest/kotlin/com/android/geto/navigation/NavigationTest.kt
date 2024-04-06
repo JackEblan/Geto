@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.navigation
 
 import androidx.activity.compose.setContent
@@ -70,7 +69,8 @@ class NavigationTest {
         val appSettingsRoute = navController.currentBackStackEntry?.destination?.route
 
         assertEquals(
-            expected = "app_settings_route/{package_name}/{app_name}", actual = appSettingsRoute,
+            expected = "app_settings_route/{package_name}/{app_name}",
+            actual = appSettingsRoute,
         )
     }
 
@@ -79,13 +79,15 @@ class NavigationTest {
         composeTestRule.onAllNodes(hasTestTag("appList:appItem"))[0].performClick()
 
         composeTestRule.onNodeWithContentDescription(
-            label = "Navigation icon", useUnmergedTree = true,
+            label = "Navigation icon",
+            useUnmergedTree = true,
         ).performClick()
 
         val appListRoute = navController.currentBackStackEntry?.destination?.route
 
         assertEquals(
-            expected = APP_LIST_NAVIGATION_ROUTE, actual = appListRoute,
+            expected = APP_LIST_NAVIGATION_ROUTE,
+            actual = appListRoute,
         )
     }
 
@@ -96,7 +98,8 @@ class NavigationTest {
         val settingsRoute = navController.currentBackStackEntry?.destination?.route
 
         assertEquals(
-            expected = SETTINGS_NAVIGATION_ROUTE, actual = settingsRoute,
+            expected = SETTINGS_NAVIGATION_ROUTE,
+            actual = settingsRoute,
         )
     }
 
@@ -105,13 +108,15 @@ class NavigationTest {
         composeTestRule.onNodeWithContentDescription("Settings icon").performClick()
 
         composeTestRule.onNodeWithContentDescription(
-            label = "Navigation icon", useUnmergedTree = true,
+            label = "Navigation icon",
+            useUnmergedTree = true,
         ).performClick()
 
         val appListRoute = navController.currentBackStackEntry?.destination?.route
 
         assertEquals(
-            expected = APP_LIST_NAVIGATION_ROUTE, actual = appListRoute,
+            expected = APP_LIST_NAVIGATION_ROUTE,
+            actual = appListRoute,
         )
     }
 }

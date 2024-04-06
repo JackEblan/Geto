@@ -1,4 +1,4 @@
-﻿/*
+/*
  *
  *   Copyright 2023 Einstein Blanco
  *

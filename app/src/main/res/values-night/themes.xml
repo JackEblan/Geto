@@ -15,7 +15,6 @@
   ~   limitations under the License.
   ~
   -->
-
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="NightAdjusted.Theme.Geto" parent="android:Theme.Material.NoActionBar" />

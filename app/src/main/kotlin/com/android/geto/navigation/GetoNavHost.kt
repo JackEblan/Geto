@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.navigation
 
 import androidx.compose.runtime.Composable
@@ -31,7 +30,8 @@ import com.android.geto.feature.settings.navigation.settingsScreen
 @Composable
 fun GetoNavHost(navController: NavHostController) {
     NavHost(
-        navController = navController, startDestination = APP_LIST_NAVIGATION_ROUTE,
+        navController = navController,
+        startDestination = APP_LIST_NAVIGATION_ROUTE,
     ) {
         appListScreen(
             onItemClick = navController::navigateToAppSettings,
@@ -42,5 +42,4 @@ fun GetoNavHost(navController: NavHostController) {
 
         settingsScreen(onNavigationIconClick = navController::popBackStack)
     }
-
 }

@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.benchmarks.baselineprofile
 
 import androidx.benchmark.macro.junit4.BaselineProfileRule
@@ -33,7 +32,8 @@ class StartupBaselineProfile {
 
     @Test
     fun generate() = baselineProfileRule.collect(
-        PACKAGE_NAME, includeInStartupProfile = true,
+        PACKAGE_NAME,
+        includeInStartupProfile = true,
         profileBlock = {
             startActivityAndWait()
         },

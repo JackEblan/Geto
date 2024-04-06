@@ -15,30 +15,23 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.benchmarks.appsettings
 
 import androidx.benchmark.macro.MacrobenchmarkScope
 import androidx.test.uiautomator.By
 import com.android.geto.benchmarks.applist.appListClickFirstItem
+import com.android.geto.benchmarks.waitAndFindObject
 import com.android.geto.benchmarks.waitForLoadingWheelToDisappear
-import org.junit.Assert.fail
 
 fun MacrobenchmarkScope.goToAppSettingsScreen() {
     waitForLoadingWheelToDisappear()
     appListClickFirstItem()
     device.waitForIdle()
 
-    waitForTopAppBar()
+    device.waitAndFindObject(By.res("appSettings:topAppBar"), 5_000)
     waitForLoadingWheelToDisappear()
     waitForAppSettingsDialog()
     waitForShortcutDialog()
-}
-
-private fun MacrobenchmarkScope.waitForTopAppBar() {
-    val topAppBar = device.findObject(By.res("appSettings:topAppBar"))
-
-    if (topAppBar.text.isNullOrEmpty()) fail("No application found.")
 }
 
 private fun MacrobenchmarkScope.waitForAppSettingsDialog() {

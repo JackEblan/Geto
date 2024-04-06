@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.core.data.test
 
 import com.android.geto.core.data.di.DataModule
