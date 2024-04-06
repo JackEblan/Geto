@@ -34,9 +34,11 @@ class AppListScreenTest {
     @Test
     fun getoLoadingWheel_isDisplayed_whenAppListUiState_isLoading() {
         composeTestRule.setContent {
-            AppListScreen(appListUiState = AppListUiState.Loading,
-                          onItemClick = { _, _ -> },
-                          onSettingsClick = {})
+            AppListScreen(
+                appListUiState = AppListUiState.Loading,
+                onItemClick = { _, _ -> },
+                onSettingsClick = {},
+            )
         }
 
         composeTestRule.onNodeWithContentDescription("GetoLoadingWheel").assertIsDisplayed()
@@ -46,15 +48,16 @@ class AppListScreenTest {
     fun lazyColumn_isDisplayed_whenAppListUiState_isSuccess() {
         val installedApplications = List(2) { index ->
             TargetApplicationInfo(
-                flags = 0, packageName = "com.android.geto$index", label = "Geto $index"
+                flags = 0, packageName = "com.android.geto$index", label = "Geto $index",
             )
         }
 
         composeTestRule.setContent {
             AppListScreen(
                 appListUiState = AppListUiState.Success(installedApplications),
-                          onItemClick = { _, _ -> },
-                          onSettingsClick = {})
+                onItemClick = { _, _ -> },
+                onSettingsClick = {},
+            )
         }
 
         composeTestRule.onNodeWithTag("appList:lazyColumn").assertIsDisplayed()

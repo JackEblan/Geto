@@ -21,5 +21,5 @@ package com.android.geto.core.model
 import android.graphics.drawable.Drawable
 
 data class TargetApplicationInfo(
-    val flags: Int, val icon: Drawable? = null, val packageName: String, val label: String
+    val flags: Int, val icon: Drawable? = null, val packageName: String, val label: String,
 )

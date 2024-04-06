@@ -30,7 +30,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AppListViewModel @Inject constructor(
-    private val packageRepository: PackageRepository
+    private val packageRepository: PackageRepository,
 ) : ViewModel() {
     private val _appListUiState = MutableStateFlow<AppListUiState>(AppListUiState.Loading)
 

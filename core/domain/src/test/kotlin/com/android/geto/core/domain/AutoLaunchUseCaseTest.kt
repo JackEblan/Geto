@@ -53,7 +53,7 @@ class AutoLaunchUseCaseTest {
             packageRepository = packageRepository,
             userDataRepository = userDataRepository,
             appSettingsRepository = appSettingsRepository,
-            secureSettingsRepository = secureSettingsRepository
+            secureSettingsRepository = secureSettingsRepository,
         )
     }
 
@@ -66,8 +66,8 @@ class AutoLaunchUseCaseTest {
                 themeBrand = ThemeBrand.DEFAULT,
                 darkThemeConfig = DarkThemeConfig.DARK,
                 useDynamicColor = false,
-                useAutoLaunch = false
-            )
+                useAutoLaunch = false,
+            ),
         )
 
         val result = autoLaunchUseCase(packageName = packageName)
@@ -85,7 +85,7 @@ class AutoLaunchUseCaseTest {
                 packageName = packageName,
                 label = "Geto", key = "Geto $index",
                 valueOnLaunch = "0",
-                valueOnRevert = "1"
+                valueOnRevert = "1",
             )
         }
 
@@ -96,8 +96,8 @@ class AutoLaunchUseCaseTest {
                 themeBrand = ThemeBrand.DEFAULT,
                 darkThemeConfig = DarkThemeConfig.DARK,
                 useDynamicColor = false,
-                useAutoLaunch = false
-            )
+                useAutoLaunch = false,
+            ),
         )
 
         val result = autoLaunchUseCase(packageName = packageName)
@@ -115,7 +115,7 @@ class AutoLaunchUseCaseTest {
                 packageName = packageName,
                 label = "Geto", key = "Geto $index",
                 valueOnLaunch = "0",
-                valueOnRevert = "1"
+                valueOnRevert = "1",
             )
         }
 
@@ -132,8 +132,8 @@ class AutoLaunchUseCaseTest {
                 themeBrand = ThemeBrand.DEFAULT,
                 darkThemeConfig = DarkThemeConfig.DARK,
                 useDynamicColor = false,
-                useAutoLaunch = true
-            )
+                useAutoLaunch = true,
+            ),
         )
 
         appSettingsRepository.setAppSettings(appSettings)
@@ -155,7 +155,7 @@ class AutoLaunchUseCaseTest {
                 packageName = packageName,
                 label = "Geto", key = "Geto $index",
                 valueOnLaunch = "0",
-                valueOnRevert = "1"
+                valueOnRevert = "1",
             )
         }
 
@@ -166,8 +166,8 @@ class AutoLaunchUseCaseTest {
                 themeBrand = ThemeBrand.DEFAULT,
                 darkThemeConfig = DarkThemeConfig.DARK,
                 useDynamicColor = false,
-                useAutoLaunch = true
-            )
+                useAutoLaunch = true,
+            ),
         )
 
         appSettingsRepository.setAppSettings(appSettings)
@@ -187,7 +187,7 @@ class AutoLaunchUseCaseTest {
                 packageName = packageName,
                 label = "Geto", key = "Geto $index",
                 valueOnLaunch = "0",
-                valueOnRevert = "1"
+                valueOnRevert = "1",
             )
         }
 
@@ -200,8 +200,8 @@ class AutoLaunchUseCaseTest {
                 themeBrand = ThemeBrand.DEFAULT,
                 darkThemeConfig = DarkThemeConfig.DARK,
                 useDynamicColor = false,
-                useAutoLaunch = true
-            )
+                useAutoLaunch = true,
+            ),
         )
 
         appSettingsRepository.setAppSettings(appSettings)
@@ -221,7 +221,7 @@ class AutoLaunchUseCaseTest {
                 packageName = packageName,
                 label = "Geto", key = "Geto $index",
                 valueOnLaunch = "0",
-                valueOnRevert = "1"
+                valueOnRevert = "1",
             )
         }
 
@@ -232,8 +232,8 @@ class AutoLaunchUseCaseTest {
                 themeBrand = ThemeBrand.DEFAULT,
                 darkThemeConfig = DarkThemeConfig.DARK,
                 useDynamicColor = false,
-                useAutoLaunch = false
-            )
+                useAutoLaunch = false,
+            ),
         )
 
         appSettingsRepository.setAppSettings(appSettings)

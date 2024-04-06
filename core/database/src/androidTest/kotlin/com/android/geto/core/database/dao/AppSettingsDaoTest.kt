@@ -65,7 +65,7 @@ class AppSettingsDaoTest {
                 label = "Geto",
                 key = "Geto",
                 valueOnLaunch = "0",
-                valueOnRevert = "1"
+                valueOnRevert = "1",
             )
         }
 
@@ -90,7 +90,7 @@ class AppSettingsDaoTest {
                 label = "Geto",
                 key = "Geto",
                 valueOnLaunch = "0",
-                valueOnRevert = "1"
+                valueOnRevert = "1",
             )
         }
 
@@ -101,7 +101,7 @@ class AppSettingsDaoTest {
                 settingType = SettingType.GLOBAL,
                 packageName = "com.android.geto.new", label = "Geto", key = "Geto",
                 valueOnLaunch = "0",
-                valueOnRevert = "1"
+                valueOnRevert = "1",
             )
         }
 

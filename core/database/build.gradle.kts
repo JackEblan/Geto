@@ -28,7 +28,7 @@ android {
     }
 
     namespace = "com.android.geto.core.database"
-    
+
     sourceSets {
         getByName("androidTest").assets.srcDir("$projectDir/schemas")
     }

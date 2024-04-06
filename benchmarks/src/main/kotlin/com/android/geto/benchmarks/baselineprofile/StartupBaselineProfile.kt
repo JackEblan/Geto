@@ -32,8 +32,10 @@ class StartupBaselineProfile {
     val baselineProfileRule = BaselineProfileRule()
 
     @Test
-    fun generate() =
-        baselineProfileRule.collect(PACKAGE_NAME, includeInStartupProfile = true, profileBlock = {
+    fun generate() = baselineProfileRule.collect(
+        PACKAGE_NAME, includeInStartupProfile = true,
+        profileBlock = {
             startActivityAndWait()
-        })
+        },
+    )
 }

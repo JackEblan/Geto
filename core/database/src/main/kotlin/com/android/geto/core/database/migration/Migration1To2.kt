@@ -35,7 +35,7 @@ class Migration1To2 : Migration(1, 2) {
                valueOnRevert TEXT NOT NULL,
                PRIMARY KEY(key)
            )
-       """.trimIndent()
+       """.trimIndent(),
         )
 
         db.execSQL("INSERT INTO new_table (enabled, settingsType, packageName, label, key, valueOnLaunch, valueOnRevert) SELECT * FROM UserAppSettingsItemEntity")

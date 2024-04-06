@@ -53,20 +53,20 @@ class UpdateShortcutDialogScreenshotTest {
         shortcutDialogState = ShortcutDialogState()
 
         shortcutDialogState.setError(
-            shortLabelIsBlank = "Short label is blank", longLabelIsBlank = "Long label is blank"
+            shortLabelIsBlank = "Short label is blank", longLabelIsBlank = "Long label is blank",
         )
     }
 
     @Test
     fun updateShortcutDialog_empty() {
         composeTestRule.captureScreenRoboImageMultiDevice(
-            path = "UpdateShortcutDialog/UpdateShortcutDialogEmpty"
+            path = "UpdateShortcutDialog/UpdateShortcutDialogEmpty",
         ) {
             GetoTheme {
                 UpdateShortcutDialog(
                     shortcutDialogState = shortcutDialogState,
                     onUpdateShortcut = {},
-                    contentDescription = "UpdateShortcutDialog"
+                    contentDescription = "UpdateShortcutDialog",
                 )
             }
         }
@@ -79,13 +79,13 @@ class UpdateShortcutDialogScreenshotTest {
         shortcutDialogState.updateLongLabel("Geto")
 
         composeTestRule.captureScreenRoboImageMultiDevice(
-            path = "UpdateShortcutDialog/UpdateShortcutDialogFilledTextFields"
+            path = "UpdateShortcutDialog/UpdateShortcutDialogFilledTextFields",
         ) {
             GetoTheme {
                 UpdateShortcutDialog(
                     shortcutDialogState = shortcutDialogState,
                     onUpdateShortcut = {},
-                    contentDescription = "UpdateShortcutDialog"
+                    contentDescription = "UpdateShortcutDialog",
                 )
             }
         }
@@ -96,13 +96,13 @@ class UpdateShortcutDialogScreenshotTest {
         shortcutDialogState.getShortcut(packageName = "Geto", shortcutIntent = Intent())
 
         composeTestRule.captureScreenRoboImageMultiDevice(
-            path = "UpdateShortcutDialog/UpdateShortcutDialogErrorTextFields"
+            path = "UpdateShortcutDialog/UpdateShortcutDialogErrorTextFields",
         ) {
             GetoTheme {
                 UpdateShortcutDialog(
                     shortcutDialogState = shortcutDialogState,
                     onUpdateShortcut = {},
-                    contentDescription = "UpdateShortcutDialog"
+                    contentDescription = "UpdateShortcutDialog",
                 )
             }
         }
@@ -121,7 +121,7 @@ class UpdateShortcutDialogScreenshotTest {
                     UpdateShortcutDialog(
                         shortcutDialogState = shortcutDialogState,
                         onUpdateShortcut = {},
-                        contentDescription = "UpdateShortcutDialog"
+                        contentDescription = "UpdateShortcutDialog",
                     )
                 }
             }
@@ -145,7 +145,7 @@ class UpdateShortcutDialogScreenshotTest {
                     UpdateShortcutDialog(
                         shortcutDialogState = shortcutDialogState,
                         onUpdateShortcut = {},
-                        contentDescription = "UpdateShortcutDialog"
+                        contentDescription = "UpdateShortcutDialog",
                     )
                 }
             }
@@ -167,7 +167,7 @@ class UpdateShortcutDialogScreenshotTest {
                     UpdateShortcutDialog(
                         shortcutDialogState = shortcutDialogState,
                         onUpdateShortcut = {},
-                        contentDescription = "UpdateShortcutDialog"
+                        contentDescription = "UpdateShortcutDialog",
                     )
                 }
             }

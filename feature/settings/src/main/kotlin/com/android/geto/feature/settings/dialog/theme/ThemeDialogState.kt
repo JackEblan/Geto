@@ -42,17 +42,20 @@ class ThemeDialogState {
     }
 
     companion object {
-        val Saver = listSaver<ThemeDialogState, Any>(save = { state ->
-            listOf(
-                state.showDialog,
-                state.selectedRadioOptionIndex,
-            )
-        }, restore = {
-            ThemeDialogState().apply {
-                showDialog = it[0] as Boolean
+        val Saver = listSaver<ThemeDialogState, Any>(
+            save = { state ->
+                listOf(
+                    state.showDialog,
+                    state.selectedRadioOptionIndex,
+                )
+            },
+            restore = {
+                ThemeDialogState().apply {
+                    showDialog = it[0] as Boolean
 
-                selectedRadioOptionIndex = it[1] as Int
-            }
-        })
+                    selectedRadioOptionIndex = it[1] as Int
+                }
+            },
+        )
     }
 }

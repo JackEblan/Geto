@@ -27,7 +27,7 @@ import javax.inject.Inject
 
 class CleanAppSettingsUseCase @Inject constructor(
     private val packageRepository: PackageRepository,
-    private val appSettingsRepository: AppSettingsRepository
+    private val appSettingsRepository: AppSettingsRepository,
 ) {
 
     suspend operator fun invoke() {

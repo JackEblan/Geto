@@ -37,22 +37,24 @@ class UpdateShortcutDialogTest {
             val updateShortcutDialogState = rememberUpdateShortcutDialogState()
 
             UpdateShortcutDialog(
-                shortcutDialogState = updateShortcutDialogState, onUpdateShortcut = {
+                shortcutDialogState = updateShortcutDialogState,
+                onUpdateShortcut = {
                     updateShortcutDialogState.updateShortLabel("")
 
                     updateShortcutDialogState.updateLongLabel("Geto")
 
                     updateShortcutDialogState.getShortcut(
-                        packageName = "com.android.geto", shortcutIntent = Intent()
+                        packageName = "com.android.geto", shortcutIntent = Intent(),
                     )
-                }, contentDescription = "Update Shortcut Dialog"
+                },
+                contentDescription = "Update Shortcut Dialog",
             )
         }
 
         composeTestRule.onNodeWithTag("updateShortcutDialog:update").performClick()
 
         composeTestRule.onNodeWithTag(
-            testTag = "updateShortcutDialog:shortLabelSupportingText", useUnmergedTree = true
+            testTag = "updateShortcutDialog:shortLabelSupportingText", useUnmergedTree = true,
         ).assertIsDisplayed()
     }
 
@@ -62,22 +64,24 @@ class UpdateShortcutDialogTest {
             val updateShortcutDialogState = rememberUpdateShortcutDialogState()
 
             UpdateShortcutDialog(
-                shortcutDialogState = updateShortcutDialogState, onUpdateShortcut = {
+                shortcutDialogState = updateShortcutDialogState,
+                onUpdateShortcut = {
                     updateShortcutDialogState.updateShortLabel("Geto")
 
                     updateShortcutDialogState.updateLongLabel("")
 
                     updateShortcutDialogState.getShortcut(
-                        packageName = "com.android.geto", shortcutIntent = Intent()
+                        packageName = "com.android.geto", shortcutIntent = Intent(),
                     )
-                }, contentDescription = "Update Shortcut Dialog"
+                },
+                contentDescription = "Update Shortcut Dialog",
             )
         }
 
         composeTestRule.onNodeWithTag("updateShortcutDialog:update").performClick()
 
         composeTestRule.onNodeWithTag(
-            testTag = "updateShortcutDialog:longLabelSupportingText", useUnmergedTree = true
+            testTag = "updateShortcutDialog:longLabelSupportingText", useUnmergedTree = true,
         ).assertIsDisplayed()
     }
 }

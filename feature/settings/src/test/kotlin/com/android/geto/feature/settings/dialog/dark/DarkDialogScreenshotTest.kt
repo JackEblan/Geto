@@ -45,7 +45,7 @@ class DarkDialogScreenshotTest {
     @Test
     fun darkDialog() {
         composeTestRule.captureScreenRoboImageMultiDevice(
-            path = "DarkDialog/DarkDialog"
+            path = "DarkDialog/DarkDialog",
         ) {
             GetoTheme {
                 val darkDialogState = rememberDarkDialogState()
@@ -53,7 +53,7 @@ class DarkDialogScreenshotTest {
                 DarkDialog(
                     darkDialogState = darkDialogState,
                     onChangeDark = {},
-                    contentDescription = "DarkDialog"
+                    contentDescription = "DarkDialog",
                 )
             }
         }
@@ -74,7 +74,7 @@ class DarkDialogScreenshotTest {
                     DarkDialog(
                         darkDialogState = darkDialogState,
                         onChangeDark = {},
-                        contentDescription = "DarkDialog"
+                        contentDescription = "DarkDialog",
                     )
                 }
             }

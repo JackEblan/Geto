@@ -50,7 +50,7 @@ val DefaultRoborazziOptions = RoborazziOptions(
 
 enum class DefaultTestDevices(val description: String, val spec: String) {
     PHONE("phone", "spec:shape=Normal,width=640,height=360,unit=dp,dpi=480"), FOLDABLE(
-        "foldable", "spec:shape=Normal,width=673,height=841,unit=dp,dpi=480"
+        "foldable", "spec:shape=Normal,width=673,height=841,unit=dp,dpi=480",
     ),
     TABLET("tablet", "spec:shape=Normal,width=1280,height=800,unit=dp,dpi=480"),
 }
@@ -70,7 +70,7 @@ fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.c
 ) {
     DefaultTestDevices.entries.forEach {
         this.captureScreenRoboImageForDevice(
-            path = path, deviceName = it.description, deviceSpec = it.spec, body = body
+            path = path, deviceName = it.description, deviceSpec = it.spec, body = body,
         )
     }
 }
@@ -132,7 +132,7 @@ fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.c
     }
 
     captureScreenRoboImage(
-        "src/test/screenshots/${path}_$deviceName.png", roborazziOptions = roborazziOptions
+        "src/test/screenshots/${path}_$deviceName.png", roborazziOptions = roborazziOptions,
     )
 }
 

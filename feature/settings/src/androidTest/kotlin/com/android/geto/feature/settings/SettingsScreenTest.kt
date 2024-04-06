@@ -39,13 +39,15 @@ class SettingsScreenTest {
     @Test
     fun getoLoadingWheel_isDisplayed_whenSettingsUiState_isLoading() {
         composeTestRule.setContent {
-            SettingsScreen(settingsUiState = SettingsUiState.Loading,
-                           onThemeDialog = {},
-                           onDarkDialog = {},
-                           onCleanDialog = {},
-                           onChangeDynamicColorPreference = {},
-                           onChangeAutoLaunchPreference = {},
-                           onNavigationIconClick = {})
+            SettingsScreen(
+                settingsUiState = SettingsUiState.Loading,
+                onThemeDialog = {},
+                onDarkDialog = {},
+                onCleanDialog = {},
+                onChangeDynamicColorPreference = {},
+                onChangeAutoLaunchPreference = {},
+                onNavigationIconClick = {},
+            )
         }
 
         composeTestRule.onNodeWithContentDescription("GetoLoadingWheel").assertIsDisplayed()
@@ -54,20 +56,22 @@ class SettingsScreenTest {
     @Test
     fun settings_isDisplayed_whenSettingsUiState_isSuccess() {
         composeTestRule.setContent {
-            SettingsScreen(settingsUiState = SettingsUiState.Success(
-                UserEditableSettings(
-                    brand = ThemeBrand.DEFAULT,
-                    useDynamicColor = true,
-                    darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
-                    useAutoLaunch = false
-                )
-            ),
-                           onThemeDialog = {},
-                           onDarkDialog = {},
-                           onCleanDialog = {},
-                           onChangeDynamicColorPreference = {},
-                           onChangeAutoLaunchPreference = {},
-                           onNavigationIconClick = {})
+            SettingsScreen(
+                settingsUiState = SettingsUiState.Success(
+                    UserEditableSettings(
+                        brand = ThemeBrand.DEFAULT,
+                        useDynamicColor = true,
+                        darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+                        useAutoLaunch = false,
+                    ),
+                ),
+                onThemeDialog = {},
+                onDarkDialog = {},
+                onCleanDialog = {},
+                onChangeDynamicColorPreference = {},
+                onChangeAutoLaunchPreference = {},
+                onNavigationIconClick = {},
+            )
         }
 
         composeTestRule.onNodeWithTag("settings:success").assertIsDisplayed()
@@ -76,21 +80,23 @@ class SettingsScreenTest {
     @Test
     fun dynamicColorSwitch_isOn_whenUseDynamicColor_isTrue() {
         composeTestRule.setContent {
-            SettingsScreen(settingsUiState = SettingsUiState.Success(
-                UserEditableSettings(
-                    brand = ThemeBrand.DEFAULT,
-                    useDynamicColor = true,
-                    darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
-                    useAutoLaunch = false
-                )
-            ),
-                           supportDynamicColor = true,
-                           onThemeDialog = {},
-                           onDarkDialog = {},
-                           onCleanDialog = {},
-                           onChangeDynamicColorPreference = {},
-                           onChangeAutoLaunchPreference = {},
-                           onNavigationIconClick = {})
+            SettingsScreen(
+                settingsUiState = SettingsUiState.Success(
+                    UserEditableSettings(
+                        brand = ThemeBrand.DEFAULT,
+                        useDynamicColor = true,
+                        darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+                        useAutoLaunch = false,
+                    ),
+                ),
+                supportDynamicColor = true,
+                onThemeDialog = {},
+                onDarkDialog = {},
+                onCleanDialog = {},
+                onChangeDynamicColorPreference = {},
+                onChangeAutoLaunchPreference = {},
+                onNavigationIconClick = {},
+            )
         }
 
         composeTestRule.onNodeWithTag("settings:dynamicSwitch").assertIsOn()
@@ -99,21 +105,23 @@ class SettingsScreenTest {
     @Test
     fun dynamicColorSwitch_isOff_whenUseDynamicColor_isFalse() {
         composeTestRule.setContent {
-            SettingsScreen(settingsUiState = SettingsUiState.Success(
-                UserEditableSettings(
-                    brand = ThemeBrand.DEFAULT,
-                    useDynamicColor = false,
-                    darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
-                    useAutoLaunch = false
-                )
-            ),
-                           supportDynamicColor = true,
-                           onThemeDialog = {},
-                           onDarkDialog = {},
-                           onCleanDialog = {},
-                           onChangeDynamicColorPreference = {},
-                           onChangeAutoLaunchPreference = {},
-                           onNavigationIconClick = {})
+            SettingsScreen(
+                settingsUiState = SettingsUiState.Success(
+                    UserEditableSettings(
+                        brand = ThemeBrand.DEFAULT,
+                        useDynamicColor = false,
+                        darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+                        useAutoLaunch = false,
+                    ),
+                ),
+                supportDynamicColor = true,
+                onThemeDialog = {},
+                onDarkDialog = {},
+                onCleanDialog = {},
+                onChangeDynamicColorPreference = {},
+                onChangeAutoLaunchPreference = {},
+                onNavigationIconClick = {},
+            )
         }
 
         composeTestRule.onNodeWithTag("settings:dynamicSwitch").assertIsOff()
@@ -122,21 +130,23 @@ class SettingsScreenTest {
     @Test
     fun dynamicRow_isDisplayed_whenThemeBrand_isDefault() {
         composeTestRule.setContent {
-            SettingsScreen(settingsUiState = SettingsUiState.Success(
-                UserEditableSettings(
-                    brand = ThemeBrand.DEFAULT,
-                    useDynamicColor = true,
-                    darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
-                    useAutoLaunch = false
-                )
-            ),
-                           supportDynamicColor = true,
-                           onThemeDialog = {},
-                           onDarkDialog = {},
-                           onCleanDialog = {},
-                           onChangeDynamicColorPreference = {},
-                           onChangeAutoLaunchPreference = {},
-                           onNavigationIconClick = {})
+            SettingsScreen(
+                settingsUiState = SettingsUiState.Success(
+                    UserEditableSettings(
+                        brand = ThemeBrand.DEFAULT,
+                        useDynamicColor = true,
+                        darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+                        useAutoLaunch = false,
+                    ),
+                ),
+                supportDynamicColor = true,
+                onThemeDialog = {},
+                onDarkDialog = {},
+                onCleanDialog = {},
+                onChangeDynamicColorPreference = {},
+                onChangeAutoLaunchPreference = {},
+                onNavigationIconClick = {},
+            )
         }
 
         composeTestRule.onNodeWithTag("settings:dynamic").assertIsDisplayed()
@@ -145,21 +155,23 @@ class SettingsScreenTest {
     @Test
     fun dynamicRow_isNotDisplayed_whenThemeBrand_isAndroid() {
         composeTestRule.setContent {
-            SettingsScreen(settingsUiState = SettingsUiState.Success(
-                UserEditableSettings(
-                    brand = ThemeBrand.ANDROID,
-                    useDynamicColor = true,
-                    darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
-                    useAutoLaunch = false
-                )
-            ),
-                           supportDynamicColor = true,
-                           onThemeDialog = {},
-                           onDarkDialog = {},
-                           onCleanDialog = {},
-                           onChangeDynamicColorPreference = {},
-                           onChangeAutoLaunchPreference = {},
-                           onNavigationIconClick = {})
+            SettingsScreen(
+                settingsUiState = SettingsUiState.Success(
+                    UserEditableSettings(
+                        brand = ThemeBrand.ANDROID,
+                        useDynamicColor = true,
+                        darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+                        useAutoLaunch = false,
+                    ),
+                ),
+                supportDynamicColor = true,
+                onThemeDialog = {},
+                onDarkDialog = {},
+                onCleanDialog = {},
+                onChangeDynamicColorPreference = {},
+                onChangeAutoLaunchPreference = {},
+                onNavigationIconClick = {},
+            )
         }
 
         composeTestRule.onNodeWithTag("settings:dynamic").assertIsNotDisplayed()
@@ -168,21 +180,23 @@ class SettingsScreenTest {
     @Test
     fun dynamicRow_isNotDisplayed_whenUnSupportDynamicColor() {
         composeTestRule.setContent {
-            SettingsScreen(settingsUiState = SettingsUiState.Success(
-                UserEditableSettings(
-                    brand = ThemeBrand.ANDROID,
-                    useDynamicColor = true,
-                    darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
-                    useAutoLaunch = false
-                )
-            ),
-                           supportDynamicColor = false,
-                           onThemeDialog = {},
-                           onDarkDialog = {},
-                           onCleanDialog = {},
-                           onChangeDynamicColorPreference = {},
-                           onChangeAutoLaunchPreference = {},
-                           onNavigationIconClick = {})
+            SettingsScreen(
+                settingsUiState = SettingsUiState.Success(
+                    UserEditableSettings(
+                        brand = ThemeBrand.ANDROID,
+                        useDynamicColor = true,
+                        darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+                        useAutoLaunch = false,
+                    ),
+                ),
+                supportDynamicColor = false,
+                onThemeDialog = {},
+                onDarkDialog = {},
+                onCleanDialog = {},
+                onChangeDynamicColorPreference = {},
+                onChangeAutoLaunchPreference = {},
+                onNavigationIconClick = {},
+            )
         }
 
         composeTestRule.onNodeWithTag("settings:dynamic").assertIsNotDisplayed()
@@ -191,20 +205,22 @@ class SettingsScreenTest {
     @Test
     fun autoLaunchSwitch_isOff_whenUseAutoLaunch_isFalse() {
         composeTestRule.setContent {
-            SettingsScreen(settingsUiState = SettingsUiState.Success(
-                UserEditableSettings(
-                    brand = ThemeBrand.DEFAULT,
-                    useDynamicColor = false,
-                    darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
-                    useAutoLaunch = false
-                )
-            ),
-                           supportDynamicColor = true,
-                           onThemeDialog = {},
-                           onDarkDialog = {}, onCleanDialog = {},
-                           onChangeDynamicColorPreference = {},
-                           onChangeAutoLaunchPreference = {},
-                           onNavigationIconClick = {})
+            SettingsScreen(
+                settingsUiState = SettingsUiState.Success(
+                    UserEditableSettings(
+                        brand = ThemeBrand.DEFAULT,
+                        useDynamicColor = false,
+                        darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+                        useAutoLaunch = false,
+                    ),
+                ),
+                supportDynamicColor = true,
+                onThemeDialog = {},
+                onDarkDialog = {}, onCleanDialog = {},
+                onChangeDynamicColorPreference = {},
+                onChangeAutoLaunchPreference = {},
+                onNavigationIconClick = {},
+            )
         }
 
         composeTestRule.onNodeWithTag("settings:autoLaunchSwitch").assertIsOff()
@@ -213,20 +229,22 @@ class SettingsScreenTest {
     @Test
     fun autoLaunchSwitch_isOn_whenUseAutoLaunch_isTrue() {
         composeTestRule.setContent {
-            SettingsScreen(settingsUiState = SettingsUiState.Success(
-                UserEditableSettings(
-                    brand = ThemeBrand.DEFAULT,
-                    useDynamicColor = false,
-                    darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
-                    useAutoLaunch = true
-                )
-            ),
-                           supportDynamicColor = true,
-                           onThemeDialog = {},
-                           onDarkDialog = {}, onCleanDialog = {},
-                           onChangeDynamicColorPreference = {},
-                           onChangeAutoLaunchPreference = {},
-                           onNavigationIconClick = {})
+            SettingsScreen(
+                settingsUiState = SettingsUiState.Success(
+                    UserEditableSettings(
+                        brand = ThemeBrand.DEFAULT,
+                        useDynamicColor = false,
+                        darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+                        useAutoLaunch = true,
+                    ),
+                ),
+                supportDynamicColor = true,
+                onThemeDialog = {},
+                onDarkDialog = {}, onCleanDialog = {},
+                onChangeDynamicColorPreference = {},
+                onChangeAutoLaunchPreference = {},
+                onNavigationIconClick = {},
+            )
         }
 
         composeTestRule.onNodeWithTag("settings:autoLaunchSwitch").assertIsOn()

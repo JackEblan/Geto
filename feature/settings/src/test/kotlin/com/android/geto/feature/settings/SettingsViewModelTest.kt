@@ -52,8 +52,9 @@ class SettingsViewModelTest {
         viewModel = SettingsViewModel(
             userDataRepository = userDataRepository,
             cleanAppSettingsUseCase = CleanAppSettingsUseCase(
-                packageRepository = packageRepository, appSettingsRepository = appSettingsRepository
-            )
+                packageRepository = packageRepository,
+                appSettingsRepository = appSettingsRepository,
+            ),
         )
     }
 
@@ -74,7 +75,7 @@ class SettingsViewModelTest {
                 UserEditableSettings(
                     brand = ThemeBrand.ANDROID,
                     darkThemeConfig = DarkThemeConfig.DARK,
-                    useDynamicColor = false, useAutoLaunch = false
+                    useDynamicColor = false, useAutoLaunch = false,
                 ),
             ),
             viewModel.settingsUiState.value,

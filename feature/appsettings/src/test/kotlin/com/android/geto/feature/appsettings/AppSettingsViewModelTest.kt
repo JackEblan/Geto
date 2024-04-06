@@ -92,21 +92,21 @@ class AppSettingsViewModelTest {
         applyAppSettingsUseCase = ApplyAppSettingsUseCase(
             packageRepository = packageRepository,
             appSettingsRepository = appSettingsRepository,
-            secureSettingsRepository = secureSettingsRepository
+            secureSettingsRepository = secureSettingsRepository,
         )
 
         revertAppSettingsUseCase = RevertAppSettingsUseCase(
             appSettingsRepository = appSettingsRepository,
-            secureSettingsRepository = secureSettingsRepository
+            secureSettingsRepository = secureSettingsRepository,
         )
 
         autoLaunchUseCase = AutoLaunchUseCase(
             packageRepository = packageRepository,
             userDataRepository = userDataRepository,
             appSettingsRepository = appSettingsRepository,
-            secureSettingsRepository = secureSettingsRepository
+            secureSettingsRepository = secureSettingsRepository,
 
-        )
+            )
 
         viewModel = AppSettingsViewModel(
             savedStateHandle = savedStateHandle,
@@ -117,7 +117,7 @@ class AppSettingsViewModelTest {
             shortcutRepository = shortcutRepository,
             applyAppSettingsUseCase = applyAppSettingsUseCase,
             revertAppSettingsUseCase = revertAppSettingsUseCase,
-            autoLaunchUseCase = autoLaunchUseCase
+            autoLaunchUseCase = autoLaunchUseCase,
         )
     }
 
@@ -158,7 +158,7 @@ class AppSettingsViewModelTest {
                 settingType = SettingType.SYSTEM,
                 packageName = packageName, label = "Geto", key = "Geto $index",
                 valueOnLaunch = "0",
-                valueOnRevert = "1"
+                valueOnRevert = "1",
             )
         }
 
@@ -180,7 +180,7 @@ class AppSettingsViewModelTest {
                 settingType = SettingType.SYSTEM,
                 packageName = packageName, label = "Geto", key = "Geto $index",
                 valueOnLaunch = "0",
-                valueOnRevert = "1"
+                valueOnRevert = "1",
             )
         }
 
@@ -202,7 +202,7 @@ class AppSettingsViewModelTest {
                 settingType = SettingType.SYSTEM,
                 packageName = packageName, label = "Geto", key = "Geto $index",
                 valueOnLaunch = "0",
-                valueOnRevert = "1"
+                valueOnRevert = "1",
             )
         }
 
@@ -225,7 +225,7 @@ class AppSettingsViewModelTest {
                 settingType = SettingType.SYSTEM,
                 packageName = packageName, label = "Geto", key = "Geto $index",
                 valueOnLaunch = "0",
-                valueOnRevert = "1"
+                valueOnRevert = "1",
             )
         }
 
@@ -262,7 +262,7 @@ class AppSettingsViewModelTest {
                 settingType = SettingType.SYSTEM,
                 packageName = packageName, label = "Geto", key = "Geto $index",
                 valueOnLaunch = "0",
-                valueOnRevert = "1"
+                valueOnRevert = "1",
             )
         }
 
@@ -285,7 +285,7 @@ class AppSettingsViewModelTest {
                 settingType = SettingType.SYSTEM,
                 packageName = packageName, label = "Geto", key = "Geto $index",
                 valueOnLaunch = "0",
-                valueOnRevert = "1"
+                valueOnRevert = "1",
             )
         }
 
@@ -308,7 +308,7 @@ class AppSettingsViewModelTest {
                 settingType = SettingType.SYSTEM,
                 packageName = packageName, label = "Geto", key = "Geto $index",
                 valueOnLaunch = "0",
-                valueOnRevert = "1"
+                valueOnRevert = "1",
             )
         }
 
@@ -331,7 +331,7 @@ class AppSettingsViewModelTest {
                 settingType = SettingType.SYSTEM,
                 packageName = packageName, label = "Geto", key = "Geto $index",
                 valueOnLaunch = "0",
-                valueOnRevert = "1"
+                valueOnRevert = "1",
             )
         }
 
@@ -366,7 +366,7 @@ class AppSettingsViewModelTest {
                 settingType = SettingType.SYSTEM,
                 packageName = packageName, label = "Geto", key = "Geto $index",
                 valueOnLaunch = "0",
-                valueOnRevert = "1"
+                valueOnRevert = "1",
             )
         }
 
@@ -436,8 +436,8 @@ class AppSettingsViewModelTest {
 
         viewModel.requestPinShortcut(
             targetShortcutInfoCompat = TargetShortcutInfoCompat(
-                id = "0", shortLabel = "shortLabel", longLabel = "longLabel"
-            )
+                id = "0", shortLabel = "shortLabel", longLabel = "longLabel",
+            ),
         )
 
         assertIs<ShortcutResult.SupportedLauncher>(viewModel.shortcutResult.value)
@@ -449,8 +449,8 @@ class AppSettingsViewModelTest {
 
         viewModel.requestPinShortcut(
             targetShortcutInfoCompat = TargetShortcutInfoCompat(
-                id = "0", shortLabel = "shortLabel", longLabel = "longLabel"
-            )
+                id = "0", shortLabel = "shortLabel", longLabel = "longLabel",
+            ),
         )
 
         assertIs<ShortcutResult.UnsupportedLauncher>(viewModel.shortcutResult.value)
@@ -462,8 +462,8 @@ class AppSettingsViewModelTest {
 
         viewModel.updateRequestPinShortcut(
             targetShortcutInfoCompat = TargetShortcutInfoCompat(
-                id = "0", shortLabel = "Geto", longLabel = "Geto"
-            )
+                id = "0", shortLabel = "Geto", longLabel = "Geto",
+            ),
         )
 
         assertIs<ShortcutResult.ShortcutUpdateImmutableShortcuts>(viewModel.shortcutResult.value)
@@ -475,8 +475,8 @@ class AppSettingsViewModelTest {
 
         viewModel.updateRequestPinShortcut(
             targetShortcutInfoCompat = TargetShortcutInfoCompat(
-                id = "0", shortLabel = "Geto", longLabel = "Geto"
-            )
+                id = "0", shortLabel = "Geto", longLabel = "Geto",
+            ),
         )
 
         assertIs<ShortcutResult.ShortcutUpdateSuccess>(viewModel.shortcutResult.value)
@@ -486,7 +486,7 @@ class AppSettingsViewModelTest {
     fun shortcutResult_isShortcutFound_whenGetShortcut() = runTest {
         val shortcuts = List(2) {
             TargetShortcutInfoCompat(
-                id = "com.android.geto", shortLabel = "Geto", longLabel = "Geto"
+                id = "com.android.geto", shortLabel = "Geto", longLabel = "Geto",
             )
         }
 
@@ -503,7 +503,7 @@ class AppSettingsViewModelTest {
     fun shortcutResult_isNoShortcutFound_whenGetShortcut() = runTest {
         val shortcuts = List(2) {
             TargetShortcutInfoCompat(
-                id = "com.android.geto", shortLabel = "Geto", longLabel = "Geto"
+                id = "com.android.geto", shortLabel = "Geto", longLabel = "Geto",
             )
         }
 
@@ -520,7 +520,7 @@ class AppSettingsViewModelTest {
     fun applicationIcon_isNotNull_whenGetApplicationIcon() = runTest {
         val installedApplications = List(1) { _ ->
             TargetApplicationInfo(
-                flags = 0, packageName = "com.android.geto", label = "Geto"
+                flags = 0, packageName = "com.android.geto", label = "Geto",
             )
         }
 
@@ -535,7 +535,7 @@ class AppSettingsViewModelTest {
     fun applicationIcon_isNull_whenGetApplicationIcon() = runTest {
         val installedApplications = List(1) { _ ->
             TargetApplicationInfo(
-                flags = 0, packageName = "com.android.geto", label = "Geto"
+                flags = 0, packageName = "com.android.geto", label = "Geto",
             )
         }
 

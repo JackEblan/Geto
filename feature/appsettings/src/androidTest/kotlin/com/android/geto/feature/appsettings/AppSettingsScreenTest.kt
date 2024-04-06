@@ -41,23 +41,25 @@ class AppSettingsScreenTest {
             packageName = "com.android.geto",
             label = "Geto", key = "Geto $index",
             valueOnLaunch = "0",
-            valueOnRevert = "1"
+            valueOnRevert = "1",
         )
     }
 
     @Test
     fun getoLoadingWheel_isDisplayed_whenAppSettingsUiState_isLoading() {
         composeTestRule.setContent {
-            AppSettingsScreen(snackbarHostState = SnackbarHostState(),
-                              appName = "Geto",
-                              appSettingsUiState = AppSettingsUiState.Loading,
-                              onNavigationIconClick = {},
-                              onRevertSettingsIconClick = {},
-                              onSettingsIconClick = {},
-                              onShortcutIconClick = {},
-                              onAppSettingsItemCheckBoxChange = { _, _ -> },
-                              onDeleteAppSettingsItem = {},
-                              onLaunchApp = {})
+            AppSettingsScreen(
+                snackbarHostState = SnackbarHostState(),
+                appName = "Geto",
+                appSettingsUiState = AppSettingsUiState.Loading,
+                onNavigationIconClick = {},
+                onRevertSettingsIconClick = {},
+                onSettingsIconClick = {},
+                onShortcutIconClick = {},
+                onAppSettingsItemCheckBoxChange = { _, _ -> },
+                onDeleteAppSettingsItem = {},
+                onLaunchApp = {},
+            )
         }
 
         composeTestRule.onNodeWithContentDescription("GetoLoadingWheel").assertIsDisplayed()
@@ -66,16 +68,18 @@ class AppSettingsScreenTest {
     @Test
     fun emptyListPlaceHolderScreen_isDisplayed_whenAppSettings_isEmpty() {
         composeTestRule.setContent {
-            AppSettingsScreen(snackbarHostState = SnackbarHostState(),
-                              appName = "Geto",
-                              appSettingsUiState = AppSettingsUiState.Success(emptyList()),
-                              onNavigationIconClick = {},
-                              onRevertSettingsIconClick = {},
-                              onSettingsIconClick = {},
-                              onShortcutIconClick = {},
-                              onAppSettingsItemCheckBoxChange = { _, _ -> },
-                              onDeleteAppSettingsItem = {},
-                              onLaunchApp = {})
+            AppSettingsScreen(
+                snackbarHostState = SnackbarHostState(),
+                appName = "Geto",
+                appSettingsUiState = AppSettingsUiState.Success(emptyList()),
+                onNavigationIconClick = {},
+                onRevertSettingsIconClick = {},
+                onSettingsIconClick = {},
+                onShortcutIconClick = {},
+                onAppSettingsItemCheckBoxChange = { _, _ -> },
+                onDeleteAppSettingsItem = {},
+                onLaunchApp = {},
+            )
         }
 
         composeTestRule.onNodeWithTag("appSettings:emptyListPlaceHolderScreen").assertIsDisplayed()
@@ -84,16 +88,18 @@ class AppSettingsScreenTest {
     @Test
     fun lazyColumn_isDisplayed_whenAppSettingsUiState_isSuccess() {
         composeTestRule.setContent {
-            AppSettingsScreen(snackbarHostState = SnackbarHostState(),
-                              appName = "Geto",
-                              appSettingsUiState = AppSettingsUiState.Success(appSettings),
-                              onNavigationIconClick = {},
-                              onRevertSettingsIconClick = {},
-                              onSettingsIconClick = {},
-                              onShortcutIconClick = {},
-                              onAppSettingsItemCheckBoxChange = { _, _ -> },
-                              onDeleteAppSettingsItem = {},
-                              onLaunchApp = {})
+            AppSettingsScreen(
+                snackbarHostState = SnackbarHostState(),
+                appName = "Geto",
+                appSettingsUiState = AppSettingsUiState.Success(appSettings),
+                onNavigationIconClick = {},
+                onRevertSettingsIconClick = {},
+                onSettingsIconClick = {},
+                onShortcutIconClick = {},
+                onAppSettingsItemCheckBoxChange = { _, _ -> },
+                onDeleteAppSettingsItem = {},
+                onLaunchApp = {},
+            )
         }
 
         composeTestRule.onNodeWithTag("appSettings:lazyColumn").assertIsDisplayed()

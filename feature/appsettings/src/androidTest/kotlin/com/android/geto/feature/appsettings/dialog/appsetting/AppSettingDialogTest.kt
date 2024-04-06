@@ -43,7 +43,8 @@ class AppSettingDialogTest {
             val appSettingDialogState = rememberAppSettingDialogState()
 
             AppSettingDialog(
-                addAppSettingDialogState = appSettingDialogState, onAddSetting = {
+                addAppSettingDialogState = appSettingDialogState,
+                onAddSetting = {
                     appSettingDialogState.updateSelectedRadioOptionIndex(1)
 
                     appSettingDialogState.updateKey("Geto 1")
@@ -55,14 +56,15 @@ class AppSettingDialogTest {
                     appSettingDialogState.updateValueOnRevert("Geto")
 
                     appSettingDialogState.getAppSetting(packageName = "com.android.geto")
-                }, contentDescription = "Add App Setting Dialog"
+                },
+                contentDescription = "Add App Setting Dialog",
             )
         }
 
         composeTestRule.onNodeWithTag("appSettingDialog:add").performClick()
 
         composeTestRule.onNodeWithTag(
-            testTag = "appSettingDialog:labelSupportingText", useUnmergedTree = true
+            testTag = "appSettingDialog:labelSupportingText", useUnmergedTree = true,
         ).assertIsDisplayed()
     }
 
@@ -72,7 +74,8 @@ class AppSettingDialogTest {
             val appSettingDialogState = rememberAppSettingDialogState()
 
             AppSettingDialog(
-                addAppSettingDialogState = appSettingDialogState, onAddSetting = {
+                addAppSettingDialogState = appSettingDialogState,
+                onAddSetting = {
                     appSettingDialogState.updateSelectedRadioOptionIndex(1)
 
                     appSettingDialogState.updateLabel("Geto")
@@ -84,14 +87,15 @@ class AppSettingDialogTest {
                     appSettingDialogState.updateValueOnRevert("Geto")
 
                     appSettingDialogState.getAppSetting(packageName = "com.android.geto")
-                }, contentDescription = "Add App Setting Dialog"
+                },
+                contentDescription = "Add App Setting Dialog",
             )
         }
 
         composeTestRule.onNodeWithTag("appSettingDialog:add").performClick()
 
         composeTestRule.onNodeWithTag(
-            testTag = "appSettingDialog:keySupportingText", useUnmergedTree = true
+            testTag = "appSettingDialog:keySupportingText", useUnmergedTree = true,
         ).assertIsDisplayed()
     }
 
@@ -101,9 +105,10 @@ class AppSettingDialogTest {
             val appSettingDialogState = rememberAppSettingDialogState()
 
             AppSettingDialog(
-                addAppSettingDialogState = appSettingDialogState, onAddSetting = {
+                addAppSettingDialogState = appSettingDialogState,
+                onAddSetting = {
                     appSettingDialogState.updateSecureSettings(
-                        secureSettings
+                        secureSettings,
                     )
 
                     appSettingDialogState.updateSelectedRadioOptionIndex(1)
@@ -117,14 +122,15 @@ class AppSettingDialogTest {
                     appSettingDialogState.updateValueOnRevert("Geto")
 
                     appSettingDialogState.getAppSetting(packageName = "com.android.geto")
-                }, contentDescription = "Add App Setting Dialog"
+                },
+                contentDescription = "Add App Setting Dialog",
             )
         }
 
         composeTestRule.onNodeWithTag("appSettingDialog:add").performClick()
 
         composeTestRule.onNodeWithTag(
-            testTag = "appSettingDialog:settingsKeyNotFoundSupportingText", useUnmergedTree = true
+            testTag = "appSettingDialog:settingsKeyNotFoundSupportingText", useUnmergedTree = true,
         ).assertIsDisplayed()
     }
 
@@ -134,7 +140,8 @@ class AppSettingDialogTest {
             val appSettingDialogState = rememberAppSettingDialogState()
 
             AppSettingDialog(
-                addAppSettingDialogState = appSettingDialogState, onAddSetting = {
+                addAppSettingDialogState = appSettingDialogState,
+                onAddSetting = {
                     appSettingDialogState.updateSelectedRadioOptionIndex(1)
 
                     appSettingDialogState.updateKey("Geto 1")
@@ -146,14 +153,15 @@ class AppSettingDialogTest {
                     appSettingDialogState.updateValueOnRevert("Geto")
 
                     appSettingDialogState.getAppSetting(packageName = "com.android.geto")
-                }, contentDescription = "Add App Setting Dialog"
+                },
+                contentDescription = "Add App Setting Dialog",
             )
         }
 
         composeTestRule.onNodeWithTag("appSettingDialog:add").performClick()
 
         composeTestRule.onNodeWithTag(
-            testTag = "appSettingDialog:valueOnLaunchSupportingText", useUnmergedTree = true
+            testTag = "appSettingDialog:valueOnLaunchSupportingText", useUnmergedTree = true,
         ).assertIsDisplayed()
     }
 
@@ -163,7 +171,8 @@ class AppSettingDialogTest {
             val appSettingDialogState = rememberAppSettingDialogState()
 
             AppSettingDialog(
-                addAppSettingDialogState = appSettingDialogState, onAddSetting = {
+                addAppSettingDialogState = appSettingDialogState,
+                onAddSetting = {
                     appSettingDialogState.updateSelectedRadioOptionIndex(1)
 
                     appSettingDialogState.updateKey("Geto 1")
@@ -175,14 +184,15 @@ class AppSettingDialogTest {
                     appSettingDialogState.updateValueOnRevert("")
 
                     appSettingDialogState.getAppSetting(packageName = "com.android.geto")
-                }, contentDescription = "Add App Setting Dialog"
+                },
+                contentDescription = "Add App Setting Dialog",
             )
         }
 
         composeTestRule.onNodeWithTag("appSettingDialog:add").performClick()
 
         composeTestRule.onNodeWithTag(
-            testTag = "appSettingDialog:valueOnRevertSupportingText", useUnmergedTree = true
+            testTag = "appSettingDialog:valueOnRevertSupportingText", useUnmergedTree = true,
         ).assertIsDisplayed()
     }
 
@@ -194,7 +204,8 @@ class AppSettingDialogTest {
             appSettingDialogState.updateSecureSettings(secureSettings)
 
             AppSettingDialog(
-                addAppSettingDialogState = appSettingDialogState, onAddSetting = {
+                addAppSettingDialogState = appSettingDialogState,
+                onAddSetting = {
                     appSettingDialogState.updateSelectedRadioOptionIndex(1)
 
                     appSettingDialogState.updateKey("Geto 1")
@@ -206,14 +217,15 @@ class AppSettingDialogTest {
                     appSettingDialogState.updateValueOnRevert("Geto")
 
                     appSettingDialogState.getAppSetting(packageName = "com.android.geto")
-                }, contentDescription = "Add App Setting Dialog"
+                },
+                contentDescription = "Add App Setting Dialog",
             )
         }
 
         composeTestRule.onNodeWithTag("appSettingDialog:keyTextField").performClick()
 
         composeTestRule.onNodeWithTag(
-            testTag = "appSettingDialog:exposedDropdownMenuBox"
+            testTag = "appSettingDialog:exposedDropdownMenuBox",
         ).assertIsDisplayed()
     }
 
@@ -225,7 +237,8 @@ class AppSettingDialogTest {
             appSettingDialogState.updateSecureSettings(secureSettings)
 
             AppSettingDialog(
-                addAppSettingDialogState = appSettingDialogState, onAddSetting = {
+                addAppSettingDialogState = appSettingDialogState,
+                onAddSetting = {
                     appSettingDialogState.updateSelectedRadioOptionIndex(1)
 
                     appSettingDialogState.updateKey("Geto 1")
@@ -237,7 +250,8 @@ class AppSettingDialogTest {
                     appSettingDialogState.updateValueOnRevert("Geto")
 
                     appSettingDialogState.getAppSetting(packageName = "com.android.geto")
-                }, contentDescription = "Add App Setting Dialog"
+                },
+                contentDescription = "Add App Setting Dialog",
             )
         }
 
@@ -246,11 +260,11 @@ class AppSettingDialogTest {
         composeTestRule.onNodeWithText("Geto 1").performClick()
 
         composeTestRule.onNodeWithTag(
-            testTag = "appSettingDialog:keyTextField"
+            testTag = "appSettingDialog:keyTextField",
         ).assertTextEquals("Setting key", "Geto 1")
 
         composeTestRule.onNodeWithTag(
-            testTag = "appSettingDialog:valueOnRevertTextField"
+            testTag = "appSettingDialog:valueOnRevertTextField",
         ).assertTextEquals("Setting value on revert", "0")
     }
 }

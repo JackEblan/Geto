@@ -44,7 +44,7 @@ class UserDataRepositoryTest {
         )
 
         subject = DefaultUserDataRepository(
-            getoPreferencesDataSource = getoPreferencesDataSource
+            getoPreferencesDataSource = getoPreferencesDataSource,
         )
     }
 

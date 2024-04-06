@@ -90,7 +90,7 @@ internal class ShortcutDialogState {
                 id = packageName,
                 shortLabel = shortLabel,
                 longLabel = longLabel,
-                shortcutIntent = shortcutIntent
+                shortcutIntent = shortcutIntent,
             )
         } else {
             null
@@ -98,26 +98,29 @@ internal class ShortcutDialogState {
     }
 
     companion object {
-        val Saver = listSaver<ShortcutDialogState, Any>(save = { state ->
-            listOf(
-                state.showDialog,
-                state.shortLabel,
-                state.shortLabelError,
-                state.longLabel,
-                state.longLabelError
-            )
-        }, restore = {
-            ShortcutDialogState().apply {
-                showDialog = it[0] as Boolean
+        val Saver = listSaver<ShortcutDialogState, Any>(
+            save = { state ->
+                listOf(
+                    state.showDialog,
+                    state.shortLabel,
+                    state.shortLabelError,
+                    state.longLabel,
+                    state.longLabelError,
+                )
+            },
+            restore = {
+                ShortcutDialogState().apply {
+                    showDialog = it[0] as Boolean
 
-                shortLabel = it[1] as String
+                    shortLabel = it[1] as String
 
-                shortLabelError = it[2] as String
+                    shortLabelError = it[2] as String
 
-                longLabel = it[3] as String
+                    longLabel = it[3] as String
 
-                longLabelError = it[4] as String
-            }
-        })
+                    longLabelError = it[4] as String
+                }
+            },
+        )
     }
 }

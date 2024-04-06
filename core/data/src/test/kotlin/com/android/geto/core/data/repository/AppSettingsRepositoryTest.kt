@@ -56,7 +56,7 @@ class AppSettingsRepositoryTest {
             label = "Geto",
             key = "Geto",
             valueOnLaunch = "0",
-            valueOnRevert = "1"
+            valueOnRevert = "1",
         )
 
         subject.upsertAppSetting(appSetting)
@@ -79,7 +79,7 @@ class AppSettingsRepositoryTest {
                 label = "Geto",
                 key = "Geto",
                 valueOnLaunch = "0",
-                valueOnRevert = "1"
+                valueOnRevert = "1",
             )
         }
 
@@ -105,7 +105,7 @@ class AppSettingsRepositoryTest {
                 label = "Geto",
                 key = "Geto",
                 valueOnLaunch = "0",
-                valueOnRevert = "1"
+                valueOnRevert = "1",
             )
         }
 
@@ -118,7 +118,7 @@ class AppSettingsRepositoryTest {
                 label = "Sample",
                 key = "Sample",
                 valueOnLaunch = "0",
-                valueOnRevert = "1"
+                valueOnRevert = "1",
             )
         }
 
@@ -150,7 +150,7 @@ class AppSettingsRepositoryTest {
                 label = "Geto",
                 key = "Geto",
                 valueOnLaunch = "0",
-                valueOnRevert = "1"
+                valueOnRevert = "1",
             )
         }
 

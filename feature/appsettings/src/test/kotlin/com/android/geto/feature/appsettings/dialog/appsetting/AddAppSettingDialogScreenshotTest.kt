@@ -57,7 +57,7 @@ class AddAppSettingDialogScreenshotTest {
             keyIsBlank = "Settings key is blank",
             keyNotFound = "Settings key not found",
             valueOnLaunchIsBlank = "Settings value on launch is blank",
-            valueOnRevertIsBlank = "Settings value on revert is blank"
+            valueOnRevertIsBlank = "Settings value on revert is blank",
         )
     }
 
@@ -68,7 +68,7 @@ class AddAppSettingDialogScreenshotTest {
                 AppSettingDialog(
                     addAppSettingDialogState = appSettingDialogState,
                     onAddSetting = {},
-                    contentDescription = "AppSettingDialog"
+                    contentDescription = "AppSettingDialog",
                 )
             }
         }
@@ -87,13 +87,13 @@ class AddAppSettingDialogScreenshotTest {
         appSettingDialogState.updateValueOnRevert("1")
 
         composeTestRule.captureScreenRoboImageMultiDevice(
-            path = "AppSettingDialog/AppSettingDialogFilledTextFields"
+            path = "AppSettingDialog/AppSettingDialogFilledTextFields",
         ) {
             GetoTheme {
                 AppSettingDialog(
                     addAppSettingDialogState = appSettingDialogState,
                     onAddSetting = {},
-                    contentDescription = "AppSettingDialog"
+                    contentDescription = "AppSettingDialog",
                 )
             }
         }
@@ -104,13 +104,13 @@ class AddAppSettingDialogScreenshotTest {
         appSettingDialogState.getAppSetting(packageName = "")
 
         composeTestRule.captureScreenRoboImageMultiDevice(
-            path = "AppSettingDialog/AppSettingDialogErrorTextFields"
+            path = "AppSettingDialog/AppSettingDialogErrorTextFields",
         ) {
             GetoTheme {
                 AppSettingDialog(
                     addAppSettingDialogState = appSettingDialogState,
                     onAddSetting = {},
-                    contentDescription = "AppSettingDialog"
+                    contentDescription = "AppSettingDialog",
                 )
             }
         }
@@ -129,7 +129,7 @@ class AddAppSettingDialogScreenshotTest {
                     AppSettingDialog(
                         addAppSettingDialogState = appSettingDialogState,
                         onAddSetting = {},
-                        contentDescription = "AppSettingDialog"
+                        contentDescription = "AppSettingDialog",
                     )
                 }
             }
@@ -159,7 +159,7 @@ class AddAppSettingDialogScreenshotTest {
                     AppSettingDialog(
                         addAppSettingDialogState = appSettingDialogState,
                         onAddSetting = {},
-                        contentDescription = "AppSettingDialog"
+                        contentDescription = "AppSettingDialog",
                     )
                 }
             }
@@ -181,7 +181,7 @@ class AddAppSettingDialogScreenshotTest {
                     AppSettingDialog(
                         addAppSettingDialogState = appSettingDialogState,
                         onAddSetting = {},
-                        contentDescription = "AppSettingDialog"
+                        contentDescription = "AppSettingDialog",
                     )
                 }
             }

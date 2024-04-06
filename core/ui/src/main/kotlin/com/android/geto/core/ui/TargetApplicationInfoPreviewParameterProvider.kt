@@ -31,7 +31,7 @@ class TargetApplicationInfoPreviewParameterProvider :
 object TargetApplicationInfoPreviewParameterData {
     val installedApplications = List(5) { index ->
         TargetApplicationInfo(
-            flags = 0, packageName = "packageName$index", label = "Label $index"
+            flags = 0, packageName = "packageName$index", label = "Label $index",
         )
     }
 }

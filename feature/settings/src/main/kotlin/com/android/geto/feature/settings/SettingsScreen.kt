@@ -68,7 +68,7 @@ import com.android.geto.feature.settings.dialog.theme.rememberThemeDialogState
 internal fun SettingsRoute(
     modifier: Modifier = Modifier,
     viewModel: SettingsViewModel = hiltViewModel(),
-    onNavigationIconClick: () -> Unit
+    onNavigationIconClick: () -> Unit,
 ) {
 
     val settingsUiState by viewModel.settingsUiState.collectAsStateWithLifecycle()
@@ -101,24 +101,29 @@ internal fun SettingsRoute(
                 viewModel.updateThemeBrand(ThemeBrand.entries[themeDialogState.selectedRadioOptionIndex])
                 themeDialogState.updateShowDialog(false)
             },
-            contentDescription = "Theme Dialog"
+            contentDescription = "Theme Dialog",
         )
     }
 
     if (darkDialogState.showDialog) {
         DarkDialog(
-            darkDialogState = darkDialogState, onChangeDark = {
+            darkDialogState = darkDialogState,
+            onChangeDark = {
                 viewModel.updateDarkThemeConfig(DarkThemeConfig.entries[darkDialogState.selectedRadioOptionIndex])
                 darkDialogState.updateShowDialog(false)
-            }, contentDescription = "Dark Dialog"
+            },
+            contentDescription = "Dark Dialog",
         )
     }
 
     if (showCleanDialog) {
-        CleanDialog(onDismissRequest = { showCleanDialog = false }, onClean = {
-            viewModel.cleanAppSettings()
-            showCleanDialog = false
-        }, contentDescription = "Clean Dialog"
+        CleanDialog(
+            onDismissRequest = { showCleanDialog = false },
+            onClean = {
+                viewModel.cleanAppSettings()
+                showCleanDialog = false
+            },
+            contentDescription = "Clean Dialog",
         )
     }
 
@@ -146,11 +151,13 @@ internal fun SettingsScreen(
     onCleanDialog: () -> Unit,
     onChangeDynamicColorPreference: (useDynamicColor: Boolean) -> Unit,
     onChangeAutoLaunchPreference: (useAutoLaunch: Boolean) -> Unit,
-    onNavigationIconClick: () -> Unit
+    onNavigationIconClick: () -> Unit,
 ) {
-    Scaffold(topBar = {
-        SettingsTopAppBAr(onNavigationIconClick = onNavigationIconClick)
-    }) { innerPadding ->
+    Scaffold(
+        topBar = {
+            SettingsTopAppBAr(onNavigationIconClick = onNavigationIconClick)
+        },
+    ) { innerPadding ->
         SettingsContent(
             modifier = modifier,
             innerPadding = innerPadding,
@@ -160,7 +167,7 @@ internal fun SettingsScreen(
             onDarkDialog = onDarkDialog,
             onCleanDialog = onCleanDialog,
             onChangeDynamicColorPreference = onChangeDynamicColorPreference,
-            onChangeAutoLaunchPreference = onChangeAutoLaunchPreference
+            onChangeAutoLaunchPreference = onChangeAutoLaunchPreference,
         )
     }
 }
@@ -168,13 +175,16 @@ internal fun SettingsScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun SettingsTopAppBAr(onNavigationIconClick: () -> Unit) {
-    TopAppBar(title = {
-        Text(text = stringResource(id = R.string.settings))
-    }, navigationIcon = {
-        IconButton(onClick = onNavigationIconClick) {
-            Icon(imageVector = GetoIcons.Back, contentDescription = "Navigation icon")
-        }
-    })
+    TopAppBar(
+        title = {
+            Text(text = stringResource(id = R.string.settings))
+        },
+        navigationIcon = {
+            IconButton(onClick = onNavigationIconClick) {
+                Icon(imageVector = GetoIcons.Back, contentDescription = "Navigation icon")
+            }
+        },
+    )
 }
 
 @Composable
@@ -187,17 +197,17 @@ private fun SettingsContent(
     onDarkDialog: () -> Unit,
     onCleanDialog: () -> Unit,
     onChangeDynamicColorPreference: (useDynamicColor: Boolean) -> Unit,
-    onChangeAutoLaunchPreference: (useAutoLaunch: Boolean) -> Unit
+    onChangeAutoLaunchPreference: (useAutoLaunch: Boolean) -> Unit,
 ) {
     Box(
         modifier = modifier
             .fillMaxSize()
             .consumeWindowInsets(innerPadding)
-            .testTag("applist")
+            .testTag("applist"),
     ) {
         when (settingsUiState) {
             SettingsUiState.Loading -> LoadingState(
-                modifier = Modifier.align(Alignment.Center)
+                modifier = Modifier.align(Alignment.Center),
             )
 
             is SettingsUiState.Success -> {
@@ -209,7 +219,7 @@ private fun SettingsContent(
                     onDarkDialog = onDarkDialog,
                     onCleanDialog = onCleanDialog,
                     onChangeDynamicColorPreference = onChangeDynamicColorPreference,
-                    onChangeAutoLaunchPreference = onChangeAutoLaunchPreference
+                    onChangeAutoLaunchPreference = onChangeAutoLaunchPreference,
                 )
             }
         }
@@ -220,7 +230,7 @@ private fun SettingsContent(
 @Composable
 private fun LoadingState(modifier: Modifier = Modifier) {
     GetoLoadingWheel(
-        modifier = modifier, contentDescription = "GetoLoadingWheel"
+        modifier = modifier, contentDescription = "GetoLoadingWheel",
     )
 }
 
@@ -234,33 +244,33 @@ private fun SuccessState(
     onDarkDialog: () -> Unit,
     onCleanDialog: () -> Unit,
     onChangeDynamicColorPreference: (useDynamicColor: Boolean) -> Unit,
-    onChangeAutoLaunchPreference: (useAutoLaunch: Boolean) -> Unit
+    onChangeAutoLaunchPreference: (useAutoLaunch: Boolean) -> Unit,
 ) {
     Column(
         modifier = modifier
             .consumeWindowInsets(contentPadding)
             .padding(contentPadding)
-            .testTag("settings:success")
+            .testTag("settings:success"),
     ) {
         ThemeSetting(
-            settingsUiState = settingsUiState, onThemeDialog = onThemeDialog
+            settingsUiState = settingsUiState, onThemeDialog = onThemeDialog,
         )
 
         DynamicSetting(
             settingsUiState = settingsUiState,
             supportDynamicColor = supportDynamicColor,
-            onChangeDynamicColorPreference = onChangeDynamicColorPreference
+            onChangeDynamicColorPreference = onChangeDynamicColorPreference,
         )
 
         DarkSetting(
-            settingsUiState = settingsUiState, onDarkDialog = onDarkDialog
+            settingsUiState = settingsUiState, onDarkDialog = onDarkDialog,
         )
 
         SettingHorizontalDivider(categoryTitle = stringResource(R.string.application))
 
         AutoLaunchSetting(
             settingsUiState = settingsUiState,
-            onChangeAutoLaunchPreference = onChangeAutoLaunchPreference
+            onChangeAutoLaunchPreference = onChangeAutoLaunchPreference,
         )
 
         CleanSetting(onCleanDialog = onCleanDialog)
@@ -271,19 +281,21 @@ private fun SuccessState(
 private fun ThemeSetting(
     modifier: Modifier = Modifier,
     settingsUiState: SettingsUiState.Success,
-    onThemeDialog: () -> Unit
+    onThemeDialog: () -> Unit,
 ) {
-    Column(modifier = modifier
-        .fillMaxWidth()
-        .clickable { onThemeDialog() }
-        .padding(10.dp)
-        .testTag("settings:theme")) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable { onThemeDialog() }
+            .padding(10.dp)
+            .testTag("settings:theme"),
+    ) {
         Text(text = stringResource(R.string.theme), style = MaterialTheme.typography.bodyLarge)
 
         Spacer(modifier = Modifier.height(8.dp))
 
         Text(
-            text = settingsUiState.settings.brand.title, style = MaterialTheme.typography.bodySmall
+            text = settingsUiState.settings.brand.title, style = MaterialTheme.typography.bodySmall,
         )
     }
 }
@@ -303,26 +315,26 @@ private fun DynamicSetting(
                 .fillMaxWidth()
                 .padding(10.dp)
                 .testTag("settings:dynamic"),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = stringResource(R.string.dynamic_color),
-                    style = MaterialTheme.typography.bodyLarge
+                    style = MaterialTheme.typography.bodyLarge,
                 )
 
                 Spacer(modifier = Modifier.height(4.dp))
 
                 Text(
                     text = stringResource(R.string.available_on_android_12),
-                    style = MaterialTheme.typography.bodySmall
+                    style = MaterialTheme.typography.bodySmall,
                 )
             }
 
             Switch(
                 modifier = Modifier.testTag("settings:dynamicSwitch"),
                 checked = settingsUiState.settings.useDynamicColor,
-                onCheckedChange = onChangeDynamicColorPreference
+                onCheckedChange = onChangeDynamicColorPreference,
             )
         }
     }
@@ -335,20 +347,22 @@ private fun DarkSetting(
 ) {
     Spacer(modifier = Modifier.height(8.dp))
 
-    Column(modifier = modifier
-        .fillMaxWidth()
-        .clickable { onDarkDialog() }
-        .padding(10.dp)
-        .testTag("settings:dark")) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable { onDarkDialog() }
+            .padding(10.dp)
+            .testTag("settings:dark"),
+    ) {
         Text(
-            text = stringResource(R.string.dark_mode), style = MaterialTheme.typography.bodyLarge
+            text = stringResource(R.string.dark_mode), style = MaterialTheme.typography.bodyLarge,
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
         Text(
             text = settingsUiState.settings.darkThemeConfig.title,
-            style = MaterialTheme.typography.bodySmall
+            style = MaterialTheme.typography.bodySmall,
         )
     }
 }
@@ -360,7 +374,7 @@ fun SettingHorizontalDivider(modifier: Modifier = Modifier, categoryTitle: Strin
     HorizontalDivider(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 10.dp)
+            .padding(horizontal = 10.dp),
     )
 
     Spacer(modifier = Modifier.height(8.dp))
@@ -371,7 +385,7 @@ fun SettingHorizontalDivider(modifier: Modifier = Modifier, categoryTitle: Strin
             .padding(horizontal = 10.dp),
         text = categoryTitle,
         color = MaterialTheme.colorScheme.primary,
-        style = MaterialTheme.typography.bodySmall
+        style = MaterialTheme.typography.bodySmall,
     )
 }
 
@@ -379,7 +393,7 @@ fun SettingHorizontalDivider(modifier: Modifier = Modifier, categoryTitle: Strin
 private fun AutoLaunchSetting(
     modifier: Modifier = Modifier,
     settingsUiState: SettingsUiState.Success,
-    onChangeAutoLaunchPreference: (useAutoLaunch: Boolean) -> Unit
+    onChangeAutoLaunchPreference: (useAutoLaunch: Boolean) -> Unit,
 ) {
     Spacer(modifier = Modifier.height(8.dp))
 
@@ -388,26 +402,26 @@ private fun AutoLaunchSetting(
             .fillMaxWidth()
             .padding(10.dp)
             .testTag("settings:autoLaunch"),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Column(modifier = Modifier.weight(1f)) {
             Text(
                 text = stringResource(R.string.auto_launch),
-                style = MaterialTheme.typography.bodyLarge
+                style = MaterialTheme.typography.bodyLarge,
             )
 
             Spacer(modifier = Modifier.height(4.dp))
 
             Text(
                 text = stringResource(R.string.automatically_launch_the_selected_application),
-                style = MaterialTheme.typography.bodySmall
+                style = MaterialTheme.typography.bodySmall,
             )
         }
 
         Switch(
             modifier = Modifier.testTag("settings:autoLaunchSwitch"),
             checked = settingsUiState.settings.useAutoLaunch,
-            onCheckedChange = onChangeAutoLaunchPreference
+            onCheckedChange = onChangeAutoLaunchPreference,
         )
     }
 }
@@ -419,18 +433,20 @@ private fun CleanSetting(
 ) {
     Spacer(modifier = Modifier.height(8.dp))
 
-    Column(modifier = modifier
-        .fillMaxWidth()
-        .clickable { onCleanDialog() }
-        .padding(10.dp)
-        .testTag("settings:clean")) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable { onCleanDialog() }
+            .padding(10.dp)
+            .testTag("settings:clean"),
+    ) {
         Text(text = "Clean App Settings", style = MaterialTheme.typography.bodyLarge)
 
         Spacer(modifier = Modifier.height(8.dp))
 
         Text(
             text = "Remove all app settings from the uninstalled applications",
-            style = MaterialTheme.typography.bodySmall
+            style = MaterialTheme.typography.bodySmall,
         )
     }
 }
@@ -439,14 +455,16 @@ private fun CleanSetting(
 @Composable
 private fun SettingsScreenLoadingStatePreview() {
     GetoTheme {
-        SettingsScreen(settingsUiState = SettingsUiState.Loading,
-                       supportDynamicColor = false,
-                       onThemeDialog = {},
-                       onDarkDialog = {},
-                       onCleanDialog = {},
-                       onChangeDynamicColorPreference = {},
-                       onChangeAutoLaunchPreference = {},
-                       onNavigationIconClick = {})
+        SettingsScreen(
+            settingsUiState = SettingsUiState.Loading,
+            supportDynamicColor = false,
+            onThemeDialog = {},
+            onDarkDialog = {},
+            onCleanDialog = {},
+            onChangeDynamicColorPreference = {},
+            onChangeAutoLaunchPreference = {},
+            onNavigationIconClick = {},
+        )
     }
 }
 
@@ -454,20 +472,22 @@ private fun SettingsScreenLoadingStatePreview() {
 @Composable
 private fun SettingsScreenSuccessStatePreview() {
     GetoTheme {
-        SettingsScreen(settingsUiState = SettingsUiState.Success(
-            settings = UserEditableSettings(
-                brand = ThemeBrand.DEFAULT,
-                useDynamicColor = true,
-                darkThemeConfig = DarkThemeConfig.DARK,
-                useAutoLaunch = false
-            )
-        ),
-                       supportDynamicColor = true,
-                       onThemeDialog = {},
-                       onDarkDialog = {},
-                       onCleanDialog = {},
-                       onChangeDynamicColorPreference = {},
-                       onChangeAutoLaunchPreference = {},
-                       onNavigationIconClick = {})
+        SettingsScreen(
+            settingsUiState = SettingsUiState.Success(
+                settings = UserEditableSettings(
+                    brand = ThemeBrand.DEFAULT,
+                    useDynamicColor = true,
+                    darkThemeConfig = DarkThemeConfig.DARK,
+                    useAutoLaunch = false,
+                ),
+            ),
+            supportDynamicColor = true,
+            onThemeDialog = {},
+            onDarkDialog = {},
+            onCleanDialog = {},
+            onChangeDynamicColorPreference = {},
+            onChangeAutoLaunchPreference = {},
+            onNavigationIconClick = {},
+        )
     }
 }

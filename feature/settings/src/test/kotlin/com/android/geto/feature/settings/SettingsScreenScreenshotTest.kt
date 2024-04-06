@@ -49,19 +49,21 @@ class SettingsScreenScreenshotTest {
     fun settingsScreen_populated() {
         composeTestRule.captureMultiDevice("SettingsScreenPopulated") {
             GetoTheme {
-                SettingsScreen(settingsUiState = SettingsUiState.Success(
-                    settings = UserEditableSettings(
-                        brand = ThemeBrand.DEFAULT,
-                        useDynamicColor = false,
-                        darkThemeConfig = DarkThemeConfig.DARK,
-                        useAutoLaunch = false
-                    )
-                ),
-                               onThemeDialog = {},
-                               onDarkDialog = {}, onCleanDialog = {},
-                               onChangeDynamicColorPreference = {},
-                               onNavigationIconClick = {},
-                               onChangeAutoLaunchPreference = {})
+                SettingsScreen(
+                    settingsUiState = SettingsUiState.Success(
+                        settings = UserEditableSettings(
+                            brand = ThemeBrand.DEFAULT,
+                            useDynamicColor = false,
+                            darkThemeConfig = DarkThemeConfig.DARK,
+                            useAutoLaunch = false,
+                        ),
+                    ),
+                    onThemeDialog = {},
+                    onDarkDialog = {}, onCleanDialog = {},
+                    onChangeDynamicColorPreference = {},
+                    onNavigationIconClick = {},
+                    onChangeAutoLaunchPreference = {},
+                )
             }
         }
     }
@@ -70,12 +72,14 @@ class SettingsScreenScreenshotTest {
     fun settingsScreen_loading() {
         composeTestRule.captureMultiDevice("SettingsScreenLoading") {
             GetoTheme {
-                SettingsScreen(settingsUiState = SettingsUiState.Loading,
-                               onThemeDialog = {},
-                               onDarkDialog = {}, onCleanDialog = {},
-                               onChangeDynamicColorPreference = {},
-                               onNavigationIconClick = {},
-                               onChangeAutoLaunchPreference = {})
+                SettingsScreen(
+                    settingsUiState = SettingsUiState.Loading,
+                    onThemeDialog = {},
+                    onDarkDialog = {}, onCleanDialog = {},
+                    onChangeDynamicColorPreference = {},
+                    onNavigationIconClick = {},
+                    onChangeAutoLaunchPreference = {},
+                )
             }
         }
     }
@@ -90,19 +94,21 @@ class SettingsScreenScreenshotTest {
         ) {
             GetoTheme {
                 GetoBackground {
-                    SettingsScreen(settingsUiState = SettingsUiState.Success(
-                        settings = UserEditableSettings(
-                            brand = ThemeBrand.DEFAULT,
-                            useDynamicColor = false,
-                            darkThemeConfig = DarkThemeConfig.DARK,
-                            useAutoLaunch = false
-                        )
-                    ),
-                                   onThemeDialog = {},
-                                   onDarkDialog = {}, onCleanDialog = {},
-                                   onChangeDynamicColorPreference = {},
-                                   onNavigationIconClick = {},
-                                   onChangeAutoLaunchPreference = {})
+                    SettingsScreen(
+                        settingsUiState = SettingsUiState.Success(
+                            settings = UserEditableSettings(
+                                brand = ThemeBrand.DEFAULT,
+                                useDynamicColor = false,
+                                darkThemeConfig = DarkThemeConfig.DARK,
+                                useAutoLaunch = false,
+                            ),
+                        ),
+                        onThemeDialog = {},
+                        onDarkDialog = {}, onCleanDialog = {},
+                        onChangeDynamicColorPreference = {},
+                        onNavigationIconClick = {},
+                        onChangeAutoLaunchPreference = {},
+                    )
                 }
             }
         }
@@ -118,12 +124,14 @@ class SettingsScreenScreenshotTest {
         ) {
             GetoTheme {
                 GetoBackground {
-                    SettingsScreen(settingsUiState = SettingsUiState.Loading,
-                                   onThemeDialog = {},
-                                   onDarkDialog = {}, onCleanDialog = {},
-                                   onChangeDynamicColorPreference = {},
-                                   onNavigationIconClick = {},
-                                   onChangeAutoLaunchPreference = {})
+                    SettingsScreen(
+                        settingsUiState = SettingsUiState.Loading,
+                        onThemeDialog = {},
+                        onDarkDialog = {}, onCleanDialog = {},
+                        onChangeDynamicColorPreference = {},
+                        onNavigationIconClick = {},
+                        onChangeAutoLaunchPreference = {},
+                    )
                 }
             }
         }

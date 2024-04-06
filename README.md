@@ -31,7 +31,8 @@ that when you modify your settings through its Shared Preferences, you won't los
 once the Developer Options is modified. So basically, you have to grant this app
 with `android.permission.WRITE_SECURE_SETTINGS` in order for it to modify your Settings values.
 
-I want your feedback about the upcoming features in the [Discussions](https://github.com/JackEblan/Geto/discussions)
+I want your feedback about the upcoming features in
+the [Discussions](https://github.com/JackEblan/Geto/discussions)
 
 # Screenshots
 

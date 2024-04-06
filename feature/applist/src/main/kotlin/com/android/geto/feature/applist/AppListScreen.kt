@@ -56,7 +56,7 @@ internal fun AppListRoute(
     modifier: Modifier = Modifier,
     viewModel: AppListViewModel = hiltViewModel(),
     onItemClick: (String, String) -> Unit,
-    onSettingsClick: () -> Unit
+    onSettingsClick: () -> Unit,
 ) {
     val appListUiState = viewModel.appListUiState.collectAsStateWithLifecycle().value
 
@@ -70,7 +70,7 @@ internal fun AppListRoute(
         modifier = modifier,
         appListUiState = appListUiState,
         onItemClick = onItemClick,
-        onSettingsClick = onSettingsClick
+        onSettingsClick = onSettingsClick,
     )
 }
 
@@ -80,16 +80,21 @@ internal fun AppListScreen(
     modifier: Modifier = Modifier,
     appListUiState: AppListUiState,
     onSettingsClick: () -> Unit,
-    onItemClick: (String, String) -> Unit
+    onItemClick: (String, String) -> Unit,
 ) {
-    Scaffold(topBar = {
-        AppListTopAppBar(title = stringResource(R.string.geto), onSettingsClick = onSettingsClick)
-    }) { innerPadding ->
+    Scaffold(
+        topBar = {
+            AppListTopAppBar(
+                title = stringResource(R.string.geto),
+                onSettingsClick = onSettingsClick,
+            )
+        },
+    ) { innerPadding ->
         AppListContent(
             modifier = modifier,
             innerPadding = innerPadding,
             appListUiState = appListUiState,
-            onItemClick = onItemClick
+            onItemClick = onItemClick,
         )
     }
 }
@@ -97,15 +102,19 @@ internal fun AppListScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun AppListTopAppBar(
-    modifier: Modifier = Modifier, title: String, onSettingsClick: () -> Unit
+    modifier: Modifier = Modifier, title: String, onSettingsClick: () -> Unit,
 ) {
-    TopAppBar(title = {
-        Text(text = title)
-    }, modifier = modifier.testTag("appList:topAppBar"), actions = {
-        IconButton(onClick = onSettingsClick) {
-            Icon(imageVector = GetoIcons.Settings, contentDescription = "Settings icon")
-        }
-    })
+    TopAppBar(
+        title = {
+            Text(text = title)
+        },
+        modifier = modifier.testTag("appList:topAppBar"),
+        actions = {
+            IconButton(onClick = onSettingsClick) {
+                Icon(imageVector = GetoIcons.Settings, contentDescription = "Settings icon")
+            }
+        },
+    )
 }
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -114,25 +123,27 @@ private fun AppListContent(
     modifier: Modifier = Modifier,
     innerPadding: PaddingValues,
     appListUiState: AppListUiState,
-    onItemClick: (String, String) -> Unit
+    onItemClick: (String, String) -> Unit,
 ) {
-    Box(modifier = modifier
-        .fillMaxSize()
-        .consumeWindowInsets(innerPadding)
-        .semantics {
-            testTagsAsResourceId = true
-        }
-        .testTag("appList")) {
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .consumeWindowInsets(innerPadding)
+            .semantics {
+                testTagsAsResourceId = true
+            }
+            .testTag("appList"),
+    ) {
         when (appListUiState) {
             AppListUiState.Loading -> LoadingState(
-                modifier = Modifier.align(Alignment.Center)
+                modifier = Modifier.align(Alignment.Center),
             )
 
             is AppListUiState.Success -> SuccessState(
                 modifier = modifier,
                 appListUiState = appListUiState,
                 contentPadding = innerPadding,
-                onItemClick = onItemClick
+                onItemClick = onItemClick,
             )
         }
     }
@@ -142,7 +153,7 @@ private fun AppListContent(
 @Composable
 private fun LoadingState(modifier: Modifier = Modifier) {
     GetoLoadingWheel(
-        modifier = modifier, contentDescription = "GetoLoadingWheel"
+        modifier = modifier, contentDescription = "GetoLoadingWheel",
     )
 }
 
@@ -150,29 +161,29 @@ private fun LoadingState(modifier: Modifier = Modifier) {
 private fun SuccessState(
     modifier: Modifier = Modifier, appListUiState: AppListUiState,
     contentPadding: PaddingValues,
-    onItemClick: (String, String) -> Unit
+    onItemClick: (String, String) -> Unit,
 ) {
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
             .testTag("appList:lazyColumn"),
-        contentPadding = contentPadding
+        contentPadding = contentPadding,
     ) {
         appItems(
-            appListUiState = appListUiState, onItemClick = onItemClick
+            appListUiState = appListUiState, onItemClick = onItemClick,
         )
     }
 }
 
 private fun LazyListScope.appItems(
-    appListUiState: AppListUiState, onItemClick: (String, String) -> Unit
+    appListUiState: AppListUiState, onItemClick: (String, String) -> Unit,
 ) {
     when (appListUiState) {
         AppListUiState.Loading -> Unit
         is AppListUiState.Success -> {
             items(appListUiState.targetApplicationInfoList) { targetApplicationInfo ->
                 AppItem(
-                    targetApplicationInfo = targetApplicationInfo, onItemClick = onItemClick
+                    targetApplicationInfo = targetApplicationInfo, onItemClick = onItemClick,
                 )
             }
         }
@@ -183,20 +194,24 @@ private fun LazyListScope.appItems(
 @Composable
 private fun AppListScreenLoadingStatePreview() {
     GetoTheme {
-        AppListScreen(appListUiState = AppListUiState.Loading,
-                      onSettingsClick = {},
-                      onItemClick = { _, _ -> })
+        AppListScreen(
+            appListUiState = AppListUiState.Loading,
+            onSettingsClick = {},
+            onItemClick = { _, _ -> },
+        )
     }
 }
 
 @DevicePreviews
 @Composable
 private fun AppListScreenSuccessStatePreview(
-    @PreviewParameter(TargetApplicationInfoPreviewParameterProvider::class) installedApplications: List<TargetApplicationInfo>
+    @PreviewParameter(TargetApplicationInfoPreviewParameterProvider::class) installedApplications: List<TargetApplicationInfo>,
 ) {
     GetoTheme {
-        AppListScreen(appListUiState = AppListUiState.Success(installedApplications),
-                      onSettingsClick = {},
-                      onItemClick = { _, _ -> })
+        AppListScreen(
+            appListUiState = AppListUiState.Success(installedApplications),
+            onSettingsClick = {},
+            onItemClick = { _, _ -> },
+        )
     }
 }

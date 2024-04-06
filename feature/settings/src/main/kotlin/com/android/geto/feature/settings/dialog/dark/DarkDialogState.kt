@@ -42,17 +42,20 @@ class DarkDialogState {
     }
 
     companion object {
-        val Saver = listSaver<DarkDialogState, Any>(save = { state ->
-            listOf(
-                state.showDialog,
-                state.selectedRadioOptionIndex,
-            )
-        }, restore = {
-            DarkDialogState().apply {
-                showDialog = it[0] as Boolean
+        val Saver = listSaver<DarkDialogState, Any>(
+            save = { state ->
+                listOf(
+                    state.showDialog,
+                    state.selectedRadioOptionIndex,
+                )
+            },
+            restore = {
+                DarkDialogState().apply {
+                    showDialog = it[0] as Boolean
 
-                selectedRadioOptionIndex = it[1] as Int
-            }
-        })
+                    selectedRadioOptionIndex = it[1] as Int
+                }
+            },
+        )
     }
 }

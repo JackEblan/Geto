@@ -27,7 +27,7 @@ import javax.inject.Inject
 class ApplyAppSettingsUseCase @Inject constructor(
     private val packageRepository: PackageRepository,
     private val appSettingsRepository: AppSettingsRepository,
-    private val secureSettingsRepository: SecureSettingsRepository
+    private val secureSettingsRepository: SecureSettingsRepository,
 ) {
     suspend operator fun invoke(packageName: String): AppSettingsResult {
         val launchIntent = packageRepository.getLaunchIntentForPackage(packageName)

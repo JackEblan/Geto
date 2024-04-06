@@ -52,7 +52,7 @@ android {
             applicationIdSuffix = GetoBuildType.RELEASE.applicationIdSuffix
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
 
             // Ensure Baseline Profile is fresh for release builds.

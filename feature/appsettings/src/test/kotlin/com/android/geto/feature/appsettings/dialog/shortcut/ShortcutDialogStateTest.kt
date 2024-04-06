@@ -34,7 +34,7 @@ class ShortcutDialogStateTest {
         shortcutDialogState = ShortcutDialogState()
 
         shortcutDialogState.setError(
-            shortLabelIsBlank = "Short label is blank", longLabelIsBlank = "Long label is blank"
+            shortLabelIsBlank = "Short label is blank", longLabelIsBlank = "Long label is blank",
         )
     }
 
@@ -82,8 +82,8 @@ class ShortcutDialogStateTest {
 
         assertNotNull(
             shortcutDialogState.getShortcut(
-                packageName = packageName, shortcutIntent = Intent()
-            )
+                packageName = packageName, shortcutIntent = Intent(),
+            ),
         )
     }
 }

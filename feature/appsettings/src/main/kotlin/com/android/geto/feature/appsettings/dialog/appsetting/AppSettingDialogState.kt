@@ -45,7 +45,7 @@ internal fun rememberAppSettingDialogState(): AppSettingDialogState {
         keyIsBlank = stringResource(id = R.string.setting_key_is_blank),
         keyNotFound = stringResource(id = R.string.setting_key_not_found),
         valueOnLaunchIsBlank = stringResource(id = R.string.setting_value_on_launch_is_blank),
-        valueOnRevertIsBlank = stringResource(id = R.string.setting_value_on_revert_is_blank)
+        valueOnRevertIsBlank = stringResource(id = R.string.setting_value_on_revert_is_blank),
     )
 
     return rememberSaveable(saver = AppSettingDialogState.Saver) {
@@ -145,7 +145,7 @@ internal class AppSettingDialogState {
         keyIsBlank: String,
         keyNotFound: String,
         valueOnLaunchIsBlank: String,
-        valueOnRevertIsBlank: String
+        valueOnRevertIsBlank: String,
     ) {
         this.labelIsBlank = labelIsBlank
         this.keyIsBlank = keyIsBlank
@@ -187,7 +187,7 @@ internal class AppSettingDialogState {
                 label = label,
                 key = key,
                 valueOnLaunch = valueOnLaunch,
-                valueOnRevert = valueOnRevert
+                valueOnRevert = valueOnRevert,
             )
         } else {
             null
@@ -195,44 +195,47 @@ internal class AppSettingDialogState {
     }
 
     companion object {
-        val Saver = listSaver<AppSettingDialogState, Any>(save = { state ->
-            listOf(
-                state.showDialog,
-                state.selectedRadioOptionIndex,
-                state.label,
-                state.labelError,
-                state.key,
-                state.keyError,
-                state.keyNotFoundError,
-                state.valueOnLaunch,
-                state.valueOnLaunchError,
-                state.valueOnRevert,
-                state.valueOnRevertError
-            )
-        }, restore = {
-            AppSettingDialogState().apply {
-                showDialog = it[0] as Boolean
+        val Saver = listSaver<AppSettingDialogState, Any>(
+            save = { state ->
+                listOf(
+                    state.showDialog,
+                    state.selectedRadioOptionIndex,
+                    state.label,
+                    state.labelError,
+                    state.key,
+                    state.keyError,
+                    state.keyNotFoundError,
+                    state.valueOnLaunch,
+                    state.valueOnLaunchError,
+                    state.valueOnRevert,
+                    state.valueOnRevertError,
+                )
+            },
+            restore = {
+                AppSettingDialogState().apply {
+                    showDialog = it[0] as Boolean
 
-                selectedRadioOptionIndex = it[1] as Int
+                    selectedRadioOptionIndex = it[1] as Int
 
-                label = it[2] as String
+                    label = it[2] as String
 
-                labelError = it[3] as String
+                    labelError = it[3] as String
 
-                key = it[4] as String
+                    key = it[4] as String
 
-                keyError = it[5] as String
+                    keyError = it[5] as String
 
-                keyNotFoundError = it[6] as String
+                    keyNotFoundError = it[6] as String
 
-                valueOnLaunch = it[7] as String
+                    valueOnLaunch = it[7] as String
 
-                valueOnLaunchError = it[8] as String
+                    valueOnLaunchError = it[8] as String
 
-                valueOnRevert = it[9] as String
+                    valueOnRevert = it[9] as String
 
-                valueOnRevertError = it[10] as String
-            }
-        })
+                    valueOnRevertError = it[10] as String
+                }
+            },
+        )
     }
 }

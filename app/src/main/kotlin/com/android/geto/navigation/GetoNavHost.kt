@@ -31,11 +31,11 @@ import com.android.geto.feature.settings.navigation.settingsScreen
 @Composable
 fun GetoNavHost(navController: NavHostController) {
     NavHost(
-        navController = navController, startDestination = APP_LIST_NAVIGATION_ROUTE
+        navController = navController, startDestination = APP_LIST_NAVIGATION_ROUTE,
     ) {
         appListScreen(
             onItemClick = navController::navigateToAppSettings,
-            onSettingsClick = navController::navigateToSettings
+            onSettingsClick = navController::navigateToSettings,
         )
 
         appSettingsScreen(onNavigationIconClick = navController::popBackStack)

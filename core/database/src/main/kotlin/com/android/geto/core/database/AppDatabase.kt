@@ -29,15 +29,22 @@ import com.android.geto.core.database.migration.RenameUserAppSettingsItemEntityT
 import com.android.geto.core.database.model.AppSettingEntity
 
 @Database(
-    entities = [AppSettingEntity::class], version = 7, autoMigrations = [AutoMigration(
-        from = 1, to = 2, spec = RenameUserAppSettingsItemEntityToAppSettingsItemEntity::class
-    ), AutoMigration(
-        from = 4, to = 5, spec = RenameAppSettingsItemEntityToAppSettingsEntity::class
-    ), AutoMigration(
-        from = 5, to = 6, spec = DeleteSafeToWrite::class
-    ), AutoMigration(
-        from = 6, to = 7, spec = RenameAppSettingsEntityToAppSettingEntity::class
-    )], exportSchema = true
+    entities = [AppSettingEntity::class], version = 7,
+    autoMigrations = [
+        AutoMigration(
+            from = 1, to = 2, spec = RenameUserAppSettingsItemEntityToAppSettingsItemEntity::class,
+        ),
+        AutoMigration(
+            from = 4, to = 5, spec = RenameAppSettingsItemEntityToAppSettingsEntity::class,
+        ),
+        AutoMigration(
+            from = 5, to = 6, spec = DeleteSafeToWrite::class,
+        ),
+        AutoMigration(
+            from = 6, to = 7, spec = RenameAppSettingsEntityToAppSettingEntity::class,
+        ),
+    ],
+    exportSchema = true,
 )
 abstract class AppDatabase : RoomDatabase() {
 

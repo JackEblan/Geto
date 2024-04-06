@@ -43,9 +43,11 @@ internal class AppSettingsArgs(val packageName: String, val appName: String) {
     constructor(savedStateHandle: SavedStateHandle) : this(
         URLDecoder.decode(
             checkNotNull(
-                savedStateHandle[PACKAGE_NAME_ARG]
-            ), URL_CHARACTER_ENCODING
-        ), URLDecoder.decode(checkNotNull(savedStateHandle[APP_NAME_ARG]), URL_CHARACTER_ENCODING)
+                savedStateHandle[PACKAGE_NAME_ARG],
+            ),
+            URL_CHARACTER_ENCODING,
+        ),
+        URLDecoder.decode(checkNotNull(savedStateHandle[APP_NAME_ARG]), URL_CHARACTER_ENCODING),
     )
 }
 
@@ -56,9 +58,11 @@ fun NavController.navigateToAppSettings(packageName: String, appName: String) {
 fun NavGraphBuilder.appSettingsScreen(onNavigationIconClick: () -> Unit) {
     composable(
         route = "app_settings_route/{$PACKAGE_NAME_ARG}/{$APP_NAME_ARG}",
-        deepLinks = listOf(navDeepLink {
-            uriPattern = "$deepLinkUri/{$PACKAGE_NAME_ARG}/{$APP_NAME_ARG}"
-        })
+        deepLinks = listOf(
+            navDeepLink {
+                uriPattern = "$deepLinkUri/{$PACKAGE_NAME_ARG}/{$APP_NAME_ARG}"
+            },
+        ),
     ) {
         AppSettingsRoute(onNavigationIconClick = onNavigationIconClick)
     }

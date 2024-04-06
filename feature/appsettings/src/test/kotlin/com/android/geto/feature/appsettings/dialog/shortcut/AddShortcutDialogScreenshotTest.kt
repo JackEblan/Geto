@@ -53,20 +53,20 @@ class AddShortcutDialogScreenshotTest {
         shortcutDialogState = ShortcutDialogState()
 
         shortcutDialogState.setError(
-            shortLabelIsBlank = "Short label is blank", longLabelIsBlank = "Long label is blank"
+            shortLabelIsBlank = "Short label is blank", longLabelIsBlank = "Long label is blank",
         )
     }
 
     @Test
     fun addShortcutDialog_empty() {
         composeTestRule.captureScreenRoboImageMultiDevice(
-            path = "AddShortcutDialog/AddShortcutDialogEmpty"
+            path = "AddShortcutDialog/AddShortcutDialogEmpty",
         ) {
             GetoTheme {
                 AddShortcutDialog(
                     shortcutDialogState = shortcutDialogState,
                     onAddShortcut = {},
-                    contentDescription = "AddShortcutDialog"
+                    contentDescription = "AddShortcutDialog",
                 )
             }
         }
@@ -79,13 +79,13 @@ class AddShortcutDialogScreenshotTest {
         shortcutDialogState.updateLongLabel("Long Label")
 
         composeTestRule.captureScreenRoboImageMultiDevice(
-            path = "AddShortcutDialog/AddShortcutDialogFilledTextFields"
+            path = "AddShortcutDialog/AddShortcutDialogFilledTextFields",
         ) {
             GetoTheme {
                 AddShortcutDialog(
                     shortcutDialogState = shortcutDialogState,
                     onAddShortcut = {},
-                    contentDescription = "AddShortcutDialog"
+                    contentDescription = "AddShortcutDialog",
                 )
             }
         }
@@ -96,13 +96,13 @@ class AddShortcutDialogScreenshotTest {
         shortcutDialogState.getShortcut(packageName = "Test", shortcutIntent = Intent())
 
         composeTestRule.captureScreenRoboImageMultiDevice(
-            path = "AddShortcutDialog/AddShortcutDialogErrorTextFields"
+            path = "AddShortcutDialog/AddShortcutDialogErrorTextFields",
         ) {
             GetoTheme {
                 AddShortcutDialog(
                     shortcutDialogState = shortcutDialogState,
                     onAddShortcut = {},
-                    contentDescription = "AddShortcutDialog"
+                    contentDescription = "AddShortcutDialog",
                 )
             }
         }
@@ -121,7 +121,7 @@ class AddShortcutDialogScreenshotTest {
                     AddShortcutDialog(
                         shortcutDialogState = shortcutDialogState,
                         onAddShortcut = {},
-                        contentDescription = "AddShortcutDialog"
+                        contentDescription = "AddShortcutDialog",
                     )
                 }
             }
@@ -145,7 +145,7 @@ class AddShortcutDialogScreenshotTest {
                     AddShortcutDialog(
                         shortcutDialogState = shortcutDialogState,
                         onAddShortcut = {},
-                        contentDescription = "AddShortcutDialog"
+                        contentDescription = "AddShortcutDialog",
                     )
                 }
             }
@@ -168,7 +168,7 @@ class AddShortcutDialogScreenshotTest {
                     AddShortcutDialog(
                         shortcutDialogState = shortcutDialogState,
                         onAddShortcut = {},
-                        contentDescription = "AddShortcutDialog"
+                        contentDescription = "AddShortcutDialog",
                     )
                 }
             }

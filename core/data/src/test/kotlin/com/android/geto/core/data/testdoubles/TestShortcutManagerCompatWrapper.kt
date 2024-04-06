@@ -38,13 +38,13 @@ class TestShortcutManagerCompatWrapper : ShortcutManagerCompatWrapper {
     }
 
     override fun requestPinShortcut(
-        icon: Bitmap?, id: String, shortLabel: String, longLabel: String, intent: Intent
+        icon: Bitmap?, id: String, shortLabel: String, longLabel: String, intent: Intent,
     ): Boolean {
         return requestPinShortcut
     }
 
     override fun updateShortcuts(
-        icon: Bitmap?, id: String, shortLabel: String, longLabel: String, intent: Intent
+        icon: Bitmap?, id: String, shortLabel: String, longLabel: String, intent: Intent,
     ): Boolean {
         return if (updateImmutableShortcuts) {
             throw IllegalArgumentException()

@@ -26,11 +26,11 @@ interface ShortcutManagerCompatWrapper {
     fun isRequestPinShortcutSupported(): Boolean
 
     fun requestPinShortcut(
-        icon: Bitmap?, id: String, shortLabel: String, longLabel: String, intent: Intent
+        icon: Bitmap?, id: String, shortLabel: String, longLabel: String, intent: Intent,
     ): Boolean
 
     fun updateShortcuts(
-        icon: Bitmap?, id: String, shortLabel: String, longLabel: String, intent: Intent
+        icon: Bitmap?, id: String, shortLabel: String, longLabel: String, intent: Intent,
     ): Boolean
 
     fun getShortcuts(matchFlags: Int): List<TargetShortcutInfoCompat>

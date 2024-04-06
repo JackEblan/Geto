@@ -40,7 +40,7 @@ class MigrationTest {
 
     @get:Rule
     val helper: MigrationTestHelper = MigrationTestHelper(
-        InstrumentationRegistry.getInstrumentation(), AppDatabase::class.java
+        InstrumentationRegistry.getInstrumentation(), AppDatabase::class.java,
     )
 
     @Test
@@ -118,7 +118,7 @@ class MigrationTest {
         Room.databaseBuilder(
             InstrumentationRegistry.getInstrumentation().targetContext,
             AppDatabase::class.java,
-            testDb
+            testDb,
         ).addMigrations(*allMigrations).build().apply {
             openHelper.writableDatabase.close()
         }

@@ -32,7 +32,7 @@ import java.util.Locale
 
 private val coverageExclusions = listOf(
     // Android
-    "**/R.class", "**/R\$*.class", "**/BuildConfig.*", "**/Manifest*.*"
+    "**/R.class", "**/R\$*.class", "**/BuildConfig.*", "**/Manifest*.*",
 )
 
 private fun String.capitalize() = replaceFirstChar {
@@ -60,14 +60,16 @@ internal fun Project.configureJacoco(
                     html.required.set(true)
                 }
 
-                classDirectories.setFrom(fileTree("$buildDir/tmp/kotlin-classes/${variant.name}") {
-                    exclude(coverageExclusions)
-                })
+                classDirectories.setFrom(
+                    fileTree("$buildDir/tmp/kotlin-classes/${variant.name}") {
+                        exclude(coverageExclusions)
+                    },
+                )
 
                 sourceDirectories.setFrom(
                     files(
-                        "$projectDir/src/main/java", "$projectDir/src/main/kotlin"
-                    )
+                        "$projectDir/src/main/java", "$projectDir/src/main/kotlin",
+                    ),
                 )
                 executionData.setFrom(file("$buildDir/jacoco/$testTaskName.exec"))
             }

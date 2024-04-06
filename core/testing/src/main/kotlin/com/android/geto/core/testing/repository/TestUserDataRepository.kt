@@ -29,7 +29,7 @@ import kotlinx.coroutines.flow.filterNotNull
 
 val emptyUserData = UserData(
     themeBrand = ThemeBrand.DEFAULT,
-    darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM, useDynamicColor = false, useAutoLaunch = false
+    darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM, useDynamicColor = false, useAutoLaunch = false,
 )
 
 class TestUserDataRepository : UserDataRepository {

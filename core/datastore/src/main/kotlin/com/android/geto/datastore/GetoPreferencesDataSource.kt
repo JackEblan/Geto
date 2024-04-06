@@ -42,7 +42,8 @@ class GetoPreferencesDataSource @Inject constructor(
                 -> ThemeBrand.DEFAULT
 
                 ThemeBrandProto.THEME_BRAND_ANDROID -> ThemeBrand.ANDROID
-            }, darkThemeConfig = when (it.darkThemeConfig) {
+            },
+            darkThemeConfig = when (it.darkThemeConfig) {
                 null,
                 DarkThemeConfigProto.DARK_THEME_CONFIG_UNSPECIFIED,
                 DarkThemeConfigProto.UNRECOGNIZED,
@@ -51,7 +52,8 @@ class GetoPreferencesDataSource @Inject constructor(
 
                 DarkThemeConfigProto.DARK_THEME_CONFIG_LIGHT -> DarkThemeConfig.LIGHT
                 DarkThemeConfigProto.DARK_THEME_CONFIG_DARK -> DarkThemeConfig.DARK
-            }, useDynamicColor = it.useDynamicColor, useAutoLaunch = it.useAutoLaunch
+            },
+            useDynamicColor = it.useDynamicColor, useAutoLaunch = it.useAutoLaunch,
         )
     }
 

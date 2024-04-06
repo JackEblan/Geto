@@ -32,7 +32,7 @@ data class AppSettingEntity(
     val label: String,
     val key: String,
     val valueOnLaunch: String,
-    val valueOnRevert: String
+    val valueOnRevert: String,
 )
 
 fun AppSettingEntity.asExternalModel(): AppSetting {
@@ -42,7 +42,7 @@ fun AppSettingEntity.asExternalModel(): AppSetting {
         label = label,
         key = key,
         valueOnLaunch = valueOnLaunch,
-        valueOnRevert = valueOnRevert
+        valueOnRevert = valueOnRevert,
     )
 }
 
@@ -53,6 +53,6 @@ fun AppSetting.asEntity(): AppSettingEntity {
         label = label,
         key = key,
         valueOnLaunch = valueOnLaunch,
-        valueOnRevert = valueOnRevert
+        valueOnRevert = valueOnRevert,
     )
 }

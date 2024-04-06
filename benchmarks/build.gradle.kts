@@ -43,7 +43,7 @@ android {
     // benchmarks on demo, so we benchmark on stable data.
     configureFlavors(this) { flavor ->
         buildConfigField(
-            "String", "APP_FLAVOR_SUFFIX", "\"${flavor.applicationIdSuffix ?: ""}\""
+            "String", "APP_FLAVOR_SUFFIX", "\"${flavor.applicationIdSuffix ?: ""}\"",
         )
     }
 

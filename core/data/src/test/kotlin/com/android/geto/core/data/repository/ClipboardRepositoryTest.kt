@@ -34,7 +34,7 @@ class ClipboardRepositoryTest {
         clipboardManagerWrapper = TestClipboardManagerWrapper()
 
         subject = DefaultClipboardRepository(
-            clipboardManagerWrapper = clipboardManagerWrapper
+            clipboardManagerWrapper = clipboardManagerWrapper,
         )
     }
 

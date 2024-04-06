@@ -61,7 +61,7 @@ class AppSettingsViewModel @Inject constructor(
     private val shortcutRepository: ShortcutRepository,
     private val applyAppSettingsUseCase: ApplyAppSettingsUseCase,
     private val revertAppSettingsUseCase: RevertAppSettingsUseCase,
-    private val autoLaunchUseCase: AutoLaunchUseCase
+    private val autoLaunchUseCase: AutoLaunchUseCase,
 ) : ViewModel() {
     private var _secureSetting = MutableStateFlow<List<SecureSetting>>(emptyList())
     val secureSettings = _secureSetting.asStateFlow()
@@ -95,7 +95,7 @@ class AppSettingsViewModel @Inject constructor(
             .onStart { emit(AppSettingsUiState.Loading) }.stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5_000),
-                initialValue = AppSettingsUiState.Loading
+                initialValue = AppSettingsUiState.Loading,
             )
 
     fun applySettings() {
@@ -115,7 +115,7 @@ class AppSettingsViewModel @Inject constructor(
             val updatedUserAppSettingsItem = appSetting.copy(enabled = checked)
 
             appSettingsRepository.upsertAppSetting(
-                updatedUserAppSettingsItem
+                updatedUserAppSettingsItem,
             )
         }
     }
@@ -142,7 +142,7 @@ class AppSettingsViewModel @Inject constructor(
         _clipboardResult.update {
             clipboardRepository.setPrimaryClip(
                 label = "Command",
-                text = "pm grant com.android.geto android.permission.WRITE_SECURE_SETTINGS"
+                text = "pm grant com.android.geto android.permission.WRITE_SECURE_SETTINGS",
             )
         }
     }
@@ -159,7 +159,7 @@ class AppSettingsViewModel @Inject constructor(
 
             _shortcutResult.update {
                 shortcutRepository.requestPinShortcut(
-                    icon = icon?.toBitmap(), targetShortcutInfoCompat = targetShortcutInfoCompat
+                    icon = icon?.toBitmap(), targetShortcutInfoCompat = targetShortcutInfoCompat,
                 )
             }
         }
@@ -171,7 +171,7 @@ class AppSettingsViewModel @Inject constructor(
 
             _shortcutResult.update {
                 shortcutRepository.updateRequestPinShortcut(
-                    icon = icon?.toBitmap(), targetShortcutInfoCompat
+                    icon = icon?.toBitmap(), targetShortcutInfoCompat,
                 )
             }
         }

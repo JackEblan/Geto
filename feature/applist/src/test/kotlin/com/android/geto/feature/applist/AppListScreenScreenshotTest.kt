@@ -47,7 +47,7 @@ class AppListScreenScreenshotTest {
 
     private val installedApplications = List(5) { index ->
         TargetApplicationInfo(
-            flags = 0, packageName = "com.android.geto$index", label = "Geto $index"
+            flags = 0, packageName = "com.android.geto$index", label = "Geto $index",
         )
     }
 
@@ -57,8 +57,9 @@ class AppListScreenScreenshotTest {
             GetoTheme {
                 AppListScreen(
                     appListUiState = AppListUiState.Success(installedApplications),
-                              onItemClick = { _, _ -> },
-                              onSettingsClick = {})
+                    onItemClick = { _, _ -> },
+                    onSettingsClick = {},
+                )
             }
         }
     }
@@ -67,9 +68,11 @@ class AppListScreenScreenshotTest {
     fun appListScreen_loading() {
         composeTestRule.captureMultiDevice("AppListScreenLoading") {
             GetoTheme {
-                AppListScreen(appListUiState = AppListUiState.Loading,
-                              onItemClick = { _, _ -> },
-                              onSettingsClick = {})
+                AppListScreen(
+                    appListUiState = AppListUiState.Loading,
+                    onItemClick = { _, _ -> },
+                    onSettingsClick = {},
+                )
             }
         }
     }
@@ -84,9 +87,12 @@ class AppListScreenScreenshotTest {
         ) {
             GetoTheme {
                 GetoBackground {
-                    AppListScreen(appListUiState = AppListUiState.Success(
-                        installedApplications
-                    ), onItemClick = { _, _ -> }, onSettingsClick = {})
+                    AppListScreen(
+                        appListUiState = AppListUiState.Success(
+                            installedApplications,
+                        ),
+                        onItemClick = { _, _ -> }, onSettingsClick = {},
+                    )
                 }
             }
         }
@@ -102,9 +108,11 @@ class AppListScreenScreenshotTest {
         ) {
             GetoTheme {
                 GetoBackground {
-                    AppListScreen(appListUiState = AppListUiState.Loading,
-                                  onItemClick = { _, _ -> },
-                                  onSettingsClick = {})
+                    AppListScreen(
+                        appListUiState = AppListUiState.Loading,
+                        onItemClick = { _, _ -> },
+                        onSettingsClick = {},
+                    )
                 }
             }
         }

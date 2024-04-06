@@ -22,14 +22,14 @@ import com.android.geto.core.packagemanager.ClipboardManagerWrapper
 import javax.inject.Inject
 
 class DefaultClipboardRepository @Inject constructor(
-    private val clipboardManagerWrapper: ClipboardManagerWrapper
+    private val clipboardManagerWrapper: ClipboardManagerWrapper,
 ) : ClipboardRepository {
     override fun setPrimaryClip(label: String, text: String): ClipboardResult {
         val setPrimaryClipOnApi32AndHigher =
             clipboardManagerWrapper.setPrimaryClip(label = label, text = text)
 
         return if (setPrimaryClipOnApi32AndHigher) ClipboardResult.HideNotify else ClipboardResult.Notify(
-            text
+            text,
         )
     }
 }

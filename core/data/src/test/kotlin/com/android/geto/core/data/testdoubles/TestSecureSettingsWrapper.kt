@@ -28,7 +28,7 @@ class TestSecureSettingsWrapper : SecureSettingsWrapper {
     private var writeSecureSettings = false
 
     override suspend fun canWriteSecureSettings(
-        appSetting: AppSetting, value: (AppSetting) -> String
+        appSetting: AppSetting, value: (AppSetting) -> String,
     ): Boolean {
         return if (!writeSecureSettings) throw SecurityException() else true
     }
@@ -36,7 +36,7 @@ class TestSecureSettingsWrapper : SecureSettingsWrapper {
     override suspend fun getSecureSettings(settingType: SettingType): List<SecureSetting> {
         return List(5) { index ->
             SecureSetting(
-                id = index.toLong(), name = "SETTINGS", value = "$index"
+                id = index.toLong(), name = "SETTINGS", value = "$index",
             )
         }.sortedBy { it.name }
     }

@@ -66,7 +66,7 @@ internal fun AppSettingDialog(
     addAppSettingDialogState: AppSettingDialogState,
     scrollState: ScrollState = rememberScrollState(),
     onAddSetting: () -> Unit,
-    contentDescription: String
+    contentDescription: String,
 ) {
     Dialog(onDismissRequest = { addAppSettingDialogState.updateShowDialog(false) }) {
         Card(
@@ -77,29 +77,31 @@ internal fun AppSettingDialog(
                 .semantics { this.contentDescription = contentDescription },
             shape = RoundedCornerShape(16.dp),
         ) {
-            AppSettingDialogScreen(selectedRadioOptionIndex = addAppSettingDialogState.selectedRadioOptionIndex,
-                                   onUpdateSelectedRadioOptionIndex = addAppSettingDialogState::updateSelectedRadioOptionIndex,
-                                   secureSettingsExpanded = addAppSettingDialogState.secureSettingsExpanded,
-                                   onUpdateSecureSettingsExpanded = addAppSettingDialogState::updateSecureSettingsExpanded,
-                                   secureSettings = addAppSettingDialogState.secureSettings,
-                                   label = addAppSettingDialogState.label,
-                                   labelError = addAppSettingDialogState.labelError,
-                                   onUpdateLabel = addAppSettingDialogState::updateLabel,
-                                   key = addAppSettingDialogState.key,
-                                   keyError = addAppSettingDialogState.keyError,
-                                   settingsKeyNotFoundError = addAppSettingDialogState.keyNotFoundError,
-                                   onUpdateKey = addAppSettingDialogState::updateKey,
-                                   valueOnLaunch = addAppSettingDialogState.valueOnLaunch,
-                                   valueOnLaunchError = addAppSettingDialogState.valueOnLaunchError,
-                                   onUpdateValueOnLaunch = addAppSettingDialogState::updateValueOnLaunch,
-                                   valueOnRevert = addAppSettingDialogState.valueOnRevert,
-                                   valueOnRevertError = addAppSettingDialogState.valueOnRevertError,
-                                   onUpdateValueOnRevert = addAppSettingDialogState::updateValueOnRevert,
-                                   scrollState = scrollState,
-                                   onAddSetting = onAddSetting,
-                                   onCancel = {
-                                       addAppSettingDialogState.updateShowDialog(false)
-                                   })
+            AppSettingDialogScreen(
+                selectedRadioOptionIndex = addAppSettingDialogState.selectedRadioOptionIndex,
+                onUpdateSelectedRadioOptionIndex = addAppSettingDialogState::updateSelectedRadioOptionIndex,
+                secureSettingsExpanded = addAppSettingDialogState.secureSettingsExpanded,
+                onUpdateSecureSettingsExpanded = addAppSettingDialogState::updateSecureSettingsExpanded,
+                secureSettings = addAppSettingDialogState.secureSettings,
+                label = addAppSettingDialogState.label,
+                labelError = addAppSettingDialogState.labelError,
+                onUpdateLabel = addAppSettingDialogState::updateLabel,
+                key = addAppSettingDialogState.key,
+                keyError = addAppSettingDialogState.keyError,
+                settingsKeyNotFoundError = addAppSettingDialogState.keyNotFoundError,
+                onUpdateKey = addAppSettingDialogState::updateKey,
+                valueOnLaunch = addAppSettingDialogState.valueOnLaunch,
+                valueOnLaunchError = addAppSettingDialogState.valueOnLaunchError,
+                onUpdateValueOnLaunch = addAppSettingDialogState::updateValueOnLaunch,
+                valueOnRevert = addAppSettingDialogState.valueOnRevert,
+                valueOnRevertError = addAppSettingDialogState.valueOnRevertError,
+                onUpdateValueOnRevert = addAppSettingDialogState::updateValueOnRevert,
+                scrollState = scrollState,
+                onAddSetting = onAddSetting,
+                onCancel = {
+                    addAppSettingDialogState.updateShowDialog(false)
+                },
+            )
         }
     }
 }
@@ -126,19 +128,19 @@ internal fun AppSettingDialogScreen(
     onUpdateValueOnRevert: (String) -> Unit,
     scrollState: ScrollState,
     onAddSetting: () -> Unit,
-    onCancel: () -> Unit
+    onCancel: () -> Unit,
 ) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .verticalScroll(scrollState)
-            .padding(10.dp)
+            .padding(10.dp),
     ) {
         AppSettingDialogTitle()
 
         AppSettingDialogSettingTypeChooser(
             selectedRadioOptionIndex = selectedRadioOptionIndex,
-            onUpdateSelectedRadioOptionIndex = onUpdateSelectedRadioOptionIndex
+            onUpdateSelectedRadioOptionIndex = onUpdateSelectedRadioOptionIndex,
         )
 
         AppSettingDialogTextFields(
@@ -157,11 +159,11 @@ internal fun AppSettingDialogScreen(
             onUpdateValueOnLaunch = onUpdateValueOnLaunch,
             valueOnRevert = valueOnRevert,
             valueOnRevertError = valueOnRevertError,
-            onUpdateValueOnRevert = onUpdateValueOnRevert
+            onUpdateValueOnRevert = onUpdateValueOnRevert,
         )
 
         AppSettingDialogButtons(
-            onAddSetting = onAddSetting, onCancel = onCancel
+            onAddSetting = onAddSetting, onCancel = onCancel,
         )
     }
 }
@@ -173,7 +175,7 @@ private fun AppSettingDialogTitle(modifier: Modifier = Modifier) {
     Text(
         modifier = modifier.padding(horizontal = 5.dp),
         text = stringResource(R.string.add_app_setting),
-        style = MaterialTheme.typography.titleLarge
+        style = MaterialTheme.typography.titleLarge,
     )
 }
 
@@ -187,28 +189,30 @@ private fun AppSettingDialogSettingTypeChooser(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .selectableGroup()
+            .selectableGroup(),
     ) {
         SettingType.entries.map(SettingType::name).forEachIndexed { index, text ->
             Row(
                 Modifier
                     .padding(vertical = 10.dp)
-                    .selectable(selected = index == selectedRadioOptionIndex,
-                                role = Role.RadioButton,
-                                enabled = true,
-                                onClick = {
-                                    onUpdateSelectedRadioOptionIndex(index)
-                                })
+                    .selectable(
+                        selected = index == selectedRadioOptionIndex,
+                        role = Role.RadioButton,
+                        enabled = true,
+                        onClick = {
+                            onUpdateSelectedRadioOptionIndex(index)
+                        },
+                    )
                     .padding(horizontal = 16.dp),
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 RadioButton(
-                    selected = index == selectedRadioOptionIndex, onClick = null
+                    selected = index == selectedRadioOptionIndex, onClick = null,
                 )
                 Text(
                     text = text.lowercase().replaceFirstChar { it.uppercase() },
                     style = MaterialTheme.typography.bodyLarge,
-                    modifier = Modifier.padding(start = 10.dp)
+                    modifier = Modifier.padding(start = 10.dp),
                 )
             }
         }
@@ -232,7 +236,7 @@ private fun AppSettingDialogTextFields(
     onUpdateValueOnLaunch: (String) -> Unit,
     valueOnRevert: String,
     valueOnRevertError: String,
-    onUpdateValueOnRevert: (String) -> Unit
+    onUpdateValueOnRevert: (String) -> Unit,
 ) {
     Spacer(modifier = Modifier.height(10.dp))
 
@@ -249,11 +253,11 @@ private fun AppSettingDialogTextFields(
         supportingText = {
             if (labelError.isNotBlank()) Text(
                 text = labelError,
-                modifier = Modifier.testTag("appSettingDialog:labelSupportingText")
+                modifier = Modifier.testTag("appSettingDialog:labelSupportingText"),
             )
         },
         singleLine = true,
-        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
     )
 
     AppSettingDialogTextFieldWithDropdownMenu(
@@ -264,7 +268,7 @@ private fun AppSettingDialogTextFields(
         keyError = keyError,
         settingsKeyNotFoundError = settingsKeyNotFoundError,
         onUpdateKey = onUpdateKey,
-        onUpdateValueOnRevert = onUpdateValueOnRevert
+        onUpdateValueOnRevert = onUpdateValueOnRevert,
     )
 
     OutlinedTextField(
@@ -280,11 +284,11 @@ private fun AppSettingDialogTextFields(
         supportingText = {
             if (valueOnLaunchError.isNotBlank()) Text(
                 text = valueOnLaunchError,
-                modifier = Modifier.testTag("appSettingDialog:valueOnLaunchSupportingText")
+                modifier = Modifier.testTag("appSettingDialog:valueOnLaunchSupportingText"),
             )
         },
         singleLine = true,
-        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
     )
 
     OutlinedTextField(
@@ -301,11 +305,11 @@ private fun AppSettingDialogTextFields(
         supportingText = {
             if (valueOnRevertError.isNotBlank()) Text(
                 text = valueOnRevertError,
-                modifier = Modifier.testTag("appSettingDialog:valueOnRevertSupportingText")
+                modifier = Modifier.testTag("appSettingDialog:valueOnRevertSupportingText"),
             )
         },
         singleLine = true,
-        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
     )
 }
 
@@ -319,12 +323,12 @@ private fun AppSettingDialogTextFieldWithDropdownMenu(
     keyError: String,
     settingsKeyNotFoundError: String,
     onUpdateKey: (String) -> Unit,
-    onUpdateValueOnRevert: (String) -> Unit
+    onUpdateValueOnRevert: (String) -> Unit,
 ) {
     ExposedDropdownMenuBox(
         expanded = secureSettingsExpanded,
         onExpandedChange = onUpdateSecureSettingsExpanded,
-        modifier = Modifier.testTag("appSettingDialog:exposedDropdownMenuBox")
+        modifier = Modifier.testTag("appSettingDialog:exposedDropdownMenuBox"),
     ) {
         OutlinedTextField(
             modifier = Modifier
@@ -343,16 +347,16 @@ private fun AppSettingDialogTextFieldWithDropdownMenu(
             supportingText = {
                 if (keyError.isNotBlank()) Text(
                     text = keyError,
-                    modifier = Modifier.testTag("appSettingDialog:keySupportingText")
+                    modifier = Modifier.testTag("appSettingDialog:keySupportingText"),
                 )
 
                 if (settingsKeyNotFoundError.isNotBlank()) Text(
                     text = settingsKeyNotFoundError,
-                    modifier = Modifier.testTag("appSettingDialog:settingsKeyNotFoundSupportingText")
+                    modifier = Modifier.testTag("appSettingDialog:settingsKeyNotFoundSupportingText"),
                 )
             },
             singleLine = true,
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
         )
 
         if (secureSettings.isNotEmpty()) {
@@ -367,20 +371,20 @@ private fun AppSettingDialogTextFieldWithDropdownMenu(
                         text = {
                             Text(
                                 text = secureSetting.name ?: "null",
-                                style = MaterialTheme.typography.bodySmall
+                                style = MaterialTheme.typography.bodySmall,
                             )
                         },
                         onClick = {
                             onUpdateKey(
-                                secureSetting.name ?: "null"
+                                secureSetting.name ?: "null",
                             )
 
                             onUpdateValueOnRevert(
-                                secureSetting.value ?: "null"
+                                secureSetting.value ?: "null",
                             )
 
                             onUpdateSecureSettingsExpanded(
-                                false
+                                false,
                             )
                         },
                         contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
@@ -393,14 +397,14 @@ private fun AppSettingDialogTextFieldWithDropdownMenu(
 
 @Composable
 private fun AppSettingDialogButtons(
-    modifier: Modifier = Modifier, onAddSetting: () -> Unit, onCancel: () -> Unit
+    modifier: Modifier = Modifier, onAddSetting: () -> Unit, onCancel: () -> Unit,
 ) {
     Row(
         modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.End,
     ) {
         TextButton(
-            onClick = onCancel, modifier = Modifier.padding(5.dp)
+            onClick = onCancel, modifier = Modifier.padding(5.dp),
         ) {
             Text(stringResource(R.string.cancel))
         }
@@ -408,7 +412,7 @@ private fun AppSettingDialogButtons(
             onClick = onAddSetting,
             modifier = Modifier
                 .padding(5.dp)
-                .testTag("appSettingDialog:add")
+                .testTag("appSettingDialog:add"),
         ) {
             Text(stringResource(R.string.add))
         }
@@ -419,26 +423,28 @@ private fun AppSettingDialogButtons(
 @Composable
 private fun AddAppSettingDialogScreenPreview() {
     GetoTheme {
-        AppSettingDialogScreen(selectedRadioOptionIndex = 0,
-                               onUpdateSelectedRadioOptionIndex = {},
-                               secureSettingsExpanded = false,
-                               onUpdateSecureSettingsExpanded = {},
-                               secureSettings = listOf(),
-                               label = "",
-                               labelError = "",
-                               onUpdateLabel = {},
-                               key = "",
-                               keyError = "",
-                               settingsKeyNotFoundError = "",
-                               onUpdateKey = {},
-                               valueOnLaunch = "",
-                               valueOnLaunchError = "",
-                               onUpdateValueOnLaunch = {},
-                               valueOnRevert = "",
-                               valueOnRevertError = "",
-                               onUpdateValueOnRevert = {},
-                               scrollState = ScrollState(0),
-                               onAddSetting = {},
-                               onCancel = {})
+        AppSettingDialogScreen(
+            selectedRadioOptionIndex = 0,
+            onUpdateSelectedRadioOptionIndex = {},
+            secureSettingsExpanded = false,
+            onUpdateSecureSettingsExpanded = {},
+            secureSettings = listOf(),
+            label = "",
+            labelError = "",
+            onUpdateLabel = {},
+            key = "",
+            keyError = "",
+            settingsKeyNotFoundError = "",
+            onUpdateKey = {},
+            valueOnLaunch = "",
+            valueOnLaunchError = "",
+            onUpdateValueOnLaunch = {},
+            valueOnRevert = "",
+            valueOnRevertError = "",
+            onUpdateValueOnRevert = {},
+            scrollState = ScrollState(0),
+            onAddSetting = {},
+            onCancel = {},
+        )
     }
 }

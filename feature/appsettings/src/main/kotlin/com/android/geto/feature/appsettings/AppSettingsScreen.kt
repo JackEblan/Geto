@@ -89,7 +89,7 @@ import com.android.geto.feature.appsettings.dialog.shortcut.rememberUpdateShortc
 internal fun AppSettingsRoute(
     modifier: Modifier = Modifier,
     viewModel: AppSettingsViewModel = hiltViewModel(),
-    onNavigationIconClick: () -> Unit
+    onNavigationIconClick: () -> Unit,
 ) {
     val appSettingsDisabled = stringResource(id = R.string.app_settings_disabled)
     val emptyAppSettingsList = stringResource(id = R.string.empty_app_settings_list)
@@ -187,12 +187,12 @@ internal fun AppSettingsRoute(
         when (shortcutResult) {
             ShortcutResult.IDNotFound -> snackbarHostState.showSnackbar(message = shortcutIdNotFound)
             ShortcutResult.ShortcutDisableImmutableShortcuts -> snackbarHostState.showSnackbar(
-                message = shortcutDisableImmutableShortcuts
+                message = shortcutDisableImmutableShortcuts,
             )
 
             ShortcutResult.ShortcutUpdateFailed -> snackbarHostState.showSnackbar(message = shortcutUpdateFailed)
             ShortcutResult.ShortcutUpdateImmutableShortcuts -> snackbarHostState.showSnackbar(
-                message = shortcutUpdateImmutableShortcuts
+                message = shortcutUpdateImmutableShortcuts,
             )
 
             ShortcutResult.ShortcutUpdateSuccess -> snackbarHostState.showSnackbar(message = shortcutUpdateSuccess)
@@ -217,8 +217,8 @@ internal fun AppSettingsRoute(
             ClipboardResult.HideNotify -> Unit
             is ClipboardResult.Notify -> snackbarHostState.showSnackbar(
                 message = String.format(
-                    copiedToClipboard, clipboardResult.text
-                )
+                    copiedToClipboard, clipboardResult.text,
+                ),
             )
 
             ClipboardResult.NoResult -> Unit
@@ -228,12 +228,12 @@ internal fun AppSettingsRoute(
     }
 
     LaunchedEffect(
-        key1 = appSettingsDialogState.selectedRadioOptionIndex, key2 = keyDebounce
+        key1 = appSettingsDialogState.selectedRadioOptionIndex, key2 = keyDebounce,
     ) {
         val settingType = SettingType.entries[appSettingsDialogState.selectedRadioOptionIndex]
 
         viewModel.getSecureSettings(
-            text = appSettingsDialogState.key, settingType = settingType
+            text = appSettingsDialogState.key, settingType = settingType,
         )
     }
 
@@ -250,46 +250,55 @@ internal fun AppSettingsRoute(
 
     if (appSettingsDialogState.showDialog) {
         AppSettingDialog(
-            addAppSettingDialogState = appSettingsDialogState, onAddSetting = {
+            addAppSettingDialogState = appSettingsDialogState,
+            onAddSetting = {
                 appSettingsDialogState.getAppSetting(packageName = viewModel.packageName)?.let {
                     viewModel.addSettings(it)
                     appSettingsDialogState.resetState()
                 }
-            }, contentDescription = "Add App Settings Dialog"
+            },
+            contentDescription = "Add App Settings Dialog",
         )
     }
 
     if (showCopyPermissionCommandDialog) {
-        CopyPermissionCommandDialog(onDismissRequest = { showCopyPermissionCommandDialog = false },
-                                    onCopySettings = {
-                                        viewModel.copyPermissionCommand()
-                                        showCopyPermissionCommandDialog = false
-                                    },
-                                    contentDescription = "Copy Permission Command Dialog"
+        CopyPermissionCommandDialog(
+            onDismissRequest = { showCopyPermissionCommandDialog = false },
+            onCopySettings = {
+                viewModel.copyPermissionCommand()
+                showCopyPermissionCommandDialog = false
+            },
+            contentDescription = "Copy Permission Command Dialog",
         )
     }
 
     if (addShortcutDialogState.showDialog) {
-        AddShortcutDialog(shortcutDialogState = addShortcutDialogState, onAddShortcut = {
-            addShortcutDialogState.getShortcut(
-                packageName = viewModel.packageName, shortcutIntent = shortcutIntent
-            )?.let {
-                viewModel.requestPinShortcut(it)
-                addShortcutDialogState.resetState()
-            }
-        }, contentDescription = "Add Shortcut Dialog")
+        AddShortcutDialog(
+            shortcutDialogState = addShortcutDialogState,
+            onAddShortcut = {
+                addShortcutDialogState.getShortcut(
+                    packageName = viewModel.packageName, shortcutIntent = shortcutIntent,
+                )?.let {
+                    viewModel.requestPinShortcut(it)
+                    addShortcutDialogState.resetState()
+                }
+            },
+            contentDescription = "Add Shortcut Dialog",
+        )
     }
 
     if (updateShortcutDialogState.showDialog) {
         UpdateShortcutDialog(
-            shortcutDialogState = updateShortcutDialogState, onUpdateShortcut = {
+            shortcutDialogState = updateShortcutDialogState,
+            onUpdateShortcut = {
                 updateShortcutDialogState.getShortcut(
-                    packageName = viewModel.packageName, shortcutIntent = shortcutIntent
+                    packageName = viewModel.packageName, shortcutIntent = shortcutIntent,
                 )?.let {
                     viewModel.updateRequestPinShortcut(it)
                     updateShortcutDialogState.resetState()
                 }
-            }, contentDescription = "Update Shortcut Dialog"
+            },
+            contentDescription = "Update Shortcut Dialog",
         )
     }
 
@@ -309,7 +318,7 @@ internal fun AppSettingsRoute(
         },
         onAppSettingsItemCheckBoxChange = viewModel::appSettingsItemCheckBoxChange,
         onDeleteAppSettingsItem = viewModel::deleteAppSettingsItem,
-        onLaunchApp = viewModel::applySettings
+        onLaunchApp = viewModel::applySettings,
     )
 }
 
@@ -328,26 +337,30 @@ internal fun AppSettingsScreen(
     onDeleteAppSettingsItem: (AppSetting) -> Unit,
     onLaunchApp: () -> Unit,
 ) {
-    Scaffold(topBar = {
-        AppSettingsTopAppBar(
-            title = appName, onNavigationIconClick = onNavigationIconClick
-        )
-    }, bottomBar = {
-        AppSettingsBottomAppBar(
-            onRevertSettingsIconClick = onRevertSettingsIconClick,
-            onSettingsIconClick = onSettingsIconClick,
-            onShortcutIconClick = onShortcutIconClick,
-            onLaunchApp = onLaunchApp
-        )
-    }, snackbarHost = {
-        SnackbarHost(hostState = snackbarHostState)
-    }) { innerPadding ->
+    Scaffold(
+        topBar = {
+            AppSettingsTopAppBar(
+                title = appName, onNavigationIconClick = onNavigationIconClick,
+            )
+        },
+        bottomBar = {
+            AppSettingsBottomAppBar(
+                onRevertSettingsIconClick = onRevertSettingsIconClick,
+                onSettingsIconClick = onSettingsIconClick,
+                onShortcutIconClick = onShortcutIconClick,
+                onLaunchApp = onLaunchApp,
+            )
+        },
+        snackbarHost = {
+            SnackbarHost(hostState = snackbarHostState)
+        },
+    ) { innerPadding ->
         AppSettingsContent(
             modifier = modifier,
             innerPadding = innerPadding,
             appSettingsUiState = appSettingsUiState,
             onAppSettingsItemCheckBoxChange = onAppSettingsItemCheckBoxChange,
-            onDeleteAppSettingsItem = onDeleteAppSettingsItem
+            onDeleteAppSettingsItem = onDeleteAppSettingsItem,
         )
     }
 }
@@ -355,17 +368,21 @@ internal fun AppSettingsScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun AppSettingsTopAppBar(
-    modifier: Modifier = Modifier, title: String, onNavigationIconClick: () -> Unit
+    modifier: Modifier = Modifier, title: String, onNavigationIconClick: () -> Unit,
 ) {
-    TopAppBar(title = {
-        Text(text = title, maxLines = 1)
-    }, modifier = modifier.testTag("appSettings:topAppBar"), navigationIcon = {
-        IconButton(onClick = onNavigationIconClick) {
-            Icon(
-                imageVector = GetoIcons.Back, contentDescription = "Navigation icon"
-            )
-        }
-    })
+    TopAppBar(
+        title = {
+            Text(text = title, maxLines = 1)
+        },
+        modifier = modifier.testTag("appSettings:topAppBar"),
+        navigationIcon = {
+            IconButton(onClick = onNavigationIconClick) {
+                Icon(
+                    imageVector = GetoIcons.Back, contentDescription = "Navigation icon",
+                )
+            }
+        },
+    )
 }
 
 @Composable
@@ -373,19 +390,22 @@ private fun AppSettingsBottomAppBar(
     onRevertSettingsIconClick: () -> Unit,
     onSettingsIconClick: () -> Unit,
     onShortcutIconClick: () -> Unit,
-    onLaunchApp: () -> Unit
+    onLaunchApp: () -> Unit,
 ) {
-    BottomAppBar(actions = {
-        AppSettingsBottomAppBarActions(
-            onRevertSettingsIconClick = onRevertSettingsIconClick,
-            onSettingsIconClick = onSettingsIconClick,
-            onShortcutIconClick = onShortcutIconClick
-        )
-    }, floatingActionButton = {
-        AppSettingsFloatingActionButton(
-            onClick = onLaunchApp
-        )
-    })
+    BottomAppBar(
+        actions = {
+            AppSettingsBottomAppBarActions(
+                onRevertSettingsIconClick = onRevertSettingsIconClick,
+                onSettingsIconClick = onSettingsIconClick,
+                onShortcutIconClick = onShortcutIconClick,
+            )
+        },
+        floatingActionButton = {
+            AppSettingsFloatingActionButton(
+                onClick = onLaunchApp,
+            )
+        },
+    )
 }
 
 @Composable
@@ -393,10 +413,10 @@ private fun AppSettingsFloatingActionButton(onClick: () -> Unit) {
     FloatingActionButton(
         onClick = onClick,
         containerColor = BottomAppBarDefaults.bottomAppBarFabColor,
-        elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
+        elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
     ) {
         Icon(
-            imageVector = GetoIcons.Android, contentDescription = "Launch icon"
+            imageVector = GetoIcons.Android, contentDescription = "Launch icon",
         )
     }
 }
@@ -405,11 +425,11 @@ private fun AppSettingsFloatingActionButton(onClick: () -> Unit) {
 fun AppSettingsBottomAppBarActions(
     onRevertSettingsIconClick: () -> Unit,
     onSettingsIconClick: () -> Unit,
-    onShortcutIconClick: () -> Unit
+    onShortcutIconClick: () -> Unit,
 ) {
     IconButton(onClick = onRevertSettingsIconClick) {
         Icon(
-            imageVector = GetoIcons.Refresh, contentDescription = "Revert icon"
+            imageVector = GetoIcons.Refresh, contentDescription = "Revert icon",
         )
     }
 
@@ -439,7 +459,7 @@ private fun AppSettingsContent(
     Box(
         modifier = modifier
             .fillMaxSize()
-            .consumeWindowInsets(innerPadding)
+            .consumeWindowInsets(innerPadding),
     ) {
         when (appSettingsUiState) {
             AppSettingsUiState.Loading -> {
@@ -452,7 +472,7 @@ private fun AppSettingsContent(
                         appSettingsUiState = appSettingsUiState,
                         contentPadding = innerPadding,
                         onAppSettingsItemCheckBoxChange = onAppSettingsItemCheckBoxChange,
-                        onDeleteAppSettingsItem = onDeleteAppSettingsItem
+                        onDeleteAppSettingsItem = onDeleteAppSettingsItem,
                     )
                 } else {
                     EmptyState(text = stringResource(R.string.add_your_first_settings))
@@ -464,22 +484,22 @@ private fun AppSettingsContent(
 
 @Composable
 private fun EmptyState(
-    modifier: Modifier = Modifier, text: String
+    modifier: Modifier = Modifier, text: String,
 ) {
     Column(
         modifier = modifier
             .fillMaxSize()
             .testTag("appSettings:emptyListPlaceHolderScreen"),
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Image(
             imageVector = GetoIcons.Empty,
             contentDescription = null,
             modifier = Modifier.size(100.dp),
             colorFilter = ColorFilter.tint(
-                MaterialTheme.colorScheme.onSurface
-            )
+                MaterialTheme.colorScheme.onSurface,
+            ),
         )
 
         Spacer(modifier = Modifier.height(10.dp))
@@ -491,7 +511,7 @@ private fun EmptyState(
 @Composable
 private fun LoadingState(modifier: Modifier = Modifier) {
     GetoLoadingWheel(
-        modifier = modifier, contentDescription = "GetoLoadingWheel"
+        modifier = modifier, contentDescription = "GetoLoadingWheel",
     )
 }
 
@@ -501,7 +521,7 @@ private fun SuccessState(
     appSettingsUiState: AppSettingsUiState,
     contentPadding: PaddingValues,
     onAppSettingsItemCheckBoxChange: (Boolean, AppSetting) -> Unit,
-    onDeleteAppSettingsItem: (AppSetting) -> Unit
+    onDeleteAppSettingsItem: (AppSetting) -> Unit,
 ) {
     when (appSettingsUiState) {
         AppSettingsUiState.Loading -> Unit
@@ -510,12 +530,12 @@ private fun SuccessState(
                 modifier = modifier
                     .fillMaxSize()
                     .testTag("appSettings:lazyColumn"),
-                contentPadding = contentPadding
+                contentPadding = contentPadding,
             ) {
                 appSettings(
                     appSettingList = appSettingsUiState.appSettingList,
                     onAppSettingsItemCheckBoxChange = onAppSettingsItemCheckBoxChange,
-                    onDeleteAppSettingsItem = onDeleteAppSettingsItem
+                    onDeleteAppSettingsItem = onDeleteAppSettingsItem,
                 )
             }
         }
@@ -533,15 +553,17 @@ private fun LazyListScope.appSettings(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 10.dp, horizontal = 5.dp)
-                .animateItemPlacement(), appSetting = appSettings,
-                        onUserAppSettingsItemCheckBoxChange = { check ->
-                            onAppSettingsItemCheckBoxChange(
-                                check, appSettings
-                            )
-                        },
-                        onDeleteUserAppSettingsItem = {
-                            onDeleteAppSettingsItem(appSettings)
-                        })
+                .animateItemPlacement(),
+            appSetting = appSettings,
+            onUserAppSettingsItemCheckBoxChange = { check ->
+                onAppSettingsItemCheckBoxChange(
+                    check, appSettings,
+                )
+            },
+            onDeleteUserAppSettingsItem = {
+                onDeleteAppSettingsItem(appSettings)
+            },
+        )
     }
 }
 
@@ -549,16 +571,18 @@ private fun LazyListScope.appSettings(
 @Composable
 private fun AppSettingsScreenLoadingStatePreview() {
     GetoTheme {
-        AppSettingsScreen(snackbarHostState = SnackbarHostState(),
-                          appName = "Geto",
-                          appSettingsUiState = AppSettingsUiState.Loading,
-                          onNavigationIconClick = {},
-                          onRevertSettingsIconClick = {},
-                          onSettingsIconClick = {},
-                          onShortcutIconClick = {},
-                          onAppSettingsItemCheckBoxChange = { _, _ -> },
-                          onDeleteAppSettingsItem = {},
-                          onLaunchApp = {})
+        AppSettingsScreen(
+            snackbarHostState = SnackbarHostState(),
+            appName = "Geto",
+            appSettingsUiState = AppSettingsUiState.Loading,
+            onNavigationIconClick = {},
+            onRevertSettingsIconClick = {},
+            onSettingsIconClick = {},
+            onShortcutIconClick = {},
+            onAppSettingsItemCheckBoxChange = { _, _ -> },
+            onDeleteAppSettingsItem = {},
+            onLaunchApp = {},
+        )
     }
 }
 
@@ -566,34 +590,38 @@ private fun AppSettingsScreenLoadingStatePreview() {
 @Composable
 private fun AppSettingsScreenEmptyStatePreview() {
     GetoTheme {
-        AppSettingsScreen(snackbarHostState = SnackbarHostState(),
-                          appName = "Geto",
-                          appSettingsUiState = AppSettingsUiState.Success(emptyList()),
-                          onNavigationIconClick = {},
-                          onRevertSettingsIconClick = {},
-                          onSettingsIconClick = {},
-                          onShortcutIconClick = {},
-                          onAppSettingsItemCheckBoxChange = { _, _ -> },
-                          onDeleteAppSettingsItem = {},
-                          onLaunchApp = {})
+        AppSettingsScreen(
+            snackbarHostState = SnackbarHostState(),
+            appName = "Geto",
+            appSettingsUiState = AppSettingsUiState.Success(emptyList()),
+            onNavigationIconClick = {},
+            onRevertSettingsIconClick = {},
+            onSettingsIconClick = {},
+            onShortcutIconClick = {},
+            onAppSettingsItemCheckBoxChange = { _, _ -> },
+            onDeleteAppSettingsItem = {},
+            onLaunchApp = {},
+        )
     }
 }
 
 @DevicePreviews
 @Composable
 private fun AppSettingsScreenSuccessStatePreview(
-    @PreviewParameter(AppSettingsPreviewParameterProvider::class) appSettings: List<AppSetting>
+    @PreviewParameter(AppSettingsPreviewParameterProvider::class) appSettings: List<AppSetting>,
 ) {
     GetoTheme {
-        AppSettingsScreen(snackbarHostState = SnackbarHostState(),
-                          appName = "Geto",
-                          appSettingsUiState = AppSettingsUiState.Success(appSettings),
-                          onNavigationIconClick = {},
-                          onRevertSettingsIconClick = {},
-                          onSettingsIconClick = {},
-                          onShortcutIconClick = {},
-                          onAppSettingsItemCheckBoxChange = { _, _ -> },
-                          onDeleteAppSettingsItem = {},
-                          onLaunchApp = {})
+        AppSettingsScreen(
+            snackbarHostState = SnackbarHostState(),
+            appName = "Geto",
+            appSettingsUiState = AppSettingsUiState.Success(appSettings),
+            onNavigationIconClick = {},
+            onRevertSettingsIconClick = {},
+            onSettingsIconClick = {},
+            onShortcutIconClick = {},
+            onAppSettingsItemCheckBoxChange = { _, _ -> },
+            onDeleteAppSettingsItem = {},
+            onLaunchApp = {},
+        )
     }
 }

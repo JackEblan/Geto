@@ -46,7 +46,7 @@ class ApplyAppSettingsUseCaseTest {
         applyAppSettingsUseCase = ApplyAppSettingsUseCase(
             packageRepository = packageRepository,
             appSettingsRepository = appSettingsRepository,
-            secureSettingsRepository = secureSettingsRepository
+            secureSettingsRepository = secureSettingsRepository,
         )
     }
 
@@ -70,7 +70,7 @@ class ApplyAppSettingsUseCaseTest {
                 packageName = packageName,
                 label = "Geto", key = "Geto $index",
                 valueOnLaunch = "0",
-                valueOnRevert = "1"
+                valueOnRevert = "1",
             )
         }
 
@@ -91,7 +91,7 @@ class ApplyAppSettingsUseCaseTest {
                 packageName = packageName,
                 label = "Geto", key = "Geto $index",
                 valueOnLaunch = "0",
-                valueOnRevert = "1"
+                valueOnRevert = "1",
             )
         }
 
@@ -122,7 +122,7 @@ class ApplyAppSettingsUseCaseTest {
                 packageName = packageName,
                 label = "Geto", key = "Geto $index",
                 valueOnLaunch = "0",
-                valueOnRevert = "1"
+                valueOnRevert = "1",
             )
         }
 
@@ -145,7 +145,7 @@ class ApplyAppSettingsUseCaseTest {
                 packageName = packageName,
                 label = "Geto", key = "Geto $index",
                 valueOnLaunch = "0",
-                valueOnRevert = "1"
+                valueOnRevert = "1",
             )
         }
 

@@ -25,11 +25,11 @@ import com.android.geto.core.shortcutmanager.ShortcutManagerCompatWrapper
 import javax.inject.Inject
 
 class DefaultShortcutRepository @Inject constructor(
-    private val shortcutManagerCompatWrapper: ShortcutManagerCompatWrapper
+    private val shortcutManagerCompatWrapper: ShortcutManagerCompatWrapper,
 ) : ShortcutRepository {
 
     override fun requestPinShortcut(
-        icon: Bitmap?, targetShortcutInfoCompat: TargetShortcutInfoCompat
+        icon: Bitmap?, targetShortcutInfoCompat: TargetShortcutInfoCompat,
     ): ShortcutResult {
         if (shortcutManagerCompatWrapper.isRequestPinShortcutSupported().not()) {
             return ShortcutResult.UnsupportedLauncher
@@ -40,7 +40,7 @@ class DefaultShortcutRepository @Inject constructor(
             id = targetShortcutInfoCompat.id!!,
             shortLabel = targetShortcutInfoCompat.shortLabel!!,
             longLabel = targetShortcutInfoCompat.longLabel!!,
-            intent = targetShortcutInfoCompat.shortcutIntent!!
+            intent = targetShortcutInfoCompat.shortcutIntent!!,
         )
 
         return if (requestPinShortcutSuccess) {
@@ -49,7 +49,7 @@ class DefaultShortcutRepository @Inject constructor(
     }
 
     override fun updateRequestPinShortcut(
-        icon: Bitmap?, targetShortcutInfoCompat: TargetShortcutInfoCompat
+        icon: Bitmap?, targetShortcutInfoCompat: TargetShortcutInfoCompat,
     ): ShortcutResult {
         val shortcutIds =
             shortcutManagerCompatWrapper.getShortcuts(ShortcutManagerCompat.FLAG_MATCH_PINNED)
@@ -65,7 +65,7 @@ class DefaultShortcutRepository @Inject constructor(
                 id = targetShortcutInfoCompat.id!!,
                 shortLabel = targetShortcutInfoCompat.shortLabel!!,
                 longLabel = targetShortcutInfoCompat.longLabel!!,
-                intent = targetShortcutInfoCompat.shortcutIntent!!
+                intent = targetShortcutInfoCompat.shortcutIntent!!,
             )
 
             if (updateShortcutsSuccess) {
@@ -86,8 +86,8 @@ class DefaultShortcutRepository @Inject constructor(
             ShortcutResult.ShortcutFound(
                 targetShortcutInfoCompat = TargetShortcutInfoCompat(
                     shortLabel = shortcutInfoCompat.shortLabel.toString(),
-                    longLabel = shortcutInfoCompat.longLabel.toString()
-                )
+                    longLabel = shortcutInfoCompat.longLabel.toString(),
+                ),
             )
         } else {
             ShortcutResult.NoShortcutFound

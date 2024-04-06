@@ -34,7 +34,7 @@ class AppSettingsEntityTest {
             label = "Geto",
             key = "Geto",
             valueOnLaunch = "0",
-            valueOnRevert = "1"
+            valueOnRevert = "1",
         )
 
         val entity = appSetting.asEntity()

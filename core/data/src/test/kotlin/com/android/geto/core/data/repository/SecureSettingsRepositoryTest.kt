@@ -55,7 +55,7 @@ class SecureSettingsRepositoryTest {
                 label = "Geto",
                 key = "Geto $index",
                 valueOnLaunch = "0",
-                valueOnRevert = "1"
+                valueOnRevert = "1",
             )
         }
 
@@ -74,7 +74,7 @@ class SecureSettingsRepositoryTest {
                 label = "Geto",
                 key = "Geto $index",
                 valueOnLaunch = "0",
-                valueOnRevert = "1"
+                valueOnRevert = "1",
             )
         }
 
@@ -93,7 +93,7 @@ class SecureSettingsRepositoryTest {
                 label = "Geto",
                 key = "Geto $index",
                 valueOnLaunch = "0",
-                valueOnRevert = "1"
+                valueOnRevert = "1",
             )
         }
 
@@ -112,7 +112,7 @@ class SecureSettingsRepositoryTest {
                 label = "Geto",
                 key = "Geto $index",
                 valueOnLaunch = "0",
-                valueOnRevert = "1"
+                valueOnRevert = "1",
             )
         }
 
@@ -131,7 +131,7 @@ class SecureSettingsRepositoryTest {
                 label = "Geto",
                 key = "Geto $index",
                 valueOnLaunch = "0",
-                valueOnRevert = "1"
+                valueOnRevert = "1",
             )
         }
 
@@ -150,7 +150,7 @@ class SecureSettingsRepositoryTest {
                 label = "Geto",
                 key = "Geto $index",
                 valueOnLaunch = "0",
-                valueOnRevert = "1"
+                valueOnRevert = "1",
             )
         }
 
@@ -169,7 +169,7 @@ class SecureSettingsRepositoryTest {
                 label = "Geto",
                 key = "Geto $index",
                 valueOnLaunch = "0",
-                valueOnRevert = "1"
+                valueOnRevert = "1",
             )
         }
 
@@ -188,7 +188,7 @@ class SecureSettingsRepositoryTest {
                 label = "Geto",
                 key = "Geto $index",
                 valueOnLaunch = "0",
-                valueOnRevert = "1"
+                valueOnRevert = "1",
             )
         }
 
@@ -207,7 +207,7 @@ class SecureSettingsRepositoryTest {
                 label = "Geto",
                 key = "Geto $index",
                 valueOnLaunch = "0",
-                valueOnRevert = "1"
+                valueOnRevert = "1",
             )
         }
 
@@ -226,7 +226,7 @@ class SecureSettingsRepositoryTest {
                 label = "Geto",
                 key = "Geto $index",
                 valueOnLaunch = "0",
-                valueOnRevert = "1"
+                valueOnRevert = "1",
             )
         }
 
@@ -245,7 +245,7 @@ class SecureSettingsRepositoryTest {
                 label = "Geto",
                 key = "Geto $index",
                 valueOnLaunch = "0",
-                valueOnRevert = "1"
+                valueOnRevert = "1",
             )
         }
 
@@ -264,7 +264,7 @@ class SecureSettingsRepositoryTest {
                 label = "Geto",
                 key = "Geto $index",
                 valueOnLaunch = "0",
-                valueOnRevert = "1"
+                valueOnRevert = "1",
             )
         }
 

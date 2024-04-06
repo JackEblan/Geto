@@ -80,7 +80,7 @@ private fun Project.buildComposeMetricsParameters(): List<String> {
         val reportsFolder = buildDir.resolve("compose-reports").resolve(relativePath)
         metricParameters.add("-P")
         metricParameters.add(
-            "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=" + reportsFolder.absolutePath
+            "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=" + reportsFolder.absolutePath,
         )
     }
     return metricParameters.toList()

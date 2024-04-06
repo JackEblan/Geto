@@ -45,7 +45,7 @@ class ThemeDialogScreenshotTest {
     @Test
     fun themeDialog() {
         composeTestRule.captureScreenRoboImageMultiDevice(
-            path = "ThemeDialog/ThemeDialog"
+            path = "ThemeDialog/ThemeDialog",
         ) {
             GetoTheme {
                 val themeDialogState = rememberThemeDialogState()
@@ -53,7 +53,7 @@ class ThemeDialogScreenshotTest {
                 ThemeDialog(
                     themeDialogState = themeDialogState,
                     onChangeTheme = {},
-                    contentDescription = "ThemeDialog"
+                    contentDescription = "ThemeDialog",
                 )
             }
         }
@@ -74,7 +74,7 @@ class ThemeDialogScreenshotTest {
                     ThemeDialog(
                         themeDialogState = themeDialogState,
                         onChangeTheme = {},
-                        contentDescription = "ThemeDialog"
+                        contentDescription = "ThemeDialog",
                     )
                 }
             }

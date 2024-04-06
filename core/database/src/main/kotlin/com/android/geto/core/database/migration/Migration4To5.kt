@@ -36,7 +36,7 @@ class Migration4To5 : Migration(4, 5) {
                valueOnRevert TEXT NOT NULL,
                safeToWrite INTEGER NOT NULL DEFAULT 1
            )
-       """.trimIndent()
+       """.trimIndent(),
         )
 
         db.execSQL("INSERT INTO new_table (id, enabled, settingsType, packageName, label, key, valueOnLaunch, valueOnRevert, safeToWrite) SELECT * FROM AppSettingsItemEntity")

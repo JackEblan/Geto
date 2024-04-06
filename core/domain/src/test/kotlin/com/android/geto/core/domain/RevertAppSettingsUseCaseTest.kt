@@ -40,7 +40,7 @@ class RevertAppSettingsUseCaseTest {
     fun setup() {
         revertAppSettingsUseCase = RevertAppSettingsUseCase(
             appSettingsRepository = appSettingsRepository,
-            secureSettingsRepository = secureSettingsRepository
+            secureSettingsRepository = secureSettingsRepository,
         )
     }
 
@@ -63,7 +63,7 @@ class RevertAppSettingsUseCaseTest {
                 packageName = packageName,
                 label = "Geto", key = "Geto $index",
                 valueOnLaunch = "0",
-                valueOnRevert = "1"
+                valueOnRevert = "1",
             )
         }
 
@@ -84,7 +84,7 @@ class RevertAppSettingsUseCaseTest {
                 packageName = packageName,
                 label = "Geto", key = "Geto $index",
                 valueOnLaunch = "0",
-                valueOnRevert = "1"
+                valueOnRevert = "1",
             )
         }
 
@@ -107,7 +107,7 @@ class RevertAppSettingsUseCaseTest {
                 packageName = packageName,
                 label = "Geto", key = "Geto $index",
                 valueOnLaunch = "0",
-                valueOnRevert = "1"
+                valueOnRevert = "1",
             )
         }
 
@@ -130,7 +130,7 @@ class RevertAppSettingsUseCaseTest {
                 packageName = packageName,
                 label = "Geto", key = "Geto $index",
                 valueOnLaunch = "0",
-                valueOnRevert = "1"
+                valueOnRevert = "1",
             )
         }
 

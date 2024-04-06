@@ -48,7 +48,7 @@ internal fun CleanDialog(
     modifier: Modifier = Modifier,
     onDismissRequest: () -> Unit,
     onClean: () -> Unit,
-    contentDescription: String
+    contentDescription: String,
 ) {
     Dialog(onDismissRequest = { onDismissRequest() }) {
         Card(
@@ -60,7 +60,7 @@ internal fun CleanDialog(
             shape = RoundedCornerShape(16.dp),
         ) {
             CleanDialogScreen(
-                onDismissRequest = onDismissRequest, onClean = onClean
+                onDismissRequest = onDismissRequest, onClean = onClean,
             )
         }
     }
@@ -68,12 +68,12 @@ internal fun CleanDialog(
 
 @Composable
 internal fun CleanDialogScreen(
-    onDismissRequest: () -> Unit, onClean: () -> Unit
+    onDismissRequest: () -> Unit, onClean: () -> Unit,
 ) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(10.dp)
+            .padding(10.dp),
     ) {
         CleanDialogTitle()
 
@@ -90,7 +90,7 @@ private fun CleanDialogTitle(modifier: Modifier = Modifier) {
     Text(
         modifier = modifier.padding(horizontal = 5.dp),
         text = stringResource(R.string.clean_app_settings),
-        style = MaterialTheme.typography.titleLarge
+        style = MaterialTheme.typography.titleLarge,
     )
 }
 
@@ -101,13 +101,13 @@ private fun CleanDialogContent(modifier: Modifier = Modifier) {
     Text(
         modifier = modifier.padding(horizontal = 5.dp),
         text = stringResource(R.string.are_you_sure_you_want_to_clean_app_settings_from_the_uninstalled_applications),
-        style = MaterialTheme.typography.bodyLarge
+        style = MaterialTheme.typography.bodyLarge,
     )
 }
 
 @Composable
 private fun CleanDialogButtons(
-    modifier: Modifier = Modifier, onDismissRequest: () -> Unit, onClean: () -> Unit
+    modifier: Modifier = Modifier, onDismissRequest: () -> Unit, onClean: () -> Unit,
 ) {
     Spacer(modifier = Modifier.height(10.dp))
 

@@ -54,7 +54,7 @@ class AppSettingsScreenScreenshotTest {
             packageName = "com.android.geto",
             label = "Geto", key = "Geto $index",
             valueOnLaunch = "0",
-            valueOnRevert = "1"
+            valueOnRevert = "1",
         )
     }
 
@@ -62,16 +62,18 @@ class AppSettingsScreenScreenshotTest {
     fun appSettingsScreen_populated() {
         composeTestRule.captureMultiDevice("AppSettingsScreenPopulated") {
             GetoTheme {
-                AppSettingsScreen(snackbarHostState = SnackbarHostState(),
-                                  appName = "Geto",
-                                  appSettingsUiState = AppSettingsUiState.Success(appSettings),
-                                  onNavigationIconClick = {},
-                                  onRevertSettingsIconClick = {},
-                                  onSettingsIconClick = {},
-                                  onShortcutIconClick = {},
-                                  onAppSettingsItemCheckBoxChange = { _, _ -> },
-                                  onDeleteAppSettingsItem = {},
-                                  onLaunchApp = {})
+                AppSettingsScreen(
+                    snackbarHostState = SnackbarHostState(),
+                    appName = "Geto",
+                    appSettingsUiState = AppSettingsUiState.Success(appSettings),
+                    onNavigationIconClick = {},
+                    onRevertSettingsIconClick = {},
+                    onSettingsIconClick = {},
+                    onShortcutIconClick = {},
+                    onAppSettingsItemCheckBoxChange = { _, _ -> },
+                    onDeleteAppSettingsItem = {},
+                    onLaunchApp = {},
+                )
             }
         }
     }
@@ -80,16 +82,18 @@ class AppSettingsScreenScreenshotTest {
     fun appSettingsScreen_loading() {
         composeTestRule.captureMultiDevice("AppSettingsScreenLoading") {
             GetoTheme {
-                AppSettingsScreen(snackbarHostState = SnackbarHostState(),
-                                  appName = "Geto",
-                                  appSettingsUiState = AppSettingsUiState.Loading,
-                                  onNavigationIconClick = {},
-                                  onRevertSettingsIconClick = {},
-                                  onSettingsIconClick = {},
-                                  onShortcutIconClick = {},
-                                  onAppSettingsItemCheckBoxChange = { _, _ -> },
-                                  onDeleteAppSettingsItem = {},
-                                  onLaunchApp = {})
+                AppSettingsScreen(
+                    snackbarHostState = SnackbarHostState(),
+                    appName = "Geto",
+                    appSettingsUiState = AppSettingsUiState.Loading,
+                    onNavigationIconClick = {},
+                    onRevertSettingsIconClick = {},
+                    onSettingsIconClick = {},
+                    onShortcutIconClick = {},
+                    onAppSettingsItemCheckBoxChange = { _, _ -> },
+                    onDeleteAppSettingsItem = {},
+                    onLaunchApp = {},
+                )
             }
         }
     }
@@ -98,16 +102,18 @@ class AppSettingsScreenScreenshotTest {
     fun appSettingsScreen_empty() {
         composeTestRule.captureMultiDevice("AppSettingsScreenEmpty") {
             GetoTheme {
-                AppSettingsScreen(snackbarHostState = SnackbarHostState(),
-                                  appName = "Geto",
-                                  appSettingsUiState = AppSettingsUiState.Success(emptyList()),
-                                  onNavigationIconClick = {},
-                                  onRevertSettingsIconClick = {},
-                                  onSettingsIconClick = {},
-                                  onShortcutIconClick = {},
-                                  onAppSettingsItemCheckBoxChange = { _, _ -> },
-                                  onDeleteAppSettingsItem = {},
-                                  onLaunchApp = {})
+                AppSettingsScreen(
+                    snackbarHostState = SnackbarHostState(),
+                    appName = "Geto",
+                    appSettingsUiState = AppSettingsUiState.Success(emptyList()),
+                    onNavigationIconClick = {},
+                    onRevertSettingsIconClick = {},
+                    onSettingsIconClick = {},
+                    onShortcutIconClick = {},
+                    onAppSettingsItemCheckBoxChange = { _, _ -> },
+                    onDeleteAppSettingsItem = {},
+                    onLaunchApp = {},
+                )
             }
         }
     }
@@ -122,16 +128,18 @@ class AppSettingsScreenScreenshotTest {
         ) {
             GetoTheme {
                 GetoBackground {
-                    AppSettingsScreen(snackbarHostState = SnackbarHostState(),
-                                      appName = "Geto",
-                                      appSettingsUiState = AppSettingsUiState.Success(appSettings),
-                                      onNavigationIconClick = {},
-                                      onRevertSettingsIconClick = {},
-                                      onSettingsIconClick = {},
-                                      onShortcutIconClick = {},
-                                      onAppSettingsItemCheckBoxChange = { _, _ -> },
-                                      onDeleteAppSettingsItem = {},
-                                      onLaunchApp = {})
+                    AppSettingsScreen(
+                        snackbarHostState = SnackbarHostState(),
+                        appName = "Geto",
+                        appSettingsUiState = AppSettingsUiState.Success(appSettings),
+                        onNavigationIconClick = {},
+                        onRevertSettingsIconClick = {},
+                        onSettingsIconClick = {},
+                        onShortcutIconClick = {},
+                        onAppSettingsItemCheckBoxChange = { _, _ -> },
+                        onDeleteAppSettingsItem = {},
+                        onLaunchApp = {},
+                    )
                 }
             }
         }
@@ -147,16 +155,18 @@ class AppSettingsScreenScreenshotTest {
         ) {
             GetoTheme {
                 GetoBackground {
-                    AppSettingsScreen(snackbarHostState = SnackbarHostState(),
-                                      appName = "Geto",
-                                      appSettingsUiState = AppSettingsUiState.Loading,
-                                      onNavigationIconClick = {},
-                                      onRevertSettingsIconClick = {},
-                                      onSettingsIconClick = {},
-                                      onShortcutIconClick = {},
-                                      onAppSettingsItemCheckBoxChange = { _, _ -> },
-                                      onDeleteAppSettingsItem = {},
-                                      onLaunchApp = {})
+                    AppSettingsScreen(
+                        snackbarHostState = SnackbarHostState(),
+                        appName = "Geto",
+                        appSettingsUiState = AppSettingsUiState.Loading,
+                        onNavigationIconClick = {},
+                        onRevertSettingsIconClick = {},
+                        onSettingsIconClick = {},
+                        onShortcutIconClick = {},
+                        onAppSettingsItemCheckBoxChange = { _, _ -> },
+                        onDeleteAppSettingsItem = {},
+                        onLaunchApp = {},
+                    )
                 }
             }
         }
@@ -172,16 +182,18 @@ class AppSettingsScreenScreenshotTest {
         ) {
             GetoTheme {
                 GetoBackground {
-                    AppSettingsScreen(snackbarHostState = SnackbarHostState(),
-                                      appName = "Geto",
-                                      appSettingsUiState = AppSettingsUiState.Success(emptyList()),
-                                      onNavigationIconClick = {},
-                                      onRevertSettingsIconClick = {},
-                                      onSettingsIconClick = {},
-                                      onShortcutIconClick = {},
-                                      onAppSettingsItemCheckBoxChange = { _, _ -> },
-                                      onDeleteAppSettingsItem = {},
-                                      onLaunchApp = {})
+                    AppSettingsScreen(
+                        snackbarHostState = SnackbarHostState(),
+                        appName = "Geto",
+                        appSettingsUiState = AppSettingsUiState.Success(emptyList()),
+                        onNavigationIconClick = {},
+                        onRevertSettingsIconClick = {},
+                        onSettingsIconClick = {},
+                        onShortcutIconClick = {},
+                        onAppSettingsItemCheckBoxChange = { _, _ -> },
+                        onDeleteAppSettingsItem = {},
+                        onLaunchApp = {},
+                    )
                 }
             }
         }

@@ -32,7 +32,7 @@ class TestShortcutRepository : ShortcutRepository {
     private var updateImmutableShortcuts = false
 
     override fun requestPinShortcut(
-        icon: Bitmap?, targetShortcutInfoCompat: TargetShortcutInfoCompat
+        icon: Bitmap?, targetShortcutInfoCompat: TargetShortcutInfoCompat,
     ): ShortcutResult {
         return if (requestPinShortcutSupported) {
             ShortcutResult.SupportedLauncher
@@ -40,7 +40,7 @@ class TestShortcutRepository : ShortcutRepository {
     }
 
     override fun updateRequestPinShortcut(
-        icon: Bitmap?, targetShortcutInfoCompat: TargetShortcutInfoCompat
+        icon: Bitmap?, targetShortcutInfoCompat: TargetShortcutInfoCompat,
     ): ShortcutResult {
         return if (updateImmutableShortcuts) {
             ShortcutResult.ShortcutUpdateImmutableShortcuts
@@ -54,8 +54,8 @@ class TestShortcutRepository : ShortcutRepository {
             ShortcutResult.ShortcutFound(
                 targetShortcutInfoCompat = TargetShortcutInfoCompat(
                     shortLabel = shortcutInfoCompat.shortLabel.toString(),
-                    longLabel = shortcutInfoCompat.longLabel.toString()
-                )
+                    longLabel = shortcutInfoCompat.longLabel.toString(),
+                ),
             )
         } else {
             ShortcutResult.NoShortcutFound

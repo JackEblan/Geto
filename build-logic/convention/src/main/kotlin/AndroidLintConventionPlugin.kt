@@ -29,13 +29,13 @@ class AndroidLintConventionPlugin : Plugin<Project> {
             when {
                 pluginManager.hasPlugin("com.android.application") -> configure<ApplicationExtension> {
                     lint(
-                        Lint::configure
+                        Lint::configure,
                     )
                 }
 
                 pluginManager.hasPlugin("com.android.library") -> configure<LibraryExtension> {
                     lint(
-                        Lint::configure
+                        Lint::configure,
                     )
                 }
 

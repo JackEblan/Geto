@@ -33,8 +33,8 @@ class FakeUserDataRepository @Inject constructor() : UserDataRepository {
             themeBrand = ThemeBrand.DEFAULT,
             darkThemeConfig = DarkThemeConfig.DARK,
             useDynamicColor = false,
-            useAutoLaunch = false
-        )
+            useAutoLaunch = false,
+        ),
     )
 
     override suspend fun setAutoLaunchPreference(useAutoLaunch: Boolean) {}

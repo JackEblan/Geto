@@ -35,7 +35,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val userDataRepository: UserDataRepository,
-    private val cleanAppSettingsUseCase: CleanAppSettingsUseCase
+    private val cleanAppSettingsUseCase: CleanAppSettingsUseCase,
 ) : ViewModel() {
     val settingsUiState: StateFlow<SettingsUiState> = userDataRepository.userData.map { userData ->
         SettingsUiState.Success(
@@ -43,7 +43,7 @@ class SettingsViewModel @Inject constructor(
                 brand = userData.themeBrand,
                 useDynamicColor = userData.useDynamicColor,
                 darkThemeConfig = userData.darkThemeConfig,
-                useAutoLaunch = userData.useAutoLaunch
+                useAutoLaunch = userData.useAutoLaunch,
             ),
         )
     }.stateIn(
@@ -88,7 +88,7 @@ class SettingsViewModel @Inject constructor(
  */
 data class UserEditableSettings(
     val brand: ThemeBrand,
-    val useDynamicColor: Boolean, val darkThemeConfig: DarkThemeConfig, val useAutoLaunch: Boolean
+    val useDynamicColor: Boolean, val darkThemeConfig: DarkThemeConfig, val useAutoLaunch: Boolean,
 )
 
 sealed interface SettingsUiState {

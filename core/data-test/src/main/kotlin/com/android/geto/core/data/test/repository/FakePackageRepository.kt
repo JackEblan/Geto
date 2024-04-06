@@ -34,7 +34,7 @@ import javax.inject.Inject
 
 class FakePackageRepository @Inject constructor(
     private val packageManagerWrapper: DemoPackageManagerWrapper,
-    @Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher
+    @Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher,
 ) : PackageRepository {
 
     override suspend fun getInstalledApplications(): List<TargetApplicationInfo> {

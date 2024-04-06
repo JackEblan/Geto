@@ -39,22 +39,24 @@ class AddShortcutDialogTest {
             val addShortcutDialogState = rememberAddShortcutDialogState()
 
             AddShortcutDialog(
-                shortcutDialogState = addShortcutDialogState, onAddShortcut = {
+                shortcutDialogState = addShortcutDialogState,
+                onAddShortcut = {
                     addShortcutDialogState.updateShortLabel("")
 
                     addShortcutDialogState.updateLongLabel("Geto")
 
                     addShortcutDialogState.getShortcut(
-                        packageName = "com.android.geto", shortcutIntent = Intent()
+                        packageName = "com.android.geto", shortcutIntent = Intent(),
                     )
-                }, contentDescription = "Add Shortcut Dialog"
+                },
+                contentDescription = "Add Shortcut Dialog",
             )
         }
 
         composeTestRule.onNodeWithTag("addShortcutDialog:add").performClick()
 
         composeTestRule.onNodeWithTag(
-            testTag = "addShortcutDialog:shortLabelSupportingText", useUnmergedTree = true
+            testTag = "addShortcutDialog:shortLabelSupportingText", useUnmergedTree = true,
         ).assertIsDisplayed()
     }
 
@@ -64,22 +66,24 @@ class AddShortcutDialogTest {
             val addShortcutDialogState = rememberAddShortcutDialogState()
 
             AddShortcutDialog(
-                shortcutDialogState = addShortcutDialogState, onAddShortcut = {
+                shortcutDialogState = addShortcutDialogState,
+                onAddShortcut = {
                     addShortcutDialogState.updateShortLabel("Geto")
 
                     addShortcutDialogState.updateLongLabel("")
 
                     addShortcutDialogState.getShortcut(
-                        packageName = "com.android.geto", shortcutIntent = Intent()
+                        packageName = "com.android.geto", shortcutIntent = Intent(),
                     )
-                }, contentDescription = "Add Shortcut Dialog"
+                },
+                contentDescription = "Add Shortcut Dialog",
             )
         }
 
         composeTestRule.onNodeWithTag("addShortcutDialog:add").performClick()
 
         composeTestRule.onNodeWithTag(
-            testTag = "addShortcutDialog:longLabelSupportingText", useUnmergedTree = true
+            testTag = "addShortcutDialog:longLabelSupportingText", useUnmergedTree = true,
         ).assertIsDisplayed()
     }
 }

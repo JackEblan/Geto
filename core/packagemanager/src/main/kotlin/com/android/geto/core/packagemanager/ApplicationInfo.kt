@@ -37,6 +37,6 @@ fun ApplicationInfo.asTargetApplicationInfo(packageManager: PackageManager): Tar
     }
 
     return TargetApplicationInfo(
-        flags = flags, icon = icon, packageName = packageName, label = label.toString()
+        flags = flags, icon = icon, packageName = packageName, label = label.toString(),
     )
 }

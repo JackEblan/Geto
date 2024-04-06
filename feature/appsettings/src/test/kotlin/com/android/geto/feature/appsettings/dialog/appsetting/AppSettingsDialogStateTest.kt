@@ -39,7 +39,7 @@ class AppSettingsDialogStateTest {
             keyIsBlank = "Settings key is blank",
             keyNotFound = "Settings key not found",
             valueOnLaunchIsBlank = "Settings value on launch is blank",
-            valueOnRevertIsBlank = "Settings value on revert is blank"
+            valueOnRevertIsBlank = "Settings value on revert is blank",
         )
     }
 

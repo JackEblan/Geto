@@ -34,14 +34,14 @@ enum class FlavorDimension {
 @Suppress("EnumEntryName")
 enum class GetoFlavor(val dimension: FlavorDimension, val applicationIdSuffix: String? = null) {
     demo(
-        FlavorDimension.contentType, applicationIdSuffix = ".demo"
+        FlavorDimension.contentType, applicationIdSuffix = ".demo",
     ),
     prod(FlavorDimension.contentType)
 }
 
 fun configureFlavors(
     commonExtension: CommonExtension<*, *, *, *, *, *>,
-    flavorConfigurationBlock: ProductFlavor.(flavor: GetoFlavor) -> Unit = {}
+    flavorConfigurationBlock: ProductFlavor.(flavor: GetoFlavor) -> Unit = {},
 ) {
     commonExtension.apply {
         flavorDimensions += FlavorDimension.contentType.name

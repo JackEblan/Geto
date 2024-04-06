@@ -47,7 +47,7 @@ internal fun CopyPermissionCommandDialog(
     modifier: Modifier = Modifier,
     onDismissRequest: () -> Unit,
     onCopySettings: () -> Unit,
-    contentDescription: String
+    contentDescription: String,
 ) {
     Dialog(onDismissRequest = { onDismissRequest() }) {
         Card(
@@ -59,7 +59,7 @@ internal fun CopyPermissionCommandDialog(
             shape = RoundedCornerShape(16.dp),
         ) {
             CopyPermissionCommandDialogScreen(
-                onDismissRequest = onDismissRequest, onCopySettings = onCopySettings
+                onDismissRequest = onDismissRequest, onCopySettings = onCopySettings,
             )
         }
     }
@@ -67,19 +67,19 @@ internal fun CopyPermissionCommandDialog(
 
 @Composable
 internal fun CopyPermissionCommandDialogScreen(
-    onDismissRequest: () -> Unit, onCopySettings: () -> Unit
+    onDismissRequest: () -> Unit, onCopySettings: () -> Unit,
 ) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(10.dp)
+            .padding(10.dp),
     ) {
         CopyPermissionCommandDialogTitle()
 
         CopyPermissionCommandDialogContent()
 
         CopyPermissionCommandDialogButtons(
-            onDismissRequest = onDismissRequest, onCopySettings = onCopySettings
+            onDismissRequest = onDismissRequest, onCopySettings = onCopySettings,
         )
     }
 }
@@ -91,7 +91,7 @@ private fun CopyPermissionCommandDialogTitle() {
     Text(
         modifier = Modifier.padding(horizontal = 5.dp),
         text = stringResource(R.string.permission_error),
-        style = MaterialTheme.typography.titleLarge
+        style = MaterialTheme.typography.titleLarge,
     )
 }
 
@@ -102,13 +102,13 @@ private fun CopyPermissionCommandDialogContent() {
     Text(
         modifier = Modifier.padding(horizontal = 5.dp),
         text = stringResource(R.string.copy_permission_command_message),
-        style = MaterialTheme.typography.bodyLarge
+        style = MaterialTheme.typography.bodyLarge,
     )
 }
 
 @Composable
 private fun CopyPermissionCommandDialogButtons(
-    onDismissRequest: () -> Unit, onCopySettings: () -> Unit
+    onDismissRequest: () -> Unit, onCopySettings: () -> Unit,
 ) {
     Spacer(modifier = Modifier.height(10.dp))
 
@@ -123,7 +123,7 @@ private fun CopyPermissionCommandDialogButtons(
             Text(stringResource(id = R.string.cancel))
         }
         TextButton(
-            onClick = { onCopySettings() }, modifier = Modifier.padding(5.dp)
+            onClick = { onCopySettings() }, modifier = Modifier.padding(5.dp),
         ) {
             Text(stringResource(R.string.copy))
         }

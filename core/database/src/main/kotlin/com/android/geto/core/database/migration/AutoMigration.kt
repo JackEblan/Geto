@@ -36,6 +36,6 @@ class DeleteSafeToWrite : AutoMigrationSpec
 @RenameColumn(
     tableName = "AppSettingsEntity",
     fromColumnName = "settingsType",
-    toColumnName = "settingType"
+    toColumnName = "settingType",
 )
 class RenameAppSettingsEntityToAppSettingEntity : AutoMigrationSpec

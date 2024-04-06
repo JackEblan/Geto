@@ -34,7 +34,7 @@ import javax.inject.Inject
 
 class DefaultSecureSettingsWrapper @Inject constructor(
     @Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher,
-    @ApplicationContext private val context: Context
+    @ApplicationContext private val context: Context,
 ) : SecureSettingsWrapper {
 
     private val contentResolver = context.contentResolver
@@ -52,15 +52,15 @@ class DefaultSecureSettingsWrapper @Inject constructor(
         return withContext(ioDispatcher) {
             when (appSetting.settingType) {
                 SettingType.SYSTEM -> Settings.System.putString(
-                    contentResolver, appSetting.key, value(appSetting)
+                    contentResolver, appSetting.key, value(appSetting),
                 )
 
                 SettingType.SECURE -> Settings.Secure.putString(
-                    contentResolver, appSetting.key, value(appSetting)
+                    contentResolver, appSetting.key, value(appSetting),
                 )
 
                 SettingType.GLOBAL -> Settings.Global.putString(
-                    contentResolver, appSetting.key, value(appSetting)
+                    contentResolver, appSetting.key, value(appSetting),
                 )
             }
         }
@@ -70,15 +70,15 @@ class DefaultSecureSettingsWrapper @Inject constructor(
         return withContext(ioDispatcher) {
             val cursor = when (settingType) {
                 SettingType.SYSTEM -> contentResolver.query(
-                    Settings.System.CONTENT_URI, settingsProjection, null, null, null
+                    Settings.System.CONTENT_URI, settingsProjection, null, null, null,
                 )
 
                 SettingType.SECURE -> contentResolver.query(
-                    Settings.Secure.CONTENT_URI, settingsProjection, null, null, null
+                    Settings.Secure.CONTENT_URI, settingsProjection, null, null, null,
                 )
 
                 SettingType.GLOBAL -> contentResolver.query(
-                    Settings.Global.CONTENT_URI, settingsProjection, null, null, null
+                    Settings.Global.CONTENT_URI, settingsProjection, null, null, null,
                 )
             }
 
@@ -93,7 +93,7 @@ class DefaultSecureSettingsWrapper @Inject constructor(
                     val value = cursor.getStringOrNull(valueIndex)
 
                     SecureSetting(
-                        id = id, name = name, value = value
+                        id = id, name = name, value = value,
                     )
                 }.sortedBy { it.name }.toList()
             } ?: emptyList()

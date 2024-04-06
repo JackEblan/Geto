@@ -42,34 +42,39 @@ import com.android.geto.core.model.TargetApplicationInfo
 @Composable
 fun AppItem(
     modifier: Modifier = Modifier, targetApplicationInfo: TargetApplicationInfo,
-    onItemClick: (String, String) -> Unit
+    onItemClick: (String, String) -> Unit,
 ) {
-    Row(modifier = modifier
-        .fillMaxWidth().testTag("appList:appItem")
-        .clickable {
-            onItemClick(
-                targetApplicationInfo.packageName, targetApplicationInfo.label
-            )
-        }
-        .padding(10.dp), verticalAlignment = Alignment.CenterVertically) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .testTag("appList:appItem")
+            .clickable {
+                onItemClick(
+                    targetApplicationInfo.packageName, targetApplicationInfo.label,
+                )
+            }
+            .padding(10.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
 
         AsyncImage(
             model = targetApplicationInfo.icon,
             contentDescription = null,
-            modifier = Modifier.size(50.dp)
+            modifier = Modifier.size(50.dp),
         )
 
         Spacer(modifier = Modifier.width(10.dp))
 
         Column(modifier = Modifier.weight(1f)) {
             Text(
-                text = targetApplicationInfo.label, style = MaterialTheme.typography.bodyLarge
+                text = targetApplicationInfo.label, style = MaterialTheme.typography.bodyLarge,
             )
 
             Spacer(modifier = Modifier.height(5.dp))
 
             Text(
-                text = targetApplicationInfo.packageName, style = MaterialTheme.typography.bodySmall
+                text = targetApplicationInfo.packageName,
+                style = MaterialTheme.typography.bodySmall,
             )
         }
     }
@@ -79,8 +84,11 @@ fun AppItem(
 @Composable
 private fun AppItemPreview() {
     GetoTheme {
-        AppItem(targetApplicationInfo = TargetApplicationInfo(
-            flags = 0, packageName = "com.android.geto", label = "Geto"
-        ), onItemClick = { _, _ -> })
+        AppItem(
+            targetApplicationInfo = TargetApplicationInfo(
+                flags = 0, packageName = "com.android.geto", label = "Geto",
+            ),
+            onItemClick = { _, _ -> },
+        )
     }
 }

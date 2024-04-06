@@ -24,5 +24,5 @@ data class TargetShortcutInfoCompat(
     val id: String? = null,
     val shortLabel: String? = null,
     val longLabel: String? = null,
-    val shortcutIntent: Intent? = null
+    val shortcutIntent: Intent? = null,
 )

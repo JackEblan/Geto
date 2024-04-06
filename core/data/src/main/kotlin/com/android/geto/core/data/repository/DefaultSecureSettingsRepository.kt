@@ -25,19 +25,23 @@ import com.android.geto.core.securesettings.SecureSettingsWrapper
 import javax.inject.Inject
 
 class DefaultSecureSettingsRepository @Inject constructor(
-    private val secureSettingsWrapper: SecureSettingsWrapper
+    private val secureSettingsWrapper: SecureSettingsWrapper,
 ) : SecureSettingsRepository {
     override suspend fun applySecureSettings(appSettings: List<AppSetting>): Boolean {
         return appSettings.all { appSetting ->
-            secureSettingsWrapper.canWriteSecureSettings(appSetting = appSetting,
-                                                         value = { appSetting.valueOnLaunch })
+            secureSettingsWrapper.canWriteSecureSettings(
+                appSetting = appSetting,
+                value = { appSetting.valueOnLaunch },
+            )
         }
     }
 
     override suspend fun revertSecureSettings(appSettings: List<AppSetting>): Boolean {
         return appSettings.all { appSetting ->
-            secureSettingsWrapper.canWriteSecureSettings(appSetting = appSetting,
-                                                         value = { appSetting.valueOnRevert })
+            secureSettingsWrapper.canWriteSecureSettings(
+                appSetting = appSetting,
+                value = { appSetting.valueOnRevert },
+            )
         }
     }
 

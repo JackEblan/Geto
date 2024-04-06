@@ -30,14 +30,14 @@ fun NavController.navigateToSettings() {
 }
 
 fun NavGraphBuilder.settingsScreen(
-    onNavigationIconClick: () -> Unit
+    onNavigationIconClick: () -> Unit,
 ) {
     composable(
-        route = SETTINGS_NAVIGATION_ROUTE
+        route = SETTINGS_NAVIGATION_ROUTE,
     ) {
         SettingsRoute(
-            onNavigationIconClick = onNavigationIconClick
+            onNavigationIconClick = onNavigationIconClick,
 
-        )
+            )
     }
 }

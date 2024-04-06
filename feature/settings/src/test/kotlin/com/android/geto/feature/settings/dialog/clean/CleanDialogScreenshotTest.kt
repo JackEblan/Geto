@@ -46,10 +46,11 @@ class CleanDialogScreenshotTest {
     @Test
     fun cleanDialog() {
         composeTestRule.captureScreenRoboImageMultiDevice(
-            path = "CleanDialog/CleanDialog"
+            path = "CleanDialog/CleanDialog",
         ) {
             GetoTheme {
-                CleanDialog(onDismissRequest = {}, onClean = {}, contentDescription = "CleanDialog"
+                CleanDialog(
+                    onDismissRequest = {}, onClean = {}, contentDescription = "CleanDialog",
                 )
             }
         }
@@ -65,9 +66,10 @@ class CleanDialogScreenshotTest {
         ) {
             GetoTheme {
                 GetoBackground {
-                    CleanDialog(onDismissRequest = {},
-                                onClean = {},
-                                contentDescription = "CleanDialog"
+                    CleanDialog(
+                        onDismissRequest = {},
+                        onClean = {},
+                        contentDescription = "CleanDialog",
                     )
                 }
             }

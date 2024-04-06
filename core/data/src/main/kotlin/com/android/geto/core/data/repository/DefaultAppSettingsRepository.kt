@@ -29,7 +29,7 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class DefaultAppSettingsRepository @Inject constructor(
-    private val appSettingsDao: AppSettingsDao
+    private val appSettingsDao: AppSettingsDao,
 ) : AppSettingsRepository {
 
     override val appSettings: Flow<List<AppSetting>> =
