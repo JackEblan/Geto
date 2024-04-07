@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.benchmarks.appsettings
 
 import androidx.benchmark.macro.MacrobenchmarkScope
