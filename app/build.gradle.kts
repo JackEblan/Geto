@@ -104,3 +104,7 @@ baselineProfile {
     automaticGenerationDuringBuild = false
     dexLayoutOptimization = true
 }
+
+dependencyGuard {
+    configuration("prodReleaseRuntimeClasspath")
+}

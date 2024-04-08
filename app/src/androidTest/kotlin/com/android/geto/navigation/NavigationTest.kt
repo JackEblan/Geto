@@ -104,7 +104,7 @@ class NavigationTest {
     }
 
     @Test
-    fun appListScreenIsDisplayed_whenNavigateBackFromSettingsScreen() {
+    fun appListScreen_isDisplayed_whenNavigateBackFromSettingsScreen() {
         composeTestRule.onNodeWithContentDescription("Settings icon").performClick()
 
         composeTestRule.onNodeWithContentDescription(
