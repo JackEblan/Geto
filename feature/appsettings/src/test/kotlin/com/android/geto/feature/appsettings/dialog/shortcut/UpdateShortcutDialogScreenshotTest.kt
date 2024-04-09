@@ -24,7 +24,6 @@ import com.android.geto.core.designsystem.component.GetoBackground
 import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.screenshot.testing.util.DefaultTestDevices
 import com.android.geto.core.screenshot.testing.util.captureScreenRoboImageForDevice
-import com.android.geto.core.screenshot.testing.util.captureScreenRoboImageMultiDevice
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication
 import org.junit.Before
@@ -59,8 +58,10 @@ class UpdateShortcutDialogScreenshotTest {
 
     @Test
     fun updateShortcutDialog_empty() {
-        composeTestRule.captureScreenRoboImageMultiDevice(
+        composeTestRule.captureScreenRoboImageForDevice(
             path = "UpdateShortcutDialog/UpdateShortcutDialogEmpty",
+            deviceName = "tablet",
+            deviceSpec = DefaultTestDevices.TABLET.spec,
         ) {
             GetoTheme {
                 UpdateShortcutDialog(
@@ -78,8 +79,10 @@ class UpdateShortcutDialogScreenshotTest {
 
         shortcutDialogState.updateLongLabel("Geto")
 
-        composeTestRule.captureScreenRoboImageMultiDevice(
+        composeTestRule.captureScreenRoboImageForDevice(
             path = "UpdateShortcutDialog/UpdateShortcutDialogFilledTextFields",
+            deviceName = "tablet",
+            deviceSpec = DefaultTestDevices.TABLET.spec,
         ) {
             GetoTheme {
                 UpdateShortcutDialog(
@@ -95,8 +98,10 @@ class UpdateShortcutDialogScreenshotTest {
     fun updateShortcutDialog_error_textfields() {
         shortcutDialogState.getShortcut(packageName = "Geto", shortcutIntent = Intent())
 
-        composeTestRule.captureScreenRoboImageMultiDevice(
+        composeTestRule.captureScreenRoboImageForDevice(
             path = "UpdateShortcutDialog/UpdateShortcutDialogErrorTextFields",
+            deviceName = "tablet",
+            deviceSpec = DefaultTestDevices.TABLET.spec,
         ) {
             GetoTheme {
                 UpdateShortcutDialog(
@@ -112,8 +117,8 @@ class UpdateShortcutDialogScreenshotTest {
     fun updateShortcutDialog_empty_dark() {
         composeTestRule.captureScreenRoboImageForDevice(
             path = "UpdateShortcutDialog/UpdateShortcutDialogEmpty",
-            deviceName = "phone_dark",
-            deviceSpec = DefaultTestDevices.PHONE.spec,
+            deviceName = "tablet_dark",
+            deviceSpec = DefaultTestDevices.TABLET.spec,
             darkMode = true,
         ) {
             GetoTheme {
@@ -136,8 +141,8 @@ class UpdateShortcutDialogScreenshotTest {
 
         composeTestRule.captureScreenRoboImageForDevice(
             path = "UpdateShortcutDialog/UpdateShortcutDialogFilledTextFields",
-            deviceName = "phone_dark",
-            deviceSpec = DefaultTestDevices.PHONE.spec,
+            deviceName = "tablet_dark",
+            deviceSpec = DefaultTestDevices.TABLET.spec,
             darkMode = true,
         ) {
             GetoTheme {
@@ -158,8 +163,8 @@ class UpdateShortcutDialogScreenshotTest {
 
         composeTestRule.captureScreenRoboImageForDevice(
             path = "UpdateShortcutDialog/UpdateShortcutDialogErrorTextFields",
-            deviceName = "phone_dark",
-            deviceSpec = DefaultTestDevices.PHONE.spec,
+            deviceName = "tablet_dark",
+            deviceSpec = DefaultTestDevices.TABLET.spec,
             darkMode = true,
         ) {
             GetoTheme {
