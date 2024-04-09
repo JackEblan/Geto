@@ -77,7 +77,7 @@ internal fun ThemeDialog(
 }
 
 @Composable
-internal fun ThemeDialogScreen(
+private fun ThemeDialogScreen(
     selectedRadioOptionIndex: Int,
     onUpdateSelectedRadioOptionIndex: (Int) -> Unit,
     onChangeTheme: () -> Unit,

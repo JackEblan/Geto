@@ -18,6 +18,7 @@
 package com.android.geto.feature.appsettings
 
 import android.content.Intent
+import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -325,8 +326,9 @@ internal fun AppSettingsRoute(
     )
 }
 
+@VisibleForTesting
 @Composable
-private fun AppSettingsScreen(
+internal fun AppSettingsScreen(
     modifier: Modifier = Modifier,
     snackbarHostState: SnackbarHostState,
     appName: String,

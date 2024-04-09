@@ -62,6 +62,11 @@ gradlePlugin {
             implementationClass = "AndroidApplicationComposeConventionPlugin"
         }
 
+        register("androidApplicationJacoco") {
+            id = "com.android.geto.applicationJacoco"
+            implementationClass = "AndroidApplicationJacocoConventionPlugin"
+        }
+
         register("androidLibrary") {
             id = "com.android.geto.library"
             implementationClass = "AndroidLibraryConventionPlugin"

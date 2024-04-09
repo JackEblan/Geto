@@ -18,6 +18,7 @@
 
 plugins {
     alias(libs.plugins.com.android.geto.library)
+    alias(libs.plugins.com.android.geto.libraryJacoco)
     alias(libs.plugins.com.android.geto.hilt)
     alias(libs.plugins.com.android.geto.room)
 }

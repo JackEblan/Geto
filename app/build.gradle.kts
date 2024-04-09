@@ -22,6 +22,7 @@ plugins {
     alias(libs.plugins.com.android.geto.application)
     alias(libs.plugins.com.android.geto.applicationCompose)
     alias(libs.plugins.com.android.geto.applicationFlavors)
+    alias(libs.plugins.com.android.geto.applicationJacoco)
     alias(libs.plugins.com.android.geto.hilt)
     alias(libs.plugins.android.application)
     alias(libs.plugins.baselineprofile)

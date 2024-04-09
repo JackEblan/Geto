@@ -17,6 +17,7 @@
  */
 package com.android.geto.feature.settings
 
+import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -139,8 +140,9 @@ internal fun SettingsRoute(
     )
 }
 
+@VisibleForTesting
 @Composable
-private fun SettingsScreen(
+internal fun SettingsScreen(
     modifier: Modifier = Modifier,
     settingsUiState: SettingsUiState,
     supportDynamicColor: Boolean = supportsDynamicTheming(),

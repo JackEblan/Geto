@@ -66,7 +66,7 @@ internal fun CopyPermissionCommandDialog(
 }
 
 @Composable
-internal fun CopyPermissionCommandDialogScreen(
+private fun CopyPermissionCommandDialogScreen(
     onDismissRequest: () -> Unit,
     onCopySettings: () -> Unit,
 ) {

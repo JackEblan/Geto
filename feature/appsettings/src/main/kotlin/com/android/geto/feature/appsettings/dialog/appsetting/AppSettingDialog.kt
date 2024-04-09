@@ -106,7 +106,7 @@ internal fun AppSettingDialog(
 }
 
 @Composable
-internal fun AppSettingDialogScreen(
+private fun AppSettingDialogScreen(
     selectedRadioOptionIndex: Int,
     onUpdateSelectedRadioOptionIndex: (Int) -> Unit,
     secureSettingsExpanded: Boolean,

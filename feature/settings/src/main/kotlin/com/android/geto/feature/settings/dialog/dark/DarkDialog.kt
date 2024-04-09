@@ -77,7 +77,7 @@ internal fun DarkDialog(
 }
 
 @Composable
-internal fun DarkDialogScreen(
+private fun DarkDialogScreen(
     selectedRadioOptionIndex: Int,
     onUpdateSelectedRadioOptionIndex: (Int) -> Unit,
     onChangeDark: () -> Unit,

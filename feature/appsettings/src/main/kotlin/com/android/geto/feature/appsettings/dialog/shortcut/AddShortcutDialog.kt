@@ -84,7 +84,7 @@ internal fun AddShortcutDialog(
 }
 
 @Composable
-internal fun AddShortcutDialogScreen(
+private fun AddShortcutDialogScreen(
     icon: Bitmap?,
     shortLabel: String,
     shortLabelError: String,

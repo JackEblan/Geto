@@ -67,7 +67,7 @@ internal fun CleanDialog(
 }
 
 @Composable
-internal fun CleanDialogScreen(
+private fun CleanDialogScreen(
     onDismissRequest: () -> Unit,
     onClean: () -> Unit,
 ) {
