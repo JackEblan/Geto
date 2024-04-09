@@ -23,7 +23,6 @@ import com.android.geto.core.designsystem.component.GetoBackground
 import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.screenshot.testing.util.DefaultTestDevices
 import com.android.geto.core.screenshot.testing.util.captureScreenRoboImageForDevice
-import com.android.geto.core.screenshot.testing.util.captureScreenRoboImageMultiDevice
 import dagger.hilt.android.testing.HiltTestApplication
 import org.junit.Rule
 import org.junit.runner.RunWith
@@ -44,8 +43,10 @@ class CopyPermissionCommandDialogScreenshotTest {
 
     @Test
     fun copyPermissionCommandDialog() {
-        composeTestRule.captureScreenRoboImageMultiDevice(
+        composeTestRule.captureScreenRoboImageForDevice(
             path = "CopyPermissionCommandDialog/CopyPermissionCommandDialog",
+            deviceName = "phone",
+            deviceSpec = DefaultTestDevices.PHONE.spec,
         ) {
             GetoTheme {
                 CopyPermissionCommandDialog(

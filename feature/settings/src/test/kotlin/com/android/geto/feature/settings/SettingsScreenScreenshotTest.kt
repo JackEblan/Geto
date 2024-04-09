@@ -25,7 +25,6 @@ import com.android.geto.core.model.DarkThemeConfig
 import com.android.geto.core.model.ThemeBrand
 import com.android.geto.core.screenshot.testing.util.DefaultTestDevices
 import com.android.geto.core.screenshot.testing.util.captureForDevice
-import com.android.geto.core.screenshot.testing.util.captureMultiDevice
 import dagger.hilt.android.testing.HiltTestApplication
 import org.junit.Rule
 import org.junit.runner.RunWith
@@ -46,7 +45,11 @@ class SettingsScreenScreenshotTest {
 
     @Test
     fun settingsScreen_populated() {
-        composeTestRule.captureMultiDevice("SettingsScreenPopulated") {
+        composeTestRule.captureForDevice(
+            deviceName = "tablet",
+            deviceSpec = DefaultTestDevices.TABLET.spec,
+            screenshotName = "SettingsScreenPopulated",
+        ) {
             GetoTheme {
                 SettingsScreen(
                     settingsUiState = SettingsUiState.Success(
@@ -70,7 +73,11 @@ class SettingsScreenScreenshotTest {
 
     @Test
     fun settingsScreen_loading() {
-        composeTestRule.captureMultiDevice("SettingsScreenLoading") {
+        composeTestRule.captureForDevice(
+            deviceName = "tablet",
+            deviceSpec = DefaultTestDevices.TABLET.spec,
+            screenshotName = "SettingsScreenLoading",
+        ) {
             GetoTheme {
                 SettingsScreen(
                     settingsUiState = SettingsUiState.Loading,
@@ -88,8 +95,8 @@ class SettingsScreenScreenshotTest {
     @Test
     fun settingsScreen_populated_dark() {
         composeTestRule.captureForDevice(
-            deviceName = "phone_dark",
-            deviceSpec = DefaultTestDevices.PHONE.spec,
+            deviceName = "tablet_dark",
+            deviceSpec = DefaultTestDevices.TABLET.spec,
             screenshotName = "SettingsScreenPopulated",
             darkMode = true,
         ) {
@@ -119,8 +126,8 @@ class SettingsScreenScreenshotTest {
     @Test
     fun settingsScreen_loading_dark() {
         composeTestRule.captureForDevice(
-            deviceName = "phone_dark",
-            deviceSpec = DefaultTestDevices.PHONE.spec,
+            deviceName = "tablet_dark",
+            deviceSpec = DefaultTestDevices.TABLET.spec,
             screenshotName = "SettingsScreenLoading",
             darkMode = true,
         ) {

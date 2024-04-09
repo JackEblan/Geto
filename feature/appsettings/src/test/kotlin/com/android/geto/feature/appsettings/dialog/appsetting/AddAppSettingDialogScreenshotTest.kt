@@ -23,7 +23,6 @@ import com.android.geto.core.designsystem.component.GetoBackground
 import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.screenshot.testing.util.DefaultTestDevices
 import com.android.geto.core.screenshot.testing.util.captureScreenRoboImageForDevice
-import com.android.geto.core.screenshot.testing.util.captureScreenRoboImageMultiDevice
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication
 import org.junit.Before
@@ -62,7 +61,11 @@ class AddAppSettingDialogScreenshotTest {
 
     @Test
     fun appSettingDialog_empty() {
-        composeTestRule.captureScreenRoboImageMultiDevice(path = "AppSettingDialog/AppSettingDialogEmpty") {
+        composeTestRule.captureScreenRoboImageForDevice(
+            path = "AppSettingDialog/AppSettingDialogEmpty",
+            deviceName = "tablet",
+            deviceSpec = DefaultTestDevices.TABLET.spec,
+        ) {
             GetoTheme {
                 AppSettingDialog(
                     addAppSettingDialogState = appSettingDialogState,
@@ -85,8 +88,10 @@ class AddAppSettingDialogScreenshotTest {
 
         appSettingDialogState.updateValueOnRevert("1")
 
-        composeTestRule.captureScreenRoboImageMultiDevice(
+        composeTestRule.captureScreenRoboImageForDevice(
             path = "AppSettingDialog/AppSettingDialogFilledTextFields",
+            deviceName = "tablet",
+            deviceSpec = DefaultTestDevices.TABLET.spec,
         ) {
             GetoTheme {
                 AppSettingDialog(
@@ -102,8 +107,10 @@ class AddAppSettingDialogScreenshotTest {
     fun appSettingDialog_error_textfields() {
         appSettingDialogState.getAppSetting(packageName = "")
 
-        composeTestRule.captureScreenRoboImageMultiDevice(
+        composeTestRule.captureScreenRoboImageForDevice(
             path = "AppSettingDialog/AppSettingDialogErrorTextFields",
+            deviceName = "tablet",
+            deviceSpec = DefaultTestDevices.TABLET.spec,
         ) {
             GetoTheme {
                 AppSettingDialog(
@@ -119,8 +126,8 @@ class AddAppSettingDialogScreenshotTest {
     fun appSettingDialog_empty_dark() {
         composeTestRule.captureScreenRoboImageForDevice(
             path = "AppSettingDialog/AppSettingDialogEmpty",
-            deviceName = "phone_dark",
-            deviceSpec = DefaultTestDevices.PHONE.spec,
+            deviceName = "tablet_dark",
+            deviceSpec = DefaultTestDevices.TABLET.spec,
             darkMode = true,
         ) {
             GetoTheme {
@@ -149,8 +156,8 @@ class AddAppSettingDialogScreenshotTest {
 
         composeTestRule.captureScreenRoboImageForDevice(
             path = "AppSettingDialog/AppSettingDialogFilledTextFields",
-            deviceName = "phone_dark",
-            deviceSpec = DefaultTestDevices.PHONE.spec,
+            deviceName = "tablet_dark",
+            deviceSpec = DefaultTestDevices.TABLET.spec,
             darkMode = true,
         ) {
             GetoTheme {
@@ -171,8 +178,8 @@ class AddAppSettingDialogScreenshotTest {
 
         composeTestRule.captureScreenRoboImageForDevice(
             path = "AppSettingDialog/AppSettingDialogErrorTextFields",
-            deviceName = "phone_dark",
-            deviceSpec = DefaultTestDevices.PHONE.spec,
+            deviceName = "tablet_dark",
+            deviceSpec = DefaultTestDevices.TABLET.spec,
             darkMode = true,
         ) {
             GetoTheme {
