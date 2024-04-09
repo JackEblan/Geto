@@ -39,7 +39,7 @@ import kotlin.test.Test
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 @Config(application = HiltTestApplication::class)
 @LooperMode(LooperMode.Mode.PAUSED)
-class AddAppSettingDialogScreenshotTest {
+class AppSettingDialogScreenshotTest {
 
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
