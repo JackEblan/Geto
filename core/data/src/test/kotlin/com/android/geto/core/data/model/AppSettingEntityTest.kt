@@ -23,7 +23,7 @@ import com.android.geto.core.model.SettingType
 import org.junit.Test
 import kotlin.test.assertEquals
 
-class AppSettingsEntityTest {
+class AppSettingEntityTest {
 
     @Test
     fun appSettings_canBeMappedToEntity() {
