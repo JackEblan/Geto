@@ -140,7 +140,7 @@ internal fun SettingsRoute(
 }
 
 @Composable
-internal fun SettingsScreen(
+private fun SettingsScreen(
     modifier: Modifier = Modifier,
     settingsUiState: SettingsUiState,
     supportDynamicColor: Boolean = supportsDynamicTheming(),

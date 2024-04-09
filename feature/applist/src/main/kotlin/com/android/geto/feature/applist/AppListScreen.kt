@@ -17,7 +17,6 @@
  */
 package com.android.geto.feature.applist
 
-import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.consumeWindowInsets
@@ -73,9 +72,8 @@ internal fun AppListRoute(
     )
 }
 
-@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
 @Composable
-internal fun AppListScreen(
+private fun AppListScreen(
     modifier: Modifier = Modifier,
     appListUiState: AppListUiState,
     onSettingsClick: () -> Unit,

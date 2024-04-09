@@ -18,7 +18,6 @@
 package com.android.geto.feature.appsettings
 
 import android.content.Intent
-import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -326,9 +325,8 @@ internal fun AppSettingsRoute(
     )
 }
 
-@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
 @Composable
-internal fun AppSettingsScreen(
+private fun AppSettingsScreen(
     modifier: Modifier = Modifier,
     snackbarHostState: SnackbarHostState,
     appName: String,
@@ -431,7 +429,7 @@ private fun AppSettingsFloatingActionButton(onClick: () -> Unit) {
 }
 
 @Composable
-fun AppSettingsBottomAppBarActions(
+private fun AppSettingsBottomAppBarActions(
     onRevertSettingsIconClick: () -> Unit,
     onSettingsIconClick: () -> Unit,
     onShortcutIconClick: () -> Unit,
