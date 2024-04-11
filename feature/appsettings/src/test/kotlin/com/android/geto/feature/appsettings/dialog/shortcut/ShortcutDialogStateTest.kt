@@ -31,11 +31,6 @@ class ShortcutDialogStateTest {
     @Before
     fun setup() {
         shortcutDialogState = ShortcutDialogState()
-
-        shortcutDialogState.setStringResources(
-            shortLabelIsBlank = "Short label is blank",
-            longLabelIsBlank = "Long label is blank",
-        )
     }
 
     @Test
@@ -44,7 +39,7 @@ class ShortcutDialogStateTest {
 
         shortcutDialogState.getShortcut(packageName = packageName, shortcutIntent = Intent())
 
-        assertTrue { shortcutDialogState.shortLabelError.isNotBlank() }
+        assertTrue(shortcutDialogState.showShortLabelError)
     }
 
     @Test
@@ -53,7 +48,7 @@ class ShortcutDialogStateTest {
 
         shortcutDialogState.getShortcut(packageName = packageName, shortcutIntent = Intent())
 
-        assertTrue { shortcutDialogState.shortLabelError.isBlank() }
+        assertTrue(shortcutDialogState.showShortLabelError)
     }
 
     @Test
@@ -62,7 +57,7 @@ class ShortcutDialogStateTest {
 
         shortcutDialogState.getShortcut(packageName = packageName, shortcutIntent = Intent())
 
-        assertTrue { shortcutDialogState.longLabelError.isNotBlank() }
+        assertTrue(shortcutDialogState.showLongLabelError)
     }
 
     @Test
@@ -71,7 +66,7 @@ class ShortcutDialogStateTest {
 
         shortcutDialogState.getShortcut(packageName = packageName, shortcutIntent = Intent())
 
-        assertTrue { shortcutDialogState.longLabelError.isBlank() }
+        assertTrue(shortcutDialogState.showLongLabelError)
     }
 
     @Test

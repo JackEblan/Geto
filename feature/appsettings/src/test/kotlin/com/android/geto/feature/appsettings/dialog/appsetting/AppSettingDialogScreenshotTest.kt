@@ -22,7 +22,7 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.android.geto.core.designsystem.component.GetoBackground
 import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.screenshot.testing.util.DefaultTestDevices
-import com.android.geto.core.screenshot.testing.util.captureScreenRoboImageForDevice
+import com.android.geto.core.screenshot.testing.util.captureDialogForDevice
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication
 import org.junit.Before
@@ -49,20 +49,13 @@ class AppSettingDialogScreenshotTest {
     @Before
     fun setup() {
         appSettingDialogState = AppSettingDialogState()
-
-        appSettingDialogState.setStringResources(
-            labelIsBlank = "Settings label is blank",
-            keyIsBlank = "Settings key is blank",
-            keyNotFound = "Settings key not found",
-            valueOnLaunchIsBlank = "Settings value on launch is blank",
-            valueOnRevertIsBlank = "Settings value on revert is blank",
-        )
     }
 
     @Test
     fun appSettingDialog_empty() {
-        composeTestRule.captureScreenRoboImageForDevice(
-            path = "AppSettingDialog/AppSettingDialogEmpty",
+        composeTestRule.captureDialogForDevice(
+            folder = "AppSettingDialog",
+            screenshotName = "AppSettingDialogEmpty",
             deviceName = "tablet",
             deviceSpec = DefaultTestDevices.TABLET.spec,
         ) {
@@ -88,8 +81,9 @@ class AppSettingDialogScreenshotTest {
 
         appSettingDialogState.updateValueOnRevert("1")
 
-        composeTestRule.captureScreenRoboImageForDevice(
-            path = "AppSettingDialog/AppSettingDialogFilledTextFields",
+        composeTestRule.captureDialogForDevice(
+            folder = "AppSettingDialog",
+            screenshotName = "AppSettingDialogFilledTextFields",
             deviceName = "tablet",
             deviceSpec = DefaultTestDevices.TABLET.spec,
         ) {
@@ -107,8 +101,9 @@ class AppSettingDialogScreenshotTest {
     fun appSettingDialog_error_textfields() {
         appSettingDialogState.getAppSetting(packageName = "")
 
-        composeTestRule.captureScreenRoboImageForDevice(
-            path = "AppSettingDialog/AppSettingDialogErrorTextFields",
+        composeTestRule.captureDialogForDevice(
+            folder = "AppSettingDialog",
+            screenshotName = "AppSettingDialogErrorTextFields",
             deviceName = "tablet",
             deviceSpec = DefaultTestDevices.TABLET.spec,
         ) {
@@ -124,8 +119,9 @@ class AppSettingDialogScreenshotTest {
 
     @Test
     fun appSettingDialog_empty_dark() {
-        composeTestRule.captureScreenRoboImageForDevice(
-            path = "AppSettingDialog/AppSettingDialogEmpty",
+        composeTestRule.captureDialogForDevice(
+            folder = "AppSettingDialog",
+            screenshotName = "AppSettingDialogEmpty",
             deviceName = "tablet_dark",
             deviceSpec = DefaultTestDevices.TABLET.spec,
             darkMode = true,
@@ -154,8 +150,9 @@ class AppSettingDialogScreenshotTest {
 
         appSettingDialogState.updateValueOnRevert("1")
 
-        composeTestRule.captureScreenRoboImageForDevice(
-            path = "AppSettingDialog/AppSettingDialogFilledTextFields",
+        composeTestRule.captureDialogForDevice(
+            folder = "AppSettingDialog",
+            screenshotName = "AppSettingDialogFilledTextFields",
             deviceName = "tablet_dark",
             deviceSpec = DefaultTestDevices.TABLET.spec,
             darkMode = true,
@@ -176,8 +173,9 @@ class AppSettingDialogScreenshotTest {
     fun appSettingDialog_error_textfields_dark() {
         appSettingDialogState.getAppSetting(packageName = "")
 
-        composeTestRule.captureScreenRoboImageForDevice(
-            path = "AppSettingDialog/AppSettingDialogErrorTextFields",
+        composeTestRule.captureDialogForDevice(
+            folder = "AppSettingDialog",
+            screenshotName = "AppSettingDialogErrorTextFields",
             deviceName = "tablet_dark",
             deviceSpec = DefaultTestDevices.TABLET.spec,
             darkMode = true,

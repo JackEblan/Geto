@@ -68,6 +68,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.android.geto.core.data.repository.ClipboardResult
 import com.android.geto.core.data.repository.ShortcutResult
 import com.android.geto.core.designsystem.component.GetoLoadingWheel
+import com.android.geto.core.designsystem.component.SimpleDialog
 import com.android.geto.core.designsystem.icon.GetoIcons
 import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.domain.AppSettingsResult
@@ -78,11 +79,8 @@ import com.android.geto.core.ui.AppSettingsPreviewParameterProvider
 import com.android.geto.core.ui.DevicePreviews
 import com.android.geto.feature.appsettings.dialog.appsetting.AppSettingDialog
 import com.android.geto.feature.appsettings.dialog.appsetting.rememberAppSettingDialogState
-import com.android.geto.feature.appsettings.dialog.copypermissioncommand.CopyPermissionCommandDialog
-import com.android.geto.feature.appsettings.dialog.shortcut.AddShortcutDialog
-import com.android.geto.feature.appsettings.dialog.shortcut.UpdateShortcutDialog
-import com.android.geto.feature.appsettings.dialog.shortcut.rememberAddShortcutDialogState
-import com.android.geto.feature.appsettings.dialog.shortcut.rememberUpdateShortcutDialogState
+import com.android.geto.feature.appsettings.dialog.shortcut.ShortcutDialog
+import com.android.geto.feature.appsettings.dialog.shortcut.rememberShortcutDialogState
 
 @Composable
 internal fun AppSettingsRoute(
@@ -142,9 +140,9 @@ internal fun AppSettingsRoute(
 
     val appSettingsDialogState = rememberAppSettingDialogState()
 
-    val addShortcutDialogState = rememberAddShortcutDialogState()
+    val addShortcutDialogState = rememberShortcutDialogState()
 
-    val updateShortcutDialogState = rememberUpdateShortcutDialogState()
+    val updateShortcutDialogState = rememberShortcutDialogState()
 
     val keyDebounce = appSettingsDialogState.keyDebounce.collectAsStateWithLifecycle("").value
 
@@ -264,9 +262,18 @@ internal fun AppSettingsRoute(
     }
 
     if (showCopyPermissionCommandDialog) {
-        CopyPermissionCommandDialog(
-            onDismissRequest = { showCopyPermissionCommandDialog = false },
-            onCopySettings = {
+        SimpleDialog(
+            title = stringResource(id = R.string.permission_error),
+            text = stringResource(id = R.string.copy_permission_command_message),
+            onDismissRequest = {
+                showCopyPermissionCommandDialog = false
+            },
+            negativeText = stringResource(id = R.string.cancel),
+            positiveText = stringResource(id = R.string.copy),
+            onNegativeClick = {
+                showCopyPermissionCommandDialog = false
+            },
+            onPositiveClick = {
                 viewModel.copyPermissionCommand()
                 showCopyPermissionCommandDialog = false
             },
@@ -275,9 +282,13 @@ internal fun AppSettingsRoute(
     }
 
     if (addShortcutDialogState.showDialog) {
-        AddShortcutDialog(
+        ShortcutDialog(
             shortcutDialogState = addShortcutDialogState,
-            onAddShortcut = {
+            contentDescription = "Add Shortcut Dialog",
+            title = stringResource(id = R.string.add_shortcut),
+            cancelButtonText = stringResource(id = R.string.cancel),
+            okayButtonText = stringResource(id = R.string.add),
+            onOkay = {
                 addShortcutDialogState.getShortcut(
                     packageName = viewModel.packageName,
                     shortcutIntent = shortcutIntent,
@@ -286,14 +297,17 @@ internal fun AppSettingsRoute(
                     addShortcutDialogState.resetState()
                 }
             },
-            contentDescription = "Add Shortcut Dialog",
         )
     }
 
     if (updateShortcutDialogState.showDialog) {
-        UpdateShortcutDialog(
+        ShortcutDialog(
             shortcutDialogState = updateShortcutDialogState,
-            onUpdateShortcut = {
+            contentDescription = "Update Shortcut Dialog",
+            title = stringResource(id = R.string.update_shortcut),
+            cancelButtonText = stringResource(id = R.string.cancel),
+            okayButtonText = stringResource(id = R.string.update),
+            onOkay = {
                 updateShortcutDialogState.getShortcut(
                     packageName = viewModel.packageName,
                     shortcutIntent = shortcutIntent,
@@ -302,7 +316,6 @@ internal fun AppSettingsRoute(
                     updateShortcutDialogState.resetState()
                 }
             },
-            contentDescription = "Update Shortcut Dialog",
         )
     }
 

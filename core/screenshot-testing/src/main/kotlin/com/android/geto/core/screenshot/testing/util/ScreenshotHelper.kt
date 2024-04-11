@@ -48,8 +48,7 @@ val DefaultRoborazziOptions = RoborazziOptions(
 )
 
 enum class DefaultTestDevices(val description: String, val spec: String) {
-    PHONE("phone", "spec:shape=Normal,width=640,height=360,unit=dp,dpi=480"),
-    FOLDABLE(
+    PHONE("phone", "spec:shape=Normal,width=640,height=360,unit=dp,dpi=480"), FOLDABLE(
         "foldable",
         "spec:shape=Normal,width=673,height=841,unit=dp,dpi=480",
     ),
@@ -62,20 +61,6 @@ fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.c
 ) {
     DefaultTestDevices.entries.forEach {
         this.captureForDevice(it.description, it.spec, screenshotName, body = body)
-    }
-}
-
-fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.captureScreenRoboImageMultiDevice(
-    path: String,
-    body: @Composable () -> Unit,
-) {
-    DefaultTestDevices.entries.forEach {
-        this.captureScreenRoboImageForDevice(
-            path = path,
-            deviceName = it.description,
-            deviceSpec = it.spec,
-            body = body,
-        )
     }
 }
 
@@ -112,8 +97,9 @@ fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.c
  * is enabled.
  */
 @OptIn(ExperimentalRoborazziApi::class)
-fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.captureScreenRoboImageForDevice(
-    path: String,
+fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.captureDialogForDevice(
+    folder: String,
+    screenshotName: String,
     deviceName: String,
     deviceSpec: String,
     roborazziOptions: RoborazziOptions = DefaultRoborazziOptions,
@@ -136,7 +122,7 @@ fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.c
     }
 
     captureScreenRoboImage(
-        "src/test/screenshots/${path}_$deviceName.png",
+        "src/test/screenshots/${folder}/${screenshotName}_$deviceName.png",
         roborazziOptions = roborazziOptions,
     )
 }

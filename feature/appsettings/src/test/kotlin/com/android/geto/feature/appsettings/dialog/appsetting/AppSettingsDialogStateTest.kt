@@ -48,7 +48,7 @@ class AppSettingsDialogStateTest {
 
         appSettingDialogState.getAppSetting(packageName = packageName)
 
-        assertTrue { appSettingDialogState.labelError.isNotBlank() }
+        assertTrue { appSettingDialogState.showLabelError.isNotBlank() }
     }
 
     @Test
@@ -57,7 +57,7 @@ class AppSettingsDialogStateTest {
 
         appSettingDialogState.getAppSetting(packageName = packageName)
 
-        assertTrue { appSettingDialogState.labelError.isBlank() }
+        assertTrue { appSettingDialogState.showLabelError.isBlank() }
     }
 
     @Test
@@ -66,7 +66,7 @@ class AppSettingsDialogStateTest {
 
         appSettingDialogState.getAppSetting(packageName = packageName)
 
-        assertTrue { appSettingDialogState.keyError.isNotBlank() }
+        assertTrue { appSettingDialogState.showKeyError.isNotBlank() }
     }
 
     @Test
@@ -75,7 +75,7 @@ class AppSettingsDialogStateTest {
 
         appSettingDialogState.getAppSetting(packageName = packageName)
 
-        assertTrue { appSettingDialogState.keyError.isBlank() }
+        assertTrue { appSettingDialogState.showKeyError.isBlank() }
     }
 
     @Test
@@ -90,7 +90,7 @@ class AppSettingsDialogStateTest {
 
         appSettingDialogState.getAppSetting(packageName = packageName)
 
-        assertTrue { appSettingDialogState.keyNotFoundError.isNotBlank() }
+        assertTrue { appSettingDialogState.showKeyNotFoundError.isNotBlank() }
     }
 
     @Test
@@ -105,7 +105,7 @@ class AppSettingsDialogStateTest {
 
         appSettingDialogState.getAppSetting(packageName = packageName)
 
-        assertTrue { appSettingDialogState.keyNotFoundError.isBlank() }
+        assertTrue { appSettingDialogState.showKeyNotFoundError.isBlank() }
     }
 
     @Test
@@ -114,7 +114,7 @@ class AppSettingsDialogStateTest {
 
         appSettingDialogState.getAppSetting(packageName = packageName)
 
-        assertTrue { appSettingDialogState.valueOnLaunchError.isNotBlank() }
+        assertTrue { appSettingDialogState.showValueOnLaunchError.isNotBlank() }
     }
 
     @Test
@@ -123,7 +123,7 @@ class AppSettingsDialogStateTest {
 
         appSettingDialogState.getAppSetting(packageName = packageName)
 
-        assertTrue { appSettingDialogState.valueOnLaunchError.isBlank() }
+        assertTrue { appSettingDialogState.showValueOnLaunchError.isBlank() }
     }
 
     @Test
@@ -132,7 +132,7 @@ class AppSettingsDialogStateTest {
 
         appSettingDialogState.getAppSetting(packageName = packageName)
 
-        assertTrue { appSettingDialogState.valueOnRevertError.isNotBlank() }
+        assertTrue { appSettingDialogState.showValueOnRevertError.isNotBlank() }
     }
 
     @Test
@@ -141,7 +141,7 @@ class AppSettingsDialogStateTest {
 
         appSettingDialogState.getAppSetting(packageName = packageName)
 
-        assertTrue { appSettingDialogState.valueOnRevertError.isBlank() }
+        assertTrue { appSettingDialogState.showValueOnRevertError.isBlank() }
     }
 
     @Test

@@ -19,11 +19,13 @@ package com.android.geto.feature.appsettings.dialog.shortcut
 
 import android.content.Intent
 import androidx.activity.ComponentActivity
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.android.geto.core.designsystem.component.GetoBackground
 import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.screenshot.testing.util.DefaultTestDevices
-import com.android.geto.core.screenshot.testing.util.captureScreenRoboImageForDevice
+import com.android.geto.core.screenshot.testing.util.captureDialogForDevice
+import com.android.geto.feature.appsettings.R
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication
 import org.junit.Before
@@ -44,30 +46,29 @@ class UpdateShortcutDialogScreenshotTest {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
-    private lateinit var shortcutDialogState: ShortcutDialogState
+    private lateinit var updateShortcutDialogState: ShortcutDialogState
 
     @Before
     fun setUp() {
-        shortcutDialogState = ShortcutDialogState()
-
-        shortcutDialogState.setStringResources(
-            shortLabelIsBlank = "Short label is blank",
-            longLabelIsBlank = "Long label is blank",
-        )
+        updateShortcutDialogState = ShortcutDialogState()
     }
 
     @Test
     fun updateShortcutDialog_empty() {
-        composeTestRule.captureScreenRoboImageForDevice(
-            path = "UpdateShortcutDialog/UpdateShortcutDialogEmpty",
+        composeTestRule.captureDialogForDevice(
+            folder = "UpdateShortcutDialog",
+            screenshotName = "UpdateShortcutDialogEmpty",
             deviceName = "tablet",
             deviceSpec = DefaultTestDevices.TABLET.spec,
         ) {
             GetoTheme {
-                UpdateShortcutDialog(
-                    shortcutDialogState = shortcutDialogState,
-                    onUpdateShortcut = {},
-                    contentDescription = "UpdateShortcutDialog",
+                ShortcutDialog(
+                    shortcutDialogState = updateShortcutDialogState,
+                    contentDescription = "Update Shortcut Dialog",
+                    title = stringResource(id = R.string.update_shortcut),
+                    cancelButtonText = stringResource(id = R.string.cancel),
+                    okayButtonText = stringResource(id = R.string.update),
+                    onOkay = {},
                 )
             }
         }
@@ -75,20 +76,24 @@ class UpdateShortcutDialogScreenshotTest {
 
     @Test
     fun updateShortcutDialog_filled_textfields() {
-        shortcutDialogState.updateShortLabel("Geto")
+        updateShortcutDialogState.updateShortLabel("Geto")
 
-        shortcutDialogState.updateLongLabel("Geto")
+        updateShortcutDialogState.updateLongLabel("Geto")
 
-        composeTestRule.captureScreenRoboImageForDevice(
-            path = "UpdateShortcutDialog/UpdateShortcutDialogFilledTextFields",
+        composeTestRule.captureDialogForDevice(
+            folder = "UpdateShortcutDialog",
+            screenshotName = "UpdateShortcutDialogFilledTextFields",
             deviceName = "tablet",
             deviceSpec = DefaultTestDevices.TABLET.spec,
         ) {
             GetoTheme {
-                UpdateShortcutDialog(
-                    shortcutDialogState = shortcutDialogState,
-                    onUpdateShortcut = {},
-                    contentDescription = "UpdateShortcutDialog",
+                ShortcutDialog(
+                    shortcutDialogState = updateShortcutDialogState,
+                    contentDescription = "Update Shortcut Dialog",
+                    title = stringResource(id = R.string.update_shortcut),
+                    cancelButtonText = stringResource(id = R.string.cancel),
+                    okayButtonText = stringResource(id = R.string.update),
+                    onOkay = {},
                 )
             }
         }
@@ -96,18 +101,22 @@ class UpdateShortcutDialogScreenshotTest {
 
     @Test
     fun updateShortcutDialog_error_textfields() {
-        shortcutDialogState.getShortcut(packageName = "Geto", shortcutIntent = Intent())
+        updateShortcutDialogState.getShortcut(packageName = "Geto", shortcutIntent = Intent())
 
-        composeTestRule.captureScreenRoboImageForDevice(
-            path = "UpdateShortcutDialog/UpdateShortcutDialogErrorTextFields",
+        composeTestRule.captureDialogForDevice(
+            folder = "UpdateShortcutDialog",
+            screenshotName = "UpdateShortcutDialogErrorTextFields",
             deviceName = "tablet",
             deviceSpec = DefaultTestDevices.TABLET.spec,
         ) {
             GetoTheme {
-                UpdateShortcutDialog(
-                    shortcutDialogState = shortcutDialogState,
-                    onUpdateShortcut = {},
-                    contentDescription = "UpdateShortcutDialog",
+                ShortcutDialog(
+                    shortcutDialogState = updateShortcutDialogState,
+                    contentDescription = "Update Shortcut Dialog",
+                    title = stringResource(id = R.string.update_shortcut),
+                    cancelButtonText = stringResource(id = R.string.cancel),
+                    okayButtonText = stringResource(id = R.string.update),
+                    onOkay = {},
                 )
             }
         }
@@ -115,18 +124,22 @@ class UpdateShortcutDialogScreenshotTest {
 
     @Test
     fun updateShortcutDialog_empty_dark() {
-        composeTestRule.captureScreenRoboImageForDevice(
-            path = "UpdateShortcutDialog/UpdateShortcutDialogEmpty",
+        composeTestRule.captureDialogForDevice(
+            folder = "UpdateShortcutDialog",
+            screenshotName = "UpdateShortcutDialogEmpty",
             deviceName = "tablet_dark",
             deviceSpec = DefaultTestDevices.TABLET.spec,
             darkMode = true,
         ) {
             GetoTheme {
                 GetoBackground {
-                    UpdateShortcutDialog(
-                        shortcutDialogState = shortcutDialogState,
-                        onUpdateShortcut = {},
-                        contentDescription = "UpdateShortcutDialog",
+                    ShortcutDialog(
+                        shortcutDialogState = updateShortcutDialogState,
+                        contentDescription = "Update Shortcut Dialog",
+                        title = stringResource(id = R.string.update_shortcut),
+                        cancelButtonText = stringResource(id = R.string.cancel),
+                        okayButtonText = stringResource(id = R.string.update),
+                        onOkay = {},
                     )
                 }
             }
@@ -135,22 +148,26 @@ class UpdateShortcutDialogScreenshotTest {
 
     @Test
     fun updateShortcutDialog_filled_textfields_dark() {
-        shortcutDialogState.updateShortLabel("Geto")
+        updateShortcutDialogState.updateShortLabel("Geto")
 
-        shortcutDialogState.updateLongLabel("Geto")
+        updateShortcutDialogState.updateLongLabel("Geto")
 
-        composeTestRule.captureScreenRoboImageForDevice(
-            path = "UpdateShortcutDialog/UpdateShortcutDialogFilledTextFields",
+        composeTestRule.captureDialogForDevice(
+            folder = "UpdateShortcutDialog",
+            screenshotName = "UpdateShortcutDialogFilledTextFields",
             deviceName = "tablet_dark",
             deviceSpec = DefaultTestDevices.TABLET.spec,
             darkMode = true,
         ) {
             GetoTheme {
                 GetoBackground {
-                    UpdateShortcutDialog(
-                        shortcutDialogState = shortcutDialogState,
-                        onUpdateShortcut = {},
-                        contentDescription = "UpdateShortcutDialog",
+                    ShortcutDialog(
+                        shortcutDialogState = updateShortcutDialogState,
+                        contentDescription = "Update Shortcut Dialog",
+                        title = stringResource(id = R.string.update_shortcut),
+                        cancelButtonText = stringResource(id = R.string.cancel),
+                        okayButtonText = stringResource(id = R.string.update),
+                        onOkay = {},
                     )
                 }
             }
@@ -159,20 +176,24 @@ class UpdateShortcutDialogScreenshotTest {
 
     @Test
     fun updateShortcutDialog_error_textfields_dark() {
-        shortcutDialogState.getShortcut(packageName = "Geto", shortcutIntent = Intent())
+        updateShortcutDialogState.getShortcut(packageName = "Geto", shortcutIntent = Intent())
 
-        composeTestRule.captureScreenRoboImageForDevice(
-            path = "UpdateShortcutDialog/UpdateShortcutDialogErrorTextFields",
+        composeTestRule.captureDialogForDevice(
+            folder = "UpdateShortcutDialog",
+            screenshotName = "UpdateShortcutDialogErrorTextFields",
             deviceName = "tablet_dark",
             deviceSpec = DefaultTestDevices.TABLET.spec,
             darkMode = true,
         ) {
             GetoTheme {
                 GetoBackground {
-                    UpdateShortcutDialog(
-                        shortcutDialogState = shortcutDialogState,
-                        onUpdateShortcut = {},
-                        contentDescription = "UpdateShortcutDialog",
+                    ShortcutDialog(
+                        shortcutDialogState = updateShortcutDialogState,
+                        contentDescription = "Update Shortcut Dialog",
+                        title = stringResource(id = R.string.update_shortcut),
+                        cancelButtonText = stringResource(id = R.string.cancel),
+                        okayButtonText = stringResource(id = R.string.update),
+                        onOkay = {},
                     )
                 }
             }

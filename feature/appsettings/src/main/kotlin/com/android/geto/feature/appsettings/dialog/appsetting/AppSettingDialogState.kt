@@ -25,29 +25,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.res.stringResource
 import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.SecureSetting
 import com.android.geto.core.model.SettingType
-import com.android.geto.feature.appsettings.R
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.debounce
 
 @Composable
 internal fun rememberAppSettingDialogState(): AppSettingDialogState {
-    val appSettingDialogState = AppSettingDialogState()
-
-    appSettingDialogState.setStringResources(
-        labelIsBlank = stringResource(id = R.string.setting_label_is_blank),
-        keyIsBlank = stringResource(id = R.string.setting_key_is_blank),
-        keyNotFound = stringResource(id = R.string.setting_key_not_found),
-        valueOnLaunchIsBlank = stringResource(id = R.string.setting_value_on_launch_is_blank),
-        valueOnRevertIsBlank = stringResource(id = R.string.setting_value_on_revert_is_blank),
-    )
-
     return rememberSaveable(saver = AppSettingDialogState.Saver) {
-        appSettingDialogState
+        AppSettingDialogState()
     }
 }
 
@@ -66,41 +54,31 @@ internal class AppSettingDialogState {
     var label by mutableStateOf("")
         private set
 
-    var labelError by mutableStateOf("")
+    var showLabelError by mutableStateOf(false)
         private set
 
     var key by mutableStateOf("")
         private set
 
-    var keyError by mutableStateOf("")
+    var showKeyError by mutableStateOf(false)
         private set
 
-    var keyNotFoundError by mutableStateOf("")
+    var showKeyNotFoundError by mutableStateOf(false)
         private set
 
     var valueOnLaunch by mutableStateOf("")
         private set
 
-    var valueOnLaunchError by mutableStateOf("")
+    var showValueOnLaunchError by mutableStateOf(false)
         private set
 
     var valueOnRevert by mutableStateOf("")
         private set
 
-    var valueOnRevertError by mutableStateOf("")
+    var showValueOnRevertError by mutableStateOf(false)
         private set
 
     private val _keyDebounce = MutableStateFlow("")
-
-    private var labelIsBlank = ""
-
-    private var keyIsBlank = ""
-
-    private var keyNotFound = ""
-
-    private var valueOnLaunchIsBlank = ""
-
-    private var valueOnRevertIsBlank = ""
 
     @OptIn(FlowPreview::class)
     val keyDebounce = _keyDebounce.debounce(500)
@@ -138,20 +116,6 @@ internal class AppSettingDialogState {
         valueOnRevert = value
     }
 
-    fun setStringResources(
-        labelIsBlank: String,
-        keyIsBlank: String,
-        keyNotFound: String,
-        valueOnLaunchIsBlank: String,
-        valueOnRevertIsBlank: String,
-    ) {
-        this.labelIsBlank = labelIsBlank
-        this.keyIsBlank = keyIsBlank
-        this.keyNotFound = keyNotFound
-        this.valueOnLaunchIsBlank = valueOnLaunchIsBlank
-        this.valueOnRevertIsBlank = valueOnRevertIsBlank
-    }
-
     fun resetState() {
         showDialog = false
         secureSettingsExpanded = false
@@ -165,28 +129,18 @@ internal class AppSettingDialogState {
     }
 
     fun getAppSetting(packageName: String): AppSetting? {
-        if (labelIsBlank.isBlank() || keyIsBlank.isBlank() || keyNotFound.isBlank() || valueOnLaunchIsBlank.isBlank() || valueOnRevertIsBlank.isBlank()) {
-            throw IllegalStateException(
-                "String resources were not set.",
-            )
-        }
+        showLabelError = label.isBlank()
 
-        labelError = if (label.isBlank()) labelIsBlank else ""
+        showKeyError = key.isBlank()
 
-        keyError = if (key.isBlank()) keyIsBlank else ""
+        showKeyNotFoundError =
+            key.isNotBlank() && !secureSettings.mapNotNull { it.name }.contains(key)
 
-        keyNotFoundError =
-            if (key.isNotBlank() && !secureSettings.mapNotNull { it.name }.contains(key)) {
-                keyNotFound
-            } else {
-                ""
-            }
+        showValueOnLaunchError = valueOnLaunch.isBlank()
 
-        valueOnLaunchError = if (valueOnLaunch.isBlank()) valueOnLaunchIsBlank else ""
+        showValueOnRevertError = valueOnRevert.isBlank()
 
-        valueOnRevertError = if (valueOnRevert.isBlank()) valueOnRevertIsBlank else ""
-
-        return if (labelError.isBlank() && keyNotFoundError.isBlank() && keyError.isBlank() && valueOnLaunchError.isBlank() && valueOnRevertError.isBlank()) {
+        return if (showLabelError.not() && showKeyNotFoundError.not() && showKeyError.not() && showValueOnLaunchError.not() && showValueOnRevertError.not()) {
             AppSetting(
                 enabled = true,
                 settingType = SettingType.entries[selectedRadioOptionIndex],
@@ -208,14 +162,14 @@ internal class AppSettingDialogState {
                     state.showDialog,
                     state.selectedRadioOptionIndex,
                     state.label,
-                    state.labelError,
+                    state.showLabelError,
                     state.key,
-                    state.keyError,
-                    state.keyNotFoundError,
+                    state.showKeyError,
+                    state.showKeyNotFoundError,
                     state.valueOnLaunch,
-                    state.valueOnLaunchError,
+                    state.showValueOnLaunchError,
                     state.valueOnRevert,
-                    state.valueOnRevertError,
+                    state.showValueOnRevertError,
                 )
             },
             restore = {
@@ -226,21 +180,21 @@ internal class AppSettingDialogState {
 
                     label = it[2] as String
 
-                    labelError = it[3] as String
+                    showLabelError = it[3] as Boolean
 
                     key = it[4] as String
 
-                    keyError = it[5] as String
+                    showKeyError = it[5] as Boolean
 
-                    keyNotFoundError = it[6] as String
+                    showKeyNotFoundError = it[6] as Boolean
 
                     valueOnLaunch = it[7] as String
 
-                    valueOnLaunchError = it[8] as String
+                    showValueOnLaunchError = it[8] as Boolean
 
                     valueOnRevert = it[9] as String
 
-                    valueOnRevertError = it[10] as String
+                    showValueOnRevertError = it[10] as Boolean
                 }
             },
         )
