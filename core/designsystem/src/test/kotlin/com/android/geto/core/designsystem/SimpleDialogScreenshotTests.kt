@@ -45,8 +45,8 @@ class SimpleDialogScreenshotTests {
     @Test
     fun simpleDialog() {
         composeTestRule.captureDialogForDevice(
-            folder = "SimpleDialog",
-            screenshotName = "SimpleDialog",
+            name = "SimpleDialog",
+            fileName = "SimpleDialog",
             deviceName = "phone",
             deviceSpec = DefaultTestDevices.PHONE.spec,
         ) {
@@ -55,10 +55,10 @@ class SimpleDialogScreenshotTests {
                     title = "Simple Dialog",
                     text = "Hello from Simple Dialog",
                     onDismissRequest = {},
-                    negativeText = "Cancel",
-                    positiveText = "Okay",
-                    onNegativeClick = {},
-                    onPositiveClick = {},
+                    negativeButtonText = "Cancel",
+                    positiveButtonText = "Okay",
+                    onNegativeButtonClick = {},
+                    onPositiveButtonClick = {},
                     contentDescription = "Simple Dialog",
                 )
             }
@@ -68,8 +68,8 @@ class SimpleDialogScreenshotTests {
     @Test
     fun simpleDialog_dark() {
         composeTestRule.captureDialogForDevice(
-            folder = "SimpleDialog",
-            screenshotName = "SimpleDialog",
+            name = "SimpleDialog",
+            fileName = "SimpleDialog",
             deviceName = "phone_dark",
             deviceSpec = DefaultTestDevices.PHONE.spec,
             darkMode = true,
@@ -80,10 +80,10 @@ class SimpleDialogScreenshotTests {
                         title = "Simple Dialog",
                         text = "Hello from Simple Dialog",
                         onDismissRequest = {},
-                        negativeText = "Cancel",
-                        positiveText = "Okay",
-                        onNegativeClick = {},
-                        onPositiveClick = {},
+                        negativeButtonText = "Cancel",
+                        positiveButtonText = "Okay",
+                        onNegativeButtonClick = {},
+                        onPositiveButtonClick = {},
                         contentDescription = "Simple Dialog",
                     )
                 }

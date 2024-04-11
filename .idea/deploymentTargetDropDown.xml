@@ -5,10 +5,16 @@
       <entry key="AppListBaselineProfile">
         <State />
       </entry>
+      <entry key="AppSettingDialogTest">
+        <State />
+      </entry>
       <entry key="DarkDialogTest">
         <State />
       </entry>
       <entry key="Generate Baseline Profile for app">
+        <State />
+      </entry>
+      <entry key="ShortcutDialogTest">
         <State />
       </entry>
       <entry key="ThemeDialogTest">

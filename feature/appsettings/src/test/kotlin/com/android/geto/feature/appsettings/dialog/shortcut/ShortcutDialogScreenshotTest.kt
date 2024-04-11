@@ -56,8 +56,8 @@ class ShortcutDialogScreenshotTest {
     @Test
     fun shortcutDialog_empty() {
         composeTestRule.captureDialogForDevice(
-            folder = "ShortcutDialog",
-            screenshotName = "ShortcutDialogEmpty",
+            name = "ShortcutDialog",
+            fileName = "ShortcutDialogEmpty",
             deviceName = "tablet",
             deviceSpec = DefaultTestDevices.TABLET.spec,
         ) {
@@ -66,9 +66,9 @@ class ShortcutDialogScreenshotTest {
                     shortcutDialogState = shortcutDialogState,
                     contentDescription = "Shortcut Dialog",
                     title = stringResource(id = R.string.add_shortcut),
-                    cancelButtonText = stringResource(id = R.string.cancel),
-                    okayButtonText = stringResource(id = R.string.add),
-                    onOkay = {},
+                    negativeButtonText = stringResource(id = R.string.cancel),
+                    positiveButtonText = stringResource(id = R.string.add),
+                    onPositiveButtonClick = {},
                 )
             }
         }
@@ -81,8 +81,8 @@ class ShortcutDialogScreenshotTest {
         shortcutDialogState.updateLongLabel("Long Label")
 
         composeTestRule.captureDialogForDevice(
-            folder = "ShortcutDialog",
-            screenshotName = "ShortcutDialogFilledTextFields",
+            name = "ShortcutDialog",
+            fileName = "ShortcutDialogFilledTextFields",
             deviceName = "tablet",
             deviceSpec = DefaultTestDevices.TABLET.spec,
         ) {
@@ -91,9 +91,9 @@ class ShortcutDialogScreenshotTest {
                     shortcutDialogState = shortcutDialogState,
                     contentDescription = "Shortcut Dialog",
                     title = stringResource(id = R.string.add_shortcut),
-                    cancelButtonText = stringResource(id = R.string.cancel),
-                    okayButtonText = stringResource(id = R.string.add),
-                    onOkay = {},
+                    negativeButtonText = stringResource(id = R.string.cancel),
+                    positiveButtonText = stringResource(id = R.string.add),
+                    onPositiveButtonClick = {},
                 )
             }
         }
@@ -104,8 +104,8 @@ class ShortcutDialogScreenshotTest {
         shortcutDialogState.getShortcut(packageName = "Test", shortcutIntent = Intent())
 
         composeTestRule.captureDialogForDevice(
-            folder = "ShortcutDialog",
-            screenshotName = "ShortcutDialogErrorTextFields",
+            name = "ShortcutDialog",
+            fileName = "ShortcutDialogErrorTextFields",
             deviceName = "tablet",
             deviceSpec = DefaultTestDevices.TABLET.spec,
         ) {
@@ -114,9 +114,9 @@ class ShortcutDialogScreenshotTest {
                     shortcutDialogState = shortcutDialogState,
                     contentDescription = "Shortcut Dialog",
                     title = stringResource(id = R.string.add_shortcut),
-                    cancelButtonText = stringResource(id = R.string.cancel),
-                    okayButtonText = stringResource(id = R.string.add),
-                    onOkay = {},
+                    negativeButtonText = stringResource(id = R.string.cancel),
+                    positiveButtonText = stringResource(id = R.string.add),
+                    onPositiveButtonClick = {},
                 )
             }
         }
@@ -125,8 +125,8 @@ class ShortcutDialogScreenshotTest {
     @Test
     fun shortcutDialog_empty_dark() {
         composeTestRule.captureDialogForDevice(
-            folder = "ShortcutDialog",
-            screenshotName = "ShortcutDialogEmpty",
+            name = "ShortcutDialog",
+            fileName = "ShortcutDialogEmpty",
             deviceName = "tablet_dark",
             deviceSpec = DefaultTestDevices.TABLET.spec,
             darkMode = true,
@@ -137,9 +137,9 @@ class ShortcutDialogScreenshotTest {
                         shortcutDialogState = shortcutDialogState,
                         contentDescription = "Shortcut Dialog",
                         title = stringResource(id = R.string.add_shortcut),
-                        cancelButtonText = stringResource(id = R.string.cancel),
-                        okayButtonText = stringResource(id = R.string.add),
-                        onOkay = {},
+                        negativeButtonText = stringResource(id = R.string.cancel),
+                        positiveButtonText = stringResource(id = R.string.add),
+                        onPositiveButtonClick = {},
                     )
                 }
             }
@@ -153,8 +153,8 @@ class ShortcutDialogScreenshotTest {
         shortcutDialogState.updateLongLabel("Long Label")
 
         composeTestRule.captureDialogForDevice(
-            folder = "ShortcutDialog",
-            screenshotName = "ShortcutDialogFilledTextFields",
+            name = "ShortcutDialog",
+            fileName = "ShortcutDialogFilledTextFields",
             deviceName = "tablet_dark",
             deviceSpec = DefaultTestDevices.TABLET.spec,
             darkMode = true,
@@ -165,9 +165,9 @@ class ShortcutDialogScreenshotTest {
                         shortcutDialogState = shortcutDialogState,
                         contentDescription = "Add Shortcut Dialog",
                         title = stringResource(id = R.string.add_shortcut),
-                        cancelButtonText = stringResource(id = R.string.cancel),
-                        okayButtonText = stringResource(id = R.string.add),
-                        onOkay = {},
+                        negativeButtonText = stringResource(id = R.string.cancel),
+                        positiveButtonText = stringResource(id = R.string.add),
+                        onPositiveButtonClick = {},
                     )
                 }
             }
@@ -179,8 +179,8 @@ class ShortcutDialogScreenshotTest {
         shortcutDialogState.getShortcut(packageName = "Test", shortcutIntent = Intent())
 
         composeTestRule.captureDialogForDevice(
-            folder = "ShortcutDialog",
-            screenshotName = "ShortcutDialogErrorTextFields",
+            name = "ShortcutDialog",
+            fileName = "ShortcutDialogErrorTextFields",
             deviceName = "tablet_dark",
             deviceSpec = DefaultTestDevices.TABLET.spec,
             darkMode = true,
@@ -191,9 +191,9 @@ class ShortcutDialogScreenshotTest {
                         shortcutDialogState = shortcutDialogState,
                         contentDescription = "Add Shortcut Dialog",
                         title = stringResource(id = R.string.add_shortcut),
-                        cancelButtonText = stringResource(id = R.string.cancel),
-                        okayButtonText = stringResource(id = R.string.add),
-                        onOkay = {},
+                        negativeButtonText = stringResource(id = R.string.cancel),
+                        positiveButtonText = stringResource(id = R.string.add),
+                        onPositiveButtonClick = {},
                     )
                 }
             }

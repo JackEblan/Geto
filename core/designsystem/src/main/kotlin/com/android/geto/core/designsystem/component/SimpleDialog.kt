@@ -19,6 +19,7 @@ package com.android.geto.core.designsystem.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -45,11 +46,43 @@ fun SimpleDialog(
     title: String,
     text: String,
     onDismissRequest: () -> Unit,
-    negativeText: String,
-    positiveText: String,
-    onNegativeClick: () -> Unit,
-    onPositiveClick: () -> Unit,
+    negativeButtonText: String,
+    positiveButtonText: String,
+    onNegativeButtonClick: () -> Unit,
+    onPositiveButtonClick: () -> Unit,
     contentDescription: String,
+) {
+    DialogContainer(
+        modifier = modifier,
+        onDismissRequest = onDismissRequest,
+        contentDescription = contentDescription,
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(10.dp),
+        ) {
+            DialogTitle(title = title)
+
+            SimpleDialogContent(text = text)
+
+            DialogButtons(
+                modifier = modifier,
+                negativeButtonText = negativeButtonText,
+                positiveButtonText = positiveButtonText,
+                onNegativeButtonClick = onNegativeButtonClick,
+                onPositiveButtonClick = onPositiveButtonClick,
+            )
+        }
+    }
+}
+
+@Composable
+fun DialogContainer(
+    modifier: Modifier = Modifier,
+    onDismissRequest: () -> Unit,
+    contentDescription: String,
+    content: @Composable (ColumnScope.() -> Unit),
 ) {
     Dialog(onDismissRequest = onDismissRequest) {
         Card(
@@ -60,29 +93,13 @@ fun SimpleDialog(
                 .semantics { this.contentDescription = contentDescription },
             shape = RoundedCornerShape(16.dp),
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(10.dp),
-            ) {
-                SimpleDialogTitle(title = title)
-
-                SimpleDialogContent(text = text)
-
-                DialogButtons(
-                    modifier = modifier,
-                    negativeText = negativeText,
-                    positiveText = positiveText,
-                    onNegativeClick = onNegativeClick,
-                    onPositiveClick = onPositiveClick,
-                )
-            }
+            content()
         }
     }
 }
 
 @Composable
-private fun SimpleDialogTitle(modifier: Modifier = Modifier, title: String) {
+fun DialogTitle(modifier: Modifier = Modifier, title: String) {
     Spacer(modifier = Modifier.height(10.dp))
 
     Text(
@@ -104,12 +121,12 @@ private fun SimpleDialogContent(modifier: Modifier = Modifier, text: String) {
 }
 
 @Composable
-internal fun DialogButtons(
+fun DialogButtons(
     modifier: Modifier = Modifier,
-    negativeText: String,
-    positiveText: String,
-    onNegativeClick: () -> Unit,
-    onPositiveClick: () -> Unit,
+    negativeButtonText: String,
+    positiveButtonText: String,
+    onNegativeButtonClick: () -> Unit,
+    onPositiveButtonClick: () -> Unit,
 ) {
     Spacer(modifier = Modifier.height(10.dp))
 
@@ -118,16 +135,16 @@ internal fun DialogButtons(
         horizontalArrangement = Arrangement.End,
     ) {
         TextButton(
-            onClick = onNegativeClick,
+            onClick = onNegativeButtonClick,
             modifier = Modifier.padding(5.dp),
         ) {
-            Text(text = negativeText)
+            Text(text = negativeButtonText)
         }
         TextButton(
-            onClick = onPositiveClick,
+            onClick = onPositiveButtonClick,
             modifier = Modifier.padding(5.dp),
         ) {
-            Text(text = positiveText)
+            Text(text = positiveButtonText)
         }
     }
 }
@@ -140,10 +157,10 @@ private fun SimpleDialogPreview() {
             title = "Simple Dialog",
             text = "Hello from Simple Dialog",
             onDismissRequest = {},
-            negativeText = "Cancel",
-            positiveText = "Okay",
-            onNegativeClick = {},
-            onPositiveClick = {},
+            negativeButtonText = "Cancel",
+            positiveButtonText = "Okay",
+            onNegativeButtonClick = {},
+            onPositiveButtonClick = {},
             contentDescription = "Simple Dialog",
         )
     }

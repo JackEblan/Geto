@@ -48,7 +48,7 @@ class SettingsScreenScreenshotTest {
         composeTestRule.captureForDevice(
             deviceName = "tablet",
             deviceSpec = DefaultTestDevices.TABLET.spec,
-            screenshotName = "SettingsScreenPopulated",
+            fileName = "SettingsScreenPopulated",
         ) {
             GetoTheme {
                 SettingsScreen(
@@ -76,7 +76,7 @@ class SettingsScreenScreenshotTest {
         composeTestRule.captureForDevice(
             deviceName = "tablet",
             deviceSpec = DefaultTestDevices.TABLET.spec,
-            screenshotName = "SettingsScreenLoading",
+            fileName = "SettingsScreenLoading",
         ) {
             GetoTheme {
                 SettingsScreen(
@@ -97,7 +97,7 @@ class SettingsScreenScreenshotTest {
         composeTestRule.captureForDevice(
             deviceName = "tablet_dark",
             deviceSpec = DefaultTestDevices.TABLET.spec,
-            screenshotName = "SettingsScreenPopulated",
+            fileName = "SettingsScreenPopulated",
             darkMode = true,
         ) {
             GetoTheme {
@@ -128,7 +128,7 @@ class SettingsScreenScreenshotTest {
         composeTestRule.captureForDevice(
             deviceName = "tablet_dark",
             deviceSpec = DefaultTestDevices.TABLET.spec,
-            screenshotName = "SettingsScreenLoading",
+            fileName = "SettingsScreenLoading",
             darkMode = true,
         ) {
             GetoTheme {

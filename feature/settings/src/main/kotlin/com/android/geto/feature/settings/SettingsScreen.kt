@@ -102,12 +102,12 @@ internal fun SettingsRoute(
             onDismissRequest = {},
             selected = themeDialogSelected,
             onSelect = { themeDialogSelected = it },
-            negativeText = stringResource(id = R.string.cancel),
-            positiveText = stringResource(id = R.string.change),
-            onNegativeClick = {
+            negativeButtonText = stringResource(id = R.string.cancel),
+            positiveButtonText = stringResource(id = R.string.change),
+            onNegativeButtonClick = {
                 showThemeDialog = false
             },
-            onPositiveClick = {
+            onPositiveButtonClick = {
                 viewModel.updateThemeBrand(ThemeBrand.entries[themeDialogSelected])
                 showThemeDialog = false
             },
@@ -126,12 +126,12 @@ internal fun SettingsRoute(
             onDismissRequest = {},
             selected = darkDialogSelected,
             onSelect = { darkDialogSelected = it },
-            negativeText = stringResource(id = R.string.cancel),
-            positiveText = stringResource(id = R.string.change),
-            onNegativeClick = {
+            negativeButtonText = stringResource(id = R.string.cancel),
+            positiveButtonText = stringResource(id = R.string.change),
+            onNegativeButtonClick = {
                 showDarkDialog = false
             },
-            onPositiveClick = {
+            onPositiveButtonClick = {
                 viewModel.updateDarkThemeConfig(DarkThemeConfig.entries[darkDialogSelected])
                 showDarkDialog = false
             },
@@ -146,12 +146,12 @@ internal fun SettingsRoute(
             onDismissRequest = {
                 showCleanDialog = false
             },
-            negativeText = stringResource(id = R.string.cancel),
-            positiveText = stringResource(id = R.string.clean),
-            onNegativeClick = {
+            negativeButtonText = stringResource(id = R.string.cancel),
+            positiveButtonText = stringResource(id = R.string.clean),
+            onNegativeButtonClick = {
                 showCleanDialog = false
             },
-            onPositiveClick = {
+            onPositiveButtonClick = {
                 viewModel.cleanAppSettings()
                 showCleanDialog = false
             },
