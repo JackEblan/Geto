@@ -74,12 +74,14 @@ internal class ShortcutDialogState {
         shortLabel = ""
     }
 
-    fun setError(shortLabelIsBlank: String, longLabelIsBlank: String) {
+    fun setStringResources(shortLabelIsBlank: String, longLabelIsBlank: String) {
         this.shortLabelIsBlank = shortLabelIsBlank
         this.longLabelIsBlank = longLabelIsBlank
     }
 
     fun getShortcut(packageName: String, shortcutIntent: Intent): TargetShortcutInfoCompat? {
+        if (shortLabelIsBlank.isBlank() || longLabelIsBlank.isBlank()) throw IllegalStateException("String resources were not set.")
+
         shortLabelError = if (shortLabel.isBlank()) shortLabelIsBlank else ""
 
         longLabelError = if (longLabel.isBlank()) longLabelIsBlank else ""

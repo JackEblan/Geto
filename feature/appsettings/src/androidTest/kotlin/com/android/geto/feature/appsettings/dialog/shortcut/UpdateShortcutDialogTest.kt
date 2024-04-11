@@ -20,6 +20,8 @@ package com.android.geto.feature.appsettings.dialog.shortcut
 import android.content.Intent
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertTextEquals
+import androidx.compose.ui.test.junit4.StateRestorationTester
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
@@ -86,5 +88,34 @@ class UpdateShortcutDialogTest {
             testTag = "updateShortcutDialog:longLabelSupportingText",
             useUnmergedTree = true,
         ).assertIsDisplayed()
+    }
+
+    @Test
+    fun onRecreation_state_isRestored() {
+        val restorationTester = StateRestorationTester(composeTestRule)
+
+        restorationTester.setContent {
+            val updateShortcutDialogState = rememberUpdateShortcutDialogState()
+
+            updateShortcutDialogState.updateShortLabel("Geto")
+
+            updateShortcutDialogState.updateLongLabel("Geto")
+
+            UpdateShortcutDialog(
+                shortcutDialogState = updateShortcutDialogState,
+                onUpdateShortcut = {},
+                contentDescription = "Update Shortcut Dialog",
+            )
+        }
+
+        restorationTester.emulateSavedInstanceStateRestore()
+
+        composeTestRule.onNodeWithTag(
+            testTag = "updateShortcutDialog:shortLabelTextField",
+        ).assertTextEquals("Short label", "Geto")
+
+        composeTestRule.onNodeWithTag(
+            testTag = "updateShortcutDialog:longLabelTextField",
+        ).assertTextEquals("Long label", "Geto")
     }
 }

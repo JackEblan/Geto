@@ -161,7 +161,8 @@ private fun AddShortcutDialogTextFields(
     OutlinedTextField(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 5.dp),
+            .padding(horizontal = 5.dp)
+            .testTag("addShortcutDialog:shortLabelTextField"),
         value = shortLabel,
         onValueChange = onUpdateShortLabel,
         label = {
@@ -183,7 +184,8 @@ private fun AddShortcutDialogTextFields(
     OutlinedTextField(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 5.dp),
+            .padding(horizontal = 5.dp)
+            .testTag("addShortcutDialog:longLabelTextField"),
         value = longLabel,
         onValueChange = onUpdateLongLabel,
         label = {
@@ -234,7 +236,7 @@ private fun AddShortcutDialogButtons(
 internal fun rememberAddShortcutDialogState(): ShortcutDialogState {
     val shortcutDialogState = ShortcutDialogState()
 
-    shortcutDialogState.setError(
+    shortcutDialogState.setStringResources(
         shortLabelIsBlank = stringResource(id = R.string.short_label_is_blank),
         longLabelIsBlank = stringResource(id = R.string.long_label_is_blank),
     )

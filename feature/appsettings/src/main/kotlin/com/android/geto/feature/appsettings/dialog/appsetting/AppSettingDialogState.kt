@@ -38,7 +38,7 @@ import kotlinx.coroutines.flow.debounce
 internal fun rememberAppSettingDialogState(): AppSettingDialogState {
     val appSettingDialogState = AppSettingDialogState()
 
-    appSettingDialogState.setError(
+    appSettingDialogState.setStringResources(
         labelIsBlank = stringResource(id = R.string.setting_label_is_blank),
         keyIsBlank = stringResource(id = R.string.setting_key_is_blank),
         keyNotFound = stringResource(id = R.string.setting_key_not_found),
@@ -138,7 +138,7 @@ internal class AppSettingDialogState {
         valueOnRevert = value
     }
 
-    fun setError(
+    fun setStringResources(
         labelIsBlank: String,
         keyIsBlank: String,
         keyNotFound: String,
@@ -165,21 +165,22 @@ internal class AppSettingDialogState {
     }
 
     fun getAppSetting(packageName: String): AppSetting? {
+        if (labelIsBlank.isBlank() || keyIsBlank.isBlank() || keyNotFound.isBlank() || valueOnLaunchIsBlank.isBlank() || valueOnRevertIsBlank.isBlank()) {
+            throw IllegalStateException(
+                "String resources were not set.",
+            )
+        }
+
         labelError = if (label.isBlank()) labelIsBlank else ""
 
-        keyError = if (key.isBlank()) {
-            keyIsBlank
-        } else {
-            ""
-        }
+        keyError = if (key.isBlank()) keyIsBlank else ""
 
-        keyNotFoundError = if (key.isNotBlank() && !secureSettings.mapNotNull { it.name }
-                .contains(key)
-        ) {
-            keyNotFound
-        } else {
-            ""
-        }
+        keyNotFoundError =
+            if (key.isNotBlank() && !secureSettings.mapNotNull { it.name }.contains(key)) {
+                keyNotFound
+            } else {
+                ""
+            }
 
         valueOnLaunchError = if (valueOnLaunch.isBlank()) valueOnLaunchIsBlank else ""
 

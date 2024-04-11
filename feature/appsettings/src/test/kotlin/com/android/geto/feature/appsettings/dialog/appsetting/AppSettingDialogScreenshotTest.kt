@@ -50,7 +50,7 @@ class AppSettingDialogScreenshotTest {
     fun setup() {
         appSettingDialogState = AppSettingDialogState()
 
-        appSettingDialogState.setError(
+        appSettingDialogState.setStringResources(
             labelIsBlank = "Settings label is blank",
             keyIsBlank = "Settings key is blank",
             keyNotFound = "Settings key not found",

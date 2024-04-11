@@ -32,7 +32,7 @@ class ShortcutDialogStateTest {
     fun setup() {
         shortcutDialogState = ShortcutDialogState()
 
-        shortcutDialogState.setError(
+        shortcutDialogState.setStringResources(
             shortLabelIsBlank = "Short label is blank",
             longLabelIsBlank = "Long label is blank",
         )

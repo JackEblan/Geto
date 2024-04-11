@@ -245,7 +245,8 @@ private fun AppSettingDialogTextFields(
     OutlinedTextField(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 5.dp),
+            .padding(horizontal = 5.dp)
+            .testTag("appSettingDialog:labelTextField"),
         value = label,
         onValueChange = onUpdateLabel,
         label = {
@@ -278,7 +279,8 @@ private fun AppSettingDialogTextFields(
     OutlinedTextField(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 5.dp),
+            .padding(horizontal = 5.dp)
+            .testTag("appSettingDialog:valueOnLaunchTextField"),
         value = valueOnLaunch,
         onValueChange = onUpdateValueOnLaunch,
         label = {

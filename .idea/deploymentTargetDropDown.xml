@@ -5,35 +5,28 @@
       <entry key="AppListBaselineProfile">
         <State />
       </entry>
-      <entry key="AppListScreenTest">
-        <State>
-          <runningDeviceTargetSelectedWithDropDown>
-            <Target>
-              <type value="RUNNING_DEVICE_TARGET" />
-              <deviceKey>
-                <Key>
-                  <type value="SERIAL_NUMBER" />
-                  <value value="adb-07314251BG101942-r65nJY._adb-tls-connect._tcp" />
-                </Key>
-              </deviceKey>
-            </Target>
-          </runningDeviceTargetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2024-04-05T06:57:45.183639100Z" />
-        </State>
-      </entry>
       <entry key="Generate Baseline Profile for app">
-        <State />
-      </entry>
-      <entry key="MigrationTest">
-        <State />
-      </entry>
-      <entry key="StartupBenchmark">
         <State />
       </entry>
       <entry key="app">
         <State />
       </entry>
       <entry key="feature.shortcut">
+        <State />
+      </entry>
+      <entry key="onRecreation_stateIsRestored()">
+        <State />
+      </entry>
+      <entry key="onRecreation_state_isRestored()">
+        <State />
+      </entry>
+      <entry key="onRecreation_state_isRestored() (1)">
+        <State />
+      </entry>
+      <entry key="onRecreation_state_isRestored() (2)">
+        <State />
+      </entry>
+      <entry key="onRecreation_state_isRestored() (3)">
         <State />
       </entry>
     </value>

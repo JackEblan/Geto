@@ -20,6 +20,7 @@ package com.android.geto.feature.appsettings.dialog.appsetting
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertTextEquals
+import androidx.compose.ui.test.junit4.StateRestorationTester
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
@@ -270,5 +271,48 @@ class AppSettingDialogTest {
         composeTestRule.onNodeWithTag(
             testTag = "appSettingDialog:valueOnRevertTextField",
         ).assertTextEquals("Setting value on revert", "0")
+    }
+
+    @Test
+    fun onRecreation_state_isRestored() {
+        val restorationTester = StateRestorationTester(composeTestRule)
+
+        restorationTester.setContent {
+            val appSettingDialogState = rememberAppSettingDialogState()
+
+            appSettingDialogState.updateSelectedRadioOptionIndex(1)
+
+            appSettingDialogState.updateKey("Geto")
+
+            appSettingDialogState.updateLabel("Geto")
+
+            appSettingDialogState.updateValueOnLaunch("Geto")
+
+            appSettingDialogState.updateValueOnRevert("Geto")
+
+            AppSettingDialog(
+                addAppSettingDialogState = appSettingDialogState,
+                onAddSetting = {},
+                contentDescription = "Add App Setting Dialog",
+            )
+        }
+
+        restorationTester.emulateSavedInstanceStateRestore()
+
+        composeTestRule.onNodeWithTag(
+            testTag = "appSettingDialog:labelTextField",
+        ).assertTextEquals("Setting label", "Geto")
+
+        composeTestRule.onNodeWithTag(
+            testTag = "appSettingDialog:keyTextField",
+        ).assertTextEquals("Setting key", "Geto")
+
+        composeTestRule.onNodeWithTag(
+            testTag = "appSettingDialog:valueOnLaunchTextField",
+        ).assertTextEquals("Setting value on launch", "Geto")
+
+        composeTestRule.onNodeWithTag(
+            testTag = "appSettingDialog:valueOnRevertTextField",
+        ).assertTextEquals("Setting value on revert", "Geto")
     }
 }
