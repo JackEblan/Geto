@@ -41,8 +41,9 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -52,17 +53,14 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.android.geto.core.designsystem.component.GetoLoadingWheel
+import com.android.geto.core.designsystem.component.SimpleDialog
+import com.android.geto.core.designsystem.component.SingleSelectionDialog
 import com.android.geto.core.designsystem.icon.GetoIcons
 import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.designsystem.theme.supportsDynamicTheming
 import com.android.geto.core.model.DarkThemeConfig
 import com.android.geto.core.model.ThemeBrand
 import com.android.geto.core.ui.DevicePreviews
-import com.android.geto.feature.settings.dialog.clean.CleanDialog
-import com.android.geto.feature.settings.dialog.dark.DarkDialog
-import com.android.geto.feature.settings.dialog.dark.rememberDarkDialogState
-import com.android.geto.feature.settings.dialog.theme.ThemeDialog
-import com.android.geto.feature.settings.dialog.theme.rememberThemeDialogState
 
 @Composable
 internal fun SettingsRoute(
@@ -72,13 +70,15 @@ internal fun SettingsRoute(
 ) {
     val settingsUiState by viewModel.settingsUiState.collectAsStateWithLifecycle()
 
-    val themeDialogState = rememberThemeDialogState()
+    var showThemeDialog by rememberSaveable { mutableStateOf(false) }
 
-    val darkDialogState = rememberDarkDialogState()
+    var showDarkDialog by rememberSaveable { mutableStateOf(false) }
 
-    var showCleanDialog by remember {
-        mutableStateOf(false)
-    }
+    var showCleanDialog by rememberSaveable { mutableStateOf(false) }
+
+    var themeDialogSelected by rememberSaveable { mutableIntStateOf(0) }
+
+    var darkDialogSelected by rememberSaveable { mutableIntStateOf(0) }
 
     LaunchedEffect(key1 = settingsUiState) {
         if (settingsUiState is SettingsUiState.Success) {
@@ -87,38 +87,71 @@ internal fun SettingsRoute(
             val darkThemeConfigIndex =
                 DarkThemeConfig.entries.indexOf((settingsUiState as SettingsUiState.Success).settings.darkThemeConfig)
 
-            themeDialogState.updateSelectedRadioOptionIndex(brandIndex)
-            darkDialogState.updateSelectedRadioOptionIndex(darkThemeConfigIndex)
+            themeDialogSelected = brandIndex
+            darkDialogSelected = darkThemeConfigIndex
         }
     }
 
-    if (themeDialogState.showDialog) {
-        ThemeDialog(
-            modifier = Modifier.testTag("settings:themeDialog"),
-            themeDialogState = themeDialogState,
-            onChangeTheme = {
-                viewModel.updateThemeBrand(ThemeBrand.entries[themeDialogState.selectedRadioOptionIndex])
-                themeDialogState.updateShowDialog(false)
+    if (showThemeDialog) {
+        SingleSelectionDialog(
+            title = stringResource(id = R.string.theme),
+            items = arrayOf(
+                stringResource(R.string.default_theme),
+                stringResource(R.string.android_theme),
+            ),
+            onDismissRequest = {},
+            selected = themeDialogSelected,
+            onSelect = { themeDialogSelected = it },
+            negativeText = stringResource(id = R.string.cancel),
+            positiveText = stringResource(id = R.string.change),
+            onNegativeClick = {
+                showThemeDialog = false
+            },
+            onPositiveClick = {
+                viewModel.updateThemeBrand(ThemeBrand.entries[themeDialogSelected])
+                showThemeDialog = false
             },
             contentDescription = "Theme Dialog",
         )
     }
 
-    if (darkDialogState.showDialog) {
-        DarkDialog(
-            darkDialogState = darkDialogState,
-            onChangeDark = {
-                viewModel.updateDarkThemeConfig(DarkThemeConfig.entries[darkDialogState.selectedRadioOptionIndex])
-                darkDialogState.updateShowDialog(false)
+    if (showDarkDialog) {
+        SingleSelectionDialog(
+            title = stringResource(id = R.string.theme),
+            items = arrayOf(
+                stringResource(id = R.string.follow_system),
+                stringResource(id = R.string.light),
+                stringResource(id = R.string.dark),
+            ),
+            onDismissRequest = {},
+            selected = darkDialogSelected,
+            onSelect = { darkDialogSelected = it },
+            negativeText = stringResource(id = R.string.cancel),
+            positiveText = stringResource(id = R.string.change),
+            onNegativeClick = {
+                showDarkDialog = false
+            },
+            onPositiveClick = {
+                viewModel.updateDarkThemeConfig(DarkThemeConfig.entries[darkDialogSelected])
+                showDarkDialog = false
             },
             contentDescription = "Dark Dialog",
         )
     }
 
     if (showCleanDialog) {
-        CleanDialog(
-            onDismissRequest = { showCleanDialog = false },
-            onClean = {
+        SimpleDialog(
+            title = stringResource(id = R.string.clean_app_settings),
+            text = stringResource(id = R.string.are_you_sure_you_want_to_clean_app_settings_from_the_uninstalled_applications),
+            onDismissRequest = {
+                showCleanDialog = false
+            },
+            negativeText = stringResource(id = R.string.cancel),
+            positiveText = stringResource(id = R.string.clean),
+            onNegativeClick = {
+                showCleanDialog = false
+            },
+            onPositiveClick = {
                 viewModel.cleanAppSettings()
                 showCleanDialog = false
             },
@@ -129,8 +162,8 @@ internal fun SettingsRoute(
     SettingsScreen(
         modifier = modifier,
         settingsUiState = settingsUiState,
-        onThemeDialog = { themeDialogState.updateShowDialog(true) },
-        onDarkDialog = { darkDialogState.updateShowDialog(true) },
+        onThemeDialog = { showThemeDialog = true },
+        onDarkDialog = { showDarkDialog = true },
         onCleanDialog = {
             showCleanDialog = true
         },

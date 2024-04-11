@@ -5,7 +5,13 @@
       <entry key="AppListBaselineProfile">
         <State />
       </entry>
+      <entry key="DarkDialogTest">
+        <State />
+      </entry>
       <entry key="Generate Baseline Profile for app">
+        <State />
+      </entry>
+      <entry key="ThemeDialogTest">
         <State />
       </entry>
       <entry key="app">
@@ -15,15 +21,6 @@
         <State />
       </entry>
       <entry key="onRecreation_state_isRestored()">
-        <State />
-      </entry>
-      <entry key="onRecreation_state_isRestored() (1)">
-        <State />
-      </entry>
-      <entry key="onRecreation_state_isRestored() (2)">
-        <State />
-      </entry>
-      <entry key="onRecreation_state_isRestored() (3)">
         <State />
       </entry>
     </value>

@@ -35,7 +35,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -51,11 +50,14 @@ import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.feature.appsettings.R
 
 @Composable
-internal fun UpdateShortcutDialog(
+internal fun ShortcutDialog(
     modifier: Modifier = Modifier,
     shortcutDialogState: ShortcutDialogState,
-    onUpdateShortcut: () -> Unit,
     contentDescription: String,
+    title: String,
+    cancelButtonText: String,
+    okayButtonText: String,
+    onOkay: () -> Unit,
 ) {
     Dialog(onDismissRequest = { shortcutDialogState.updateShowDialog(false) }) {
         Card(
@@ -66,57 +68,48 @@ internal fun UpdateShortcutDialog(
                 .semantics { this.contentDescription = contentDescription },
             shape = RoundedCornerShape(16.dp),
         ) {
-            UpdateShortcutDialogScreen(
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(10.dp),
+            ) {
+                ShortcutDialogTitle(title = title)
+
+                ShortcutDialogApplicationIcon(
+                    icon = shortcutDialogState.icon,
+                    modifier = Modifier
+                        .size(50.dp)
+                        .align(Alignment.CenterHorizontally),
+                )
+
+                ShortcutDialogTextFields(
+                    shortcutDialogState = shortcutDialogState,
+                )
+            }
+
+            ShortcutDialogButtons(
                 shortcutDialogState = shortcutDialogState,
-                onUpdateShortcut = onUpdateShortcut,
+                okayButtonText = okayButtonText,
+                cancelButtonText = cancelButtonText,
+                onOkay = onOkay,
             )
         }
     }
 }
 
 @Composable
-private fun UpdateShortcutDialogScreen(
-    shortcutDialogState: ShortcutDialogState,
-    onUpdateShortcut: () -> Unit,
-) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(10.dp),
-    ) {
-        UpdateShortcutDialogTitle()
-
-        UpdateShortcutDialogApplicationIcon(
-            icon = shortcutDialogState.icon,
-            modifier = Modifier
-                .size(50.dp)
-                .align(Alignment.CenterHorizontally),
-        )
-
-        UpdateShortcutDialogTextFields(
-            shortcutDialogState = shortcutDialogState,
-        )
-
-        UpdateShortcutDialogButtons(
-            shortcutDialogState = shortcutDialogState,
-            onUpdateShortcut = onUpdateShortcut,
-        )
-    }
-}
-
-@Composable
-private fun UpdateShortcutDialogTitle(modifier: Modifier = Modifier) {
+private fun ShortcutDialogTitle(modifier: Modifier = Modifier, title: String) {
     Spacer(modifier = Modifier.height(10.dp))
 
     Text(
         modifier = modifier.padding(horizontal = 5.dp),
-        text = stringResource(R.string.update_shortcut),
+        text = title,
         style = MaterialTheme.typography.titleLarge,
     )
 }
 
 @Composable
-private fun UpdateShortcutDialogApplicationIcon(modifier: Modifier = Modifier, icon: Bitmap?) {
+private fun ShortcutDialogApplicationIcon(modifier: Modifier = Modifier, icon: Bitmap?) {
     Spacer(modifier = Modifier.height(10.dp))
 
     AsyncImage(
@@ -127,27 +120,31 @@ private fun UpdateShortcutDialogApplicationIcon(modifier: Modifier = Modifier, i
 }
 
 @Composable
-private fun UpdateShortcutDialogTextFields(
+private fun ShortcutDialogTextFields(
     shortcutDialogState: ShortcutDialogState,
 ) {
+    val shortLabelIsBlank = stringResource(id = R.string.short_label_is_blank)
+
+    val longLabelIsBlank = stringResource(id = R.string.long_label_is_blank)
+
     Spacer(modifier = Modifier.height(10.dp))
 
     OutlinedTextField(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 5.dp)
-            .testTag("updateShortcutDialog:shortLabelTextField"),
+            .testTag("shortcutDialog:shortLabelTextField"),
         value = shortcutDialogState.shortLabel,
         onValueChange = shortcutDialogState::updateShortLabel,
         label = {
-            Text(text = stringResource(id = R.string.short_label))
+            Text(text = stringResource(R.string.short_label))
         },
-        isError = shortcutDialogState.shortLabelError.isNotBlank(),
+        isError = shortcutDialogState.showShortLabelError,
         supportingText = {
-            if (shortcutDialogState.shortLabelError.isNotBlank()) {
+            if (shortcutDialogState.showShortLabelError) {
                 Text(
-                    text = shortcutDialogState.shortLabelError,
-                    modifier = Modifier.testTag("updateShortcutDialog:shortLabelSupportingText"),
+                    text = shortLabelIsBlank,
+                    modifier = Modifier.testTag("shortcutDialog:shortLabelSupportingText"),
                 )
             }
         },
@@ -159,18 +156,18 @@ private fun UpdateShortcutDialogTextFields(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 5.dp)
-            .testTag("updateShortcutDialog:longLabelTextField"),
+            .testTag("shortcutDialog:longLabelTextField"),
         value = shortcutDialogState.longLabel,
         onValueChange = shortcutDialogState::updateLongLabel,
         label = {
-            Text(text = stringResource(id = R.string.long_label))
+            Text(text = stringResource(R.string.long_label))
         },
-        isError = shortcutDialogState.longLabelError.isNotBlank(),
+        isError = shortcutDialogState.showLongLabelError,
         supportingText = {
-            if (shortcutDialogState.longLabelError.isNotBlank()) {
+            if (shortcutDialogState.showLongLabelError) {
                 Text(
-                    text = shortcutDialogState.longLabelError,
-                    modifier = Modifier.testTag("updateShortcutDialog:longLabelSupportingText"),
+                    text = longLabelIsBlank,
+                    modifier = Modifier.testTag("shortcutDialog:longLabelSupportingText"),
                 )
             }
         },
@@ -180,10 +177,12 @@ private fun UpdateShortcutDialogTextFields(
 }
 
 @Composable
-private fun UpdateShortcutDialogButtons(
+private fun ShortcutDialogButtons(
     modifier: Modifier = Modifier,
     shortcutDialogState: ShortcutDialogState,
-    onUpdateShortcut: () -> Unit,
+    okayButtonText: String,
+    cancelButtonText: String,
+    onOkay: () -> Unit,
 ) {
     Row(
         modifier = modifier.fillMaxWidth(),
@@ -195,41 +194,30 @@ private fun UpdateShortcutDialogButtons(
             },
             modifier = Modifier.padding(5.dp),
         ) {
-            Text(stringResource(id = R.string.cancel))
+            Text(cancelButtonText)
         }
         TextButton(
-            onClick = onUpdateShortcut,
+            onClick = onOkay,
             modifier = Modifier
                 .padding(5.dp)
-                .testTag("updateShortcutDialog:update"),
+                .testTag("shortcutDialog:okay"),
         ) {
-            Text(stringResource(R.string.update))
+            Text(text = okayButtonText)
         }
-    }
-}
-
-@Composable
-internal fun rememberUpdateShortcutDialogState(): ShortcutDialogState {
-    val shortcutDialogState = ShortcutDialogState()
-
-    shortcutDialogState.setStringResources(
-        shortLabelIsBlank = stringResource(id = R.string.short_label_is_blank),
-        longLabelIsBlank = stringResource(id = R.string.long_label_is_blank),
-    )
-
-    return rememberSaveable(saver = ShortcutDialogState.Saver) {
-        shortcutDialogState
     }
 }
 
 @Preview
 @Composable
-private fun UpdateShortcutDialogScreenPreview() {
+private fun ShortcutDialogPreview() {
     GetoTheme {
-        UpdateShortcutDialog(
-            shortcutDialogState = rememberUpdateShortcutDialogState(),
-            onUpdateShortcut = {},
-            contentDescription = "Update shortcut dialog",
+        ShortcutDialog(
+            shortcutDialogState = rememberShortcutDialogState(),
+            contentDescription = "Shortcut",
+            title = "Shortcut",
+            cancelButtonText = "Cancel",
+            okayButtonText = "Okay",
+            onOkay = {},
         )
     }
 }

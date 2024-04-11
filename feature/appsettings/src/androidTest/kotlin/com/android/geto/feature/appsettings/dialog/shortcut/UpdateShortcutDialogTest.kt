@@ -19,15 +19,19 @@ package com.android.geto.feature.appsettings.dialog.shortcut
 
 import android.content.Intent
 import androidx.activity.ComponentActivity
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.StateRestorationTester
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
+import com.android.geto.feature.appsettings.R
+import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Rule
 import org.junit.Test
 
+@HiltAndroidTest
 class UpdateShortcutDialogTest {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
@@ -35,28 +39,31 @@ class UpdateShortcutDialogTest {
     @Test
     fun shortLabelSupportingText_isDisplayed_whenShortLabelTextField_isBlank() {
         composeTestRule.setContent {
-            val updateShortcutDialogState = rememberUpdateShortcutDialogState()
+            val addShortcutDialogState = rememberShortcutDialogState()
 
-            UpdateShortcutDialog(
-                shortcutDialogState = updateShortcutDialogState,
-                onUpdateShortcut = {
-                    updateShortcutDialogState.updateShortLabel("")
+            ShortcutDialog(
+                shortcutDialogState = addShortcutDialogState,
+                contentDescription = "Update Shortcut Dialog",
+                title = stringResource(id = R.string.update_shortcut),
+                cancelButtonText = stringResource(id = R.string.cancel),
+                okayButtonText = stringResource(id = R.string.update),
+                onOkay = {
+                    addShortcutDialogState.updateShortLabel("")
 
-                    updateShortcutDialogState.updateLongLabel("Geto")
+                    addShortcutDialogState.updateLongLabel("Geto")
 
-                    updateShortcutDialogState.getShortcut(
+                    addShortcutDialogState.getShortcut(
                         packageName = "com.android.geto",
                         shortcutIntent = Intent(),
                     )
                 },
-                contentDescription = "Update Shortcut Dialog",
             )
         }
 
-        composeTestRule.onNodeWithTag("updateShortcutDialog:update").performClick()
+        composeTestRule.onNodeWithTag("shortcutDialog:okay").performClick()
 
         composeTestRule.onNodeWithTag(
-            testTag = "updateShortcutDialog:shortLabelSupportingText",
+            testTag = "shortcutDialog:shortLabelSupportingText",
             useUnmergedTree = true,
         ).assertIsDisplayed()
     }
@@ -64,28 +71,31 @@ class UpdateShortcutDialogTest {
     @Test
     fun longLabelSupportingText_isDisplayed_whenLongLabelTextField_isBlank() {
         composeTestRule.setContent {
-            val updateShortcutDialogState = rememberUpdateShortcutDialogState()
+            val addShortcutDialogState = rememberShortcutDialogState()
 
-            UpdateShortcutDialog(
-                shortcutDialogState = updateShortcutDialogState,
-                onUpdateShortcut = {
-                    updateShortcutDialogState.updateShortLabel("Geto")
+            ShortcutDialog(
+                shortcutDialogState = addShortcutDialogState,
+                contentDescription = "Update Shortcut Dialog",
+                title = stringResource(id = R.string.add_shortcut),
+                cancelButtonText = stringResource(id = R.string.cancel),
+                okayButtonText = stringResource(id = R.string.add),
+                onOkay = {
+                    addShortcutDialogState.updateShortLabel("Geto")
 
-                    updateShortcutDialogState.updateLongLabel("")
+                    addShortcutDialogState.updateLongLabel("")
 
-                    updateShortcutDialogState.getShortcut(
+                    addShortcutDialogState.getShortcut(
                         packageName = "com.android.geto",
                         shortcutIntent = Intent(),
                     )
                 },
-                contentDescription = "Update Shortcut Dialog",
             )
         }
 
-        composeTestRule.onNodeWithTag("updateShortcutDialog:update").performClick()
+        composeTestRule.onNodeWithTag("shortcutDialog:okay").performClick()
 
         composeTestRule.onNodeWithTag(
-            testTag = "updateShortcutDialog:longLabelSupportingText",
+            testTag = "shortcutDialog:longLabelSupportingText",
             useUnmergedTree = true,
         ).assertIsDisplayed()
     }
@@ -95,27 +105,30 @@ class UpdateShortcutDialogTest {
         val restorationTester = StateRestorationTester(composeTestRule)
 
         restorationTester.setContent {
-            val updateShortcutDialogState = rememberUpdateShortcutDialogState()
+            val addShortcutDialogState = rememberShortcutDialogState()
 
-            updateShortcutDialogState.updateShortLabel("Geto")
+            addShortcutDialogState.updateShortLabel("Geto")
 
-            updateShortcutDialogState.updateLongLabel("Geto")
+            addShortcutDialogState.updateLongLabel("Geto")
 
-            UpdateShortcutDialog(
-                shortcutDialogState = updateShortcutDialogState,
-                onUpdateShortcut = {},
+            ShortcutDialog(
+                shortcutDialogState = addShortcutDialogState,
                 contentDescription = "Update Shortcut Dialog",
+                title = stringResource(id = R.string.add_shortcut),
+                cancelButtonText = stringResource(id = R.string.cancel),
+                okayButtonText = stringResource(id = R.string.add),
+                onOkay = {},
             )
         }
 
         restorationTester.emulateSavedInstanceStateRestore()
 
         composeTestRule.onNodeWithTag(
-            testTag = "updateShortcutDialog:shortLabelTextField",
+            testTag = "shortcutDialog:shortLabelTextField",
         ).assertTextEquals("Short label", "Geto")
 
         composeTestRule.onNodeWithTag(
-            testTag = "updateShortcutDialog:longLabelTextField",
+            testTag = "shortcutDialog:longLabelTextField",
         ).assertTextEquals("Long label", "Geto")
     }
 }

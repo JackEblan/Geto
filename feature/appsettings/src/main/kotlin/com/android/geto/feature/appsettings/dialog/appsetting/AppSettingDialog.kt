@@ -98,7 +98,7 @@ private fun AppSettingDialogScreen(
     ) {
         AppSettingDialogTitle()
 
-        AppSettingDialogSettingTypeChooser(
+        AppSettingDialogSettingTypeSelector(
             appSettingDialogState = appSettingDialogState,
         )
 
@@ -125,7 +125,7 @@ private fun AppSettingDialogTitle(modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun AppSettingDialogSettingTypeChooser(
+private fun AppSettingDialogSettingTypeSelector(
     modifier: Modifier = Modifier,
     appSettingDialogState: AppSettingDialogState,
 ) {
@@ -169,6 +169,10 @@ private fun AppSettingDialogSettingTypeChooser(
 private fun AppSettingDialogTextFields(
     appSettingDialogState: AppSettingDialogState,
 ) {
+    val labelIsBlank = stringResource(id = R.string.setting_label_is_blank)
+    val valueOnLaunchIsBlank = stringResource(id = R.string.setting_value_on_launch_is_blank)
+    val valueOnRevertIsBlank = stringResource(id = R.string.setting_value_on_revert_is_blank)
+
     Spacer(modifier = Modifier.height(10.dp))
 
     OutlinedTextField(
@@ -181,11 +185,11 @@ private fun AppSettingDialogTextFields(
         label = {
             Text(text = stringResource(R.string.setting_label))
         },
-        isError = appSettingDialogState.labelError.isNotBlank(),
+        isError = appSettingDialogState.showLabelError,
         supportingText = {
-            if (appSettingDialogState.labelError.isNotBlank()) {
+            if (appSettingDialogState.showLabelError) {
                 Text(
-                    text = appSettingDialogState.labelError,
+                    text = labelIsBlank,
                     modifier = Modifier.testTag("appSettingDialog:labelSupportingText"),
                 )
             }
@@ -208,11 +212,11 @@ private fun AppSettingDialogTextFields(
         label = {
             Text(text = stringResource(R.string.setting_value_on_launch))
         },
-        isError = appSettingDialogState.valueOnLaunchError.isNotBlank(),
+        isError = appSettingDialogState.showValueOnLaunchError,
         supportingText = {
-            if (appSettingDialogState.valueOnLaunchError.isNotBlank()) {
+            if (appSettingDialogState.showValueOnLaunchError) {
                 Text(
-                    text = appSettingDialogState.valueOnLaunchError,
+                    text = valueOnLaunchIsBlank,
                     modifier = Modifier.testTag("appSettingDialog:valueOnLaunchSupportingText"),
                 )
             }
@@ -231,11 +235,11 @@ private fun AppSettingDialogTextFields(
         label = {
             Text(text = stringResource(R.string.setting_value_on_revert))
         },
-        isError = appSettingDialogState.valueOnRevertError.isNotBlank(),
+        isError = appSettingDialogState.showValueOnRevertError,
         supportingText = {
-            if (appSettingDialogState.valueOnRevertError.isNotBlank()) {
+            if (appSettingDialogState.showValueOnRevertError) {
                 Text(
-                    text = appSettingDialogState.valueOnRevertError,
+                    text = valueOnRevertIsBlank,
                     modifier = Modifier.testTag("appSettingDialog:valueOnRevertSupportingText"),
                 )
             }
@@ -250,6 +254,9 @@ private fun AppSettingDialogTextFields(
 private fun AppSettingDialogTextFieldWithDropdownMenu(
     appSettingDialogState: AppSettingDialogState,
 ) {
+    val keyIsBlank = stringResource(id = R.string.setting_key_is_blank)
+    val keyNotFound = stringResource(id = R.string.setting_key_not_found)
+
     ExposedDropdownMenuBox(
         expanded = appSettingDialogState.secureSettingsExpanded,
         onExpandedChange = appSettingDialogState::updateSecureSettingsExpanded,
@@ -268,18 +275,18 @@ private fun AppSettingDialogTextFieldWithDropdownMenu(
             },
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = appSettingDialogState.secureSettingsExpanded) },
             colors = ExposedDropdownMenuDefaults.textFieldColors(),
-            isError = appSettingDialogState.keyError.isNotBlank() || appSettingDialogState.keyNotFoundError.isNotBlank(),
+            isError = appSettingDialogState.showKeyError || appSettingDialogState.showKeyNotFoundError,
             supportingText = {
-                if (appSettingDialogState.keyError.isNotBlank()) {
+                if (appSettingDialogState.showKeyError) {
                     Text(
-                        text = appSettingDialogState.keyError,
+                        text = keyIsBlank,
                         modifier = Modifier.testTag("appSettingDialog:keySupportingText"),
                     )
                 }
 
-                if (appSettingDialogState.keyNotFoundError.isNotBlank()) {
+                if (appSettingDialogState.showKeyNotFoundError) {
                     Text(
-                        text = appSettingDialogState.keyNotFoundError,
+                        text = keyNotFound,
                         modifier = Modifier.testTag("appSettingDialog:settingsKeyNotFoundSupportingText"),
                     )
                 }

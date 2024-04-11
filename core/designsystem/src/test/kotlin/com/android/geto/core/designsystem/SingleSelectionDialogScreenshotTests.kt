@@ -15,14 +15,15 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.feature.settings.dialog.theme
+package com.android.geto.core.designsystem
 
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.android.geto.core.designsystem.component.GetoBackground
+import com.android.geto.core.designsystem.component.SingleSelectionDialog
 import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.screenshot.testing.util.DefaultTestDevices
-import com.android.geto.core.screenshot.testing.util.captureScreenRoboImageForDevice
+import com.android.geto.core.screenshot.testing.util.captureDialogForDevice
 import dagger.hilt.android.testing.HiltTestApplication
 import org.junit.Rule
 import org.junit.runner.RunWith
@@ -36,45 +37,63 @@ import kotlin.test.Test
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 @Config(application = HiltTestApplication::class)
 @LooperMode(LooperMode.Mode.PAUSED)
-class ThemeDialogScreenshotTest {
+class SingleSelectionDialogScreenshotTests {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     @Test
-    fun themeDialog() {
-        composeTestRule.captureScreenRoboImageForDevice(
-            path = "ThemeDialog/ThemeDialog",
+    fun singleSelectionDialog() {
+        composeTestRule.captureDialogForDevice(
+            folder = "SingleSelectionDialog",
+            screenshotName = "SingleSelectionDialog",
             deviceName = "phone",
             deviceSpec = DefaultTestDevices.PHONE.spec,
         ) {
             GetoTheme {
-                val themeDialogState = rememberThemeDialogState()
-
-                ThemeDialog(
-                    themeDialogState = themeDialogState,
-                    onChangeTheme = {},
-                    contentDescription = "ThemeDialog",
+                SingleSelectionDialog(
+                    title = "Single Selection",
+                    items = arrayOf(
+                        "Item 0",
+                        "Item 1",
+                    ),
+                    onDismissRequest = {},
+                    selected = 0,
+                    onSelect = {},
+                    negativeText = "Cancel",
+                    positiveText = "Okay",
+                    onNegativeClick = {},
+                    onPositiveClick = {},
+                    contentDescription = "Dark Dialog",
                 )
             }
         }
     }
 
     @Test
-    fun themeDialog_dark() {
-        composeTestRule.captureScreenRoboImageForDevice(
-            path = "ThemeDialog/ThemeDialog",
+    fun singleSelectionDialog_dark() {
+        composeTestRule.captureDialogForDevice(
+            folder = "SingleSelectionDialog",
+            screenshotName = "SingleSelectionDialog",
             deviceName = "phone_dark",
             deviceSpec = DefaultTestDevices.PHONE.spec,
             darkMode = true,
         ) {
             GetoTheme {
                 GetoBackground {
-                    val themeDialogState = rememberThemeDialogState()
-
-                    ThemeDialog(
-                        themeDialogState = themeDialogState,
-                        onChangeTheme = {},
-                        contentDescription = "ThemeDialog",
+                    SingleSelectionDialog(
+                        title = "Single Selection",
+                        items = arrayOf(
+                            "Item 0",
+                            "Item 1",
+                        ),
+                        onDismissRequest = {},
+                        selected = 0,
+                        onSelect = {},
+                        negativeText = "Cancel",
+                        positiveText = "Okay",
+                        onNegativeClick = {},
+                        onPositiveClick = {},
+                        contentDescription = "Dark Dialog",
                     )
                 }
             }

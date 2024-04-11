@@ -65,20 +65,6 @@ fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.c
     }
 }
 
-fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.captureScreenRoboImageMultiDevice(
-    path: String,
-    body: @Composable () -> Unit,
-) {
-    DefaultTestDevices.entries.forEach {
-        this.captureScreenRoboImageForDevice(
-            path = path,
-            deviceName = it.description,
-            deviceSpec = it.spec,
-            body = body,
-        )
-    }
-}
-
 fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.captureForDevice(
     deviceName: String,
     deviceSpec: String,
@@ -112,8 +98,9 @@ fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.c
  * is enabled.
  */
 @OptIn(ExperimentalRoborazziApi::class)
-fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.captureScreenRoboImageForDevice(
-    path: String,
+fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.captureDialogForDevice(
+    folder: String,
+    screenshotName: String,
     deviceName: String,
     deviceSpec: String,
     roborazziOptions: RoborazziOptions = DefaultRoborazziOptions,
@@ -136,7 +123,7 @@ fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.c
     }
 
     captureScreenRoboImage(
-        "src/test/screenshots/${path}_$deviceName.png",
+        "src/test/screenshots/$folder/${screenshotName}_$deviceName.png",
         roborazziOptions = roborazziOptions,
     )
 }

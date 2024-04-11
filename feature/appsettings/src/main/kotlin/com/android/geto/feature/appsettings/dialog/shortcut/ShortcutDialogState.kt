@@ -20,13 +20,22 @@ package com.android.geto.feature.appsettings.dialog.shortcut
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.listSaver
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.core.graphics.drawable.toBitmap
 import com.android.geto.core.model.TargetShortcutInfoCompat
+
+@Composable
+internal fun rememberShortcutDialogState(): ShortcutDialogState {
+    return rememberSaveable(saver = ShortcutDialogState.Saver) {
+        ShortcutDialogState()
+    }
+}
 
 @Stable
 internal class ShortcutDialogState {
@@ -39,18 +48,14 @@ internal class ShortcutDialogState {
     var shortLabel by mutableStateOf("")
         private set
 
-    var shortLabelError by mutableStateOf("")
+    var showShortLabelError by mutableStateOf(false)
         private set
 
     var longLabel by mutableStateOf("")
         private set
 
-    var longLabelError by mutableStateOf("")
+    var showLongLabelError by mutableStateOf(false)
         private set
-
-    private var shortLabelIsBlank = ""
-
-    private var longLabelIsBlank = ""
 
     fun updateShowDialog(value: Boolean) {
         showDialog = value
@@ -74,19 +79,12 @@ internal class ShortcutDialogState {
         shortLabel = ""
     }
 
-    fun setStringResources(shortLabelIsBlank: String, longLabelIsBlank: String) {
-        this.shortLabelIsBlank = shortLabelIsBlank
-        this.longLabelIsBlank = longLabelIsBlank
-    }
-
     fun getShortcut(packageName: String, shortcutIntent: Intent): TargetShortcutInfoCompat? {
-        if (shortLabelIsBlank.isBlank() || longLabelIsBlank.isBlank()) throw IllegalStateException("String resources were not set.")
+        showShortLabelError = shortLabel.isBlank()
 
-        shortLabelError = if (shortLabel.isBlank()) shortLabelIsBlank else ""
+        showLongLabelError = longLabel.isBlank()
 
-        longLabelError = if (longLabel.isBlank()) longLabelIsBlank else ""
-
-        return if (shortLabelError.isBlank() && longLabelError.isBlank()) {
+        return if (showShortLabelError.not() && showLongLabelError.not()) {
             TargetShortcutInfoCompat(
                 id = packageName,
                 shortLabel = shortLabel,
@@ -104,9 +102,9 @@ internal class ShortcutDialogState {
                 listOf(
                     state.showDialog,
                     state.shortLabel,
-                    state.shortLabelError,
+                    state.showShortLabelError,
                     state.longLabel,
-                    state.longLabelError,
+                    state.showLongLabelError,
                 )
             },
             restore = {
@@ -115,11 +113,11 @@ internal class ShortcutDialogState {
 
                     shortLabel = it[1] as String
 
-                    shortLabelError = it[2] as String
+                    showShortLabelError = it[2] as Boolean
 
                     longLabel = it[3] as String
 
-                    longLabelError = it[4] as String
+                    showLongLabelError = it[4] as Boolean
                 }
             },
         )
