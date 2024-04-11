@@ -100,7 +100,7 @@ class ShortcutDialogScreenshotTest {
     }
 
     @Test
-    fun addShortcutDialog_error_textfields() {
+    fun shortcutDialog_error_textfields() {
         shortcutDialogState.getShortcut(packageName = "Test", shortcutIntent = Intent())
 
         composeTestRule.captureDialogForDevice(
@@ -123,7 +123,7 @@ class ShortcutDialogScreenshotTest {
     }
 
     @Test
-    fun addShortcutDialog_empty_dark() {
+    fun shortcutDialog_empty_dark() {
         composeTestRule.captureDialogForDevice(
             folder = "ShortcutDialog",
             screenshotName = "ShortcutDialogEmpty",
@@ -147,14 +147,14 @@ class ShortcutDialogScreenshotTest {
     }
 
     @Test
-    fun addShortcutDialog_filled_textfields_dark() {
+    fun shortcutDialog_filled_textfields_dark() {
         shortcutDialogState.updateShortLabel("Short Label")
 
         shortcutDialogState.updateLongLabel("Long Label")
 
         composeTestRule.captureDialogForDevice(
-            folder = "AddShortcutDialog",
-            screenshotName = "AddShortcutDialogFilledTextFields",
+            folder = "ShortcutDialog",
+            screenshotName = "ShortcutDialogFilledTextFields",
             deviceName = "tablet_dark",
             deviceSpec = DefaultTestDevices.TABLET.spec,
             darkMode = true,
@@ -175,12 +175,12 @@ class ShortcutDialogScreenshotTest {
     }
 
     @Test
-    fun addShortcutDialog_error_textfields_dark() {
+    fun shortcutDialog_error_textfields_dark() {
         shortcutDialogState.getShortcut(packageName = "Test", shortcutIntent = Intent())
 
         composeTestRule.captureDialogForDevice(
-            folder = "AddShortcutDialog",
-            screenshotName = "AddShortcutDialogErrorTextFields",
+            folder = "ShortcutDialog",
+            screenshotName = "ShortcutDialogErrorTextFields",
             deviceName = "tablet_dark",
             deviceSpec = DefaultTestDevices.TABLET.spec,
             darkMode = true,
