@@ -15,9 +15,7 @@
  *   limitations under the License.
  *
  */
-
-package com.android.geto.core.designsystem;
-
+package com.android.geto.core.designsystem
 
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
