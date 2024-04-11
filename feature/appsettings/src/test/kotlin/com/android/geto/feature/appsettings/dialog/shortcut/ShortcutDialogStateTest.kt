@@ -20,6 +20,7 @@ package com.android.geto.feature.appsettings.dialog.shortcut
 import android.content.Intent
 import org.junit.Before
 import org.junit.Test
+import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
@@ -48,7 +49,7 @@ class ShortcutDialogStateTest {
 
         shortcutDialogState.getShortcut(packageName = packageName, shortcutIntent = Intent())
 
-        assertTrue(shortcutDialogState.showShortLabelError)
+        assertFalse(shortcutDialogState.showShortLabelError)
     }
 
     @Test
@@ -66,7 +67,7 @@ class ShortcutDialogStateTest {
 
         shortcutDialogState.getShortcut(packageName = packageName, shortcutIntent = Intent())
 
-        assertTrue(shortcutDialogState.showLongLabelError)
+        assertFalse(shortcutDialogState.showLongLabelError)
     }
 
     @Test
