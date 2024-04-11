@@ -67,33 +67,17 @@ internal fun UpdateShortcutDialog(
             shape = RoundedCornerShape(16.dp),
         ) {
             UpdateShortcutDialogScreen(
-                icon = shortcutDialogState.icon,
-                shortLabel = shortcutDialogState.shortLabel,
-                shortLabelError = shortcutDialogState.shortLabelError,
-                longLabel = shortcutDialogState.longLabel,
-                longLabelError = shortcutDialogState.longLabelError,
-                onUpdateShortLabel = shortcutDialogState::updateShortLabel,
-                onUpdateLongLabel = shortcutDialogState::updateLongLabel,
+                shortcutDialogState = shortcutDialogState,
                 onUpdateShortcut = onUpdateShortcut,
-                onCancel = {
-                    shortcutDialogState.updateShowDialog(false)
-                },
             )
         }
     }
 }
 
 @Composable
-internal fun UpdateShortcutDialogScreen(
-    icon: Bitmap?,
-    shortLabel: String,
-    shortLabelError: String,
-    longLabel: String,
-    longLabelError: String,
-    onUpdateShortLabel: (label: String) -> Unit,
-    onUpdateLongLabel: (label: String) -> Unit,
+private fun UpdateShortcutDialogScreen(
+    shortcutDialogState: ShortcutDialogState,
     onUpdateShortcut: () -> Unit,
-    onCancel: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -103,24 +87,19 @@ internal fun UpdateShortcutDialogScreen(
         UpdateShortcutDialogTitle()
 
         UpdateShortcutDialogApplicationIcon(
-            icon = icon,
+            icon = shortcutDialogState.icon,
             modifier = Modifier
                 .size(50.dp)
                 .align(Alignment.CenterHorizontally),
         )
 
         UpdateShortcutDialogTextFields(
-            shortLabel = shortLabel,
-            shortLabelError = shortLabelError,
-            longLabel = longLabel,
-            longLabelError = longLabelError,
-            onUpdateShortLabel = onUpdateShortLabel,
-            onUpdateLongLabel = onUpdateLongLabel,
+            shortcutDialogState = shortcutDialogState,
         )
 
         UpdateShortcutDialogButtons(
+            shortcutDialogState = shortcutDialogState,
             onUpdateShortcut = onUpdateShortcut,
-            onCancel = onCancel,
         )
     }
 }
@@ -149,12 +128,7 @@ private fun UpdateShortcutDialogApplicationIcon(modifier: Modifier = Modifier, i
 
 @Composable
 private fun UpdateShortcutDialogTextFields(
-    shortLabel: String,
-    shortLabelError: String,
-    longLabel: String,
-    longLabelError: String,
-    onUpdateShortLabel: (label: String) -> Unit,
-    onUpdateLongLabel: (label: String) -> Unit,
+    shortcutDialogState: ShortcutDialogState,
 ) {
     Spacer(modifier = Modifier.height(10.dp))
 
@@ -163,16 +137,16 @@ private fun UpdateShortcutDialogTextFields(
             .fillMaxWidth()
             .padding(horizontal = 5.dp)
             .testTag("updateShortcutDialog:shortLabelTextField"),
-        value = shortLabel,
-        onValueChange = onUpdateShortLabel,
+        value = shortcutDialogState.shortLabel,
+        onValueChange = shortcutDialogState::updateShortLabel,
         label = {
             Text(text = stringResource(id = R.string.short_label))
         },
-        isError = shortLabelError.isNotBlank(),
+        isError = shortcutDialogState.shortLabelError.isNotBlank(),
         supportingText = {
-            if (shortLabelError.isNotBlank()) {
+            if (shortcutDialogState.shortLabelError.isNotBlank()) {
                 Text(
-                    text = shortLabelError,
+                    text = shortcutDialogState.shortLabelError,
                     modifier = Modifier.testTag("updateShortcutDialog:shortLabelSupportingText"),
                 )
             }
@@ -186,16 +160,16 @@ private fun UpdateShortcutDialogTextFields(
             .fillMaxWidth()
             .padding(horizontal = 5.dp)
             .testTag("updateShortcutDialog:longLabelTextField"),
-        value = longLabel,
-        onValueChange = onUpdateLongLabel,
+        value = shortcutDialogState.longLabel,
+        onValueChange = shortcutDialogState::updateLongLabel,
         label = {
             Text(text = stringResource(id = R.string.long_label))
         },
-        isError = longLabelError.isNotBlank(),
+        isError = shortcutDialogState.longLabelError.isNotBlank(),
         supportingText = {
-            if (longLabelError.isNotBlank()) {
+            if (shortcutDialogState.longLabelError.isNotBlank()) {
                 Text(
-                    text = longLabelError,
+                    text = shortcutDialogState.longLabelError,
                     modifier = Modifier.testTag("updateShortcutDialog:longLabelSupportingText"),
                 )
             }
@@ -208,15 +182,17 @@ private fun UpdateShortcutDialogTextFields(
 @Composable
 private fun UpdateShortcutDialogButtons(
     modifier: Modifier = Modifier,
+    shortcutDialogState: ShortcutDialogState,
     onUpdateShortcut: () -> Unit,
-    onCancel: () -> Unit,
 ) {
     Row(
         modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.End,
     ) {
         TextButton(
-            onClick = onCancel,
+            onClick = {
+                shortcutDialogState.updateShowDialog(false)
+            },
             modifier = Modifier.padding(5.dp),
         ) {
             Text(stringResource(id = R.string.cancel))
@@ -250,16 +226,10 @@ internal fun rememberUpdateShortcutDialogState(): ShortcutDialogState {
 @Composable
 private fun UpdateShortcutDialogScreenPreview() {
     GetoTheme {
-        UpdateShortcutDialogScreen(
-            icon = null,
-            shortLabel = "Short Label",
-            shortLabelError = "",
-            longLabel = "LOng Label",
-            longLabelError = "",
-            onUpdateShortLabel = {},
-            onUpdateLongLabel = {},
+        UpdateShortcutDialog(
+            shortcutDialogState = rememberUpdateShortcutDialogState(),
             onUpdateShortcut = {},
-            onCancel = {},
+            contentDescription = "Update shortcut dialog",
         )
     }
 }

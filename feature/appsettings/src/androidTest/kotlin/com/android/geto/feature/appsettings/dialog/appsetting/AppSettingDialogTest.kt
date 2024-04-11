@@ -43,7 +43,7 @@ class AppSettingDialogTest {
             val appSettingDialogState = rememberAppSettingDialogState()
 
             AppSettingDialog(
-                addAppSettingDialogState = appSettingDialogState,
+                appSettingDialogState = appSettingDialogState,
                 onAddSetting = {
                     appSettingDialogState.updateSelectedRadioOptionIndex(1)
 
@@ -75,7 +75,7 @@ class AppSettingDialogTest {
             val appSettingDialogState = rememberAppSettingDialogState()
 
             AppSettingDialog(
-                addAppSettingDialogState = appSettingDialogState,
+                appSettingDialogState = appSettingDialogState,
                 onAddSetting = {
                     appSettingDialogState.updateSelectedRadioOptionIndex(1)
 
@@ -107,7 +107,7 @@ class AppSettingDialogTest {
             val appSettingDialogState = rememberAppSettingDialogState()
 
             AppSettingDialog(
-                addAppSettingDialogState = appSettingDialogState,
+                appSettingDialogState = appSettingDialogState,
                 onAddSetting = {
                     appSettingDialogState.updateSecureSettings(
                         secureSettings,
@@ -143,7 +143,7 @@ class AppSettingDialogTest {
             val appSettingDialogState = rememberAppSettingDialogState()
 
             AppSettingDialog(
-                addAppSettingDialogState = appSettingDialogState,
+                appSettingDialogState = appSettingDialogState,
                 onAddSetting = {
                     appSettingDialogState.updateSelectedRadioOptionIndex(1)
 
@@ -175,7 +175,7 @@ class AppSettingDialogTest {
             val appSettingDialogState = rememberAppSettingDialogState()
 
             AppSettingDialog(
-                addAppSettingDialogState = appSettingDialogState,
+                appSettingDialogState = appSettingDialogState,
                 onAddSetting = {
                     appSettingDialogState.updateSelectedRadioOptionIndex(1)
 
@@ -209,7 +209,7 @@ class AppSettingDialogTest {
             appSettingDialogState.updateSecureSettings(secureSettings)
 
             AppSettingDialog(
-                addAppSettingDialogState = appSettingDialogState,
+                appSettingDialogState = appSettingDialogState,
                 onAddSetting = {
                     appSettingDialogState.updateSelectedRadioOptionIndex(1)
 
@@ -242,7 +242,7 @@ class AppSettingDialogTest {
             appSettingDialogState.updateSecureSettings(secureSettings)
 
             AppSettingDialog(
-                addAppSettingDialogState = appSettingDialogState,
+                appSettingDialogState = appSettingDialogState,
                 onAddSetting = {
                     appSettingDialogState.updateSelectedRadioOptionIndex(1)
 
@@ -291,7 +291,7 @@ class AppSettingDialogTest {
             appSettingDialogState.updateValueOnRevert("Geto")
 
             AppSettingDialog(
-                addAppSettingDialogState = appSettingDialogState,
+                appSettingDialogState = appSettingDialogState,
                 onAddSetting = {},
                 contentDescription = "Add App Setting Dialog",
             )

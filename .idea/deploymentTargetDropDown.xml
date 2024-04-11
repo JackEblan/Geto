@@ -14,9 +14,6 @@
       <entry key="feature.shortcut">
         <State />
       </entry>
-      <entry key="onRecreation_stateIsRestored()">
-        <State />
-      </entry>
       <entry key="onRecreation_state_isRestored()">
         <State />
       </entry>

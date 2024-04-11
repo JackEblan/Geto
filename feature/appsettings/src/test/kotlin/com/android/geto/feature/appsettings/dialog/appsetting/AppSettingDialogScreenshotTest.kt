@@ -68,7 +68,7 @@ class AppSettingDialogScreenshotTest {
         ) {
             GetoTheme {
                 AppSettingDialog(
-                    addAppSettingDialogState = appSettingDialogState,
+                    appSettingDialogState = appSettingDialogState,
                     onAddSetting = {},
                     contentDescription = "AppSettingDialog",
                 )
@@ -95,7 +95,7 @@ class AppSettingDialogScreenshotTest {
         ) {
             GetoTheme {
                 AppSettingDialog(
-                    addAppSettingDialogState = appSettingDialogState,
+                    appSettingDialogState = appSettingDialogState,
                     onAddSetting = {},
                     contentDescription = "AppSettingDialog",
                 )
@@ -114,7 +114,7 @@ class AppSettingDialogScreenshotTest {
         ) {
             GetoTheme {
                 AppSettingDialog(
-                    addAppSettingDialogState = appSettingDialogState,
+                    appSettingDialogState = appSettingDialogState,
                     onAddSetting = {},
                     contentDescription = "AppSettingDialog",
                 )
@@ -133,7 +133,7 @@ class AppSettingDialogScreenshotTest {
             GetoTheme {
                 GetoBackground {
                     AppSettingDialog(
-                        addAppSettingDialogState = appSettingDialogState,
+                        appSettingDialogState = appSettingDialogState,
                         onAddSetting = {},
                         contentDescription = "AppSettingDialog",
                     )
@@ -163,7 +163,7 @@ class AppSettingDialogScreenshotTest {
             GetoTheme {
                 GetoBackground {
                     AppSettingDialog(
-                        addAppSettingDialogState = appSettingDialogState,
+                        appSettingDialogState = appSettingDialogState,
                         onAddSetting = {},
                         contentDescription = "AppSettingDialog",
                     )
@@ -185,7 +185,7 @@ class AppSettingDialogScreenshotTest {
             GetoTheme {
                 GetoBackground {
                     AppSettingDialog(
-                        addAppSettingDialogState = appSettingDialogState,
+                        appSettingDialogState = appSettingDialogState,
                         onAddSetting = {},
                         contentDescription = "AppSettingDialog",
                     )

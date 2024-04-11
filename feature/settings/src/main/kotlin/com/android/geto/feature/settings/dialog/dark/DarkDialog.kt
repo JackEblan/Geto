@@ -65,12 +65,8 @@ internal fun DarkDialog(
             shape = RoundedCornerShape(16.dp),
         ) {
             DarkDialogScreen(
-                selectedRadioOptionIndex = darkDialogState.selectedRadioOptionIndex,
-                onUpdateSelectedRadioOptionIndex = darkDialogState::updateSelectedRadioOptionIndex,
+                darkDialogState = darkDialogState,
                 onChangeDark = onChangeDark,
-                onCancel = {
-                    darkDialogState.updateShowDialog(false)
-                },
             )
         }
     }
@@ -78,10 +74,8 @@ internal fun DarkDialog(
 
 @Composable
 private fun DarkDialogScreen(
-    selectedRadioOptionIndex: Int,
-    onUpdateSelectedRadioOptionIndex: (Int) -> Unit,
+    darkDialogState: DarkDialogState,
     onChangeDark: () -> Unit,
-    onCancel: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -91,11 +85,13 @@ private fun DarkDialogScreen(
         DarkDialogTitle()
 
         DarkDialogChooser(
-            selectedRadioOptionIndex = selectedRadioOptionIndex,
-            onUpdateSelectedRadioOptionIndex = onUpdateSelectedRadioOptionIndex,
+            darkDialogState = darkDialogState,
         )
 
-        DarkDialogButtons(onChangeDark = onChangeDark, onCancel = onCancel)
+        DarkDialogButtons(
+            darkDialogState = darkDialogState,
+            onChangeDark = onChangeDark,
+        )
     }
 }
 
@@ -113,8 +109,7 @@ private fun DarkDialogTitle(modifier: Modifier = Modifier) {
 @Composable
 private fun DarkDialogChooser(
     modifier: Modifier = Modifier,
-    selectedRadioOptionIndex: Int,
-    onUpdateSelectedRadioOptionIndex: (Int) -> Unit,
+    darkDialogState: DarkDialogState,
 ) {
     val followSystem = stringResource(id = R.string.follow_system)
     val light = stringResource(id = R.string.light)
@@ -132,18 +127,18 @@ private fun DarkDialogChooser(
                 Modifier
                     .padding(vertical = 10.dp)
                     .selectable(
-                        selected = index == selectedRadioOptionIndex,
+                        selected = index == darkDialogState.selectedRadioOptionIndex,
                         role = Role.RadioButton,
                         enabled = true,
                         onClick = {
-                            onUpdateSelectedRadioOptionIndex(index)
+                            darkDialogState.updateSelectedRadioOptionIndex(index)
                         },
                     )
                     .padding(horizontal = 16.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 RadioButton(
-                    selected = index == selectedRadioOptionIndex,
+                    selected = index == darkDialogState.selectedRadioOptionIndex,
                     onClick = null,
                 )
                 Text(
@@ -159,8 +154,8 @@ private fun DarkDialogChooser(
 @Composable
 private fun DarkDialogButtons(
     modifier: Modifier = Modifier,
+    darkDialogState: DarkDialogState,
     onChangeDark: () -> Unit,
-    onCancel: () -> Unit,
 ) {
     Spacer(modifier = Modifier.height(10.dp))
 
@@ -169,7 +164,9 @@ private fun DarkDialogButtons(
         horizontalArrangement = Arrangement.End,
     ) {
         TextButton(
-            onClick = onCancel,
+            onClick = {
+                darkDialogState.updateShowDialog(false)
+            },
             modifier = Modifier.padding(5.dp),
         ) {
             Text(stringResource(R.string.cancel))
@@ -194,13 +191,12 @@ internal fun rememberDarkDialogState(): DarkDialogState {
 
 @Preview
 @Composable
-private fun DarkDialogScreenPreview() {
+private fun DarkDialogPreview() {
     GetoTheme {
-        DarkDialogScreen(
-            selectedRadioOptionIndex = 0,
-            onUpdateSelectedRadioOptionIndex = {},
+        DarkDialog(
+            darkDialogState = rememberDarkDialogState(),
             onChangeDark = {},
-            onCancel = {},
+            contentDescription = "Dark dialog",
         )
     }
 }

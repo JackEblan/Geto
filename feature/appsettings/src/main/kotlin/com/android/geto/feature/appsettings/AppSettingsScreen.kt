@@ -252,7 +252,7 @@ internal fun AppSettingsRoute(
 
     if (appSettingsDialogState.showDialog) {
         AppSettingDialog(
-            addAppSettingDialogState = appSettingsDialogState,
+            appSettingDialogState = appSettingsDialogState,
             onAddSetting = {
                 appSettingsDialogState.getAppSetting(packageName = viewModel.packageName)?.let {
                     viewModel.addSettings(it)

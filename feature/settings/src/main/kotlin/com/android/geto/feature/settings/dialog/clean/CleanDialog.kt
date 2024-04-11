@@ -137,8 +137,8 @@ private fun CleanDialogButtons(
 
 @Preview
 @Composable
-private fun CleanDialogScreenPreview() {
+private fun CleanDialogPreview() {
     GetoTheme {
-        CleanDialogScreen(onDismissRequest = {}, onClean = {})
+        CleanDialog(onDismissRequest = {}, onClean = {}, contentDescription = "Clean dialog")
     }
 }
