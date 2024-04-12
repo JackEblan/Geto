@@ -26,7 +26,7 @@ import kotlin.test.assertEquals
 class AppSettingEntityTest {
 
     @Test
-    fun appSettings_canBeMappedToEntity() {
+    fun appSetting_asEntity() {
         val appSetting = AppSetting(
             id = 0,
             enabled = false,

@@ -99,7 +99,9 @@ internal fun SettingsRoute(
                 stringResource(R.string.default_theme),
                 stringResource(R.string.android_theme),
             ),
-            onDismissRequest = {},
+            onDismissRequest = {
+                showThemeDialog = false
+            },
             selected = themeDialogSelected,
             onSelect = { themeDialogSelected = it },
             negativeButtonText = stringResource(id = R.string.cancel),
@@ -406,7 +408,7 @@ private fun DarkSetting(
 }
 
 @Composable
-fun SettingHorizontalDivider(modifier: Modifier = Modifier, categoryTitle: String) {
+private fun SettingHorizontalDivider(modifier: Modifier = Modifier, categoryTitle: String) {
     Spacer(modifier = Modifier.height(8.dp))
 
     HorizontalDivider(
