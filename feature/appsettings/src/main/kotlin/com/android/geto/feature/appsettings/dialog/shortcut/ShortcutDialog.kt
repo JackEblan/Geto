@@ -18,34 +18,27 @@
 package com.android.geto.feature.appsettings.dialog.shortcut
 
 import android.graphics.Bitmap
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
 import coil.compose.AsyncImage
+import com.android.geto.core.designsystem.component.DialogButtons
+import com.android.geto.core.designsystem.component.DialogContainer
 import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.feature.appsettings.R
 
@@ -55,43 +48,40 @@ internal fun ShortcutDialog(
     shortcutDialogState: ShortcutDialogState,
     contentDescription: String,
     title: String,
-    cancelButtonText: String,
-    okayButtonText: String,
-    onOkay: () -> Unit,
+    negativeButtonText: String,
+    positiveButtonText: String,
+    onPositiveButtonClick: () -> Unit,
 ) {
-    Dialog(onDismissRequest = { shortcutDialogState.updateShowDialog(false) }) {
-        Card(
-            modifier = modifier
+    DialogContainer(
+        modifier = modifier,
+        onDismissRequest = { shortcutDialogState.updateShowDialog(false) },
+        contentDescription = contentDescription,
+    ) {
+        Column(
+            modifier = Modifier
                 .fillMaxWidth()
-                .wrapContentSize()
-                .padding(16.dp)
-                .semantics { this.contentDescription = contentDescription },
-            shape = RoundedCornerShape(16.dp),
+                .padding(10.dp),
         ) {
-            Column(
+            ShortcutDialogTitle(title = title)
+
+            ShortcutDialogApplicationIcon(
+                icon = shortcutDialogState.icon,
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(10.dp),
-            ) {
-                ShortcutDialogTitle(title = title)
+                    .size(50.dp)
+                    .align(Alignment.CenterHorizontally),
+            )
 
-                ShortcutDialogApplicationIcon(
-                    icon = shortcutDialogState.icon,
-                    modifier = Modifier
-                        .size(50.dp)
-                        .align(Alignment.CenterHorizontally),
-                )
-
-                ShortcutDialogTextFields(
-                    shortcutDialogState = shortcutDialogState,
-                )
-            }
-
-            ShortcutDialogButtons(
+            ShortcutDialogTextFields(
                 shortcutDialogState = shortcutDialogState,
-                okayButtonText = okayButtonText,
-                cancelButtonText = cancelButtonText,
-                onOkay = onOkay,
+            )
+
+            DialogButtons(
+                negativeButtonText = negativeButtonText,
+                positiveButtonText = positiveButtonText,
+                onNegativeButtonClick = {
+                    shortcutDialogState.updateShowDialog(false)
+                },
+                onPositiveButtonClick = onPositiveButtonClick,
             )
         }
     }
@@ -176,37 +166,6 @@ private fun ShortcutDialogTextFields(
     )
 }
 
-@Composable
-private fun ShortcutDialogButtons(
-    modifier: Modifier = Modifier,
-    shortcutDialogState: ShortcutDialogState,
-    okayButtonText: String,
-    cancelButtonText: String,
-    onOkay: () -> Unit,
-) {
-    Row(
-        modifier = modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.End,
-    ) {
-        TextButton(
-            onClick = {
-                shortcutDialogState.updateShowDialog(false)
-            },
-            modifier = Modifier.padding(5.dp),
-        ) {
-            Text(cancelButtonText)
-        }
-        TextButton(
-            onClick = onOkay,
-            modifier = Modifier
-                .padding(5.dp)
-                .testTag("shortcutDialog:okay"),
-        ) {
-            Text(text = okayButtonText)
-        }
-    }
-}
-
 @Preview
 @Composable
 private fun ShortcutDialogPreview() {
@@ -215,9 +174,9 @@ private fun ShortcutDialogPreview() {
             shortcutDialogState = rememberShortcutDialogState(),
             contentDescription = "Shortcut",
             title = "Shortcut",
-            cancelButtonText = "Cancel",
-            okayButtonText = "Okay",
-            onOkay = {},
+            negativeButtonText = "Cancel",
+            positiveButtonText = "Okay",
+            onPositiveButtonClick = {},
         )
     }
 }

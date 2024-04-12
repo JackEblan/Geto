@@ -268,12 +268,12 @@ internal fun AppSettingsRoute(
             onDismissRequest = {
                 showCopyPermissionCommandDialog = false
             },
-            negativeText = stringResource(id = R.string.cancel),
-            positiveText = stringResource(id = R.string.copy),
-            onNegativeClick = {
+            negativeButtonText = stringResource(id = R.string.cancel),
+            positiveButtonText = stringResource(id = R.string.copy),
+            onNegativeButtonClick = {
                 showCopyPermissionCommandDialog = false
             },
-            onPositiveClick = {
+            onPositiveButtonClick = {
                 viewModel.copyPermissionCommand()
                 showCopyPermissionCommandDialog = false
             },
@@ -286,9 +286,9 @@ internal fun AppSettingsRoute(
             shortcutDialogState = addShortcutDialogState,
             contentDescription = "Add Shortcut Dialog",
             title = stringResource(id = R.string.add_shortcut),
-            cancelButtonText = stringResource(id = R.string.cancel),
-            okayButtonText = stringResource(id = R.string.add),
-            onOkay = {
+            negativeButtonText = stringResource(id = R.string.cancel),
+            positiveButtonText = stringResource(id = R.string.add),
+            onPositiveButtonClick = {
                 addShortcutDialogState.getShortcut(
                     packageName = viewModel.packageName,
                     shortcutIntent = shortcutIntent,
@@ -305,9 +305,9 @@ internal fun AppSettingsRoute(
             shortcutDialogState = updateShortcutDialogState,
             contentDescription = "Update Shortcut Dialog",
             title = stringResource(id = R.string.update_shortcut),
-            cancelButtonText = stringResource(id = R.string.cancel),
-            okayButtonText = stringResource(id = R.string.update),
-            onOkay = {
+            negativeButtonText = stringResource(id = R.string.cancel),
+            positiveButtonText = stringResource(id = R.string.update),
+            onPositiveButtonClick = {
                 updateShortcutDialogState.getShortcut(
                     packageName = viewModel.packageName,
                     shortcutIntent = shortcutIntent,

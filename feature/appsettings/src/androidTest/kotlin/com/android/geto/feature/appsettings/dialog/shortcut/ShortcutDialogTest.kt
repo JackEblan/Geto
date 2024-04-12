@@ -25,6 +25,7 @@ import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.StateRestorationTester
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import com.android.geto.feature.appsettings.R
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -32,27 +33,27 @@ import org.junit.Rule
 import org.junit.Test
 
 @HiltAndroidTest
-class AddShortcutDialogTest {
+class ShortcutDialogTest {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     @Test
     fun shortLabelSupportingText_isDisplayed_whenShortLabelTextField_isBlank() {
         composeTestRule.setContent {
-            val addShortcutDialogState = rememberShortcutDialogState()
+            val shortcutDialogState = rememberShortcutDialogState()
 
             ShortcutDialog(
-                shortcutDialogState = addShortcutDialogState,
-                contentDescription = "Add Shortcut Dialog",
+                shortcutDialogState = shortcutDialogState,
+                contentDescription = "Shortcut Dialog",
                 title = stringResource(id = R.string.add_shortcut),
-                cancelButtonText = stringResource(id = R.string.cancel),
-                okayButtonText = stringResource(id = R.string.add),
-                onOkay = {
-                    addShortcutDialogState.updateShortLabel("")
+                negativeButtonText = stringResource(id = R.string.cancel),
+                positiveButtonText = stringResource(id = R.string.add),
+                onPositiveButtonClick = {
+                    shortcutDialogState.updateShortLabel("")
 
-                    addShortcutDialogState.updateLongLabel("Geto")
+                    shortcutDialogState.updateLongLabel("Geto")
 
-                    addShortcutDialogState.getShortcut(
+                    shortcutDialogState.getShortcut(
                         packageName = "com.android.geto",
                         shortcutIntent = Intent(),
                     )
@@ -60,7 +61,7 @@ class AddShortcutDialogTest {
             )
         }
 
-        composeTestRule.onNodeWithTag("shortcutDialog:okay").performClick()
+        composeTestRule.onNodeWithText("Add").performClick()
 
         composeTestRule.onNodeWithTag(
             testTag = "shortcutDialog:shortLabelSupportingText",
@@ -71,20 +72,20 @@ class AddShortcutDialogTest {
     @Test
     fun longLabelSupportingText_isDisplayed_whenLongLabelTextField_isBlank() {
         composeTestRule.setContent {
-            val addShortcutDialogState = rememberShortcutDialogState()
+            val shortcutDialogState = rememberShortcutDialogState()
 
             ShortcutDialog(
-                shortcutDialogState = addShortcutDialogState,
-                contentDescription = "Add Shortcut Dialog",
+                shortcutDialogState = shortcutDialogState,
+                contentDescription = "Shortcut Dialog",
                 title = stringResource(id = R.string.add_shortcut),
-                cancelButtonText = stringResource(id = R.string.cancel),
-                okayButtonText = stringResource(id = R.string.add),
-                onOkay = {
-                    addShortcutDialogState.updateShortLabel("Geto")
+                negativeButtonText = stringResource(id = R.string.cancel),
+                positiveButtonText = stringResource(id = R.string.add),
+                onPositiveButtonClick = {
+                    shortcutDialogState.updateShortLabel("Geto")
 
-                    addShortcutDialogState.updateLongLabel("")
+                    shortcutDialogState.updateLongLabel("")
 
-                    addShortcutDialogState.getShortcut(
+                    shortcutDialogState.getShortcut(
                         packageName = "com.android.geto",
                         shortcutIntent = Intent(),
                     )
@@ -92,7 +93,7 @@ class AddShortcutDialogTest {
             )
         }
 
-        composeTestRule.onNodeWithTag("shortcutDialog:okay").performClick()
+        composeTestRule.onNodeWithText("Add").performClick()
 
         composeTestRule.onNodeWithTag(
             testTag = "shortcutDialog:longLabelSupportingText",
@@ -105,19 +106,19 @@ class AddShortcutDialogTest {
         val restorationTester = StateRestorationTester(composeTestRule)
 
         restorationTester.setContent {
-            val addShortcutDialogState = rememberShortcutDialogState()
+            val shortcutDialogState = rememberShortcutDialogState()
 
-            addShortcutDialogState.updateShortLabel("Geto")
+            shortcutDialogState.updateShortLabel("Geto")
 
-            addShortcutDialogState.updateLongLabel("Geto")
+            shortcutDialogState.updateLongLabel("Geto")
 
             ShortcutDialog(
-                shortcutDialogState = addShortcutDialogState,
-                contentDescription = "Add Shortcut Dialog",
+                shortcutDialogState = shortcutDialogState,
+                contentDescription = "Shortcut Dialog",
                 title = stringResource(id = R.string.add_shortcut),
-                cancelButtonText = stringResource(id = R.string.cancel),
-                okayButtonText = stringResource(id = R.string.add),
-                onOkay = {},
+                negativeButtonText = stringResource(id = R.string.cancel),
+                positiveButtonText = stringResource(id = R.string.add),
+                onPositiveButtonClick = {},
             )
         }
 

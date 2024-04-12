@@ -44,8 +44,8 @@ class SingleSelectionDialogScreenshotTests {
     @Test
     fun singleSelectionDialog() {
         composeTestRule.captureDialogForDevice(
-            folder = "SingleSelectionDialog",
-            screenshotName = "SingleSelectionDialog",
+            name = "SingleSelectionDialog",
+            fileName = "SingleSelectionDialog",
             deviceName = "phone",
             deviceSpec = DefaultTestDevices.PHONE.spec,
         ) {
@@ -59,10 +59,10 @@ class SingleSelectionDialogScreenshotTests {
                     onDismissRequest = {},
                     selected = 0,
                     onSelect = {},
-                    negativeText = "Cancel",
-                    positiveText = "Okay",
-                    onNegativeClick = {},
-                    onPositiveClick = {},
+                    negativeButtonText = "Cancel",
+                    positiveButtonText = "Okay",
+                    onNegativeButtonClick = {},
+                    onPositiveButtonClick = {},
                     contentDescription = "Dark Dialog",
                 )
             }
@@ -72,8 +72,8 @@ class SingleSelectionDialogScreenshotTests {
     @Test
     fun singleSelectionDialog_dark() {
         composeTestRule.captureDialogForDevice(
-            folder = "SingleSelectionDialog",
-            screenshotName = "SingleSelectionDialog",
+            name = "SingleSelectionDialog",
+            fileName = "SingleSelectionDialog",
             deviceName = "phone_dark",
             deviceSpec = DefaultTestDevices.PHONE.spec,
             darkMode = true,
@@ -89,10 +89,10 @@ class SingleSelectionDialogScreenshotTests {
                         onDismissRequest = {},
                         selected = 0,
                         onSelect = {},
-                        negativeText = "Cancel",
-                        positiveText = "Okay",
-                        onNegativeClick = {},
-                        onPositiveClick = {},
+                        negativeButtonText = "Cancel",
+                        positiveButtonText = "Okay",
+                        onNegativeButtonClick = {},
+                        onPositiveButtonClick = {},
                         contentDescription = "Dark Dialog",
                     )
                 }

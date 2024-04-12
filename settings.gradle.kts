@@ -35,6 +35,8 @@ dependencyResolutionManagement {
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 rootProject.name = "Geto"
 include(":app")
+include(":app-geto-catalog")
+include(":benchmarks")
 include(":core:clipboardmanager")
 include(":core:common")
 include(":core:database")
@@ -58,4 +60,3 @@ include(":feature:appsettings")
 include(":feature:settings")
 
 include(":lint")
-include(":benchmarks")
