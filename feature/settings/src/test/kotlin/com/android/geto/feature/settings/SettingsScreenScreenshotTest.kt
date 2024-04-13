@@ -18,6 +18,7 @@
 package com.android.geto.feature.settings
 
 import androidx.activity.ComponentActivity
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.android.geto.core.designsystem.component.GetoBackground
 import com.android.geto.core.designsystem.theme.GetoTheme
@@ -52,6 +53,7 @@ class SettingsScreenScreenshotTest {
         ) {
             GetoTheme {
                 SettingsScreen(
+                    scrollState = rememberScrollState(),
                     settingsUiState = SettingsUiState.Success(
                         settings = UserEditableSettings(
                             brand = ThemeBrand.DEFAULT,
@@ -80,6 +82,7 @@ class SettingsScreenScreenshotTest {
         ) {
             GetoTheme {
                 SettingsScreen(
+                    scrollState = rememberScrollState(),
                     settingsUiState = SettingsUiState.Loading,
                     onThemeDialog = {},
                     onDarkDialog = {},
@@ -103,6 +106,7 @@ class SettingsScreenScreenshotTest {
             GetoTheme {
                 GetoBackground {
                     SettingsScreen(
+                        scrollState = rememberScrollState(),
                         settingsUiState = SettingsUiState.Success(
                             settings = UserEditableSettings(
                                 brand = ThemeBrand.DEFAULT,
@@ -134,6 +138,7 @@ class SettingsScreenScreenshotTest {
             GetoTheme {
                 GetoBackground {
                     SettingsScreen(
+                        scrollState = rememberScrollState(),
                         settingsUiState = SettingsUiState.Loading,
                         onThemeDialog = {},
                         onDarkDialog = {},

@@ -18,6 +18,7 @@
 package com.android.geto.feature.settings
 
 import androidx.annotation.VisibleForTesting
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,6 +30,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -68,6 +71,8 @@ internal fun SettingsRoute(
     viewModel: SettingsViewModel = hiltViewModel(),
     onNavigationIconClick: () -> Unit,
 ) {
+    val scrollState = rememberScrollState()
+
     val settingsUiState by viewModel.settingsUiState.collectAsStateWithLifecycle()
 
     var showThemeDialog by rememberSaveable { mutableStateOf(false) }
@@ -92,77 +97,27 @@ internal fun SettingsRoute(
         }
     }
 
-    if (showThemeDialog) {
-        SingleSelectionDialog(
-            title = stringResource(id = R.string.theme),
-            items = arrayOf(
-                stringResource(R.string.default_theme),
-                stringResource(R.string.android_theme),
-            ),
-            onDismissRequest = {
-                showThemeDialog = false
-            },
-            selected = themeDialogSelected,
-            onSelect = { themeDialogSelected = it },
-            negativeButtonText = stringResource(id = R.string.cancel),
-            positiveButtonText = stringResource(id = R.string.change),
-            onNegativeButtonClick = {
-                showThemeDialog = false
-            },
-            onPositiveButtonClick = {
-                viewModel.updateThemeBrand(ThemeBrand.entries[themeDialogSelected])
-                showThemeDialog = false
-            },
-            contentDescription = "Theme Dialog",
-        )
-    }
-
-    if (showDarkDialog) {
-        SingleSelectionDialog(
-            title = stringResource(id = R.string.theme),
-            items = arrayOf(
-                stringResource(id = R.string.follow_system),
-                stringResource(id = R.string.light),
-                stringResource(id = R.string.dark),
-            ),
-            onDismissRequest = {},
-            selected = darkDialogSelected,
-            onSelect = { darkDialogSelected = it },
-            negativeButtonText = stringResource(id = R.string.cancel),
-            positiveButtonText = stringResource(id = R.string.change),
-            onNegativeButtonClick = {
-                showDarkDialog = false
-            },
-            onPositiveButtonClick = {
-                viewModel.updateDarkThemeConfig(DarkThemeConfig.entries[darkDialogSelected])
-                showDarkDialog = false
-            },
-            contentDescription = "Dark Dialog",
-        )
-    }
-
-    if (showCleanDialog) {
-        SimpleDialog(
-            title = stringResource(id = R.string.clean_app_settings),
-            text = stringResource(id = R.string.are_you_sure_you_want_to_clean_app_settings_from_the_uninstalled_applications),
-            onDismissRequest = {
-                showCleanDialog = false
-            },
-            negativeButtonText = stringResource(id = R.string.cancel),
-            positiveButtonText = stringResource(id = R.string.clean),
-            onNegativeButtonClick = {
-                showCleanDialog = false
-            },
-            onPositiveButtonClick = {
-                viewModel.cleanAppSettings()
-                showCleanDialog = false
-            },
-            contentDescription = "Clean Dialog",
-        )
-    }
+    SettingsScreenDialogs(
+        showThemeDialog = showThemeDialog,
+        showDarkDialog = showDarkDialog,
+        showCleanDialog = showCleanDialog,
+        themeDialogSelected = themeDialogSelected,
+        darkDialogSelected = darkDialogSelected,
+        onThemeDialogSelect = { themeDialogSelected = it },
+        onDarkDialogSelect = { darkDialogSelected = it },
+        onUpdateThemeBrand = viewModel::updateThemeBrand,
+        onUpdateDarkThemeConfig = viewModel::updateDarkThemeConfig,
+        onCleanAppSettings = viewModel::cleanAppSettings,
+        onDismissRequest = {
+            showThemeDialog = false
+            showDarkDialog = false
+            showCleanDialog = false
+        },
+    )
 
     SettingsScreen(
         modifier = modifier,
+        scrollState = scrollState,
         settingsUiState = settingsUiState,
         onThemeDialog = { showThemeDialog = true },
         onDarkDialog = { showDarkDialog = true },
@@ -180,6 +135,7 @@ internal fun SettingsRoute(
 internal fun SettingsScreen(
     modifier: Modifier = Modifier,
     settingsUiState: SettingsUiState,
+    scrollState: ScrollState,
     supportDynamicColor: Boolean = supportsDynamicTheming(),
     onThemeDialog: () -> Unit,
     onDarkDialog: () -> Unit,
@@ -196,6 +152,7 @@ internal fun SettingsScreen(
         SettingsContent(
             modifier = modifier,
             innerPadding = innerPadding,
+            scrollState = scrollState,
             settingsUiState = settingsUiState,
             supportDynamicColor = supportDynamicColor,
             onThemeDialog = onThemeDialog,
@@ -203,6 +160,80 @@ internal fun SettingsScreen(
             onCleanDialog = onCleanDialog,
             onChangeDynamicColorPreference = onChangeDynamicColorPreference,
             onChangeAutoLaunchPreference = onChangeAutoLaunchPreference,
+        )
+    }
+}
+
+@Composable
+internal fun SettingsScreenDialogs(
+    showThemeDialog: Boolean,
+    showDarkDialog: Boolean,
+    showCleanDialog: Boolean,
+    themeDialogSelected: Int,
+    darkDialogSelected: Int,
+    onThemeDialogSelect: (Int) -> Unit,
+    onDarkDialogSelect: (Int) -> Unit,
+    onUpdateThemeBrand: (ThemeBrand) -> Unit,
+    onUpdateDarkThemeConfig: (DarkThemeConfig) -> Unit,
+    onCleanAppSettings: () -> Unit,
+    onDismissRequest: () -> Unit,
+) {
+    if (showThemeDialog) {
+        SingleSelectionDialog(
+            title = stringResource(id = R.string.theme),
+            items = arrayOf(
+                stringResource(R.string.default_theme),
+                stringResource(R.string.android_theme),
+            ),
+            onDismissRequest = onDismissRequest,
+            selected = themeDialogSelected,
+            onSelect = onThemeDialogSelect,
+            negativeButtonText = stringResource(id = R.string.cancel),
+            positiveButtonText = stringResource(id = R.string.change),
+            onNegativeButtonClick = onDismissRequest,
+            onPositiveButtonClick = {
+                onUpdateThemeBrand(ThemeBrand.entries[themeDialogSelected])
+                onDismissRequest()
+            },
+            contentDescription = "Theme Dialog",
+        )
+    }
+
+    if (showDarkDialog) {
+        SingleSelectionDialog(
+            title = stringResource(id = R.string.theme),
+            items = arrayOf(
+                stringResource(id = R.string.follow_system),
+                stringResource(id = R.string.light),
+                stringResource(id = R.string.dark),
+            ),
+            onDismissRequest = {},
+            selected = darkDialogSelected,
+            onSelect = onDarkDialogSelect,
+            negativeButtonText = stringResource(id = R.string.cancel),
+            positiveButtonText = stringResource(id = R.string.change),
+            onNegativeButtonClick = onDismissRequest,
+            onPositiveButtonClick = {
+                onUpdateDarkThemeConfig(DarkThemeConfig.entries[darkDialogSelected])
+                onDismissRequest()
+            },
+            contentDescription = "Dark Dialog",
+        )
+    }
+
+    if (showCleanDialog) {
+        SimpleDialog(
+            title = stringResource(id = R.string.clean_app_settings),
+            text = stringResource(id = R.string.are_you_sure_you_want_to_clean_app_settings_from_the_uninstalled_applications),
+            onDismissRequest = onDismissRequest,
+            negativeButtonText = stringResource(id = R.string.cancel),
+            positiveButtonText = stringResource(id = R.string.clean),
+            onNegativeButtonClick = onDismissRequest,
+            onPositiveButtonClick = {
+                onCleanAppSettings()
+                onDismissRequest()
+            },
+            contentDescription = "Clean Dialog",
         )
     }
 }
@@ -226,6 +257,7 @@ private fun SettingsTopAppBAr(onNavigationIconClick: () -> Unit) {
 private fun SettingsContent(
     modifier: Modifier = Modifier,
     innerPadding: PaddingValues,
+    scrollState: ScrollState,
     settingsUiState: SettingsUiState,
     supportDynamicColor: Boolean = supportsDynamicTheming(),
     onThemeDialog: () -> Unit,
@@ -238,6 +270,7 @@ private fun SettingsContent(
         modifier = modifier
             .fillMaxSize()
             .consumeWindowInsets(innerPadding)
+            .verticalScroll(scrollState)
             .testTag("applist"),
     ) {
         when (settingsUiState) {
@@ -496,6 +529,7 @@ private fun CleanSetting(
 private fun SettingsScreenLoadingStatePreview() {
     GetoTheme {
         SettingsScreen(
+            scrollState = rememberScrollState(),
             settingsUiState = SettingsUiState.Loading,
             supportDynamicColor = false,
             onThemeDialog = {},
@@ -513,6 +547,7 @@ private fun SettingsScreenLoadingStatePreview() {
 private fun SettingsScreenSuccessStatePreview() {
     GetoTheme {
         SettingsScreen(
+            scrollState = rememberScrollState(),
             settingsUiState = SettingsUiState.Success(
                 settings = UserEditableSettings(
                     brand = ThemeBrand.DEFAULT,
