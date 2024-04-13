@@ -23,8 +23,11 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.performClick
 import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.SettingType
+import com.android.geto.feature.appsettings.dialog.appsetting.rememberAppSettingDialogState
+import com.android.geto.feature.appsettings.dialog.shortcut.rememberShortcutDialogState
 import org.junit.Rule
 import org.junit.Test
 
@@ -103,5 +106,161 @@ class AppSettingsScreenTest {
         }
 
         composeTestRule.onNodeWithTag("appSettings:lazyColumn").assertIsDisplayed()
+    }
+
+    @Test
+    fun appSettingDialog_isDisplayed_whenSettingsIcon_isClicked() {
+        composeTestRule.setContent {
+            val appSettingDialogState = rememberAppSettingDialogState()
+
+            AppSettingsDialogs(
+                showCopyPermissionCommandDialog = false,
+                appSettingDialogState = appSettingDialogState,
+                addShortcutDialogState = rememberShortcutDialogState(),
+                updateShortcutDialogState = rememberShortcutDialogState(),
+                onAddSetting = {},
+                onCopyPermissionCommand = {},
+                onAddShortcut = {},
+                onUpdateShortcut = {},
+                onDismissRequest = {},
+            )
+
+            AppSettingsScreen(
+                snackbarHostState = SnackbarHostState(),
+                appName = "Geto",
+                appSettingsUiState = AppSettingsUiState.Success(appSettings),
+                onNavigationIconClick = {},
+                onRevertSettingsIconClick = {},
+                onSettingsIconClick = {
+                    appSettingDialogState.updateShowDialog(true)
+                },
+                onShortcutIconClick = {},
+                onAppSettingsItemCheckBoxChange = { _, _ -> },
+                onDeleteAppSettingsItem = {},
+                onLaunchApp = {},
+            )
+        }
+
+        composeTestRule.onNodeWithContentDescription(
+            label = "Settings icon",
+            useUnmergedTree = true,
+        ).performClick()
+
+        composeTestRule.onNodeWithContentDescription("Add App Settings Dialog").assertIsDisplayed()
+    }
+
+    @Test
+    fun copyPermissionCommandDialog_isDisplayed() {
+        composeTestRule.setContent {
+            AppSettingsDialogs(
+                showCopyPermissionCommandDialog = true,
+                appSettingDialogState = rememberAppSettingDialogState(),
+                addShortcutDialogState = rememberShortcutDialogState(),
+                updateShortcutDialogState = rememberShortcutDialogState(),
+                onAddSetting = {},
+                onCopyPermissionCommand = {},
+                onAddShortcut = {},
+                onUpdateShortcut = {},
+                onDismissRequest = {},
+            )
+
+            AppSettingsScreen(
+                snackbarHostState = SnackbarHostState(),
+                appName = "Geto",
+                appSettingsUiState = AppSettingsUiState.Success(appSettings),
+                onNavigationIconClick = {},
+                onRevertSettingsIconClick = {},
+                onSettingsIconClick = {},
+                onShortcutIconClick = {},
+                onAppSettingsItemCheckBoxChange = { _, _ -> },
+                onDeleteAppSettingsItem = {},
+                onLaunchApp = {},
+            )
+        }
+
+        composeTestRule.onNodeWithContentDescription("Copy Permission Command Dialog")
+            .assertIsDisplayed()
+    }
+
+    @Test
+    fun addShortcutDialog_isDisplayed_whenSettingsIcon_isClicked() {
+        composeTestRule.setContent {
+            val shortcutDialogState = rememberShortcutDialogState()
+
+            AppSettingsDialogs(
+                showCopyPermissionCommandDialog = false,
+                appSettingDialogState = rememberAppSettingDialogState(),
+                addShortcutDialogState = shortcutDialogState,
+                updateShortcutDialogState = rememberShortcutDialogState(),
+                onAddSetting = {},
+                onCopyPermissionCommand = {},
+                onAddShortcut = {},
+                onUpdateShortcut = {},
+                onDismissRequest = {},
+            )
+
+            AppSettingsScreen(
+                snackbarHostState = SnackbarHostState(),
+                appName = "Geto",
+                appSettingsUiState = AppSettingsUiState.Success(appSettings),
+                onNavigationIconClick = {},
+                onRevertSettingsIconClick = {},
+                onSettingsIconClick = {},
+                onShortcutIconClick = {
+                    shortcutDialogState.updateShowDialog(true)
+                },
+                onAppSettingsItemCheckBoxChange = { _, _ -> },
+                onDeleteAppSettingsItem = {},
+                onLaunchApp = {},
+            )
+        }
+
+        composeTestRule.onNodeWithContentDescription(
+            label = "Shortcut icon",
+            useUnmergedTree = true,
+        ).performClick()
+
+        composeTestRule.onNodeWithContentDescription("Add Shortcut Dialog").assertIsDisplayed()
+    }
+
+    @Test
+    fun updateShortcutDialog_isDisplayed_whenShortcutIcon_isClicked() {
+        composeTestRule.setContent {
+            val shortcutDialogState = rememberShortcutDialogState()
+
+            AppSettingsDialogs(
+                showCopyPermissionCommandDialog = false,
+                appSettingDialogState = rememberAppSettingDialogState(),
+                addShortcutDialogState = rememberShortcutDialogState(),
+                updateShortcutDialogState = shortcutDialogState,
+                onAddSetting = {},
+                onCopyPermissionCommand = {},
+                onAddShortcut = {},
+                onUpdateShortcut = {},
+                onDismissRequest = {},
+            )
+
+            AppSettingsScreen(
+                snackbarHostState = SnackbarHostState(),
+                appName = "Geto",
+                appSettingsUiState = AppSettingsUiState.Success(appSettings),
+                onNavigationIconClick = {},
+                onRevertSettingsIconClick = {},
+                onSettingsIconClick = {},
+                onShortcutIconClick = {
+                    shortcutDialogState.updateShowDialog(true)
+                },
+                onAppSettingsItemCheckBoxChange = { _, _ -> },
+                onDeleteAppSettingsItem = {},
+                onLaunchApp = {},
+            )
+        }
+
+        composeTestRule.onNodeWithContentDescription(
+            label = "Shortcut icon",
+            useUnmergedTree = true,
+        ).performClick()
+
+        composeTestRule.onNodeWithContentDescription("Update Shortcut Dialog").assertIsDisplayed()
     }
 }

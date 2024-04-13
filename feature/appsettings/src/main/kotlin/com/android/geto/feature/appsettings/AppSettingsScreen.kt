@@ -78,8 +78,10 @@ import com.android.geto.core.model.SettingType
 import com.android.geto.core.ui.AppSettingsPreviewParameterProvider
 import com.android.geto.core.ui.DevicePreviews
 import com.android.geto.feature.appsettings.dialog.appsetting.AppSettingDialog
+import com.android.geto.feature.appsettings.dialog.appsetting.AppSettingDialogState
 import com.android.geto.feature.appsettings.dialog.appsetting.rememberAppSettingDialogState
 import com.android.geto.feature.appsettings.dialog.shortcut.ShortcutDialog
+import com.android.geto.feature.appsettings.dialog.shortcut.ShortcutDialogState
 import com.android.geto.feature.appsettings.dialog.shortcut.rememberShortcutDialogState
 
 @Composable
@@ -138,13 +140,13 @@ internal fun AppSettingsRoute(
 
     val clipboardResult = viewModel.clipboardResult.collectAsStateWithLifecycle().value
 
-    val appSettingsDialogState = rememberAppSettingDialogState()
+    val appSettingDialogState = rememberAppSettingDialogState()
 
     val addShortcutDialogState = rememberShortcutDialogState()
 
     val updateShortcutDialogState = rememberShortcutDialogState()
 
-    val keyDebounce = appSettingsDialogState.keyDebounce.collectAsStateWithLifecycle("").value
+    val keyDebounce = appSettingDialogState.keyDebounce.collectAsStateWithLifecycle("").value
 
     LaunchedEffect(key1 = true) {
         viewModel.autoLaunchApp()
@@ -226,19 +228,19 @@ internal fun AppSettingsRoute(
     }
 
     LaunchedEffect(
-        key1 = appSettingsDialogState.selectedRadioOptionIndex,
+        key1 = appSettingDialogState.selectedRadioOptionIndex,
         key2 = keyDebounce,
     ) {
-        val settingType = SettingType.entries[appSettingsDialogState.selectedRadioOptionIndex]
+        val settingType = SettingType.entries[appSettingDialogState.selectedRadioOptionIndex]
 
         viewModel.getSecureSettings(
-            text = appSettingsDialogState.key,
+            text = appSettingDialogState.key,
             settingType = settingType,
         )
     }
 
     LaunchedEffect(key1 = secureSettings) {
-        appSettingsDialogState.updateSecureSettings(secureSettings)
+        appSettingDialogState.updateSecureSettings(secureSettings)
     }
 
     LaunchedEffect(key1 = applicationIcon) {
@@ -248,76 +250,43 @@ internal fun AppSettingsRoute(
         }
     }
 
-    if (appSettingsDialogState.showDialog) {
-        AppSettingDialog(
-            appSettingDialogState = appSettingsDialogState,
-            onAddSetting = {
-                appSettingsDialogState.getAppSetting(packageName = viewModel.packageName)?.let {
-                    viewModel.addSettings(it)
-                    appSettingsDialogState.resetState()
-                }
-            },
-            contentDescription = "Add App Settings Dialog",
-        )
-    }
-
-    if (showCopyPermissionCommandDialog) {
-        SimpleDialog(
-            title = stringResource(id = R.string.permission_error),
-            text = stringResource(id = R.string.copy_permission_command_message),
-            onDismissRequest = {
-                showCopyPermissionCommandDialog = false
-            },
-            negativeButtonText = stringResource(id = R.string.cancel),
-            positiveButtonText = stringResource(id = R.string.copy),
-            onNegativeButtonClick = {
-                showCopyPermissionCommandDialog = false
-            },
-            onPositiveButtonClick = {
-                viewModel.copyPermissionCommand()
-                showCopyPermissionCommandDialog = false
-            },
-            contentDescription = "Copy Permission Command Dialog",
-        )
-    }
-
-    if (addShortcutDialogState.showDialog) {
-        ShortcutDialog(
-            shortcutDialogState = addShortcutDialogState,
-            contentDescription = "Add Shortcut Dialog",
-            title = stringResource(id = R.string.add_shortcut),
-            negativeButtonText = stringResource(id = R.string.cancel),
-            positiveButtonText = stringResource(id = R.string.add),
-            onPositiveButtonClick = {
-                addShortcutDialogState.getShortcut(
-                    packageName = viewModel.packageName,
-                    shortcutIntent = shortcutIntent,
-                )?.let {
-                    viewModel.requestPinShortcut(it)
-                    addShortcutDialogState.resetState()
-                }
-            },
-        )
-    }
-
-    if (updateShortcutDialogState.showDialog) {
-        ShortcutDialog(
-            shortcutDialogState = updateShortcutDialogState,
-            contentDescription = "Update Shortcut Dialog",
-            title = stringResource(id = R.string.update_shortcut),
-            negativeButtonText = stringResource(id = R.string.cancel),
-            positiveButtonText = stringResource(id = R.string.update),
-            onPositiveButtonClick = {
-                updateShortcutDialogState.getShortcut(
-                    packageName = viewModel.packageName,
-                    shortcutIntent = shortcutIntent,
-                )?.let {
-                    viewModel.updateRequestPinShortcut(it)
-                    updateShortcutDialogState.resetState()
-                }
-            },
-        )
-    }
+    AppSettingsDialogs(
+        showCopyPermissionCommandDialog = showCopyPermissionCommandDialog,
+        appSettingDialogState = appSettingDialogState,
+        addShortcutDialogState = addShortcutDialogState,
+        updateShortcutDialogState = updateShortcutDialogState,
+        onAddSetting = {
+            appSettingDialogState.getAppSetting(packageName = viewModel.packageName)?.let {
+                viewModel.addSettings(it)
+                appSettingDialogState.resetState()
+            }
+        },
+        onCopyPermissionCommand = {
+            viewModel.copyPermissionCommand()
+            showCopyPermissionCommandDialog = false
+        },
+        onAddShortcut = {
+            addShortcutDialogState.getShortcut(
+                packageName = viewModel.packageName,
+                shortcutIntent = shortcutIntent,
+            )?.let {
+                viewModel.requestPinShortcut(it)
+                addShortcutDialogState.resetState()
+            }
+        },
+        onUpdateShortcut = {
+            updateShortcutDialogState.getShortcut(
+                packageName = viewModel.packageName,
+                shortcutIntent = shortcutIntent,
+            )?.let {
+                viewModel.updateRequestPinShortcut(it)
+                updateShortcutDialogState.resetState()
+            }
+        },
+        onDismissRequest = {
+            showCopyPermissionCommandDialog = false
+        },
+    )
 
     AppSettingsScreen(
         modifier = modifier,
@@ -327,7 +296,7 @@ internal fun AppSettingsRoute(
         onNavigationIconClick = onNavigationIconClick,
         onRevertSettingsIconClick = viewModel::revertSettings,
         onSettingsIconClick = {
-            appSettingsDialogState.updateShowDialog(true)
+            appSettingDialogState.updateShowDialog(true)
         },
         onShortcutIconClick = {
             viewModel.getShortcut()
@@ -379,6 +348,62 @@ internal fun AppSettingsScreen(
             appSettingsUiState = appSettingsUiState,
             onAppSettingsItemCheckBoxChange = onAppSettingsItemCheckBoxChange,
             onDeleteAppSettingsItem = onDeleteAppSettingsItem,
+        )
+    }
+}
+
+@Composable
+internal fun AppSettingsDialogs(
+    showCopyPermissionCommandDialog: Boolean,
+    appSettingDialogState: AppSettingDialogState,
+    addShortcutDialogState: ShortcutDialogState,
+    updateShortcutDialogState: ShortcutDialogState,
+    onAddSetting: () -> Unit,
+    onCopyPermissionCommand: () -> Unit,
+    onAddShortcut: () -> Unit,
+    onUpdateShortcut: () -> Unit,
+    onDismissRequest: () -> Unit,
+) {
+    if (appSettingDialogState.showDialog) {
+        AppSettingDialog(
+            appSettingDialogState = appSettingDialogState,
+            onAddSetting = onAddSetting,
+            contentDescription = "Add App Settings Dialog",
+        )
+    }
+
+    if (showCopyPermissionCommandDialog) {
+        SimpleDialog(
+            title = stringResource(id = R.string.permission_error),
+            text = stringResource(id = R.string.copy_permission_command_message),
+            onDismissRequest = onDismissRequest,
+            negativeButtonText = stringResource(id = R.string.cancel),
+            positiveButtonText = stringResource(id = R.string.copy),
+            onNegativeButtonClick = onDismissRequest,
+            onPositiveButtonClick = onCopyPermissionCommand,
+            contentDescription = "Copy Permission Command Dialog",
+        )
+    }
+
+    if (addShortcutDialogState.showDialog) {
+        ShortcutDialog(
+            shortcutDialogState = addShortcutDialogState,
+            contentDescription = "Add Shortcut Dialog",
+            title = stringResource(id = R.string.add_shortcut),
+            negativeButtonText = stringResource(id = R.string.cancel),
+            positiveButtonText = stringResource(id = R.string.add),
+            onPositiveButtonClick = onAddShortcut,
+        )
+    }
+
+    if (updateShortcutDialogState.showDialog) {
+        ShortcutDialog(
+            shortcutDialogState = updateShortcutDialogState,
+            contentDescription = "Update Shortcut Dialog",
+            title = stringResource(id = R.string.update_shortcut),
+            negativeButtonText = stringResource(id = R.string.cancel),
+            positiveButtonText = stringResource(id = R.string.update),
+            onPositiveButtonClick = onUpdateShortcut,
         )
     }
 }

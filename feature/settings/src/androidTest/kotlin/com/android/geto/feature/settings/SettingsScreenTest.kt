@@ -18,6 +18,12 @@
 package com.android.geto.feature.settings
 
 import androidx.activity.ComponentActivity
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsNotDisplayed
 import androidx.compose.ui.test.assertIsOff
@@ -25,6 +31,7 @@ import androidx.compose.ui.test.assertIsOn
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.performClick
 import com.android.geto.core.model.DarkThemeConfig
 import com.android.geto.core.model.ThemeBrand
 import org.junit.Rule
@@ -39,6 +46,7 @@ class SettingsScreenTest {
     fun getoLoadingWheel_isDisplayed_whenSettingsUiState_isLoading() {
         composeTestRule.setContent {
             SettingsScreen(
+                scrollState = rememberScrollState(),
                 settingsUiState = SettingsUiState.Loading,
                 onThemeDialog = {},
                 onDarkDialog = {},
@@ -56,6 +64,7 @@ class SettingsScreenTest {
     fun settings_isDisplayed_whenSettingsUiState_isSuccess() {
         composeTestRule.setContent {
             SettingsScreen(
+                scrollState = rememberScrollState(),
                 settingsUiState = SettingsUiState.Success(
                     UserEditableSettings(
                         brand = ThemeBrand.DEFAULT,
@@ -80,6 +89,7 @@ class SettingsScreenTest {
     fun dynamicColorSwitch_isOn_whenUseDynamicColor_isTrue() {
         composeTestRule.setContent {
             SettingsScreen(
+                scrollState = rememberScrollState(),
                 settingsUiState = SettingsUiState.Success(
                     UserEditableSettings(
                         brand = ThemeBrand.DEFAULT,
@@ -105,6 +115,7 @@ class SettingsScreenTest {
     fun dynamicColorSwitch_isOff_whenUseDynamicColor_isFalse() {
         composeTestRule.setContent {
             SettingsScreen(
+                scrollState = rememberScrollState(),
                 settingsUiState = SettingsUiState.Success(
                     UserEditableSettings(
                         brand = ThemeBrand.DEFAULT,
@@ -130,6 +141,7 @@ class SettingsScreenTest {
     fun dynamicRow_isDisplayed_whenThemeBrand_isDefault() {
         composeTestRule.setContent {
             SettingsScreen(
+                scrollState = rememberScrollState(),
                 settingsUiState = SettingsUiState.Success(
                     UserEditableSettings(
                         brand = ThemeBrand.DEFAULT,
@@ -155,6 +167,7 @@ class SettingsScreenTest {
     fun dynamicRow_isNotDisplayed_whenThemeBrand_isAndroid() {
         composeTestRule.setContent {
             SettingsScreen(
+                scrollState = rememberScrollState(),
                 settingsUiState = SettingsUiState.Success(
                     UserEditableSettings(
                         brand = ThemeBrand.ANDROID,
@@ -180,6 +193,7 @@ class SettingsScreenTest {
     fun dynamicRow_isNotDisplayed_whenUnSupportDynamicColor() {
         composeTestRule.setContent {
             SettingsScreen(
+                scrollState = rememberScrollState(),
                 settingsUiState = SettingsUiState.Success(
                     UserEditableSettings(
                         brand = ThemeBrand.ANDROID,
@@ -205,6 +219,7 @@ class SettingsScreenTest {
     fun autoLaunchSwitch_isOff_whenUseAutoLaunch_isFalse() {
         composeTestRule.setContent {
             SettingsScreen(
+                scrollState = rememberScrollState(),
                 settingsUiState = SettingsUiState.Success(
                     UserEditableSettings(
                         brand = ThemeBrand.DEFAULT,
@@ -230,6 +245,7 @@ class SettingsScreenTest {
     fun autoLaunchSwitch_isOn_whenUseAutoLaunch_isTrue() {
         composeTestRule.setContent {
             SettingsScreen(
+                scrollState = rememberScrollState(),
                 settingsUiState = SettingsUiState.Success(
                     UserEditableSettings(
                         brand = ThemeBrand.DEFAULT,
@@ -249,5 +265,153 @@ class SettingsScreenTest {
         }
 
         composeTestRule.onNodeWithTag("settings:autoLaunchSwitch").assertIsOn()
+    }
+
+    @Test
+    fun themeDialog_isDisplayed_whenThemeSetting_isClicked() {
+        composeTestRule.setContent {
+            var showThemeDialog by rememberSaveable { mutableStateOf(false) }
+
+            var themeDialogSelected by rememberSaveable { mutableIntStateOf(0) }
+
+            SettingsScreenDialogs(
+                showThemeDialog = showThemeDialog,
+                showDarkDialog = false,
+                showCleanDialog = false,
+                themeDialogSelected = themeDialogSelected,
+                darkDialogSelected = 0,
+                onThemeDialogSelect = { themeDialogSelected = it },
+                onDarkDialogSelect = {},
+                onUpdateThemeBrand = {},
+                onUpdateDarkThemeConfig = {},
+                onCleanAppSettings = {},
+                onDismissRequest = {
+                    showThemeDialog = false
+                },
+            )
+
+            SettingsScreen(
+                scrollState = rememberScrollState(),
+                settingsUiState = SettingsUiState.Success(
+                    UserEditableSettings(
+                        brand = ThemeBrand.DEFAULT,
+                        useDynamicColor = false,
+                        darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+                        useAutoLaunch = true,
+                    ),
+                ),
+                supportDynamicColor = true,
+                onThemeDialog = {
+                    showThemeDialog = true
+                },
+                onDarkDialog = {},
+                onCleanDialog = {},
+                onChangeDynamicColorPreference = {},
+                onChangeAutoLaunchPreference = {},
+                onNavigationIconClick = {},
+            )
+        }
+
+        composeTestRule.onNodeWithTag("settings:theme").performClick()
+
+        composeTestRule.onNodeWithContentDescription("Theme Dialog").assertIsDisplayed()
+    }
+
+    @Test
+    fun darkDialog_isDisplayed_whenDarkSetting_isClicked() {
+        composeTestRule.setContent {
+            var showDarkDialog by rememberSaveable { mutableStateOf(false) }
+
+            var darkDialogSelected by rememberSaveable { mutableIntStateOf(0) }
+
+            SettingsScreenDialogs(
+                showThemeDialog = false,
+                showDarkDialog = showDarkDialog,
+                showCleanDialog = false,
+                themeDialogSelected = 0,
+                darkDialogSelected = darkDialogSelected,
+                onThemeDialogSelect = {},
+                onDarkDialogSelect = { darkDialogSelected = it },
+                onUpdateThemeBrand = {},
+                onUpdateDarkThemeConfig = {},
+                onCleanAppSettings = {},
+                onDismissRequest = {
+                    showDarkDialog = false
+                },
+            )
+
+            SettingsScreen(
+                scrollState = rememberScrollState(),
+                settingsUiState = SettingsUiState.Success(
+                    UserEditableSettings(
+                        brand = ThemeBrand.DEFAULT,
+                        useDynamicColor = false,
+                        darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+                        useAutoLaunch = true,
+                    ),
+                ),
+                supportDynamicColor = true,
+                onThemeDialog = {},
+                onDarkDialog = {
+                    showDarkDialog = true
+                },
+                onCleanDialog = {},
+                onChangeDynamicColorPreference = {},
+                onChangeAutoLaunchPreference = {},
+                onNavigationIconClick = {},
+            )
+        }
+
+        composeTestRule.onNodeWithTag("settings:dark").performClick()
+
+        composeTestRule.onNodeWithContentDescription("Dark Dialog").assertIsDisplayed()
+    }
+
+    @Test
+    fun cleanDialog_isDisplayed_whenCleanSetting_isClicked() {
+        composeTestRule.setContent {
+            var showCleanDialog by rememberSaveable { mutableStateOf(false) }
+
+            SettingsScreenDialogs(
+                showThemeDialog = false,
+                showDarkDialog = false,
+                showCleanDialog = showCleanDialog,
+                themeDialogSelected = 0,
+                darkDialogSelected = 0,
+                onThemeDialogSelect = { },
+                onDarkDialogSelect = { },
+                onUpdateThemeBrand = {},
+                onUpdateDarkThemeConfig = {},
+                onCleanAppSettings = {},
+                onDismissRequest = {
+                    showCleanDialog = false
+                },
+            )
+
+            SettingsScreen(
+                scrollState = rememberScrollState(),
+                settingsUiState = SettingsUiState.Success(
+                    UserEditableSettings(
+                        brand = ThemeBrand.DEFAULT,
+                        useDynamicColor = false,
+                        darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+                        useAutoLaunch = true,
+                    ),
+                ),
+                supportDynamicColor = true,
+                onThemeDialog = {},
+                onDarkDialog = {},
+                onCleanDialog = {
+                    showCleanDialog = true
+                },
+                onChangeDynamicColorPreference = {},
+                onChangeAutoLaunchPreference = {},
+                onNavigationIconClick = {},
+            )
+        }
+
+        composeTestRule.onNodeWithTag("settings:clean").performClick()
+
+        composeTestRule.onNodeWithContentDescription("Clean Dialog").assertIsDisplayed()
     }
 }
