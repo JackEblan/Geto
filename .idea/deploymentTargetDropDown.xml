@@ -20,7 +20,7 @@
       <entry key="app-geto-catalog">
         <State />
       </entry>
-      <entry key="cleanDialog_isDisplayed()">
+      <entry key="copyPermissionCommandDialog_isDisplayed_thenDismissed()">
         <State />
       </entry>
       <entry key="darkDialog_isDisplayed_whenDarkSetting_isClicked_thenDismissed()">

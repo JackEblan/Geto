@@ -19,6 +19,10 @@ package com.android.geto.feature.appsettings
 
 import androidx.activity.ComponentActivity
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsNotDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
@@ -159,8 +163,12 @@ class AppSettingsScreenTest {
     @Test
     fun copyPermissionCommandDialog_isDisplayed_thenDismissed() {
         composeTestRule.setContent {
+            var showCopyPermissionCommandDialog by remember {
+                mutableStateOf(true)
+            }
+
             AppSettingsDialogs(
-                showCopyPermissionCommandDialog = true,
+                showCopyPermissionCommandDialog = showCopyPermissionCommandDialog,
                 appSettingDialogState = rememberAppSettingDialogState(),
                 addShortcutDialogState = rememberShortcutDialogState(),
                 updateShortcutDialogState = rememberShortcutDialogState(),
@@ -168,7 +176,9 @@ class AppSettingsScreenTest {
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
                 onUpdateShortcut = {},
-                onCopyPermissionCommandDialogDismissRequest = {},
+                onCopyPermissionCommandDialogDismissRequest = {
+                    showCopyPermissionCommandDialog = false
+                },
             )
 
             AppSettingsScreen(
