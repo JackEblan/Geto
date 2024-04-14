@@ -24,6 +24,7 @@ import com.android.geto.core.designsystem.component.GetoBackground
 import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.model.DarkThemeConfig
 import com.android.geto.core.model.ThemeBrand
+import com.android.geto.core.model.UserData
 import com.android.geto.core.screenshot.testing.util.DefaultTestDevices
 import com.android.geto.core.screenshot.testing.util.captureForDevice
 import dagger.hilt.android.testing.HiltTestApplication
@@ -55,8 +56,8 @@ class SettingsScreenScreenshotTest {
                 SettingsScreen(
                     scrollState = rememberScrollState(),
                     settingsUiState = SettingsUiState.Success(
-                        settings = UserEditableSettings(
-                            brand = ThemeBrand.DEFAULT,
+                        userData = UserData(
+                            themeBrand = ThemeBrand.DEFAULT,
                             useDynamicColor = false,
                             darkThemeConfig = DarkThemeConfig.DARK,
                             useAutoLaunch = false,
@@ -108,8 +109,8 @@ class SettingsScreenScreenshotTest {
                     SettingsScreen(
                         scrollState = rememberScrollState(),
                         settingsUiState = SettingsUiState.Success(
-                            settings = UserEditableSettings(
-                                brand = ThemeBrand.DEFAULT,
+                            userData = UserData(
+                                themeBrand = ThemeBrand.DEFAULT,
                                 useDynamicColor = false,
                                 darkThemeConfig = DarkThemeConfig.DARK,
                                 useAutoLaunch = false,

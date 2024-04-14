@@ -60,8 +60,9 @@ internal fun AppListRoute(
     val appListUiState = viewModel.appListUiState.collectAsStateWithLifecycle().value
 
     LaunchedEffect(key1 = true) {
-        if (appListUiState is AppListUiState.Loading) {
-            viewModel.getInstalledApplications()
+        when (appListUiState) {
+            AppListUiState.Loading -> viewModel.getInstalledApplications()
+            is AppListUiState.Success -> Unit
         }
     }
 

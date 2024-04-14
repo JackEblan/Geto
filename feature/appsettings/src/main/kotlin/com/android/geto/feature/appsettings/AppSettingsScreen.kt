@@ -283,7 +283,7 @@ internal fun AppSettingsRoute(
                 updateShortcutDialogState.resetState()
             }
         },
-        onDismissRequest = {
+        onCopyPermissionCommandDialogDismissRequest = {
             showCopyPermissionCommandDialog = false
         },
     )
@@ -362,7 +362,7 @@ internal fun AppSettingsDialogs(
     onCopyPermissionCommand: () -> Unit,
     onAddShortcut: () -> Unit,
     onUpdateShortcut: () -> Unit,
-    onDismissRequest: () -> Unit,
+    onCopyPermissionCommandDialogDismissRequest: () -> Unit,
 ) {
     if (appSettingDialogState.showDialog) {
         AppSettingDialog(
@@ -376,10 +376,10 @@ internal fun AppSettingsDialogs(
         SimpleDialog(
             title = stringResource(id = R.string.permission_error),
             text = stringResource(id = R.string.copy_permission_command_message),
-            onDismissRequest = onDismissRequest,
+            onDismissRequest = onCopyPermissionCommandDialogDismissRequest,
             negativeButtonText = stringResource(id = R.string.cancel),
             positiveButtonText = stringResource(id = R.string.copy),
-            onNegativeButtonClick = onDismissRequest,
+            onNegativeButtonClick = onCopyPermissionCommandDialogDismissRequest,
             onPositiveButtonClick = onCopyPermissionCommand,
             contentDescription = "Copy Permission Command Dialog",
         )

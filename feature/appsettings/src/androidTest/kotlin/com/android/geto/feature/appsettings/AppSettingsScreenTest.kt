@@ -20,9 +20,11 @@ package com.android.geto.feature.appsettings
 import androidx.activity.ComponentActivity
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertIsNotDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.SettingType
@@ -109,7 +111,7 @@ class AppSettingsScreenTest {
     }
 
     @Test
-    fun appSettingDialog_isDisplayed_whenSettingsIcon_isClicked() {
+    fun appSettingDialog_isDisplayed_whenSettingsIcon_isClicked_thenDismissed() {
         composeTestRule.setContent {
             val appSettingDialogState = rememberAppSettingDialogState()
 
@@ -122,7 +124,7 @@ class AppSettingsScreenTest {
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
                 onUpdateShortcut = {},
-                onDismissRequest = {},
+                onCopyPermissionCommandDialogDismissRequest = {},
             )
 
             AppSettingsScreen(
@@ -147,10 +149,15 @@ class AppSettingsScreenTest {
         ).performClick()
 
         composeTestRule.onNodeWithContentDescription("Add App Settings Dialog").assertIsDisplayed()
+
+        composeTestRule.onNodeWithText("Cancel").performClick()
+
+        composeTestRule.onNodeWithContentDescription("Add App Settings Dialog")
+            .assertIsNotDisplayed()
     }
 
     @Test
-    fun copyPermissionCommandDialog_isDisplayed() {
+    fun copyPermissionCommandDialog_isDisplayed_thenDismissed() {
         composeTestRule.setContent {
             AppSettingsDialogs(
                 showCopyPermissionCommandDialog = true,
@@ -161,7 +168,7 @@ class AppSettingsScreenTest {
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
                 onUpdateShortcut = {},
-                onDismissRequest = {},
+                onCopyPermissionCommandDialogDismissRequest = {},
             )
 
             AppSettingsScreen(
@@ -180,10 +187,15 @@ class AppSettingsScreenTest {
 
         composeTestRule.onNodeWithContentDescription("Copy Permission Command Dialog")
             .assertIsDisplayed()
+
+        composeTestRule.onNodeWithText("Cancel").performClick()
+
+        composeTestRule.onNodeWithContentDescription("Copy Permission Command Dialog")
+            .assertIsNotDisplayed()
     }
 
     @Test
-    fun addShortcutDialog_isDisplayed_whenSettingsIcon_isClicked() {
+    fun addShortcutDialog_isDisplayed_whenSettingsIcon_isClicked_thenDismissed() {
         composeTestRule.setContent {
             val shortcutDialogState = rememberShortcutDialogState()
 
@@ -196,7 +208,7 @@ class AppSettingsScreenTest {
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
                 onUpdateShortcut = {},
-                onDismissRequest = {},
+                onCopyPermissionCommandDialogDismissRequest = {},
             )
 
             AppSettingsScreen(
@@ -221,10 +233,14 @@ class AppSettingsScreenTest {
         ).performClick()
 
         composeTestRule.onNodeWithContentDescription("Add Shortcut Dialog").assertIsDisplayed()
+
+        composeTestRule.onNodeWithText("Cancel").performClick()
+
+        composeTestRule.onNodeWithContentDescription("Add Shortcut Dialog").assertIsNotDisplayed()
     }
 
     @Test
-    fun updateShortcutDialog_isDisplayed_whenShortcutIcon_isClicked() {
+    fun updateShortcutDialog_isDisplayed_whenShortcutIcon_isClicked_thenDismissed() {
         composeTestRule.setContent {
             val shortcutDialogState = rememberShortcutDialogState()
 
@@ -237,7 +253,7 @@ class AppSettingsScreenTest {
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
                 onUpdateShortcut = {},
-                onDismissRequest = {},
+                onCopyPermissionCommandDialogDismissRequest = {},
             )
 
             AppSettingsScreen(
@@ -262,5 +278,10 @@ class AppSettingsScreenTest {
         ).performClick()
 
         composeTestRule.onNodeWithContentDescription("Update Shortcut Dialog").assertIsDisplayed()
+
+        composeTestRule.onNodeWithText("Cancel").performClick()
+
+        composeTestRule.onNodeWithContentDescription("Update Shortcut Dialog")
+            .assertIsNotDisplayed()
     }
 }

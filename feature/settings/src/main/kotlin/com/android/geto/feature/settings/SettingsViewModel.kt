@@ -36,20 +36,12 @@ class SettingsViewModel @Inject constructor(
     private val userDataRepository: UserDataRepository,
     private val cleanAppSettingsUseCase: CleanAppSettingsUseCase,
 ) : ViewModel() {
-    val settingsUiState: StateFlow<SettingsUiState> = userDataRepository.userData.map { userData ->
-        SettingsUiState.Success(
-            settings = UserEditableSettings(
-                brand = userData.themeBrand,
-                useDynamicColor = userData.useDynamicColor,
-                darkThemeConfig = userData.darkThemeConfig,
-                useAutoLaunch = userData.useAutoLaunch,
-            ),
+    val settingsUiState: StateFlow<SettingsUiState> =
+        userDataRepository.userData.map(SettingsUiState::Success).stateIn(
+            scope = viewModelScope,
+            started = WhileSubscribed(5_000),
+            initialValue = SettingsUiState.Loading,
         )
-    }.stateIn(
-        scope = viewModelScope,
-        started = WhileSubscribed(5_000),
-        initialValue = SettingsUiState.Loading,
-    )
 
     fun updateThemeBrand(themeBrand: ThemeBrand) {
         viewModelScope.launch {
@@ -80,19 +72,4 @@ class SettingsViewModel @Inject constructor(
             cleanAppSettingsUseCase()
         }
     }
-}
-
-/**
- * Represents the settings which the user can edit within the app.
- */
-data class UserEditableSettings(
-    val brand: ThemeBrand,
-    val useDynamicColor: Boolean,
-    val darkThemeConfig: DarkThemeConfig,
-    val useAutoLaunch: Boolean,
-)
-
-sealed interface SettingsUiState {
-    data object Loading : SettingsUiState
-    data class Success(val settings: UserEditableSettings) : SettingsUiState
 }

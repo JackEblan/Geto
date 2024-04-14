@@ -5,9 +5,6 @@
       <entry key="AppListBaselineProfile">
         <State />
       </entry>
-      <entry key="AppSettingsScreenTest">
-        <State />
-      </entry>
       <entry key="Generate Baseline Profile for app">
         <State />
       </entry>
@@ -23,13 +20,16 @@
       <entry key="app-geto-catalog">
         <State />
       </entry>
-      <entry key="appSettingDialog_isDisplayed_whenSettingsIcon_isClicked()">
-        <State />
-      </entry>
       <entry key="cleanDialog_isDisplayed()">
         <State />
       </entry>
+      <entry key="darkDialog_isDisplayed_whenDarkSetting_isClicked_thenDismissed()">
+        <State />
+      </entry>
       <entry key="feature.shortcut">
+        <State />
+      </entry>
+      <entry key="updateShortcutDialog_isDisplayed_whenShortcutIcon_isClicked_thenDismissed()">
         <State />
       </entry>
     </value>
