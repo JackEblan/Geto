@@ -50,9 +50,7 @@ fun AppSettingsItem(
     ) {
         Checkbox(
             checked = appSetting.enabled,
-            onCheckedChange = {
-                onUserAppSettingsItemCheckBoxChange(it)
-            },
+            onCheckedChange = onUserAppSettingsItemCheckBoxChange,
         )
 
         Column(modifier = Modifier.weight(1f)) {
@@ -76,7 +74,7 @@ fun AppSettingsItem(
             )
         }
 
-        IconButton(onClick = { onDeleteUserAppSettingsItem() }) {
+        IconButton(onClick = onDeleteUserAppSettingsItem ) {
             Icon(
                 imageVector = Icons.Default.Delete,
                 contentDescription = null,

@@ -20,6 +20,7 @@ package com.android.geto.feature.settings
 import com.android.geto.core.domain.CleanAppSettingsUseCase
 import com.android.geto.core.model.DarkThemeConfig
 import com.android.geto.core.model.ThemeBrand
+import com.android.geto.core.model.UserData
 import com.android.geto.core.testing.repository.TestAppSettingsRepository
 import com.android.geto.core.testing.repository.TestPackageRepository
 import com.android.geto.core.testing.repository.TestUserDataRepository
@@ -71,8 +72,8 @@ class SettingsViewModelTest {
 
         assertEquals(
             SettingsUiState.Success(
-                UserEditableSettings(
-                    brand = ThemeBrand.ANDROID,
+                UserData(
+                    themeBrand = ThemeBrand.ANDROID,
                     darkThemeConfig = DarkThemeConfig.DARK,
                     useDynamicColor = false,
                     useAutoLaunch = false,

@@ -72,8 +72,6 @@ internal fun SettingsRoute(
     viewModel: SettingsViewModel = hiltViewModel(),
     onNavigationIconClick: () -> Unit,
 ) {
-    val scrollState = rememberScrollState()
-
     val settingsUiState = viewModel.settingsUiState.collectAsStateWithLifecycle().value
 
     var showThemeDialog by rememberSaveable { mutableStateOf(false) }
@@ -124,7 +122,6 @@ internal fun SettingsRoute(
 
     SettingsScreen(
         modifier = modifier,
-        scrollState = scrollState,
         settingsUiState = settingsUiState,
         onThemeDialog = { showThemeDialog = true },
         onDarkDialog = { showDarkDialog = true },
@@ -142,7 +139,7 @@ internal fun SettingsRoute(
 internal fun SettingsScreen(
     modifier: Modifier = Modifier,
     settingsUiState: SettingsUiState,
-    scrollState: ScrollState,
+    scrollState: ScrollState = rememberScrollState(),
     supportDynamicColor: Boolean = supportsDynamicTheming(),
     onThemeDialog: () -> Unit,
     onDarkDialog: () -> Unit,
@@ -171,6 +168,7 @@ internal fun SettingsScreen(
     }
 }
 
+@VisibleForTesting
 @Composable
 internal fun SettingsScreenDialogs(
     showThemeDialog: Boolean,
@@ -538,7 +536,6 @@ private fun CleanSetting(
 private fun SettingsScreenLoadingStatePreview() {
     GetoTheme {
         SettingsScreen(
-            scrollState = rememberScrollState(),
             settingsUiState = SettingsUiState.Loading,
             supportDynamicColor = false,
             onThemeDialog = {},
@@ -556,7 +553,6 @@ private fun SettingsScreenLoadingStatePreview() {
 private fun SettingsScreenSuccessStatePreview() {
     GetoTheme {
         SettingsScreen(
-            scrollState = rememberScrollState(),
             settingsUiState = SettingsUiState.Success(
                 userData = UserData(
                     themeBrand = ThemeBrand.DEFAULT,

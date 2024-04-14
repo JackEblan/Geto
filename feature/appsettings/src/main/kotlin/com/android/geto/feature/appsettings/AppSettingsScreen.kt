@@ -352,6 +352,7 @@ internal fun AppSettingsScreen(
     }
 }
 
+@VisibleForTesting
 @Composable
 internal fun AppSettingsDialogs(
     showCopyPermissionCommandDialog: Boolean,
