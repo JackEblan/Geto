@@ -74,7 +74,7 @@ fun AppSettingsItem(
             )
         }
 
-        IconButton(onClick = onDeleteUserAppSettingsItem ) {
+        IconButton(onClick = onDeleteUserAppSettingsItem) {
             Icon(
                 imageVector = Icons.Default.Delete,
                 contentDescription = null,
