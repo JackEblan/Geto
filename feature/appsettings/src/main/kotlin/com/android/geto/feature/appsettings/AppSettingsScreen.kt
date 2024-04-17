@@ -213,7 +213,7 @@ internal fun AppSettingsRoute(
 
     LaunchedEffect(key1 = clipboardResult) {
         when (clipboardResult) {
-            ClipboardResult.HideNotify -> Unit
+            ClipboardResult.NoResult -> Unit
             is ClipboardResult.Notify -> snackbarHostState.showSnackbar(
                 message = String.format(
                     copiedToClipboard,

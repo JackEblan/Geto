@@ -390,7 +390,7 @@ class AppSettingsViewModelTest {
 
     @Test
     fun clipboardResult_isNotify_whenCopyPermissionCommand() = runTest {
-        clipboardRepository.setApi32AndHigher(false)
+        clipboardRepository.setAtLeastApi32(false)
 
         viewModel.copyPermissionCommand()
 
@@ -398,12 +398,12 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun clipboardResult_isHideNotify_whenCopyPermissionCommand() = runTest {
-        clipboardRepository.setApi32AndHigher(true)
+    fun clipboardResult_isNoResult_whenCopyPermissionCommand() = runTest {
+        clipboardRepository.setAtLeastApi32(true)
 
         viewModel.copyPermissionCommand()
 
-        assertIs<ClipboardResult.HideNotify>(viewModel.clipboardResult.value)
+        assertIs<ClipboardResult.NoResult>(viewModel.clipboardResult.value)
     }
 
     @Test

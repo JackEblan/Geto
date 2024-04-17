@@ -24,7 +24,5 @@ interface ClipboardRepository {
 sealed interface ClipboardResult {
     data class Notify(val text: String) : ClipboardResult
 
-    data object HideNotify : ClipboardResult
-
     data object NoResult : ClipboardResult
 }

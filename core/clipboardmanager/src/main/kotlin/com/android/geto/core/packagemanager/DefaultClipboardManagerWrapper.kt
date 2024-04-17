@@ -32,12 +32,11 @@ class DefaultClipboardManagerWrapper @Inject constructor(
     private val clipboardManager =
         context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
 
+    @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.S_V2)
+    override val atLeastApi32 =
+        Build.VERSION.SDK_INT >= Build.VERSION_CODES.S_V2
+
     override fun setPrimaryClip(label: String, text: String) {
         clipboardManager.setPrimaryClip(ClipData.newPlainText(label, text))
-    }
-
-    @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.S_V2)
-    override fun isSettingPrimaryClipOnApi32AndHigher(): Boolean {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.S_V2
     }
 }

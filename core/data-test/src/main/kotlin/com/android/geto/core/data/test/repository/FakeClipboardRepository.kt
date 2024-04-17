@@ -23,6 +23,6 @@ import javax.inject.Inject
 
 class FakeClipboardRepository @Inject constructor() : ClipboardRepository {
     override fun setPrimaryClip(label: String, text: String): ClipboardResult {
-        return ClipboardResult.HideNotify
+        return ClipboardResult.NoResult
     }
 }

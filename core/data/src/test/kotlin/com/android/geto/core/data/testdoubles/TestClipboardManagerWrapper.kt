@@ -20,15 +20,14 @@ package com.android.geto.core.data.testdoubles
 import com.android.geto.core.packagemanager.ClipboardManagerWrapper
 
 class TestClipboardManagerWrapper : ClipboardManagerWrapper {
-    private var api32 = false
+    private var _atLeastApi32 = false
+
+    override val atLeastApi32
+        get() = _atLeastApi32
 
     override fun setPrimaryClip(label: String, text: String) {}
 
-    override fun isSettingPrimaryClipOnApi32AndHigher(): Boolean {
-        return api32
-    }
-
-    fun setApi32(value: Boolean) {
-        api32 = value
+    fun setAtLeastApi32(value: Boolean) {
+        _atLeastApi32 = value
     }
 }

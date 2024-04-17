@@ -8,9 +8,6 @@
       <entry key="Generate Baseline Profile for app">
         <State />
       </entry>
-      <entry key="SettingsScreenTest">
-        <State />
-      </entry>
       <entry key="app">
         <State />
       </entry>
@@ -18,9 +15,6 @@
         <State />
       </entry>
       <entry key="copyPermissionCommandDialog_isDisplayed_thenDismissed()">
-        <State />
-      </entry>
-      <entry key="darkDialog_isDisplayed_whenDarkSetting_isClicked_thenDismissed()">
         <State />
       </entry>
       <entry key="feature.shortcut">

@@ -21,17 +21,17 @@ import com.android.geto.core.data.repository.ClipboardRepository
 import com.android.geto.core.data.repository.ClipboardResult
 
 class TestClipboardRepository : ClipboardRepository {
-    private var api32AndHigher = false
+    private var _atleastApi32 = false
 
     override fun setPrimaryClip(label: String, text: String): ClipboardResult {
-        return if (api32AndHigher) {
-            ClipboardResult.HideNotify
+        return if (_atleastApi32) {
+            ClipboardResult.NoResult
         } else {
             ClipboardResult.Notify(text)
         }
     }
 
-    fun setApi32AndHigher(value: Boolean) {
-        api32AndHigher = value
+    fun setAtLeastApi32(value: Boolean) {
+        _atleastApi32 = value
     }
 }
