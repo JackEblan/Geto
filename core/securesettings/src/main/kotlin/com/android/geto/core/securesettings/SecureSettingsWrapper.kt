@@ -17,14 +17,14 @@
  */
 package com.android.geto.core.securesettings
 
-import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.SecureSetting
 import com.android.geto.core.model.SettingType
 
 interface SecureSettingsWrapper {
     suspend fun canWriteSecureSettings(
-        appSetting: AppSetting,
-        value: (AppSetting) -> String,
+        settingType: SettingType,
+        key: String,
+        value: String,
     ): Boolean
 
     suspend fun getSecureSettings(settingType: SettingType): List<SecureSetting>

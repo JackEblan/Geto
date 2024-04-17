@@ -11,9 +11,6 @@
       <entry key="SettingsScreenTest">
         <State />
       </entry>
-      <entry key="ShortcutDialogTest">
-        <State />
-      </entry>
       <entry key="app">
         <State />
       </entry>
@@ -27,9 +24,6 @@
         <State />
       </entry>
       <entry key="feature.shortcut">
-        <State />
-      </entry>
-      <entry key="updateShortcutDialog_isDisplayed_whenShortcutIcon_isClicked_thenDismissed()">
         <State />
       </entry>
     </value>

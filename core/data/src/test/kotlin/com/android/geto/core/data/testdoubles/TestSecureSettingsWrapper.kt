@@ -17,7 +17,6 @@
  */
 package com.android.geto.core.data.testdoubles
 
-import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.SecureSetting
 import com.android.geto.core.model.SettingType
 import com.android.geto.core.securesettings.SecureSettingsWrapper
@@ -27,8 +26,9 @@ class TestSecureSettingsWrapper : SecureSettingsWrapper {
     private var writeSecureSettings = false
 
     override suspend fun canWriteSecureSettings(
-        appSetting: AppSetting,
-        value: (AppSetting) -> String,
+        settingType: SettingType,
+        key: String,
+        value: String,
     ): Boolean {
         return if (!writeSecureSettings) throw SecurityException() else true
     }

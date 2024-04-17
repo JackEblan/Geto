@@ -24,10 +24,9 @@ class DefaultClipboardRepository @Inject constructor(
     private val clipboardManagerWrapper: ClipboardManagerWrapper,
 ) : ClipboardRepository {
     override fun setPrimaryClip(label: String, text: String): ClipboardResult {
-        val setPrimaryClipOnApi32AndHigher =
-            clipboardManagerWrapper.setPrimaryClip(label = label, text = text)
+        clipboardManagerWrapper.setPrimaryClip(label = label, text = text)
 
-        return if (setPrimaryClipOnApi32AndHigher) {
+        return if (clipboardManagerWrapper.isSettingPrimaryClipOnApi32AndHigher()) {
             ClipboardResult.HideNotify
         } else {
             ClipboardResult.Notify(

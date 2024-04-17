@@ -21,6 +21,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.os.Build
+import androidx.annotation.ChecksSdkIntAtLeast
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
@@ -31,9 +32,12 @@ class DefaultClipboardManagerWrapper @Inject constructor(
     private val clipboardManager =
         context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
 
-    override fun setPrimaryClip(label: String, text: String): Boolean {
+    override fun setPrimaryClip(label: String, text: String) {
         clipboardManager.setPrimaryClip(ClipData.newPlainText(label, text))
+    }
 
+    @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.S_V2)
+    override fun isSettingPrimaryClipOnApi32AndHigher(): Boolean {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.S_V2
     }
 }

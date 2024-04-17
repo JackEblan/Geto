@@ -18,5 +18,7 @@
 package com.android.geto.core.packagemanager
 
 interface ClipboardManagerWrapper {
-    fun setPrimaryClip(label: String, text: String): Boolean
+    fun setPrimaryClip(label: String, text: String)
+
+    fun isSettingPrimaryClipOnApi32AndHigher(): Boolean
 }

@@ -29,8 +29,9 @@ class DefaultSecureSettingsRepository @Inject constructor(
     override suspend fun applySecureSettings(appSettings: List<AppSetting>): Boolean {
         return appSettings.all { appSetting ->
             secureSettingsWrapper.canWriteSecureSettings(
-                appSetting = appSetting,
-                value = { appSetting.valueOnLaunch },
+                settingType = appSetting.settingType,
+                key = appSetting.key,
+                value = appSetting.valueOnLaunch,
             )
         }
     }
@@ -38,8 +39,9 @@ class DefaultSecureSettingsRepository @Inject constructor(
     override suspend fun revertSecureSettings(appSettings: List<AppSetting>): Boolean {
         return appSettings.all { appSetting ->
             secureSettingsWrapper.canWriteSecureSettings(
-                appSetting = appSetting,
-                value = { appSetting.valueOnRevert },
+                settingType = appSetting.settingType,
+                key = appSetting.key,
+                value = appSetting.valueOnRevert,
             )
         }
     }

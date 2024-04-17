@@ -23,7 +23,6 @@ import androidx.core.database.getLongOrNull
 import androidx.core.database.getStringOrNull
 import com.android.geto.core.common.Dispatcher
 import com.android.geto.core.common.GetoDispatchers.IO
-import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.SecureSetting
 import com.android.geto.core.model.SettingType
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -45,27 +44,28 @@ class DefaultSecureSettingsWrapper @Inject constructor(
     )
 
     override suspend fun canWriteSecureSettings(
-        appSetting: AppSetting,
-        value: (AppSetting) -> String,
+        settingType: SettingType,
+        key: String,
+        value: String,
     ): Boolean {
         return withContext(ioDispatcher) {
-            when (appSetting.settingType) {
+            when (settingType) {
                 SettingType.SYSTEM -> Settings.System.putString(
                     contentResolver,
-                    appSetting.key,
-                    value(appSetting),
+                    key,
+                    value,
                 )
 
                 SettingType.SECURE -> Settings.Secure.putString(
                     contentResolver,
-                    appSetting.key,
-                    value(appSetting),
+                    key,
+                    value,
                 )
 
                 SettingType.GLOBAL -> Settings.Global.putString(
                     contentResolver,
-                    appSetting.key,
-                    value(appSetting),
+                    key,
+                    value,
                 )
             }
         }
