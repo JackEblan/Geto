@@ -18,15 +18,20 @@
 package com.android.geto.feature.appsettings
 
 import androidx.activity.ComponentActivity
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import com.android.geto.core.data.repository.ClipboardResult
+import com.android.geto.core.data.repository.ShortcutResult
 import com.android.geto.core.designsystem.component.GetoBackground
 import com.android.geto.core.designsystem.theme.GetoTheme
+import com.android.geto.core.domain.AppSettingsResult
 import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.SettingType
 import com.android.geto.core.screenshot.testing.util.DefaultTestDevices
 import com.android.geto.core.screenshot.testing.util.captureForDevice
 import com.android.geto.core.screenshot.testing.util.captureMultiDevice
+import com.android.geto.feature.appsettings.dialog.appsetting.rememberAppSettingDialogState
+import com.android.geto.feature.appsettings.dialog.copypermissioncommand.rememberCopyPermissionCommandDialogState
+import com.android.geto.feature.appsettings.dialog.shortcut.rememberShortcutDialogState
 import dagger.hilt.android.testing.HiltTestApplication
 import org.junit.Rule
 import org.junit.runner.RunWith
@@ -63,16 +68,35 @@ class AppSettingsScreenScreenshotTest {
         composeTestRule.captureMultiDevice("AppSettingsScreenPopulated") {
             GetoTheme {
                 AppSettingsScreen(
-                    snackbarHostState = SnackbarHostState(),
+                    packageName = "com.android.geto",
                     appName = "Geto",
                     appSettingsUiState = AppSettingsUiState.Success(appSettings),
+                    applicationIcon = null,
+                    secureSettings = emptyList(),
+                    applyAppSettingsResult = AppSettingsResult.NoResult,
+                    revertAppSettingsResult = AppSettingsResult.NoResult,
+                    shortcutResult = ShortcutResult.NoResult,
+                    clipboardResult = ClipboardResult.NoResult,
+                    copyPermissionCommandDialogState = rememberCopyPermissionCommandDialogState(),
+                    appSettingDialogState = rememberAppSettingDialogState(),
+                    addShortcutDialogState = rememberShortcutDialogState(),
+                    updateShortcutDialogState = rememberShortcutDialogState(),
                     onNavigationIconClick = {},
-                    onRevertSettingsIconClick = {},
-                    onSettingsIconClick = {},
-                    onShortcutIconClick = {},
-                    onAppSettingsItemCheckBoxChange = { _, _ -> },
-                    onDeleteAppSettingsItem = {},
+                    onRevertAppSettings = {},
+                    onGetShortcut = {},
+                    onGetApplicationIcon = {},
+                    onCheckAppSetting = { _, _ -> },
+                    onDeleteAppSetting = {},
                     onLaunchApp = {},
+                    onAutoLaunchApp = {},
+                    onResetAppSettingsResult = {},
+                    onResetShortcutResult = {},
+                    onResetClipboardResult = {},
+                    onGetSecureSettings = { _, _ -> },
+                    onAddAppSetting = {},
+                    onCopyPermissionCommand = {},
+                    onAddShortcut = {},
+                    onUpdateShortcut = {},
                 )
             }
         }
@@ -83,16 +107,35 @@ class AppSettingsScreenScreenshotTest {
         composeTestRule.captureMultiDevice("AppSettingsScreenLoading") {
             GetoTheme {
                 AppSettingsScreen(
-                    snackbarHostState = SnackbarHostState(),
+                    packageName = "com.android.geto",
                     appName = "Geto",
                     appSettingsUiState = AppSettingsUiState.Loading,
+                    applicationIcon = null,
+                    secureSettings = emptyList(),
+                    applyAppSettingsResult = AppSettingsResult.NoResult,
+                    revertAppSettingsResult = AppSettingsResult.NoResult,
+                    shortcutResult = ShortcutResult.NoResult,
+                    clipboardResult = ClipboardResult.NoResult,
+                    copyPermissionCommandDialogState = rememberCopyPermissionCommandDialogState(),
+                    appSettingDialogState = rememberAppSettingDialogState(),
+                    addShortcutDialogState = rememberShortcutDialogState(),
+                    updateShortcutDialogState = rememberShortcutDialogState(),
                     onNavigationIconClick = {},
-                    onRevertSettingsIconClick = {},
-                    onSettingsIconClick = {},
-                    onShortcutIconClick = {},
-                    onAppSettingsItemCheckBoxChange = { _, _ -> },
-                    onDeleteAppSettingsItem = {},
+                    onRevertAppSettings = {},
+                    onGetShortcut = {},
+                    onGetApplicationIcon = {},
+                    onCheckAppSetting = { _, _ -> },
+                    onDeleteAppSetting = {},
                     onLaunchApp = {},
+                    onAutoLaunchApp = {},
+                    onResetAppSettingsResult = {},
+                    onResetShortcutResult = {},
+                    onResetClipboardResult = {},
+                    onGetSecureSettings = { _, _ -> },
+                    onAddAppSetting = {},
+                    onCopyPermissionCommand = {},
+                    onAddShortcut = {},
+                    onUpdateShortcut = {},
                 )
             }
         }
@@ -103,16 +146,35 @@ class AppSettingsScreenScreenshotTest {
         composeTestRule.captureMultiDevice("AppSettingsScreenEmpty") {
             GetoTheme {
                 AppSettingsScreen(
-                    snackbarHostState = SnackbarHostState(),
+                    packageName = "com.android.geto",
                     appName = "Geto",
                     appSettingsUiState = AppSettingsUiState.Success(emptyList()),
+                    applicationIcon = null,
+                    secureSettings = emptyList(),
+                    applyAppSettingsResult = AppSettingsResult.NoResult,
+                    revertAppSettingsResult = AppSettingsResult.NoResult,
+                    shortcutResult = ShortcutResult.NoResult,
+                    clipboardResult = ClipboardResult.NoResult,
+                    copyPermissionCommandDialogState = rememberCopyPermissionCommandDialogState(),
+                    appSettingDialogState = rememberAppSettingDialogState(),
+                    addShortcutDialogState = rememberShortcutDialogState(),
+                    updateShortcutDialogState = rememberShortcutDialogState(),
                     onNavigationIconClick = {},
-                    onRevertSettingsIconClick = {},
-                    onSettingsIconClick = {},
-                    onShortcutIconClick = {},
-                    onAppSettingsItemCheckBoxChange = { _, _ -> },
-                    onDeleteAppSettingsItem = {},
+                    onRevertAppSettings = {},
+                    onGetShortcut = {},
+                    onGetApplicationIcon = {},
+                    onCheckAppSetting = { _, _ -> },
+                    onDeleteAppSetting = {},
                     onLaunchApp = {},
+                    onAutoLaunchApp = {},
+                    onResetAppSettingsResult = {},
+                    onResetShortcutResult = {},
+                    onResetClipboardResult = {},
+                    onGetSecureSettings = { _, _ -> },
+                    onAddAppSetting = {},
+                    onCopyPermissionCommand = {},
+                    onAddShortcut = {},
+                    onUpdateShortcut = {},
                 )
             }
         }
@@ -129,16 +191,35 @@ class AppSettingsScreenScreenshotTest {
             GetoTheme {
                 GetoBackground {
                     AppSettingsScreen(
-                        snackbarHostState = SnackbarHostState(),
+                        packageName = "com.android.geto",
                         appName = "Geto",
                         appSettingsUiState = AppSettingsUiState.Success(appSettings),
+                        applicationIcon = null,
+                        secureSettings = emptyList(),
+                        applyAppSettingsResult = AppSettingsResult.NoResult,
+                        revertAppSettingsResult = AppSettingsResult.NoResult,
+                        shortcutResult = ShortcutResult.NoResult,
+                        clipboardResult = ClipboardResult.NoResult,
+                        copyPermissionCommandDialogState = rememberCopyPermissionCommandDialogState(),
+                        appSettingDialogState = rememberAppSettingDialogState(),
+                        addShortcutDialogState = rememberShortcutDialogState(),
+                        updateShortcutDialogState = rememberShortcutDialogState(),
                         onNavigationIconClick = {},
-                        onRevertSettingsIconClick = {},
-                        onSettingsIconClick = {},
-                        onShortcutIconClick = {},
-                        onAppSettingsItemCheckBoxChange = { _, _ -> },
-                        onDeleteAppSettingsItem = {},
+                        onRevertAppSettings = {},
+                        onGetShortcut = {},
+                        onGetApplicationIcon = {},
+                        onCheckAppSetting = { _, _ -> },
+                        onDeleteAppSetting = {},
                         onLaunchApp = {},
+                        onAutoLaunchApp = {},
+                        onResetAppSettingsResult = {},
+                        onResetShortcutResult = {},
+                        onResetClipboardResult = {},
+                        onGetSecureSettings = { _, _ -> },
+                        onAddAppSetting = {},
+                        onCopyPermissionCommand = {},
+                        onAddShortcut = {},
+                        onUpdateShortcut = {},
                     )
                 }
             }
@@ -156,16 +237,35 @@ class AppSettingsScreenScreenshotTest {
             GetoTheme {
                 GetoBackground {
                     AppSettingsScreen(
-                        snackbarHostState = SnackbarHostState(),
+                        packageName = "com.android.geto",
                         appName = "Geto",
                         appSettingsUiState = AppSettingsUiState.Loading,
+                        applicationIcon = null,
+                        secureSettings = emptyList(),
+                        applyAppSettingsResult = AppSettingsResult.NoResult,
+                        revertAppSettingsResult = AppSettingsResult.NoResult,
+                        shortcutResult = ShortcutResult.NoResult,
+                        clipboardResult = ClipboardResult.NoResult,
+                        copyPermissionCommandDialogState = rememberCopyPermissionCommandDialogState(),
+                        appSettingDialogState = rememberAppSettingDialogState(),
+                        addShortcutDialogState = rememberShortcutDialogState(),
+                        updateShortcutDialogState = rememberShortcutDialogState(),
                         onNavigationIconClick = {},
-                        onRevertSettingsIconClick = {},
-                        onSettingsIconClick = {},
-                        onShortcutIconClick = {},
-                        onAppSettingsItemCheckBoxChange = { _, _ -> },
-                        onDeleteAppSettingsItem = {},
+                        onRevertAppSettings = {},
+                        onGetShortcut = {},
+                        onGetApplicationIcon = {},
+                        onCheckAppSetting = { _, _ -> },
+                        onDeleteAppSetting = {},
                         onLaunchApp = {},
+                        onAutoLaunchApp = {},
+                        onResetAppSettingsResult = {},
+                        onResetShortcutResult = {},
+                        onResetClipboardResult = {},
+                        onGetSecureSettings = { _, _ -> },
+                        onAddAppSetting = {},
+                        onCopyPermissionCommand = {},
+                        onAddShortcut = {},
+                        onUpdateShortcut = {},
                     )
                 }
             }
@@ -183,16 +283,35 @@ class AppSettingsScreenScreenshotTest {
             GetoTheme {
                 GetoBackground {
                     AppSettingsScreen(
-                        snackbarHostState = SnackbarHostState(),
+                        packageName = "com.android.geto",
                         appName = "Geto",
                         appSettingsUiState = AppSettingsUiState.Success(emptyList()),
+                        applicationIcon = null,
+                        secureSettings = emptyList(),
+                        applyAppSettingsResult = AppSettingsResult.NoResult,
+                        revertAppSettingsResult = AppSettingsResult.NoResult,
+                        shortcutResult = ShortcutResult.NoResult,
+                        clipboardResult = ClipboardResult.NoResult,
+                        copyPermissionCommandDialogState = rememberCopyPermissionCommandDialogState(),
+                        appSettingDialogState = rememberAppSettingDialogState(),
+                        addShortcutDialogState = rememberShortcutDialogState(),
+                        updateShortcutDialogState = rememberShortcutDialogState(),
                         onNavigationIconClick = {},
-                        onRevertSettingsIconClick = {},
-                        onSettingsIconClick = {},
-                        onShortcutIconClick = {},
-                        onAppSettingsItemCheckBoxChange = { _, _ -> },
-                        onDeleteAppSettingsItem = {},
+                        onRevertAppSettings = {},
+                        onGetShortcut = {},
+                        onGetApplicationIcon = {},
+                        onCheckAppSetting = { _, _ -> },
+                        onDeleteAppSetting = {},
                         onLaunchApp = {},
+                        onAutoLaunchApp = {},
+                        onResetAppSettingsResult = {},
+                        onResetShortcutResult = {},
+                        onResetClipboardResult = {},
+                        onGetSecureSettings = { _, _ -> },
+                        onAddAppSetting = {},
+                        onCopyPermissionCommand = {},
+                        onAddShortcut = {},
+                        onUpdateShortcut = {},
                     )
                 }
             }

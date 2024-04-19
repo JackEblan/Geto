@@ -84,24 +84,15 @@ internal fun SettingsRoute(
 
     var darkDialogSelected by rememberSaveable { mutableIntStateOf(0) }
 
-    LaunchedEffect(key1 = settingsUiState) {
-        when (settingsUiState) {
-            SettingsUiState.Loading -> Unit
-            is SettingsUiState.Success -> {
-                val brandIndex = ThemeBrand.entries.indexOf(settingsUiState.userData.themeBrand)
-                val darkThemeConfigIndex =
-                    DarkThemeConfig.entries.indexOf(settingsUiState.userData.darkThemeConfig)
-
-                themeDialogSelected = brandIndex
-                darkDialogSelected = darkThemeConfigIndex
-            }
-        }
-    }
-
-    SettingsScreenDialogs(
+    SettingsScreen(
+        modifier = modifier,
+        settingsUiState = settingsUiState,
         showThemeDialog = showThemeDialog,
         showDarkDialog = showDarkDialog,
         showCleanDialog = showCleanDialog,
+        onShowThemeDialog = { showThemeDialog = true },
+        onShowDarkDialog = { showDarkDialog = true },
+        onShowCleanDialog = { showCleanDialog = true },
         themeDialogSelected = themeDialogSelected,
         darkDialogSelected = darkDialogSelected,
         onThemeDialogSelect = { themeDialogSelected = it },
@@ -118,16 +109,6 @@ internal fun SettingsRoute(
         onCleanDialogDismissRequest = {
             showCleanDialog = false
         },
-    )
-
-    SettingsScreen(
-        modifier = modifier,
-        settingsUiState = settingsUiState,
-        onThemeDialog = { showThemeDialog = true },
-        onDarkDialog = { showDarkDialog = true },
-        onCleanDialog = {
-            showCleanDialog = true
-        },
         onChangeDynamicColorPreference = viewModel::updateDynamicColorPreference,
         onChangeAutoLaunchPreference = viewModel::updateAutoLaunchPreference,
         onNavigationIconClick = onNavigationIconClick,
@@ -141,36 +122,92 @@ internal fun SettingsScreen(
     settingsUiState: SettingsUiState,
     scrollState: ScrollState = rememberScrollState(),
     supportDynamicColor: Boolean = supportsDynamicTheming(),
-    onThemeDialog: () -> Unit,
-    onDarkDialog: () -> Unit,
-    onCleanDialog: () -> Unit,
+    showThemeDialog: Boolean,
+    showDarkDialog: Boolean,
+    showCleanDialog: Boolean,
+    onShowThemeDialog: () -> Unit,
+    onShowDarkDialog: () -> Unit,
+    onShowCleanDialog: () -> Unit,
+    themeDialogSelected: Int,
+    darkDialogSelected: Int,
+    onThemeDialogSelect: (Int) -> Unit,
+    onDarkDialogSelect: (Int) -> Unit,
+    onUpdateThemeBrand: (ThemeBrand) -> Unit,
+    onUpdateDarkThemeConfig: (DarkThemeConfig) -> Unit,
+    onCleanAppSettings: () -> Unit,
+    onThemeDialogDismissRequest: () -> Unit,
+    onDarkDialogDismissRequest: () -> Unit,
+    onCleanDialogDismissRequest: () -> Unit,
     onChangeDynamicColorPreference: (useDynamicColor: Boolean) -> Unit,
     onChangeAutoLaunchPreference: (useAutoLaunch: Boolean) -> Unit,
     onNavigationIconClick: () -> Unit,
 ) {
+    LaunchedEffect(key1 = settingsUiState) {
+        when (settingsUiState) {
+            SettingsUiState.Loading -> Unit
+            is SettingsUiState.Success -> {
+                val themeBrandIndex =
+                    ThemeBrand.entries.indexOf(settingsUiState.userData.themeBrand)
+                val darkThemeConfigIndex =
+                    DarkThemeConfig.entries.indexOf(settingsUiState.userData.darkThemeConfig)
+
+                onThemeDialogSelect(themeBrandIndex)
+                onDarkDialogSelect(darkThemeConfigIndex)
+            }
+        }
+    }
+    SettingsScreenDialogs(
+        showThemeDialog = showThemeDialog,
+        showDarkDialog = showDarkDialog,
+        showCleanDialog = showCleanDialog,
+        themeDialogSelected = themeDialogSelected,
+        darkDialogSelected = darkDialogSelected,
+        onThemeDialogSelect = onThemeDialogSelect,
+        onDarkDialogSelect = onDarkDialogSelect,
+        onUpdateThemeBrand = onUpdateThemeBrand,
+        onUpdateDarkThemeConfig = onUpdateDarkThemeConfig,
+        onCleanAppSettings = onCleanAppSettings,
+        onThemeDialogDismissRequest = onThemeDialogDismissRequest,
+        onDarkDialogDismissRequest = onDarkDialogDismissRequest,
+        onCleanDialogDismissRequest = onCleanDialogDismissRequest,
+    )
+
     Scaffold(
         topBar = {
             SettingsTopAppBAr(onNavigationIconClick = onNavigationIconClick)
         },
     ) { innerPadding ->
-        SettingsContent(
-            modifier = modifier,
-            innerPadding = innerPadding,
-            scrollState = scrollState,
-            settingsUiState = settingsUiState,
-            supportDynamicColor = supportDynamicColor,
-            onThemeDialog = onThemeDialog,
-            onDarkDialog = onDarkDialog,
-            onCleanDialog = onCleanDialog,
-            onChangeDynamicColorPreference = onChangeDynamicColorPreference,
-            onChangeAutoLaunchPreference = onChangeAutoLaunchPreference,
-        )
+        Box(
+            modifier = modifier
+                .fillMaxSize()
+                .consumeWindowInsets(innerPadding)
+                .verticalScroll(scrollState)
+                .testTag("applist"),
+        ) {
+            when (settingsUiState) {
+                SettingsUiState.Loading -> LoadingState(
+                    modifier = Modifier.align(Alignment.Center),
+                )
+
+                is SettingsUiState.Success -> {
+                    SuccessState(
+                        contentPadding = innerPadding,
+                        settingsUiState = settingsUiState,
+                        supportDynamicColor = supportDynamicColor,
+                        onShowThemeDialog = onShowThemeDialog,
+                        onShowDarkDialog = onShowDarkDialog,
+                        onShowCleanDialog = onShowCleanDialog,
+                        onChangeDynamicColorPreference = onChangeDynamicColorPreference,
+                        onChangeAutoLaunchPreference = onChangeAutoLaunchPreference,
+                    )
+                }
+            }
+        }
     }
 }
 
-@VisibleForTesting
 @Composable
-internal fun SettingsScreenDialogs(
+private fun SettingsScreenDialogs(
     showThemeDialog: Boolean,
     showDarkDialog: Boolean,
     showCleanDialog: Boolean,
@@ -261,47 +298,6 @@ private fun SettingsTopAppBAr(onNavigationIconClick: () -> Unit) {
 }
 
 @Composable
-private fun SettingsContent(
-    modifier: Modifier = Modifier,
-    innerPadding: PaddingValues,
-    scrollState: ScrollState,
-    settingsUiState: SettingsUiState,
-    supportDynamicColor: Boolean = supportsDynamicTheming(),
-    onThemeDialog: () -> Unit,
-    onDarkDialog: () -> Unit,
-    onCleanDialog: () -> Unit,
-    onChangeDynamicColorPreference: (useDynamicColor: Boolean) -> Unit,
-    onChangeAutoLaunchPreference: (useAutoLaunch: Boolean) -> Unit,
-) {
-    Box(
-        modifier = modifier
-            .fillMaxSize()
-            .consumeWindowInsets(innerPadding)
-            .verticalScroll(scrollState)
-            .testTag("applist"),
-    ) {
-        when (settingsUiState) {
-            SettingsUiState.Loading -> LoadingState(
-                modifier = Modifier.align(Alignment.Center),
-            )
-
-            is SettingsUiState.Success -> {
-                SuccessState(
-                    contentPadding = innerPadding,
-                    settingsUiState = settingsUiState,
-                    supportDynamicColor = supportDynamicColor,
-                    onThemeDialog = onThemeDialog,
-                    onDarkDialog = onDarkDialog,
-                    onCleanDialog = onCleanDialog,
-                    onChangeDynamicColorPreference = onChangeDynamicColorPreference,
-                    onChangeAutoLaunchPreference = onChangeAutoLaunchPreference,
-                )
-            }
-        }
-    }
-}
-
-@Composable
 private fun LoadingState(modifier: Modifier = Modifier) {
     GetoLoadingWheel(
         modifier = modifier,
@@ -315,9 +311,9 @@ private fun SuccessState(
     contentPadding: PaddingValues,
     settingsUiState: SettingsUiState.Success,
     supportDynamicColor: Boolean = supportsDynamicTheming(),
-    onThemeDialog: () -> Unit,
-    onDarkDialog: () -> Unit,
-    onCleanDialog: () -> Unit,
+    onShowThemeDialog: () -> Unit,
+    onShowDarkDialog: () -> Unit,
+    onShowCleanDialog: () -> Unit,
     onChangeDynamicColorPreference: (useDynamicColor: Boolean) -> Unit,
     onChangeAutoLaunchPreference: (useAutoLaunch: Boolean) -> Unit,
 ) {
@@ -329,7 +325,7 @@ private fun SuccessState(
     ) {
         ThemeSetting(
             settingsUiState = settingsUiState,
-            onThemeDialog = onThemeDialog,
+            onThemeDialog = onShowThemeDialog,
         )
 
         DynamicSetting(
@@ -340,7 +336,7 @@ private fun SuccessState(
 
         DarkSetting(
             settingsUiState = settingsUiState,
-            onDarkDialog = onDarkDialog,
+            onDarkDialog = onShowDarkDialog,
         )
 
         SettingHorizontalDivider(categoryTitle = stringResource(R.string.application))
@@ -350,7 +346,7 @@ private fun SuccessState(
             onChangeAutoLaunchPreference = onChangeAutoLaunchPreference,
         )
 
-        CleanSetting(onCleanDialog = onCleanDialog)
+        CleanSetting(onCleanDialog = onShowCleanDialog)
     }
 }
 
@@ -538,9 +534,22 @@ private fun SettingsScreenLoadingStatePreview() {
         SettingsScreen(
             settingsUiState = SettingsUiState.Loading,
             supportDynamicColor = false,
-            onThemeDialog = {},
-            onDarkDialog = {},
-            onCleanDialog = {},
+            showThemeDialog = false,
+            showDarkDialog = false,
+            showCleanDialog = false,
+            onShowThemeDialog = {},
+            onShowDarkDialog = {},
+            onShowCleanDialog = {},
+            themeDialogSelected = 0,
+            darkDialogSelected = 0,
+            onThemeDialogSelect = {},
+            onDarkDialogSelect = {},
+            onUpdateThemeBrand = {},
+            onUpdateDarkThemeConfig = {},
+            onCleanAppSettings = {},
+            onThemeDialogDismissRequest = {},
+            onDarkDialogDismissRequest = {},
+            onCleanDialogDismissRequest = {},
             onChangeDynamicColorPreference = {},
             onChangeAutoLaunchPreference = {},
             onNavigationIconClick = {},
@@ -561,10 +570,23 @@ private fun SettingsScreenSuccessStatePreview() {
                     useAutoLaunch = false,
                 ),
             ),
-            supportDynamicColor = true,
-            onThemeDialog = {},
-            onDarkDialog = {},
-            onCleanDialog = {},
+            supportDynamicColor = false,
+            showThemeDialog = false,
+            showDarkDialog = false,
+            showCleanDialog = false,
+            onShowThemeDialog = {},
+            onShowDarkDialog = {},
+            onShowCleanDialog = {},
+            themeDialogSelected = 0,
+            darkDialogSelected = 0,
+            onThemeDialogSelect = {},
+            onDarkDialogSelect = {},
+            onUpdateThemeBrand = {},
+            onUpdateDarkThemeConfig = {},
+            onCleanAppSettings = {},
+            onThemeDialogDismissRequest = {},
+            onDarkDialogDismissRequest = {},
+            onCleanDialogDismissRequest = {},
             onChangeDynamicColorPreference = {},
             onChangeAutoLaunchPreference = {},
             onNavigationIconClick = {},

@@ -5,7 +5,19 @@
       <entry key="AppListBaselineProfile">
         <State />
       </entry>
+      <entry key="AppSettingsScreenDialogsTest">
+        <State />
+      </entry>
+      <entry key="AppSettingsScreenSnackbarTest">
+        <State />
+      </entry>
+      <entry key="AppSettingsScreenTest">
+        <State />
+      </entry>
       <entry key="Generate Baseline Profile for app">
+        <State />
+      </entry>
+      <entry key="SettingsScreenTest">
         <State />
       </entry>
       <entry key="app">
@@ -14,10 +26,10 @@
       <entry key="app-geto-catalog">
         <State />
       </entry>
-      <entry key="copyPermissionCommandDialog_isDisplayed_thenDismissed()">
+      <entry key="feature.shortcut">
         <State />
       </entry>
-      <entry key="feature.shortcut">
+      <entry key="snackbar_isDisplayed_whenApplyAppSettingsResult_isDisabledAppSettings()">
         <State />
       </entry>
     </value>

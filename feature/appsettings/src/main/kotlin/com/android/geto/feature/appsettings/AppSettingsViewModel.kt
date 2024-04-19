@@ -97,7 +97,7 @@ class AppSettingsViewModel @Inject constructor(
                 initialValue = AppSettingsUiState.Loading,
             )
 
-    fun applySettings() {
+    fun applyAppSettings() {
         viewModelScope.launch {
             _applyAppSettingsResult.update { applyAppSettingsUseCase(packageName = packageName) }
         }
@@ -109,7 +109,7 @@ class AppSettingsViewModel @Inject constructor(
         }
     }
 
-    fun appSettingsItemCheckBoxChange(checked: Boolean, appSetting: AppSetting) {
+    fun checkAppSetting(checked: Boolean, appSetting: AppSetting) {
         viewModelScope.launch {
             val updatedUserAppSettingsItem = appSetting.copy(enabled = checked)
 
@@ -119,13 +119,13 @@ class AppSettingsViewModel @Inject constructor(
         }
     }
 
-    fun deleteAppSettingsItem(appSetting: AppSetting) {
+    fun deleteAppSetting(appSetting: AppSetting) {
         viewModelScope.launch {
             appSettingsRepository.deleteAppSetting(appSetting)
         }
     }
 
-    fun addSettings(appSetting: AppSetting) {
+    fun addAppSettings(appSetting: AppSetting) {
         viewModelScope.launch {
             appSettingsRepository.upsertAppSetting(appSetting)
         }
@@ -146,7 +146,7 @@ class AppSettingsViewModel @Inject constructor(
         }
     }
 
-    fun revertSettings() {
+    fun revertAppSettings() {
         viewModelScope.launch {
             _revertAppSettingsResult.update { revertAppSettingsUseCase(packageName = packageName) }
         }
@@ -193,16 +193,16 @@ class AppSettingsViewModel @Inject constructor(
         }
     }
 
-    fun clearAppSettingsResult() {
+    fun resetAppSettingsResult() {
         _applyAppSettingsResult.update { AppSettingsResult.NoResult }
         _revertAppSettingsResult.update { AppSettingsResult.NoResult }
     }
 
-    fun clearShortcutResult() {
+    fun resetShortcutResult() {
         _shortcutResult.update { ShortcutResult.NoResult }
     }
 
-    fun clearClipboardResult() {
+    fun resetClipboardResult() {
         _clipboardResult.update { ClipboardResult.NoResult }
     }
 }

@@ -18,6 +18,7 @@
 package com.android.geto.feature.appsettings
 
 import android.content.Intent
+import android.graphics.drawable.Drawable
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -50,10 +51,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
@@ -74,12 +72,16 @@ import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.domain.AppSettingsResult
 import com.android.geto.core.domain.AutoLaunchResult
 import com.android.geto.core.model.AppSetting
+import com.android.geto.core.model.SecureSetting
 import com.android.geto.core.model.SettingType
+import com.android.geto.core.model.TargetShortcutInfoCompat
 import com.android.geto.core.ui.AppSettingsPreviewParameterProvider
 import com.android.geto.core.ui.DevicePreviews
 import com.android.geto.feature.appsettings.dialog.appsetting.AppSettingDialog
 import com.android.geto.feature.appsettings.dialog.appsetting.AppSettingDialogState
 import com.android.geto.feature.appsettings.dialog.appsetting.rememberAppSettingDialogState
+import com.android.geto.feature.appsettings.dialog.copypermissioncommand.CopyPermissionCommandDialogState
+import com.android.geto.feature.appsettings.dialog.copypermissioncommand.rememberCopyPermissionCommandDialogState
 import com.android.geto.feature.appsettings.dialog.shortcut.ShortcutDialog
 import com.android.geto.feature.appsettings.dialog.shortcut.ShortcutDialogState
 import com.android.geto.feature.appsettings.dialog.shortcut.rememberShortcutDialogState
@@ -89,6 +91,224 @@ internal fun AppSettingsRoute(
     modifier: Modifier = Modifier,
     viewModel: AppSettingsViewModel = hiltViewModel(),
     onNavigationIconClick: () -> Unit,
+) {
+    val appSettingsUiState = viewModel.appSettingUiState.collectAsStateWithLifecycle().value
+
+    val secureSettings = viewModel.secureSettings.collectAsStateWithLifecycle().value
+
+    val applyAppSettingsResult =
+        viewModel.applyAppSettingsResult.collectAsStateWithLifecycle().value
+
+    val revertAppSettingsResult =
+        viewModel.revertAppSettingsResult.collectAsStateWithLifecycle().value
+
+    val applicationIcon = viewModel.applicationIcon.collectAsStateWithLifecycle().value
+
+    val shortcutResult = viewModel.shortcutResult.collectAsStateWithLifecycle().value
+
+    val clipboardResult = viewModel.clipboardResult.collectAsStateWithLifecycle().value
+
+    val copyPermissionCommandDialogState = rememberCopyPermissionCommandDialogState()
+
+    val appSettingDialogState = rememberAppSettingDialogState()
+
+    val addShortcutDialogState = rememberShortcutDialogState()
+
+    val updateShortcutDialogState = rememberShortcutDialogState()
+
+    AppSettingsScreen(
+        modifier = modifier,
+        packageName = viewModel.packageName,
+        appName = viewModel.appName,
+        appSettingsUiState = appSettingsUiState,
+        applicationIcon = applicationIcon,
+        secureSettings = secureSettings,
+        applyAppSettingsResult = applyAppSettingsResult,
+        revertAppSettingsResult = revertAppSettingsResult,
+        shortcutResult = shortcutResult,
+        clipboardResult = clipboardResult,
+        copyPermissionCommandDialogState = copyPermissionCommandDialogState,
+        appSettingDialogState = appSettingDialogState,
+        addShortcutDialogState = addShortcutDialogState,
+        updateShortcutDialogState = updateShortcutDialogState,
+        onNavigationIconClick = onNavigationIconClick,
+        onRevertAppSettings = viewModel::revertAppSettings,
+        onGetShortcut = viewModel::getShortcut,
+        onGetApplicationIcon = viewModel::getApplicationIcon,
+        onCheckAppSetting = viewModel::checkAppSetting,
+        onDeleteAppSetting = viewModel::deleteAppSetting,
+        onLaunchApp = viewModel::applyAppSettings,
+        onAutoLaunchApp = viewModel::autoLaunchApp,
+        onResetAppSettingsResult = viewModel::resetAppSettingsResult,
+        onResetShortcutResult = viewModel::resetShortcutResult,
+        onResetClipboardResult = viewModel::resetClipboardResult,
+        onGetSecureSettings = viewModel::getSecureSettings,
+        onAddAppSetting = viewModel::addAppSettings,
+        onCopyPermissionCommand = viewModel::copyPermissionCommand,
+        onAddShortcut = viewModel::requestPinShortcut,
+        onUpdateShortcut = viewModel::updateRequestPinShortcut,
+    )
+}
+
+@VisibleForTesting
+@Composable
+internal fun AppSettingsScreen(
+    modifier: Modifier = Modifier,
+    packageName: String,
+    appName: String,
+    appSettingsUiState: AppSettingsUiState,
+    applicationIcon: Drawable?,
+    secureSettings: List<SecureSetting>,
+    applyAppSettingsResult: AppSettingsResult,
+    revertAppSettingsResult: AppSettingsResult,
+    shortcutResult: ShortcutResult,
+    clipboardResult: ClipboardResult,
+    copyPermissionCommandDialogState: CopyPermissionCommandDialogState,
+    appSettingDialogState: AppSettingDialogState,
+    addShortcutDialogState: ShortcutDialogState,
+    updateShortcutDialogState: ShortcutDialogState,
+    onNavigationIconClick: () -> Unit,
+    onRevertAppSettings: () -> Unit,
+    onGetShortcut: () -> Unit,
+    onGetApplicationIcon: () -> Unit,
+    onCheckAppSetting: (Boolean, AppSetting) -> Unit,
+    onDeleteAppSetting: (AppSetting) -> Unit,
+    onLaunchApp: () -> Unit,
+    onAutoLaunchApp: () -> Unit,
+    onResetAppSettingsResult: () -> Unit,
+    onResetShortcutResult: () -> Unit,
+    onResetClipboardResult: () -> Unit,
+    onGetSecureSettings: (String, SettingType) -> Unit,
+    onAddAppSetting: (AppSetting) -> Unit,
+    onCopyPermissionCommand: () -> Unit,
+    onAddShortcut: (TargetShortcutInfoCompat) -> Unit,
+    onUpdateShortcut: (TargetShortcutInfoCompat) -> Unit,
+) {
+    val shortcutIntent = Intent().apply {
+        action = Intent.ACTION_VIEW
+        this.setClassName("com.android.geto", "com.android.geto.MainActivity")
+        data = "https://www.android.geto.com/$packageName/$appName".toUri()
+    }
+
+    val snackbarHostState = remember {
+        SnackbarHostState()
+    }
+
+    AppSettingsLaunchedEffects(
+        snackbarHostState = snackbarHostState,
+        copyPermissionCommandDialogState = copyPermissionCommandDialogState,
+        appSettingDialogState = appSettingDialogState,
+        addShortcutDialogState = addShortcutDialogState,
+        updateShortcutDialogState = updateShortcutDialogState,
+        applicationIcon = applicationIcon,
+        secureSettings = secureSettings,
+        applyAppSettingsResult = applyAppSettingsResult,
+        revertAppSettingsResult = revertAppSettingsResult,
+        shortcutResult = shortcutResult,
+        clipboardResult = clipboardResult,
+        onAutoLaunchApp = onAutoLaunchApp,
+        onGetApplicationIcon = onGetApplicationIcon,
+        onResetAppSettingsResult = onResetAppSettingsResult,
+        onResetShortcutResult = onResetShortcutResult,
+        onResetClipboardResult = onResetClipboardResult,
+        onGetSecureSettings = onGetSecureSettings,
+    )
+
+    AppSettingsDialogs(
+        copyPermissionCommandDialogState = copyPermissionCommandDialogState,
+        appSettingDialogState = appSettingDialogState,
+        addShortcutDialogState = addShortcutDialogState,
+        updateShortcutDialogState = updateShortcutDialogState,
+        onAddAppSetting = {
+            appSettingDialogState.getAppSetting(packageName = packageName)?.let(onAddAppSetting)
+        },
+        onCopyPermissionCommand = onCopyPermissionCommand,
+        onAddShortcut = {
+            addShortcutDialogState.getShortcut(
+                packageName = packageName,
+                shortcutIntent = shortcutIntent,
+            )?.let(onAddShortcut)
+        },
+        onUpdateShortcut = {
+            updateShortcutDialogState.getShortcut(
+                packageName = packageName,
+                shortcutIntent = shortcutIntent,
+            )?.let(onUpdateShortcut)
+        },
+    )
+
+    Scaffold(
+        topBar = {
+            AppSettingsTopAppBar(
+                title = appName,
+                onNavigationIconClick = onNavigationIconClick,
+            )
+        },
+        bottomBar = {
+            AppSettingsBottomAppBar(
+                onRevertSettingsIconClick = onRevertAppSettings,
+                onSettingsIconClick = {
+                    appSettingDialogState.updateShowDialog(true)
+                },
+                onShortcutIconClick = {
+                    onGetShortcut()
+                },
+                onLaunchApp = onLaunchApp,
+            )
+        },
+        snackbarHost = {
+            SnackbarHost(
+                hostState = snackbarHostState,
+                modifier = Modifier.testTag("appSettings:snackbar"),
+            )
+        },
+    ) { innerPadding ->
+        Box(
+            modifier = modifier
+                .fillMaxSize()
+                .consumeWindowInsets(innerPadding),
+        ) {
+            when (appSettingsUiState) {
+                AppSettingsUiState.Loading -> {
+                    LoadingState(modifier = Modifier.align(Alignment.Center))
+                }
+
+                is AppSettingsUiState.Success -> {
+                    if (appSettingsUiState.appSettingList.isNotEmpty()) {
+                        SuccessState(
+                            appSettingsUiState = appSettingsUiState,
+                            contentPadding = innerPadding,
+                            onAppSettingsItemCheckBoxChange = onCheckAppSetting,
+                            onDeleteAppSettingsItem = onDeleteAppSetting,
+                        )
+                    } else {
+                        EmptyState(text = stringResource(R.string.add_your_first_settings))
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun AppSettingsLaunchedEffects(
+    snackbarHostState: SnackbarHostState,
+    copyPermissionCommandDialogState: CopyPermissionCommandDialogState,
+    appSettingDialogState: AppSettingDialogState,
+    addShortcutDialogState: ShortcutDialogState,
+    updateShortcutDialogState: ShortcutDialogState,
+    applicationIcon: Drawable?,
+    secureSettings: List<SecureSetting>,
+    applyAppSettingsResult: AppSettingsResult,
+    revertAppSettingsResult: AppSettingsResult,
+    shortcutResult: ShortcutResult,
+    clipboardResult: ClipboardResult,
+    onAutoLaunchApp: () -> Unit,
+    onGetApplicationIcon: () -> Unit,
+    onResetAppSettingsResult: () -> Unit,
+    onResetShortcutResult: () -> Unit,
+    onResetClipboardResult: () -> Unit,
+    onGetSecureSettings: (String, SettingType) -> Unit,
 ) {
     val appSettingsDisabled = stringResource(id = R.string.app_settings_disabled)
     val emptyAppSettingsList = stringResource(id = R.string.empty_app_settings_list)
@@ -110,46 +330,11 @@ internal fun AppSettingsRoute(
 
     val context = LocalContext.current
 
-    val shortcutIntent = Intent().apply {
-        action = Intent.ACTION_VIEW
-        this.setClassName("com.android.geto", "com.android.geto.MainActivity")
-        data = "https://www.android.geto.com/${viewModel.packageName}/${viewModel.appName}".toUri()
-    }
-
-    val snackbarHostState = remember {
-        SnackbarHostState()
-    }
-
-    val appSettingsUiState = viewModel.appSettingUiState.collectAsStateWithLifecycle().value
-
-    var showCopyPermissionCommandDialog by remember {
-        mutableStateOf(false)
-    }
-
-    val secureSettings = viewModel.secureSettings.collectAsStateWithLifecycle().value
-
-    val applyAppSettingsResult =
-        viewModel.applyAppSettingsResult.collectAsStateWithLifecycle().value
-
-    val revertAppSettingsResult =
-        viewModel.revertAppSettingsResult.collectAsStateWithLifecycle().value
-
-    val applicationIcon = viewModel.applicationIcon.collectAsStateWithLifecycle().value
-
-    val shortcutResult = viewModel.shortcutResult.collectAsStateWithLifecycle().value
-
-    val clipboardResult = viewModel.clipboardResult.collectAsStateWithLifecycle().value
-
-    val appSettingDialogState = rememberAppSettingDialogState()
-
-    val addShortcutDialogState = rememberShortcutDialogState()
-
-    val updateShortcutDialogState = rememberShortcutDialogState()
-
     val keyDebounce = appSettingDialogState.keyDebounce.collectAsStateWithLifecycle("").value
 
     LaunchedEffect(key1 = true) {
-        viewModel.autoLaunchApp()
+        onAutoLaunchApp()
+        onGetApplicationIcon()
     }
 
     LaunchedEffect(key1 = applyAppSettingsResult) {
@@ -157,14 +342,17 @@ internal fun AppSettingsRoute(
             AppSettingsResult.DisabledAppSettings -> snackbarHostState.showSnackbar(message = appSettingsDisabled)
             AppSettingsResult.EmptyAppSettings -> snackbarHostState.showSnackbar(message = emptyAppSettingsList)
             AppSettingsResult.Failure -> snackbarHostState.showSnackbar(message = applyFailure)
-            AppSettingsResult.SecurityException -> showCopyPermissionCommandDialog = true
+            AppSettingsResult.SecurityException -> copyPermissionCommandDialogState.updateShowDialog(
+                true,
+            )
+
             is AppSettingsResult.Success -> applyAppSettingsResult.launchIntent?.let(context::startActivity)
             AutoLaunchResult.Ignore -> Unit
             AppSettingsResult.IllegalArgumentException -> snackbarHostState.showSnackbar(message = invalidValues)
             AppSettingsResult.NoResult -> Unit
         }
 
-        viewModel.clearAppSettingsResult()
+        onResetAppSettingsResult()
     }
 
     LaunchedEffect(key1 = revertAppSettingsResult) {
@@ -172,14 +360,17 @@ internal fun AppSettingsRoute(
             AppSettingsResult.DisabledAppSettings -> snackbarHostState.showSnackbar(message = appSettingsDisabled)
             AppSettingsResult.EmptyAppSettings -> snackbarHostState.showSnackbar(message = emptyAppSettingsList)
             AppSettingsResult.Failure -> snackbarHostState.showSnackbar(message = revertFailure)
-            AppSettingsResult.SecurityException -> showCopyPermissionCommandDialog = true
+            AppSettingsResult.SecurityException -> copyPermissionCommandDialogState.updateShowDialog(
+                true,
+            )
+
             is AppSettingsResult.Success -> snackbarHostState.showSnackbar(message = revertSuccess)
             AutoLaunchResult.Ignore -> Unit
             AppSettingsResult.IllegalArgumentException -> snackbarHostState.showSnackbar(message = invalidValues)
             AppSettingsResult.NoResult -> Unit
         }
 
-        viewModel.clearAppSettingsResult()
+        onResetAppSettingsResult()
     }
 
     LaunchedEffect(key1 = shortcutResult) {
@@ -208,7 +399,7 @@ internal fun AppSettingsRoute(
             ShortcutResult.NoResult -> Unit
         }
 
-        viewModel.clearShortcutResult()
+        onResetShortcutResult()
     }
 
     LaunchedEffect(key1 = clipboardResult) {
@@ -224,7 +415,7 @@ internal fun AppSettingsRoute(
             ClipboardResult.NoResult -> Unit
         }
 
-        viewModel.clearClipboardResult()
+        onResetClipboardResult()
     }
 
     LaunchedEffect(
@@ -233,9 +424,9 @@ internal fun AppSettingsRoute(
     ) {
         val settingType = SettingType.entries[appSettingDialogState.selectedRadioOptionIndex]
 
-        viewModel.getSecureSettings(
-            text = appSettingDialogState.key,
-            settingType = settingType,
+        onGetSecureSettings(
+            appSettingDialogState.key,
+            settingType,
         )
     }
 
@@ -249,139 +440,43 @@ internal fun AppSettingsRoute(
             updateShortcutDialogState.updateIcon(it)
         }
     }
-
-    AppSettingsDialogs(
-        showCopyPermissionCommandDialog = showCopyPermissionCommandDialog,
-        appSettingDialogState = appSettingDialogState,
-        addShortcutDialogState = addShortcutDialogState,
-        updateShortcutDialogState = updateShortcutDialogState,
-        onAddSetting = {
-            appSettingDialogState.getAppSetting(packageName = viewModel.packageName)?.let {
-                viewModel.addSettings(it)
-                appSettingDialogState.resetState()
-            }
-        },
-        onCopyPermissionCommand = {
-            viewModel.copyPermissionCommand()
-            showCopyPermissionCommandDialog = false
-        },
-        onAddShortcut = {
-            addShortcutDialogState.getShortcut(
-                packageName = viewModel.packageName,
-                shortcutIntent = shortcutIntent,
-            )?.let {
-                viewModel.requestPinShortcut(it)
-                addShortcutDialogState.resetState()
-            }
-        },
-        onUpdateShortcut = {
-            updateShortcutDialogState.getShortcut(
-                packageName = viewModel.packageName,
-                shortcutIntent = shortcutIntent,
-            )?.let {
-                viewModel.updateRequestPinShortcut(it)
-                updateShortcutDialogState.resetState()
-            }
-        },
-        onCopyPermissionCommandDialogDismissRequest = {
-            showCopyPermissionCommandDialog = false
-        },
-    )
-
-    AppSettingsScreen(
-        modifier = modifier,
-        snackbarHostState = snackbarHostState,
-        appName = viewModel.appName,
-        appSettingsUiState = appSettingsUiState,
-        onNavigationIconClick = onNavigationIconClick,
-        onRevertSettingsIconClick = viewModel::revertSettings,
-        onSettingsIconClick = {
-            appSettingDialogState.updateShowDialog(true)
-        },
-        onShortcutIconClick = {
-            viewModel.getShortcut()
-            viewModel.getApplicationIcon()
-        },
-        onAppSettingsItemCheckBoxChange = viewModel::appSettingsItemCheckBoxChange,
-        onDeleteAppSettingsItem = viewModel::deleteAppSettingsItem,
-        onLaunchApp = viewModel::applySettings,
-    )
-}
-
-@VisibleForTesting
-@Composable
-internal fun AppSettingsScreen(
-    modifier: Modifier = Modifier,
-    snackbarHostState: SnackbarHostState,
-    appName: String,
-    appSettingsUiState: AppSettingsUiState,
-    onNavigationIconClick: () -> Unit,
-    onRevertSettingsIconClick: () -> Unit,
-    onSettingsIconClick: () -> Unit,
-    onShortcutIconClick: () -> Unit,
-    onAppSettingsItemCheckBoxChange: (Boolean, AppSetting) -> Unit,
-    onDeleteAppSettingsItem: (AppSetting) -> Unit,
-    onLaunchApp: () -> Unit,
-) {
-    Scaffold(
-        topBar = {
-            AppSettingsTopAppBar(
-                title = appName,
-                onNavigationIconClick = onNavigationIconClick,
-            )
-        },
-        bottomBar = {
-            AppSettingsBottomAppBar(
-                onRevertSettingsIconClick = onRevertSettingsIconClick,
-                onSettingsIconClick = onSettingsIconClick,
-                onShortcutIconClick = onShortcutIconClick,
-                onLaunchApp = onLaunchApp,
-            )
-        },
-        snackbarHost = {
-            SnackbarHost(hostState = snackbarHostState)
-        },
-    ) { innerPadding ->
-        AppSettingsContent(
-            modifier = modifier,
-            innerPadding = innerPadding,
-            appSettingsUiState = appSettingsUiState,
-            onAppSettingsItemCheckBoxChange = onAppSettingsItemCheckBoxChange,
-            onDeleteAppSettingsItem = onDeleteAppSettingsItem,
-        )
-    }
 }
 
 @VisibleForTesting
 @Composable
 internal fun AppSettingsDialogs(
-    showCopyPermissionCommandDialog: Boolean,
+    copyPermissionCommandDialogState: CopyPermissionCommandDialogState,
     appSettingDialogState: AppSettingDialogState,
     addShortcutDialogState: ShortcutDialogState,
     updateShortcutDialogState: ShortcutDialogState,
-    onAddSetting: () -> Unit,
+    onAddAppSetting: () -> Unit,
     onCopyPermissionCommand: () -> Unit,
     onAddShortcut: () -> Unit,
     onUpdateShortcut: () -> Unit,
-    onCopyPermissionCommandDialogDismissRequest: () -> Unit,
 ) {
     if (appSettingDialogState.showDialog) {
         AppSettingDialog(
             appSettingDialogState = appSettingDialogState,
-            onAddSetting = onAddSetting,
+            onAddSetting = {
+                onAddAppSetting()
+                appSettingDialogState.resetState()
+            },
             contentDescription = "Add App Settings Dialog",
         )
     }
 
-    if (showCopyPermissionCommandDialog) {
+    if (copyPermissionCommandDialogState.showDialog) {
         SimpleDialog(
             title = stringResource(id = R.string.permission_error),
             text = stringResource(id = R.string.copy_permission_command_message),
-            onDismissRequest = onCopyPermissionCommandDialogDismissRequest,
+            onDismissRequest = { copyPermissionCommandDialogState.updateShowDialog(false) },
             negativeButtonText = stringResource(id = R.string.cancel),
             positiveButtonText = stringResource(id = R.string.copy),
-            onNegativeButtonClick = onCopyPermissionCommandDialogDismissRequest,
-            onPositiveButtonClick = onCopyPermissionCommand,
+            onNegativeButtonClick = { copyPermissionCommandDialogState.updateShowDialog(false) },
+            onPositiveButtonClick = {
+                onCopyPermissionCommand()
+                copyPermissionCommandDialogState.updateShowDialog(false)
+            },
             contentDescription = "Copy Permission Command Dialog",
         )
     }
@@ -393,7 +488,10 @@ internal fun AppSettingsDialogs(
             title = stringResource(id = R.string.add_shortcut),
             negativeButtonText = stringResource(id = R.string.cancel),
             positiveButtonText = stringResource(id = R.string.add),
-            onPositiveButtonClick = onAddShortcut,
+            onPositiveButtonClick = {
+                onAddShortcut()
+                addShortcutDialogState.resetState()
+            },
         )
     }
 
@@ -404,7 +502,10 @@ internal fun AppSettingsDialogs(
             title = stringResource(id = R.string.update_shortcut),
             negativeButtonText = stringResource(id = R.string.cancel),
             positiveButtonText = stringResource(id = R.string.update),
-            onPositiveButtonClick = onUpdateShortcut,
+            onPositiveButtonClick = {
+                onUpdateShortcut()
+                updateShortcutDialogState.resetState()
+            },
         )
     }
 }
@@ -494,40 +595,6 @@ private fun AppSettingsBottomAppBarActions(
             GetoIcons.Shortcut,
             contentDescription = "Shortcut icon",
         )
-    }
-}
-
-@Composable
-private fun AppSettingsContent(
-    modifier: Modifier = Modifier,
-    innerPadding: PaddingValues,
-    appSettingsUiState: AppSettingsUiState,
-    onAppSettingsItemCheckBoxChange: (Boolean, AppSetting) -> Unit,
-    onDeleteAppSettingsItem: (AppSetting) -> Unit,
-) {
-    Box(
-        modifier = modifier
-            .fillMaxSize()
-            .consumeWindowInsets(innerPadding),
-    ) {
-        when (appSettingsUiState) {
-            AppSettingsUiState.Loading -> {
-                LoadingState(modifier = Modifier.align(Alignment.Center))
-            }
-
-            is AppSettingsUiState.Success -> {
-                if (appSettingsUiState.appSettingList.isNotEmpty()) {
-                    SuccessState(
-                        appSettingsUiState = appSettingsUiState,
-                        contentPadding = innerPadding,
-                        onAppSettingsItemCheckBoxChange = onAppSettingsItemCheckBoxChange,
-                        onDeleteAppSettingsItem = onDeleteAppSettingsItem,
-                    )
-                } else {
-                    EmptyState(text = stringResource(R.string.add_your_first_settings))
-                }
-            }
-        }
     }
 }
 
@@ -624,16 +691,35 @@ private fun LazyListScope.appSettings(
 private fun AppSettingsScreenLoadingStatePreview() {
     GetoTheme {
         AppSettingsScreen(
-            snackbarHostState = SnackbarHostState(),
+            packageName = "com.android.geto",
             appName = "Geto",
             appSettingsUiState = AppSettingsUiState.Loading,
+            applicationIcon = null,
+            secureSettings = emptyList(),
+            applyAppSettingsResult = AppSettingsResult.NoResult,
+            revertAppSettingsResult = AppSettingsResult.NoResult,
+            shortcutResult = ShortcutResult.NoResult,
+            clipboardResult = ClipboardResult.NoResult,
+            copyPermissionCommandDialogState = rememberCopyPermissionCommandDialogState(),
+            appSettingDialogState = rememberAppSettingDialogState(),
+            addShortcutDialogState = rememberShortcutDialogState(),
+            updateShortcutDialogState = rememberShortcutDialogState(),
             onNavigationIconClick = {},
-            onRevertSettingsIconClick = {},
-            onSettingsIconClick = {},
-            onShortcutIconClick = {},
-            onAppSettingsItemCheckBoxChange = { _, _ -> },
-            onDeleteAppSettingsItem = {},
+            onRevertAppSettings = {},
+            onGetShortcut = {},
+            onGetApplicationIcon = {},
+            onCheckAppSetting = { _, _ -> },
+            onDeleteAppSetting = {},
             onLaunchApp = {},
+            onAutoLaunchApp = {},
+            onResetAppSettingsResult = {},
+            onResetShortcutResult = {},
+            onResetClipboardResult = {},
+            onGetSecureSettings = { _, _ -> },
+            onAddAppSetting = {},
+            onCopyPermissionCommand = {},
+            onAddShortcut = {},
+            onUpdateShortcut = {},
         )
     }
 }
@@ -643,16 +729,35 @@ private fun AppSettingsScreenLoadingStatePreview() {
 private fun AppSettingsScreenEmptyStatePreview() {
     GetoTheme {
         AppSettingsScreen(
-            snackbarHostState = SnackbarHostState(),
+            packageName = "com.android.geto",
             appName = "Geto",
             appSettingsUiState = AppSettingsUiState.Success(emptyList()),
+            applicationIcon = null,
+            secureSettings = emptyList(),
+            applyAppSettingsResult = AppSettingsResult.NoResult,
+            revertAppSettingsResult = AppSettingsResult.NoResult,
+            shortcutResult = ShortcutResult.NoResult,
+            clipboardResult = ClipboardResult.NoResult,
+            copyPermissionCommandDialogState = rememberCopyPermissionCommandDialogState(),
+            appSettingDialogState = rememberAppSettingDialogState(),
+            addShortcutDialogState = rememberShortcutDialogState(),
+            updateShortcutDialogState = rememberShortcutDialogState(),
             onNavigationIconClick = {},
-            onRevertSettingsIconClick = {},
-            onSettingsIconClick = {},
-            onShortcutIconClick = {},
-            onAppSettingsItemCheckBoxChange = { _, _ -> },
-            onDeleteAppSettingsItem = {},
+            onRevertAppSettings = {},
+            onGetShortcut = {},
+            onGetApplicationIcon = {},
+            onCheckAppSetting = { _, _ -> },
+            onDeleteAppSetting = {},
             onLaunchApp = {},
+            onAutoLaunchApp = {},
+            onResetAppSettingsResult = {},
+            onResetShortcutResult = {},
+            onResetClipboardResult = {},
+            onGetSecureSettings = { _, _ -> },
+            onAddAppSetting = {},
+            onCopyPermissionCommand = {},
+            onAddShortcut = {},
+            onUpdateShortcut = {},
         )
     }
 }
@@ -664,16 +769,35 @@ private fun AppSettingsScreenSuccessStatePreview(
 ) {
     GetoTheme {
         AppSettingsScreen(
-            snackbarHostState = SnackbarHostState(),
+            packageName = "com.android.geto",
             appName = "Geto",
             appSettingsUiState = AppSettingsUiState.Success(appSettings),
+            applicationIcon = null,
+            secureSettings = emptyList(),
+            applyAppSettingsResult = AppSettingsResult.NoResult,
+            revertAppSettingsResult = AppSettingsResult.NoResult,
+            shortcutResult = ShortcutResult.NoResult,
+            clipboardResult = ClipboardResult.NoResult,
+            copyPermissionCommandDialogState = rememberCopyPermissionCommandDialogState(),
+            appSettingDialogState = rememberAppSettingDialogState(),
+            addShortcutDialogState = rememberShortcutDialogState(),
+            updateShortcutDialogState = rememberShortcutDialogState(),
             onNavigationIconClick = {},
-            onRevertSettingsIconClick = {},
-            onSettingsIconClick = {},
-            onShortcutIconClick = {},
-            onAppSettingsItemCheckBoxChange = { _, _ -> },
-            onDeleteAppSettingsItem = {},
+            onRevertAppSettings = {},
+            onGetShortcut = {},
+            onGetApplicationIcon = {},
+            onCheckAppSetting = { _, _ -> },
+            onDeleteAppSetting = {},
             onLaunchApp = {},
+            onAutoLaunchApp = {},
+            onResetAppSettingsResult = {},
+            onResetShortcutResult = {},
+            onResetClipboardResult = {},
+            onGetSecureSettings = { _, _ -> },
+            onAddAppSetting = {},
+            onCopyPermissionCommand = {},
+            onAddShortcut = {},
+            onUpdateShortcut = {},
         )
     }
 }

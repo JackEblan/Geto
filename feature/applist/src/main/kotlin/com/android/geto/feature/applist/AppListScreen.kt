@@ -74,6 +74,7 @@ internal fun AppListRoute(
     )
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @VisibleForTesting
 @Composable
 internal fun AppListScreen(
@@ -90,12 +91,28 @@ internal fun AppListScreen(
             )
         },
     ) { innerPadding ->
-        AppListContent(
-            modifier = modifier,
-            innerPadding = innerPadding,
-            appListUiState = appListUiState,
-            onItemClick = onItemClick,
-        )
+        Box(
+            modifier = modifier
+                .fillMaxSize()
+                .consumeWindowInsets(innerPadding)
+                .semantics {
+                    testTagsAsResourceId = true
+                }
+                .testTag("appList"),
+        ) {
+            when (appListUiState) {
+                AppListUiState.Loading -> LoadingState(
+                    modifier = Modifier.align(Alignment.Center),
+                )
+
+                is AppListUiState.Success -> SuccessState(
+                    modifier = modifier,
+                    appListUiState = appListUiState,
+                    contentPadding = innerPadding,
+                    onItemClick = onItemClick,
+                )
+            }
+        }
     }
 }
 
@@ -117,38 +134,6 @@ private fun AppListTopAppBar(
             }
         },
     )
-}
-
-@OptIn(ExperimentalComposeUiApi::class)
-@Composable
-private fun AppListContent(
-    modifier: Modifier = Modifier,
-    innerPadding: PaddingValues,
-    appListUiState: AppListUiState,
-    onItemClick: (String, String) -> Unit,
-) {
-    Box(
-        modifier = modifier
-            .fillMaxSize()
-            .consumeWindowInsets(innerPadding)
-            .semantics {
-                testTagsAsResourceId = true
-            }
-            .testTag("appList"),
-    ) {
-        when (appListUiState) {
-            AppListUiState.Loading -> LoadingState(
-                modifier = Modifier.align(Alignment.Center),
-            )
-
-            is AppListUiState.Success -> SuccessState(
-                modifier = modifier,
-                appListUiState = appListUiState,
-                contentPadding = innerPadding,
-                onItemClick = onItemClick,
-            )
-        }
-    }
 }
 
 @Composable
