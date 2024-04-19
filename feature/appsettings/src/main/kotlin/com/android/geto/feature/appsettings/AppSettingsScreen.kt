@@ -108,14 +108,6 @@ internal fun AppSettingsRoute(
 
     val clipboardResult = viewModel.clipboardResult.collectAsStateWithLifecycle().value
 
-    val copyPermissionCommandDialogState = rememberCopyPermissionCommandDialogState()
-
-    val appSettingDialogState = rememberAppSettingDialogState()
-
-    val addShortcutDialogState = rememberShortcutDialogState()
-
-    val updateShortcutDialogState = rememberShortcutDialogState()
-
     AppSettingsScreen(
         modifier = modifier,
         packageName = viewModel.packageName,
@@ -127,10 +119,6 @@ internal fun AppSettingsRoute(
         revertAppSettingsResult = revertAppSettingsResult,
         shortcutResult = shortcutResult,
         clipboardResult = clipboardResult,
-        copyPermissionCommandDialogState = copyPermissionCommandDialogState,
-        appSettingDialogState = appSettingDialogState,
-        addShortcutDialogState = addShortcutDialogState,
-        updateShortcutDialogState = updateShortcutDialogState,
         onNavigationIconClick = onNavigationIconClick,
         onRevertAppSettings = viewModel::revertAppSettings,
         onGetShortcut = viewModel::getShortcut,
@@ -163,10 +151,6 @@ internal fun AppSettingsScreen(
     revertAppSettingsResult: AppSettingsResult,
     shortcutResult: ShortcutResult,
     clipboardResult: ClipboardResult,
-    copyPermissionCommandDialogState: CopyPermissionCommandDialogState,
-    appSettingDialogState: AppSettingDialogState,
-    addShortcutDialogState: ShortcutDialogState,
-    updateShortcutDialogState: ShortcutDialogState,
     onNavigationIconClick: () -> Unit,
     onRevertAppSettings: () -> Unit,
     onGetShortcut: () -> Unit,
@@ -184,6 +168,14 @@ internal fun AppSettingsScreen(
     onAddShortcut: (TargetShortcutInfoCompat) -> Unit,
     onUpdateShortcut: (TargetShortcutInfoCompat) -> Unit,
 ) {
+    val copyPermissionCommandDialogState = rememberCopyPermissionCommandDialogState()
+
+    val appSettingDialogState = rememberAppSettingDialogState()
+
+    val addShortcutDialogState = rememberShortcutDialogState()
+
+    val updateShortcutDialogState = rememberShortcutDialogState()
+
     val shortcutIntent = Intent().apply {
         action = Intent.ACTION_VIEW
         this.setClassName("com.android.geto", "com.android.geto.MainActivity")
@@ -700,10 +692,6 @@ private fun AppSettingsScreenLoadingStatePreview() {
             revertAppSettingsResult = AppSettingsResult.NoResult,
             shortcutResult = ShortcutResult.NoResult,
             clipboardResult = ClipboardResult.NoResult,
-            copyPermissionCommandDialogState = rememberCopyPermissionCommandDialogState(),
-            appSettingDialogState = rememberAppSettingDialogState(),
-            addShortcutDialogState = rememberShortcutDialogState(),
-            updateShortcutDialogState = rememberShortcutDialogState(),
             onNavigationIconClick = {},
             onRevertAppSettings = {},
             onGetShortcut = {},
@@ -738,10 +726,6 @@ private fun AppSettingsScreenEmptyStatePreview() {
             revertAppSettingsResult = AppSettingsResult.NoResult,
             shortcutResult = ShortcutResult.NoResult,
             clipboardResult = ClipboardResult.NoResult,
-            copyPermissionCommandDialogState = rememberCopyPermissionCommandDialogState(),
-            appSettingDialogState = rememberAppSettingDialogState(),
-            addShortcutDialogState = rememberShortcutDialogState(),
-            updateShortcutDialogState = rememberShortcutDialogState(),
             onNavigationIconClick = {},
             onRevertAppSettings = {},
             onGetShortcut = {},
@@ -778,10 +762,6 @@ private fun AppSettingsScreenSuccessStatePreview(
             revertAppSettingsResult = AppSettingsResult.NoResult,
             shortcutResult = ShortcutResult.NoResult,
             clipboardResult = ClipboardResult.NoResult,
-            copyPermissionCommandDialogState = rememberCopyPermissionCommandDialogState(),
-            appSettingDialogState = rememberAppSettingDialogState(),
-            addShortcutDialogState = rememberShortcutDialogState(),
-            updateShortcutDialogState = rememberShortcutDialogState(),
             onNavigationIconClick = {},
             onRevertAppSettings = {},
             onGetShortcut = {},
