@@ -207,6 +207,7 @@ internal fun AppSettingsScreen(
         shortcutResult = shortcutResult,
         clipboardResult = clipboardResult,
         onAutoLaunchApp = onAutoLaunchApp,
+        onGetApplicationIcon = onGetApplicationIcon,
         onResetAppSettingsResult = onResetAppSettingsResult,
         onResetShortcutResult = onResetShortcutResult,
         onResetClipboardResult = onResetClipboardResult,
@@ -251,7 +252,6 @@ internal fun AppSettingsScreen(
                 },
                 onShortcutIconClick = {
                     onGetShortcut()
-                    onGetApplicationIcon()
                 },
                 onLaunchApp = onLaunchApp,
             )
@@ -304,6 +304,7 @@ private fun AppSettingsLaunchedEffects(
     shortcutResult: ShortcutResult,
     clipboardResult: ClipboardResult,
     onAutoLaunchApp: () -> Unit,
+    onGetApplicationIcon: () -> Unit,
     onResetAppSettingsResult: () -> Unit,
     onResetShortcutResult: () -> Unit,
     onResetClipboardResult: () -> Unit,
@@ -333,6 +334,7 @@ private fun AppSettingsLaunchedEffects(
 
     LaunchedEffect(key1 = true) {
         onAutoLaunchApp()
+        onGetApplicationIcon()
     }
 
     LaunchedEffect(key1 = applyAppSettingsResult) {
@@ -455,7 +457,10 @@ internal fun AppSettingsDialogs(
     if (appSettingDialogState.showDialog) {
         AppSettingDialog(
             appSettingDialogState = appSettingDialogState,
-            onAddSetting = onAddAppSetting,
+            onAddSetting = {
+                onAddAppSetting()
+                appSettingDialogState.resetState()
+            },
             contentDescription = "Add App Settings Dialog",
         )
     }
