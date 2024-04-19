@@ -28,9 +28,6 @@ import com.android.geto.core.data.repository.ClipboardResult
 import com.android.geto.core.data.repository.ShortcutResult
 import com.android.geto.core.domain.AppSettingsResult
 import com.android.geto.core.model.TargetShortcutInfoCompat
-import com.android.geto.feature.appsettings.dialog.appsetting.rememberAppSettingDialogState
-import com.android.geto.feature.appsettings.dialog.copypermissioncommand.rememberCopyPermissionCommandDialogState
-import com.android.geto.feature.appsettings.dialog.shortcut.rememberShortcutDialogState
 import org.junit.Rule
 import org.junit.Test
 
@@ -51,10 +48,6 @@ class AppSettingsScreenDialogsTest {
                 revertAppSettingsResult = AppSettingsResult.NoResult,
                 shortcutResult = ShortcutResult.NoResult,
                 clipboardResult = ClipboardResult.NoResult,
-                copyPermissionCommandDialogState = rememberCopyPermissionCommandDialogState(),
-                appSettingDialogState = rememberAppSettingDialogState(),
-                addShortcutDialogState = rememberShortcutDialogState(),
-                updateShortcutDialogState = rememberShortcutDialogState(),
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
                 onGetShortcut = {},
@@ -100,10 +93,6 @@ class AppSettingsScreenDialogsTest {
                 revertAppSettingsResult = AppSettingsResult.NoResult,
                 shortcutResult = ShortcutResult.NoResult,
                 clipboardResult = ClipboardResult.NoResult,
-                copyPermissionCommandDialogState = rememberCopyPermissionCommandDialogState(),
-                appSettingDialogState = rememberAppSettingDialogState(),
-                addShortcutDialogState = rememberShortcutDialogState(),
-                updateShortcutDialogState = rememberShortcutDialogState(),
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
                 onGetShortcut = {},
@@ -145,10 +134,6 @@ class AppSettingsScreenDialogsTest {
                 revertAppSettingsResult = AppSettingsResult.SecurityException,
                 shortcutResult = ShortcutResult.NoResult,
                 clipboardResult = ClipboardResult.NoResult,
-                copyPermissionCommandDialogState = rememberCopyPermissionCommandDialogState(),
-                appSettingDialogState = rememberAppSettingDialogState(),
-                addShortcutDialogState = rememberShortcutDialogState(),
-                updateShortcutDialogState = rememberShortcutDialogState(),
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
                 onGetShortcut = {},
@@ -190,10 +175,6 @@ class AppSettingsScreenDialogsTest {
                 revertAppSettingsResult = AppSettingsResult.NoResult,
                 shortcutResult = ShortcutResult.NoShortcutFound,
                 clipboardResult = ClipboardResult.NoResult,
-                copyPermissionCommandDialogState = rememberCopyPermissionCommandDialogState(),
-                appSettingDialogState = rememberAppSettingDialogState(),
-                addShortcutDialogState = rememberShortcutDialogState(),
-                updateShortcutDialogState = rememberShortcutDialogState(),
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
                 onGetShortcut = {},
@@ -212,11 +193,6 @@ class AppSettingsScreenDialogsTest {
                 onUpdateShortcut = {},
             )
         }
-
-        composeTestRule.onNodeWithContentDescription(
-            label = "Shortcut icon",
-            useUnmergedTree = true,
-        ).performClick()
 
         composeTestRule.onNodeWithContentDescription("Add Shortcut Dialog").assertIsDisplayed()
 
@@ -244,10 +220,6 @@ class AppSettingsScreenDialogsTest {
                     ),
                 ),
                 clipboardResult = ClipboardResult.NoResult,
-                copyPermissionCommandDialogState = rememberCopyPermissionCommandDialogState(),
-                appSettingDialogState = rememberAppSettingDialogState(),
-                addShortcutDialogState = rememberShortcutDialogState(),
-                updateShortcutDialogState = rememberShortcutDialogState(),
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
                 onGetShortcut = {},
@@ -266,11 +238,6 @@ class AppSettingsScreenDialogsTest {
                 onUpdateShortcut = {},
             )
         }
-
-        composeTestRule.onNodeWithContentDescription(
-            label = "Shortcut icon",
-            useUnmergedTree = true,
-        ).performClick()
 
         composeTestRule.onNodeWithContentDescription("Update Shortcut Dialog").assertIsDisplayed()
 

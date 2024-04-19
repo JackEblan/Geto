@@ -27,9 +27,6 @@ import com.android.geto.core.data.repository.ShortcutResult
 import com.android.geto.core.domain.AppSettingsResult
 import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.SettingType
-import com.android.geto.feature.appsettings.dialog.appsetting.rememberAppSettingDialogState
-import com.android.geto.feature.appsettings.dialog.copypermissioncommand.rememberCopyPermissionCommandDialogState
-import com.android.geto.feature.appsettings.dialog.shortcut.rememberShortcutDialogState
 import org.junit.Rule
 import org.junit.Test
 
@@ -63,10 +60,6 @@ class AppSettingsScreenTest {
                 revertAppSettingsResult = AppSettingsResult.NoResult,
                 shortcutResult = ShortcutResult.NoResult,
                 clipboardResult = ClipboardResult.NoResult,
-                copyPermissionCommandDialogState = rememberCopyPermissionCommandDialogState(),
-                appSettingDialogState = rememberAppSettingDialogState(),
-                addShortcutDialogState = rememberShortcutDialogState(),
-                updateShortcutDialogState = rememberShortcutDialogState(),
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
                 onGetShortcut = {},
@@ -102,10 +95,6 @@ class AppSettingsScreenTest {
                 revertAppSettingsResult = AppSettingsResult.NoResult,
                 shortcutResult = ShortcutResult.NoResult,
                 clipboardResult = ClipboardResult.NoResult,
-                copyPermissionCommandDialogState = rememberCopyPermissionCommandDialogState(),
-                appSettingDialogState = rememberAppSettingDialogState(),
-                addShortcutDialogState = rememberShortcutDialogState(),
-                updateShortcutDialogState = rememberShortcutDialogState(),
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
                 onGetShortcut = {},
@@ -141,10 +130,6 @@ class AppSettingsScreenTest {
                 revertAppSettingsResult = AppSettingsResult.NoResult,
                 shortcutResult = ShortcutResult.NoResult,
                 clipboardResult = ClipboardResult.NoResult,
-                copyPermissionCommandDialogState = rememberCopyPermissionCommandDialogState(),
-                appSettingDialogState = rememberAppSettingDialogState(),
-                addShortcutDialogState = rememberShortcutDialogState(),
-                updateShortcutDialogState = rememberShortcutDialogState(),
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
                 onGetShortcut = {},

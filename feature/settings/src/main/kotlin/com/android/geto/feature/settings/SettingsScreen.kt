@@ -80,10 +80,6 @@ internal fun SettingsRoute(
 
     var showCleanDialog by rememberSaveable { mutableStateOf(false) }
 
-    var themeDialogSelected by rememberSaveable { mutableIntStateOf(0) }
-
-    var darkDialogSelected by rememberSaveable { mutableIntStateOf(0) }
-
     SettingsScreen(
         modifier = modifier,
         settingsUiState = settingsUiState,
@@ -93,10 +89,6 @@ internal fun SettingsRoute(
         onShowThemeDialog = { showThemeDialog = true },
         onShowDarkDialog = { showDarkDialog = true },
         onShowCleanDialog = { showCleanDialog = true },
-        themeDialogSelected = themeDialogSelected,
-        darkDialogSelected = darkDialogSelected,
-        onThemeDialogSelect = { themeDialogSelected = it },
-        onDarkDialogSelect = { darkDialogSelected = it },
         onUpdateThemeBrand = viewModel::updateThemeBrand,
         onUpdateDarkThemeConfig = viewModel::updateDarkThemeConfig,
         onCleanAppSettings = viewModel::cleanAppSettings,
@@ -128,10 +120,6 @@ internal fun SettingsScreen(
     onShowThemeDialog: () -> Unit,
     onShowDarkDialog: () -> Unit,
     onShowCleanDialog: () -> Unit,
-    themeDialogSelected: Int,
-    darkDialogSelected: Int,
-    onThemeDialogSelect: (Int) -> Unit,
-    onDarkDialogSelect: (Int) -> Unit,
     onUpdateThemeBrand: (ThemeBrand) -> Unit,
     onUpdateDarkThemeConfig: (DarkThemeConfig) -> Unit,
     onCleanAppSettings: () -> Unit,
@@ -142,6 +130,10 @@ internal fun SettingsScreen(
     onChangeAutoLaunchPreference: (useAutoLaunch: Boolean) -> Unit,
     onNavigationIconClick: () -> Unit,
 ) {
+    var themeDialogSelected by rememberSaveable { mutableIntStateOf(0) }
+
+    var darkDialogSelected by rememberSaveable { mutableIntStateOf(0) }
+
     LaunchedEffect(key1 = settingsUiState) {
         when (settingsUiState) {
             SettingsUiState.Loading -> Unit
@@ -151,8 +143,8 @@ internal fun SettingsScreen(
                 val darkThemeConfigIndex =
                     DarkThemeConfig.entries.indexOf(settingsUiState.userData.darkThemeConfig)
 
-                onThemeDialogSelect(themeBrandIndex)
-                onDarkDialogSelect(darkThemeConfigIndex)
+                themeDialogSelected = themeBrandIndex
+                darkDialogSelected = darkThemeConfigIndex
             }
         }
     }
@@ -162,8 +154,8 @@ internal fun SettingsScreen(
         showCleanDialog = showCleanDialog,
         themeDialogSelected = themeDialogSelected,
         darkDialogSelected = darkDialogSelected,
-        onThemeDialogSelect = onThemeDialogSelect,
-        onDarkDialogSelect = onDarkDialogSelect,
+        onThemeDialogSelect = { themeDialogSelected = it },
+        onDarkDialogSelect = { darkDialogSelected = it },
         onUpdateThemeBrand = onUpdateThemeBrand,
         onUpdateDarkThemeConfig = onUpdateDarkThemeConfig,
         onCleanAppSettings = onCleanAppSettings,
@@ -540,10 +532,6 @@ private fun SettingsScreenLoadingStatePreview() {
             onShowThemeDialog = {},
             onShowDarkDialog = {},
             onShowCleanDialog = {},
-            themeDialogSelected = 0,
-            darkDialogSelected = 0,
-            onThemeDialogSelect = {},
-            onDarkDialogSelect = {},
             onUpdateThemeBrand = {},
             onUpdateDarkThemeConfig = {},
             onCleanAppSettings = {},
@@ -577,10 +565,6 @@ private fun SettingsScreenSuccessStatePreview() {
             onShowThemeDialog = {},
             onShowDarkDialog = {},
             onShowCleanDialog = {},
-            themeDialogSelected = 0,
-            darkDialogSelected = 0,
-            onThemeDialogSelect = {},
-            onDarkDialogSelect = {},
             onUpdateThemeBrand = {},
             onUpdateDarkThemeConfig = {},
             onCleanAppSettings = {},
