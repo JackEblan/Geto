@@ -191,7 +191,7 @@ class AppSettingsViewModelTest {
 
         secureSettingsRepository.setWriteSecureSettings(true)
 
-        viewModel.applySettings()
+        viewModel.applyAppSettings()
 
         assertIs<AppSettingsResult.Success>(viewModel.applyAppSettingsResult.value)
     }
@@ -215,7 +215,7 @@ class AppSettingsViewModelTest {
 
         secureSettingsRepository.setWriteSecureSettings(false)
 
-        viewModel.applySettings()
+        viewModel.applyAppSettings()
 
         assertIs<AppSettingsResult.SecurityException>(viewModel.applyAppSettingsResult.value)
     }
@@ -241,7 +241,7 @@ class AppSettingsViewModelTest {
 
         secureSettingsRepository.setInvalidValues(true)
 
-        viewModel.applySettings()
+        viewModel.applyAppSettings()
 
         assertIs<AppSettingsResult.IllegalArgumentException>(viewModel.applyAppSettingsResult.value)
     }
@@ -252,7 +252,7 @@ class AppSettingsViewModelTest {
 
         secureSettingsRepository.setWriteSecureSettings(true)
 
-        viewModel.applySettings()
+        viewModel.applyAppSettings()
 
         assertIs<AppSettingsResult.EmptyAppSettings>(viewModel.applyAppSettingsResult.value)
     }
@@ -276,7 +276,7 @@ class AppSettingsViewModelTest {
 
         secureSettingsRepository.setWriteSecureSettings(true)
 
-        viewModel.applySettings()
+        viewModel.applyAppSettings()
 
         assertIs<AppSettingsResult.DisabledAppSettings>(viewModel.applyAppSettingsResult.value)
     }
@@ -300,7 +300,7 @@ class AppSettingsViewModelTest {
 
         appSettingsRepository.setAppSettings(appSettings)
 
-        viewModel.revertSettings()
+        viewModel.revertAppSettings()
 
         assertIs<AppSettingsResult.Success>(viewModel.revertAppSettingsResult.value)
     }
@@ -324,7 +324,7 @@ class AppSettingsViewModelTest {
 
         appSettingsRepository.setAppSettings(appSettings)
 
-        viewModel.revertSettings()
+        viewModel.revertAppSettings()
 
         assertIs<AppSettingsResult.SecurityException>(viewModel.revertAppSettingsResult.value)
     }
@@ -350,7 +350,7 @@ class AppSettingsViewModelTest {
 
         secureSettingsRepository.setInvalidValues(true)
 
-        viewModel.revertSettings()
+        viewModel.revertAppSettings()
 
         assertIs<AppSettingsResult.IllegalArgumentException>(viewModel.revertAppSettingsResult.value)
     }
@@ -359,7 +359,7 @@ class AppSettingsViewModelTest {
     fun revertAppSettingsResult_isEmptyAppSettings_whenRevertSettings() = runTest {
         appSettingsRepository.setAppSettings(emptyList())
 
-        viewModel.revertSettings()
+        viewModel.revertAppSettings()
 
         assertIs<AppSettingsResult.EmptyAppSettings>(viewModel.revertAppSettingsResult.value)
     }
@@ -383,7 +383,7 @@ class AppSettingsViewModelTest {
 
         secureSettingsRepository.setWriteSecureSettings(true)
 
-        viewModel.revertSettings()
+        viewModel.revertAppSettings()
 
         assertIs<AppSettingsResult.DisabledAppSettings>(viewModel.revertAppSettingsResult.value)
     }
