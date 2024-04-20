@@ -32,6 +32,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.GraphicsMode
 import org.robolectric.annotation.LooperMode
@@ -48,9 +49,12 @@ class ShortcutDialogScreenshotTest {
 
     private lateinit var shortcutDialogState: ShortcutDialogState
 
+    private val context = RuntimeEnvironment.getApplication()
+
     @Before
     fun setUp() {
         shortcutDialogState = ShortcutDialogState()
+        shortcutDialogState.updateIcon(context.getDrawable(R.drawable.baseline_android_24))
     }
 
     @Test

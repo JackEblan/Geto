@@ -29,6 +29,7 @@ import dagger.hilt.android.testing.HiltTestApplication
 import org.junit.Rule
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.GraphicsMode
 import org.robolectric.annotation.LooperMode
@@ -43,9 +44,12 @@ class AppsScreenScreenshotTest {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
+    private val context = RuntimeEnvironment.getApplication()
+
     private val installedApplications = List(5) { index ->
         TargetApplicationInfo(
             flags = 0,
+            icon = context.getDrawable(R.drawable.baseline_android_24),
             packageName = "com.android.geto$index",
             label = "Geto $index",
         )
