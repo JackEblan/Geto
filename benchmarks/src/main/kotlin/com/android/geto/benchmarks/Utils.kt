@@ -21,13 +21,7 @@ import androidx.test.uiautomator.Direction
 import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.UiObject2
 
-/**
- * Convenience parameter to use proper package name with regards to build type and build flavor.
- */
-val PACKAGE_NAME = buildString {
-    append("com.android.geto")
-    append(BuildConfig.APP_FLAVOR_SUFFIX)
-}
+const val PACKAGE_NAME = "com.android.geto"
 
 fun UiDevice.flingElementDownUp(element: UiObject2) {
     // Set some margin from the sides to prevent triggering system navigation
