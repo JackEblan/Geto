@@ -87,6 +87,7 @@ fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.c
             }
         }
     }
+    waitForIdle()
     this.onRoot().captureRoboImage(
         "src/test/screenshots/${fileName}_$deviceName.png",
         roborazziOptions = roborazziOptions,

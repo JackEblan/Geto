@@ -21,7 +21,6 @@ import com.android.geto.GetoBuildType
 plugins {
     alias(libs.plugins.com.android.geto.application)
     alias(libs.plugins.com.android.geto.applicationCompose)
-    alias(libs.plugins.com.android.geto.applicationFlavors)
     alias(libs.plugins.com.android.geto.applicationJacoco)
     alias(libs.plugins.com.android.geto.hilt)
     alias(libs.plugins.android.application)
@@ -75,7 +74,7 @@ dependencies {
     implementation(projects.core.packagemanager)
     implementation(projects.core.ui)
 
-    implementation(projects.feature.applist)
+    implementation(projects.feature.apps)
     implementation(projects.feature.appsettings)
     implementation(projects.feature.settings)
 
@@ -107,5 +106,5 @@ baselineProfile {
 }
 
 dependencyGuard {
-    configuration("prodReleaseRuntimeClasspath")
+    configuration("releaseRuntimeClasspath")
 }

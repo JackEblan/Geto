@@ -18,7 +18,6 @@
 
 import com.android.build.api.dsl.LibraryExtension
 import com.android.build.api.variant.LibraryAndroidComponentsExtension
-import com.android.geto.configureFlavors
 import com.android.geto.configureGradleManagedDevices
 import com.android.geto.configureKotlinAndroid
 import com.android.geto.disableUnnecessaryAndroidTests
@@ -41,7 +40,6 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
             extensions.configure<LibraryExtension> {
                 configureKotlinAndroid(this)
                 testOptions.targetSdk = 34
-                configureFlavors(this)
                 configureGradleManagedDevices(this)
             }
 

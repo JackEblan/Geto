@@ -28,7 +28,7 @@ import androidx.compose.ui.test.performClick
 import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.testing.TestNavHostController
 import com.android.geto.MainActivity
-import com.android.geto.feature.applist.navigation.APP_LIST_NAVIGATION_ROUTE
+import com.android.geto.feature.apps.navigation.APPS_NAVIGATION_ROUTE
 import com.android.geto.feature.settings.navigation.SETTINGS_NAVIGATION_ROUTE
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -58,13 +58,13 @@ class NavigationTest {
     }
 
     @Test
-    fun appListSreen_isDisplayed_whenStarted() {
-        composeTestRule.onNodeWithTag("appList").assertIsDisplayed()
+    fun appsScreen_isDisplayed_whenStarted() {
+        composeTestRule.onNodeWithTag("apps").assertIsDisplayed()
     }
 
     @Test
     fun appSettingsScreen_isDisplayed_whenTargetApplicationInfoItem_isClicked() {
-        composeTestRule.onAllNodes(hasTestTag("appList:appItem"))[0].performClick()
+        composeTestRule.onAllNodes(hasTestTag("apps:appItem"))[0].performClick()
 
         val appSettingsRoute = navController.currentBackStackEntry?.destination?.route
 
@@ -75,8 +75,8 @@ class NavigationTest {
     }
 
     @Test
-    fun appListScreen_isDisplayed_whenNavigateBackFromAppSettingsScreen() {
-        composeTestRule.onAllNodes(hasTestTag("appList:appItem"))[0].performClick()
+    fun appsScreen_isDisplayed_whenNavigateBackFromAppSettingsScreen() {
+        composeTestRule.onAllNodes(hasTestTag("apps:appItem"))[0].performClick()
 
         composeTestRule.onNodeWithContentDescription(
             label = "Navigation icon",
@@ -86,7 +86,7 @@ class NavigationTest {
         val appListRoute = navController.currentBackStackEntry?.destination?.route
 
         assertEquals(
-            expected = APP_LIST_NAVIGATION_ROUTE,
+            expected = APPS_NAVIGATION_ROUTE,
             actual = appListRoute,
         )
     }
@@ -104,7 +104,7 @@ class NavigationTest {
     }
 
     @Test
-    fun appListScreen_isDisplayed_whenNavigateBackFromSettingsScreen() {
+    fun appsScreen_isDisplayed_whenNavigateBackFromSettingsScreen() {
         composeTestRule.onNodeWithContentDescription("Settings icon").performClick()
 
         composeTestRule.onNodeWithContentDescription(
@@ -115,7 +115,7 @@ class NavigationTest {
         val appListRoute = navController.currentBackStackEntry?.destination?.route
 
         assertEquals(
-            expected = APP_LIST_NAVIGATION_ROUTE,
+            expected = APPS_NAVIGATION_ROUTE,
             actual = appListRoute,
         )
     }

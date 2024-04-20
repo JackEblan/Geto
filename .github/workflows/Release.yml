@@ -43,7 +43,7 @@ jobs:
         run: yes | "$ANDROID_HOME"/cmdline-tools/latest/bin/sdkmanager --licenses || true
 
       - name: Build release variant including baseline profile generation
-        run: ./gradlew :app:assembleProdRelease
+        run: ./gradlew :app:assembleRelease
           -Pandroid.testInstrumentationRunnerArguments.androidx.benchmark.enabledRules=BaselineProfile
           -Pandroid.testoptions.manageddevices.emulator.gpu="swiftshader_indirect"
           -Pandroid.experimental.testOptions.managedDevices.emulator.showKernelLogging=true
@@ -54,7 +54,7 @@ jobs:
         uses: r0adkll/sign-android-release@v1
         id: sign_release_apk
         with:
-          releaseDirectory: app/build/outputs/apk/prod/release
+          releaseDirectory: app/build/outputs/apk/release
           signingKeyBase64: ${{ secrets.SIGNING_KEY_BASE64 }}
           alias: ${{ secrets.SIGNING_KEY_ALIAS }}
           keyStorePassword: ${{ secrets.SIGNING_KEY_STORE_PASSWORD }}
@@ -63,7 +63,7 @@ jobs:
           BUILD_TOOLS_VERSION: "34.0.0"
 
       - name: Rename signed APK
-        run: mv ${{steps.sign_release_apk.outputs.signedReleaseFile}} app/build/outputs/apk/prod/release/geto-${{ github.ref_name }}.apk
+        run: mv ${{steps.sign_release_apk.outputs.signedReleaseFile}} app/build/outputs/apk/release/geto-${{ github.ref_name }}.apk
 
       - name: Create release
         id: create_release
@@ -82,6 +82,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: app/build/outputs/apk/prod/release/geto-${{ github.ref_name }}.apk
+          asset_path: app/build/outputs/apk/release/geto-${{ github.ref_name }}.apk
           asset_name: geto-${{ github.ref_name }}.apk
           asset_content_type: application/vnd.android.package-archive
