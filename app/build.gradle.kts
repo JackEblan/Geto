@@ -106,5 +106,5 @@ baselineProfile {
 }
 
 dependencyGuard {
-    configuration("prodReleaseRuntimeClasspath")
+    configuration("releaseRuntimeClasspath")
 }
