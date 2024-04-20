@@ -242,9 +242,7 @@ internal fun AppSettingsScreen(
                 onSettingsIconClick = {
                     appSettingDialogState.updateShowDialog(true)
                 },
-                onShortcutIconClick = {
-                    onGetShortcut()
-                },
+                onShortcutIconClick = onGetShortcut,
                 onLaunchApp = onLaunchApp,
             )
         },
@@ -434,9 +432,8 @@ private fun AppSettingsLaunchedEffects(
     }
 }
 
-@VisibleForTesting
 @Composable
-internal fun AppSettingsDialogs(
+private fun AppSettingsDialogs(
     copyPermissionCommandDialogState: CopyPermissionCommandDialogState,
     appSettingDialogState: AppSettingDialogState,
     addShortcutDialogState: ShortcutDialogState,

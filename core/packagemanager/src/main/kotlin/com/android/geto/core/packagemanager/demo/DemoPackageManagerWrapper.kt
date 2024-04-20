@@ -17,18 +17,22 @@
  */
 package com.android.geto.core.packagemanager.demo
 
+import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import com.android.geto.core.model.TargetApplicationInfo
 import com.android.geto.core.packagemanager.PackageManagerWrapper
+import com.android.geto.core.packagemanager.R
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
-class DemoPackageManagerWrapper @Inject constructor() : PackageManagerWrapper {
+class DemoPackageManagerWrapper @Inject constructor(@ApplicationContext private val context: Context) :
+    PackageManagerWrapper {
     override fun getInstalledApplications(): List<TargetApplicationInfo> {
         return List(5) { index ->
             TargetApplicationInfo(
                 flags = 0,
+                icon = context.getDrawable(R.drawable.baseline_android_24),
                 packageName = "com.android.geto$index",
                 label = "Geto $index",
             )
@@ -36,7 +40,7 @@ class DemoPackageManagerWrapper @Inject constructor() : PackageManagerWrapper {
     }
 
     override fun getApplicationIcon(packageName: String): Drawable {
-        throw PackageManager.NameNotFoundException()
+        return context.getDrawable(R.drawable.baseline_android_24)!!
     }
 
     override fun getLaunchIntentForPackage(packageName: String): Intent? {

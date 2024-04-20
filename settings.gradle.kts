@@ -55,7 +55,7 @@ include(":core:shortcutmanager")
 include(":core:testing")
 include(":core:ui")
 
-include(":feature:applist")
+include(":feature:apps")
 include(":feature:appsettings")
 include(":feature:settings")
 

@@ -75,7 +75,7 @@ dependencies {
     implementation(projects.core.packagemanager)
     implementation(projects.core.ui)
 
-    implementation(projects.feature.applist)
+    implementation(projects.feature.apps)
     implementation(projects.feature.appsettings)
     implementation(projects.feature.settings)
 

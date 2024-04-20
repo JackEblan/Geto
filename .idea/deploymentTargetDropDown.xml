@@ -5,25 +5,25 @@
       <entry key="AppListBaselineProfile">
         <State />
       </entry>
-      <entry key="AppSettingsScreenDialogsTest">
-        <State />
-      </entry>
-      <entry key="AppSettingsScreenSnackbarTest">
-        <State />
-      </entry>
       <entry key="AppSettingsScreenTest">
+        <State />
+      </entry>
+      <entry key="AppsScreenTest">
         <State />
       </entry>
       <entry key="Generate Baseline Profile for app">
         <State />
       </entry>
-      <entry key="SettingsScreenTest">
+      <entry key="NavigationTest">
         <State />
       </entry>
       <entry key="app">
         <State />
       </entry>
       <entry key="app-geto-catalog">
+        <State />
+      </entry>
+      <entry key="appsScreen_isDisplayed_whenStarted()">
         <State />
       </entry>
       <entry key="feature.shortcut">
