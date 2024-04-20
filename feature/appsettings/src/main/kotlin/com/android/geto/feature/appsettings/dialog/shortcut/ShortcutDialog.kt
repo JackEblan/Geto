@@ -36,9 +36,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
 import com.android.geto.core.designsystem.component.DialogButtons
 import com.android.geto.core.designsystem.component.DialogContainer
+import com.android.geto.core.designsystem.component.DynamicAsyncImage
 import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.feature.appsettings.R
 
@@ -102,7 +102,7 @@ private fun ShortcutDialogTitle(modifier: Modifier = Modifier, title: String) {
 private fun ShortcutDialogApplicationIcon(modifier: Modifier = Modifier, icon: Bitmap?) {
     Spacer(modifier = Modifier.height(10.dp))
 
-    AsyncImage(
+    DynamicAsyncImage(
         model = icon,
         contentDescription = null,
         modifier = modifier,

@@ -15,19 +15,19 @@
  *   limitations under the License.
  *
  */
+package com.android.geto.core.packagemanager
 
-import com.android.build.api.dsl.ApplicationExtension
-import com.android.geto.configureFlavors
-import org.gradle.api.Plugin
-import org.gradle.api.Project
-import org.gradle.kotlin.dsl.configure
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
-class AndroidApplicationFlavorsConventionPlugin : Plugin<Project> {
-    override fun apply(target: Project) {
-        with(target) {
-            extensions.configure<ApplicationExtension> {
-                configureFlavors(this)
-            }
-        }
-    }
+@Module
+@InstallIn(SingletonComponent::class)
+interface PackageManagerModule {
+
+    @Binds
+    @Singleton
+    fun packageManagerWrapper(impl: DefaultPackageManagerWrapper): PackageManagerWrapper
 }

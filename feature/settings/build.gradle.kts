@@ -35,7 +35,7 @@ dependencies {
     testImplementation(libs.robolectric)
     testImplementation(projects.core.testing)
     testImplementation(projects.core.screenshotTesting)
-    testDemoImplementation(libs.roborazzi)
+    testImplementation(libs.roborazzi)
 
     androidTestImplementation(projects.core.testing)
 }
