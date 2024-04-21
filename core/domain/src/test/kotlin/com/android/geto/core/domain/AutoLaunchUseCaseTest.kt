@@ -69,9 +69,7 @@ class AutoLaunchUseCaseTest {
             ),
         )
 
-        val result = autoLaunchUseCase(packageName = packageName)
-
-        assertIs<AutoLaunchResult.Ignore>(result)
+        assertIs<AutoLaunchResult.Ignore>(autoLaunchUseCase(packageName = packageName))
     }
 
     @Test
@@ -100,9 +98,7 @@ class AutoLaunchUseCaseTest {
             ),
         )
 
-        val result = autoLaunchUseCase(packageName = packageName)
-
-        assertIs<AutoLaunchResult.Ignore>(result)
+        assertIs<AutoLaunchResult.Ignore>(autoLaunchUseCase(packageName = packageName))
     }
 
     @Test
@@ -174,9 +170,7 @@ class AutoLaunchUseCaseTest {
 
         appSettingsRepository.setAppSettings(appSettings)
 
-        val result = autoLaunchUseCase(packageName = packageName)
-
-        assertIs<AppSettingsResult.SecurityException>(result)
+        assertIs<AppSettingsResult.SecurityException>(autoLaunchUseCase(packageName = packageName))
     }
 
     @Test
@@ -209,9 +203,7 @@ class AutoLaunchUseCaseTest {
 
         appSettingsRepository.setAppSettings(appSettings)
 
-        val result = autoLaunchUseCase(packageName = packageName)
-
-        assertIs<AppSettingsResult.IllegalArgumentException>(result)
+        assertIs<AppSettingsResult.IllegalArgumentException>(autoLaunchUseCase(packageName = packageName))
     }
 
     @Test
@@ -242,8 +234,6 @@ class AutoLaunchUseCaseTest {
 
         appSettingsRepository.setAppSettings(appSettings)
 
-        val result = autoLaunchUseCase(packageName = packageName)
-
-        assertIs<AutoLaunchResult.Ignore>(result)
+        assertIs<AutoLaunchResult.Ignore>(autoLaunchUseCase(packageName = packageName))
     }
 }

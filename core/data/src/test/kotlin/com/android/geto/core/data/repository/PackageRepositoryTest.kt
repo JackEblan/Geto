@@ -85,9 +85,7 @@ class PackageRepositoryTest {
 
         packageManagerWrapper.setInstalledApplications(installedApplications)
 
-        val applicationIcon = subject.getApplicationIcon("")
-
-        assertNull(applicationIcon)
+        assertNull(subject.getApplicationIcon(""))
     }
 
     @Test
@@ -102,9 +100,7 @@ class PackageRepositoryTest {
 
         packageManagerWrapper.setInstalledApplications(installedApplications)
 
-        val applicationIcon = subject.getApplicationIcon("com.android.geto1")
-
-        assertNotNull(applicationIcon)
+        assertNotNull(subject.getApplicationIcon("com.android.geto1"))
     }
 
     @Test
@@ -119,9 +115,7 @@ class PackageRepositoryTest {
 
         packageManagerWrapper.setInstalledApplications(installedApplications)
 
-        val launchIntentForPackage = subject.getLaunchIntentForPackage("")
-
-        assertNull(launchIntentForPackage)
+        assertNull(subject.getLaunchIntentForPackage(""))
     }
 
     @Test
@@ -136,8 +130,6 @@ class PackageRepositoryTest {
 
         packageManagerWrapper.setInstalledApplications(installedApplications)
 
-        val launchIntentForPackage = subject.getLaunchIntentForPackage("com.android.geto1")
-
-        assertNotNull(launchIntentForPackage)
+        assertNotNull(subject.getLaunchIntentForPackage("com.android.geto1"))
     }
 }

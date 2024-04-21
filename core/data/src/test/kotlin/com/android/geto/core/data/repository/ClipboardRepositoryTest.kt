@@ -41,17 +41,13 @@ class ClipboardRepositoryTest {
     fun setPrimaryClip_isNoResult() {
         clipboardManagerWrapper.setAtLeastApi32(true)
 
-        val result = subject.setPrimaryClip(label = "label", text = "text")
-
-        assertIs<ClipboardResult.NoResult>(result)
+        assertIs<ClipboardResult.NoResult>(subject.setPrimaryClip(label = "label", text = "text"))
     }
 
     @Test
     fun setPrimaryClip_isNotify() {
         clipboardManagerWrapper.setAtLeastApi32(false)
 
-        val result = subject.setPrimaryClip(label = "label", text = "text")
-
-        assertIs<ClipboardResult.Notify>(result)
+        assertIs<ClipboardResult.Notify>(subject.setPrimaryClip(label = "label", text = "text"))
     }
 }

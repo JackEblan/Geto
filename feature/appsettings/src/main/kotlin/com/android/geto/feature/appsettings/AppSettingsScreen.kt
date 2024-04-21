@@ -121,7 +121,6 @@ internal fun AppSettingsRoute(
         onNavigationIconClick = onNavigationIconClick,
         onRevertAppSettings = viewModel::revertAppSettings,
         onGetShortcut = viewModel::getShortcut,
-        onGetApplicationIcon = viewModel::getApplicationIcon,
         onCheckAppSetting = viewModel::checkAppSetting,
         onDeleteAppSetting = viewModel::deleteAppSetting,
         onLaunchApp = viewModel::applyAppSettings,
@@ -153,7 +152,6 @@ internal fun AppSettingsScreen(
     onNavigationIconClick: () -> Unit,
     onRevertAppSettings: () -> Unit,
     onGetShortcut: () -> Unit,
-    onGetApplicationIcon: () -> Unit,
     onCheckAppSetting: (Boolean, AppSetting) -> Unit,
     onDeleteAppSetting: (AppSetting) -> Unit,
     onLaunchApp: () -> Unit,
@@ -198,7 +196,6 @@ internal fun AppSettingsScreen(
         shortcutResult = shortcutResult,
         clipboardResult = clipboardResult,
         onAutoLaunchApp = onAutoLaunchApp,
-        onGetApplicationIcon = onGetApplicationIcon,
         onResetAppSettingsResult = onResetAppSettingsResult,
         onResetShortcutResult = onResetShortcutResult,
         onResetClipboardResult = onResetClipboardResult,
@@ -293,7 +290,6 @@ private fun AppSettingsLaunchedEffects(
     shortcutResult: ShortcutResult,
     clipboardResult: ClipboardResult,
     onAutoLaunchApp: () -> Unit,
-    onGetApplicationIcon: () -> Unit,
     onResetAppSettingsResult: () -> Unit,
     onResetShortcutResult: () -> Unit,
     onResetClipboardResult: () -> Unit,
@@ -323,7 +319,6 @@ private fun AppSettingsLaunchedEffects(
 
     LaunchedEffect(key1 = true) {
         onAutoLaunchApp()
-        onGetApplicationIcon()
     }
 
     LaunchedEffect(key1 = applyAppSettingsResult) {
@@ -674,7 +669,6 @@ private fun AppSettingsScreenLoadingStatePreview() {
             onNavigationIconClick = {},
             onRevertAppSettings = {},
             onGetShortcut = {},
-            onGetApplicationIcon = {},
             onCheckAppSetting = { _, _ -> },
             onDeleteAppSetting = {},
             onLaunchApp = {},
@@ -708,7 +702,6 @@ private fun AppSettingsScreenEmptyStatePreview() {
             onNavigationIconClick = {},
             onRevertAppSettings = {},
             onGetShortcut = {},
-            onGetApplicationIcon = {},
             onCheckAppSetting = { _, _ -> },
             onDeleteAppSetting = {},
             onLaunchApp = {},
@@ -744,7 +737,6 @@ private fun AppSettingsScreenSuccessStatePreview(
             onNavigationIconClick = {},
             onRevertAppSettings = {},
             onGetShortcut = {},
-            onGetApplicationIcon = {},
             onCheckAppSetting = { _, _ -> },
             onDeleteAppSetting = {},
             onLaunchApp = {},

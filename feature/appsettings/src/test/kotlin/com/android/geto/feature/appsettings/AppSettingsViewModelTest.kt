@@ -146,10 +146,12 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun appSettingsUiState_isSuccess_whenAppSettings_isNotEmpty() = runTest {
-        val collectJob =
-            launch(UnconfinedTestDispatcher()) { viewModel.appSettingUiState.collect() }
+    fun applicationIcon_isNull_whenStarted() = runTest {
+        assertNull(viewModel.applicationIcon.value)
+    }
 
+    @Test
+    fun appSettingsUiState_isSuccess_whenAppSettings_isNotEmpty() = runTest {
         val appSettings = List(5) { index ->
             AppSetting(
                 id = index,
@@ -165,9 +167,10 @@ class AppSettingsViewModelTest {
 
         appSettingsRepository.setAppSettings(appSettings)
 
-        val item = viewModel.appSettingUiState.value
+        val collectJob =
+            launch(UnconfinedTestDispatcher()) { viewModel.appSettingUiState.collect() }
 
-        assertIs<AppSettingsUiState.Success>(item)
+        assertIs<AppSettingsUiState.Success>(viewModel.appSettingUiState.value)
 
         collectJob.cancel()
     }
@@ -416,9 +419,7 @@ class AppSettingsViewModelTest {
 
         viewModel.getSecureSettings(text = "Geto", settingType = SettingType.GLOBAL)
 
-        val item = viewModel.secureSettings.value
-
-        assertTrue(item.isNotEmpty())
+        assertTrue(viewModel.secureSettings.value.isNotEmpty())
     }
 
     @Test
@@ -431,9 +432,7 @@ class AppSettingsViewModelTest {
 
         viewModel.getSecureSettings(text = "_", settingType = SettingType.GLOBAL)
 
-        val item = viewModel.secureSettings.value
-
-        assertTrue(item.isEmpty())
+        assertTrue(viewModel.secureSettings.value.isEmpty())
     }
 
     @Test
@@ -539,32 +538,17 @@ class AppSettingsViewModelTest {
         val installedApplications = List(1) { _ ->
             TargetApplicationInfo(
                 flags = 0,
-                packageName = "com.android.geto",
-                label = "Geto",
+                packageName = packageName,
+                label = appName,
             )
         }
 
         packageRepository.setInstalledApplications(installedApplications)
 
-        viewModel.getApplicationIcon()
+        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.applicationIcon.collect() }
 
         assertNotNull(viewModel.applicationIcon.value)
-    }
 
-    @Test
-    fun applicationIcon_isNull_whenGetApplicationIcon() = runTest {
-        val installedApplications = List(1) { _ ->
-            TargetApplicationInfo(
-                flags = 0,
-                packageName = "com.android.geto",
-                label = "Geto",
-            )
-        }
-
-        packageRepository.setInstalledApplications(installedApplications)
-
-        viewModel.getApplicationIcon("")
-
-        assertNull(viewModel.applicationIcon.value)
+        collectJob.cancel()
     }
 }

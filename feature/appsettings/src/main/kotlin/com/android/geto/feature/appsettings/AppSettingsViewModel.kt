@@ -17,7 +17,6 @@
  */
 package com.android.geto.feature.appsettings
 
-import android.graphics.drawable.Drawable
 import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -42,6 +41,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -77,9 +77,6 @@ class AppSettingsViewModel @Inject constructor(
     private val _clipboardResult = MutableStateFlow<ClipboardResult>(ClipboardResult.NoResult)
     val clipboardResult = _clipboardResult.asStateFlow()
 
-    private val _applicationIcon = MutableStateFlow<Drawable?>(null)
-    val applicationIcon = _applicationIcon.asStateFlow()
-
     private val appSettingsArgs = AppSettingsArgs(savedStateHandle)
 
     val packageName = appSettingsArgs.packageName
@@ -92,6 +89,14 @@ class AppSettingsViewModel @Inject constructor(
             started = SharingStarted.WhileSubscribed(5_000),
             initialValue = AppSettingsUiState.Loading,
         )
+
+    val applicationIcon = flow {
+        emit(packageRepository.getApplicationIcon(packageName))
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000),
+        initialValue = null,
+    )
 
     fun applyAppSettings() {
         viewModelScope.launch {
@@ -180,12 +185,6 @@ class AppSettingsViewModel @Inject constructor(
                 .filter { it.name!!.contains(text) }.take(20)
 
             _secureSetting.update { filteredSecureSettings }
-        }
-    }
-
-    fun getApplicationIcon(id: String = packageName) {
-        viewModelScope.launch {
-            _applicationIcon.update { packageRepository.getApplicationIcon(packageName = id) }
         }
     }
 
