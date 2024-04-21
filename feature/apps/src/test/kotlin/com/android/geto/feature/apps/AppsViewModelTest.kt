@@ -64,8 +64,6 @@ class AppsViewModelTest {
 
         packageRepository.setInstalledApplications(installedApplications)
 
-        viewModel.getInstalledApplications()
-
         val item = viewModel.appsUiState.value
 
         assertIs<AppsUiState.Success>(item)

@@ -42,10 +42,10 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -130,40 +130,6 @@ internal fun SettingsScreen(
     onChangeAutoLaunchPreference: (useAutoLaunch: Boolean) -> Unit,
     onNavigationIconClick: () -> Unit,
 ) {
-    var themeDialogSelected by rememberSaveable { mutableIntStateOf(0) }
-
-    var darkDialogSelected by rememberSaveable { mutableIntStateOf(0) }
-
-    LaunchedEffect(key1 = settingsUiState) {
-        when (settingsUiState) {
-            SettingsUiState.Loading -> Unit
-            is SettingsUiState.Success -> {
-                val themeBrandIndex =
-                    ThemeBrand.entries.indexOf(settingsUiState.userData.themeBrand)
-                val darkThemeConfigIndex =
-                    DarkThemeConfig.entries.indexOf(settingsUiState.userData.darkThemeConfig)
-
-                themeDialogSelected = themeBrandIndex
-                darkDialogSelected = darkThemeConfigIndex
-            }
-        }
-    }
-    SettingsScreenDialogs(
-        showThemeDialog = showThemeDialog,
-        showDarkDialog = showDarkDialog,
-        showCleanDialog = showCleanDialog,
-        themeDialogSelected = themeDialogSelected,
-        darkDialogSelected = darkDialogSelected,
-        onThemeDialogSelect = { themeDialogSelected = it },
-        onDarkDialogSelect = { darkDialogSelected = it },
-        onUpdateThemeBrand = onUpdateThemeBrand,
-        onUpdateDarkThemeConfig = onUpdateDarkThemeConfig,
-        onCleanAppSettings = onCleanAppSettings,
-        onThemeDialogDismissRequest = onThemeDialogDismissRequest,
-        onDarkDialogDismissRequest = onDarkDialogDismissRequest,
-        onCleanDialogDismissRequest = onCleanDialogDismissRequest,
-    )
-
     Scaffold(
         topBar = {
             SettingsTopAppBAr(onNavigationIconClick = onNavigationIconClick)
@@ -182,6 +148,19 @@ internal fun SettingsScreen(
                 )
 
                 is SettingsUiState.Success -> {
+                    SettingsScreenDialogs(
+                        settingsUiState = settingsUiState,
+                        showThemeDialog = showThemeDialog,
+                        showDarkDialog = showDarkDialog,
+                        showCleanDialog = showCleanDialog,
+                        onUpdateThemeBrand = onUpdateThemeBrand,
+                        onUpdateDarkThemeConfig = onUpdateDarkThemeConfig,
+                        onCleanAppSettings = onCleanAppSettings,
+                        onThemeDialogDismissRequest = onThemeDialogDismissRequest,
+                        onDarkDialogDismissRequest = onDarkDialogDismissRequest,
+                        onCleanDialogDismissRequest = onCleanDialogDismissRequest,
+                    )
+
                     SuccessState(
                         contentPadding = innerPadding,
                         settingsUiState = settingsUiState,
@@ -200,13 +179,10 @@ internal fun SettingsScreen(
 
 @Composable
 private fun SettingsScreenDialogs(
+    settingsUiState: SettingsUiState.Success,
     showThemeDialog: Boolean,
     showDarkDialog: Boolean,
     showCleanDialog: Boolean,
-    themeDialogSelected: Int,
-    darkDialogSelected: Int,
-    onThemeDialogSelect: (Int) -> Unit,
-    onDarkDialogSelect: (Int) -> Unit,
     onUpdateThemeBrand: (ThemeBrand) -> Unit,
     onUpdateDarkThemeConfig: (DarkThemeConfig) -> Unit,
     onCleanAppSettings: () -> Unit,
@@ -214,6 +190,22 @@ private fun SettingsScreenDialogs(
     onDarkDialogDismissRequest: () -> Unit,
     onCleanDialogDismissRequest: () -> Unit,
 ) {
+    var themeDialogSelected by remember {
+        mutableIntStateOf(
+            ThemeBrand.entries.indexOf(
+                settingsUiState.userData.themeBrand,
+            ),
+        )
+    }
+
+    var darkDialogSelected by remember {
+        mutableIntStateOf(
+            DarkThemeConfig.entries.indexOf(
+                settingsUiState.userData.darkThemeConfig,
+            ),
+        )
+    }
+
     if (showThemeDialog) {
         SingleSelectionDialog(
             title = stringResource(id = R.string.theme),
@@ -223,7 +215,7 @@ private fun SettingsScreenDialogs(
             ),
             onDismissRequest = onThemeDialogDismissRequest,
             selected = themeDialogSelected,
-            onSelect = onThemeDialogSelect,
+            onSelect = { themeDialogSelected = it },
             negativeButtonText = stringResource(id = R.string.cancel),
             positiveButtonText = stringResource(id = R.string.change),
             onNegativeButtonClick = onThemeDialogDismissRequest,
@@ -245,7 +237,7 @@ private fun SettingsScreenDialogs(
             ),
             onDismissRequest = onDarkDialogDismissRequest,
             selected = darkDialogSelected,
-            onSelect = onDarkDialogSelect,
+            onSelect = { darkDialogSelected = it },
             negativeButtonText = stringResource(id = R.string.cancel),
             positiveButtonText = stringResource(id = R.string.change),
             onNegativeButtonClick = onDarkDialogDismissRequest,

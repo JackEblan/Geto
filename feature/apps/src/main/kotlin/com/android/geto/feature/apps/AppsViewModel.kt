@@ -31,11 +31,9 @@ import javax.inject.Inject
 class AppsViewModel @Inject constructor(
     private val packageRepository: PackageRepository,
 ) : ViewModel() {
-    private val _appsUiState = MutableStateFlow(AppsUiState.Loading).map {
+    val appsUiState = MutableStateFlow(AppsUiState.Loading).map {
         AppsUiState.Success(packageRepository.getInstalledApplications())
-    }
-
-    val appsUiState = _appsUiState.stateIn(
+    }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
         initialValue = AppsUiState.Loading,

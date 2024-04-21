@@ -41,7 +41,6 @@ import com.android.geto.feature.appsettings.navigation.AppSettingsArgs
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
@@ -82,20 +81,19 @@ class AppSettingsViewModel @Inject constructor(
     private val _applicationIcon = MutableStateFlow<Drawable?>(null)
     val applicationIcon = _applicationIcon.asStateFlow()
 
-    private val appSettingsArgs: AppSettingsArgs = AppSettingsArgs(savedStateHandle)
+    private val appSettingsArgs = AppSettingsArgs(savedStateHandle)
 
     val packageName = appSettingsArgs.packageName
 
     val appName = appSettingsArgs.appName
 
-    val appSettingUiState: StateFlow<AppSettingsUiState> =
-        appSettingsRepository.getAppSettingsByPackageName(packageName)
-            .map<List<AppSetting>, AppSettingsUiState>(AppSettingsUiState::Success)
-            .onStart { emit(AppSettingsUiState.Loading) }.stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(5_000),
-                initialValue = AppSettingsUiState.Loading,
-            )
+    val appSettingUiState = appSettingsRepository.getAppSettingsByPackageName(packageName)
+        .map<List<AppSetting>, AppSettingsUiState>(AppSettingsUiState::Success)
+        .onStart { emit(AppSettingsUiState.Loading) }.stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = AppSettingsUiState.Loading,
+        )
 
     fun applyAppSettings() {
         viewModelScope.launch {
