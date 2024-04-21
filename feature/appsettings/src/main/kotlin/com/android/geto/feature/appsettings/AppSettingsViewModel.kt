@@ -43,7 +43,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -88,8 +87,7 @@ class AppSettingsViewModel @Inject constructor(
     val appName = appSettingsArgs.appName
 
     val appSettingUiState = appSettingsRepository.getAppSettingsByPackageName(packageName)
-        .map<List<AppSetting>, AppSettingsUiState>(AppSettingsUiState::Success)
-        .onStart { emit(AppSettingsUiState.Loading) }.stateIn(
+        .map<List<AppSetting>, AppSettingsUiState>(AppSettingsUiState::Success).stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000),
             initialValue = AppSettingsUiState.Loading,

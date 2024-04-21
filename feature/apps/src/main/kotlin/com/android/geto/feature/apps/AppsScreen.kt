@@ -23,7 +23,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -139,7 +138,7 @@ private fun LoadingState(modifier: Modifier = Modifier) {
 @Composable
 private fun SuccessState(
     modifier: Modifier = Modifier,
-    appsUiState: AppsUiState,
+    appsUiState: AppsUiState.Success,
     contentPadding: PaddingValues,
     onItemClick: (String, String) -> Unit,
 ) {
@@ -149,26 +148,11 @@ private fun SuccessState(
             .testTag("apps:lazyColumn"),
         contentPadding = contentPadding,
     ) {
-        appsItems(
-            appsUiState = appsUiState,
-            onItemClick = onItemClick,
-        )
-    }
-}
-
-private fun LazyListScope.appsItems(
-    appsUiState: AppsUiState,
-    onItemClick: (String, String) -> Unit,
-) {
-    when (appsUiState) {
-        AppsUiState.Loading -> Unit
-        is AppsUiState.Success -> {
-            items(appsUiState.targetApplicationInfoList) { targetApplicationInfo ->
-                AppItem(
-                    targetApplicationInfo = targetApplicationInfo,
-                    onItemClick = onItemClick,
-                )
-            }
+        items(appsUiState.targetApplicationInfoList) { targetApplicationInfo ->
+            AppItem(
+                targetApplicationInfo = targetApplicationInfo,
+                onItemClick = onItemClick,
+            )
         }
     }
 }

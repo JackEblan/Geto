@@ -21,9 +21,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.android.geto.core.data.repository.PackageRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
@@ -31,8 +30,8 @@ import javax.inject.Inject
 class AppsViewModel @Inject constructor(
     private val packageRepository: PackageRepository,
 ) : ViewModel() {
-    val appsUiState = MutableStateFlow(AppsUiState.Loading).map {
-        AppsUiState.Success(packageRepository.getInstalledApplications())
+    val appsUiState = flow {
+        emit(AppsUiState.Success(packageRepository.getInstalledApplications()))
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),

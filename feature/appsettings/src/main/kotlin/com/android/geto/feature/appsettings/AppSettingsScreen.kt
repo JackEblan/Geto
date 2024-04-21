@@ -34,7 +34,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomAppBarDefaults
@@ -622,56 +621,39 @@ private fun LoadingState(modifier: Modifier = Modifier) {
     )
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun SuccessState(
     modifier: Modifier = Modifier,
-    appSettingsUiState: AppSettingsUiState,
+    appSettingsUiState: AppSettingsUiState.Success,
     contentPadding: PaddingValues,
     onAppSettingsItemCheckBoxChange: (Boolean, AppSetting) -> Unit,
     onDeleteAppSettingsItem: (AppSetting) -> Unit,
 ) {
-    when (appSettingsUiState) {
-        AppSettingsUiState.Loading -> Unit
-        is AppSettingsUiState.Success -> {
-            LazyColumn(
-                modifier = modifier
-                    .fillMaxSize()
-                    .testTag("appSettings:lazyColumn"),
-                contentPadding = contentPadding,
-            ) {
-                appSettings(
-                    appSettingList = appSettingsUiState.appSettingList,
-                    onAppSettingsItemCheckBoxChange = onAppSettingsItemCheckBoxChange,
-                    onDeleteAppSettingsItem = onDeleteAppSettingsItem,
-                )
-            }
+    LazyColumn(
+        modifier = modifier
+            .fillMaxSize()
+            .testTag("appSettings:lazyColumn"),
+        contentPadding = contentPadding,
+    ) {
+        items(appSettingsUiState.appSettingList, key = { it.id!! }) { appSettings ->
+            AppSettingsItem(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 10.dp, horizontal = 5.dp)
+                    .animateItemPlacement(),
+                appSetting = appSettings,
+                onUserAppSettingsItemCheckBoxChange = { check ->
+                    onAppSettingsItemCheckBoxChange(
+                        check,
+                        appSettings,
+                    )
+                },
+                onDeleteUserAppSettingsItem = {
+                    onDeleteAppSettingsItem(appSettings)
+                },
+            )
         }
-    }
-}
-
-@OptIn(ExperimentalFoundationApi::class)
-private fun LazyListScope.appSettings(
-    appSettingList: List<AppSetting>,
-    onAppSettingsItemCheckBoxChange: (Boolean, AppSetting) -> Unit,
-    onDeleteAppSettingsItem: (AppSetting) -> Unit,
-) {
-    items(appSettingList, key = { it.id!! }) { appSettings ->
-        AppSettingsItem(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 10.dp, horizontal = 5.dp)
-                .animateItemPlacement(),
-            appSetting = appSettings,
-            onUserAppSettingsItemCheckBoxChange = { check ->
-                onAppSettingsItemCheckBoxChange(
-                    check,
-                    appSettings,
-                )
-            },
-            onDeleteUserAppSettingsItem = {
-                onDeleteAppSettingsItem(appSettings)
-            },
-        )
     }
 }
 
