@@ -32,7 +32,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -58,13 +57,6 @@ internal fun AppsRoute(
     onSettingsClick: () -> Unit,
 ) {
     val appListUiState = viewModel.appsUiState.collectAsStateWithLifecycle().value
-
-    LaunchedEffect(key1 = true) {
-        when (appListUiState) {
-            AppsUiState.Loading -> viewModel.getInstalledApplications()
-            is AppsUiState.Success -> Unit
-        }
-    }
 
     AppsScreen(
         modifier = modifier,

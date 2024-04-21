@@ -24,6 +24,7 @@ androidxTestRunner = "1.5.2"
 androidxUiAutomator = "2.3.0"
 coil = "2.6.0"
 dependencyGuard = "0.5.0"
+moduleGraph = "2.5.0"
 hilt = "2.51.1"
 jacoco = "0.8.7"
 junit4 = "4.13.2"
@@ -107,6 +108,7 @@ baselineprofile = { id = "androidx.baselineprofile", version.ref = "androidxMacr
 dependencyGuard = { id = "com.dropbox.dependency-guard", version.ref = "dependencyGuard" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+module-graph = { id = "com.jraska.module.graph.assertion", version.ref = "moduleGraph" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 protobuf = { id = "com.google.protobuf", version.ref = "protobufPlugin" }

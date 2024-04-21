@@ -22,22 +22,22 @@ import androidx.lifecycle.viewModelScope
 import com.android.geto.core.data.repository.PackageRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 @HiltViewModel
 class AppsViewModel @Inject constructor(
     private val packageRepository: PackageRepository,
 ) : ViewModel() {
-    private val _appsUiState = MutableStateFlow<AppsUiState>(AppsUiState.Loading)
-
-    val appsUiState = _appsUiState.asStateFlow()
-
-    fun getInstalledApplications() {
-        viewModelScope.launch {
-            _appsUiState.update { AppsUiState.Success(packageRepository.getInstalledApplications()) }
-        }
+    private val _appsUiState = MutableStateFlow(AppsUiState.Loading).map {
+        AppsUiState.Success(packageRepository.getInstalledApplications())
     }
+
+    val appsUiState = _appsUiState.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000),
+        initialValue = AppsUiState.Loading,
+    )
 }
