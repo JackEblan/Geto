@@ -18,10 +18,6 @@
 package com.android.geto.feature.settings
 
 import androidx.activity.ComponentActivity
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsNotDisplayed
 import androidx.compose.ui.test.assertIsOff
@@ -48,18 +44,9 @@ class SettingsScreenTest {
             SettingsScreen(
                 settingsUiState = SettingsUiState.Loading,
                 supportDynamicColor = false,
-                showThemeDialog = false,
-                showDarkDialog = false,
-                showCleanDialog = false,
-                onShowThemeDialog = {},
-                onShowDarkDialog = {},
-                onShowCleanDialog = {},
                 onUpdateThemeBrand = {},
                 onUpdateDarkThemeConfig = {},
                 onCleanAppSettings = {},
-                onThemeDialogDismissRequest = {},
-                onDarkDialogDismissRequest = {},
-                onCleanDialogDismissRequest = {},
                 onChangeDynamicColorPreference = {},
                 onChangeAutoLaunchPreference = {},
                 onNavigationIconClick = {},
@@ -82,18 +69,9 @@ class SettingsScreenTest {
                     ),
                 ),
                 supportDynamicColor = false,
-                showThemeDialog = false,
-                showDarkDialog = false,
-                showCleanDialog = false,
-                onShowThemeDialog = {},
-                onShowDarkDialog = {},
-                onShowCleanDialog = {},
                 onUpdateThemeBrand = {},
                 onUpdateDarkThemeConfig = {},
                 onCleanAppSettings = {},
-                onThemeDialogDismissRequest = {},
-                onDarkDialogDismissRequest = {},
-                onCleanDialogDismissRequest = {},
                 onChangeDynamicColorPreference = {},
                 onChangeAutoLaunchPreference = {},
                 onNavigationIconClick = {},
@@ -116,18 +94,9 @@ class SettingsScreenTest {
                     ),
                 ),
                 supportDynamicColor = true,
-                showThemeDialog = false,
-                showDarkDialog = false,
-                showCleanDialog = false,
-                onShowThemeDialog = {},
-                onShowDarkDialog = {},
-                onShowCleanDialog = {},
                 onUpdateThemeBrand = {},
                 onUpdateDarkThemeConfig = {},
                 onCleanAppSettings = {},
-                onThemeDialogDismissRequest = {},
-                onDarkDialogDismissRequest = {},
-                onCleanDialogDismissRequest = {},
                 onChangeDynamicColorPreference = {},
                 onChangeAutoLaunchPreference = {},
                 onNavigationIconClick = {},
@@ -150,18 +119,9 @@ class SettingsScreenTest {
                     ),
                 ),
                 supportDynamicColor = true,
-                showThemeDialog = false,
-                showDarkDialog = false,
-                showCleanDialog = false,
-                onShowThemeDialog = {},
-                onShowDarkDialog = {},
-                onShowCleanDialog = {},
                 onUpdateThemeBrand = {},
                 onUpdateDarkThemeConfig = {},
                 onCleanAppSettings = {},
-                onThemeDialogDismissRequest = {},
-                onDarkDialogDismissRequest = {},
-                onCleanDialogDismissRequest = {},
                 onChangeDynamicColorPreference = {},
                 onChangeAutoLaunchPreference = {},
                 onNavigationIconClick = {},
@@ -184,18 +144,9 @@ class SettingsScreenTest {
                     ),
                 ),
                 supportDynamicColor = true,
-                showThemeDialog = false,
-                showDarkDialog = false,
-                showCleanDialog = false,
-                onShowThemeDialog = {},
-                onShowDarkDialog = {},
-                onShowCleanDialog = {},
                 onUpdateThemeBrand = {},
                 onUpdateDarkThemeConfig = {},
                 onCleanAppSettings = {},
-                onThemeDialogDismissRequest = {},
-                onDarkDialogDismissRequest = {},
-                onCleanDialogDismissRequest = {},
                 onChangeDynamicColorPreference = {},
                 onChangeAutoLaunchPreference = {},
                 onNavigationIconClick = {},
@@ -218,18 +169,9 @@ class SettingsScreenTest {
                     ),
                 ),
                 supportDynamicColor = false,
-                showThemeDialog = false,
-                showDarkDialog = false,
-                showCleanDialog = false,
-                onShowThemeDialog = {},
-                onShowDarkDialog = {},
-                onShowCleanDialog = {},
                 onUpdateThemeBrand = {},
                 onUpdateDarkThemeConfig = {},
                 onCleanAppSettings = {},
-                onThemeDialogDismissRequest = {},
-                onDarkDialogDismissRequest = {},
-                onCleanDialogDismissRequest = {},
                 onChangeDynamicColorPreference = {},
                 onChangeAutoLaunchPreference = {},
                 onNavigationIconClick = {},
@@ -252,18 +194,9 @@ class SettingsScreenTest {
                     ),
                 ),
                 supportDynamicColor = false,
-                showThemeDialog = false,
-                showDarkDialog = false,
-                showCleanDialog = false,
-                onShowThemeDialog = {},
-                onShowDarkDialog = {},
-                onShowCleanDialog = {},
                 onUpdateThemeBrand = {},
                 onUpdateDarkThemeConfig = {},
                 onCleanAppSettings = {},
-                onThemeDialogDismissRequest = {},
-                onDarkDialogDismissRequest = {},
-                onCleanDialogDismissRequest = {},
                 onChangeDynamicColorPreference = {},
                 onChangeAutoLaunchPreference = {},
                 onNavigationIconClick = {},
@@ -286,18 +219,9 @@ class SettingsScreenTest {
                     ),
                 ),
                 supportDynamicColor = true,
-                showThemeDialog = false,
-                showDarkDialog = false,
-                showCleanDialog = false,
-                onShowThemeDialog = {},
-                onShowDarkDialog = {},
-                onShowCleanDialog = {},
                 onUpdateThemeBrand = {},
                 onUpdateDarkThemeConfig = {},
                 onCleanAppSettings = {},
-                onThemeDialogDismissRequest = {},
-                onDarkDialogDismissRequest = {},
-                onCleanDialogDismissRequest = {},
                 onChangeDynamicColorPreference = {},
                 onChangeAutoLaunchPreference = {},
                 onNavigationIconClick = {},
@@ -320,18 +244,9 @@ class SettingsScreenTest {
                     ),
                 ),
                 supportDynamicColor = true,
-                showThemeDialog = false,
-                showDarkDialog = false,
-                showCleanDialog = false,
-                onShowThemeDialog = {},
-                onShowDarkDialog = {},
-                onShowCleanDialog = {},
                 onUpdateThemeBrand = {},
                 onUpdateDarkThemeConfig = {},
                 onCleanAppSettings = {},
-                onThemeDialogDismissRequest = {},
-                onDarkDialogDismissRequest = {},
-                onCleanDialogDismissRequest = {},
                 onChangeDynamicColorPreference = {},
                 onChangeAutoLaunchPreference = {},
                 onNavigationIconClick = {},
@@ -344,8 +259,6 @@ class SettingsScreenTest {
     @Test
     fun themeDialog_isDisplayed_whenThemeSetting_isClicked_thenDismissed() {
         composeTestRule.setContent {
-            var showThemeDialog by rememberSaveable { mutableStateOf(false) }
-
             SettingsScreen(
                 settingsUiState = SettingsUiState.Success(
                     UserData(
@@ -356,22 +269,9 @@ class SettingsScreenTest {
                     ),
                 ),
                 supportDynamicColor = true,
-                showThemeDialog = showThemeDialog,
-                showDarkDialog = false,
-                showCleanDialog = false,
-                onShowThemeDialog = {
-                    showThemeDialog = true
-                },
-                onShowDarkDialog = {},
-                onShowCleanDialog = {},
                 onUpdateThemeBrand = {},
                 onUpdateDarkThemeConfig = {},
                 onCleanAppSettings = {},
-                onThemeDialogDismissRequest = {
-                    showThemeDialog = false
-                },
-                onDarkDialogDismissRequest = {},
-                onCleanDialogDismissRequest = {},
                 onChangeDynamicColorPreference = {},
                 onChangeAutoLaunchPreference = {},
                 onNavigationIconClick = {},
@@ -390,8 +290,6 @@ class SettingsScreenTest {
     @Test
     fun darkDialog_isDisplayed_whenDarkSetting_isClicked_thenDismissed() {
         composeTestRule.setContent {
-            var showDarkDialog by rememberSaveable { mutableStateOf(false) }
-
             SettingsScreen(
                 settingsUiState = SettingsUiState.Success(
                     UserData(
@@ -402,22 +300,9 @@ class SettingsScreenTest {
                     ),
                 ),
                 supportDynamicColor = true,
-                showThemeDialog = false,
-                showDarkDialog = showDarkDialog,
-                showCleanDialog = false,
-                onShowThemeDialog = {},
-                onShowDarkDialog = {
-                    showDarkDialog = true
-                },
-                onShowCleanDialog = {},
                 onUpdateThemeBrand = {},
                 onUpdateDarkThemeConfig = {},
                 onCleanAppSettings = {},
-                onThemeDialogDismissRequest = {},
-                onDarkDialogDismissRequest = {
-                    showDarkDialog = false
-                },
-                onCleanDialogDismissRequest = {},
                 onChangeDynamicColorPreference = {},
                 onChangeAutoLaunchPreference = {},
                 onNavigationIconClick = {},
@@ -436,8 +321,6 @@ class SettingsScreenTest {
     @Test
     fun cleanDialog_isDisplayed_whenCleanSetting_isClicked_thenDismissed() {
         composeTestRule.setContent {
-            var showCleanDialog by rememberSaveable { mutableStateOf(false) }
-
             SettingsScreen(
                 settingsUiState = SettingsUiState.Success(
                     UserData(
@@ -448,22 +331,9 @@ class SettingsScreenTest {
                     ),
                 ),
                 supportDynamicColor = true,
-                showThemeDialog = false,
-                showDarkDialog = false,
-                showCleanDialog = showCleanDialog,
-                onShowThemeDialog = {},
-                onShowDarkDialog = {},
-                onShowCleanDialog = {
-                    showCleanDialog = true
-                },
                 onUpdateThemeBrand = {},
                 onUpdateDarkThemeConfig = {},
                 onCleanAppSettings = {},
-                onThemeDialogDismissRequest = {},
-                onDarkDialogDismissRequest = {},
-                onCleanDialogDismissRequest = {
-                    showCleanDialog = false
-                },
                 onChangeDynamicColorPreference = {},
                 onChangeAutoLaunchPreference = {},
                 onNavigationIconClick = {},

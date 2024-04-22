@@ -64,7 +64,7 @@ class SettingsViewModelTest {
     }
 
     @Test
-    fun settingsUiState_isSuccess_whenUserDataIsLoaded() = runTest {
+    fun settingsUiState_isSuccess() = runTest {
         userDataRepository.setThemeBrand(ThemeBrand.ANDROID)
 
         userDataRepository.setDarkThemeConfig(DarkThemeConfig.DARK)

@@ -74,33 +74,12 @@ internal fun SettingsRoute(
 ) {
     val settingsUiState = viewModel.settingsUiState.collectAsStateWithLifecycle().value
 
-    var showThemeDialog by rememberSaveable { mutableStateOf(false) }
-
-    var showDarkDialog by rememberSaveable { mutableStateOf(false) }
-
-    var showCleanDialog by rememberSaveable { mutableStateOf(false) }
-
     SettingsScreen(
         modifier = modifier,
         settingsUiState = settingsUiState,
-        showThemeDialog = showThemeDialog,
-        showDarkDialog = showDarkDialog,
-        showCleanDialog = showCleanDialog,
-        onShowThemeDialog = { showThemeDialog = true },
-        onShowDarkDialog = { showDarkDialog = true },
-        onShowCleanDialog = { showCleanDialog = true },
         onUpdateThemeBrand = viewModel::updateThemeBrand,
         onUpdateDarkThemeConfig = viewModel::updateDarkThemeConfig,
         onCleanAppSettings = viewModel::cleanAppSettings,
-        onThemeDialogDismissRequest = {
-            showThemeDialog = false
-        },
-        onDarkDialogDismissRequest = {
-            showDarkDialog = false
-        },
-        onCleanDialogDismissRequest = {
-            showCleanDialog = false
-        },
         onChangeDynamicColorPreference = viewModel::updateDynamicColorPreference,
         onChangeAutoLaunchPreference = viewModel::updateAutoLaunchPreference,
         onNavigationIconClick = onNavigationIconClick,
@@ -114,22 +93,19 @@ internal fun SettingsScreen(
     settingsUiState: SettingsUiState,
     scrollState: ScrollState = rememberScrollState(),
     supportDynamicColor: Boolean = supportsDynamicTheming(),
-    showThemeDialog: Boolean,
-    showDarkDialog: Boolean,
-    showCleanDialog: Boolean,
-    onShowThemeDialog: () -> Unit,
-    onShowDarkDialog: () -> Unit,
-    onShowCleanDialog: () -> Unit,
     onUpdateThemeBrand: (ThemeBrand) -> Unit,
     onUpdateDarkThemeConfig: (DarkThemeConfig) -> Unit,
     onCleanAppSettings: () -> Unit,
-    onThemeDialogDismissRequest: () -> Unit,
-    onDarkDialogDismissRequest: () -> Unit,
-    onCleanDialogDismissRequest: () -> Unit,
     onChangeDynamicColorPreference: (useDynamicColor: Boolean) -> Unit,
     onChangeAutoLaunchPreference: (useAutoLaunch: Boolean) -> Unit,
     onNavigationIconClick: () -> Unit,
 ) {
+    var showThemeDialog by rememberSaveable { mutableStateOf(false) }
+
+    var showDarkDialog by rememberSaveable { mutableStateOf(false) }
+
+    var showCleanDialog by rememberSaveable { mutableStateOf(false) }
+
     Scaffold(
         topBar = {
             SettingsTopAppBAr(onNavigationIconClick = onNavigationIconClick)
@@ -156,18 +132,24 @@ internal fun SettingsScreen(
                         onUpdateThemeBrand = onUpdateThemeBrand,
                         onUpdateDarkThemeConfig = onUpdateDarkThemeConfig,
                         onCleanAppSettings = onCleanAppSettings,
-                        onThemeDialogDismissRequest = onThemeDialogDismissRequest,
-                        onDarkDialogDismissRequest = onDarkDialogDismissRequest,
-                        onCleanDialogDismissRequest = onCleanDialogDismissRequest,
+                        onThemeDialogDismissRequest = {
+                            showThemeDialog = false
+                        },
+                        onDarkDialogDismissRequest = {
+                            showDarkDialog = false
+                        },
+                        onCleanDialogDismissRequest = {
+                            showCleanDialog = false
+                        },
                     )
 
                     SuccessState(
                         contentPadding = innerPadding,
                         settingsUiState = settingsUiState,
                         supportDynamicColor = supportDynamicColor,
-                        onShowThemeDialog = onShowThemeDialog,
-                        onShowDarkDialog = onShowDarkDialog,
-                        onShowCleanDialog = onShowCleanDialog,
+                        onShowThemeDialog = { showThemeDialog = true },
+                        onShowDarkDialog = { showDarkDialog = true },
+                        onShowCleanDialog = { showCleanDialog = true },
                         onChangeDynamicColorPreference = onChangeDynamicColorPreference,
                         onChangeAutoLaunchPreference = onChangeAutoLaunchPreference,
                     )
@@ -518,18 +500,9 @@ private fun SettingsScreenLoadingStatePreview() {
         SettingsScreen(
             settingsUiState = SettingsUiState.Loading,
             supportDynamicColor = false,
-            showThemeDialog = false,
-            showDarkDialog = false,
-            showCleanDialog = false,
-            onShowThemeDialog = {},
-            onShowDarkDialog = {},
-            onShowCleanDialog = {},
             onUpdateThemeBrand = {},
             onUpdateDarkThemeConfig = {},
             onCleanAppSettings = {},
-            onThemeDialogDismissRequest = {},
-            onDarkDialogDismissRequest = {},
-            onCleanDialogDismissRequest = {},
             onChangeDynamicColorPreference = {},
             onChangeAutoLaunchPreference = {},
             onNavigationIconClick = {},
@@ -551,18 +524,9 @@ private fun SettingsScreenSuccessStatePreview() {
                 ),
             ),
             supportDynamicColor = false,
-            showThemeDialog = false,
-            showDarkDialog = false,
-            showCleanDialog = false,
-            onShowThemeDialog = {},
-            onShowDarkDialog = {},
-            onShowCleanDialog = {},
             onUpdateThemeBrand = {},
             onUpdateDarkThemeConfig = {},
             onCleanAppSettings = {},
-            onThemeDialogDismissRequest = {},
-            onDarkDialogDismissRequest = {},
-            onCleanDialogDismissRequest = {},
             onChangeDynamicColorPreference = {},
             onChangeAutoLaunchPreference = {},
             onNavigationIconClick = {},
