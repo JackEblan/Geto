@@ -33,14 +33,14 @@ android {
 }
 
 dependencies {
-    api(projects.core.common)
-    api(projects.core.database)
-    api(projects.core.datastore)
-    api(projects.core.clipboardmanager)
-    api(projects.core.model)
-    api(projects.core.packagemanager)
-    api(projects.core.securesettings)
-    api(projects.core.shortcutmanager)
+    implementation(projects.core.common)
+    implementation(projects.core.database)
+    implementation(projects.core.datastore)
+    implementation(projects.core.clipboardmanager)
+    implementation(projects.core.model)
+    implementation(projects.core.packagemanager)
+    implementation(projects.core.securesettings)
+    implementation(projects.core.shortcutmanager)
 
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(projects.core.datastoreTest)

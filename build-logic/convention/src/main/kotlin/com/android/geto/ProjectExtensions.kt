@@ -20,6 +20,11 @@ package com.android.geto
 
 import org.gradle.accessors.dm.LibrariesForLibs
 import org.gradle.api.Project
+import org.gradle.api.provider.Provider
+import org.gradle.plugin.use.PluginDependency
 
 val Project.libs
     get(): LibrariesForLibs = extensions.getByName("libs") as LibrariesForLibs
+
+val Provider<PluginDependency>.pluginId
+    get(): String = get().pluginId

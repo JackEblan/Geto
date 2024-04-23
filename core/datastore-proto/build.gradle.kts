@@ -45,5 +45,5 @@ protobuf {
 }
 
 dependencies {
-    api(libs.protobuf.kotlin.lite)
+    implementation(libs.protobuf.kotlin.lite)
 }

@@ -17,6 +17,7 @@
  */
 
 import com.android.geto.libs
+import com.android.geto.pluginId
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
@@ -25,8 +26,8 @@ class AndroidHiltConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             with(pluginManager) {
-                apply(libs.plugins.ksp.get().pluginId)
-                apply(libs.plugins.hilt.get().pluginId)
+                apply(libs.plugins.ksp.pluginId)
+                apply(libs.plugins.hilt.pluginId)
             }
 
             dependencies {

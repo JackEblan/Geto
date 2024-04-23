@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel target="11">
+    <bytecodeTargetLevel target="17">
       <module name="Geto.core.broadcast" target="17" />
       <module name="Geto.core.broadcastreceiver" target="17" />
       <module name="Geto.core.clipboardmanager-test" target="17" />

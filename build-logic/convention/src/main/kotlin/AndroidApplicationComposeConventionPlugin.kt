@@ -19,6 +19,7 @@
 import com.android.build.api.dsl.ApplicationExtension
 import com.android.geto.configureAndroidCompose
 import com.android.geto.libs
+import com.android.geto.pluginId
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.getByType
@@ -27,7 +28,7 @@ class AndroidApplicationComposeConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             with(pluginManager) {
-                apply(libs.plugins.android.application.get().pluginId)
+                apply(libs.plugins.android.application.pluginId)
             }
 
             val extension = extensions.getByType<ApplicationExtension>()
