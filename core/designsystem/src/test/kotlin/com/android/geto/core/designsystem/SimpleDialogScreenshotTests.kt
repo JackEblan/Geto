@@ -35,7 +35,7 @@ import kotlin.test.Test
 
 @RunWith(RobolectricTestRunner::class)
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
-@Config(application = HiltTestApplication::class)
+@Config(application = HiltTestApplication::class, qualifiers = "480dpi")
 @LooperMode(LooperMode.Mode.PAUSED)
 class SimpleDialogScreenshotTests {
 
