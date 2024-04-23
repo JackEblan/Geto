@@ -49,4 +49,12 @@ class DefaultSecureSettingsRepository @Inject constructor(
     override suspend fun getSecureSettings(settingType: SettingType): List<SecureSetting> {
         return secureSettingsWrapper.getSecureSettings(settingType)
     }
+
+    override suspend fun getSecureSettingsByName(
+        settingType: SettingType,
+        text: String,
+    ): List<SecureSetting> {
+        return secureSettingsWrapper.getSecureSettings(settingType)
+            .filter { it.name!!.contains(text) }.take(20)
+    }
 }

@@ -37,7 +37,12 @@ class AppSettingDialogTest {
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     private val secureSettings = List(5) { index ->
-        SecureSetting(id = index.toLong(), name = "Geto $index", value = "0")
+        SecureSetting(
+            settingType = SettingType.SYSTEM,
+            id = index.toLong(),
+            name = "Geto $index",
+            value = "0",
+        )
     }
 
     @Test

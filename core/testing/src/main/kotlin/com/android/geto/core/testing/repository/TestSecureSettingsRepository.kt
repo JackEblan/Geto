@@ -53,6 +53,13 @@ class TestSecureSettingsRepository : SecureSettingsRepository {
         return secureSettingList
     }
 
+    override suspend fun getSecureSettingsByName(
+        settingType: SettingType,
+        text: String,
+    ): List<SecureSetting> {
+        return secureSettingList.filter { it.name!!.contains(text) }.take(20)
+    }
+
     fun setWriteSecureSettings(value: Boolean) {
         writeSecureSettings = value
     }

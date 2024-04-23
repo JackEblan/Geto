@@ -19,10 +19,7 @@
 package com.android.geto
 
 import com.android.build.api.dsl.CommonExtension
-import org.gradle.api.JavaVersion
 import org.gradle.api.Project
-import org.gradle.api.plugins.JavaPluginExtension
-import org.gradle.jvm.toolchain.JavaLanguageVersion
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.provideDelegate
@@ -40,10 +37,6 @@ internal fun Project.configureKotlinAndroid(
             minSdk = 21
         }
 
-        extensions.configure<KotlinAndroidProjectExtension> {
-            jvmToolchain(17)
-        }
-
         compileOptions {
             isCoreLibraryDesugaringEnabled = true
         }
@@ -56,25 +49,17 @@ internal fun Project.configureKotlinAndroid(
     }
 }
 
-internal fun Project.configureKotlinJvm() {
-    extensions.configure<JavaPluginExtension> {
-        toolchain {
-            languageVersion.set(JavaLanguageVersion.of(17))
-        }
-    }
-
-    configureKotlin()
-}
-
 /**
  * Configure base Kotlin options
  */
-private fun Project.configureKotlin() {
+internal fun Project.configureKotlin() {
+    extensions.configure<KotlinAndroidProjectExtension> {
+        jvmToolchain(17)
+    }
+
     // Use withType to workaround https://youtrack.jetbrains.com/issue/KT-55947
     tasks.withType<KotlinCompile>().configureEach {
         kotlinOptions {
-            // Set JVM target to 11
-            jvmTarget = JavaVersion.VERSION_11.toString()
             // Treat all Kotlin warnings as errors (disabled by default)
             // Override by setting warningsAsErrors=true in your ~/.gradle/gradle.properties
             val warningsAsErrors: String? by project

@@ -128,7 +128,7 @@ internal fun AppSettingsRoute(
         onResetAppSettingsResult = viewModel::resetAppSettingsResult,
         onResetShortcutResult = viewModel::resetShortcutResult,
         onResetClipboardResult = viewModel::resetClipboardResult,
-        onGetSecureSettings = viewModel::getSecureSettings,
+        onGetSecureSettingsByName = viewModel::getSecureSettingsByName,
         onAddAppSetting = viewModel::addAppSettings,
         onCopyPermissionCommand = viewModel::copyPermissionCommand,
         onAddShortcut = viewModel::requestPinShortcut,
@@ -159,7 +159,7 @@ internal fun AppSettingsScreen(
     onResetAppSettingsResult: () -> Unit,
     onResetShortcutResult: () -> Unit,
     onResetClipboardResult: () -> Unit,
-    onGetSecureSettings: (String, SettingType) -> Unit,
+    onGetSecureSettingsByName: (SettingType, String) -> Unit,
     onAddAppSetting: (AppSetting) -> Unit,
     onCopyPermissionCommand: () -> Unit,
     onAddShortcut: (TargetShortcutInfoCompat) -> Unit,
@@ -199,7 +199,7 @@ internal fun AppSettingsScreen(
         onResetAppSettingsResult = onResetAppSettingsResult,
         onResetShortcutResult = onResetShortcutResult,
         onResetClipboardResult = onResetClipboardResult,
-        onGetSecureSettings = onGetSecureSettings,
+        onGetSecureSettingsByName = onGetSecureSettingsByName,
     )
 
     AppSettingsDialogs(
@@ -293,7 +293,7 @@ private fun AppSettingsLaunchedEffects(
     onResetAppSettingsResult: () -> Unit,
     onResetShortcutResult: () -> Unit,
     onResetClipboardResult: () -> Unit,
-    onGetSecureSettings: (String, SettingType) -> Unit,
+    onGetSecureSettingsByName: (SettingType, String) -> Unit,
 ) {
     val appSettingsDisabled = stringResource(id = R.string.app_settings_disabled)
     val emptyAppSettingsList = stringResource(id = R.string.empty_app_settings_list)
@@ -408,9 +408,9 @@ private fun AppSettingsLaunchedEffects(
     ) {
         val settingType = SettingType.entries[appSettingDialogState.selectedRadioOptionIndex]
 
-        onGetSecureSettings(
-            appSettingDialogState.key,
+        onGetSecureSettingsByName(
             settingType,
+            appSettingDialogState.key,
         )
     }
 
@@ -632,7 +632,7 @@ private fun SuccessState(
         contentPadding = contentPadding,
     ) {
         items(appSettingsUiState.appSettingList, key = { it.id!! }) { appSettings ->
-            AppSettingsItem(
+            AppSettingItem(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 10.dp, horizontal = 5.dp)
@@ -676,7 +676,7 @@ private fun AppSettingsScreenLoadingStatePreview() {
             onResetAppSettingsResult = {},
             onResetShortcutResult = {},
             onResetClipboardResult = {},
-            onGetSecureSettings = { _, _ -> },
+            onGetSecureSettingsByName = { _, _ -> },
             onAddAppSetting = {},
             onCopyPermissionCommand = {},
             onAddShortcut = {},
@@ -709,7 +709,7 @@ private fun AppSettingsScreenEmptyStatePreview() {
             onResetAppSettingsResult = {},
             onResetShortcutResult = {},
             onResetClipboardResult = {},
-            onGetSecureSettings = { _, _ -> },
+            onGetSecureSettingsByName = { _, _ -> },
             onAddAppSetting = {},
             onCopyPermissionCommand = {},
             onAddShortcut = {},
@@ -744,7 +744,7 @@ private fun AppSettingsScreenSuccessStatePreview(
             onResetAppSettingsResult = {},
             onResetShortcutResult = {},
             onResetClipboardResult = {},
-            onGetSecureSettings = { _, _ -> },
+            onGetSecureSettingsByName = { _, _ -> },
             onAddAppSetting = {},
             onCopyPermissionCommand = {},
             onAddShortcut = {},

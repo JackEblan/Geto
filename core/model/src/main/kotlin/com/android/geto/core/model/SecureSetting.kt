@@ -18,6 +18,7 @@
 package com.android.geto.core.model
 
 data class SecureSetting(
+    val settingType: SettingType,
     val id: Long? = null,
     val name: String? = null,
     val value: String? = null,

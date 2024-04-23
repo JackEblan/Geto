@@ -19,6 +19,7 @@ package com.android.geto.core.data.repository
 
 import com.android.geto.core.data.testdoubles.TestSecureSettingsWrapper
 import com.android.geto.core.model.AppSetting
+import com.android.geto.core.model.SecureSetting
 import com.android.geto.core.model.SettingType
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
@@ -268,5 +269,131 @@ class SecureSettingsRepositoryTest {
         }
 
         assertFailsWith<SecurityException> { subject.revertSecureSettings(appSettings) }
+    }
+
+    @Test
+    fun getSecureSettingsBySettingTypeSystemName_isNotEmpty() = runTest(testDispatcher) {
+        val secureSettings = List(5) { index ->
+            SecureSetting(
+                settingType = SettingType.SYSTEM,
+                id = index.toLong(),
+                name = "SecureSetting",
+                value = "$index",
+            )
+        }
+
+        secureSettingsPermissionWrapper.setSecureSettings(secureSettings)
+
+        assertTrue(
+            subject.getSecureSettingsByName(
+                settingType = SettingType.SYSTEM,
+                text = "SecureSetting",
+            ).isNotEmpty(),
+        )
+    }
+
+    @Test
+    fun getSecureSettingsBySettingTypeSecureName_isNotEmpty() = runTest(testDispatcher) {
+        val secureSettings = List(5) { index ->
+            SecureSetting(
+                settingType = SettingType.SECURE,
+                id = index.toLong(),
+                name = "SecureSetting",
+                value = "$index",
+            )
+        }
+
+        secureSettingsPermissionWrapper.setSecureSettings(secureSettings)
+
+        assertTrue(
+            subject.getSecureSettingsByName(
+                settingType = SettingType.SECURE,
+                text = "SecureSetting",
+            ).isNotEmpty(),
+        )
+    }
+
+    @Test
+    fun getSecureSettingsBySettingTypeGlobalName_isNotEmpty() = runTest(testDispatcher) {
+        val secureSettings = List(5) { index ->
+            SecureSetting(
+                settingType = SettingType.GLOBAL,
+                id = index.toLong(),
+                name = "SecureSetting",
+                value = "$index",
+            )
+        }
+
+        secureSettingsPermissionWrapper.setSecureSettings(secureSettings)
+
+        assertTrue(
+            subject.getSecureSettingsByName(
+                settingType = SettingType.GLOBAL,
+                text = "SecureSetting",
+            ).isNotEmpty(),
+        )
+    }
+
+    @Test
+    fun getSecureSettingsBySettingTypeSystemName_isEmpty() = runTest(testDispatcher) {
+        val secureSettings = List(5) { index ->
+            SecureSetting(
+                settingType = SettingType.SYSTEM,
+                id = index.toLong(),
+                name = "SecureSetting",
+                value = "$index",
+            )
+        }
+
+        secureSettingsPermissionWrapper.setSecureSettings(secureSettings)
+
+        assertTrue(
+            subject.getSecureSettingsByName(
+                settingType = SettingType.SYSTEM,
+                text = "text",
+            ).isEmpty(),
+        )
+    }
+
+    @Test
+    fun getSecureSettingsBySettingTypeSecureName_isEmpty() = runTest(testDispatcher) {
+        val secureSettings = List(5) { index ->
+            SecureSetting(
+                settingType = SettingType.SECURE,
+                id = index.toLong(),
+                name = "SecureSetting",
+                value = "$index",
+            )
+        }
+
+        secureSettingsPermissionWrapper.setSecureSettings(secureSettings)
+
+        assertTrue(
+            subject.getSecureSettingsByName(
+                settingType = SettingType.SECURE,
+                text = "text",
+            ).isEmpty(),
+        )
+    }
+
+    @Test
+    fun getSecureSettingsBySettingTypeGlobalName_isEmpty() = runTest(testDispatcher) {
+        val secureSettings = List(5) { index ->
+            SecureSetting(
+                settingType = SettingType.GLOBAL,
+                id = index.toLong(),
+                name = "SecureSetting",
+                value = "$index",
+            )
+        }
+
+        secureSettingsPermissionWrapper.setSecureSettings(secureSettings)
+
+        assertTrue(
+            subject.getSecureSettingsByName(
+                settingType = SettingType.GLOBAL,
+                text = "text",
+            ).isEmpty(),
+        )
     }
 }

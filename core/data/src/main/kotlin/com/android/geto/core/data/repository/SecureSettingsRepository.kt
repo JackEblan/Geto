@@ -28,4 +28,6 @@ interface SecureSettingsRepository {
     suspend fun revertSecureSettings(appSettings: List<AppSetting>): Boolean
 
     suspend fun getSecureSettings(settingType: SettingType): List<SecureSetting>
+
+    suspend fun getSecureSettingsByName(settingType: SettingType, text: String): List<SecureSetting>
 }

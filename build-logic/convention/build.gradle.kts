@@ -22,10 +22,8 @@ plugins {
 
 group = "com.android.geto.buildlogic"
 
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
-    }
+kotlin {
+    jvmToolchain(17)
 }
 
 dependencies {

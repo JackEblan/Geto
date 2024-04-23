@@ -18,6 +18,7 @@
 package com.android.geto.feature.appsettings.dialog.appsetting
 
 import com.android.geto.core.model.SecureSetting
+import com.android.geto.core.model.SettingType
 import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertFalse
@@ -74,7 +75,12 @@ class AppSettingsDialogStateTest {
     @Test
     fun settingsKeyNotFoundError_isNotBlank_whenSettingsKey_notFound() {
         val secureSettings = List(5) { index ->
-            SecureSetting(id = index.toLong(), name = "Geto", value = "0")
+            SecureSetting(
+                settingType = SettingType.SYSTEM,
+                id = index.toLong(),
+                name = "Geto",
+                value = "0",
+            )
         }
 
         appSettingDialogState.updateSecureSettings(secureSettings)
@@ -89,7 +95,12 @@ class AppSettingsDialogStateTest {
     @Test
     fun settingsKeyNotFoundError_isBlank_whenSettingsKey_found() {
         val secureSettings = List(5) { index ->
-            SecureSetting(id = index.toLong(), name = "Geto", value = "0")
+            SecureSetting(
+                settingType = SettingType.SYSTEM,
+                id = index.toLong(),
+                name = "Geto",
+                value = "0",
+            )
         }
 
         appSettingDialogState.updateSecureSettings(secureSettings)
@@ -140,7 +151,12 @@ class AppSettingsDialogStateTest {
     @Test
     fun getAppSettings_isNotNull_whenAllProperties_areFilled() {
         val secureSettings = List(5) { index ->
-            SecureSetting(id = index.toLong(), name = "Geto", value = "0")
+            SecureSetting(
+                settingType = SettingType.SYSTEM,
+                id = index.toLong(),
+                name = "Geto",
+                value = "0",
+            )
         }
 
         appSettingDialogState.updateSecureSettings(secureSettings)

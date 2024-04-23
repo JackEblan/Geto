@@ -179,12 +179,14 @@ class AppSettingsViewModel @Inject constructor(
         }
     }
 
-    fun getSecureSettings(text: String, settingType: SettingType) {
+    fun getSecureSettingsByName(settingType: SettingType, text: String) {
         viewModelScope.launch {
-            val filteredSecureSettings = secureSettingsRepository.getSecureSettings(settingType)
-                .filter { it.name!!.contains(text) }.take(20)
-
-            _secureSetting.update { filteredSecureSettings }
+            _secureSetting.update {
+                secureSettingsRepository.getSecureSettingsByName(
+                    settingType = settingType,
+                    text = text,
+                )
+            }
         }
     }
 

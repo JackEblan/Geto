@@ -16,7 +16,7 @@
  *
  */
 
-import com.android.geto.configureKotlinJvm
+import com.android.geto.configureKotlin
 import com.android.geto.libs
 import com.android.geto.pluginId
 import org.gradle.api.Plugin
@@ -29,7 +29,7 @@ class JvmLibraryConventionPlugin : Plugin<Project> {
                 apply(libs.plugins.kotlin.jvm.pluginId)
                 apply(libs.plugins.com.android.geto.lint.pluginId)
             }
-            configureKotlinJvm()
+            configureKotlin()
         }
     }
 }

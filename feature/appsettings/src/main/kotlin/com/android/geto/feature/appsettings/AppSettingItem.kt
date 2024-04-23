@@ -38,7 +38,7 @@ import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.SettingType
 
 @Composable
-fun AppSettingsItem(
+fun AppSettingItem(
     modifier: Modifier = Modifier,
     appSetting: AppSetting,
     onUserAppSettingsItemCheckBoxChange: (Boolean) -> Unit,
@@ -87,7 +87,7 @@ fun AppSettingsItem(
 @Composable
 private fun AppSettingsItemPreview() {
     GetoTheme {
-        AppSettingsItem(
+        AppSettingItem(
             appSetting = AppSetting(
                 enabled = false,
                 settingType = SettingType.SECURE,

@@ -110,6 +110,7 @@ class DefaultSecureSettingsWrapper @Inject constructor(
                     val value = cursor.getStringOrNull(valueIndex!!)
 
                     SecureSetting(
+                        settingType = settingType,
                         id = id,
                         name = name,
                         value = value,

@@ -410,27 +410,109 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun secureSettings_isNotEmpty_whenGetSecureSettings() = runTest {
+    fun secureSettings_isNotEmpty_whenGetSecureSettingsByName_ofSettingTypeSystem() = runTest {
         val secureSettings = List(5) { index ->
-            SecureSetting(id = index.toLong(), name = "Geto", value = "0")
+            SecureSetting(
+                settingType = SettingType.SYSTEM,
+                id = index.toLong(),
+                name = "SecureSetting",
+                value = index.toString(),
+            )
         }
 
         secureSettingsRepository.setSecureSettings(secureSettings)
 
-        viewModel.getSecureSettings(text = "Geto", settingType = SettingType.GLOBAL)
+        viewModel.getSecureSettingsByName(settingType = SettingType.SYSTEM, text = "SecureSetting")
 
         assertTrue(viewModel.secureSettings.value.isNotEmpty())
     }
 
     @Test
-    fun secureSettings_isEmpty_whenGetSecureSettings() = runTest {
+    fun secureSettings_isNotEmpty_whenGetSecureSettingsByName_ofSettingTypeSecure() = runTest {
         val secureSettings = List(5) { index ->
-            SecureSetting(id = index.toLong(), name = "Geto", value = "0")
+            SecureSetting(
+                settingType = SettingType.SECURE,
+                id = index.toLong(),
+                name = "SecureSetting",
+                value = index.toString(),
+            )
         }
 
         secureSettingsRepository.setSecureSettings(secureSettings)
 
-        viewModel.getSecureSettings(text = "_", settingType = SettingType.GLOBAL)
+        viewModel.getSecureSettingsByName(settingType = SettingType.SECURE, text = "SecureSetting")
+
+        assertTrue(viewModel.secureSettings.value.isNotEmpty())
+    }
+
+    @Test
+    fun secureSettings_isNotEmpty_whenGetSecureSettingsByName_ofSettingTypeGlobal() = runTest {
+        val secureSettings = List(5) { index ->
+            SecureSetting(
+                settingType = SettingType.GLOBAL,
+                id = index.toLong(),
+                name = "SecureSetting",
+                value = index.toString(),
+            )
+        }
+
+        secureSettingsRepository.setSecureSettings(secureSettings)
+
+        viewModel.getSecureSettingsByName(settingType = SettingType.GLOBAL, text = "SecureSetting")
+
+        assertTrue(viewModel.secureSettings.value.isNotEmpty())
+    }
+
+    @Test
+    fun secureSettings_isEmpty_whenGetSecureSettingsByName_ofSettingTypeSystem() = runTest {
+        val secureSettings = List(5) { index ->
+            SecureSetting(
+                settingType = SettingType.SYSTEM,
+                id = index.toLong(),
+                name = "SecureSetting",
+                value = index.toString(),
+            )
+        }
+
+        secureSettingsRepository.setSecureSettings(secureSettings)
+
+        viewModel.getSecureSettingsByName(settingType = SettingType.SYSTEM, text = "text")
+
+        assertTrue(viewModel.secureSettings.value.isEmpty())
+    }
+
+    @Test
+    fun secureSettings_isEmpty_whenGetSecureSettingsByName_ofSettingTypeSecure() = runTest {
+        val secureSettings = List(5) { index ->
+            SecureSetting(
+                settingType = SettingType.SECURE,
+                id = index.toLong(),
+                name = "SecureSetting",
+                value = index.toString(),
+            )
+        }
+
+        secureSettingsRepository.setSecureSettings(secureSettings)
+
+        viewModel.getSecureSettingsByName(settingType = SettingType.SECURE, text = "text")
+
+        assertTrue(viewModel.secureSettings.value.isEmpty())
+    }
+
+    @Test
+    fun secureSettings_isEmpty_whenGetSecureSettingsByName_ofSettingTypeGlobal() = runTest {
+        val secureSettings = List(5) { index ->
+            SecureSetting(
+                settingType = SettingType.GLOBAL,
+                id = index.toLong(),
+                name = "SecureSetting",
+                value = index.toString(),
+            )
+        }
+
+        secureSettingsRepository.setSecureSettings(secureSettings)
+
+        viewModel.getSecureSettingsByName(settingType = SettingType.GLOBAL, text = "text")
 
         assertTrue(viewModel.secureSettings.value.isEmpty())
     }

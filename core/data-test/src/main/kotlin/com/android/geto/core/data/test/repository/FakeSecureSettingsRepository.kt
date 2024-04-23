@@ -35,4 +35,11 @@ class FakeSecureSettingsRepository @Inject constructor() : SecureSettingsReposit
     override suspend fun getSecureSettings(settingType: SettingType): List<SecureSetting> {
         return emptyList()
     }
+
+    override suspend fun getSecureSettingsByName(
+        settingType: SettingType,
+        text: String,
+    ): List<SecureSetting> {
+        return emptyList()
+    }
 }
