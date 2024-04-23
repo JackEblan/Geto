@@ -101,13 +101,13 @@ class DefaultSecureSettingsWrapper @Inject constructor(
 
             cursor?.use {
                 generateSequence { if (cursor.moveToNext()) cursor else null }.map {
-                    val idIndex = cursor.getColumnIndexOrThrow(Settings.NameValueTable._ID)
-                    val nameIndex = cursor.getColumnIndexOrThrow(Settings.NameValueTable.NAME)
-                    val valueIndex = cursor.getColumnIndexOrThrow(Settings.NameValueTable.VALUE)
+                    val idIndex = cursor.getColumnIndex(Settings.NameValueTable._ID).takeIf { it != -1 }
+                    val nameIndex = cursor.getColumnIndex(Settings.NameValueTable.NAME).takeIf { it != -1 }
+                    val valueIndex = cursor.getColumnIndex(Settings.NameValueTable.VALUE).takeIf { it != -1 }
 
-                    val id = cursor.getLongOrNull(idIndex)
-                    val name = cursor.getStringOrNull(nameIndex)
-                    val value = cursor.getStringOrNull(valueIndex)
+                    val id = cursor.getLongOrNull(idIndex!!)
+                    val name = cursor.getStringOrNull(nameIndex!!)
+                    val value = cursor.getStringOrNull(valueIndex!!)
 
                     SecureSetting(
                         id = id,

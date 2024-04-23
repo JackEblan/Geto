@@ -41,13 +41,16 @@ class DefaultShortcutManagerCompatWrapper @Inject constructor(@ApplicationContex
         longLabel: String,
         intent: Intent,
     ): Boolean {
-        val shortcutInfo = if (icon != null) {
-            ShortcutInfoCompat.Builder(context, id).setIcon(IconCompat.createWithBitmap(icon))
-                .setShortLabel(shortLabel).setLongLabel(longLabel).setIntent(intent).build()
-        } else {
-            ShortcutInfoCompat.Builder(context, id).setShortLabel(shortLabel)
-                .setLongLabel(longLabel).build()
-        }
+        val shortcutInfo = ShortcutInfoCompat.Builder(context, id)
+            .apply {
+                if (icon != null) {
+                    setIcon(IconCompat.createWithBitmap(icon))
+                }
+            }
+            .setShortLabel(shortLabel)
+            .setLongLabel(longLabel)
+            .setIntent(intent)
+            .build()
 
         return ShortcutManagerCompat.requestPinShortcut(
             context,
@@ -63,13 +66,16 @@ class DefaultShortcutManagerCompatWrapper @Inject constructor(@ApplicationContex
         longLabel: String,
         intent: Intent,
     ): Boolean {
-        val shortcutInfo = if (icon != null) {
-            ShortcutInfoCompat.Builder(context, id).setIcon(IconCompat.createWithBitmap(icon))
-                .setShortLabel(shortLabel).setLongLabel(longLabel).setIntent(intent).build()
-        } else {
-            ShortcutInfoCompat.Builder(context, id).setShortLabel(shortLabel)
-                .setLongLabel(longLabel).build()
-        }
+        val shortcutInfo = ShortcutInfoCompat.Builder(context, id)
+            .apply {
+                if (icon != null) {
+                    setIcon(IconCompat.createWithBitmap(icon))
+                }
+            }
+            .setShortLabel(shortLabel)
+            .setLongLabel(longLabel)
+            .setIntent(intent)
+            .build()
 
         return ShortcutManagerCompat.updateShortcuts(context, listOf(shortcutInfo))
     }
