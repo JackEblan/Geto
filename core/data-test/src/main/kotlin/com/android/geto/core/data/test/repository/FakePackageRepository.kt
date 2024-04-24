@@ -18,42 +18,29 @@
 package com.android.geto.core.data.test.repository
 
 import android.content.Intent
-import android.content.pm.ApplicationInfo
-import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
-import com.android.geto.core.common.Dispatcher
-import com.android.geto.core.common.GetoDispatchers.IO
 import com.android.geto.core.data.repository.PackageRepository
 import com.android.geto.core.model.TargetApplicationInfo
-import com.android.geto.core.packagemanager.PackageManagerWrapper
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class FakePackageRepository @Inject constructor(
-    private val packageManagerWrapper: PackageManagerWrapper,
-    @Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher,
-) : PackageRepository {
+class FakePackageRepository @Inject constructor() : PackageRepository {
+    private val _installedApplications = List(20) { index ->
+        TargetApplicationInfo(
+            flags = 0,
+            packageName = "com.android.geto$index",
+            label = "Geto $index",
+        )
+    }
 
     override suspend fun getInstalledApplications(): List<TargetApplicationInfo> {
-        return withContext(ioDispatcher) {
-            packageManagerWrapper.getInstalledApplications().filter { applicationInfo ->
-                (applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM) == 0
-            }.sortedBy { it.label }
-        }
+        return _installedApplications
     }
 
     override suspend fun getApplicationIcon(packageName: String): Drawable? {
-        return withContext(ioDispatcher) {
-            try {
-                packageManagerWrapper.getApplicationIcon(packageName)
-            } catch (e: PackageManager.NameNotFoundException) {
-                null
-            }
-        }
+        return null
     }
 
     override fun getLaunchIntentForPackage(packageName: String): Intent? {
-        return packageManagerWrapper.getLaunchIntentForPackage(packageName)
+        return null
     }
 }
