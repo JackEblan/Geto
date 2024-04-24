@@ -8,13 +8,22 @@
       <entry key="Generate Baseline Profile for app">
         <State />
       </entry>
+      <entry key="ShortcutDialogTest">
+        <State />
+      </entry>
       <entry key="app">
         <State />
       </entry>
       <entry key="app-geto-catalog">
         <State />
       </entry>
+      <entry key="counterSupportingTexts_areDisplayed_withEmptyCharacters()">
+        <State />
+      </entry>
       <entry key="feature.shortcut">
+        <State />
+      </entry>
+      <entry key="shortLabelCounterSupportingText_isDisplayed_whenShortLabelTextField_isFilledWithCharacters()">
         <State />
       </entry>
     </value>

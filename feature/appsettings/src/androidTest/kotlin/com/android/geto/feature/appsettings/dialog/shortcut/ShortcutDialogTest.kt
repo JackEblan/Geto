@@ -38,10 +38,47 @@ class ShortcutDialogTest {
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     @Test
-    fun shortLabelSupportingText_isDisplayed_whenShortLabelTextField_isBlank() {
-        composeTestRule.setContent {
-            val shortcutDialogState = rememberShortcutDialogState()
+    fun counterSupportingTexts_areDisplayed_withEmptyCharacters() {
+        val shortcutDialogState = ShortcutDialogState()
 
+        composeTestRule.setContent {
+            ShortcutDialog(
+                shortcutDialogState = shortcutDialogState,
+                contentDescription = "Shortcut Dialog",
+                title = stringResource(id = R.string.add_shortcut),
+                negativeButtonText = stringResource(id = R.string.cancel),
+                positiveButtonText = stringResource(id = R.string.add),
+                onPositiveButtonClick = {
+                    shortcutDialogState.updateShortLabel("")
+
+                    shortcutDialogState.updateLongLabel("")
+
+                    shortcutDialogState.getShortcut(
+                        packageName = "com.android.geto",
+                        shortcutIntent = Intent(),
+                    )
+                },
+            )
+        }
+
+        composeTestRule.onNodeWithTag(
+            testTag = "shortcutDialog:shortLabelCounterSupportingText",
+            useUnmergedTree = true,
+        )
+            .assertTextEquals("0/${shortcutDialogState.shortLabelMaxLength}")
+
+        composeTestRule.onNodeWithTag(
+            testTag = "shortcutDialog:longLabelCounterSupportingText",
+            useUnmergedTree = true,
+        )
+            .assertTextEquals("0/${shortcutDialogState.longLabelMaxLength}")
+    }
+
+    @Test
+    fun shortLabelSupportingText_isDisplayed_whenShortLabelTextField_isBlank() {
+        val shortcutDialogState = ShortcutDialogState()
+
+        composeTestRule.setContent {
             ShortcutDialog(
                 shortcutDialogState = shortcutDialogState,
                 contentDescription = "Shortcut Dialog",
@@ -70,10 +107,72 @@ class ShortcutDialogTest {
     }
 
     @Test
-    fun longLabelSupportingText_isDisplayed_whenLongLabelTextField_isBlank() {
-        composeTestRule.setContent {
-            val shortcutDialogState = rememberShortcutDialogState()
+    fun shortLabelCounterSupportingText_isDisplayed_whenShortLabelTextField_isFilledWithCharacters() {
+        val shortcutDialogState = ShortcutDialogState()
 
+        composeTestRule.setContent {
+            ShortcutDialog(
+                shortcutDialogState = shortcutDialogState,
+                contentDescription = "Shortcut Dialog",
+                title = stringResource(id = R.string.add_shortcut),
+                negativeButtonText = stringResource(id = R.string.cancel),
+                positiveButtonText = stringResource(id = R.string.add),
+                onPositiveButtonClick = {
+                    shortcutDialogState.updateShortLabel("qwerty")
+
+                    shortcutDialogState.updateLongLabel("")
+
+                    shortcutDialogState.getShortcut(
+                        packageName = "com.android.geto",
+                        shortcutIntent = Intent(),
+                    )
+                },
+            )
+        }
+
+        composeTestRule.onNodeWithTag(
+            testTag = "shortcutDialog:shortLabelCounterSupportingText",
+            useUnmergedTree = true,
+        )
+            .assertTextEquals("${shortcutDialogState.shortLabel.length}/${shortcutDialogState.shortLabelMaxLength}")
+    }
+
+    @Test
+    fun longLabelCounterSupportingText_isDisplayed_whenLongLabelTextField_isFilledWithCharacters() {
+        val shortcutDialogState = ShortcutDialogState()
+
+        composeTestRule.setContent {
+            ShortcutDialog(
+                shortcutDialogState = shortcutDialogState,
+                contentDescription = "Shortcut Dialog",
+                title = stringResource(id = R.string.add_shortcut),
+                negativeButtonText = stringResource(id = R.string.cancel),
+                positiveButtonText = stringResource(id = R.string.add),
+                onPositiveButtonClick = {
+                    shortcutDialogState.updateShortLabel("")
+
+                    shortcutDialogState.updateLongLabel("qwerty")
+
+                    shortcutDialogState.getShortcut(
+                        packageName = "com.android.geto",
+                        shortcutIntent = Intent(),
+                    )
+                },
+            )
+        }
+
+        composeTestRule.onNodeWithTag(
+            testTag = "shortcutDialog:longLabelCounterSupportingText",
+            useUnmergedTree = true,
+        )
+            .assertTextEquals("${shortcutDialogState.longLabel.length}/${shortcutDialogState.longLabel}")
+    }
+
+    @Test
+    fun longLabelSupportingText_isDisplayed_whenLongLabelTextField_isBlank() {
+        val shortcutDialogState = ShortcutDialogState()
+
+        composeTestRule.setContent {
             ShortcutDialog(
                 shortcutDialogState = shortcutDialogState,
                 contentDescription = "Shortcut Dialog",

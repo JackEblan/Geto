@@ -18,6 +18,7 @@
 package com.android.geto.feature.appsettings
 
 import androidx.activity.ComponentActivity
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.android.geto.core.data.repository.ClipboardResult
 import com.android.geto.core.data.repository.ShortcutResult
@@ -68,6 +69,7 @@ class AppSettingsScreenScreenshotTest {
                     packageName = "com.android.geto",
                     appName = "Geto",
                     appSettingsUiState = AppSettingsUiState.Success(appSettings),
+                    snackbarHostState = SnackbarHostState(),
                     applicationIcon = null,
                     secureSettings = emptyList(),
                     applyAppSettingsResult = AppSettingsResult.NoResult,
@@ -102,6 +104,7 @@ class AppSettingsScreenScreenshotTest {
                     packageName = "com.android.geto",
                     appName = "Geto",
                     appSettingsUiState = AppSettingsUiState.Loading,
+                    snackbarHostState = SnackbarHostState(),
                     applicationIcon = null,
                     secureSettings = emptyList(),
                     applyAppSettingsResult = AppSettingsResult.NoResult,
@@ -136,6 +139,7 @@ class AppSettingsScreenScreenshotTest {
                     packageName = "com.android.geto",
                     appName = "Geto",
                     appSettingsUiState = AppSettingsUiState.Success(emptyList()),
+                    snackbarHostState = SnackbarHostState(),
                     applicationIcon = null,
                     secureSettings = emptyList(),
                     applyAppSettingsResult = AppSettingsResult.NoResult,
@@ -176,6 +180,7 @@ class AppSettingsScreenScreenshotTest {
                         packageName = "com.android.geto",
                         appName = "Geto",
                         appSettingsUiState = AppSettingsUiState.Success(appSettings),
+                        snackbarHostState = SnackbarHostState(),
                         applicationIcon = null,
                         secureSettings = emptyList(),
                         applyAppSettingsResult = AppSettingsResult.NoResult,
@@ -217,6 +222,7 @@ class AppSettingsScreenScreenshotTest {
                         packageName = "com.android.geto",
                         appName = "Geto",
                         appSettingsUiState = AppSettingsUiState.Loading,
+                        snackbarHostState = SnackbarHostState(),
                         applicationIcon = null,
                         secureSettings = emptyList(),
                         applyAppSettingsResult = AppSettingsResult.NoResult,
@@ -258,6 +264,7 @@ class AppSettingsScreenScreenshotTest {
                         packageName = "com.android.geto",
                         appName = "Geto",
                         appSettingsUiState = AppSettingsUiState.Success(emptyList()),
+                        snackbarHostState = SnackbarHostState(),
                         applicationIcon = null,
                         secureSettings = emptyList(),
                         applyAppSettingsResult = AppSettingsResult.NoResult,
