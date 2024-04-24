@@ -23,7 +23,7 @@ import com.android.geto.core.model.TargetShortcutInfoCompat
 import com.android.geto.core.shortcutmanager.ShortcutManagerCompatWrapper
 import javax.inject.Inject
 
-class DefaultShortcutRepository @Inject constructor(
+internal class DefaultShortcutRepository @Inject constructor(
     private val shortcutManagerCompatWrapper: ShortcutManagerCompatWrapper,
 ) : ShortcutRepository {
 

@@ -18,7 +18,6 @@
 package com.android.geto.core.testing.repository
 
 import com.android.geto.core.data.repository.AppSettingsRepository
-import com.android.geto.core.database.model.AppSettingEntity
 import com.android.geto.core.model.AppSetting
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -33,7 +32,7 @@ class TestAppSettingsRepository : AppSettingsRepository {
 
     override suspend fun upsertAppSetting(appSetting: AppSetting) {
         _appSettingFlow.update { oldValues ->
-            (oldValues + appSetting).reversed().distinctBy { AppSettingEntity::id }
+            (oldValues + appSetting).reversed().distinctBy { AppSetting::id }
         }
     }
 

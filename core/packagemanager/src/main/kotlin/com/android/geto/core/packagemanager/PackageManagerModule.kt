@@ -25,7 +25,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-interface PackageManagerModule {
+internal interface PackageManagerModule {
 
     @Binds
     @Singleton

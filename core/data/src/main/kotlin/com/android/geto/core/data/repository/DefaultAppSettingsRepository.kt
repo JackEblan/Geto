@@ -27,7 +27,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class DefaultAppSettingsRepository @Inject constructor(
+internal class DefaultAppSettingsRepository @Inject constructor(
     private val appSettingsDao: AppSettingsDao,
 ) : AppSettingsRepository {
 

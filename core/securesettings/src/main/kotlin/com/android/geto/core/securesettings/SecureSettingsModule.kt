@@ -25,7 +25,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-interface SecureSettingsModule {
+internal interface SecureSettingsModule {
 
     @Binds
     @Singleton

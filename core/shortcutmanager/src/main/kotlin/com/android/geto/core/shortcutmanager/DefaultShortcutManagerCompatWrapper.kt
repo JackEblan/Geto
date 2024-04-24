@@ -27,7 +27,7 @@ import com.android.geto.core.model.TargetShortcutInfoCompat
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
-class DefaultShortcutManagerCompatWrapper @Inject constructor(@ApplicationContext private val context: Context) :
+internal class DefaultShortcutManagerCompatWrapper @Inject constructor(@ApplicationContext private val context: Context) :
     ShortcutManagerCompatWrapper {
 
     override fun isRequestPinShortcutSupported(): Boolean {

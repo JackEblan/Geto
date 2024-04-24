@@ -23,7 +23,7 @@ import com.android.geto.core.model.SettingType
 import com.android.geto.core.securesettings.SecureSettingsWrapper
 import javax.inject.Inject
 
-class DefaultSecureSettingsRepository @Inject constructor(
+internal class DefaultSecureSettingsRepository @Inject constructor(
     private val secureSettingsWrapper: SecureSettingsWrapper,
 ) : SecureSettingsRepository {
     override suspend fun applySecureSettings(appSettings: List<AppSetting>): Boolean {

@@ -25,7 +25,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-interface ShortcutManagerModule {
+internal interface ShortcutManagerModule {
 
     @Binds
     @Singleton

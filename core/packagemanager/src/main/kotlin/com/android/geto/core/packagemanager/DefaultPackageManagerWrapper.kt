@@ -26,7 +26,7 @@ import com.android.geto.core.model.TargetApplicationInfo
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
-class DefaultPackageManagerWrapper @Inject constructor(@ApplicationContext private val context: Context) :
+internal class DefaultPackageManagerWrapper @Inject constructor(@ApplicationContext private val context: Context) :
     PackageManagerWrapper {
 
     private val packageManager = context.packageManager

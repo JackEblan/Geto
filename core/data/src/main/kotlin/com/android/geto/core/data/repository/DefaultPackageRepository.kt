@@ -29,7 +29,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class DefaultPackageRepository @Inject constructor(
+internal class DefaultPackageRepository @Inject constructor(
     private val packageManagerWrapper: PackageManagerWrapper,
     @Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher,
 ) : PackageRepository {

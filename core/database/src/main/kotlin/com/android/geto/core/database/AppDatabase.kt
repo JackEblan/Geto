@@ -54,7 +54,7 @@ import com.android.geto.core.database.model.AppSettingEntity
     ],
     exportSchema = true,
 )
-abstract class AppDatabase : RoomDatabase() {
+internal abstract class AppDatabase : RoomDatabase() {
 
     abstract fun appSettingsDao(): AppSettingsDao
 

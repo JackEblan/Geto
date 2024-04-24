@@ -25,7 +25,7 @@ import androidx.annotation.ChecksSdkIntAtLeast
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
-class DefaultClipboardManagerWrapper @Inject constructor(
+internal class DefaultClipboardManagerWrapper @Inject constructor(
     @ApplicationContext private val context: Context,
 ) : ClipboardManagerWrapper {
 

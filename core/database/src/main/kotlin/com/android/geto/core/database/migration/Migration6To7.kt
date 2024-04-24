@@ -20,7 +20,7 @@ package com.android.geto.core.database.migration
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
-class Migration6To7 : Migration(6, 7) {
+internal class Migration6To7 : Migration(6, 7) {
     override fun migrate(db: SupportSQLiteDatabase) {
         db.execSQL(
             """

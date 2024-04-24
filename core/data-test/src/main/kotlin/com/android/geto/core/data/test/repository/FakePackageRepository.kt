@@ -24,16 +24,14 @@ import com.android.geto.core.model.TargetApplicationInfo
 import javax.inject.Inject
 
 class FakePackageRepository @Inject constructor() : PackageRepository {
-    private val _installedApplications = List(20) { index ->
-        TargetApplicationInfo(
-            flags = 0,
-            packageName = "com.android.geto$index",
-            label = "Geto $index",
-        )
-    }
-
     override suspend fun getInstalledApplications(): List<TargetApplicationInfo> {
-        return _installedApplications
+        return List(20) { index ->
+            TargetApplicationInfo(
+                flags = 0,
+                packageName = "com.android.geto$index",
+                label = "Geto $index",
+            )
+        }
     }
 
     override suspend fun getApplicationIcon(packageName: String): Drawable? {

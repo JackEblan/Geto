@@ -20,7 +20,7 @@ package com.android.geto.core.shortcutmanager
 import androidx.core.content.pm.ShortcutInfoCompat
 import com.android.geto.core.model.TargetShortcutInfoCompat
 
-fun ShortcutInfoCompat.asTargetShortcutInfoCompat(): TargetShortcutInfoCompat {
+internal fun ShortcutInfoCompat.asTargetShortcutInfoCompat(): TargetShortcutInfoCompat {
     return TargetShortcutInfoCompat(
         id = id,
         shortLabel = shortLabel.toString(),

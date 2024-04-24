@@ -20,7 +20,7 @@ package com.android.geto.core.data.repository
 import com.android.geto.core.packagemanager.ClipboardManagerWrapper
 import javax.inject.Inject
 
-class DefaultClipboardRepository @Inject constructor(
+internal class DefaultClipboardRepository @Inject constructor(
     private val clipboardManagerWrapper: ClipboardManagerWrapper,
 ) : ClipboardRepository {
     override fun setPrimaryClip(label: String, text: String): ClipboardResult {

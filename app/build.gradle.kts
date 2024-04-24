@@ -68,11 +68,9 @@ android {
 }
 
 dependencies {
-    implementation(projects.core.common)
     implementation(projects.core.data)
     implementation(projects.core.designsystem)
-    implementation(projects.core.packagemanager)
-    implementation(projects.core.ui)
+    implementation(projects.core.model)
 
     implementation(projects.feature.apps)
     implementation(projects.feature.appsettings)
