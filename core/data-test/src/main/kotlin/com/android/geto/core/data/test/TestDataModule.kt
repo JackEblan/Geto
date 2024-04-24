@@ -41,7 +41,7 @@ import javax.inject.Singleton
     components = [SingletonComponent::class],
     replaces = [DataModule::class],
 )
-interface TestDataModule {
+internal interface TestDataModule {
 
     @Binds
     @Singleton
