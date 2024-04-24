@@ -27,6 +27,7 @@ import com.android.geto.core.domain.AppSettingsResult
 import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.SettingType
 import com.android.geto.core.screenshot.testing.util.captureMultiDevice
+import com.android.geto.core.testing.util.MainDispatcherRule
 import dagger.hilt.android.testing.HiltTestApplication
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
@@ -42,6 +43,9 @@ import kotlin.test.Test
 @Config(application = HiltTestApplication::class)
 @LooperMode(LooperMode.Mode.PAUSED)
 class AppSettingsScreenSnackbarScreenshotTest {
+
+    @get:Rule
+    val mainDispatcherRule = MainDispatcherRule()
 
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
@@ -60,12 +64,12 @@ class AppSettingsScreenSnackbarScreenshotTest {
     }
 
     @Test
-    fun appSettingsScreenSnackbar_populated() = runTest {
+    fun appSettingsScreen_snackbar() = runTest {
         val snackbarHostState = SnackbarHostState()
 
         snackbarHostState.showSnackbar("This is a snackbar")
 
-        composeTestRule.captureMultiDevice("AppSettingsScreenSnackbarPopulated") {
+        composeTestRule.captureMultiDevice("AppSettingsScreenSnackbar") {
             GetoTheme {
                 AppSettingsScreen(
                     packageName = "com.android.geto",
