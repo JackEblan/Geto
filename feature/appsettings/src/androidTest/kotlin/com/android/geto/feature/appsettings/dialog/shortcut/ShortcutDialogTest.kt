@@ -29,6 +29,7 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import com.android.geto.feature.appsettings.R
 import dagger.hilt.android.testing.HiltAndroidTest
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
@@ -37,10 +38,15 @@ class ShortcutDialogTest {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
+    private lateinit var shortcutDialogState: ShortcutDialogState
+
+    @Before
+    fun setup() {
+        shortcutDialogState = ShortcutDialogState()
+    }
+
     @Test
     fun counterSupportingTexts_areDisplayed_withEmptyCharacters() {
-        val shortcutDialogState = ShortcutDialogState()
-
         composeTestRule.setContent {
             ShortcutDialog(
                 shortcutDialogState = shortcutDialogState,
@@ -64,20 +70,16 @@ class ShortcutDialogTest {
         composeTestRule.onNodeWithTag(
             testTag = "shortcutDialog:shortLabelCounterSupportingText",
             useUnmergedTree = true,
-        )
-            .assertTextEquals("0/${shortcutDialogState.shortLabelMaxLength}")
+        ).assertTextEquals("0/${shortcutDialogState.shortLabelMaxLength}")
 
         composeTestRule.onNodeWithTag(
             testTag = "shortcutDialog:longLabelCounterSupportingText",
             useUnmergedTree = true,
-        )
-            .assertTextEquals("0/${shortcutDialogState.longLabelMaxLength}")
+        ).assertTextEquals("0/${shortcutDialogState.longLabelMaxLength}")
     }
 
     @Test
     fun shortLabelSupportingText_isDisplayed_whenShortLabelTextField_isBlank() {
-        val shortcutDialogState = ShortcutDialogState()
-
         composeTestRule.setContent {
             ShortcutDialog(
                 shortcutDialogState = shortcutDialogState,
@@ -108,8 +110,6 @@ class ShortcutDialogTest {
 
     @Test
     fun shortLabelCounterSupportingText_isDisplayed_whenShortLabelTextField_isFilledWithCharacters() {
-        val shortcutDialogState = ShortcutDialogState()
-
         composeTestRule.setContent {
             ShortcutDialog(
                 shortcutDialogState = shortcutDialogState,
@@ -139,8 +139,6 @@ class ShortcutDialogTest {
 
     @Test
     fun longLabelCounterSupportingText_isDisplayed_whenLongLabelTextField_isFilledWithCharacters() {
-        val shortcutDialogState = ShortcutDialogState()
-
         composeTestRule.setContent {
             ShortcutDialog(
                 shortcutDialogState = shortcutDialogState,
@@ -165,13 +163,11 @@ class ShortcutDialogTest {
             testTag = "shortcutDialog:longLabelCounterSupportingText",
             useUnmergedTree = true,
         )
-            .assertTextEquals("${shortcutDialogState.longLabel.length}/${shortcutDialogState.longLabel}")
+            .assertTextEquals("${shortcutDialogState.longLabel.length}/${shortcutDialogState.longLabelMaxLength}")
     }
 
     @Test
     fun longLabelSupportingText_isDisplayed_whenLongLabelTextField_isBlank() {
-        val shortcutDialogState = ShortcutDialogState()
-
         composeTestRule.setContent {
             ShortcutDialog(
                 shortcutDialogState = shortcutDialogState,
@@ -205,8 +201,6 @@ class ShortcutDialogTest {
         val restorationTester = StateRestorationTester(composeTestRule)
 
         restorationTester.setContent {
-            val shortcutDialogState = rememberShortcutDialogState()
-
             shortcutDialogState.updateShortLabel("Geto")
 
             shortcutDialogState.updateLongLabel("Geto")
@@ -225,10 +219,18 @@ class ShortcutDialogTest {
 
         composeTestRule.onNodeWithTag(
             testTag = "shortcutDialog:shortLabelTextField",
-        ).assertTextEquals("Short label", "Geto")
+        ).assertTextEquals(
+            "Short label",
+            "Geto",
+            "${shortcutDialogState.shortLabel.length}/${shortcutDialogState.shortLabelMaxLength}",
+        )
 
         composeTestRule.onNodeWithTag(
             testTag = "shortcutDialog:longLabelTextField",
-        ).assertTextEquals("Long label", "Geto")
+        ).assertTextEquals(
+            "Long label",
+            "Geto",
+            "${shortcutDialogState.longLabel.length}/${shortcutDialogState.longLabelMaxLength}",
+        )
     }
 }

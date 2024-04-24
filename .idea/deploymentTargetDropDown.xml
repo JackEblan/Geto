@@ -23,6 +23,9 @@
       <entry key="feature.shortcut">
         <State />
       </entry>
+      <entry key="onRecreation_state_isRestored()">
+        <State />
+      </entry>
       <entry key="shortLabelCounterSupportingText_isDisplayed_whenShortLabelTextField_isFilledWithCharacters()">
         <State />
       </entry>
