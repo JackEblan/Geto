@@ -17,6 +17,7 @@
  */
 package com.android.geto.feature.appsettings
 
+import android.content.Intent
 import androidx.lifecycle.SavedStateHandle
 import com.android.geto.core.data.repository.ClipboardResult
 import com.android.geto.core.data.repository.ShortcutResult
@@ -526,6 +527,7 @@ class AppSettingsViewModelTest {
                 id = "0",
                 shortLabel = "shortLabel",
                 longLabel = "longLabel",
+                shortcutIntent = Intent(),
             ),
         )
 
@@ -541,6 +543,7 @@ class AppSettingsViewModelTest {
                 id = "0",
                 shortLabel = "shortLabel",
                 longLabel = "longLabel",
+                shortcutIntent = Intent(),
             ),
         )
 
@@ -556,6 +559,7 @@ class AppSettingsViewModelTest {
                 id = "0",
                 shortLabel = "Geto",
                 longLabel = "Geto",
+                shortcutIntent = Intent(),
             ),
         )
 
@@ -571,6 +575,7 @@ class AppSettingsViewModelTest {
                 id = "0",
                 shortLabel = "Geto",
                 longLabel = "Geto",
+                shortcutIntent = Intent(),
             ),
         )
 
@@ -584,6 +589,7 @@ class AppSettingsViewModelTest {
                 id = "com.android.geto",
                 shortLabel = "Geto",
                 longLabel = "Geto",
+                shortcutIntent = Intent(),
             )
         }
 
@@ -603,6 +609,7 @@ class AppSettingsViewModelTest {
                 id = "com.android.geto",
                 shortLabel = "Geto",
                 longLabel = "Geto",
+                shortcutIntent = Intent(),
             )
         }
 

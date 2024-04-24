@@ -17,8 +17,6 @@
  */
 package com.android.geto.core.data.testdoubles
 
-import android.content.Intent
-import android.graphics.Bitmap
 import com.android.geto.core.model.TargetShortcutInfoCompat
 import com.android.geto.core.shortcutmanager.ShortcutManagerCompatWrapper
 
@@ -37,21 +35,13 @@ class TestShortcutManagerCompatWrapper : ShortcutManagerCompatWrapper {
     }
 
     override fun requestPinShortcut(
-        icon: Bitmap?,
-        id: String,
-        shortLabel: String,
-        longLabel: String,
-        intent: Intent,
+        targetShortcutInfoCompat: TargetShortcutInfoCompat,
     ): Boolean {
         return requestPinShortcut
     }
 
     override fun updateShortcuts(
-        icon: Bitmap?,
-        id: String,
-        shortLabel: String,
-        longLabel: String,
-        intent: Intent,
+        targetShortcutInfoCompat: TargetShortcutInfoCompat,
     ): Boolean {
         return if (updateImmutableShortcuts) {
             throw IllegalArgumentException()

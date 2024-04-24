@@ -17,7 +17,6 @@
  */
 package com.android.geto.feature.appsettings
 
-import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -155,11 +154,8 @@ class AppSettingsViewModel @Inject constructor(
 
     fun requestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat) {
         viewModelScope.launch {
-            val icon = packageRepository.getApplicationIcon(packageName = packageName)
-
             _shortcutResult.update {
                 shortcutRepository.requestPinShortcut(
-                    icon = icon?.toBitmap(),
                     targetShortcutInfoCompat = targetShortcutInfoCompat,
                 )
             }
@@ -168,11 +164,8 @@ class AppSettingsViewModel @Inject constructor(
 
     fun updateRequestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat) {
         viewModelScope.launch {
-            val icon = packageRepository.getApplicationIcon(packageName = packageName)
-
             _shortcutResult.update {
                 shortcutRepository.updateRequestPinShortcut(
-                    icon = icon?.toBitmap(),
                     targetShortcutInfoCompat,
                 )
             }

@@ -17,7 +17,9 @@
  */
 package com.android.geto.core.shortcutmanager
 
+import android.content.Context
 import androidx.core.content.pm.ShortcutInfoCompat
+import androidx.core.graphics.drawable.IconCompat
 import com.android.geto.core.model.TargetShortcutInfoCompat
 
 internal fun ShortcutInfoCompat.asTargetShortcutInfoCompat(): TargetShortcutInfoCompat {
@@ -25,5 +27,18 @@ internal fun ShortcutInfoCompat.asTargetShortcutInfoCompat(): TargetShortcutInfo
         id = id,
         shortLabel = shortLabel.toString(),
         longLabel = longLabel.toString(),
+        shortcutIntent = intent,
     )
+}
+
+internal fun TargetShortcutInfoCompat.asShortcutInfoCompat(context: Context): ShortcutInfoCompat {
+    return ShortcutInfoCompat.Builder(context, id).apply {
+        if (icon != null) {
+            setIcon(IconCompat.createWithBitmap(icon!!))
+        }
+
+        setShortLabel(shortLabel)
+        setLongLabel(longLabel)
+        setIntent(shortcutIntent)
+    }.build()
 }

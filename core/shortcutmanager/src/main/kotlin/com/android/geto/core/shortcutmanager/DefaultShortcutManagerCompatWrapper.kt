@@ -18,11 +18,8 @@
 package com.android.geto.core.shortcutmanager
 
 import android.content.Context
-import android.content.Intent
-import android.graphics.Bitmap
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
-import androidx.core.graphics.drawable.IconCompat
 import com.android.geto.core.model.TargetShortcutInfoCompat
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
@@ -35,49 +32,27 @@ internal class DefaultShortcutManagerCompatWrapper @Inject constructor(@Applicat
     }
 
     override fun requestPinShortcut(
-        icon: Bitmap?,
-        id: String,
-        shortLabel: String,
-        longLabel: String,
-        intent: Intent,
+        targetShortcutInfoCompat: TargetShortcutInfoCompat,
     ): Boolean {
-        val shortcutInfo = ShortcutInfoCompat.Builder(context, id)
-            .apply {
-                if (icon != null) {
-                    setIcon(IconCompat.createWithBitmap(icon))
-                }
-            }
-            .setShortLabel(shortLabel)
-            .setLongLabel(longLabel)
-            .setIntent(intent)
-            .build()
-
+        println(targetShortcutInfoCompat.shortcutIntent.toString())
         return ShortcutManagerCompat.requestPinShortcut(
             context,
-            shortcutInfo,
+            targetShortcutInfoCompat.asShortcutInfoCompat(context),
             null,
         )
     }
 
     override fun updateShortcuts(
-        icon: Bitmap?,
-        id: String,
-        shortLabel: String,
-        longLabel: String,
-        intent: Intent,
+        targetShortcutInfoCompat: TargetShortcutInfoCompat,
     ): Boolean {
-        val shortcutInfo = ShortcutInfoCompat.Builder(context, id)
-            .apply {
-                if (icon != null) {
-                    setIcon(IconCompat.createWithBitmap(icon))
-                }
-            }
-            .setShortLabel(shortLabel)
-            .setLongLabel(longLabel)
-            .setIntent(intent)
-            .build()
-
-        return ShortcutManagerCompat.updateShortcuts(context, listOf(shortcutInfo))
+        return ShortcutManagerCompat.updateShortcuts(
+            context,
+            listOf(
+                targetShortcutInfoCompat.asShortcutInfoCompat(
+                    context,
+                ),
+            ),
+        )
     }
 
     override fun getShortcuts(matchFlags: Int): List<TargetShortcutInfoCompat> {

@@ -17,7 +17,6 @@
  */
 package com.android.geto.core.data.test.repository
 
-import android.graphics.Bitmap
 import com.android.geto.core.data.repository.ShortcutRepository
 import com.android.geto.core.data.repository.ShortcutResult
 import com.android.geto.core.model.TargetShortcutInfoCompat
@@ -26,14 +25,12 @@ import javax.inject.Inject
 class FakeShortcutRepository @Inject constructor() : ShortcutRepository {
 
     override fun requestPinShortcut(
-        icon: Bitmap?,
         targetShortcutInfoCompat: TargetShortcutInfoCompat,
     ): ShortcutResult {
         return ShortcutResult.SupportedLauncher
     }
 
     override fun updateRequestPinShortcut(
-        icon: Bitmap?,
         targetShortcutInfoCompat: TargetShortcutInfoCompat,
     ): ShortcutResult {
         return ShortcutResult.ShortcutUpdateSuccess

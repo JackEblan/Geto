@@ -57,6 +57,10 @@ internal class ShortcutDialogState {
     var showLongLabelError by mutableStateOf(false)
         private set
 
+    val shortLabelMaxLength = 10
+
+    val longLabelMaxLength = 25
+
     fun updateShowDialog(value: Boolean) {
         showDialog = value
     }
@@ -66,11 +70,15 @@ internal class ShortcutDialogState {
     }
 
     fun updateShortLabel(value: String) {
-        shortLabel = value
+        if (value.length <= shortLabelMaxLength) {
+            shortLabel = value
+        }
     }
 
     fun updateLongLabel(value: String) {
-        longLabel = value
+        if (value.length <= longLabelMaxLength) {
+            longLabel = value
+        }
     }
 
     fun resetState() {
@@ -87,6 +95,7 @@ internal class ShortcutDialogState {
         return if (showShortLabelError.not() && showLongLabelError.not()) {
             TargetShortcutInfoCompat(
                 id = packageName,
+                icon = icon,
                 shortLabel = shortLabel,
                 longLabel = longLabel,
                 shortcutIntent = shortcutIntent,

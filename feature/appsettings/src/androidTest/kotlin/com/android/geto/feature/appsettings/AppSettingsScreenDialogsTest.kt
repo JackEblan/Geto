@@ -17,6 +17,7 @@
  */
 package com.android.geto.feature.appsettings
 
+import android.content.Intent
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsNotDisplayed
@@ -213,6 +214,7 @@ class AppSettingsScreenDialogsTest {
                         id = "0",
                         shortLabel = "Geto",
                         longLabel = "Geto",
+                        shortcutIntent = Intent(),
                     ),
                 ),
                 clipboardResult = ClipboardResult.NoResult,

@@ -136,6 +136,11 @@ private fun ShortcutDialogTextFields(
                     text = shortLabelIsBlank,
                     modifier = Modifier.testTag("shortcutDialog:shortLabelSupportingText"),
                 )
+            } else {
+                Text(
+                    text = "${shortcutDialogState.shortLabel.length}/${shortcutDialogState.shortLabelMaxLength}",
+                    modifier = Modifier.fillMaxWidth(),
+                )
             }
         },
         singleLine = true,
@@ -158,6 +163,11 @@ private fun ShortcutDialogTextFields(
                 Text(
                     text = longLabelIsBlank,
                     modifier = Modifier.testTag("shortcutDialog:longLabelSupportingText"),
+                )
+            } else {
+                Text(
+                    text = "${shortcutDialogState.longLabel.length}/${shortcutDialogState.longLabelMaxLength}",
+                    modifier = Modifier.fillMaxWidth(),
                 )
             }
         },

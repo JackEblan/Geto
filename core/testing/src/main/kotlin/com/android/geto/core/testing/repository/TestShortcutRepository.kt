@@ -17,7 +17,6 @@
  */
 package com.android.geto.core.testing.repository
 
-import android.graphics.Bitmap
 import com.android.geto.core.data.repository.ShortcutRepository
 import com.android.geto.core.data.repository.ShortcutResult
 import com.android.geto.core.model.TargetShortcutInfoCompat
@@ -31,7 +30,6 @@ class TestShortcutRepository : ShortcutRepository {
     private var updateImmutableShortcuts = false
 
     override fun requestPinShortcut(
-        icon: Bitmap?,
         targetShortcutInfoCompat: TargetShortcutInfoCompat,
     ): ShortcutResult {
         return if (requestPinShortcutSupported) {
@@ -42,7 +40,6 @@ class TestShortcutRepository : ShortcutRepository {
     }
 
     override fun updateRequestPinShortcut(
-        icon: Bitmap?,
         targetShortcutInfoCompat: TargetShortcutInfoCompat,
     ): ShortcutResult {
         return if (updateImmutableShortcuts) {
@@ -53,14 +50,11 @@ class TestShortcutRepository : ShortcutRepository {
     }
 
     override fun getShortcut(id: String): ShortcutResult {
-        val shortcutInfoCompat = targetShortcutInfoCompats.find { it.id == id }
+        val targetShortcutInfoCompat = targetShortcutInfoCompats.find { it.id == id }
 
-        return if (shortcutInfoCompat != null) {
+        return if (targetShortcutInfoCompat != null) {
             ShortcutResult.ShortcutFound(
-                targetShortcutInfoCompat = TargetShortcutInfoCompat(
-                    shortLabel = shortcutInfoCompat.shortLabel.toString(),
-                    longLabel = shortcutInfoCompat.longLabel.toString(),
-                ),
+                targetShortcutInfoCompat = targetShortcutInfoCompat,
             )
         } else {
             ShortcutResult.NoShortcutFound

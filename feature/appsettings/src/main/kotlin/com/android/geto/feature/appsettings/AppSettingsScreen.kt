@@ -175,8 +175,9 @@ internal fun AppSettingsScreen(
 
     val shortcutIntent = Intent().apply {
         action = Intent.ACTION_VIEW
-        this.setClassName("com.android.geto", "com.android.geto.MainActivity")
+        setClassName(LocalContext.current.packageName, "com.android.geto.MainActivity")
         data = "https://www.android.geto.com/$packageName/$appName".toUri()
+        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
     }
 
     val snackbarHostState = remember {
@@ -374,8 +375,8 @@ private fun AppSettingsLaunchedEffects(
             ShortcutResult.UnsupportedLauncher -> snackbarHostState.showSnackbar(message = unsupportedLauncher)
             ShortcutResult.UserIsLocked -> snackbarHostState.showSnackbar(message = userIsLocked)
             is ShortcutResult.ShortcutFound -> {
-                updateShortcutDialogState.updateShortLabel(shortcutResult.targetShortcutInfoCompat.shortLabel!!)
-                updateShortcutDialogState.updateLongLabel(shortcutResult.targetShortcutInfoCompat.longLabel!!)
+                updateShortcutDialogState.updateShortLabel(shortcutResult.targetShortcutInfoCompat.shortLabel)
+                updateShortcutDialogState.updateLongLabel(shortcutResult.targetShortcutInfoCompat.longLabel)
                 updateShortcutDialogState.updateShowDialog(true)
             }
 
