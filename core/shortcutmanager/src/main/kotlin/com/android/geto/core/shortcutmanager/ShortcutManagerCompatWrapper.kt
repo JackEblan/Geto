@@ -17,27 +17,17 @@
  */
 package com.android.geto.core.shortcutmanager
 
-import android.content.Intent
-import android.graphics.Bitmap
 import com.android.geto.core.model.TargetShortcutInfoCompat
 
 interface ShortcutManagerCompatWrapper {
     fun isRequestPinShortcutSupported(): Boolean
 
     fun requestPinShortcut(
-        icon: Bitmap?,
-        id: String,
-        shortLabel: String,
-        longLabel: String,
-        intent: Intent,
+        targetShortcutInfoCompat: TargetShortcutInfoCompat,
     ): Boolean
 
     fun updateShortcuts(
-        icon: Bitmap?,
-        id: String,
-        shortLabel: String,
-        longLabel: String,
-        intent: Intent,
+        targetShortcutInfoCompat: TargetShortcutInfoCompat,
     ): Boolean
 
     fun getShortcuts(matchFlags: Int): List<TargetShortcutInfoCompat>

@@ -20,6 +20,7 @@ package com.android.geto.feature.appsettings.dialog.shortcut
 import android.content.Intent
 import org.junit.Before
 import org.junit.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
@@ -81,6 +82,48 @@ class ShortcutDialogStateTest {
                 packageName = packageName,
                 shortcutIntent = Intent(),
             ),
+        )
+    }
+
+    @Test
+    fun shortLabel_isBlank_whenTextLength_exceedsShortLabelMaxLength() {
+        shortcutDialogState.updateShortLabel("This is a text that exceeds short label max length")
+
+        shortcutDialogState.updateLongLabel("")
+
+        assertTrue(shortcutDialogState.shortLabel.isBlank())
+    }
+
+    @Test
+    fun shortLabelLength_isEqualToShortLabelMaxLength_whenTextLength_exceedsShortLabelMaxLength() {
+        shortcutDialogState.updateShortLabel("Giraffeeee")
+
+        shortcutDialogState.updateLongLabel("")
+
+        assertEquals(
+            expected = shortcutDialogState.shortLabelMaxLength,
+            actual = shortcutDialogState.shortLabel.length,
+        )
+    }
+
+    @Test
+    fun longLabel_isBlank_whenTextLength_exceedsLongLabelMaxLength() {
+        shortcutDialogState.updateShortLabel("")
+
+        shortcutDialogState.updateLongLabel("qwertyuiopa")
+
+        assertTrue(shortcutDialogState.shortLabel.isBlank())
+    }
+
+    @Test
+    fun longLabelLength_isEqualToLongLabelMaxLength_whenTextLength_exceedsLongLabelMaxLength() {
+        shortcutDialogState.updateShortLabel("")
+
+        shortcutDialogState.updateLongLabel("qwertyuiopasdfghjklzxcvbn")
+
+        assertEquals(
+            expected = shortcutDialogState.longLabelMaxLength,
+            actual = shortcutDialogState.longLabel.length,
         )
     }
 }

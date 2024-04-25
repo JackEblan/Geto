@@ -107,11 +107,16 @@ internal fun AppSettingsRoute(
 
     val clipboardResult = viewModel.clipboardResult.collectAsStateWithLifecycle().value
 
+    val snackbarHostState = remember {
+        SnackbarHostState()
+    }
+
     AppSettingsScreen(
         modifier = modifier,
         packageName = viewModel.packageName,
         appName = viewModel.appName,
         appSettingsUiState = appSettingsUiState,
+        snackbarHostState = snackbarHostState,
         applicationIcon = applicationIcon,
         secureSettings = secureSettings,
         applyAppSettingsResult = applyAppSettingsResult,
@@ -143,6 +148,7 @@ internal fun AppSettingsScreen(
     packageName: String,
     appName: String,
     appSettingsUiState: AppSettingsUiState,
+    snackbarHostState: SnackbarHostState,
     applicationIcon: Drawable?,
     secureSettings: List<SecureSetting>,
     applyAppSettingsResult: AppSettingsResult,
@@ -175,12 +181,9 @@ internal fun AppSettingsScreen(
 
     val shortcutIntent = Intent().apply {
         action = Intent.ACTION_VIEW
-        this.setClassName("com.android.geto", "com.android.geto.MainActivity")
+        setClassName(LocalContext.current.packageName, "com.android.geto.MainActivity")
         data = "https://www.android.geto.com/$packageName/$appName".toUri()
-    }
-
-    val snackbarHostState = remember {
-        SnackbarHostState()
+        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
     }
 
     AppSettingsLaunchedEffects(
@@ -374,8 +377,8 @@ private fun AppSettingsLaunchedEffects(
             ShortcutResult.UnsupportedLauncher -> snackbarHostState.showSnackbar(message = unsupportedLauncher)
             ShortcutResult.UserIsLocked -> snackbarHostState.showSnackbar(message = userIsLocked)
             is ShortcutResult.ShortcutFound -> {
-                updateShortcutDialogState.updateShortLabel(shortcutResult.targetShortcutInfoCompat.shortLabel!!)
-                updateShortcutDialogState.updateLongLabel(shortcutResult.targetShortcutInfoCompat.longLabel!!)
+                updateShortcutDialogState.updateShortLabel(shortcutResult.targetShortcutInfoCompat.shortLabel)
+                updateShortcutDialogState.updateLongLabel(shortcutResult.targetShortcutInfoCompat.longLabel)
                 updateShortcutDialogState.updateShowDialog(true)
             }
 
@@ -660,6 +663,7 @@ private fun AppSettingsScreenLoadingStatePreview() {
             packageName = "com.android.geto",
             appName = "Geto",
             appSettingsUiState = AppSettingsUiState.Loading,
+            snackbarHostState = SnackbarHostState(),
             applicationIcon = null,
             secureSettings = emptyList(),
             applyAppSettingsResult = AppSettingsResult.NoResult,
@@ -693,6 +697,7 @@ private fun AppSettingsScreenEmptyStatePreview() {
             packageName = "com.android.geto",
             appName = "Geto",
             appSettingsUiState = AppSettingsUiState.Success(emptyList()),
+            snackbarHostState = SnackbarHostState(),
             applicationIcon = null,
             secureSettings = emptyList(),
             applyAppSettingsResult = AppSettingsResult.NoResult,
@@ -728,6 +733,7 @@ private fun AppSettingsScreenSuccessStatePreview(
             packageName = "com.android.geto",
             appName = "Geto",
             appSettingsUiState = AppSettingsUiState.Success(appSettings),
+            snackbarHostState = SnackbarHostState(),
             applicationIcon = null,
             secureSettings = emptyList(),
             applyAppSettingsResult = AppSettingsResult.NoResult,

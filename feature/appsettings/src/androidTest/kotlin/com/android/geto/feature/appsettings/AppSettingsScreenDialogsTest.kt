@@ -17,7 +17,9 @@
  */
 package com.android.geto.feature.appsettings
 
+import android.content.Intent
 import androidx.activity.ComponentActivity
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsNotDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
@@ -42,6 +44,7 @@ class AppSettingsScreenDialogsTest {
                 packageName = "com.android.geto",
                 appName = "Geto",
                 appSettingsUiState = AppSettingsUiState.Loading,
+                snackbarHostState = SnackbarHostState(),
                 applicationIcon = null,
                 secureSettings = emptyList(),
                 applyAppSettingsResult = AppSettingsResult.NoResult,
@@ -86,6 +89,7 @@ class AppSettingsScreenDialogsTest {
                 packageName = "com.android.geto",
                 appName = "Geto",
                 appSettingsUiState = AppSettingsUiState.Loading,
+                snackbarHostState = SnackbarHostState(),
                 applicationIcon = null,
                 secureSettings = emptyList(),
                 applyAppSettingsResult = AppSettingsResult.SecurityException,
@@ -126,6 +130,7 @@ class AppSettingsScreenDialogsTest {
                 packageName = "com.android.geto",
                 appName = "Geto",
                 appSettingsUiState = AppSettingsUiState.Loading,
+                snackbarHostState = SnackbarHostState(),
                 applicationIcon = null,
                 secureSettings = emptyList(),
                 applyAppSettingsResult = AppSettingsResult.NoResult,
@@ -166,6 +171,7 @@ class AppSettingsScreenDialogsTest {
                 packageName = "com.android.geto",
                 appName = "Geto",
                 appSettingsUiState = AppSettingsUiState.Loading,
+                snackbarHostState = SnackbarHostState(),
                 applicationIcon = null,
                 secureSettings = emptyList(),
                 applyAppSettingsResult = AppSettingsResult.NoResult,
@@ -204,6 +210,7 @@ class AppSettingsScreenDialogsTest {
                 packageName = "com.android.geto",
                 appName = "Geto",
                 appSettingsUiState = AppSettingsUiState.Loading,
+                snackbarHostState = SnackbarHostState(),
                 applicationIcon = null,
                 secureSettings = emptyList(),
                 applyAppSettingsResult = AppSettingsResult.NoResult,
@@ -213,6 +220,7 @@ class AppSettingsScreenDialogsTest {
                         id = "0",
                         shortLabel = "Geto",
                         longLabel = "Geto",
+                        shortcutIntent = Intent(),
                     ),
                 ),
                 clipboardResult = ClipboardResult.NoResult,
