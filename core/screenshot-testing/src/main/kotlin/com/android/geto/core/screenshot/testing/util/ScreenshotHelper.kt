@@ -65,23 +65,30 @@ fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.c
     body: @Composable () -> Unit,
 ) {
     DefaultTestDevices.entries.forEach {
-        this.captureForDevice(it.description, it.spec, fileName, body = body)
+        this.captureForDevice(
+            deviceName = it.description,
+            deviceSpec = it.spec,
+            fileName = fileName,
+            body = body,
+        )
     }
 }
 
 fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.captureMultiDeviceSnackbar(
     snackbarHostState: SnackbarHostState,
+    message: String,
     testTag: String,
     fileName: String,
     body: @Composable () -> Unit,
 ) {
     DefaultTestDevices.entries.forEach {
         this.captureSnackbarForDevice(
-            snackbarHostState,
-            testTag,
-            it.description,
-            it.spec,
-            fileName,
+            snackbarHostState = snackbarHostState,
+            message = message,
+            testTag = testTag,
+            deviceName = it.description,
+            deviceSpec = it.spec,
+            fileName = fileName,
             body = body,
         )
     }
@@ -111,7 +118,7 @@ fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.c
     }
 
     this.onRoot().captureRoboImage(
-        "src/test/screenshots/${fileName}_$deviceName.png",
+        filePath = "src/test/screenshots/${fileName}_$deviceName.png",
         roborazziOptions = roborazziOptions,
     )
 }
@@ -119,6 +126,7 @@ fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.c
 @OptIn(ExperimentalTestApi::class)
 fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.captureSnackbarForDevice(
     snackbarHostState: SnackbarHostState,
+    message: String,
     testTag: String,
     deviceName: String,
     deviceSpec: String,
@@ -138,7 +146,7 @@ fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.c
         ) {
             TestHarness(darkMode = darkMode) {
                 LaunchedEffect(key1 = true) {
-                    snackbarHostState.showSnackbar("This is a snackbar")
+                    snackbarHostState.showSnackbar(message = message)
                 }
 
                 body()
@@ -149,7 +157,7 @@ fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.c
     waitUntilAtLeastOneExists(matcher = hasTestTag(testTag = testTag))
 
     this.onRoot().captureRoboImage(
-        "src/test/screenshots/${fileName}_$deviceName.png",
+        filePath = "src/test/screenshots/${fileName}_$deviceName.png",
         roborazziOptions = roborazziOptions,
     )
 }
@@ -184,7 +192,7 @@ fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.c
     }
 
     captureScreenRoboImage(
-        "src/test/screenshots/$name/${fileName}_$deviceName.png",
+        filePath = "src/test/screenshots/$name/${fileName}_$deviceName.png",
         roborazziOptions = roborazziOptions,
     )
 }
@@ -221,12 +229,12 @@ fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.c
                 // Keying is necessary in some cases (e.g. animations)
                 key(androidTheme, darkMode, dynamicTheming) {
                     val description = generateDescription(
-                        shouldCompareDarkMode,
-                        darkMode,
-                        shouldCompareAndroidTheme,
-                        androidTheme,
-                        shouldCompareDynamicColor,
-                        dynamicTheming,
+                        shouldCompareDarkMode = shouldCompareDarkMode,
+                        darkMode = darkMode,
+                        shouldCompareAndroidTheme = shouldCompareAndroidTheme,
+                        androidTheme = androidTheme,
+                        shouldCompareDynamicColor = shouldCompareDynamicColor,
+                        dynamicTheming = dynamicTheming,
                     )
                     content(description)
                 }
@@ -253,7 +261,7 @@ fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.c
                 val filename = overrideFileName ?: name
 
                 this.onRoot().captureRoboImage(
-                    "src/test/screenshots/" + "$name/$filename" + "_$darkModeDesc" + "_$androidThemeDesc" + "_$dynamicThemingDesc" + ".png",
+                    filePath = "src/test/screenshots/" + "$name/$filename" + "_$darkModeDesc" + "_$androidThemeDesc" + "_$dynamicThemingDesc" + ".png",
                     roborazziOptions = DefaultRoborazziOptions,
                 )
             }

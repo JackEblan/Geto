@@ -69,6 +69,7 @@ class AppSettingsScreenSnackbarScreenshotTest {
 
         composeTestRule.captureMultiDeviceSnackbar(
             snackbarHostState = snackbarHostState,
+            message = "This is a snackbar",
             testTag = "appSettings:snackbar",
             fileName = "AppSettingsScreenSnackbar",
         ) {
