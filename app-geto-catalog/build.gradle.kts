@@ -22,18 +22,13 @@ plugins {
 }
 
 android {
+    namespace = "com.android.geto.getocatalog"
+
     defaultConfig {
         applicationId = "com.android.geto.getocatalog"
         versionCode = 1
         versionName = "0.0.1" // X.Y.Z; X = Major, Y = minor, Z = Patch level
     }
-
-    packaging {
-        resources {
-            excludes.add("/META-INF/{AL2.0,LGPL2.1}")
-        }
-    }
-    namespace = "com.android.geto.getocatalog"
 
     buildTypes {
         release {

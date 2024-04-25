@@ -122,32 +122,32 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun appSettingsUiState_isLoading_whenStarted() = runTest {
+    fun appSettingsUiState_isLoading_whenStarted() {
         assertIs<AppSettingsUiState.Loading>(viewModel.appSettingUiState.value)
     }
 
     @Test
-    fun applyAppSettingsResult_isNone_whenStarted() = runTest {
+    fun applyAppSettingsResult_isNone_whenStarted() {
         assertIs<AppSettingsResult.NoResult>(viewModel.applyAppSettingsResult.value)
     }
 
     @Test
-    fun revertAppSettingsResult_isNone_whenStarted() = runTest {
+    fun revertAppSettingsResult_isNone_whenStarted() {
         assertIs<AppSettingsResult.NoResult>(viewModel.revertAppSettingsResult.value)
     }
 
     @Test
-    fun shortcutResult_isNone_whenStarted() = runTest {
+    fun shortcutResult_isNone_whenStarted() {
         assertIs<ShortcutResult.NoResult>(viewModel.shortcutResult.value)
     }
 
     @Test
-    fun clipboardResult_isNone_whenStarted() = runTest {
+    fun clipboardResult_isNone_whenStarted() {
         assertIs<ClipboardResult.NoResult>(viewModel.clipboardResult.value)
     }
 
     @Test
-    fun applicationIcon_isNull_whenStarted() = runTest {
+    fun applicationIcon_isNull_whenStarted() {
         assertNull(viewModel.applicationIcon.value)
     }
 

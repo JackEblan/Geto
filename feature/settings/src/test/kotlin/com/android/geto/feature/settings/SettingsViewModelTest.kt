@@ -59,7 +59,7 @@ class SettingsViewModelTest {
     }
 
     @Test
-    fun settingsUiState_isLoading_whenStarted() = runTest {
+    fun settingsUiState_isLoading_whenStarted() {
         assertEquals(SettingsUiState.Loading, viewModel.settingsUiState.value)
     }
 

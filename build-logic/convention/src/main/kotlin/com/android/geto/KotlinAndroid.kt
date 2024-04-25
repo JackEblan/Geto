@@ -40,24 +40,18 @@ internal fun Project.configureKotlinAndroid(
         compileOptions {
             isCoreLibraryDesugaringEnabled = true
         }
+
+        packaging {
+            resources {
+                excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            }
+        }
     }
 
-    configureKotlin()
-
-    dependencies {
-        add("coreLibraryDesugaring", libs.android.desugarJdkLibs)
-    }
-}
-
-/**
- * Configure base Kotlin options
- */
-internal fun Project.configureKotlin() {
     extensions.configure<KotlinAndroidProjectExtension> {
         jvmToolchain(17)
     }
 
-    // Use withType to workaround https://youtrack.jetbrains.com/issue/KT-55947
     tasks.withType<KotlinCompile>().configureEach {
         kotlinOptions {
             // Treat all Kotlin warnings as errors (disabled by default)
@@ -69,5 +63,9 @@ internal fun Project.configureKotlin() {
                 "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
             )
         }
+    }
+
+    dependencies {
+        add("coreLibraryDesugaring", libs.android.desugarJdkLibs)
     }
 }
