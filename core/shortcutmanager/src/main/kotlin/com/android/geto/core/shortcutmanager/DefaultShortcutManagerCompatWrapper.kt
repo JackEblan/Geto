@@ -34,7 +34,6 @@ internal class DefaultShortcutManagerCompatWrapper @Inject constructor(@Applicat
     override fun requestPinShortcut(
         targetShortcutInfoCompat: TargetShortcutInfoCompat,
     ): Boolean {
-        println(targetShortcutInfoCompat.shortcutIntent.toString())
         return ShortcutManagerCompat.requestPinShortcut(
             context,
             targetShortcutInfoCompat.asShortcutInfoCompat(context),
