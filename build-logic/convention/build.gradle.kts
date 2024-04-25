@@ -97,10 +97,5 @@ gradlePlugin {
             id = "com.android.geto.test"
             implementationClass = "AndroidTestConventionPlugin"
         }
-
-        register("jvmLibrary") {
-            id = "com.android.geto.jvmLibrary"
-            implementationClass = "JvmLibraryConventionPlugin"
-        }
     }
 }

@@ -44,7 +44,7 @@ class AppsViewModelTest {
     }
 
     @Test
-    fun appsUiState_isLoading_whenStarted() = runTest {
+    fun appsUiState_isLoading_whenStarted() {
         assertIs<AppsUiState.Loading>(viewModel.appsUiState.value)
     }
 
