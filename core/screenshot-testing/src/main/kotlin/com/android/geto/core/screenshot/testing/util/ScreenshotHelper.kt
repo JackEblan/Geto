@@ -19,13 +19,17 @@ package com.android.geto.core.screenshot.testing.util
 
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalInspectionMode
+import androidx.compose.ui.test.ExperimentalTestApi
+import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.compose.ui.test.onRoot
 import androidx.test.ext.junit.rules.ActivityScenarioRule
@@ -65,6 +69,24 @@ fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.c
     }
 }
 
+fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.captureMultiDeviceSnackbar(
+    snackbarHostState: SnackbarHostState,
+    testTag: String,
+    fileName: String,
+    body: @Composable () -> Unit,
+) {
+    DefaultTestDevices.entries.forEach {
+        this.captureSnackbarForDevice(
+            snackbarHostState,
+            testTag,
+            it.description,
+            it.spec,
+            fileName,
+            body = body,
+        )
+    }
+}
+
 fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.captureForDevice(
     deviceName: String,
     deviceSpec: String,
@@ -87,6 +109,44 @@ fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.c
             }
         }
     }
+
+    this.onRoot().captureRoboImage(
+        "src/test/screenshots/${fileName}_$deviceName.png",
+        roborazziOptions = roborazziOptions,
+    )
+}
+
+@OptIn(ExperimentalTestApi::class)
+fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.captureSnackbarForDevice(
+    snackbarHostState: SnackbarHostState,
+    testTag: String,
+    deviceName: String,
+    deviceSpec: String,
+    fileName: String,
+    roborazziOptions: RoborazziOptions = DefaultRoborazziOptions,
+    darkMode: Boolean = false,
+    body: @Composable () -> Unit,
+) {
+    val (width, height, dpi) = extractSpecs(deviceSpec)
+
+    // Set qualifiers from specs
+    RuntimeEnvironment.setQualifiers("w${width}dp-h${height}dp-${dpi}dpi")
+
+    this.activity.setContent {
+        CompositionLocalProvider(
+            LocalInspectionMode provides true,
+        ) {
+            TestHarness(darkMode = darkMode) {
+                LaunchedEffect(key1 = true) {
+                    snackbarHostState.showSnackbar("This is a snackbar")
+                }
+
+                body()
+            }
+        }
+    }
+
+    waitUntilAtLeastOneExists(matcher = hasTestTag(testTag = testTag))
 
     this.onRoot().captureRoboImage(
         "src/test/screenshots/${fileName}_$deviceName.png",
