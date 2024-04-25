@@ -19,42 +19,41 @@ package com.android.geto.core.testing.repository
 
 import com.android.geto.core.data.repository.AppSettingsRepository
 import com.android.geto.core.model.AppSetting
+import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.update
 
 class TestAppSettingsRepository : AppSettingsRepository {
-    private val _appSettingFlow = MutableStateFlow(emptyList<AppSetting>())
+    private val _appSettingsFlow = MutableSharedFlow<List<AppSetting>>(
+        replay = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST,
+    )
 
-    override val appSettings: Flow<List<AppSetting>> = _appSettingFlow.asStateFlow()
+    private val currentAppSettings get() = _appSettingsFlow.replayCache.firstOrNull() ?: emptyList()
+
+    override val appSettings: Flow<List<AppSetting>> = _appSettingsFlow.asSharedFlow()
 
     override suspend fun upsertAppSetting(appSetting: AppSetting) {
-        _appSettingFlow.update { oldValues ->
-            (oldValues + appSetting).reversed().distinctBy { AppSetting::id }
-        }
+        _appSettingsFlow.tryEmit((currentAppSettings + appSetting).distinct())
     }
 
     override suspend fun deleteAppSetting(appSetting: AppSetting) {
-        _appSettingFlow.update { updatedList ->
-            updatedList.filterNot { it.id == appSetting.id }
-        }
+        _appSettingsFlow.tryEmit(currentAppSettings - appSetting)
     }
 
     override fun getAppSettingsByPackageName(packageName: String): Flow<List<AppSetting>> {
-        return _appSettingFlow.asStateFlow().map { entities ->
+        return _appSettingsFlow.map { entities ->
             entities.filter { it.packageName == packageName }
         }
     }
 
     override suspend fun deleteAppSettingsByPackageName(packageNames: List<String>) {
-        _appSettingFlow.update { entities ->
-            entities.filterNot { it.packageName in packageNames }
-        }
+        _appSettingsFlow.tryEmit(currentAppSettings.filterNot { it.packageName in packageNames })
     }
 
     fun setAppSettings(value: List<AppSetting>) {
-        _appSettingFlow.value = value.toMutableList()
+        _appSettingsFlow.tryEmit(value)
     }
 }

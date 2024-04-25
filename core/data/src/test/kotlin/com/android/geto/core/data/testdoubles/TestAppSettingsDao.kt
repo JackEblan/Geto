@@ -19,45 +19,42 @@ package com.android.geto.core.data.testdoubles
 
 import com.android.geto.core.database.dao.AppSettingsDao
 import com.android.geto.core.database.model.AppSettingEntity
+import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.update
 
 class TestAppSettingsDao : AppSettingsDao {
-    private val _appSettingsFlow = MutableStateFlow(emptyList<AppSettingEntity>())
+    private val _appSettingEntitiesFlow = MutableSharedFlow<List<AppSettingEntity>>(
+        replay = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST,
+    )
+
+    private val currentAppSettingEntities get() = _appSettingEntitiesFlow.replayCache.firstOrNull() ?: emptyList()
 
     override suspend fun upsertAppSettingEntity(entity: AppSettingEntity) {
-        _appSettingsFlow.update { entities ->
-            (entities + entity).reversed().distinctBy(AppSettingEntity::id)
-        }
+        _appSettingEntitiesFlow.tryEmit((currentAppSettingEntities + entity).distinct())
     }
 
     override suspend fun deleteAppSettingEntity(entity: AppSettingEntity) {
-        _appSettingsFlow.update { entities ->
-            entities.filterNot { it == entity }
-        }
+        _appSettingEntitiesFlow.tryEmit(currentAppSettingEntities - entity)
     }
 
     override fun getAppSettingEntities(): Flow<List<AppSettingEntity>> {
-        return _appSettingsFlow.asStateFlow()
+        return _appSettingEntitiesFlow.asSharedFlow()
     }
 
     override suspend fun deleteAppSettingEntitiesByPackageName(packageNames: List<String>) {
-        _appSettingsFlow.update { entities ->
-            entities.filterNot { it.packageName in packageNames }
-        }
+        _appSettingEntitiesFlow.tryEmit(currentAppSettingEntities.filterNot { it.packageName in packageNames })
     }
 
     override suspend fun upsertAppSettingEntities(entities: List<AppSettingEntity>) {
-        _appSettingsFlow.update { oldEntities ->
-            (oldEntities + entities).distinctBy(AppSettingEntity::id)
-        }
+        _appSettingEntitiesFlow.tryEmit((currentAppSettingEntities + entities).distinct())
     }
 
     override fun getAppSettingEntitiesByPackageName(packageName: String): Flow<List<AppSettingEntity>> {
-        return _appSettingsFlow.asStateFlow().map { entities ->
+        return _appSettingEntitiesFlow.map { entities ->
             entities.filter { it.packageName == packageName }
         }
     }

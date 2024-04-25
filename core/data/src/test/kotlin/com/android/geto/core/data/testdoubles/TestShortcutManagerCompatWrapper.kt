@@ -28,7 +28,7 @@ class TestShortcutManagerCompatWrapper : ShortcutManagerCompatWrapper {
 
     private var updateImmutableShortcuts = false
 
-    private var targetShortcutInfoCompats = listOf<TargetShortcutInfoCompat>()
+    private var targetShortcutInfoCompats = emptyList<TargetShortcutInfoCompat>()
 
     override fun isRequestPinShortcutSupported(): Boolean {
         return requestPinShortcutSupported

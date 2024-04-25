@@ -25,7 +25,7 @@ import com.android.geto.core.model.TargetApplicationInfo
 import com.android.geto.core.packagemanager.PackageManagerWrapper
 
 class TestPackageManagerWrapper : PackageManagerWrapper {
-    private var _installedApplications = listOf<TargetApplicationInfo>()
+    private var _installedApplications = emptyList<TargetApplicationInfo>()
 
     override fun getInstalledApplications(): List<TargetApplicationInfo> {
         return _installedApplications
