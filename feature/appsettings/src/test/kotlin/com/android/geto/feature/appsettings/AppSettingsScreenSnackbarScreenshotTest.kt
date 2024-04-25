@@ -29,6 +29,7 @@ import com.android.geto.core.model.SettingType
 import com.android.geto.core.screenshot.testing.util.captureMultiDevice
 import com.android.geto.core.testing.util.MainDispatcherRule
 import dagger.hilt.android.testing.HiltTestApplication
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.runner.RunWith
@@ -67,7 +68,9 @@ class AppSettingsScreenSnackbarScreenshotTest {
     fun appSettingsScreen_snackbar() = runTest {
         val snackbarHostState = SnackbarHostState()
 
-        snackbarHostState.showSnackbar("This is a snackbar")
+        launch {
+            snackbarHostState.showSnackbar("This is a snackbar")
+        }
 
         composeTestRule.captureMultiDevice("AppSettingsScreenSnackbar") {
             GetoTheme {
