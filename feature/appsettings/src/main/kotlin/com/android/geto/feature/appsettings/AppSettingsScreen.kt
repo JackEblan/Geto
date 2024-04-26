@@ -17,7 +17,6 @@
  */
 package com.android.geto.feature.appsettings
 
-import android.content.Intent
 import android.graphics.drawable.Drawable
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -59,7 +58,6 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.android.geto.core.data.repository.ClipboardResult
@@ -179,13 +177,6 @@ internal fun AppSettingsScreen(
 
     val updateShortcutDialogState = rememberShortcutDialogState()
 
-    val shortcutIntent = Intent().apply {
-        action = Intent.ACTION_VIEW
-        setClassName(LocalContext.current.packageName, "com.android.geto.MainActivity")
-        data = "https://www.android.geto.com/$packageName/$appName".toUri()
-        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-    }
-
     AppSettingsLaunchedEffects(
         snackbarHostState = snackbarHostState,
         copyPermissionCommandDialogState = copyPermissionCommandDialogState,
@@ -217,13 +208,11 @@ internal fun AppSettingsScreen(
         onAddShortcut = {
             addShortcutDialogState.getShortcut(
                 packageName = packageName,
-                shortcutIntent = shortcutIntent,
             )?.let(onAddShortcut)
         },
         onUpdateShortcut = {
             updateShortcutDialogState.getShortcut(
                 packageName = packageName,
-                shortcutIntent = shortcutIntent,
             )?.let(onUpdateShortcut)
         },
     )

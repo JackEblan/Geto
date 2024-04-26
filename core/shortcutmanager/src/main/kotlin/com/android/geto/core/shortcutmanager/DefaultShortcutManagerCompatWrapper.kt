@@ -32,23 +32,33 @@ internal class DefaultShortcutManagerCompatWrapper @Inject constructor(@Applicat
     }
 
     override fun requestPinShortcut(
+        packageName: String,
+        appName: String,
         targetShortcutInfoCompat: TargetShortcutInfoCompat,
     ): Boolean {
         return ShortcutManagerCompat.requestPinShortcut(
             context,
-            targetShortcutInfoCompat.asShortcutInfoCompat(context),
+            targetShortcutInfoCompat.asShortcutInfoCompat(
+                context = context,
+                packageName = packageName,
+                appName = appName,
+            ),
             null,
         )
     }
 
     override fun updateShortcuts(
+        packageName: String,
+        appName: String,
         targetShortcutInfoCompat: TargetShortcutInfoCompat,
     ): Boolean {
         return ShortcutManagerCompat.updateShortcuts(
             context,
             listOf(
                 targetShortcutInfoCompat.asShortcutInfoCompat(
-                    context,
+                    context = context,
+                    packageName = packageName,
+                    appName = appName,
                 ),
             ),
         )

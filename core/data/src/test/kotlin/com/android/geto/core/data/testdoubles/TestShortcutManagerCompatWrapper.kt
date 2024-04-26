@@ -35,12 +35,16 @@ class TestShortcutManagerCompatWrapper : ShortcutManagerCompatWrapper {
     }
 
     override fun requestPinShortcut(
+        packageName: String,
+        appName: String,
         targetShortcutInfoCompat: TargetShortcutInfoCompat,
     ): Boolean {
         return requestPinShortcut
     }
 
     override fun updateShortcuts(
+        packageName: String,
+        appName: String,
         targetShortcutInfoCompat: TargetShortcutInfoCompat,
     ): Boolean {
         return if (updateImmutableShortcuts) {

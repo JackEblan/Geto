@@ -17,7 +17,6 @@
  */
 package com.android.geto.feature.appsettings.dialog.shortcut
 
-import android.content.Intent
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
@@ -101,7 +100,7 @@ class ShortcutDialogScreenshotTest {
 
     @Test
     fun shortcutDialog_error_textfields() {
-        shortcutDialogState.getShortcut(packageName = "Test", shortcutIntent = Intent())
+        shortcutDialogState.getShortcut(packageName = "Test")
 
         composeTestRule.captureDialogForDevice(
             name = "ShortcutDialog",
@@ -176,7 +175,7 @@ class ShortcutDialogScreenshotTest {
 
     @Test
     fun shortcutDialog_error_textfields_dark() {
-        shortcutDialogState.getShortcut(packageName = "Test", shortcutIntent = Intent())
+        shortcutDialogState.getShortcut(packageName = "Test")
 
         composeTestRule.captureDialogForDevice(
             name = "ShortcutDialog",

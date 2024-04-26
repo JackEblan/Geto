@@ -18,8 +18,10 @@
 package com.android.geto.core.shortcutmanager
 
 import android.content.Context
+import android.content.Intent
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.graphics.drawable.IconCompat
+import androidx.core.net.toUri
 import com.android.geto.core.model.TargetShortcutInfoCompat
 
 internal fun ShortcutInfoCompat.asTargetShortcutInfoCompat(): TargetShortcutInfoCompat {
@@ -27,11 +29,21 @@ internal fun ShortcutInfoCompat.asTargetShortcutInfoCompat(): TargetShortcutInfo
         id = id,
         shortLabel = shortLabel.toString(),
         longLabel = longLabel.toString(),
-        shortcutIntent = intent,
     )
 }
 
-internal fun TargetShortcutInfoCompat.asShortcutInfoCompat(context: Context): ShortcutInfoCompat {
+internal fun TargetShortcutInfoCompat.asShortcutInfoCompat(
+    context: Context,
+    packageName: String,
+    appName: String,
+): ShortcutInfoCompat {
+    val shortcutIntent = Intent().apply {
+        action = Intent.ACTION_VIEW
+        setClassName(context.packageName, "com.android.geto.MainActivity")
+        data = "https://www.android.geto.com/$packageName/$appName".toUri()
+        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+    }
+
     return ShortcutInfoCompat.Builder(context, id).apply {
         if (icon != null) {
             setIcon(IconCompat.createWithBitmap(icon!!))

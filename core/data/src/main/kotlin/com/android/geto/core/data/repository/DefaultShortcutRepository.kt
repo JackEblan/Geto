@@ -27,6 +27,8 @@ internal class DefaultShortcutRepository @Inject constructor(
 ) : ShortcutRepository {
 
     override fun requestPinShortcut(
+        packageName: String,
+        appName: String,
         targetShortcutInfoCompat: TargetShortcutInfoCompat,
     ): ShortcutResult {
         if (shortcutManagerCompatWrapper.isRequestPinShortcutSupported().not()) {
@@ -34,6 +36,8 @@ internal class DefaultShortcutRepository @Inject constructor(
         }
 
         val requestPinShortcutSuccess = shortcutManagerCompatWrapper.requestPinShortcut(
+            packageName = packageName,
+            appName = appName,
             targetShortcutInfoCompat = targetShortcutInfoCompat,
         )
 
@@ -45,6 +49,8 @@ internal class DefaultShortcutRepository @Inject constructor(
     }
 
     override fun updateRequestPinShortcut(
+        packageName: String,
+        appName: String,
         targetShortcutInfoCompat: TargetShortcutInfoCompat,
     ): ShortcutResult {
         val shortcutIds =
@@ -57,6 +63,8 @@ internal class DefaultShortcutRepository @Inject constructor(
 
         return try {
             val updateShortcutsSuccess = shortcutManagerCompatWrapper.updateShortcuts(
+                packageName = packageName,
+                appName = appName,
                 targetShortcutInfoCompat = targetShortcutInfoCompat,
             )
 

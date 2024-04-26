@@ -30,6 +30,8 @@ class TestShortcutRepository : ShortcutRepository {
     private var updateImmutableShortcuts = false
 
     override fun requestPinShortcut(
+        packageName: String,
+        appName: String,
         targetShortcutInfoCompat: TargetShortcutInfoCompat,
     ): ShortcutResult {
         return if (requestPinShortcutSupported) {
@@ -40,6 +42,8 @@ class TestShortcutRepository : ShortcutRepository {
     }
 
     override fun updateRequestPinShortcut(
+        packageName: String,
+        appName: String,
         targetShortcutInfoCompat: TargetShortcutInfoCompat,
     ): ShortcutResult {
         return if (updateImmutableShortcuts) {

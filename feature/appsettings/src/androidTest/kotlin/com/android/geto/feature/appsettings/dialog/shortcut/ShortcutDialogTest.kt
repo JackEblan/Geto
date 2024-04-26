@@ -17,7 +17,6 @@
  */
 package com.android.geto.feature.appsettings.dialog.shortcut
 
-import android.content.Intent
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.test.assertIsDisplayed
@@ -61,7 +60,6 @@ class ShortcutDialogTest {
 
                     shortcutDialogState.getShortcut(
                         packageName = "com.android.geto",
-                        shortcutIntent = Intent(),
                     )
                 },
             )
@@ -94,7 +92,6 @@ class ShortcutDialogTest {
 
                     shortcutDialogState.getShortcut(
                         packageName = "com.android.geto",
-                        shortcutIntent = Intent(),
                     )
                 },
             )
@@ -124,7 +121,6 @@ class ShortcutDialogTest {
 
                     shortcutDialogState.getShortcut(
                         packageName = "com.android.geto",
-                        shortcutIntent = Intent(),
                     )
                 },
             )
@@ -153,7 +149,6 @@ class ShortcutDialogTest {
 
                     shortcutDialogState.getShortcut(
                         packageName = "com.android.geto",
-                        shortcutIntent = Intent(),
                     )
                 },
             )
@@ -182,7 +177,6 @@ class ShortcutDialogTest {
 
                     shortcutDialogState.getShortcut(
                         packageName = "com.android.geto",
-                        shortcutIntent = Intent(),
                     )
                 },
             )

@@ -156,6 +156,8 @@ class AppSettingsViewModel @Inject constructor(
         viewModelScope.launch {
             _shortcutResult.update {
                 shortcutRepository.requestPinShortcut(
+                    packageName = packageName,
+                    appName = appName,
                     targetShortcutInfoCompat = targetShortcutInfoCompat,
                 )
             }
@@ -166,6 +168,8 @@ class AppSettingsViewModel @Inject constructor(
         viewModelScope.launch {
             _shortcutResult.update {
                 shortcutRepository.updateRequestPinShortcut(
+                    packageName = packageName,
+                    appName = appName,
                     targetShortcutInfoCompat,
                 )
             }

@@ -20,11 +20,16 @@ package com.android.geto.core.data.repository
 import com.android.geto.core.model.TargetShortcutInfoCompat
 
 interface ShortcutRepository {
+
     fun requestPinShortcut(
+        packageName: String,
+        appName: String,
         targetShortcutInfoCompat: TargetShortcutInfoCompat,
     ): ShortcutResult
 
     fun updateRequestPinShortcut(
+        packageName: String,
+        appName: String,
         targetShortcutInfoCompat: TargetShortcutInfoCompat,
     ): ShortcutResult
 
@@ -32,6 +37,7 @@ interface ShortcutRepository {
 }
 
 sealed interface ShortcutResult {
+
     data object UnsupportedLauncher : ShortcutResult
 
     data object SupportedLauncher : ShortcutResult

@@ -17,7 +17,6 @@
  */
 package com.android.geto.core.data.repository
 
-import android.content.Intent
 import com.android.geto.core.data.testdoubles.TestShortcutManagerCompatWrapper
 import com.android.geto.core.model.TargetShortcutInfoCompat
 import org.junit.Before
@@ -35,7 +34,6 @@ class ShortcutRepositoryTest {
             id = "com.android.geto",
             shortLabel = "Geto",
             longLabel = "Geto",
-            shortcutIntent = Intent(),
         )
     }
 
@@ -54,11 +52,12 @@ class ShortcutRepositoryTest {
 
         assertIs<ShortcutResult.SupportedLauncher>(
             subject.requestPinShortcut(
+                packageName = "com.android.geto",
+                appName = "Geto",
                 targetShortcutInfoCompat = TargetShortcutInfoCompat(
                     id = "com.android.geto",
                     shortLabel = "Geto",
                     longLabel = "Geto",
-                    shortcutIntent = Intent(),
                 ),
             ),
         )
@@ -70,11 +69,12 @@ class ShortcutRepositoryTest {
 
         assertIs<ShortcutResult.UnsupportedLauncher>(
             subject.requestPinShortcut(
+                packageName = "com.android.geto",
+                appName = "Geto",
                 targetShortcutInfoCompat = TargetShortcutInfoCompat(
                     id = "com.android.geto",
                     shortLabel = "Geto",
                     longLabel = "Geto",
-                    shortcutIntent = Intent(),
                 ),
             ),
         )
@@ -88,11 +88,12 @@ class ShortcutRepositoryTest {
 
         assertIs<ShortcutResult.ShortcutUpdateImmutableShortcuts>(
             subject.updateRequestPinShortcut(
+                packageName = "com.android.geto",
+                appName = "Geto",
                 targetShortcutInfoCompat = TargetShortcutInfoCompat(
                     id = "com.android.geto",
                     shortLabel = "Geto",
                     longLabel = "Geto",
-                    shortcutIntent = Intent(),
                 ),
             ),
         )
@@ -108,11 +109,12 @@ class ShortcutRepositoryTest {
 
         assertIs<ShortcutResult.ShortcutUpdateSuccess>(
             subject.updateRequestPinShortcut(
+                packageName = "com.android.geto",
+                appName = "Geto",
                 targetShortcutInfoCompat = TargetShortcutInfoCompat(
                     id = "com.android.geto",
                     shortLabel = "Geto",
                     longLabel = "Geto",
-                    shortcutIntent = Intent(),
                 ),
             ),
         )
@@ -128,11 +130,12 @@ class ShortcutRepositoryTest {
 
         assertIs<ShortcutResult.ShortcutUpdateFailed>(
             subject.updateRequestPinShortcut(
+                packageName = "com.android.geto",
+                appName = "Geto",
                 targetShortcutInfoCompat = TargetShortcutInfoCompat(
                     id = "com.android.geto",
                     shortLabel = "Geto",
                     longLabel = "Geto",
-                    shortcutIntent = Intent(),
                 ),
             ),
         )

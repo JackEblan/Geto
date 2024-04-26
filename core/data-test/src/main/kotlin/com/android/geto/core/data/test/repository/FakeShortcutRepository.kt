@@ -25,12 +25,16 @@ import javax.inject.Inject
 class FakeShortcutRepository @Inject constructor() : ShortcutRepository {
 
     override fun requestPinShortcut(
+        packageName: String,
+        appName: String,
         targetShortcutInfoCompat: TargetShortcutInfoCompat,
     ): ShortcutResult {
         return ShortcutResult.SupportedLauncher
     }
 
     override fun updateRequestPinShortcut(
+        packageName: String,
+        appName: String,
         targetShortcutInfoCompat: TargetShortcutInfoCompat,
     ): ShortcutResult {
         return ShortcutResult.ShortcutUpdateSuccess
