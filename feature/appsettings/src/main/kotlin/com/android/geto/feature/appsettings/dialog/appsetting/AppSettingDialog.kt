@@ -45,6 +45,7 @@ import com.android.geto.core.designsystem.component.DialogContainer
 import com.android.geto.core.designsystem.component.DialogTitle
 import com.android.geto.core.designsystem.component.GetoRadioButtonGroup
 import com.android.geto.core.designsystem.theme.GetoTheme
+import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.SettingType
 import com.android.geto.feature.appsettings.R
 
@@ -53,7 +54,8 @@ internal fun AppSettingDialog(
     modifier: Modifier = Modifier,
     appSettingDialogState: AppSettingDialogState,
     scrollState: ScrollState = rememberScrollState(),
-    onAddSetting: () -> Unit,
+    packageName: String,
+    onAddSetting: (AppSetting) -> Unit,
     contentDescription: String,
 ) {
     DialogContainer(
@@ -85,7 +87,12 @@ internal fun AppSettingDialog(
                 onNegativeButtonClick = {
                     appSettingDialogState.updateShowDialog(false)
                 },
-                onPositiveButtonClick = onAddSetting,
+                onPositiveButtonClick = {
+                    appSettingDialogState.getAppSetting(packageName = packageName)?.let {
+                        onAddSetting(it)
+                        appSettingDialogState.resetState()
+                    }
+                },
             )
         }
     }
@@ -263,6 +270,7 @@ private fun AppSettingDialogPreview() {
     GetoTheme {
         AppSettingDialog(
             appSettingDialogState = rememberAppSettingDialogState(),
+            packageName = "com.android.geto",
             onAddSetting = { },
             contentDescription = "App setting dialog",
         )

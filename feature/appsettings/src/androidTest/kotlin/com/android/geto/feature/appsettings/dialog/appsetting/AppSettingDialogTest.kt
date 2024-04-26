@@ -19,11 +19,8 @@ package com.android.geto.feature.appsettings.dialog.appsetting
 
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.assertIsSelected
 import androidx.compose.ui.test.assertTextEquals
-import androidx.compose.ui.test.junit4.StateRestorationTester
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
@@ -31,6 +28,8 @@ import com.android.geto.core.model.SecureSetting
 import com.android.geto.core.model.SettingType
 import org.junit.Rule
 import org.junit.Test
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 class AppSettingDialogTest {
     @get:Rule
@@ -50,20 +49,23 @@ class AppSettingDialogTest {
         composeTestRule.setContent {
             val appSettingDialogState = rememberAppSettingDialogState()
 
+            appSettingDialogState.updateSecureSettings(secureSettings)
+
+            appSettingDialogState.updateSelectedRadioOptionIndex(1)
+
+            appSettingDialogState.updateKey("Geto 1")
+
+            appSettingDialogState.updateLabel("")
+
+            appSettingDialogState.updateValueOnLaunch("Geto")
+
+            appSettingDialogState.updateValueOnRevert("Geto")
+
             AppSettingDialog(
                 appSettingDialogState = appSettingDialogState,
+                packageName = "com.android.geto",
                 onAddSetting = {
-                    appSettingDialogState.updateSelectedRadioOptionIndex(1)
-
-                    appSettingDialogState.updateKey("Geto 1")
-
-                    appSettingDialogState.updateLabel("")
-
-                    appSettingDialogState.updateValueOnLaunch("Geto")
-
-                    appSettingDialogState.updateValueOnRevert("Geto")
-
-                    appSettingDialogState.getAppSetting(packageName = "com.android.geto")
+                    assertTrue(appSettingDialogState.showDialog)
                 },
                 contentDescription = "Add App Setting Dialog",
             )
@@ -82,20 +84,23 @@ class AppSettingDialogTest {
         composeTestRule.setContent {
             val appSettingDialogState = rememberAppSettingDialogState()
 
+            appSettingDialogState.updateSecureSettings(secureSettings)
+
+            appSettingDialogState.updateSelectedRadioOptionIndex(1)
+
+            appSettingDialogState.updateLabel("Geto")
+
+            appSettingDialogState.updateKey("")
+
+            appSettingDialogState.updateValueOnLaunch("Geto")
+
+            appSettingDialogState.updateValueOnRevert("Geto")
+
             AppSettingDialog(
                 appSettingDialogState = appSettingDialogState,
+                packageName = "com.android.geto",
                 onAddSetting = {
-                    appSettingDialogState.updateSelectedRadioOptionIndex(1)
-
-                    appSettingDialogState.updateLabel("Geto")
-
-                    appSettingDialogState.updateKey("")
-
-                    appSettingDialogState.updateValueOnLaunch("Geto")
-
-                    appSettingDialogState.updateValueOnRevert("Geto")
-
-                    appSettingDialogState.getAppSetting(packageName = "com.android.geto")
+                    assertTrue(appSettingDialogState.showDialog)
                 },
                 contentDescription = "Add App Setting Dialog",
             )
@@ -114,24 +119,23 @@ class AppSettingDialogTest {
         composeTestRule.setContent {
             val appSettingDialogState = rememberAppSettingDialogState()
 
+            appSettingDialogState.updateSecureSettings(secureSettings)
+
+            appSettingDialogState.updateSelectedRadioOptionIndex(1)
+
+            appSettingDialogState.updateLabel("Geto")
+
+            appSettingDialogState.updateKey("_")
+
+            appSettingDialogState.updateValueOnLaunch("Geto")
+
+            appSettingDialogState.updateValueOnRevert("Geto")
+
             AppSettingDialog(
                 appSettingDialogState = appSettingDialogState,
+                packageName = "com.android.geto",
                 onAddSetting = {
-                    appSettingDialogState.updateSecureSettings(
-                        secureSettings,
-                    )
-
-                    appSettingDialogState.updateSelectedRadioOptionIndex(1)
-
-                    appSettingDialogState.updateLabel("Geto")
-
-                    appSettingDialogState.updateKey("_")
-
-                    appSettingDialogState.updateValueOnLaunch("Geto")
-
-                    appSettingDialogState.updateValueOnRevert("Geto")
-
-                    appSettingDialogState.getAppSetting(packageName = "com.android.geto")
+                    assertTrue(appSettingDialogState.showDialog)
                 },
                 contentDescription = "Add App Setting Dialog",
             )
@@ -150,20 +154,23 @@ class AppSettingDialogTest {
         composeTestRule.setContent {
             val appSettingDialogState = rememberAppSettingDialogState()
 
+            appSettingDialogState.updateSecureSettings(secureSettings)
+
+            appSettingDialogState.updateSelectedRadioOptionIndex(1)
+
+            appSettingDialogState.updateKey("Geto 1")
+
+            appSettingDialogState.updateLabel("Geto")
+
+            appSettingDialogState.updateValueOnLaunch("")
+
+            appSettingDialogState.updateValueOnRevert("Geto")
+
             AppSettingDialog(
                 appSettingDialogState = appSettingDialogState,
+                packageName = "com.android.geto",
                 onAddSetting = {
-                    appSettingDialogState.updateSelectedRadioOptionIndex(1)
-
-                    appSettingDialogState.updateKey("Geto 1")
-
-                    appSettingDialogState.updateLabel("Geto")
-
-                    appSettingDialogState.updateValueOnLaunch("")
-
-                    appSettingDialogState.updateValueOnRevert("Geto")
-
-                    appSettingDialogState.getAppSetting(packageName = "com.android.geto")
+                    assertTrue(appSettingDialogState.showDialog)
                 },
                 contentDescription = "Add App Setting Dialog",
             )
@@ -182,20 +189,23 @@ class AppSettingDialogTest {
         composeTestRule.setContent {
             val appSettingDialogState = rememberAppSettingDialogState()
 
+            appSettingDialogState.updateSecureSettings(secureSettings)
+
+            appSettingDialogState.updateSelectedRadioOptionIndex(1)
+
+            appSettingDialogState.updateKey("Geto 1")
+
+            appSettingDialogState.updateLabel("Geto")
+
+            appSettingDialogState.updateValueOnLaunch("Geto")
+
+            appSettingDialogState.updateValueOnRevert("")
+
             AppSettingDialog(
                 appSettingDialogState = appSettingDialogState,
+                packageName = "com.android.geto",
                 onAddSetting = {
-                    appSettingDialogState.updateSelectedRadioOptionIndex(1)
-
-                    appSettingDialogState.updateKey("Geto 1")
-
-                    appSettingDialogState.updateLabel("Geto")
-
-                    appSettingDialogState.updateValueOnLaunch("Geto")
-
-                    appSettingDialogState.updateValueOnRevert("")
-
-                    appSettingDialogState.getAppSetting(packageName = "com.android.geto")
+                    assertTrue(appSettingDialogState.showDialog)
                 },
                 contentDescription = "Add App Setting Dialog",
             )
@@ -218,18 +228,9 @@ class AppSettingDialogTest {
 
             AppSettingDialog(
                 appSettingDialogState = appSettingDialogState,
+                packageName = "com.android.geto",
                 onAddSetting = {
-                    appSettingDialogState.updateSelectedRadioOptionIndex(1)
-
-                    appSettingDialogState.updateKey("Geto 1")
-
-                    appSettingDialogState.updateLabel("Geto")
-
-                    appSettingDialogState.updateValueOnLaunch("Geto")
-
-                    appSettingDialogState.updateValueOnRevert("Geto")
-
-                    appSettingDialogState.getAppSetting(packageName = "com.android.geto")
+                    assertTrue(appSettingDialogState.showDialog)
                 },
                 contentDescription = "Add App Setting Dialog",
             )
@@ -251,18 +252,9 @@ class AppSettingDialogTest {
 
             AppSettingDialog(
                 appSettingDialogState = appSettingDialogState,
+                packageName = "com.android.geto",
                 onAddSetting = {
-                    appSettingDialogState.updateSelectedRadioOptionIndex(1)
-
-                    appSettingDialogState.updateKey("Geto 1")
-
-                    appSettingDialogState.updateLabel("Geto")
-
-                    appSettingDialogState.updateValueOnLaunch("")
-
-                    appSettingDialogState.updateValueOnRevert("Geto")
-
-                    appSettingDialogState.getAppSetting(packageName = "com.android.geto")
+                    assertTrue(appSettingDialogState.showDialog)
                 },
                 contentDescription = "Add App Setting Dialog",
             )
@@ -271,6 +263,8 @@ class AppSettingDialogTest {
         composeTestRule.onNodeWithTag("appSettingDialog:keyTextField").performClick()
 
         composeTestRule.onNodeWithText("Geto 1").performClick()
+
+        composeTestRule.waitForIdle()
 
         composeTestRule.onNodeWithTag(
             testTag = "appSettingDialog:keyTextField",
@@ -282,48 +276,32 @@ class AppSettingDialogTest {
     }
 
     @Test
-    fun onRecreation_state_isRestored() {
-        val restorationTester = StateRestorationTester(composeTestRule)
-
-        restorationTester.setContent {
+    fun appSettingDialog_isDismissed() {
+        composeTestRule.setContent {
             val appSettingDialogState = rememberAppSettingDialogState()
+
+            appSettingDialogState.updateSecureSettings(secureSettings)
 
             appSettingDialogState.updateSelectedRadioOptionIndex(1)
 
-            appSettingDialogState.updateKey("Geto")
+            appSettingDialogState.updateKey("Geto 1")
 
             appSettingDialogState.updateLabel("Geto")
 
-            appSettingDialogState.updateValueOnLaunch("Geto")
+            appSettingDialogState.updateValueOnLaunch("1")
 
-            appSettingDialogState.updateValueOnRevert("Geto")
+            appSettingDialogState.updateValueOnRevert("0")
 
             AppSettingDialog(
                 appSettingDialogState = appSettingDialogState,
-                onAddSetting = {},
+                packageName = "com.android.geto",
+                onAddSetting = {
+                    assertFalse(appSettingDialogState.showDialog)
+                },
                 contentDescription = "Add App Setting Dialog",
             )
         }
 
-        restorationTester.emulateSavedInstanceStateRestore()
-
-        composeTestRule.onNodeWithContentDescription(SettingType.entries.map { it.label }[1])
-            .assertIsSelected()
-
-        composeTestRule.onNodeWithTag(
-            testTag = "appSettingDialog:labelTextField",
-        ).assertTextEquals("Setting label", "Geto")
-
-        composeTestRule.onNodeWithTag(
-            testTag = "appSettingDialog:keyTextField",
-        ).assertTextEquals("Setting key", "Geto")
-
-        composeTestRule.onNodeWithTag(
-            testTag = "appSettingDialog:valueOnLaunchTextField",
-        ).assertTextEquals("Setting value on launch", "Geto")
-
-        composeTestRule.onNodeWithTag(
-            testTag = "appSettingDialog:valueOnRevertTextField",
-        ).assertTextEquals("Setting value on revert", "Geto")
+        composeTestRule.onNodeWithText("Add").performClick()
     }
 }

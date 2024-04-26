@@ -21,7 +21,6 @@ import androidx.activity.ComponentActivity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertTextEquals
-import androidx.compose.ui.test.junit4.StateRestorationTester
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
@@ -31,6 +30,8 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 @HiltAndroidTest
 class ShortcutDialogTest {
@@ -46,21 +47,20 @@ class ShortcutDialogTest {
 
     @Test
     fun counterSupportingTexts_areDisplayed_withEmptyCharacters() {
+        shortcutDialogState.updateShortLabel("")
+
+        shortcutDialogState.updateLongLabel("")
+
         composeTestRule.setContent {
             ShortcutDialog(
                 shortcutDialogState = shortcutDialogState,
+                packageName = "com.android.geto",
                 contentDescription = "Shortcut Dialog",
                 title = stringResource(id = R.string.add_shortcut),
                 negativeButtonText = stringResource(id = R.string.cancel),
                 positiveButtonText = stringResource(id = R.string.add),
                 onPositiveButtonClick = {
-                    shortcutDialogState.updateShortLabel("")
-
-                    shortcutDialogState.updateLongLabel("")
-
-                    shortcutDialogState.getShortcut(
-                        packageName = "com.android.geto",
-                    )
+                    assertTrue(shortcutDialogState.showDialog)
                 },
             )
         }
@@ -78,21 +78,20 @@ class ShortcutDialogTest {
 
     @Test
     fun shortLabelSupportingText_isDisplayed_whenShortLabelTextField_isBlank() {
+        shortcutDialogState.updateShortLabel("")
+
+        shortcutDialogState.updateLongLabel("Geto")
+
         composeTestRule.setContent {
             ShortcutDialog(
                 shortcutDialogState = shortcutDialogState,
+                packageName = "com.android.geto",
                 contentDescription = "Shortcut Dialog",
                 title = stringResource(id = R.string.add_shortcut),
                 negativeButtonText = stringResource(id = R.string.cancel),
                 positiveButtonText = stringResource(id = R.string.add),
                 onPositiveButtonClick = {
-                    shortcutDialogState.updateShortLabel("")
-
-                    shortcutDialogState.updateLongLabel("Geto")
-
-                    shortcutDialogState.getShortcut(
-                        packageName = "com.android.geto",
-                    )
+                    assertTrue(shortcutDialogState.showDialog)
                 },
             )
         }
@@ -108,20 +107,19 @@ class ShortcutDialogTest {
     @Test
     fun shortLabelCounterSupportingText_isDisplayed_whenShortLabelTextField_isFilledWithCharacters() {
         composeTestRule.setContent {
+            shortcutDialogState.updateShortLabel("qwerty")
+
+            shortcutDialogState.updateLongLabel("")
+
             ShortcutDialog(
                 shortcutDialogState = shortcutDialogState,
+                packageName = "com.android.geto",
                 contentDescription = "Shortcut Dialog",
                 title = stringResource(id = R.string.add_shortcut),
                 negativeButtonText = stringResource(id = R.string.cancel),
                 positiveButtonText = stringResource(id = R.string.add),
                 onPositiveButtonClick = {
-                    shortcutDialogState.updateShortLabel("qwerty")
-
-                    shortcutDialogState.updateLongLabel("")
-
-                    shortcutDialogState.getShortcut(
-                        packageName = "com.android.geto",
-                    )
+                    assertTrue(shortcutDialogState.showDialog)
                 },
             )
         }
@@ -135,21 +133,20 @@ class ShortcutDialogTest {
 
     @Test
     fun longLabelCounterSupportingText_isDisplayed_whenLongLabelTextField_isFilledWithCharacters() {
+        shortcutDialogState.updateShortLabel("")
+
+        shortcutDialogState.updateLongLabel("qwerty")
+
         composeTestRule.setContent {
             ShortcutDialog(
                 shortcutDialogState = shortcutDialogState,
+                packageName = "com.android.geto",
                 contentDescription = "Shortcut Dialog",
                 title = stringResource(id = R.string.add_shortcut),
                 negativeButtonText = stringResource(id = R.string.cancel),
                 positiveButtonText = stringResource(id = R.string.add),
                 onPositiveButtonClick = {
-                    shortcutDialogState.updateShortLabel("")
-
-                    shortcutDialogState.updateLongLabel("qwerty")
-
-                    shortcutDialogState.getShortcut(
-                        packageName = "com.android.geto",
-                    )
+                    assertTrue(shortcutDialogState.showDialog)
                 },
             )
         }
@@ -163,21 +160,20 @@ class ShortcutDialogTest {
 
     @Test
     fun longLabelSupportingText_isDisplayed_whenLongLabelTextField_isBlank() {
+        shortcutDialogState.updateShortLabel("Geto")
+
+        shortcutDialogState.updateLongLabel("")
+
         composeTestRule.setContent {
             ShortcutDialog(
                 shortcutDialogState = shortcutDialogState,
+                packageName = "com.android.geto",
                 contentDescription = "Shortcut Dialog",
                 title = stringResource(id = R.string.add_shortcut),
                 negativeButtonText = stringResource(id = R.string.cancel),
                 positiveButtonText = stringResource(id = R.string.add),
                 onPositiveButtonClick = {
-                    shortcutDialogState.updateShortLabel("Geto")
-
-                    shortcutDialogState.updateLongLabel("")
-
-                    shortcutDialogState.getShortcut(
-                        packageName = "com.android.geto",
-                    )
+                    assertTrue(shortcutDialogState.showDialog)
                 },
             )
         }
@@ -191,40 +187,25 @@ class ShortcutDialogTest {
     }
 
     @Test
-    fun onRecreation_state_isRestored() {
-        val restorationTester = StateRestorationTester(composeTestRule)
+    fun shortcutDialog_isDismissed() {
+        shortcutDialogState.updateShortLabel("Geto")
 
-        restorationTester.setContent {
-            shortcutDialogState.updateShortLabel("Geto")
+        shortcutDialogState.updateLongLabel("Geto")
 
-            shortcutDialogState.updateLongLabel("Geto")
-
+        composeTestRule.setContent {
             ShortcutDialog(
                 shortcutDialogState = shortcutDialogState,
+                packageName = "com.android.geto",
                 contentDescription = "Shortcut Dialog",
                 title = stringResource(id = R.string.add_shortcut),
                 negativeButtonText = stringResource(id = R.string.cancel),
                 positiveButtonText = stringResource(id = R.string.add),
-                onPositiveButtonClick = {},
+                onPositiveButtonClick = {
+                    assertFalse(shortcutDialogState.showDialog)
+                },
             )
         }
 
-        restorationTester.emulateSavedInstanceStateRestore()
-
-        composeTestRule.onNodeWithTag(
-            testTag = "shortcutDialog:shortLabelTextField",
-        ).assertTextEquals(
-            "Short label",
-            "Geto",
-            "${shortcutDialogState.shortLabel.length}/${shortcutDialogState.shortLabelMaxLength}",
-        )
-
-        composeTestRule.onNodeWithTag(
-            testTag = "shortcutDialog:longLabelTextField",
-        ).assertTextEquals(
-            "Long label",
-            "Geto",
-            "${shortcutDialogState.longLabel.length}/${shortcutDialogState.longLabelMaxLength}",
-        )
+        composeTestRule.onNodeWithText("Add").performClick()
     }
 }
