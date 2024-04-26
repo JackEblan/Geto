@@ -62,6 +62,7 @@ class AppSettingDialogScreenshotTest {
             GetoTheme {
                 AppSettingDialog(
                     appSettingDialogState = appSettingDialogState,
+                    packageName = "com.android.geto",
                     onAddSetting = {},
                     contentDescription = "AppSettingDialog",
                 )
@@ -90,6 +91,7 @@ class AppSettingDialogScreenshotTest {
             GetoTheme {
                 AppSettingDialog(
                     appSettingDialogState = appSettingDialogState,
+                    packageName = "com.android.geto",
                     onAddSetting = {},
                     contentDescription = "AppSettingDialog",
                 )
@@ -110,6 +112,7 @@ class AppSettingDialogScreenshotTest {
             GetoTheme {
                 AppSettingDialog(
                     appSettingDialogState = appSettingDialogState,
+                    packageName = "com.android.geto",
                     onAddSetting = {},
                     contentDescription = "AppSettingDialog",
                 )
@@ -130,6 +133,7 @@ class AppSettingDialogScreenshotTest {
                 GetoBackground {
                     AppSettingDialog(
                         appSettingDialogState = appSettingDialogState,
+                        packageName = "com.android.geto",
                         onAddSetting = {},
                         contentDescription = "AppSettingDialog",
                     )
@@ -161,6 +165,7 @@ class AppSettingDialogScreenshotTest {
                 GetoBackground {
                     AppSettingDialog(
                         appSettingDialogState = appSettingDialogState,
+                        packageName = "com.android.geto",
                         onAddSetting = {},
                         contentDescription = "AppSettingDialog",
                     )
@@ -184,6 +189,7 @@ class AppSettingDialogScreenshotTest {
                 GetoBackground {
                     AppSettingDialog(
                         appSettingDialogState = appSettingDialogState,
+                        packageName = "com.android.geto",
                         onAddSetting = {},
                         contentDescription = "AppSettingDialog",
                     )

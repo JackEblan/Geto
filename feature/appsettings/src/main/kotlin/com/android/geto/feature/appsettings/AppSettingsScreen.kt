@@ -201,15 +201,10 @@ internal fun AppSettingsScreen(
         appSettingDialogState = appSettingDialogState,
         addShortcutDialogState = addShortcutDialogState,
         updateShortcutDialogState = updateShortcutDialogState,
-        onAddAppSetting = {
-            appSettingDialogState.getAppSetting(packageName = packageName)?.let(onAddAppSetting)
-        },
+        packageName = packageName,
+        onAddAppSetting = onAddAppSetting,
         onCopyPermissionCommand = onCopyPermissionCommand,
-        onAddShortcut = {
-            addShortcutDialogState.getShortcut(
-                packageName = packageName,
-            )?.let(onAddShortcut)
-        },
+        onAddShortcut = onAddShortcut,
         onUpdateShortcut = {
             updateShortcutDialogState.getShortcut(
                 packageName = packageName,
@@ -424,18 +419,17 @@ private fun AppSettingsDialogs(
     appSettingDialogState: AppSettingDialogState,
     addShortcutDialogState: ShortcutDialogState,
     updateShortcutDialogState: ShortcutDialogState,
-    onAddAppSetting: () -> Unit,
+    packageName: String,
+    onAddAppSetting: (AppSetting) -> Unit,
     onCopyPermissionCommand: () -> Unit,
-    onAddShortcut: () -> Unit,
-    onUpdateShortcut: () -> Unit,
+    onAddShortcut: (TargetShortcutInfoCompat) -> Unit,
+    onUpdateShortcut: (TargetShortcutInfoCompat) -> Unit,
 ) {
     if (appSettingDialogState.showDialog) {
         AppSettingDialog(
             appSettingDialogState = appSettingDialogState,
-            onAddSetting = {
-                onAddAppSetting()
-                appSettingDialogState.resetState()
-            },
+            packageName = packageName,
+            onAddSetting = onAddAppSetting,
             contentDescription = "Add App Settings Dialog",
         )
     }
@@ -459,28 +453,24 @@ private fun AppSettingsDialogs(
     if (addShortcutDialogState.showDialog) {
         ShortcutDialog(
             shortcutDialogState = addShortcutDialogState,
+            packageName = packageName,
             contentDescription = "Add Shortcut Dialog",
             title = stringResource(id = R.string.add_shortcut),
             negativeButtonText = stringResource(id = R.string.cancel),
             positiveButtonText = stringResource(id = R.string.add),
-            onPositiveButtonClick = {
-                onAddShortcut()
-                addShortcutDialogState.resetState()
-            },
+            onPositiveButtonClick = onAddShortcut,
         )
     }
 
     if (updateShortcutDialogState.showDialog) {
         ShortcutDialog(
             shortcutDialogState = updateShortcutDialogState,
+            packageName = packageName,
             contentDescription = "Update Shortcut Dialog",
             title = stringResource(id = R.string.update_shortcut),
             negativeButtonText = stringResource(id = R.string.cancel),
             positiveButtonText = stringResource(id = R.string.update),
-            onPositiveButtonClick = {
-                onUpdateShortcut()
-                updateShortcutDialogState.resetState()
-            },
+            onPositiveButtonClick = onUpdateShortcut,
         )
     }
 }

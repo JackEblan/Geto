@@ -39,6 +39,7 @@ internal fun TargetShortcutInfoCompat.asShortcutInfoCompat(
 ): ShortcutInfoCompat {
     val shortcutIntent = Intent().apply {
         action = Intent.ACTION_VIEW
+        // TODO: Do not hard code the className for MainActivity
         setClassName(context.packageName, "com.android.geto.MainActivity")
         data = "https://www.android.geto.com/$packageName/$appName".toUri()
         flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK

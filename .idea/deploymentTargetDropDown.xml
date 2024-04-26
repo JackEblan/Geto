@@ -5,6 +5,9 @@
       <entry key="AppListBaselineProfile">
         <State />
       </entry>
+      <entry key="AppSettingDialogTest">
+        <State />
+      </entry>
       <entry key="Generate Baseline Profile for app">
         <State />
       </entry>
@@ -21,6 +24,12 @@
         <State />
       </entry>
       <entry key="onRecreation_state_isRestored()">
+        <State />
+      </entry>
+      <entry key="valueOnLaunchSupportingText_isDisplayed_whenValueOnLaunchTextField_isBlank()">
+        <State />
+      </entry>
+      <entry key="valueOnRevertSupportingText_isDisplayed_whenValueOnRevertTextField_isBlank()">
         <State />
       </entry>
     </value>

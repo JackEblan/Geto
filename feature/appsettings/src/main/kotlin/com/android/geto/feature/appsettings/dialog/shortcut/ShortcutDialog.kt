@@ -40,17 +40,19 @@ import com.android.geto.core.designsystem.component.DialogButtons
 import com.android.geto.core.designsystem.component.DialogContainer
 import com.android.geto.core.designsystem.component.DynamicAsyncImage
 import com.android.geto.core.designsystem.theme.GetoTheme
+import com.android.geto.core.model.TargetShortcutInfoCompat
 import com.android.geto.feature.appsettings.R
 
 @Composable
 internal fun ShortcutDialog(
     modifier: Modifier = Modifier,
     shortcutDialogState: ShortcutDialogState,
+    packageName: String,
     contentDescription: String,
     title: String,
     negativeButtonText: String,
     positiveButtonText: String,
-    onPositiveButtonClick: () -> Unit,
+    onPositiveButtonClick: (TargetShortcutInfoCompat) -> Unit,
 ) {
     DialogContainer(
         modifier = modifier,
@@ -81,7 +83,14 @@ internal fun ShortcutDialog(
                 onNegativeButtonClick = {
                     shortcutDialogState.updateShowDialog(false)
                 },
-                onPositiveButtonClick = onPositiveButtonClick,
+                onPositiveButtonClick = {
+                    shortcutDialogState.getShortcut(
+                        packageName = packageName,
+                    )?.let {
+                        onPositiveButtonClick(it)
+                        shortcutDialogState.resetState()
+                    }
+                },
             )
         }
     }
@@ -186,6 +195,7 @@ private fun ShortcutDialogPreview() {
     GetoTheme {
         ShortcutDialog(
             shortcutDialogState = rememberShortcutDialogState(),
+            packageName = "com.android.geto",
             contentDescription = "Shortcut",
             title = "Shortcut",
             negativeButtonText = "Cancel",

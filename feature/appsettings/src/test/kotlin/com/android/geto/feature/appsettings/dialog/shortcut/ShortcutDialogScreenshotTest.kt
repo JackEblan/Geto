@@ -63,6 +63,7 @@ class ShortcutDialogScreenshotTest {
             GetoTheme {
                 ShortcutDialog(
                     shortcutDialogState = shortcutDialogState,
+                    packageName = "com.android.geto",
                     contentDescription = "Shortcut Dialog",
                     title = stringResource(id = R.string.add_shortcut),
                     negativeButtonText = stringResource(id = R.string.cancel),
@@ -88,6 +89,7 @@ class ShortcutDialogScreenshotTest {
             GetoTheme {
                 ShortcutDialog(
                     shortcutDialogState = shortcutDialogState,
+                    packageName = "com.android.geto",
                     contentDescription = "Shortcut Dialog",
                     title = stringResource(id = R.string.add_shortcut),
                     negativeButtonText = stringResource(id = R.string.cancel),
@@ -111,6 +113,7 @@ class ShortcutDialogScreenshotTest {
             GetoTheme {
                 ShortcutDialog(
                     shortcutDialogState = shortcutDialogState,
+                    packageName = "com.android.geto",
                     contentDescription = "Shortcut Dialog",
                     title = stringResource(id = R.string.add_shortcut),
                     negativeButtonText = stringResource(id = R.string.cancel),
@@ -134,6 +137,7 @@ class ShortcutDialogScreenshotTest {
                 GetoBackground {
                     ShortcutDialog(
                         shortcutDialogState = shortcutDialogState,
+                        packageName = "com.android.geto",
                         contentDescription = "Shortcut Dialog",
                         title = stringResource(id = R.string.add_shortcut),
                         negativeButtonText = stringResource(id = R.string.cancel),
@@ -162,6 +166,7 @@ class ShortcutDialogScreenshotTest {
                 GetoBackground {
                     ShortcutDialog(
                         shortcutDialogState = shortcutDialogState,
+                        packageName = "com.android.geto",
                         contentDescription = "Add Shortcut Dialog",
                         title = stringResource(id = R.string.add_shortcut),
                         negativeButtonText = stringResource(id = R.string.cancel),
@@ -188,6 +193,7 @@ class ShortcutDialogScreenshotTest {
                 GetoBackground {
                     ShortcutDialog(
                         shortcutDialogState = shortcutDialogState,
+                        packageName = "com.android.geto",
                         contentDescription = "Add Shortcut Dialog",
                         title = stringResource(id = R.string.add_shortcut),
                         negativeButtonText = stringResource(id = R.string.cancel),
