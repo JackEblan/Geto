@@ -21,10 +21,19 @@ import androidx.activity.ComponentActivity
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsNotDisplayed
+import androidx.compose.ui.test.assertIsSelected
+import androidx.compose.ui.test.assertTextEquals
+import androidx.compose.ui.test.hasAnyAncestor
+import androidx.compose.ui.test.hasContentDescription
+import androidx.compose.ui.test.hasParent
+import androidx.compose.ui.test.hasTestTag
+import androidx.compose.ui.test.isDialog
+import androidx.compose.ui.test.junit4.StateRestorationTester
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performTextInput
 import com.android.geto.core.data.repository.ClipboardResult
 import com.android.geto.core.data.repository.ShortcutResult
 import com.android.geto.core.domain.AppSettingsResult
@@ -246,5 +255,157 @@ class AppSettingsScreenDialogsTest {
 
         composeTestRule.onNodeWithContentDescription("Update Shortcut Dialog")
             .assertIsNotDisplayed()
+    }
+
+    @Test
+    fun appSettingDialog_stateRestoration() {
+        val restorationTester = StateRestorationTester(composeTestRule)
+
+        restorationTester.setContent {
+            AppSettingsScreen(
+                packageName = "com.android.geto",
+                appName = "Geto",
+                appSettingsUiState = AppSettingsUiState.Loading,
+                snackbarHostState = SnackbarHostState(),
+                applicationIcon = null,
+                secureSettings = emptyList(),
+                applyAppSettingsResult = AppSettingsResult.NoResult,
+                revertAppSettingsResult = AppSettingsResult.NoResult,
+                shortcutResult = ShortcutResult.NoResult,
+                clipboardResult = ClipboardResult.NoResult,
+                onNavigationIconClick = {},
+                onRevertAppSettings = {},
+                onGetShortcut = {},
+                onCheckAppSetting = { _, _ -> },
+                onDeleteAppSetting = {},
+                onLaunchApp = {},
+                onAutoLaunchApp = {},
+                onResetAppSettingsResult = {},
+                onResetShortcutResult = {},
+                onResetClipboardResult = {},
+                onGetSecureSettingsByName = { _, _ -> },
+                onAddAppSetting = {},
+                onCopyPermissionCommand = {},
+                onAddShortcut = {},
+                onUpdateShortcut = {},
+            )
+        }
+
+        composeTestRule.onNodeWithContentDescription("Settings icon").performClick()
+
+        composeTestRule.onNode(
+            matcher = hasAnyAncestor(isDialog()) and hasContentDescription("Secure"),
+            useUnmergedTree = true,
+        ).performClick()
+
+        composeTestRule.onNode(
+            matcher = hasAnyAncestor(isDialog()) and hasTestTag("appSettingDialog:labelTextField"),
+            useUnmergedTree = true,
+        ).performTextInput("Geto")
+
+        composeTestRule.onNode(
+            matcher = hasAnyAncestor(isDialog()) and hasTestTag("appSettingDialog:keyTextField"),
+            useUnmergedTree = true,
+        ).performTextInput("Geto")
+
+        composeTestRule.onNode(
+            matcher = hasAnyAncestor(isDialog()) and hasTestTag("appSettingDialog:valueOnLaunchTextField"),
+            useUnmergedTree = true,
+        ).performTextInput("Geto")
+
+        composeTestRule.onNode(
+            matcher = hasAnyAncestor(isDialog()) and hasTestTag("appSettingDialog:valueOnRevertTextField"),
+            useUnmergedTree = true,
+        ).performTextInput("Geto")
+
+        restorationTester.emulateSavedInstanceStateRestore()
+
+        composeTestRule.onNode(matcher = hasParent(isDialog()) and hasContentDescription("Add App Settings Dialog"))
+            .assertIsDisplayed()
+
+        composeTestRule.onNode(
+            matcher = hasAnyAncestor(isDialog()) and hasContentDescription("Secure"),
+            useUnmergedTree = true,
+        ).assertIsSelected()
+
+        composeTestRule.onNode(
+            matcher = hasAnyAncestor(isDialog()) and hasTestTag("appSettingDialog:labelTextField"),
+            useUnmergedTree = true,
+        ).assertTextEquals("Geto")
+
+        composeTestRule.onNode(
+            matcher = hasAnyAncestor(isDialog()) and hasTestTag("appSettingDialog:keyTextField"),
+            useUnmergedTree = true,
+        ).assertTextEquals("Geto")
+
+        composeTestRule.onNode(
+            matcher = hasAnyAncestor(isDialog()) and hasTestTag("appSettingDialog:valueOnLaunchTextField"),
+            useUnmergedTree = true,
+        ).assertTextEquals("Geto")
+
+        composeTestRule.onNode(
+            matcher = hasAnyAncestor(isDialog()) and hasTestTag("appSettingDialog:valueOnRevertTextField"),
+            useUnmergedTree = true,
+        ).assertTextEquals("Geto")
+    }
+
+    @Test
+    fun shortcutDialog_stateRestoration() {
+        val restorationTester = StateRestorationTester(composeTestRule)
+
+        restorationTester.setContent {
+            AppSettingsScreen(
+                packageName = "com.android.geto",
+                appName = "Geto",
+                appSettingsUiState = AppSettingsUiState.Loading,
+                snackbarHostState = SnackbarHostState(),
+                applicationIcon = null,
+                secureSettings = emptyList(),
+                applyAppSettingsResult = AppSettingsResult.NoResult,
+                revertAppSettingsResult = AppSettingsResult.NoResult,
+                shortcutResult = ShortcutResult.NoShortcutFound,
+                clipboardResult = ClipboardResult.NoResult,
+                onNavigationIconClick = {},
+                onRevertAppSettings = {},
+                onGetShortcut = {},
+                onCheckAppSetting = { _, _ -> },
+                onDeleteAppSetting = {},
+                onLaunchApp = {},
+                onAutoLaunchApp = {},
+                onResetAppSettingsResult = {},
+                onResetShortcutResult = {},
+                onResetClipboardResult = {},
+                onGetSecureSettingsByName = { _, _ -> },
+                onAddAppSetting = {},
+                onCopyPermissionCommand = {},
+                onAddShortcut = {},
+                onUpdateShortcut = {},
+            )
+        }
+
+        composeTestRule.onNode(
+            matcher = hasAnyAncestor(isDialog()) and hasTestTag("shortcutDialog:shortLabelTextField"),
+            useUnmergedTree = true,
+        ).performTextInput("Geto")
+
+        composeTestRule.onNode(
+            matcher = hasAnyAncestor(isDialog()) and hasTestTag("shortcutDialog:longLabelTextField"),
+            useUnmergedTree = true,
+        ).performTextInput("Geto")
+
+        restorationTester.emulateSavedInstanceStateRestore()
+
+        composeTestRule.onNode(matcher = hasParent(isDialog()) and hasContentDescription("Add Shortcut Dialog"))
+            .assertIsDisplayed()
+
+        composeTestRule.onNode(
+            matcher = hasAnyAncestor(isDialog()) and hasTestTag("shortcutDialog:shortLabelTextField"),
+            useUnmergedTree = true,
+        ).assertTextEquals("Geto")
+
+        composeTestRule.onNode(
+            matcher = hasAnyAncestor(isDialog()) and hasTestTag("shortcutDialog:longLabelTextField"),
+            useUnmergedTree = true,
+        ).assertTextEquals("Geto")
     }
 }

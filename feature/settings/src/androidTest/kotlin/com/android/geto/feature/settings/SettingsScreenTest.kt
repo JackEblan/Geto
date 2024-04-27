@@ -25,8 +25,6 @@ import androidx.compose.ui.test.assertIsOn
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
-import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.test.performClick
 import com.android.geto.core.model.DarkThemeConfig
 import com.android.geto.core.model.ThemeBrand
 import com.android.geto.core.model.UserData
@@ -254,98 +252,5 @@ class SettingsScreenTest {
         }
 
         composeTestRule.onNodeWithTag("settings:autoLaunchSwitch").assertIsOn()
-    }
-
-    @Test
-    fun themeDialog_isDisplayed_whenThemeSetting_isClicked_thenDismissed() {
-        composeTestRule.setContent {
-            SettingsScreen(
-                settingsUiState = SettingsUiState.Success(
-                    UserData(
-                        themeBrand = ThemeBrand.DEFAULT,
-                        useDynamicColor = true,
-                        darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
-                        useAutoLaunch = true,
-                    ),
-                ),
-                supportDynamicColor = true,
-                onUpdateThemeBrand = {},
-                onUpdateDarkThemeConfig = {},
-                onCleanAppSettings = {},
-                onChangeDynamicColorPreference = {},
-                onChangeAutoLaunchPreference = {},
-                onNavigationIconClick = {},
-            )
-        }
-
-        composeTestRule.onNodeWithTag("settings:theme").performClick()
-
-        composeTestRule.onNodeWithContentDescription("Theme Dialog").assertIsDisplayed()
-
-        composeTestRule.onNodeWithText("Cancel").performClick()
-
-        composeTestRule.onNodeWithContentDescription("Theme Dialog").assertIsNotDisplayed()
-    }
-
-    @Test
-    fun darkDialog_isDisplayed_whenDarkSetting_isClicked_thenDismissed() {
-        composeTestRule.setContent {
-            SettingsScreen(
-                settingsUiState = SettingsUiState.Success(
-                    UserData(
-                        themeBrand = ThemeBrand.DEFAULT,
-                        useDynamicColor = true,
-                        darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
-                        useAutoLaunch = true,
-                    ),
-                ),
-                supportDynamicColor = true,
-                onUpdateThemeBrand = {},
-                onUpdateDarkThemeConfig = {},
-                onCleanAppSettings = {},
-                onChangeDynamicColorPreference = {},
-                onChangeAutoLaunchPreference = {},
-                onNavigationIconClick = {},
-            )
-        }
-
-        composeTestRule.onNodeWithTag("settings:dark").performClick()
-
-        composeTestRule.onNodeWithContentDescription("Dark Dialog").assertIsDisplayed()
-
-        composeTestRule.onNodeWithText("Cancel").performClick()
-
-        composeTestRule.onNodeWithContentDescription("Dark Dialog").assertIsNotDisplayed()
-    }
-
-    @Test
-    fun cleanDialog_isDisplayed_whenCleanSetting_isClicked_thenDismissed() {
-        composeTestRule.setContent {
-            SettingsScreen(
-                settingsUiState = SettingsUiState.Success(
-                    UserData(
-                        themeBrand = ThemeBrand.DEFAULT,
-                        useDynamicColor = true,
-                        darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
-                        useAutoLaunch = true,
-                    ),
-                ),
-                supportDynamicColor = true,
-                onUpdateThemeBrand = {},
-                onUpdateDarkThemeConfig = {},
-                onCleanAppSettings = {},
-                onChangeDynamicColorPreference = {},
-                onChangeAutoLaunchPreference = {},
-                onNavigationIconClick = {},
-            )
-        }
-
-        composeTestRule.onNodeWithTag("settings:clean").performClick()
-
-        composeTestRule.onNodeWithContentDescription("Clean Dialog").assertIsDisplayed()
-
-        composeTestRule.onNodeWithText("Cancel").performClick()
-
-        composeTestRule.onNodeWithContentDescription("Clean Dialog").assertIsNotDisplayed()
     }
 }
