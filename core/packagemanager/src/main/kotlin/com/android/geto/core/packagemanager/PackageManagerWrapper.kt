@@ -19,10 +19,10 @@ package com.android.geto.core.packagemanager
 
 import android.content.Intent
 import android.graphics.drawable.Drawable
-import com.android.geto.core.model.TargetApplicationInfo
+import com.android.geto.core.model.MappedApplicationInfo
 
 interface PackageManagerWrapper {
-    fun getInstalledApplications(): List<TargetApplicationInfo>
+    fun queryIntentActivities(intent: Intent, flags: Int): List<MappedApplicationInfo>
 
     fun getApplicationIcon(packageName: String): Drawable
 

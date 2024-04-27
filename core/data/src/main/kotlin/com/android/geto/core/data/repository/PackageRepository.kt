@@ -19,10 +19,10 @@ package com.android.geto.core.data.repository
 
 import android.content.Intent
 import android.graphics.drawable.Drawable
-import com.android.geto.core.model.TargetApplicationInfo
+import com.android.geto.core.model.MappedApplicationInfo
 
 interface PackageRepository {
-    suspend fun getInstalledApplications(): List<TargetApplicationInfo>
+    suspend fun queryIntentActivities(intent: Intent, flags: Int): List<MappedApplicationInfo>
 
     suspend fun getApplicationIcon(packageName: String): Drawable?
 

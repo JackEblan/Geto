@@ -17,6 +17,7 @@
  */
 package com.android.geto.feature.apps
 
+import android.content.Intent
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.android.geto.core.data.repository.PackageRepository
@@ -24,14 +25,30 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.stateIn
+import org.jetbrains.annotations.VisibleForTesting
 import javax.inject.Inject
 
 @HiltViewModel
 class AppsViewModel @Inject constructor(
     private val packageRepository: PackageRepository,
 ) : ViewModel() {
+    private val intent = Intent().apply {
+        action = Intent.ACTION_MAIN
+        addCategory(Intent.CATEGORY_LAUNCHER)
+    }
+
+    @VisibleForTesting
+    var flags = 0
+
     val appsUiState = flow {
-        emit(AppsUiState.Success(packageRepository.getInstalledApplications()))
+        emit(
+            AppsUiState.Success(
+                packageRepository.queryIntentActivities(
+                    intent = intent,
+                    flags = flags,
+                ),
+            ),
+        )
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),

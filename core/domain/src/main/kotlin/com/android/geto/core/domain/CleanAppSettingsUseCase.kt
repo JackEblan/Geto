@@ -17,10 +17,10 @@
  */
 package com.android.geto.core.domain
 
+import android.content.Intent
 import com.android.geto.core.data.repository.AppSettingsRepository
 import com.android.geto.core.data.repository.PackageRepository
 import com.android.geto.core.model.AppSetting
-import com.android.geto.core.model.TargetApplicationInfo
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
@@ -29,9 +29,14 @@ class CleanAppSettingsUseCase @Inject constructor(
     private val appSettingsRepository: AppSettingsRepository,
 ) {
 
-    suspend operator fun invoke() {
-        val packageNamesFromInstalledApplications =
-            packageRepository.getInstalledApplications().map(TargetApplicationInfo::packageName)
+    suspend operator fun invoke(
+        intent: Intent,
+        flags: Int,
+    ) {
+        val packageNamesFromInstalledApplications = packageRepository.queryIntentActivities(
+            intent = intent,
+            flags = flags,
+        ).map { it.packageName }
 
         val packageNamesFromAppSettings =
             appSettingsRepository.appSettings.first().map(AppSetting::packageName)

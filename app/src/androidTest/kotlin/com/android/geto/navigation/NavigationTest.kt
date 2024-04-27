@@ -63,7 +63,7 @@ class NavigationTest {
     }
 
     @Test
-    fun appSettingsScreen_isDisplayed_whenTargetApplicationInfoItem_isClicked() {
+    fun appSettingsScreen_isDisplayed_whenMappedApplicationInfoItem_isClicked() {
         composeTestRule.onAllNodes(hasTestTag("apps:appItem"))[0].performClick()
 
         val appSettingsRoute = navController.currentBackStackEntry?.destination?.route

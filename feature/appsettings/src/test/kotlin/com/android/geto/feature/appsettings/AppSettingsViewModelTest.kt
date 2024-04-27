@@ -25,9 +25,9 @@ import com.android.geto.core.domain.ApplyAppSettingsUseCase
 import com.android.geto.core.domain.AutoLaunchUseCase
 import com.android.geto.core.domain.RevertAppSettingsUseCase
 import com.android.geto.core.model.AppSetting
+import com.android.geto.core.model.MappedApplicationInfo
 import com.android.geto.core.model.SecureSetting
 import com.android.geto.core.model.SettingType
-import com.android.geto.core.model.TargetApplicationInfo
 import com.android.geto.core.model.TargetShortcutInfoCompat
 import com.android.geto.core.testing.repository.TestAppSettingsRepository
 import com.android.geto.core.testing.repository.TestClipboardRepository
@@ -618,14 +618,14 @@ class AppSettingsViewModelTest {
     @Test
     fun applicationIcon_isNotNull_whenGetApplicationIcon() = runTest {
         val installedApplications = List(1) { _ ->
-            TargetApplicationInfo(
+            MappedApplicationInfo(
                 flags = 0,
                 packageName = packageName,
                 label = appName,
             )
         }
 
-        packageRepository.setInstalledApplications(installedApplications)
+        packageRepository.setMappedApplicationInfos(installedApplications)
 
         val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.applicationIcon.collect() }
 

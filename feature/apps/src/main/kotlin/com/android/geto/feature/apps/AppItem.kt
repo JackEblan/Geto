@@ -36,12 +36,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.android.geto.core.designsystem.component.DynamicAsyncImage
 import com.android.geto.core.designsystem.theme.GetoTheme
-import com.android.geto.core.model.TargetApplicationInfo
+import com.android.geto.core.model.MappedApplicationInfo
 
 @Composable
 fun AppItem(
     modifier: Modifier = Modifier,
-    targetApplicationInfo: TargetApplicationInfo,
+    mappedApplicationInfo: MappedApplicationInfo,
     onItemClick: (String, String) -> Unit,
 ) {
     Row(
@@ -50,15 +50,15 @@ fun AppItem(
             .testTag("apps:appItem")
             .clickable {
                 onItemClick(
-                    targetApplicationInfo.packageName,
-                    targetApplicationInfo.label,
+                    mappedApplicationInfo.packageName,
+                    mappedApplicationInfo.label,
                 )
             }
             .padding(10.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         DynamicAsyncImage(
-            model = targetApplicationInfo.icon,
+            model = mappedApplicationInfo.icon,
             contentDescription = null,
             modifier = Modifier.size(50.dp),
         )
@@ -67,14 +67,14 @@ fun AppItem(
 
         Column(modifier = Modifier.weight(1f)) {
             Text(
-                text = targetApplicationInfo.label,
+                text = mappedApplicationInfo.label,
                 style = MaterialTheme.typography.bodyLarge,
             )
 
             Spacer(modifier = Modifier.height(5.dp))
 
             Text(
-                text = targetApplicationInfo.packageName,
+                text = mappedApplicationInfo.packageName,
                 style = MaterialTheme.typography.bodySmall,
             )
         }
@@ -86,7 +86,7 @@ fun AppItem(
 private fun AppItemPreview() {
     GetoTheme {
         AppItem(
-            targetApplicationInfo = TargetApplicationInfo(
+            mappedApplicationInfo = MappedApplicationInfo(
                 flags = 0,
                 packageName = "com.android.geto",
                 label = "Geto",

@@ -21,25 +21,25 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
-import com.android.geto.core.model.TargetApplicationInfo
+import com.android.geto.core.model.MappedApplicationInfo
 import com.android.geto.core.packagemanager.PackageManagerWrapper
 
 class TestPackageManagerWrapper : PackageManagerWrapper {
-    private var _installedApplications = emptyList<TargetApplicationInfo>()
+    private var _mappedApplicationInfoList = emptyList<MappedApplicationInfo>()
 
-    override fun getInstalledApplications(): List<TargetApplicationInfo> {
-        return _installedApplications
+    override fun queryIntentActivities(intent: Intent, flags: Int): List<MappedApplicationInfo> {
+        return _mappedApplicationInfoList
     }
 
     override fun getApplicationIcon(packageName: String): Drawable {
-        return if (packageName in _installedApplications.map { it.packageName }) ColorDrawable() else throw PackageManager.NameNotFoundException()
+        return if (packageName in _mappedApplicationInfoList.map { it.packageName }) ColorDrawable() else throw PackageManager.NameNotFoundException()
     }
 
     override fun getLaunchIntentForPackage(packageName: String): Intent? {
-        return if (packageName in _installedApplications.map { it.packageName }) Intent() else null
+        return if (packageName in _mappedApplicationInfoList.map { it.packageName }) Intent() else null
     }
 
-    fun setInstalledApplications(value: List<TargetApplicationInfo>) {
-        _installedApplications = value
+    fun setMappedApplicationInfos(value: List<MappedApplicationInfo>) {
+        _mappedApplicationInfoList = value
     }
 }

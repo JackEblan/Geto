@@ -21,7 +21,7 @@ import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.android.geto.core.designsystem.component.GetoBackground
 import com.android.geto.core.designsystem.theme.GetoTheme
-import com.android.geto.core.model.TargetApplicationInfo
+import com.android.geto.core.model.MappedApplicationInfo
 import com.android.geto.core.screenshot.testing.util.DefaultTestDevices
 import com.android.geto.core.screenshot.testing.util.captureForDevice
 import com.android.geto.core.screenshot.testing.util.captureMultiDevice
@@ -44,7 +44,7 @@ class AppsScreenScreenshotTest {
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     private val installedApplications = List(5) { index ->
-        TargetApplicationInfo(
+        MappedApplicationInfo(
             flags = 0,
             packageName = "com.android.geto$index",
             label = "Geto $index",

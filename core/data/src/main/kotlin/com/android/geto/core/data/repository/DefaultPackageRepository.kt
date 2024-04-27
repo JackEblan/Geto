@@ -23,7 +23,7 @@ import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import com.android.geto.core.common.Dispatcher
 import com.android.geto.core.common.GetoDispatchers.IO
-import com.android.geto.core.model.TargetApplicationInfo
+import com.android.geto.core.model.MappedApplicationInfo
 import com.android.geto.core.packagemanager.PackageManagerWrapper
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
@@ -34,9 +34,9 @@ internal class DefaultPackageRepository @Inject constructor(
     @Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher,
 ) : PackageRepository {
 
-    override suspend fun getInstalledApplications(): List<TargetApplicationInfo> {
+    override suspend fun queryIntentActivities(intent: Intent, flags: Int): List<MappedApplicationInfo> {
         return withContext(ioDispatcher) {
-            packageManagerWrapper.getInstalledApplications().filter { applicationInfo ->
+            packageManagerWrapper.queryIntentActivities(intent, flags).filter { applicationInfo ->
                 (applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM) == 0
             }.sortedBy { it.label }
         }

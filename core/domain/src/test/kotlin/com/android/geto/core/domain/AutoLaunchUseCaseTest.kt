@@ -19,8 +19,8 @@ package com.android.geto.core.domain
 
 import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.DarkThemeConfig
+import com.android.geto.core.model.MappedApplicationInfo
 import com.android.geto.core.model.SettingType
-import com.android.geto.core.model.TargetApplicationInfo
 import com.android.geto.core.model.ThemeBrand
 import com.android.geto.core.model.UserData
 import com.android.geto.core.testing.repository.TestAppSettingsRepository
@@ -117,10 +117,10 @@ class AutoLaunchUseCaseTest {
         }
 
         val installedApplications = List(5) { index ->
-            TargetApplicationInfo(flags = 0, packageName = packageName, label = "Geto $index")
+            MappedApplicationInfo(flags = 0, packageName = packageName, label = "Geto $index")
         }
 
-        packageRepository.setInstalledApplications(installedApplications)
+        packageRepository.setMappedApplicationInfos(installedApplications)
 
         secureSettingsRepository.setWriteSecureSettings(true)
 

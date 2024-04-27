@@ -17,7 +17,7 @@
  */
 package com.android.geto.feature.apps
 
-import com.android.geto.core.model.TargetApplicationInfo
+import com.android.geto.core.model.MappedApplicationInfo
 import com.android.geto.core.testing.repository.TestPackageRepository
 import com.android.geto.core.testing.util.MainDispatcherRule
 import kotlinx.coroutines.flow.collect
@@ -49,16 +49,37 @@ class AppsViewModelTest {
     }
 
     @Test
-    fun appsUiState_isSuccess_whenGetInstalledApplications() = runTest {
+    fun appsUiState_isSuccess_whenQueryIntentActivities() = runTest {
         val installedApplications = List(2) { index ->
-            TargetApplicationInfo(
+            MappedApplicationInfo(
                 flags = 0,
                 packageName = "com.android.geto$index",
                 label = "Geto $index",
             )
         }
 
-        packageRepository.setInstalledApplications(installedApplications)
+        packageRepository.setMappedApplicationInfos(installedApplications)
+
+        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.appsUiState.collect() }
+
+        assertIs<AppsUiState.Success>(viewModel.appsUiState.value)
+
+        collectJob.cancel()
+    }
+
+    @Test
+    fun appsUiState_isSuccessEmpty_whenQueryIntentActivities() = runTest {
+        viewModel.flags = 1
+
+        val installedApplications = List(2) { index ->
+            MappedApplicationInfo(
+                flags = 0,
+                packageName = "com.android.geto$index",
+                label = "Geto $index",
+            )
+        }
+
+        packageRepository.setMappedApplicationInfos(installedApplications)
 
         val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.appsUiState.collect() }
 

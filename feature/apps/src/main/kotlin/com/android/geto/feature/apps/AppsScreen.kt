@@ -44,9 +44,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.android.geto.core.designsystem.component.GetoLoadingWheel
 import com.android.geto.core.designsystem.icon.GetoIcons
 import com.android.geto.core.designsystem.theme.GetoTheme
-import com.android.geto.core.model.TargetApplicationInfo
+import com.android.geto.core.model.MappedApplicationInfo
 import com.android.geto.core.ui.DevicePreviews
-import com.android.geto.core.ui.TargetApplicationInfoPreviewParameterProvider
+import com.android.geto.core.ui.MappedApplicationInfoPreviewParameterProvider
 
 @Composable
 internal fun AppsRoute(
@@ -148,9 +148,9 @@ private fun SuccessState(
             .testTag("apps:lazyColumn"),
         contentPadding = contentPadding,
     ) {
-        items(appsUiState.targetApplicationInfoList) { targetApplicationInfo ->
+        items(appsUiState.mappedApplicationInfoList) { mappedApplicationInfo ->
             AppItem(
-                targetApplicationInfo = targetApplicationInfo,
+                mappedApplicationInfo = mappedApplicationInfo,
                 onItemClick = onItemClick,
             )
         }
@@ -159,7 +159,7 @@ private fun SuccessState(
 
 @DevicePreviews
 @Composable
-private fun AppListScreenLoadingStatePreview() {
+private fun AppsScreenLoadingStatePreview() {
     GetoTheme {
         AppsScreen(
             appsUiState = AppsUiState.Loading,
@@ -171,8 +171,8 @@ private fun AppListScreenLoadingStatePreview() {
 
 @DevicePreviews
 @Composable
-private fun AppListScreenSuccessStatePreview(
-    @PreviewParameter(TargetApplicationInfoPreviewParameterProvider::class) installedApplications: List<TargetApplicationInfo>,
+private fun AppsScreenSuccessStatePreview(
+    @PreviewParameter(MappedApplicationInfoPreviewParameterProvider::class) installedApplications: List<MappedApplicationInfo>,
 ) {
     GetoTheme {
         AppsScreen(
