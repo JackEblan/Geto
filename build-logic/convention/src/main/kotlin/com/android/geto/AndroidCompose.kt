@@ -48,6 +48,8 @@ internal fun Project.configureAndroidCompose(
             unitTests {
                 // For Robolectric
                 isIncludeAndroidResources = true
+
+                isReturnDefaultValues = true
             }
         }
     }

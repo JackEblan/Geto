@@ -91,11 +91,11 @@ class ApplyAppSettingsUseCaseTest {
             )
         }
 
-        val installedApplications = List(5) { index ->
+        val mappedApplicationInfos = List(5) { index ->
             MappedApplicationInfo(flags = 0, packageName = packageName, label = "Geto $index")
         }
 
-        packageRepository.setMappedApplicationInfos(installedApplications)
+        packageRepository.setMappedApplicationInfos(mappedApplicationInfos)
 
         secureSettingsRepository.setWriteSecureSettings(true)
 

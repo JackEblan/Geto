@@ -45,7 +45,7 @@ class AppsScreenTest {
 
     @Test
     fun lazyColumn_isDisplayed_whenAppsUiState_isSuccess() {
-        val installedApplications = List(2) { index ->
+        val mappedApplicationInfos = List(2) { index ->
             MappedApplicationInfo(
                 flags = 0,
                 packageName = "com.android.geto$index",
@@ -55,7 +55,7 @@ class AppsScreenTest {
 
         composeTestRule.setContent {
             AppsScreen(
-                appsUiState = AppsUiState.Success(installedApplications),
+                appsUiState = AppsUiState.Success(mappedApplicationInfos),
                 onItemClick = { _, _ -> },
                 onSettingsClick = {},
             )

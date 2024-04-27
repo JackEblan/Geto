@@ -172,11 +172,11 @@ private fun AppsScreenLoadingStatePreview() {
 @DevicePreviews
 @Composable
 private fun AppsScreenSuccessStatePreview(
-    @PreviewParameter(MappedApplicationInfoPreviewParameterProvider::class) installedApplications: List<MappedApplicationInfo>,
+    @PreviewParameter(MappedApplicationInfoPreviewParameterProvider::class) mappedApplicationInfos: List<MappedApplicationInfo>,
 ) {
     GetoTheme {
         AppsScreen(
-            appsUiState = AppsUiState.Success(installedApplications),
+            appsUiState = AppsUiState.Success(mappedApplicationInfos),
             onSettingsClick = {},
             onItemClick = { _, _ -> },
         )

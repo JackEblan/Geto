@@ -47,21 +47,21 @@ class PackageRepositoryTest {
 
     @Test
     fun queryIntentActivities_isNotEmpty() = runTest(testDispatcher) {
-        val installedApplications = List(20) { index ->
+        val mappedApplicationInfos = List(20) { index ->
             MappedApplicationInfo(
                 flags = 0,
                 packageName = "com.android.geto$index",
                 label = "Geto $index",
             )
         }
-        packageManagerWrapper.setMappedApplicationInfos(installedApplications)
+        packageManagerWrapper.setMappedApplicationInfos(mappedApplicationInfos)
 
         assertTrue(subject.queryIntentActivities(intent = Intent(), flags = 0).isNotEmpty())
     }
 
     @Test
     fun queryIntentActivities_isEmpty() = runTest(testDispatcher) {
-        val installedApplications = List(20) { index ->
+        val mappedApplicationInfos = List(20) { index ->
             MappedApplicationInfo(
                 flags = 1,
                 packageName = "com.android.geto$index",
@@ -69,14 +69,14 @@ class PackageRepositoryTest {
             )
         }
 
-        packageManagerWrapper.setMappedApplicationInfos(installedApplications)
+        packageManagerWrapper.setMappedApplicationInfos(mappedApplicationInfos)
 
         assertTrue(subject.queryIntentActivities(intent = Intent(), flags = 0).isEmpty())
     }
 
     @Test
     fun getApplicationIcon_isNull() = runTest(testDispatcher) {
-        val installedApplications = List(20) { index ->
+        val mappedApplicationInfos = List(20) { index ->
             MappedApplicationInfo(
                 flags = 0,
                 packageName = "com.android.geto$index",
@@ -84,14 +84,14 @@ class PackageRepositoryTest {
             )
         }
 
-        packageManagerWrapper.setMappedApplicationInfos(installedApplications)
+        packageManagerWrapper.setMappedApplicationInfos(mappedApplicationInfos)
 
         assertNull(subject.getApplicationIcon(""))
     }
 
     @Test
     fun getApplicationIcon_isNotNull() = runTest(testDispatcher) {
-        val installedApplications = List(20) { index ->
+        val mappedApplicationInfos = List(20) { index ->
             MappedApplicationInfo(
                 flags = 0,
                 packageName = "com.android.geto$index",
@@ -99,14 +99,14 @@ class PackageRepositoryTest {
             )
         }
 
-        packageManagerWrapper.setMappedApplicationInfos(installedApplications)
+        packageManagerWrapper.setMappedApplicationInfos(mappedApplicationInfos)
 
         assertNotNull(subject.getApplicationIcon("com.android.geto1"))
     }
 
     @Test
     fun getLaunchIntentForPackage_isNull() = runTest(testDispatcher) {
-        val installedApplications = List(20) { index ->
+        val mappedApplicationInfos = List(20) { index ->
             MappedApplicationInfo(
                 flags = 0,
                 packageName = "com.android.geto$index",
@@ -114,14 +114,14 @@ class PackageRepositoryTest {
             )
         }
 
-        packageManagerWrapper.setMappedApplicationInfos(installedApplications)
+        packageManagerWrapper.setMappedApplicationInfos(mappedApplicationInfos)
 
         assertNull(subject.getLaunchIntentForPackage(""))
     }
 
     @Test
     fun getLaunchIntentForPackage_isNotNull() = runTest(testDispatcher) {
-        val installedApplications = List(20) { index ->
+        val mappedApplicationInfos = List(20) { index ->
             MappedApplicationInfo(
                 flags = 0,
                 packageName = "com.android.geto$index",
@@ -129,7 +129,7 @@ class PackageRepositoryTest {
             )
         }
 
-        packageManagerWrapper.setMappedApplicationInfos(installedApplications)
+        packageManagerWrapper.setMappedApplicationInfos(mappedApplicationInfos)
 
         assertNotNull(subject.getLaunchIntentForPackage("com.android.geto1"))
     }

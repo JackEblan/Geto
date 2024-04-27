@@ -43,7 +43,7 @@ class AppsScreenScreenshotTest {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
-    private val installedApplications = List(5) { index ->
+    private val mappedApplicationInfos = List(5) { index ->
         MappedApplicationInfo(
             flags = 0,
             packageName = "com.android.geto$index",
@@ -56,7 +56,7 @@ class AppsScreenScreenshotTest {
         composeTestRule.captureMultiDevice("AppsScreenPopulated") {
             GetoTheme {
                 AppsScreen(
-                    appsUiState = AppsUiState.Success(installedApplications),
+                    appsUiState = AppsUiState.Success(mappedApplicationInfos),
                     onItemClick = { _, _ -> },
                     onSettingsClick = {},
                 )
@@ -89,7 +89,7 @@ class AppsScreenScreenshotTest {
                 GetoBackground {
                     AppsScreen(
                         appsUiState = AppsUiState.Success(
-                            installedApplications,
+                            mappedApplicationInfos,
                         ),
                         onItemClick = { _, _ -> },
                         onSettingsClick = {},

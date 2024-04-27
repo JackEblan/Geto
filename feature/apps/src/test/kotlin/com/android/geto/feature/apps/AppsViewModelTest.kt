@@ -50,7 +50,7 @@ class AppsViewModelTest {
 
     @Test
     fun appsUiState_isSuccess_whenQueryIntentActivities() = runTest {
-        val installedApplications = List(2) { index ->
+        val mappedApplicationInfos = List(2) { index ->
             MappedApplicationInfo(
                 flags = 0,
                 packageName = "com.android.geto$index",
@@ -58,7 +58,7 @@ class AppsViewModelTest {
             )
         }
 
-        packageRepository.setMappedApplicationInfos(installedApplications)
+        packageRepository.setMappedApplicationInfos(mappedApplicationInfos)
 
         val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.appsUiState.collect() }
 
@@ -71,7 +71,7 @@ class AppsViewModelTest {
     fun appsUiState_isSuccessEmpty_whenQueryIntentActivities() = runTest {
         viewModel.flags = 1
 
-        val installedApplications = List(2) { index ->
+        val mappedApplicationInfos = List(2) { index ->
             MappedApplicationInfo(
                 flags = 0,
                 packageName = "com.android.geto$index",
@@ -79,7 +79,7 @@ class AppsViewModelTest {
             )
         }
 
-        packageRepository.setMappedApplicationInfos(installedApplications)
+        packageRepository.setMappedApplicationInfos(mappedApplicationInfos)
 
         val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.appsUiState.collect() }
 

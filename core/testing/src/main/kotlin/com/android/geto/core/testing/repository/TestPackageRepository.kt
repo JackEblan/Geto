@@ -26,8 +26,11 @@ import com.android.geto.core.model.MappedApplicationInfo
 class TestPackageRepository : PackageRepository {
     private var _mappedApplicationInfos = listOf<MappedApplicationInfo>()
 
-    override suspend fun queryIntentActivities(intent: Intent, flags: Int): List<MappedApplicationInfo> {
-        return _mappedApplicationInfos
+    override suspend fun queryIntentActivities(
+        intent: Intent,
+        flags: Int,
+    ): List<MappedApplicationInfo> {
+        return _mappedApplicationInfos.filter { it.flags == flags }.sortedBy { it.label }
     }
 
     override suspend fun getApplicationIcon(packageName: String): Drawable? {

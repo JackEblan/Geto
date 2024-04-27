@@ -617,7 +617,7 @@ class AppSettingsViewModelTest {
 
     @Test
     fun applicationIcon_isNotNull_whenGetApplicationIcon() = runTest {
-        val installedApplications = List(1) { _ ->
+        val mappedApplicationInfos = List(1) { _ ->
             MappedApplicationInfo(
                 flags = 0,
                 packageName = packageName,
@@ -625,7 +625,7 @@ class AppSettingsViewModelTest {
             )
         }
 
-        packageRepository.setMappedApplicationInfos(installedApplications)
+        packageRepository.setMappedApplicationInfos(mappedApplicationInfos)
 
         val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.applicationIcon.collect() }
 

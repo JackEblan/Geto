@@ -33,7 +33,7 @@ class CleanAppSettingsUseCase @Inject constructor(
         intent: Intent,
         flags: Int,
     ) {
-        val packageNamesFromInstalledApplications = packageRepository.queryIntentActivities(
+        val packageNamesFromQueriedIntentActivities = packageRepository.queryIntentActivities(
             intent = intent,
             flags = flags,
         ).map { it.packageName }
@@ -42,7 +42,7 @@ class CleanAppSettingsUseCase @Inject constructor(
             appSettingsRepository.appSettings.first().map(AppSetting::packageName)
 
         val oldPackageNames = packageNamesFromAppSettings.filterNot { packageName ->
-            packageName in packageNamesFromInstalledApplications
+            packageName in packageNamesFromQueriedIntentActivities
         }
 
         appSettingsRepository.deleteAppSettingsByPackageName(packageNames = oldPackageNames)
