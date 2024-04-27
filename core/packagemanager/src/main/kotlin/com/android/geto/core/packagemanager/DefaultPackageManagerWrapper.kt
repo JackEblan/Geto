@@ -20,7 +20,6 @@ package com.android.geto.core.packagemanager
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import com.android.geto.core.model.TargetApplicationInfo
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -33,7 +32,7 @@ internal class DefaultPackageManagerWrapper @Inject constructor(@ApplicationCont
 
     @SuppressLint("QueryPermissionsNeeded")
     override fun getInstalledApplications(): List<TargetApplicationInfo> {
-        return packageManager.getInstalledApplications(PackageManager.GET_META_DATA)
+        return packageManager.getInstalledApplications(0)
             .map { applicationInfo ->
                 applicationInfo.asTargetApplicationInfo(packageManager)
             }
