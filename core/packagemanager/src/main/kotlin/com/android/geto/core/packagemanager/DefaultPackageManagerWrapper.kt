@@ -20,6 +20,7 @@ package com.android.geto.core.packagemanager
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ApplicationInfo
 import android.graphics.drawable.Drawable
 import com.android.geto.core.model.TargetApplicationInfo
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -32,10 +33,7 @@ internal class DefaultPackageManagerWrapper @Inject constructor(@ApplicationCont
 
     @SuppressLint("QueryPermissionsNeeded")
     override fun getInstalledApplications(): List<TargetApplicationInfo> {
-        return packageManager.getInstalledApplications(0)
-            .map { applicationInfo ->
-                applicationInfo.asTargetApplicationInfo(packageManager)
-            }
+        return packageManager.getInstalledApplications(0).map(::asTargetApplicationInfo)
     }
 
     override fun getApplicationIcon(packageName: String): Drawable {
@@ -44,5 +42,14 @@ internal class DefaultPackageManagerWrapper @Inject constructor(@ApplicationCont
 
     override fun getLaunchIntentForPackage(packageName: String): Intent? {
         return packageManager.getLaunchIntentForPackage(packageName)
+    }
+
+    private fun asTargetApplicationInfo(applicationInfo: ApplicationInfo): TargetApplicationInfo {
+        return TargetApplicationInfo(
+            flags = applicationInfo.flags,
+            icon = applicationInfo.loadIcon(packageManager),
+            packageName = applicationInfo.packageName,
+            label = applicationInfo.loadLabel(packageManager).toString(),
+        )
     }
 }
