@@ -19,7 +19,7 @@ package com.android.geto.core.model
 
 import android.graphics.Bitmap
 
-data class TargetShortcutInfoCompat(
+data class MappedShortcutInfoCompat(
     val id: String,
     val icon: Bitmap? = null,
     val shortLabel: String,

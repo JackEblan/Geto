@@ -19,20 +19,20 @@ package com.android.geto.core.testing.repository
 
 import com.android.geto.core.data.repository.ShortcutRepository
 import com.android.geto.core.data.repository.ShortcutResult
-import com.android.geto.core.model.TargetShortcutInfoCompat
+import com.android.geto.core.model.MappedShortcutInfoCompat
 
 class TestShortcutRepository : ShortcutRepository {
 
     private var requestPinShortcutSupported = false
 
-    private var targetShortcutInfoCompats = listOf<TargetShortcutInfoCompat>()
+    private var mappedShortcutInfoCompats = listOf<MappedShortcutInfoCompat>()
 
     private var updateImmutableShortcuts = false
 
     override fun requestPinShortcut(
         packageName: String,
         appName: String,
-        targetShortcutInfoCompat: TargetShortcutInfoCompat,
+        mappedShortcutInfoCompat: MappedShortcutInfoCompat,
     ): ShortcutResult {
         return if (requestPinShortcutSupported) {
             ShortcutResult.SupportedLauncher
@@ -44,7 +44,7 @@ class TestShortcutRepository : ShortcutRepository {
     override fun updateRequestPinShortcut(
         packageName: String,
         appName: String,
-        targetShortcutInfoCompat: TargetShortcutInfoCompat,
+        mappedShortcutInfoCompat: MappedShortcutInfoCompat,
     ): ShortcutResult {
         return if (updateImmutableShortcuts) {
             ShortcutResult.ShortcutUpdateImmutableShortcuts
@@ -54,11 +54,11 @@ class TestShortcutRepository : ShortcutRepository {
     }
 
     override fun getShortcut(id: String): ShortcutResult {
-        val targetShortcutInfoCompat = targetShortcutInfoCompats.find { it.id == id }
+        val mappedShortcutInfoCompat = mappedShortcutInfoCompats.find { it.id == id }
 
-        return if (targetShortcutInfoCompat != null) {
+        return if (mappedShortcutInfoCompat != null) {
             ShortcutResult.ShortcutFound(
-                targetShortcutInfoCompat = targetShortcutInfoCompat,
+                mappedShortcutInfoCompat = mappedShortcutInfoCompat,
             )
         } else {
             ShortcutResult.NoShortcutFound
@@ -69,8 +69,8 @@ class TestShortcutRepository : ShortcutRepository {
         requestPinShortcutSupported = value
     }
 
-    fun setShortcuts(value: List<TargetShortcutInfoCompat>) {
-        targetShortcutInfoCompats = value
+    fun setShortcuts(value: List<MappedShortcutInfoCompat>) {
+        mappedShortcutInfoCompats = value
     }
 
     fun setUpdateImmutableShortcuts(value: Boolean) {

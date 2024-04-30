@@ -69,9 +69,9 @@ import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.domain.AppSettingsResult
 import com.android.geto.core.domain.AutoLaunchResult
 import com.android.geto.core.model.AppSetting
+import com.android.geto.core.model.MappedShortcutInfoCompat
 import com.android.geto.core.model.SecureSetting
 import com.android.geto.core.model.SettingType
-import com.android.geto.core.model.TargetShortcutInfoCompat
 import com.android.geto.core.ui.AppSettingsPreviewParameterProvider
 import com.android.geto.core.ui.DevicePreviews
 import com.android.geto.feature.appsettings.dialog.appsetting.AppSettingDialog
@@ -166,8 +166,8 @@ internal fun AppSettingsScreen(
     onGetSecureSettingsByName: (SettingType, String) -> Unit,
     onAddAppSetting: (AppSetting) -> Unit,
     onCopyPermissionCommand: () -> Unit,
-    onAddShortcut: (TargetShortcutInfoCompat) -> Unit,
-    onUpdateShortcut: (TargetShortcutInfoCompat) -> Unit,
+    onAddShortcut: (MappedShortcutInfoCompat) -> Unit,
+    onUpdateShortcut: (MappedShortcutInfoCompat) -> Unit,
 ) {
     val copyPermissionCommandDialogState = rememberCopyPermissionCommandDialogState()
 
@@ -361,8 +361,8 @@ private fun AppSettingsLaunchedEffects(
             ShortcutResult.UnsupportedLauncher -> snackbarHostState.showSnackbar(message = unsupportedLauncher)
             ShortcutResult.UserIsLocked -> snackbarHostState.showSnackbar(message = userIsLocked)
             is ShortcutResult.ShortcutFound -> {
-                updateShortcutDialogState.updateShortLabel(shortcutResult.targetShortcutInfoCompat.shortLabel)
-                updateShortcutDialogState.updateLongLabel(shortcutResult.targetShortcutInfoCompat.longLabel)
+                updateShortcutDialogState.updateShortLabel(shortcutResult.mappedShortcutInfoCompat.shortLabel)
+                updateShortcutDialogState.updateLongLabel(shortcutResult.mappedShortcutInfoCompat.longLabel)
                 updateShortcutDialogState.updateShowDialog(true)
             }
 
@@ -422,8 +422,8 @@ private fun AppSettingsDialogs(
     packageName: String,
     onAddAppSetting: (AppSetting) -> Unit,
     onCopyPermissionCommand: () -> Unit,
-    onAddShortcut: (TargetShortcutInfoCompat) -> Unit,
-    onUpdateShortcut: (TargetShortcutInfoCompat) -> Unit,
+    onAddShortcut: (MappedShortcutInfoCompat) -> Unit,
+    onUpdateShortcut: (MappedShortcutInfoCompat) -> Unit,
 ) {
     if (appSettingDialogState.showDialog) {
         AppSettingDialog(

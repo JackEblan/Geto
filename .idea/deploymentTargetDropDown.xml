@@ -23,9 +23,6 @@
       <entry key="feature.shortcut">
         <State />
       </entry>
-      <entry key="onRecreation_stateIsRestored()">
-        <State />
-      </entry>
       <entry key="shortcutDialog_stateRestoration()">
         <State />
       </entry>

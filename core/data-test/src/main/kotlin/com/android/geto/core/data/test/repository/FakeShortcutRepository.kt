@@ -19,7 +19,7 @@ package com.android.geto.core.data.test.repository
 
 import com.android.geto.core.data.repository.ShortcutRepository
 import com.android.geto.core.data.repository.ShortcutResult
-import com.android.geto.core.model.TargetShortcutInfoCompat
+import com.android.geto.core.model.MappedShortcutInfoCompat
 import javax.inject.Inject
 
 class FakeShortcutRepository @Inject constructor() : ShortcutRepository {
@@ -27,7 +27,7 @@ class FakeShortcutRepository @Inject constructor() : ShortcutRepository {
     override fun requestPinShortcut(
         packageName: String,
         appName: String,
-        targetShortcutInfoCompat: TargetShortcutInfoCompat,
+        mappedShortcutInfoCompat: MappedShortcutInfoCompat,
     ): ShortcutResult {
         return ShortcutResult.SupportedLauncher
     }
@@ -35,7 +35,7 @@ class FakeShortcutRepository @Inject constructor() : ShortcutRepository {
     override fun updateRequestPinShortcut(
         packageName: String,
         appName: String,
-        targetShortcutInfoCompat: TargetShortcutInfoCompat,
+        mappedShortcutInfoCompat: MappedShortcutInfoCompat,
     ): ShortcutResult {
         return ShortcutResult.ShortcutUpdateSuccess
     }

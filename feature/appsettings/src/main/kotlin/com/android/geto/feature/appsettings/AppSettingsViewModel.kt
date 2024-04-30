@@ -32,9 +32,9 @@ import com.android.geto.core.domain.ApplyAppSettingsUseCase
 import com.android.geto.core.domain.AutoLaunchUseCase
 import com.android.geto.core.domain.RevertAppSettingsUseCase
 import com.android.geto.core.model.AppSetting
+import com.android.geto.core.model.MappedShortcutInfoCompat
 import com.android.geto.core.model.SecureSetting
 import com.android.geto.core.model.SettingType
-import com.android.geto.core.model.TargetShortcutInfoCompat
 import com.android.geto.feature.appsettings.navigation.AppSettingsArgs
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -152,25 +152,25 @@ class AppSettingsViewModel @Inject constructor(
         }
     }
 
-    fun requestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat) {
+    fun requestPinShortcut(mappedShortcutInfoCompat: MappedShortcutInfoCompat) {
         viewModelScope.launch {
             _shortcutResult.update {
                 shortcutRepository.requestPinShortcut(
                     packageName = packageName,
                     appName = appName,
-                    targetShortcutInfoCompat = targetShortcutInfoCompat,
+                    mappedShortcutInfoCompat = mappedShortcutInfoCompat,
                 )
             }
         }
     }
 
-    fun updateRequestPinShortcut(targetShortcutInfoCompat: TargetShortcutInfoCompat) {
+    fun updateRequestPinShortcut(mappedShortcutInfoCompat: MappedShortcutInfoCompat) {
         viewModelScope.launch {
             _shortcutResult.update {
                 shortcutRepository.updateRequestPinShortcut(
                     packageName = packageName,
                     appName = appName,
-                    targetShortcutInfoCompat,
+                    mappedShortcutInfoCompat,
                 )
             }
         }

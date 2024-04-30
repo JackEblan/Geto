@@ -22,17 +22,17 @@ import android.content.Intent
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.graphics.drawable.IconCompat
 import androidx.core.net.toUri
-import com.android.geto.core.model.TargetShortcutInfoCompat
+import com.android.geto.core.model.MappedShortcutInfoCompat
 
-internal fun ShortcutInfoCompat.asTargetShortcutInfoCompat(): TargetShortcutInfoCompat {
-    return TargetShortcutInfoCompat(
+internal fun ShortcutInfoCompat.asMappedShortcutInfoCompat(): MappedShortcutInfoCompat {
+    return MappedShortcutInfoCompat(
         id = id,
         shortLabel = shortLabel.toString(),
         longLabel = longLabel.toString(),
     )
 }
 
-internal fun TargetShortcutInfoCompat.asShortcutInfoCompat(
+internal fun MappedShortcutInfoCompat.asShortcutInfoCompat(
     context: Context,
     packageName: String,
     appName: String,

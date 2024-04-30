@@ -37,7 +37,7 @@ import androidx.compose.ui.test.performTextInput
 import com.android.geto.core.data.repository.ClipboardResult
 import com.android.geto.core.data.repository.ShortcutResult
 import com.android.geto.core.domain.AppSettingsResult
-import com.android.geto.core.model.TargetShortcutInfoCompat
+import com.android.geto.core.model.MappedShortcutInfoCompat
 import org.junit.Rule
 import org.junit.Test
 
@@ -224,7 +224,7 @@ class AppSettingsScreenDialogsTest {
                 applyAppSettingsResult = AppSettingsResult.NoResult,
                 revertAppSettingsResult = AppSettingsResult.NoResult,
                 shortcutResult = ShortcutResult.ShortcutFound(
-                    targetShortcutInfoCompat = TargetShortcutInfoCompat(
+                    mappedShortcutInfoCompat = MappedShortcutInfoCompat(
                         id = "0",
                         shortLabel = "Geto",
                         longLabel = "Geto",

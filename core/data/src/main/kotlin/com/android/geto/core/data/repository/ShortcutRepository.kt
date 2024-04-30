@@ -17,20 +17,20 @@
  */
 package com.android.geto.core.data.repository
 
-import com.android.geto.core.model.TargetShortcutInfoCompat
+import com.android.geto.core.model.MappedShortcutInfoCompat
 
 interface ShortcutRepository {
 
     fun requestPinShortcut(
         packageName: String,
         appName: String,
-        targetShortcutInfoCompat: TargetShortcutInfoCompat,
+        mappedShortcutInfoCompat: MappedShortcutInfoCompat,
     ): ShortcutResult
 
     fun updateRequestPinShortcut(
         packageName: String,
         appName: String,
-        targetShortcutInfoCompat: TargetShortcutInfoCompat,
+        mappedShortcutInfoCompat: MappedShortcutInfoCompat,
     ): ShortcutResult
 
     fun getShortcut(id: String): ShortcutResult
@@ -55,7 +55,7 @@ sealed interface ShortcutResult {
     data object UserIsLocked : ShortcutResult
 
     data class ShortcutFound(
-        val targetShortcutInfoCompat: TargetShortcutInfoCompat,
+        val mappedShortcutInfoCompat: MappedShortcutInfoCompat,
     ) : ShortcutResult
 
     data object NoShortcutFound : ShortcutResult

@@ -27,7 +27,7 @@ import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.core.graphics.drawable.toBitmap
-import com.android.geto.core.model.TargetShortcutInfoCompat
+import com.android.geto.core.model.MappedShortcutInfoCompat
 
 @Composable
 internal fun rememberShortcutDialogState(): ShortcutDialogState {
@@ -86,13 +86,13 @@ internal class ShortcutDialogState {
         shortLabel = ""
     }
 
-    fun getShortcut(packageName: String): TargetShortcutInfoCompat? {
+    fun getShortcut(packageName: String): MappedShortcutInfoCompat? {
         showShortLabelError = shortLabel.isBlank()
 
         showLongLabelError = longLabel.isBlank()
 
         return if (showShortLabelError.not() && showLongLabelError.not()) {
-            TargetShortcutInfoCompat(
+            MappedShortcutInfoCompat(
                 id = packageName,
                 icon = icon,
                 shortLabel = shortLabel,

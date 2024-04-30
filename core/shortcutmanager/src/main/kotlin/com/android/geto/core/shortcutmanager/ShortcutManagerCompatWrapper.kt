@@ -17,7 +17,7 @@
  */
 package com.android.geto.core.shortcutmanager
 
-import com.android.geto.core.model.TargetShortcutInfoCompat
+import com.android.geto.core.model.MappedShortcutInfoCompat
 
 interface ShortcutManagerCompatWrapper {
     fun isRequestPinShortcutSupported(): Boolean
@@ -25,14 +25,14 @@ interface ShortcutManagerCompatWrapper {
     fun requestPinShortcut(
         packageName: String,
         appName: String,
-        targetShortcutInfoCompat: TargetShortcutInfoCompat,
+        mappedShortcutInfoCompat: MappedShortcutInfoCompat,
     ): Boolean
 
     fun updateShortcuts(
         packageName: String,
         appName: String,
-        targetShortcutInfoCompat: TargetShortcutInfoCompat,
+        mappedShortcutInfoCompat: MappedShortcutInfoCompat,
     ): Boolean
 
-    fun getShortcuts(matchFlags: Int): List<TargetShortcutInfoCompat>
+    fun getShortcuts(matchFlags: Int): List<MappedShortcutInfoCompat>
 }

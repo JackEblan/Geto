@@ -40,7 +40,7 @@ import com.android.geto.core.designsystem.component.DialogButtons
 import com.android.geto.core.designsystem.component.DialogContainer
 import com.android.geto.core.designsystem.component.DynamicAsyncImage
 import com.android.geto.core.designsystem.theme.GetoTheme
-import com.android.geto.core.model.TargetShortcutInfoCompat
+import com.android.geto.core.model.MappedShortcutInfoCompat
 import com.android.geto.feature.appsettings.R
 
 @Composable
@@ -52,7 +52,7 @@ internal fun ShortcutDialog(
     title: String,
     negativeButtonText: String,
     positiveButtonText: String,
-    onPositiveButtonClick: (TargetShortcutInfoCompat) -> Unit,
+    onPositiveButtonClick: (MappedShortcutInfoCompat) -> Unit,
 ) {
     DialogContainer(
         modifier = modifier,

@@ -18,7 +18,7 @@
 package com.android.geto.core.data.repository
 
 import com.android.geto.core.data.testdoubles.TestShortcutManagerCompatWrapper
-import com.android.geto.core.model.TargetShortcutInfoCompat
+import com.android.geto.core.model.MappedShortcutInfoCompat
 import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertIs
@@ -30,7 +30,7 @@ class ShortcutRepositoryTest {
     private lateinit var subject: ShortcutRepository
 
     private val shortcuts = List(10) {
-        TargetShortcutInfoCompat(
+        MappedShortcutInfoCompat(
             id = "com.android.geto",
             shortLabel = "Geto",
             longLabel = "Geto",
@@ -54,7 +54,7 @@ class ShortcutRepositoryTest {
             subject.requestPinShortcut(
                 packageName = "com.android.geto",
                 appName = "Geto",
-                targetShortcutInfoCompat = TargetShortcutInfoCompat(
+                mappedShortcutInfoCompat = MappedShortcutInfoCompat(
                     id = "com.android.geto",
                     shortLabel = "Geto",
                     longLabel = "Geto",
@@ -71,7 +71,7 @@ class ShortcutRepositoryTest {
             subject.requestPinShortcut(
                 packageName = "com.android.geto",
                 appName = "Geto",
-                targetShortcutInfoCompat = TargetShortcutInfoCompat(
+                mappedShortcutInfoCompat = MappedShortcutInfoCompat(
                     id = "com.android.geto",
                     shortLabel = "Geto",
                     longLabel = "Geto",
@@ -90,7 +90,7 @@ class ShortcutRepositoryTest {
             subject.updateRequestPinShortcut(
                 packageName = "com.android.geto",
                 appName = "Geto",
-                targetShortcutInfoCompat = TargetShortcutInfoCompat(
+                mappedShortcutInfoCompat = MappedShortcutInfoCompat(
                     id = "com.android.geto",
                     shortLabel = "Geto",
                     longLabel = "Geto",
@@ -111,7 +111,7 @@ class ShortcutRepositoryTest {
             subject.updateRequestPinShortcut(
                 packageName = "com.android.geto",
                 appName = "Geto",
-                targetShortcutInfoCompat = TargetShortcutInfoCompat(
+                mappedShortcutInfoCompat = MappedShortcutInfoCompat(
                     id = "com.android.geto",
                     shortLabel = "Geto",
                     longLabel = "Geto",
@@ -132,7 +132,7 @@ class ShortcutRepositoryTest {
             subject.updateRequestPinShortcut(
                 packageName = "com.android.geto",
                 appName = "Geto",
-                targetShortcutInfoCompat = TargetShortcutInfoCompat(
+                mappedShortcutInfoCompat = MappedShortcutInfoCompat(
                     id = "com.android.geto",
                     shortLabel = "Geto",
                     longLabel = "Geto",

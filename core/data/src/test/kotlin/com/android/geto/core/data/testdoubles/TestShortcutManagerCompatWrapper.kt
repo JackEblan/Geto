@@ -17,7 +17,7 @@
  */
 package com.android.geto.core.data.testdoubles
 
-import com.android.geto.core.model.TargetShortcutInfoCompat
+import com.android.geto.core.model.MappedShortcutInfoCompat
 import com.android.geto.core.shortcutmanager.ShortcutManagerCompatWrapper
 
 class TestShortcutManagerCompatWrapper : ShortcutManagerCompatWrapper {
@@ -28,7 +28,7 @@ class TestShortcutManagerCompatWrapper : ShortcutManagerCompatWrapper {
 
     private var updateImmutableShortcuts = false
 
-    private var targetShortcutInfoCompats = emptyList<TargetShortcutInfoCompat>()
+    private var mappedShortcutInfoCompats = emptyList<MappedShortcutInfoCompat>()
 
     override fun isRequestPinShortcutSupported(): Boolean {
         return requestPinShortcutSupported
@@ -37,7 +37,7 @@ class TestShortcutManagerCompatWrapper : ShortcutManagerCompatWrapper {
     override fun requestPinShortcut(
         packageName: String,
         appName: String,
-        targetShortcutInfoCompat: TargetShortcutInfoCompat,
+        mappedShortcutInfoCompat: MappedShortcutInfoCompat,
     ): Boolean {
         return requestPinShortcut
     }
@@ -45,7 +45,7 @@ class TestShortcutManagerCompatWrapper : ShortcutManagerCompatWrapper {
     override fun updateShortcuts(
         packageName: String,
         appName: String,
-        targetShortcutInfoCompat: TargetShortcutInfoCompat,
+        mappedShortcutInfoCompat: MappedShortcutInfoCompat,
     ): Boolean {
         return if (updateImmutableShortcuts) {
             throw IllegalArgumentException()
@@ -54,8 +54,8 @@ class TestShortcutManagerCompatWrapper : ShortcutManagerCompatWrapper {
         }
     }
 
-    override fun getShortcuts(matchFlags: Int): List<TargetShortcutInfoCompat> {
-        return targetShortcutInfoCompats
+    override fun getShortcuts(matchFlags: Int): List<MappedShortcutInfoCompat> {
+        return mappedShortcutInfoCompats
     }
 
     fun setRequestPinShortcutSupported(value: Boolean) {
@@ -66,8 +66,8 @@ class TestShortcutManagerCompatWrapper : ShortcutManagerCompatWrapper {
         requestPinShortcut = value
     }
 
-    fun setShortcuts(value: List<TargetShortcutInfoCompat>) {
-        targetShortcutInfoCompats = value
+    fun setShortcuts(value: List<MappedShortcutInfoCompat>) {
+        mappedShortcutInfoCompats = value
     }
 
     fun setUpdateImmutableShortcuts(value: Boolean) {

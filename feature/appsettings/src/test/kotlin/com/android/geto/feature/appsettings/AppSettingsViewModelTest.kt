@@ -26,9 +26,9 @@ import com.android.geto.core.domain.AutoLaunchUseCase
 import com.android.geto.core.domain.RevertAppSettingsUseCase
 import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.MappedApplicationInfo
+import com.android.geto.core.model.MappedShortcutInfoCompat
 import com.android.geto.core.model.SecureSetting
 import com.android.geto.core.model.SettingType
-import com.android.geto.core.model.TargetShortcutInfoCompat
 import com.android.geto.core.testing.repository.TestAppSettingsRepository
 import com.android.geto.core.testing.repository.TestClipboardRepository
 import com.android.geto.core.testing.repository.TestPackageRepository
@@ -522,7 +522,7 @@ class AppSettingsViewModelTest {
         shortcutRepository.setRequestPinShortcutSupported(true)
 
         viewModel.requestPinShortcut(
-            targetShortcutInfoCompat = TargetShortcutInfoCompat(
+            mappedShortcutInfoCompat = MappedShortcutInfoCompat(
                 id = "0",
                 shortLabel = "shortLabel",
                 longLabel = "longLabel",
@@ -537,7 +537,7 @@ class AppSettingsViewModelTest {
         shortcutRepository.setRequestPinShortcutSupported(false)
 
         viewModel.requestPinShortcut(
-            targetShortcutInfoCompat = TargetShortcutInfoCompat(
+            mappedShortcutInfoCompat = MappedShortcutInfoCompat(
                 id = "0",
                 shortLabel = "shortLabel",
                 longLabel = "longLabel",
@@ -552,7 +552,7 @@ class AppSettingsViewModelTest {
         shortcutRepository.setUpdateImmutableShortcuts(true)
 
         viewModel.updateRequestPinShortcut(
-            targetShortcutInfoCompat = TargetShortcutInfoCompat(
+            mappedShortcutInfoCompat = MappedShortcutInfoCompat(
                 id = "0",
                 shortLabel = "Geto",
                 longLabel = "Geto",
@@ -567,7 +567,7 @@ class AppSettingsViewModelTest {
         shortcutRepository.setUpdateImmutableShortcuts(false)
 
         viewModel.updateRequestPinShortcut(
-            targetShortcutInfoCompat = TargetShortcutInfoCompat(
+            mappedShortcutInfoCompat = MappedShortcutInfoCompat(
                 id = "0",
                 shortLabel = "Geto",
                 longLabel = "Geto",
@@ -580,7 +580,7 @@ class AppSettingsViewModelTest {
     @Test
     fun shortcutResult_isShortcutFound_whenGetShortcut() = runTest {
         val shortcuts = List(2) {
-            TargetShortcutInfoCompat(
+            MappedShortcutInfoCompat(
                 id = "com.android.geto",
                 shortLabel = "Geto",
                 longLabel = "Geto",
@@ -599,7 +599,7 @@ class AppSettingsViewModelTest {
     @Test
     fun shortcutResult_isNoShortcutFound_whenGetShortcut() = runTest {
         val shortcuts = List(2) {
-            TargetShortcutInfoCompat(
+            MappedShortcutInfoCompat(
                 id = "com.android.geto",
                 shortLabel = "Geto",
                 longLabel = "Geto",

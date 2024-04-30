@@ -20,7 +20,7 @@ package com.android.geto.core.shortcutmanager
 import android.content.Context
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
-import com.android.geto.core.model.TargetShortcutInfoCompat
+import com.android.geto.core.model.MappedShortcutInfoCompat
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
@@ -34,11 +34,11 @@ internal class DefaultShortcutManagerCompatWrapper @Inject constructor(@Applicat
     override fun requestPinShortcut(
         packageName: String,
         appName: String,
-        targetShortcutInfoCompat: TargetShortcutInfoCompat,
+        mappedShortcutInfoCompat: MappedShortcutInfoCompat,
     ): Boolean {
         return ShortcutManagerCompat.requestPinShortcut(
             context,
-            targetShortcutInfoCompat.asShortcutInfoCompat(
+            mappedShortcutInfoCompat.asShortcutInfoCompat(
                 context = context,
                 packageName = packageName,
                 appName = appName,
@@ -50,12 +50,12 @@ internal class DefaultShortcutManagerCompatWrapper @Inject constructor(@Applicat
     override fun updateShortcuts(
         packageName: String,
         appName: String,
-        targetShortcutInfoCompat: TargetShortcutInfoCompat,
+        mappedShortcutInfoCompat: MappedShortcutInfoCompat,
     ): Boolean {
         return ShortcutManagerCompat.updateShortcuts(
             context,
             listOf(
-                targetShortcutInfoCompat.asShortcutInfoCompat(
+                mappedShortcutInfoCompat.asShortcutInfoCompat(
                     context = context,
                     packageName = packageName,
                     appName = appName,
@@ -64,10 +64,10 @@ internal class DefaultShortcutManagerCompatWrapper @Inject constructor(@Applicat
         )
     }
 
-    override fun getShortcuts(matchFlags: Int): List<TargetShortcutInfoCompat> {
+    override fun getShortcuts(matchFlags: Int): List<MappedShortcutInfoCompat> {
         return ShortcutManagerCompat.getShortcuts(
             context,
             matchFlags,
-        ).map(ShortcutInfoCompat::asTargetShortcutInfoCompat)
+        ).map(ShortcutInfoCompat::asMappedShortcutInfoCompat)
     }
 }
