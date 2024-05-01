@@ -26,12 +26,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -43,6 +40,10 @@ import androidx.compose.ui.unit.dp
 import com.android.geto.core.designsystem.component.DialogButtons
 import com.android.geto.core.designsystem.component.DialogContainer
 import com.android.geto.core.designsystem.component.DialogTitle
+import com.android.geto.core.designsystem.component.GetoDropdownMenuItem
+import com.android.geto.core.designsystem.component.GetoExposedDropdownMenu
+import com.android.geto.core.designsystem.component.GetoExposedDropdownMenuBox
+import com.android.geto.core.designsystem.component.GetoOutlinedTextField
 import com.android.geto.core.designsystem.component.GetoRadioButtonGroup
 import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.model.AppSetting
@@ -108,7 +109,7 @@ private fun AppSettingDialogTextFields(
 
     Spacer(modifier = Modifier.height(10.dp))
 
-    OutlinedTextField(
+    GetoOutlinedTextField(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 5.dp)
@@ -135,7 +136,7 @@ private fun AppSettingDialogTextFields(
         appSettingDialogState = appSettingDialogState,
     )
 
-    OutlinedTextField(
+    GetoOutlinedTextField(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 5.dp)
@@ -158,7 +159,7 @@ private fun AppSettingDialogTextFields(
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
     )
 
-    OutlinedTextField(
+    GetoOutlinedTextField(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 5.dp)
@@ -190,12 +191,12 @@ private fun AppSettingDialogTextFieldWithDropdownMenu(
     val keyIsBlank = stringResource(id = R.string.setting_key_is_blank)
     val keyNotFound = stringResource(id = R.string.setting_key_not_found)
 
-    ExposedDropdownMenuBox(
+    GetoExposedDropdownMenuBox(
         expanded = appSettingDialogState.secureSettingsExpanded,
         onExpandedChange = appSettingDialogState::updateSecureSettingsExpanded,
         modifier = Modifier.testTag("appSettingDialog:exposedDropdownMenuBox"),
     ) {
-        OutlinedTextField(
+        GetoOutlinedTextField(
             modifier = Modifier
                 .menuAnchor()
                 .fillMaxWidth()
@@ -229,14 +230,14 @@ private fun AppSettingDialogTextFieldWithDropdownMenu(
         )
 
         if (appSettingDialogState.secureSettings.isNotEmpty()) {
-            ExposedDropdownMenu(
+            GetoExposedDropdownMenu(
                 expanded = appSettingDialogState.secureSettingsExpanded,
                 onDismissRequest = {
                     appSettingDialogState.updateSecureSettingsExpanded(false)
                 },
             ) {
                 appSettingDialogState.secureSettings.forEach { secureSetting ->
-                    DropdownMenuItem(
+                    GetoDropdownMenuItem(
                         text = {
                             Text(
                                 text = secureSetting.name ?: "null",

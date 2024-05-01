@@ -20,8 +20,7 @@ package com.android.geto.core.designsystem
 import androidx.activity.ComponentActivity
 import androidx.compose.material3.Surface
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import com.android.geto.core.designsystem.component.GetoRadioButton
-import com.android.geto.core.designsystem.component.GetoRadioButtonGroup
+import com.android.geto.core.designsystem.component.GetoOutlinedTextField
 import com.android.geto.core.screenshot.testing.util.captureMultiTheme
 import dagger.hilt.android.testing.HiltTestApplication
 import org.junit.Rule
@@ -36,31 +35,18 @@ import org.robolectric.annotation.LooperMode
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 @Config(application = HiltTestApplication::class, qualifiers = "480dpi")
 @LooperMode(LooperMode.Mode.PAUSED)
-class RadioButtonScreenshotTests {
+class TextFieldScreenshotTests {
 
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     @Test
-    fun getoRadioButtonGroup_multipleThemes() {
-        composeTestRule.captureMultiTheme("RadioButtonGroup") {
+    fun getoTextField_multipleThemes() {
+        composeTestRule.captureMultiTheme("TextField") {
             Surface {
-                GetoRadioButtonGroup(
-                    selected = 0,
-                    onSelect = {},
-                    items = arrayOf("Item 0", "Item 1"),
-                )
-            }
-        }
-    }
-
-    @Test
-    fun getoRadioButton_multipleThemes() {
-        composeTestRule.captureMultiTheme("RadioButton") {
-            Surface {
-                GetoRadioButton(
-                    selected = true,
-                    onClick = {},
+                GetoOutlinedTextField(
+                    value = "Text Field",
+                    onValueChange = {},
                 )
             }
         }

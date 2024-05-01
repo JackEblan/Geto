@@ -46,7 +46,7 @@ class LoadingWheelScreenshotTests {
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     @Test
-    fun loadingWheel_multipleThemes() {
+    fun getoloadingWheel_multipleThemes() {
         composeTestRule.captureMultiTheme("LoadingWheel") {
             Surface {
                 GetoLoadingWheel(contentDescription = "test")
@@ -55,7 +55,7 @@ class LoadingWheelScreenshotTests {
     }
 
     @Test
-    fun overlayLoadingWheel_multipleThemes() {
+    fun getoOverlayLoadingWheel_multipleThemes() {
         composeTestRule.captureMultiTheme("LoadingWheel", "OverlayLoadingWheel") {
             Surface {
                 GetoOverlayLoadingWheel(contentDescription = "test")
@@ -64,7 +64,7 @@ class LoadingWheelScreenshotTests {
     }
 
     @Test
-    fun loadingWheelAnimation() {
+    fun getoLoadingWheelAnimation() {
         composeTestRule.mainClock.autoAdvance = false
         composeTestRule.setContent {
             GetoTheme {

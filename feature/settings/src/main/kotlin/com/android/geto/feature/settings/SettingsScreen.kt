@@ -40,7 +40,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -56,6 +55,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.android.geto.core.designsystem.component.GetoLoadingWheel
+import com.android.geto.core.designsystem.component.GetoTopAppBar
 import com.android.geto.core.designsystem.component.SimpleDialog
 import com.android.geto.core.designsystem.component.SingleSelectionDialog
 import com.android.geto.core.designsystem.icon.GetoIcons
@@ -251,7 +251,7 @@ private fun SettingsScreenDialogs(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun SettingsTopAppBAr(onNavigationIconClick: () -> Unit) {
-    TopAppBar(
+    GetoTopAppBar(
         title = {
             Text(text = stringResource(id = R.string.settings))
         },

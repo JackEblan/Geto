@@ -18,6 +18,7 @@
 package com.android.geto.core.designsystem
 
 import androidx.activity.ComponentActivity
+import androidx.compose.material3.Surface
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.android.geto.core.designsystem.component.GetoBackground
 import com.android.geto.core.designsystem.component.SimpleDialog
@@ -50,7 +51,7 @@ class SimpleDialogScreenshotTests {
             deviceName = "phone",
             deviceSpec = DefaultTestDevices.PHONE.spec,
         ) {
-            GetoTheme {
+            Surface {
                 SimpleDialog(
                     title = "Simple Dialog",
                     text = "Hello from Simple Dialog",

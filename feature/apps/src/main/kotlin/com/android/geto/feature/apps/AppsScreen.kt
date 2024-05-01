@@ -26,10 +26,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -41,7 +39,9 @@ import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.android.geto.core.designsystem.component.GetoIconButton
 import com.android.geto.core.designsystem.component.GetoLoadingWheel
+import com.android.geto.core.designsystem.component.GetoTopAppBar
 import com.android.geto.core.designsystem.icon.GetoIcons
 import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.model.MappedApplicationInfo
@@ -114,13 +114,13 @@ private fun AppsTopAppBar(
     title: String,
     onSettingsClick: () -> Unit,
 ) {
-    TopAppBar(
+    GetoTopAppBar(
         title = {
             Text(text = title)
         },
         modifier = modifier.testTag("apps:topAppBar"),
         actions = {
-            IconButton(onClick = onSettingsClick) {
+            GetoIconButton(onClick = onSettingsClick) {
                 Icon(imageVector = GetoIcons.Settings, contentDescription = "Settings icon")
             }
         },

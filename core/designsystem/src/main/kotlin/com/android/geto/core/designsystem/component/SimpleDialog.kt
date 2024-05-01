@@ -25,12 +25,10 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.contentDescription
@@ -87,8 +85,6 @@ fun DialogContainer(
     Dialog(onDismissRequest = onDismissRequest) {
         Card(
             modifier = modifier
-                .fillMaxWidth()
-                .wrapContentSize()
                 .padding(16.dp)
                 .semantics { this.contentDescription = contentDescription },
             shape = RoundedCornerShape(16.dp),
@@ -134,13 +130,13 @@ fun DialogButtons(
         modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.End,
     ) {
-        TextButton(
+        GetoTextButton(
             onClick = onNegativeButtonClick,
             modifier = Modifier.padding(5.dp),
         ) {
             Text(text = negativeButtonText)
         }
-        TextButton(
+        GetoTextButton(
             onClick = onPositiveButtonClick,
             modifier = Modifier.padding(5.dp),
         ) {

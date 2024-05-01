@@ -18,10 +18,12 @@
 package com.android.geto.core.designsystem
 
 import androidx.activity.ComponentActivity
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Surface
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import com.android.geto.core.designsystem.component.GetoRadioButton
-import com.android.geto.core.designsystem.component.GetoRadioButtonGroup
+import com.android.geto.core.designsystem.component.GetoDropdownMenuItem
+import com.android.geto.core.designsystem.component.GetoExposedDropdownMenu
+import com.android.geto.core.designsystem.component.GetoExposedDropdownMenuBox
 import com.android.geto.core.screenshot.testing.util.captureMultiTheme
 import dagger.hilt.android.testing.HiltTestApplication
 import org.junit.Rule
@@ -36,30 +38,37 @@ import org.robolectric.annotation.LooperMode
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 @Config(application = HiltTestApplication::class, qualifiers = "480dpi")
 @LooperMode(LooperMode.Mode.PAUSED)
-class RadioButtonScreenshotTests {
+class ExposedDropdownMenuScreenshotTests {
 
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
+    @OptIn(ExperimentalMaterial3Api::class)
     @Test
-    fun getoRadioButtonGroup_multipleThemes() {
-        composeTestRule.captureMultiTheme("RadioButtonGroup") {
+    fun getoExposedDropdownMenu_multipleThemes() {
+        composeTestRule.captureMultiTheme("GetoExposedDropdownMenu") {
             Surface {
-                GetoRadioButtonGroup(
-                    selected = 0,
-                    onSelect = {},
-                    items = arrayOf("Item 0", "Item 1"),
+                GetoExposedDropdownMenuBox(
+                    expanded = true,
+                    onExpandedChange = {},
+                    content = {
+                        GetoExposedDropdownMenu(
+                            expanded = true,
+                            onDismissRequest = {},
+                            content = {},
+                        )
+                    },
                 )
             }
         }
     }
 
     @Test
-    fun getoRadioButton_multipleThemes() {
-        composeTestRule.captureMultiTheme("RadioButton") {
+    fun getoExposedDropdownMenuItem_multipleThemes() {
+        composeTestRule.captureMultiTheme("GetoExposedDropdownMenuItem") {
             Surface {
-                GetoRadioButton(
-                    selected = true,
+                GetoDropdownMenuItem(
+                    text = {},
                     onClick = {},
                 )
             }

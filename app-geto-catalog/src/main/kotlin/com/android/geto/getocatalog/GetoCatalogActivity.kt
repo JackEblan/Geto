@@ -21,12 +21,15 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.core.view.WindowCompat
+import com.android.geto.getocatalog.ui.GetoCatalog
 
 class GetoCatalogActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
-        setContent { }
+        setContent {
+            GetoCatalog()
+        }
     }
 }

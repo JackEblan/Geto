@@ -17,6 +17,7 @@
  */
 package com.android.geto.core.designsystem.component
 
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -27,8 +28,11 @@ import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
+import androidx.compose.material3.RadioButtonColors
+import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
@@ -66,7 +70,7 @@ fun GetoRadioButtonGroup(
                     .semantics { contentDescription = text },
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                RadioButton(
+                GetoRadioButton(
                     selected = index == selected,
                     onClick = null,
                 )
@@ -78,4 +82,23 @@ fun GetoRadioButtonGroup(
             }
         }
     }
+}
+
+@Composable
+fun GetoRadioButton(
+    selected: Boolean,
+    onClick: (() -> Unit)?,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    colors: RadioButtonColors = RadioButtonDefaults.colors(),
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+) {
+    RadioButton(
+        selected = selected,
+        onClick = onClick,
+        modifier = modifier,
+        enabled = enabled,
+        colors = colors,
+        interactionSource = interactionSource,
+    )
 }
