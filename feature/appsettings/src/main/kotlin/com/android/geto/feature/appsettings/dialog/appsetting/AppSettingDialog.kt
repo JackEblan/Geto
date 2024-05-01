@@ -41,9 +41,8 @@ import com.android.geto.core.designsystem.component.DialogButtons
 import com.android.geto.core.designsystem.component.DialogContainer
 import com.android.geto.core.designsystem.component.DialogTitle
 import com.android.geto.core.designsystem.component.GetoDropdownMenuItem
-import com.android.geto.core.designsystem.component.GetoExposedDropdownMenu
-import com.android.geto.core.designsystem.component.GetoExposedDropdownMenuBox
 import com.android.geto.core.designsystem.component.GetoOutlinedTextField
+import com.android.geto.core.designsystem.component.GetoOutlinedTextFieldWithExposedDropdownMenuBox
 import com.android.geto.core.designsystem.component.GetoRadioButtonGroup
 import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.model.AppSetting
@@ -99,11 +98,14 @@ internal fun AppSettingDialog(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun AppSettingDialogTextFields(
     appSettingDialogState: AppSettingDialogState,
 ) {
     val labelIsBlank = stringResource(id = R.string.setting_label_is_blank)
+    val keyIsBlank = stringResource(id = R.string.setting_key_is_blank)
+    val keyNotFound = stringResource(id = R.string.setting_key_not_found)
     val valueOnLaunchIsBlank = stringResource(id = R.string.setting_value_on_launch_is_blank)
     val valueOnRevertIsBlank = stringResource(id = R.string.setting_value_on_revert_is_blank)
 
@@ -132,8 +134,70 @@ private fun AppSettingDialogTextFields(
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
     )
 
-    AppSettingDialogTextFieldWithDropdownMenu(
-        appSettingDialogState = appSettingDialogState,
+    GetoOutlinedTextFieldWithExposedDropdownMenuBox(
+        exposedDropdownMenuBoxExpanded = appSettingDialogState.secureSettingsExpanded,
+        onExposedDropdownMenuBoxExpandedChange = appSettingDialogState::updateSecureSettingsExpanded,
+        modifier = Modifier.testTag("appSettingDialog:exposedDropdownMenuBox"),
+        textFieldModifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 5.dp)
+            .testTag("appSettingDialog:keyTextField"),
+        value = appSettingDialogState.key,
+        onValueChange = appSettingDialogState::updateKey,
+        label = {
+            Text(text = stringResource(R.string.setting_key))
+        },
+        trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = appSettingDialogState.secureSettingsExpanded) },
+        colors = ExposedDropdownMenuDefaults.textFieldColors(),
+        isError = appSettingDialogState.showKeyError || appSettingDialogState.showKeyNotFoundError,
+        supportingText = {
+            if (appSettingDialogState.showKeyError) {
+                Text(
+                    text = keyIsBlank,
+                    modifier = Modifier.testTag("appSettingDialog:keySupportingText"),
+                )
+            }
+
+            if (appSettingDialogState.showKeyNotFoundError) {
+                Text(
+                    text = keyNotFound,
+                    modifier = Modifier.testTag("appSettingDialog:settingsKeyNotFoundSupportingText"),
+                )
+            }
+        },
+        singleLine = true,
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+        showExposedDropdownMenu = appSettingDialogState.secureSettings.isNotEmpty(),
+        exposedDropdownMenuExpanded = appSettingDialogState.secureSettingsExpanded,
+        onDismissRequest = {
+            appSettingDialogState.updateSecureSettingsExpanded(false)
+        },
+        exposedDropdownMenuContent = {
+            appSettingDialogState.secureSettings.forEach { secureSetting ->
+                GetoDropdownMenuItem(
+                    text = {
+                        Text(
+                            text = secureSetting.name ?: "null",
+                            style = MaterialTheme.typography.bodySmall,
+                        )
+                    },
+                    onClick = {
+                        appSettingDialogState.updateKey(
+                            secureSetting.name ?: "null",
+                        )
+
+                        appSettingDialogState.updateValueOnRevert(
+                            secureSetting.value ?: "null",
+                        )
+
+                        appSettingDialogState.updateSecureSettingsExpanded(
+                            false,
+                        )
+                    },
+                    contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
+                )
+            }
+        },
     )
 
     GetoOutlinedTextField(
@@ -181,88 +245,6 @@ private fun AppSettingDialogTextFields(
         singleLine = true,
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
     )
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun AppSettingDialogTextFieldWithDropdownMenu(
-    appSettingDialogState: AppSettingDialogState,
-) {
-    val keyIsBlank = stringResource(id = R.string.setting_key_is_blank)
-    val keyNotFound = stringResource(id = R.string.setting_key_not_found)
-
-    GetoExposedDropdownMenuBox(
-        expanded = appSettingDialogState.secureSettingsExpanded,
-        onExpandedChange = appSettingDialogState::updateSecureSettingsExpanded,
-        modifier = Modifier.testTag("appSettingDialog:exposedDropdownMenuBox"),
-    ) {
-        GetoOutlinedTextField(
-            modifier = Modifier
-                .menuAnchor()
-                .fillMaxWidth()
-                .padding(horizontal = 5.dp)
-                .testTag("appSettingDialog:keyTextField"),
-            value = appSettingDialogState.key,
-            onValueChange = appSettingDialogState::updateKey,
-            label = {
-                Text(text = stringResource(R.string.setting_key))
-            },
-            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = appSettingDialogState.secureSettingsExpanded) },
-            colors = ExposedDropdownMenuDefaults.textFieldColors(),
-            isError = appSettingDialogState.showKeyError || appSettingDialogState.showKeyNotFoundError,
-            supportingText = {
-                if (appSettingDialogState.showKeyError) {
-                    Text(
-                        text = keyIsBlank,
-                        modifier = Modifier.testTag("appSettingDialog:keySupportingText"),
-                    )
-                }
-
-                if (appSettingDialogState.showKeyNotFoundError) {
-                    Text(
-                        text = keyNotFound,
-                        modifier = Modifier.testTag("appSettingDialog:settingsKeyNotFoundSupportingText"),
-                    )
-                }
-            },
-            singleLine = true,
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-        )
-
-        if (appSettingDialogState.secureSettings.isNotEmpty()) {
-            GetoExposedDropdownMenu(
-                expanded = appSettingDialogState.secureSettingsExpanded,
-                onDismissRequest = {
-                    appSettingDialogState.updateSecureSettingsExpanded(false)
-                },
-            ) {
-                appSettingDialogState.secureSettings.forEach { secureSetting ->
-                    GetoDropdownMenuItem(
-                        text = {
-                            Text(
-                                text = secureSetting.name ?: "null",
-                                style = MaterialTheme.typography.bodySmall,
-                            )
-                        },
-                        onClick = {
-                            appSettingDialogState.updateKey(
-                                secureSetting.name ?: "null",
-                            )
-
-                            appSettingDialogState.updateValueOnRevert(
-                                secureSetting.value ?: "null",
-                            )
-
-                            appSettingDialogState.updateSecureSettingsExpanded(
-                                false,
-                            )
-                        },
-                        contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
-                    )
-                }
-            }
-        }
-    }
 }
 
 @Preview

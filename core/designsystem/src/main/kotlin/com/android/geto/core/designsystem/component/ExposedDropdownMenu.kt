@@ -17,58 +17,14 @@
  */
 package com.android.geto.core.designsystem.component
 
-import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.ExposedDropdownMenuBoxScope
 import androidx.compose.material3.MenuDefaults
 import androidx.compose.material3.MenuItemColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun GetoExposedDropdownMenuBox(
-    expanded: Boolean,
-    onExpandedChange: (Boolean) -> Unit,
-    modifier: Modifier = Modifier,
-    content:
-    @Composable()
-    (ExposedDropdownMenuBoxScope.() -> Unit),
-) {
-    ExposedDropdownMenuBox(
-        expanded = expanded,
-        onExpandedChange = onExpandedChange,
-        modifier = modifier,
-        content = content,
-    )
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun ExposedDropdownMenuBoxScope.GetoExposedDropdownMenu(
-    expanded: Boolean,
-    onDismissRequest: () -> Unit,
-    modifier: Modifier = Modifier,
-    scrollState: ScrollState = rememberScrollState(),
-    content:
-    @Composable()
-    (ColumnScope.() -> Unit),
-) {
-    ExposedDropdownMenu(
-        expanded = expanded,
-        onDismissRequest = onDismissRequest,
-        modifier = modifier,
-        scrollState = scrollState,
-        content = content,
-    )
-}
 
 @Composable
 fun GetoDropdownMenuItem(

@@ -21,6 +21,7 @@ import androidx.activity.ComponentActivity
 import androidx.compose.material3.Surface
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.android.geto.core.designsystem.component.GetoOutlinedTextField
+import com.android.geto.core.designsystem.component.GetoOutlinedTextFieldWithExposedDropdownMenuBox
 import com.android.geto.core.screenshot.testing.util.captureMultiTheme
 import dagger.hilt.android.testing.HiltTestApplication
 import org.junit.Rule
@@ -41,12 +42,38 @@ class TextFieldScreenshotTests {
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     @Test
-    fun getoTextField_multipleThemes() {
+    fun getoOutlinedTextField_multipleThemes() {
         composeTestRule.captureMultiTheme("TextField") {
             Surface {
                 GetoOutlinedTextField(
                     value = "Text Field",
                     onValueChange = {},
+                )
+            }
+        }
+    }
+
+    @Test
+    fun getoOutlinedTextFieldWithExposedDropdownMenuBox_multipleThemes() {
+        composeTestRule.captureMultiTheme(
+            "TextField",
+            "GetoOutlinedTextFieldWithExposedDropdownMenuBox",
+        ) {
+            Surface {
+                GetoOutlinedTextFieldWithExposedDropdownMenuBox(
+                    exposedDropdownMenuBoxExpanded = false,
+                    onExposedDropdownMenuBoxExpandedChange = {},
+                    value = "GetoOutlinedTextFieldWithExposedDropdownMenuBox",
+                    onValueChange = {},
+                    label = {},
+                    trailingIcon = {},
+                    prefix = {},
+                    suffix = {},
+                    supportingText = {},
+                    showExposedDropdownMenu = true,
+                    exposedDropdownMenuExpanded = true,
+                    onDismissRequest = {},
+                    exposedDropdownMenuContent = {},
                 )
             }
         }

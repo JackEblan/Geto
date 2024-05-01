@@ -18,12 +18,9 @@
 package com.android.geto.core.designsystem
 
 import androidx.activity.ComponentActivity
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Surface
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.android.geto.core.designsystem.component.GetoDropdownMenuItem
-import com.android.geto.core.designsystem.component.GetoExposedDropdownMenu
-import com.android.geto.core.designsystem.component.GetoExposedDropdownMenuBox
 import com.android.geto.core.screenshot.testing.util.captureMultiTheme
 import dagger.hilt.android.testing.HiltTestApplication
 import org.junit.Rule
@@ -43,29 +40,9 @@ class ExposedDropdownMenuScreenshotTests {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
-    @OptIn(ExperimentalMaterial3Api::class)
     @Test
-    fun getoExposedDropdownMenu_multipleThemes() {
-        composeTestRule.captureMultiTheme("GetoExposedDropdownMenu") {
-            Surface {
-                GetoExposedDropdownMenuBox(
-                    expanded = true,
-                    onExpandedChange = {},
-                    content = {
-                        GetoExposedDropdownMenu(
-                            expanded = true,
-                            onDismissRequest = {},
-                            content = {},
-                        )
-                    },
-                )
-            }
-        }
-    }
-
-    @Test
-    fun getoExposedDropdownMenuItem_multipleThemes() {
-        composeTestRule.captureMultiTheme("GetoExposedDropdownMenuItem") {
+    fun getoDropdownMenuItem_multipleThemes() {
+        composeTestRule.captureMultiTheme("DropdownMenuItem") {
             Surface {
                 GetoDropdownMenuItem(
                     text = {},
