@@ -26,7 +26,7 @@ import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.domain.AppSettingsResult
 import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.SettingType
-import com.android.geto.core.screenshot.testing.util.captureMultiDeviceSnackbar
+import com.android.geto.core.screenshot.testing.util.captureSnackbarForMultiDevice
 import com.android.geto.core.testing.util.MainDispatcherRule
 import dagger.hilt.android.testing.HiltTestApplication
 import kotlinx.coroutines.test.runTest
@@ -67,7 +67,7 @@ class AppSettingsScreenSnackbarScreenshotTest {
     fun appSettingsScreen_snackbar() = runTest {
         val snackbarHostState = SnackbarHostState()
 
-        composeTestRule.captureMultiDeviceSnackbar(
+        composeTestRule.captureSnackbarForMultiDevice(
             snackbarHostState = snackbarHostState,
             message = "This is a snackbar",
             testTag = "appSettings:snackbar",

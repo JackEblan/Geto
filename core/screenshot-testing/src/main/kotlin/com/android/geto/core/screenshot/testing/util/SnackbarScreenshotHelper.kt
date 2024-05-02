@@ -34,7 +34,7 @@ import com.github.takahirom.roborazzi.captureRoboImage
 import com.google.accompanist.testharness.TestHarness
 import org.robolectric.RuntimeEnvironment
 
-fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.captureMultiDeviceSnackbar(
+fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.captureSnackbarForMultiDevice(
     snackbarHostState: SnackbarHostState,
     message: String,
     testTag: String,
