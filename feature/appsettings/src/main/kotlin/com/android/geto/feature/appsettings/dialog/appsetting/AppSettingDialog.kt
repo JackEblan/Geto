@@ -18,32 +18,44 @@
 package com.android.geto.feature.appsettings.dialog.appsetting
 
 import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Card
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.android.geto.core.designsystem.component.DialogButtons
-import com.android.geto.core.designsystem.component.DialogContainer
-import com.android.geto.core.designsystem.component.DialogTitle
-import com.android.geto.core.designsystem.component.GetoRadioButtonGroup
+import androidx.compose.ui.window.Dialog
 import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.SettingType
@@ -58,7 +70,7 @@ internal fun AppSettingDialog(
     onAddSetting: (AppSetting) -> Unit,
     contentDescription: String,
 ) {
-    DialogContainer(
+    AppSettingDialogContainer(
         modifier = modifier,
         onDismissRequest = { appSettingDialogState.updateShowDialog(false) },
         contentDescription = contentDescription,
@@ -69,31 +81,103 @@ internal fun AppSettingDialog(
                 .verticalScroll(scrollState)
                 .padding(10.dp),
         ) {
-            DialogTitle(title = stringResource(R.string.add_app_setting))
+            AppSettingDialogTitle()
 
-            GetoRadioButtonGroup(
+            AppSettingDialogRadioButtonGroup(
                 selected = appSettingDialogState.selectedRadioOptionIndex,
                 onSelect = appSettingDialogState::updateSelectedRadioOptionIndex,
-                items = SettingType.entries.map { it.label }.toTypedArray(),
             )
 
             AppSettingDialogTextFields(
                 appSettingDialogState = appSettingDialogState,
             )
 
-            DialogButtons(
-                negativeButtonText = stringResource(R.string.cancel),
-                positiveButtonText = stringResource(R.string.add),
-                onNegativeButtonClick = {
+            AppSettingDialogButtons(
+                onCancelClick = {
                     appSettingDialogState.updateShowDialog(false)
                 },
-                onPositiveButtonClick = {
+                onAddClick = {
                     appSettingDialogState.getAppSetting(packageName = packageName)?.let {
                         onAddSetting(it)
                         appSettingDialogState.resetState()
                     }
                 },
             )
+        }
+    }
+}
+
+@Composable
+private fun AppSettingDialogContainer(
+    modifier: Modifier = Modifier,
+    onDismissRequest: () -> Unit,
+    contentDescription: String,
+    content: @Composable (ColumnScope.() -> Unit),
+) {
+    Dialog(onDismissRequest = onDismissRequest) {
+        Card(
+            modifier = modifier
+                .width(IntrinsicSize.Max)
+                .height(IntrinsicSize.Min)
+                .padding(16.dp)
+                .semantics { this.contentDescription = contentDescription },
+            shape = RoundedCornerShape(16.dp),
+        ) {
+            content()
+        }
+    }
+}
+
+@Composable
+private fun AppSettingDialogTitle(modifier: Modifier = Modifier) {
+    Spacer(modifier = Modifier.height(10.dp))
+
+    Text(
+        modifier = modifier.padding(horizontal = 5.dp),
+        text = stringResource(R.string.add_app_setting),
+        style = MaterialTheme.typography.titleLarge,
+    )
+}
+
+@Composable
+private fun AppSettingDialogRadioButtonGroup(
+    modifier: Modifier = Modifier,
+    selected: Int,
+    onSelect: (Int) -> Unit,
+) {
+    Spacer(modifier = Modifier.height(10.dp))
+
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .selectableGroup(),
+    ) {
+        SettingType.entries.map { it.label }.toTypedArray().forEachIndexed { index, text ->
+            Row(
+                Modifier
+                    .padding(vertical = 10.dp)
+                    .selectable(
+                        selected = index == selected,
+                        role = Role.RadioButton,
+                        enabled = true,
+                        onClick = {
+                            onSelect(index)
+                        },
+                    )
+                    .padding(horizontal = 16.dp)
+                    .semantics { contentDescription = text },
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                RadioButton(
+                    selected = index == selected,
+                    onClick = null,
+                )
+                Text(
+                    text = text,
+                    style = MaterialTheme.typography.bodyLarge,
+                    modifier = Modifier.padding(start = 10.dp),
+                )
+            }
         }
     }
 }
@@ -260,6 +344,33 @@ private fun AppSettingDialogTextFieldWithDropdownMenu(
                     )
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun AppSettingDialogButtons(
+    modifier: Modifier = Modifier,
+    onCancelClick: () -> Unit,
+    onAddClick: () -> Unit,
+) {
+    Spacer(modifier = Modifier.height(10.dp))
+
+    Row(
+        modifier = modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.End,
+    ) {
+        TextButton(
+            onClick = onCancelClick,
+            modifier = Modifier.padding(5.dp),
+        ) {
+            Text(text = stringResource(R.string.cancel))
+        }
+        TextButton(
+            onClick = onAddClick,
+            modifier = Modifier.padding(5.dp),
+        ) {
+            Text(text = stringResource(R.string.add))
         }
     }
 }

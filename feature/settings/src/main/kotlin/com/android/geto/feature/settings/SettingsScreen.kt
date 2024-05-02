@@ -56,8 +56,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.android.geto.core.designsystem.component.GetoLoadingWheel
-import com.android.geto.core.designsystem.component.SimpleDialog
-import com.android.geto.core.designsystem.component.SingleSelectionDialog
 import com.android.geto.core.designsystem.icon.GetoIcons
 import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.designsystem.theme.supportsDynamicTheming
@@ -65,6 +63,9 @@ import com.android.geto.core.model.DarkThemeConfig
 import com.android.geto.core.model.ThemeBrand
 import com.android.geto.core.model.UserData
 import com.android.geto.core.ui.DevicePreviews
+import com.android.geto.feature.settings.dialog.clean.CleanDialog
+import com.android.geto.feature.settings.dialog.dark.DarkDialog
+import com.android.geto.feature.settings.dialog.theme.ThemeDialog
 
 @Composable
 internal fun SettingsRoute(
@@ -189,19 +190,13 @@ private fun SettingsScreenDialogs(
     }
 
     if (showThemeDialog) {
-        SingleSelectionDialog(
+        ThemeDialog(
             title = stringResource(id = R.string.theme),
-            items = arrayOf(
-                stringResource(R.string.default_theme),
-                stringResource(R.string.android_theme),
-            ),
             onDismissRequest = onThemeDialogDismissRequest,
             selected = themeDialogSelected,
             onSelect = { themeDialogSelected = it },
-            negativeButtonText = stringResource(id = R.string.cancel),
-            positiveButtonText = stringResource(id = R.string.change),
-            onNegativeButtonClick = onThemeDialogDismissRequest,
-            onPositiveButtonClick = {
+            onCancelClick = onThemeDialogDismissRequest,
+            onChangeClick = {
                 onUpdateThemeBrand(ThemeBrand.entries[themeDialogSelected])
                 onThemeDialogDismissRequest()
             },
@@ -210,20 +205,13 @@ private fun SettingsScreenDialogs(
     }
 
     if (showDarkDialog) {
-        SingleSelectionDialog(
+        DarkDialog(
             title = stringResource(id = R.string.theme),
-            items = arrayOf(
-                stringResource(id = R.string.follow_system),
-                stringResource(id = R.string.light),
-                stringResource(id = R.string.dark),
-            ),
             onDismissRequest = onDarkDialogDismissRequest,
             selected = darkDialogSelected,
             onSelect = { darkDialogSelected = it },
-            negativeButtonText = stringResource(id = R.string.cancel),
-            positiveButtonText = stringResource(id = R.string.change),
-            onNegativeButtonClick = onDarkDialogDismissRequest,
-            onPositiveButtonClick = {
+            onCancelClick = onDarkDialogDismissRequest,
+            onChangeClick = {
                 onUpdateDarkThemeConfig(DarkThemeConfig.entries[darkDialogSelected])
                 onDarkDialogDismissRequest()
             },
@@ -232,14 +220,12 @@ private fun SettingsScreenDialogs(
     }
 
     if (showCleanDialog) {
-        SimpleDialog(
+        CleanDialog(
             title = stringResource(id = R.string.clean_app_settings),
             text = stringResource(id = R.string.are_you_sure_you_want_to_clean_app_settings_from_the_uninstalled_applications),
             onDismissRequest = onCleanDialogDismissRequest,
-            negativeButtonText = stringResource(id = R.string.cancel),
-            positiveButtonText = stringResource(id = R.string.clean),
-            onNegativeButtonClick = onCleanDialogDismissRequest,
-            onPositiveButtonClick = {
+            onCancelClick = onCleanDialogDismissRequest,
+            onCleanClick = {
                 onCleanAppSettings()
                 onCleanDialogDismissRequest()
             },

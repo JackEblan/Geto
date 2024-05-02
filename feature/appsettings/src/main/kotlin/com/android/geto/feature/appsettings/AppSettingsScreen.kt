@@ -63,7 +63,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.android.geto.core.data.repository.ClipboardResult
 import com.android.geto.core.data.repository.ShortcutResult
 import com.android.geto.core.designsystem.component.GetoLoadingWheel
-import com.android.geto.core.designsystem.component.SimpleDialog
 import com.android.geto.core.designsystem.icon.GetoIcons
 import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.domain.AppSettingsResult
@@ -77,6 +76,7 @@ import com.android.geto.core.ui.DevicePreviews
 import com.android.geto.feature.appsettings.dialog.appsetting.AppSettingDialog
 import com.android.geto.feature.appsettings.dialog.appsetting.AppSettingDialogState
 import com.android.geto.feature.appsettings.dialog.appsetting.rememberAppSettingDialogState
+import com.android.geto.feature.appsettings.dialog.copypermissioncommand.CopyPermissionCommandDialog
 import com.android.geto.feature.appsettings.dialog.copypermissioncommand.CopyPermissionCommandDialogState
 import com.android.geto.feature.appsettings.dialog.copypermissioncommand.rememberCopyPermissionCommandDialogState
 import com.android.geto.feature.appsettings.dialog.shortcut.ShortcutDialog
@@ -435,17 +435,9 @@ private fun AppSettingsDialogs(
     }
 
     if (copyPermissionCommandDialogState.showDialog) {
-        SimpleDialog(
-            title = stringResource(id = R.string.permission_error),
-            text = stringResource(id = R.string.copy_permission_command_message),
-            onDismissRequest = { copyPermissionCommandDialogState.updateShowDialog(false) },
-            negativeButtonText = stringResource(id = R.string.cancel),
-            positiveButtonText = stringResource(id = R.string.copy),
-            onNegativeButtonClick = { copyPermissionCommandDialogState.updateShowDialog(false) },
-            onPositiveButtonClick = {
-                onCopyPermissionCommand()
-                copyPermissionCommandDialogState.updateShowDialog(false)
-            },
+        CopyPermissionCommandDialog(
+            copyPermissionCommandDialogState = copyPermissionCommandDialogState,
+            onCopyClick = onCopyPermissionCommand,
             contentDescription = "Copy Permission Command Dialog",
         )
     }
