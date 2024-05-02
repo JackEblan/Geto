@@ -99,7 +99,7 @@ class SettingsScreenScreenshotTest {
     fun settingsScreen_populated_dark() {
         composeTestRule.captureForDevice(
             fileName = "SettingsScreenPopulated",
-            deviceName = "foldable",
+            deviceName = "foldable_dark",
             deviceSpec = DefaultTestDevices.FOLDABLE.spec,
             darkMode = true,
         ) {
@@ -131,7 +131,7 @@ class SettingsScreenScreenshotTest {
     fun settingsScreen_loading_dark() {
         composeTestRule.captureForDevice(
             fileName = "SettingsScreenLoading",
-            deviceName = "foldable",
+            deviceName = "foldable_dark",
             deviceSpec = DefaultTestDevices.FOLDABLE.spec,
             darkMode = true,
         ) {
