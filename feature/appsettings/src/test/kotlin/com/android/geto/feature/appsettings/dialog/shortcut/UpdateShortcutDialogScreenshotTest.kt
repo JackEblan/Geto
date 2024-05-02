@@ -41,7 +41,7 @@ import kotlin.test.Test
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 @Config(application = HiltTestApplication::class)
 @LooperMode(LooperMode.Mode.PAUSED)
-class ShortcutDialogScreenshotTest {
+class UpdateShortcutDialogScreenshotTest {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
@@ -55,7 +55,7 @@ class ShortcutDialogScreenshotTest {
     @Test
     fun shortcutDialog_empty() {
         composeTestRule.captureDialogForDevice(
-            fileName = "ShortcutDialogEmpty",
+            fileName = "UpdateShortcutDialogEmpty",
             deviceName = "foldable",
             deviceSpec = DefaultTestDevices.FOLDABLE.spec,
         ) {
@@ -64,9 +64,9 @@ class ShortcutDialogScreenshotTest {
                     shortcutDialogState = shortcutDialogState,
                     packageName = "com.android.geto",
                     contentDescription = "Shortcut Dialog",
-                    title = stringResource(id = R.string.add_shortcut),
+                    title = stringResource(id = R.string.update_shortcut),
                     negativeButtonText = stringResource(id = R.string.cancel),
-                    positiveButtonText = stringResource(id = R.string.add),
+                    positiveButtonText = stringResource(id = R.string.update),
                     onPositiveButtonClick = {},
                 )
             }
@@ -80,7 +80,7 @@ class ShortcutDialogScreenshotTest {
         shortcutDialogState.updateLongLabel("Long Label")
 
         composeTestRule.captureDialogForDevice(
-            fileName = "ShortcutDialogFilledTextFields",
+            fileName = "UpdateShortcutDialogFilledTextFields",
             deviceName = "foldable",
             deviceSpec = DefaultTestDevices.FOLDABLE.spec,
         ) {
@@ -89,9 +89,9 @@ class ShortcutDialogScreenshotTest {
                     shortcutDialogState = shortcutDialogState,
                     packageName = "com.android.geto",
                     contentDescription = "Shortcut Dialog",
-                    title = stringResource(id = R.string.add_shortcut),
+                    title = stringResource(id = R.string.update_shortcut),
                     negativeButtonText = stringResource(id = R.string.cancel),
-                    positiveButtonText = stringResource(id = R.string.add),
+                    positiveButtonText = stringResource(id = R.string.update),
                     onPositiveButtonClick = {},
                 )
             }
@@ -103,7 +103,7 @@ class ShortcutDialogScreenshotTest {
         shortcutDialogState.getShortcut(packageName = "Test")
 
         composeTestRule.captureDialogForDevice(
-            fileName = "ShortcutDialogErrorTextFields",
+            fileName = "UpdateShortcutDialogErrorTextFields",
             deviceName = "foldable",
             deviceSpec = DefaultTestDevices.FOLDABLE.spec,
         ) {
@@ -112,9 +112,9 @@ class ShortcutDialogScreenshotTest {
                     shortcutDialogState = shortcutDialogState,
                     packageName = "com.android.geto",
                     contentDescription = "Shortcut Dialog",
-                    title = stringResource(id = R.string.add_shortcut),
+                    title = stringResource(id = R.string.update_shortcut),
                     negativeButtonText = stringResource(id = R.string.cancel),
-                    positiveButtonText = stringResource(id = R.string.add),
+                    positiveButtonText = stringResource(id = R.string.update),
                     onPositiveButtonClick = {},
                 )
             }
@@ -124,7 +124,7 @@ class ShortcutDialogScreenshotTest {
     @Test
     fun shortcutDialog_empty_dark() {
         composeTestRule.captureDialogForDevice(
-            fileName = "ShortcutDialogEmpty",
+            fileName = "UpdateShortcutDialogEmpty",
             deviceName = "foldable_dark",
             deviceSpec = DefaultTestDevices.FOLDABLE.spec,
             darkMode = true,
@@ -135,9 +135,9 @@ class ShortcutDialogScreenshotTest {
                         shortcutDialogState = shortcutDialogState,
                         packageName = "com.android.geto",
                         contentDescription = "Shortcut Dialog",
-                        title = stringResource(id = R.string.add_shortcut),
+                        title = stringResource(id = R.string.update_shortcut),
                         negativeButtonText = stringResource(id = R.string.cancel),
-                        positiveButtonText = stringResource(id = R.string.add),
+                        positiveButtonText = stringResource(id = R.string.update),
                         onPositiveButtonClick = {},
                     )
                 }
@@ -152,7 +152,7 @@ class ShortcutDialogScreenshotTest {
         shortcutDialogState.updateLongLabel("Long Label")
 
         composeTestRule.captureDialogForDevice(
-            fileName = "ShortcutDialogFilledTextFields",
+            fileName = "UpdateShortcutDialogFilledTextFields",
             deviceName = "foldable_dark",
             deviceSpec = DefaultTestDevices.FOLDABLE.spec,
             darkMode = true,
@@ -162,10 +162,10 @@ class ShortcutDialogScreenshotTest {
                     ShortcutDialog(
                         shortcutDialogState = shortcutDialogState,
                         packageName = "com.android.geto",
-                        contentDescription = "Add Shortcut Dialog",
-                        title = stringResource(id = R.string.add_shortcut),
+                        contentDescription = "Update Shortcut Dialog",
+                        title = stringResource(id = R.string.update_shortcut),
                         negativeButtonText = stringResource(id = R.string.cancel),
-                        positiveButtonText = stringResource(id = R.string.add),
+                        positiveButtonText = stringResource(id = R.string.update),
                         onPositiveButtonClick = {},
                     )
                 }
@@ -178,7 +178,7 @@ class ShortcutDialogScreenshotTest {
         shortcutDialogState.getShortcut(packageName = "Test")
 
         composeTestRule.captureDialogForDevice(
-            fileName = "ShortcutDialogErrorTextFields",
+            fileName = "UpdateShortcutDialogErrorTextFields",
             deviceName = "foldable_dark",
             deviceSpec = DefaultTestDevices.FOLDABLE.spec,
             darkMode = true,
@@ -188,10 +188,10 @@ class ShortcutDialogScreenshotTest {
                     ShortcutDialog(
                         shortcutDialogState = shortcutDialogState,
                         packageName = "com.android.geto",
-                        contentDescription = "Add Shortcut Dialog",
-                        title = stringResource(id = R.string.add_shortcut),
+                        contentDescription = "Update Shortcut Dialog",
+                        title = stringResource(id = R.string.update_shortcut),
                         negativeButtonText = stringResource(id = R.string.cancel),
-                        positiveButtonText = stringResource(id = R.string.add),
+                        positiveButtonText = stringResource(id = R.string.update),
                         onPositiveButtonClick = {},
                     )
                 }

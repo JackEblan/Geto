@@ -15,7 +15,7 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.core.designsystem.component
+package com.android.geto.feature.settings.dialog.clean
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -36,26 +36,26 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.android.geto.core.designsystem.theme.GetoTheme
+import com.android.geto.feature.settings.R
 
 @Composable
-fun SimpleDialog(
+internal fun CleanDialog(
     modifier: Modifier = Modifier,
     title: String,
     text: String,
     onDismissRequest: () -> Unit,
-    negativeButtonText: String,
-    positiveButtonText: String,
-    onNegativeButtonClick: () -> Unit,
-    onPositiveButtonClick: () -> Unit,
+    onCancelClick: () -> Unit,
+    onCleanClick: () -> Unit,
     contentDescription: String,
 ) {
-    DialogContainer(
+    CleanDialogContainer(
         modifier = modifier,
         onDismissRequest = onDismissRequest,
         contentDescription = contentDescription,
@@ -65,23 +65,21 @@ fun SimpleDialog(
                 .fillMaxSize()
                 .padding(10.dp),
         ) {
-            DialogTitle(title = title)
+            CleanDialogTitle(title = title)
 
-            SimpleDialogContent(text = text)
+            CleanDialogContent(text = text)
 
-            DialogButtons(
+            CleanDialogButtons(
                 modifier = modifier,
-                negativeButtonText = negativeButtonText,
-                positiveButtonText = positiveButtonText,
-                onNegativeButtonClick = onNegativeButtonClick,
-                onPositiveButtonClick = onPositiveButtonClick,
+                onCancelClick = onCancelClick,
+                onCleanClick = onCleanClick,
             )
         }
     }
 }
 
 @Composable
-fun DialogContainer(
+private fun CleanDialogContainer(
     modifier: Modifier = Modifier,
     onDismissRequest: () -> Unit,
     contentDescription: String,
@@ -102,7 +100,7 @@ fun DialogContainer(
 }
 
 @Composable
-fun DialogTitle(modifier: Modifier = Modifier, title: String) {
+private fun CleanDialogTitle(modifier: Modifier = Modifier, title: String) {
     Spacer(modifier = Modifier.height(10.dp))
 
     Text(
@@ -113,7 +111,7 @@ fun DialogTitle(modifier: Modifier = Modifier, title: String) {
 }
 
 @Composable
-private fun SimpleDialogContent(modifier: Modifier = Modifier, text: String) {
+private fun CleanDialogContent(modifier: Modifier = Modifier, text: String) {
     Spacer(modifier = Modifier.height(10.dp))
 
     Text(
@@ -124,12 +122,10 @@ private fun SimpleDialogContent(modifier: Modifier = Modifier, text: String) {
 }
 
 @Composable
-fun DialogButtons(
+private fun CleanDialogButtons(
     modifier: Modifier = Modifier,
-    negativeButtonText: String,
-    positiveButtonText: String,
-    onNegativeButtonClick: () -> Unit,
-    onPositiveButtonClick: () -> Unit,
+    onCancelClick: () -> Unit,
+    onCleanClick: () -> Unit,
 ) {
     Spacer(modifier = Modifier.height(10.dp))
 
@@ -138,34 +134,32 @@ fun DialogButtons(
         horizontalArrangement = Arrangement.End,
     ) {
         TextButton(
-            onClick = onNegativeButtonClick,
+            onClick = onCancelClick,
             modifier = Modifier.padding(5.dp),
         ) {
-            Text(text = negativeButtonText)
+            Text(text = stringResource(id = R.string.cancel))
         }
         TextButton(
-            onClick = onPositiveButtonClick,
+            onClick = onCleanClick,
             modifier = Modifier.padding(5.dp),
         ) {
-            Text(text = positiveButtonText)
+            Text(text = stringResource(id = R.string.clean))
         }
     }
 }
 
 @Preview
 @Composable
-private fun SimpleDialogPreview() {
+private fun CleanDialogPreview() {
     GetoTheme {
         Surface {
-            SimpleDialog(
-                title = "Simple Dialog",
-                text = "Hello from Simple Dialog",
+            CleanDialog(
+                title = "Clean Dialog",
+                text = "Hello from Clean Dialog",
                 onDismissRequest = {},
-                negativeButtonText = "Cancel",
-                positiveButtonText = "Okay",
-                onNegativeButtonClick = {},
-                onPositiveButtonClick = {},
-                contentDescription = "Simple Dialog",
+                onCancelClick = {},
+                onCleanClick = {},
+                contentDescription = "Clean Dialog",
             )
         }
     }
