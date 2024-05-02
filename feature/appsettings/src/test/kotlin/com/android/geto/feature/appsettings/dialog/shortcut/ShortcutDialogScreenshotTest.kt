@@ -24,7 +24,7 @@ import com.android.geto.core.designsystem.component.GetoBackground
 import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.screenshot.testing.util.DefaultTestDevices
 import com.android.geto.core.screenshot.testing.util.captureDialogForDevice
-import com.android.geto.core.screenshot.testing.util.captureMultiDevice
+import com.android.geto.core.screenshot.testing.util.captureDialogMultiDevice
 import com.android.geto.feature.appsettings.R
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication
@@ -55,7 +55,7 @@ class ShortcutDialogScreenshotTest {
 
     @Test
     fun shortcutDialog_empty() {
-        composeTestRule.captureMultiDevice(
+        composeTestRule.captureDialogMultiDevice(
             fileName = "ShortcutDialogEmpty",
         ) {
             GetoTheme {
@@ -78,7 +78,7 @@ class ShortcutDialogScreenshotTest {
 
         shortcutDialogState.updateLongLabel("Long Label")
 
-        composeTestRule.captureMultiDevice(
+        composeTestRule.captureDialogMultiDevice(
             fileName = "ShortcutDialogFilledTextFields",
         ) {
             GetoTheme {
@@ -99,7 +99,7 @@ class ShortcutDialogScreenshotTest {
     fun shortcutDialog_error_textfields() {
         shortcutDialogState.getShortcut(packageName = "Test")
 
-        composeTestRule.captureMultiDevice(
+        composeTestRule.captureDialogMultiDevice(
             fileName = "ShortcutDialogErrorTextFields",
         ) {
             GetoTheme {

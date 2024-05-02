@@ -23,7 +23,7 @@ import com.android.geto.core.designsystem.component.GetoBackground
 import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.screenshot.testing.util.DefaultTestDevices
 import com.android.geto.core.screenshot.testing.util.captureDialogForDevice
-import com.android.geto.core.screenshot.testing.util.captureMultiDevice
+import com.android.geto.core.screenshot.testing.util.captureDialogMultiDevice
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication
 import org.junit.Before
@@ -54,7 +54,7 @@ class AppSettingDialogScreenshotTest {
 
     @Test
     fun appSettingDialog_empty() {
-        composeTestRule.captureMultiDevice(
+        composeTestRule.captureDialogMultiDevice(
             fileName = "AppSettingDialogEmpty",
         ) {
             GetoTheme {
@@ -80,7 +80,7 @@ class AppSettingDialogScreenshotTest {
 
         appSettingDialogState.updateValueOnRevert("1")
 
-        composeTestRule.captureMultiDevice(
+        composeTestRule.captureDialogMultiDevice(
             fileName = "AppSettingDialogFilledTextFields",
         ) {
             GetoTheme {
@@ -98,7 +98,7 @@ class AppSettingDialogScreenshotTest {
     fun appSettingDialog_error_textfields() {
         appSettingDialogState.getAppSetting(packageName = "")
 
-        composeTestRule.captureMultiDevice(
+        composeTestRule.captureDialogMultiDevice(
             fileName = "AppSettingDialogErrorTextFields",
         ) {
             GetoTheme {
