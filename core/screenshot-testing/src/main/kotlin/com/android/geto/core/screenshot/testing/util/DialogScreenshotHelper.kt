@@ -36,41 +36,12 @@ fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.c
     darkMode: Boolean = false,
     body: @Composable () -> Unit,
 ) {
-    captureForDeviceUtil(
+    captureForDevice(
         fileName = fileName,
         deviceName = deviceName,
         deviceSpec = deviceSpec,
         darkMode = darkMode,
         body = body,
-        capture = { filePath, roborazziOptions ->
-            captureScreenRoboImage(
-                filePath = filePath,
-                roborazziOptions = roborazziOptions,
-            )
-        },
-    )
-}
-
-/**
- * Takes six screenshots combining light/dark and default/Android themes and whether dynamic color
- * is enabled.
- */
-@OptIn(ExperimentalRoborazziApi::class)
-fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.captureDialogMultiTheme(
-    name: String,
-    overrideFileName: String? = null,
-    shouldCompareDarkMode: Boolean = true,
-    shouldCompareDynamicColor: Boolean = true,
-    shouldCompareAndroidTheme: Boolean = true,
-    content: @Composable (desc: String) -> Unit,
-) {
-    captureMultiThemeUtil(
-        name = name,
-        overrideFileName = overrideFileName,
-        shouldCompareDarkMode = shouldCompareDarkMode,
-        shouldCompareDynamicColor = shouldCompareDynamicColor,
-        shouldCompareAndroidTheme = shouldCompareAndroidTheme,
-        content = content,
         capture = { filePath, roborazziOptions ->
             captureScreenRoboImage(
                 filePath = filePath,

@@ -66,14 +66,14 @@ fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.c
     darkMode: Boolean = false,
     body: @Composable () -> Unit,
 ) {
-    captureForDeviceUtil(
+    captureForDevice(
         fileName = fileName,
         deviceName = deviceName,
         deviceSpec = deviceSpec,
         darkMode = darkMode,
         body = body,
         capture = { filePath, roborazziOptions ->
-            this.onRoot().captureRoboImage(
+            onRoot().captureRoboImage(
                 filePath = filePath,
                 roborazziOptions = roborazziOptions,
             )
@@ -93,7 +93,7 @@ fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.c
     shouldCompareAndroidTheme: Boolean = true,
     content: @Composable (desc: String) -> Unit,
 ) {
-    captureMultiThemeUtil(
+    captureMultiTheme(
         name = name,
         overrideFileName = overrideFileName,
         shouldCompareDarkMode = shouldCompareDarkMode,
@@ -101,7 +101,7 @@ fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.c
         shouldCompareAndroidTheme = shouldCompareAndroidTheme,
         content = content,
         capture = { filePath, roborazziOptions ->
-            this.onRoot().captureRoboImage(
+            onRoot().captureRoboImage(
                 filePath = filePath,
                 roborazziOptions = roborazziOptions,
             )

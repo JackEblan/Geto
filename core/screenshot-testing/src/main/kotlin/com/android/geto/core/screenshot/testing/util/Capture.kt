@@ -33,7 +33,7 @@ import com.github.takahirom.roborazzi.RoborazziOptions
 import com.google.accompanist.testharness.TestHarness
 import org.robolectric.RuntimeEnvironment
 
-internal fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.captureForDeviceUtil(
+internal fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.captureForDevice(
     fileName: String,
     deviceName: String,
     deviceSpec: String,
@@ -60,7 +60,7 @@ internal fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule
     capture("src/test/screenshots/${fileName}_$deviceName.png", roborazziOptions)
 }
 
-internal fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.captureMultiThemeUtil(
+internal fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.captureMultiTheme(
     name: String,
     overrideFileName: String? = null,
     roborazziOptions: RoborazziOptions = DefaultRoborazziOptions,
