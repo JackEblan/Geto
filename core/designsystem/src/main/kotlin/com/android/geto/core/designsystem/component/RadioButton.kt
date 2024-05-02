@@ -27,6 +27,7 @@ import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -34,7 +35,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.android.geto.core.designsystem.theme.GetoTheme
 
 @Composable
 fun GetoRadioButtonGroup(
@@ -76,6 +79,16 @@ fun GetoRadioButtonGroup(
                     modifier = Modifier.padding(start = 10.dp),
                 )
             }
+        }
+    }
+}
+
+@Preview
+@Composable
+fun GetoRadioButtonGroupPreview() {
+    GetoTheme {
+        Surface {
+            GetoRadioButtonGroup(selected = 0, onSelect = {}, items = arrayOf("Item 0", "Item 1"))
         }
     }
 }

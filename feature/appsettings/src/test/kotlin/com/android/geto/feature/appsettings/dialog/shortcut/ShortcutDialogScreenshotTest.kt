@@ -55,7 +55,6 @@ class ShortcutDialogScreenshotTest {
     @Test
     fun shortcutDialog_empty() {
         composeTestRule.captureDialogForDevice(
-            name = "ShortcutDialog",
             fileName = "ShortcutDialogEmpty",
             deviceName = "tablet",
             deviceSpec = DefaultTestDevices.TABLET.spec,
@@ -81,7 +80,6 @@ class ShortcutDialogScreenshotTest {
         shortcutDialogState.updateLongLabel("Long Label")
 
         composeTestRule.captureDialogForDevice(
-            name = "ShortcutDialog",
             fileName = "ShortcutDialogFilledTextFields",
             deviceName = "tablet",
             deviceSpec = DefaultTestDevices.TABLET.spec,
@@ -105,7 +103,6 @@ class ShortcutDialogScreenshotTest {
         shortcutDialogState.getShortcut(packageName = "Test")
 
         composeTestRule.captureDialogForDevice(
-            name = "ShortcutDialog",
             fileName = "ShortcutDialogErrorTextFields",
             deviceName = "tablet",
             deviceSpec = DefaultTestDevices.TABLET.spec,
@@ -127,7 +124,6 @@ class ShortcutDialogScreenshotTest {
     @Test
     fun shortcutDialog_empty_dark() {
         composeTestRule.captureDialogForDevice(
-            name = "ShortcutDialog",
             fileName = "ShortcutDialogEmpty",
             deviceName = "tablet_dark",
             deviceSpec = DefaultTestDevices.TABLET.spec,
@@ -156,7 +152,6 @@ class ShortcutDialogScreenshotTest {
         shortcutDialogState.updateLongLabel("Long Label")
 
         composeTestRule.captureDialogForDevice(
-            name = "ShortcutDialog",
             fileName = "ShortcutDialogFilledTextFields",
             deviceName = "tablet_dark",
             deviceSpec = DefaultTestDevices.TABLET.spec,
@@ -183,7 +178,6 @@ class ShortcutDialogScreenshotTest {
         shortcutDialogState.getShortcut(packageName = "Test")
 
         composeTestRule.captureDialogForDevice(
-            name = "ShortcutDialog",
             fileName = "ShortcutDialogErrorTextFields",
             deviceName = "tablet_dark",
             deviceSpec = DefaultTestDevices.TABLET.spec,

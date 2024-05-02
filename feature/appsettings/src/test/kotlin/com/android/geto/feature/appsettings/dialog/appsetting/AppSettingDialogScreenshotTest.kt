@@ -54,7 +54,6 @@ class AppSettingDialogScreenshotTest {
     @Test
     fun appSettingDialog_empty() {
         composeTestRule.captureDialogForDevice(
-            name = "AppSettingDialog",
             fileName = "AppSettingDialogEmpty",
             deviceName = "tablet",
             deviceSpec = DefaultTestDevices.TABLET.spec,
@@ -83,7 +82,6 @@ class AppSettingDialogScreenshotTest {
         appSettingDialogState.updateValueOnRevert("1")
 
         composeTestRule.captureDialogForDevice(
-            name = "AppSettingDialog",
             fileName = "AppSettingDialogFilledTextFields",
             deviceName = "tablet",
             deviceSpec = DefaultTestDevices.TABLET.spec,
@@ -104,7 +102,6 @@ class AppSettingDialogScreenshotTest {
         appSettingDialogState.getAppSetting(packageName = "")
 
         composeTestRule.captureDialogForDevice(
-            name = "AppSettingDialog",
             fileName = "AppSettingDialogErrorTextFields",
             deviceName = "tablet",
             deviceSpec = DefaultTestDevices.TABLET.spec,
@@ -123,7 +120,6 @@ class AppSettingDialogScreenshotTest {
     @Test
     fun appSettingDialog_empty_dark() {
         composeTestRule.captureDialogForDevice(
-            name = "AppSettingDialog",
             fileName = "AppSettingDialogEmpty",
             deviceName = "tablet_dark",
             deviceSpec = DefaultTestDevices.TABLET.spec,
@@ -155,7 +151,6 @@ class AppSettingDialogScreenshotTest {
         appSettingDialogState.updateValueOnRevert("1")
 
         composeTestRule.captureDialogForDevice(
-            name = "AppSettingDialog",
             fileName = "AppSettingDialogFilledTextFields",
             deviceName = "tablet_dark",
             deviceSpec = DefaultTestDevices.TABLET.spec,
@@ -179,7 +174,6 @@ class AppSettingDialogScreenshotTest {
         appSettingDialogState.getAppSetting(packageName = "")
 
         composeTestRule.captureDialogForDevice(
-            name = "AppSettingDialog",
             fileName = "AppSettingDialogErrorTextFields",
             deviceName = "tablet_dark",
             deviceSpec = DefaultTestDevices.TABLET.spec,

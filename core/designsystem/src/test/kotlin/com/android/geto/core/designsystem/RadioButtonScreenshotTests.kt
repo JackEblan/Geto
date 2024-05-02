@@ -18,9 +18,9 @@
 package com.android.geto.core.designsystem
 
 import androidx.activity.ComponentActivity
-import androidx.compose.material3.Surface
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.android.geto.core.designsystem.component.GetoRadioButtonGroup
+import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.screenshot.testing.util.captureMultiTheme
 import dagger.hilt.android.testing.HiltTestApplication
 import org.junit.Rule
@@ -42,8 +42,8 @@ class RadioButtonScreenshotTests {
 
     @Test
     fun getoRadioButtonGroup_multipleThemes() {
-        composeTestRule.captureMultiTheme("RadioButton") {
-            Surface {
+        composeTestRule.captureMultiTheme("RadioButton", "RadioButtonGroup") {
+            GetoTheme {
                 GetoRadioButtonGroup(
                     selected = 0,
                     onSelect = {},

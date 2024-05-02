@@ -19,11 +19,9 @@ package com.android.geto.core.designsystem
 
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import com.android.geto.core.designsystem.component.GetoBackground
 import com.android.geto.core.designsystem.component.SimpleDialog
 import com.android.geto.core.designsystem.theme.GetoTheme
-import com.android.geto.core.screenshot.testing.util.DefaultTestDevices
-import com.android.geto.core.screenshot.testing.util.captureDialogForDevice
+import com.android.geto.core.screenshot.testing.util.captureDialogMultiTheme
 import dagger.hilt.android.testing.HiltTestApplication
 import org.junit.Rule
 import org.junit.runner.RunWith
@@ -43,12 +41,10 @@ class SimpleDialogScreenshotTests {
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     @Test
-    fun simpleDialog() {
-        composeTestRule.captureDialogForDevice(
+    fun simpleDialog_multipleThemes() {
+        composeTestRule.captureDialogMultiTheme(
             name = "SimpleDialog",
-            fileName = "SimpleDialog",
-            deviceName = "phone",
-            deviceSpec = DefaultTestDevices.PHONE.spec,
+            overrideFileName = "SimpleDialog",
         ) {
             GetoTheme {
                 SimpleDialog(
@@ -61,32 +57,6 @@ class SimpleDialogScreenshotTests {
                     onPositiveButtonClick = {},
                     contentDescription = "Simple Dialog",
                 )
-            }
-        }
-    }
-
-    @Test
-    fun simpleDialog_dark() {
-        composeTestRule.captureDialogForDevice(
-            name = "SimpleDialog",
-            fileName = "SimpleDialog",
-            deviceName = "phone_dark",
-            deviceSpec = DefaultTestDevices.PHONE.spec,
-            darkMode = true,
-        ) {
-            GetoTheme {
-                GetoBackground {
-                    SimpleDialog(
-                        title = "Simple Dialog",
-                        text = "Hello from Simple Dialog",
-                        onDismissRequest = {},
-                        negativeButtonText = "Cancel",
-                        positiveButtonText = "Okay",
-                        onNegativeButtonClick = {},
-                        onPositiveButtonClick = {},
-                        contentDescription = "Simple Dialog",
-                    )
-                }
             }
         }
     }
