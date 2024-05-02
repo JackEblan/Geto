@@ -47,9 +47,9 @@ class SettingsScreenScreenshotTest {
     @Test
     fun settingsScreen_populated() {
         composeTestRule.captureForDevice(
-            deviceName = "tablet",
-            deviceSpec = DefaultTestDevices.TABLET.spec,
             fileName = "SettingsScreenPopulated",
+            deviceName = "foldable",
+            deviceSpec = DefaultTestDevices.FOLDABLE.spec,
         ) {
             GetoTheme {
                 SettingsScreen(
@@ -76,9 +76,9 @@ class SettingsScreenScreenshotTest {
     @Test
     fun settingsScreen_loading() {
         composeTestRule.captureForDevice(
-            deviceName = "tablet",
-            deviceSpec = DefaultTestDevices.TABLET.spec,
             fileName = "SettingsScreenLoading",
+            deviceName = "foldable",
+            deviceSpec = DefaultTestDevices.FOLDABLE.spec,
         ) {
             GetoTheme {
                 SettingsScreen(
@@ -98,9 +98,9 @@ class SettingsScreenScreenshotTest {
     @Test
     fun settingsScreen_populated_dark() {
         composeTestRule.captureForDevice(
-            deviceName = "tablet_dark",
-            deviceSpec = DefaultTestDevices.TABLET.spec,
             fileName = "SettingsScreenPopulated",
+            deviceName = "foldable_dark",
+            deviceSpec = DefaultTestDevices.FOLDABLE.spec,
             darkMode = true,
         ) {
             GetoTheme {
@@ -130,9 +130,9 @@ class SettingsScreenScreenshotTest {
     @Test
     fun settingsScreen_loading_dark() {
         composeTestRule.captureForDevice(
-            deviceName = "tablet_dark",
-            deviceSpec = DefaultTestDevices.TABLET.spec,
             fileName = "SettingsScreenLoading",
+            deviceName = "foldable_dark",
+            deviceSpec = DefaultTestDevices.FOLDABLE.spec,
             darkMode = true,
         ) {
             GetoTheme {

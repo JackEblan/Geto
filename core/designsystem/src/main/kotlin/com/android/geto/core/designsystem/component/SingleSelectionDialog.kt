@@ -20,6 +20,7 @@ package com.android.geto.core.designsystem.component
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -72,17 +73,19 @@ fun SingleSelectionDialog(
 @Composable
 private fun SingleSelectionDialogPreview() {
     GetoTheme {
-        SingleSelectionDialog(
-            title = "Single selection dialog",
-            items = arrayOf("Item 0", "item 1"),
-            onDismissRequest = {},
-            selected = 0,
-            onSelect = {},
-            negativeButtonText = "Cancel",
-            positiveButtonText = "Okay",
-            onNegativeButtonClick = {},
-            onPositiveButtonClick = {},
-            contentDescription = "Single selection dialog",
-        )
+        Surface {
+            SingleSelectionDialog(
+                title = "Single selection dialog",
+                items = arrayOf("Item 0", "item 1"),
+                onDismissRequest = {},
+                selected = 0,
+                onSelect = {},
+                negativeButtonText = "Cancel",
+                positiveButtonText = "Okay",
+                onNegativeButtonClick = {},
+                onPositiveButtonClick = {},
+                contentDescription = "Single selection dialog",
+            )
+        }
     }
 }

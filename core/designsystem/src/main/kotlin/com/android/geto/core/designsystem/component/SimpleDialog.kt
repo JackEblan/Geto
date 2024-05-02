@@ -20,15 +20,18 @@ package com.android.geto.core.designsystem.component
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -59,7 +62,7 @@ fun SimpleDialog(
     ) {
         Column(
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxSize()
                 .padding(10.dp),
         ) {
             DialogTitle(title = title)
@@ -87,8 +90,8 @@ fun DialogContainer(
     Dialog(onDismissRequest = onDismissRequest) {
         Card(
             modifier = modifier
-                .fillMaxWidth()
-                .wrapContentSize()
+                .width(IntrinsicSize.Max)
+                .height(IntrinsicSize.Min)
                 .padding(16.dp)
                 .semantics { this.contentDescription = contentDescription },
             shape = RoundedCornerShape(16.dp),
@@ -153,15 +156,17 @@ fun DialogButtons(
 @Composable
 private fun SimpleDialogPreview() {
     GetoTheme {
-        SimpleDialog(
-            title = "Simple Dialog",
-            text = "Hello from Simple Dialog",
-            onDismissRequest = {},
-            negativeButtonText = "Cancel",
-            positiveButtonText = "Okay",
-            onNegativeButtonClick = {},
-            onPositiveButtonClick = {},
-            contentDescription = "Simple Dialog",
-        )
+        Surface {
+            SimpleDialog(
+                title = "Simple Dialog",
+                text = "Hello from Simple Dialog",
+                onDismissRequest = {},
+                negativeButtonText = "Cancel",
+                positiveButtonText = "Okay",
+                onNegativeButtonClick = {},
+                onPositiveButtonClick = {},
+                contentDescription = "Simple Dialog",
+            )
+        }
     }
 }

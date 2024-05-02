@@ -18,12 +18,10 @@
 package com.android.geto.core.designsystem
 
 import androidx.activity.ComponentActivity
+import androidx.compose.material3.Surface
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import com.android.geto.core.designsystem.component.GetoBackground
 import com.android.geto.core.designsystem.component.SingleSelectionDialog
-import com.android.geto.core.designsystem.theme.GetoTheme
-import com.android.geto.core.screenshot.testing.util.DefaultTestDevices
-import com.android.geto.core.screenshot.testing.util.captureDialogForDevice
+import com.android.geto.core.screenshot.testing.util.captureDialogMultiTheme
 import dagger.hilt.android.testing.HiltTestApplication
 import org.junit.Rule
 import org.junit.runner.RunWith
@@ -42,14 +40,12 @@ class SingleSelectionDialogScreenshotTests {
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     @Test
-    fun singleSelectionDialog() {
-        composeTestRule.captureDialogForDevice(
+    fun singleSelectionDialog_multipleThemes() {
+        composeTestRule.captureDialogMultiTheme(
             name = "SingleSelectionDialog",
-            fileName = "SingleSelectionDialog",
-            deviceName = "phone",
-            deviceSpec = DefaultTestDevices.PHONE.spec,
+            overrideFileName = "SingleSelectionDialog",
         ) {
-            GetoTheme {
+            Surface {
                 SingleSelectionDialog(
                     title = "Single Selection",
                     items = arrayOf(
@@ -63,39 +59,8 @@ class SingleSelectionDialogScreenshotTests {
                     positiveButtonText = "Okay",
                     onNegativeButtonClick = {},
                     onPositiveButtonClick = {},
-                    contentDescription = "Dark Dialog",
+                    contentDescription = "",
                 )
-            }
-        }
-    }
-
-    @Test
-    fun singleSelectionDialog_dark() {
-        composeTestRule.captureDialogForDevice(
-            name = "SingleSelectionDialog",
-            fileName = "SingleSelectionDialog",
-            deviceName = "phone_dark",
-            deviceSpec = DefaultTestDevices.PHONE.spec,
-            darkMode = true,
-        ) {
-            GetoTheme {
-                GetoBackground {
-                    SingleSelectionDialog(
-                        title = "Single Selection",
-                        items = arrayOf(
-                            "Item 0",
-                            "Item 1",
-                        ),
-                        onDismissRequest = {},
-                        selected = 0,
-                        onSelect = {},
-                        negativeButtonText = "Cancel",
-                        positiveButtonText = "Okay",
-                        onNegativeButtonClick = {},
-                        onPositiveButtonClick = {},
-                        contentDescription = "Dark Dialog",
-                    )
-                }
             }
         }
     }

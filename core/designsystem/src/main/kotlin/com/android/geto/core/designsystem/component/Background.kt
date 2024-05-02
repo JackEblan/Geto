@@ -67,7 +67,7 @@ annotation class ThemePreviews
 
 @ThemePreviews
 @Composable
-fun BackgroundDefault() {
+private fun BackgroundDefault() {
     GetoTheme(disableDynamicTheming = true) {
         GetoBackground(Modifier.size(100.dp), content = {})
     }
@@ -75,7 +75,7 @@ fun BackgroundDefault() {
 
 @ThemePreviews
 @Composable
-fun BackgroundDynamic() {
+private fun BackgroundDynamic() {
     GetoTheme(disableDynamicTheming = false) {
         GetoBackground(Modifier.size(100.dp), content = {})
     }
@@ -83,7 +83,7 @@ fun BackgroundDynamic() {
 
 @ThemePreviews
 @Composable
-fun BackgroundAndroid() {
+private fun BackgroundAndroid() {
     GetoTheme(androidTheme = true) {
         GetoBackground(Modifier.size(100.dp), content = {})
     }

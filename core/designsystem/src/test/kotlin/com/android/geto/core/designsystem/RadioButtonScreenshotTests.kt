@@ -42,7 +42,7 @@ class RadioButtonScreenshotTests {
 
     @Test
     fun getoRadioButtonGroup_multipleThemes() {
-        composeTestRule.captureMultiTheme("RadioButton") {
+        composeTestRule.captureMultiTheme("RadioButton", "RadioButtonGroup") {
             Surface {
                 GetoRadioButtonGroup(
                     selected = 0,
