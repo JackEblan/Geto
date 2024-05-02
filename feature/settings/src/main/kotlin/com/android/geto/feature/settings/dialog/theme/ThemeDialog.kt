@@ -26,7 +26,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -52,7 +51,6 @@ import com.android.geto.feature.settings.R
 @Composable
 internal fun ThemeDialog(
     modifier: Modifier = Modifier,
-    title: String,
     onDismissRequest: () -> Unit,
     selected: Int,
     onSelect: (Int) -> Unit,
@@ -61,16 +59,18 @@ internal fun ThemeDialog(
     contentDescription: String,
 ) {
     ThemeDialogContainer(
-        modifier = modifier,
+        modifier = modifier
+            .height(IntrinsicSize.Min)
+            .padding(16.dp)
+            .semantics { this.contentDescription = contentDescription },
         onDismissRequest = onDismissRequest,
-        contentDescription = contentDescription,
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(10.dp),
         ) {
-            ThemeDialogTitle(title = title)
+            ThemeDialogTitle()
 
             ThemeDialogRadioButtonGroup(
                 selected = selected,
@@ -78,6 +78,7 @@ internal fun ThemeDialog(
             )
 
             ThemeDialogButtons(
+                modifier = modifier.fillMaxWidth(),
                 onCancelClick = onCancelClick,
                 onChangeClick = onChangeClick,
             )
@@ -89,16 +90,11 @@ internal fun ThemeDialog(
 private fun ThemeDialogContainer(
     modifier: Modifier = Modifier,
     onDismissRequest: () -> Unit,
-    contentDescription: String,
     content: @Composable (ColumnScope.() -> Unit),
 ) {
     Dialog(onDismissRequest = onDismissRequest) {
         Card(
-            modifier = modifier
-                .width(IntrinsicSize.Max)
-                .height(IntrinsicSize.Min)
-                .padding(16.dp)
-                .semantics { this.contentDescription = contentDescription },
+            modifier = modifier,
             shape = RoundedCornerShape(16.dp),
         ) {
             content()
@@ -107,12 +103,12 @@ private fun ThemeDialogContainer(
 }
 
 @Composable
-private fun ThemeDialogTitle(modifier: Modifier = Modifier, title: String) {
+private fun ThemeDialogTitle(modifier: Modifier = Modifier) {
     Spacer(modifier = Modifier.height(10.dp))
 
     Text(
         modifier = modifier.padding(horizontal = 5.dp),
-        text = title,
+        text = stringResource(id = R.string.theme),
         style = MaterialTheme.typography.titleLarge,
     )
 }
@@ -174,7 +170,7 @@ private fun ThemeDialogButtons(
     Spacer(modifier = Modifier.height(10.dp))
 
     Row(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier,
         horizontalArrangement = Arrangement.End,
     ) {
         TextButton(
@@ -198,7 +194,6 @@ private fun SingleSelectionDialogPreview() {
     GetoTheme {
         Surface {
             ThemeDialog(
-                title = "Theme Dialog",
                 onDismissRequest = {},
                 selected = 0,
                 onSelect = {},

@@ -48,29 +48,30 @@ import com.android.geto.feature.settings.R
 @Composable
 internal fun CleanDialog(
     modifier: Modifier = Modifier,
-    title: String,
-    text: String,
     onDismissRequest: () -> Unit,
     onCancelClick: () -> Unit,
     onCleanClick: () -> Unit,
     contentDescription: String,
 ) {
     CleanDialogContainer(
-        modifier = modifier,
+        modifier
+            .width(IntrinsicSize.Max)
+            .height(IntrinsicSize.Min)
+            .padding(16.dp)
+            .semantics { this.contentDescription = contentDescription },
         onDismissRequest = onDismissRequest,
-        contentDescription = contentDescription,
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(10.dp),
         ) {
-            CleanDialogTitle(title = title)
+            CleanDialogTitle()
 
-            CleanDialogContent(text = text)
+            CleanDialogContent()
 
             CleanDialogButtons(
-                modifier = modifier,
+                modifier = modifier.fillMaxWidth(),
                 onCancelClick = onCancelClick,
                 onCleanClick = onCleanClick,
             )
@@ -82,16 +83,11 @@ internal fun CleanDialog(
 private fun CleanDialogContainer(
     modifier: Modifier = Modifier,
     onDismissRequest: () -> Unit,
-    contentDescription: String,
     content: @Composable (ColumnScope.() -> Unit),
 ) {
     Dialog(onDismissRequest = onDismissRequest) {
         Card(
-            modifier = modifier
-                .width(IntrinsicSize.Max)
-                .height(IntrinsicSize.Min)
-                .padding(16.dp)
-                .semantics { this.contentDescription = contentDescription },
+            modifier = modifier,
             shape = RoundedCornerShape(16.dp),
         ) {
             content()
@@ -100,23 +96,23 @@ private fun CleanDialogContainer(
 }
 
 @Composable
-private fun CleanDialogTitle(modifier: Modifier = Modifier, title: String) {
+private fun CleanDialogTitle(modifier: Modifier = Modifier) {
     Spacer(modifier = Modifier.height(10.dp))
 
     Text(
         modifier = modifier.padding(horizontal = 5.dp),
-        text = title,
+        text = stringResource(id = R.string.clean_app_settings),
         style = MaterialTheme.typography.titleLarge,
     )
 }
 
 @Composable
-private fun CleanDialogContent(modifier: Modifier = Modifier, text: String) {
+private fun CleanDialogContent(modifier: Modifier = Modifier) {
     Spacer(modifier = Modifier.height(10.dp))
 
     Text(
         modifier = modifier.padding(horizontal = 5.dp),
-        text = text,
+        text = stringResource(id = R.string.are_you_sure_you_want_to_clean_app_settings_from_the_uninstalled_applications),
         style = MaterialTheme.typography.bodyLarge,
     )
 }
@@ -130,7 +126,7 @@ private fun CleanDialogButtons(
     Spacer(modifier = Modifier.height(10.dp))
 
     Row(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier,
         horizontalArrangement = Arrangement.End,
     ) {
         TextButton(
@@ -154,8 +150,6 @@ private fun CleanDialogPreview() {
     GetoTheme {
         Surface {
             CleanDialog(
-                title = "Clean Dialog",
-                text = "Hello from Clean Dialog",
                 onDismissRequest = {},
                 onCancelClick = {},
                 onCleanClick = {},

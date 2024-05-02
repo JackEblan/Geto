@@ -24,6 +24,7 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -53,50 +54,50 @@ import com.android.geto.core.model.MappedShortcutInfoCompat
 import com.android.geto.feature.appsettings.R
 
 @Composable
-internal fun ShortcutDialog(
+internal fun AddShortcutDialog(
     modifier: Modifier = Modifier,
     shortcutDialogState: ShortcutDialogState,
     packageName: String,
     contentDescription: String,
-    title: String,
-    negativeButtonText: String,
-    positiveButtonText: String,
-    onPositiveButtonClick: (MappedShortcutInfoCompat) -> Unit,
+    onAddClick: (MappedShortcutInfoCompat) -> Unit,
 ) {
-    ShortcutDialogContainer(
-        modifier = modifier,
+    AddShortcutDialogContainer(
+        modifier = modifier
+            .width(IntrinsicSize.Max)
+            .height(IntrinsicSize.Min)
+            .padding(16.dp)
+            .semantics { this.contentDescription = contentDescription },
         onDismissRequest = { shortcutDialogState.updateShowDialog(false) },
-        contentDescription = contentDescription,
     ) {
         Column(
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxSize()
                 .padding(10.dp),
         ) {
-            ShortcutDialogTitle(title = title)
+            AddShortcutDialogTitle()
 
-            ShortcutDialogApplicationIcon(
-                icon = shortcutDialogState.icon,
-                modifier = Modifier
+            AddShortcutDialogApplicationIcon(
+                modifier = modifier
                     .size(50.dp)
                     .align(Alignment.CenterHorizontally),
+                icon = shortcutDialogState.icon,
             )
 
-            ShortcutDialogTextFields(
+            AddShortcutDialogTextFields(
                 shortcutDialogState = shortcutDialogState,
             )
 
-            ShortcutDialogButtons(
-                negativeButtonText = negativeButtonText,
-                positiveButtonText = positiveButtonText,
-                onNegativeButtonClick = {
+            AddShortcutDialogButtons(
+                modifier = modifier
+                    .fillMaxWidth(),
+                onCancelClick = {
                     shortcutDialogState.updateShowDialog(false)
                 },
-                onPositiveButtonClick = {
+                onAddClick = {
                     shortcutDialogState.getShortcut(
                         packageName = packageName,
                     )?.let {
-                        onPositiveButtonClick(it)
+                        onAddClick(it)
                         shortcutDialogState.resetState()
                     }
                 },
@@ -106,19 +107,14 @@ internal fun ShortcutDialog(
 }
 
 @Composable
-private fun ShortcutDialogContainer(
+private fun AddShortcutDialogContainer(
     modifier: Modifier = Modifier,
     onDismissRequest: () -> Unit,
-    contentDescription: String,
     content: @Composable (ColumnScope.() -> Unit),
 ) {
     Dialog(onDismissRequest = onDismissRequest) {
         Card(
-            modifier = modifier
-                .width(IntrinsicSize.Max)
-                .height(IntrinsicSize.Min)
-                .padding(16.dp)
-                .semantics { this.contentDescription = contentDescription },
+            modifier = modifier,
             shape = RoundedCornerShape(16.dp),
         ) {
             content()
@@ -127,18 +123,21 @@ private fun ShortcutDialogContainer(
 }
 
 @Composable
-private fun ShortcutDialogTitle(modifier: Modifier = Modifier, title: String) {
+private fun AddShortcutDialogTitle(modifier: Modifier = Modifier) {
     Spacer(modifier = Modifier.height(10.dp))
 
     Text(
-        modifier = modifier.padding(horizontal = 5.dp),
-        text = title,
+        modifier = modifier,
+        text = stringResource(id = R.string.add_shortcut),
         style = MaterialTheme.typography.titleLarge,
     )
 }
 
 @Composable
-private fun ShortcutDialogApplicationIcon(modifier: Modifier = Modifier, icon: Bitmap?) {
+private fun AddShortcutDialogApplicationIcon(
+    modifier: Modifier = Modifier,
+    icon: Bitmap?,
+) {
     Spacer(modifier = Modifier.height(10.dp))
 
     DynamicAsyncImage(
@@ -149,7 +148,7 @@ private fun ShortcutDialogApplicationIcon(modifier: Modifier = Modifier, icon: B
 }
 
 @Composable
-private fun ShortcutDialogTextFields(
+private fun AddShortcutDialogTextFields(
     shortcutDialogState: ShortcutDialogState,
 ) {
     val shortLabelIsBlank = stringResource(id = R.string.short_label_is_blank)
@@ -162,7 +161,7 @@ private fun ShortcutDialogTextFields(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 5.dp)
-            .testTag("shortcutDialog:shortLabelTextField"),
+            .testTag("addShortcutDialog:shortLabelTextField"),
         value = shortcutDialogState.shortLabel,
         onValueChange = shortcutDialogState::updateShortLabel,
         label = {
@@ -173,14 +172,14 @@ private fun ShortcutDialogTextFields(
             if (shortcutDialogState.showShortLabelError) {
                 Text(
                     text = shortLabelIsBlank,
-                    modifier = Modifier.testTag("shortcutDialog:shortLabelSupportingText"),
+                    modifier = Modifier.testTag("addShortcutDialog:shortLabelSupportingText"),
                 )
             } else {
                 Text(
                     text = "${shortcutDialogState.shortLabel.length}/${shortcutDialogState.shortLabelMaxLength}",
                     modifier = Modifier
                         .fillMaxWidth()
-                        .testTag("shortcutDialog:shortLabelCounterSupportingText"),
+                        .testTag("addShortcutDialog:shortLabelCounterSupportingText"),
                 )
             }
         },
@@ -192,7 +191,7 @@ private fun ShortcutDialogTextFields(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 5.dp)
-            .testTag("shortcutDialog:longLabelTextField"),
+            .testTag("addShortcutDialog:longLabelTextField"),
         value = shortcutDialogState.longLabel,
         onValueChange = shortcutDialogState::updateLongLabel,
         label = {
@@ -203,14 +202,14 @@ private fun ShortcutDialogTextFields(
             if (shortcutDialogState.showLongLabelError) {
                 Text(
                     text = longLabelIsBlank,
-                    modifier = Modifier.testTag("shortcutDialog:longLabelSupportingText"),
+                    modifier = Modifier.testTag("addShortcutDialog:longLabelSupportingText"),
                 )
             } else {
                 Text(
                     text = "${shortcutDialogState.longLabel.length}/${shortcutDialogState.longLabelMaxLength}",
                     modifier = Modifier
                         .fillMaxWidth()
-                        .testTag("shortcutDialog:longLabelCounterSupportingText"),
+                        .testTag("addShortcutDialog:longLabelCounterSupportingText"),
                 )
             }
         },
@@ -220,46 +219,39 @@ private fun ShortcutDialogTextFields(
 }
 
 @Composable
-private fun ShortcutDialogButtons(
+private fun AddShortcutDialogButtons(
     modifier: Modifier = Modifier,
-    negativeButtonText: String,
-    positiveButtonText: String,
-    onNegativeButtonClick: () -> Unit,
-    onPositiveButtonClick: () -> Unit,
+    onCancelClick: () -> Unit,
+    onAddClick: () -> Unit,
 ) {
     Spacer(modifier = Modifier.height(10.dp))
 
     Row(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier,
         horizontalArrangement = Arrangement.End,
     ) {
         TextButton(
-            onClick = onNegativeButtonClick,
-            modifier = Modifier.padding(5.dp),
+            onClick = onCancelClick,
         ) {
-            Text(text = negativeButtonText)
+            Text(text = stringResource(id = R.string.cancel))
         }
         TextButton(
-            onClick = onPositiveButtonClick,
-            modifier = Modifier.padding(5.dp),
+            onClick = onAddClick,
         ) {
-            Text(text = positiveButtonText)
+            Text(text = stringResource(id = R.string.add))
         }
     }
 }
 
 @Preview
 @Composable
-private fun ShortcutDialogPreview() {
+private fun AddShortcutDialogPreview() {
     GetoTheme {
-        ShortcutDialog(
+        AddShortcutDialog(
             shortcutDialogState = rememberShortcutDialogState(),
             packageName = "com.android.geto",
             contentDescription = "Shortcut",
-            title = "Shortcut",
-            negativeButtonText = "Cancel",
-            positiveButtonText = "Okay",
-            onPositiveButtonClick = {},
+            onAddClick = {},
         )
     }
 }

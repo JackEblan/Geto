@@ -26,7 +26,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -52,7 +51,6 @@ import com.android.geto.feature.settings.R
 @Composable
 internal fun DarkDialog(
     modifier: Modifier = Modifier,
-    title: String,
     onDismissRequest: () -> Unit,
     selected: Int,
     onSelect: (Int) -> Unit,
@@ -61,16 +59,18 @@ internal fun DarkDialog(
     contentDescription: String,
 ) {
     DarkDialogContainer(
-        modifier = modifier,
+        modifier = modifier
+            .height(IntrinsicSize.Min)
+            .padding(16.dp)
+            .semantics { this.contentDescription = contentDescription },
         onDismissRequest = onDismissRequest,
-        contentDescription = contentDescription,
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(10.dp),
         ) {
-            DarkDialogTitle(title = title)
+            DarkDialogTitle()
 
             DarkDialogRadioButtonGroup(
                 selected = selected,
@@ -78,6 +78,7 @@ internal fun DarkDialog(
             )
 
             DarkDialogButtons(
+                modifier = modifier.fillMaxWidth(),
                 onCancelClick = onCancelClick,
                 onChangeClick = onChangeClick,
             )
@@ -89,16 +90,11 @@ internal fun DarkDialog(
 private fun DarkDialogContainer(
     modifier: Modifier = Modifier,
     onDismissRequest: () -> Unit,
-    contentDescription: String,
     content: @Composable (ColumnScope.() -> Unit),
 ) {
     Dialog(onDismissRequest = onDismissRequest) {
         Card(
-            modifier = modifier
-                .width(IntrinsicSize.Max)
-                .height(IntrinsicSize.Min)
-                .padding(16.dp)
-                .semantics { this.contentDescription = contentDescription },
+            modifier = modifier,
             shape = RoundedCornerShape(16.dp),
         ) {
             content()
@@ -107,12 +103,12 @@ private fun DarkDialogContainer(
 }
 
 @Composable
-private fun DarkDialogTitle(modifier: Modifier = Modifier, title: String) {
+private fun DarkDialogTitle(modifier: Modifier = Modifier) {
     Spacer(modifier = Modifier.height(10.dp))
 
     Text(
         modifier = modifier.padding(horizontal = 5.dp),
-        text = title,
+        text = stringResource(id = R.string.theme),
         style = MaterialTheme.typography.titleLarge,
     )
 }
@@ -175,7 +171,7 @@ private fun DarkDialogButtons(
     Spacer(modifier = Modifier.height(10.dp))
 
     Row(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier,
         horizontalArrangement = Arrangement.End,
     ) {
         TextButton(
@@ -199,7 +195,6 @@ private fun SingleSelectionDialogPreview() {
     GetoTheme {
         Surface {
             DarkDialog(
-                title = "Dark Dialog",
                 onDismissRequest = {},
                 selected = 0,
                 onSelect = {},

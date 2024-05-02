@@ -52,13 +52,12 @@ class DarkDialogScreenshotTest {
         ) {
             GetoTheme {
                 DarkDialog(
-                    title = "Dark dialog",
                     onDismissRequest = {},
                     selected = 0,
                     onSelect = {},
                     onCancelClick = {},
                     onChangeClick = {},
-                    contentDescription = "Dark dialog",
+                    contentDescription = "",
                 )
             }
         }
@@ -75,13 +74,12 @@ class DarkDialogScreenshotTest {
             GetoTheme {
                 GetoBackground {
                     DarkDialog(
-                        title = "Dark dialog",
                         onDismissRequest = {},
                         selected = 0,
                         onSelect = {},
                         onCancelClick = {},
                         onChangeClick = {},
-                        contentDescription = "Dark dialog",
+                        contentDescription = "",
                     )
                 }
             }

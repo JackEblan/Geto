@@ -191,7 +191,6 @@ private fun SettingsScreenDialogs(
 
     if (showThemeDialog) {
         ThemeDialog(
-            title = stringResource(id = R.string.theme),
             onDismissRequest = onThemeDialogDismissRequest,
             selected = themeDialogSelected,
             onSelect = { themeDialogSelected = it },
@@ -206,7 +205,6 @@ private fun SettingsScreenDialogs(
 
     if (showDarkDialog) {
         DarkDialog(
-            title = stringResource(id = R.string.theme),
             onDismissRequest = onDarkDialogDismissRequest,
             selected = darkDialogSelected,
             onSelect = { darkDialogSelected = it },
@@ -221,8 +219,6 @@ private fun SettingsScreenDialogs(
 
     if (showCleanDialog) {
         CleanDialog(
-            title = stringResource(id = R.string.clean_app_settings),
-            text = stringResource(id = R.string.are_you_sure_you_want_to_clean_app_settings_from_the_uninstalled_applications),
             onDismissRequest = onCleanDialogDismissRequest,
             onCancelClick = onCleanDialogDismissRequest,
             onCleanClick = {

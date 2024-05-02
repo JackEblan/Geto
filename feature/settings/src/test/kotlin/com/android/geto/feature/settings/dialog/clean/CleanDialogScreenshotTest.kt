@@ -52,12 +52,10 @@ class CleanDialogScreenshotTest {
         ) {
             GetoTheme {
                 CleanDialog(
-                    title = "Clean Dialog",
-                    text = "Hello from Clean Dialog",
                     onDismissRequest = {},
                     onCancelClick = {},
                     onCleanClick = {},
-                    contentDescription = "Clean Dialog",
+                    contentDescription = "",
                 )
             }
         }
@@ -74,12 +72,10 @@ class CleanDialogScreenshotTest {
             GetoTheme {
                 GetoBackground {
                     CleanDialog(
-                        title = "Clean Dialog",
-                        text = "Hello from Clean Dialog",
                         onDismissRequest = {},
                         onCancelClick = {},
                         onCleanClick = {},
-                        contentDescription = "Clean Dialog",
+                        contentDescription = "",
                     )
                 }
             }

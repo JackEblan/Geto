@@ -79,8 +79,9 @@ import com.android.geto.feature.appsettings.dialog.appsetting.rememberAppSetting
 import com.android.geto.feature.appsettings.dialog.copypermissioncommand.CopyPermissionCommandDialog
 import com.android.geto.feature.appsettings.dialog.copypermissioncommand.CopyPermissionCommandDialogState
 import com.android.geto.feature.appsettings.dialog.copypermissioncommand.rememberCopyPermissionCommandDialogState
-import com.android.geto.feature.appsettings.dialog.shortcut.ShortcutDialog
+import com.android.geto.feature.appsettings.dialog.shortcut.AddShortcutDialog
 import com.android.geto.feature.appsettings.dialog.shortcut.ShortcutDialogState
+import com.android.geto.feature.appsettings.dialog.shortcut.UpdateShortcutDialog
 import com.android.geto.feature.appsettings.dialog.shortcut.rememberShortcutDialogState
 
 @Composable
@@ -429,7 +430,7 @@ private fun AppSettingsDialogs(
         AppSettingDialog(
             appSettingDialogState = appSettingDialogState,
             packageName = packageName,
-            onAddSetting = onAddAppSetting,
+            onAddClick = onAddAppSetting,
             contentDescription = "Add App Settings Dialog",
         )
     }
@@ -443,26 +444,20 @@ private fun AppSettingsDialogs(
     }
 
     if (addShortcutDialogState.showDialog) {
-        ShortcutDialog(
+        AddShortcutDialog(
             shortcutDialogState = addShortcutDialogState,
             packageName = packageName,
             contentDescription = "Add Shortcut Dialog",
-            title = stringResource(id = R.string.add_shortcut),
-            negativeButtonText = stringResource(id = R.string.cancel),
-            positiveButtonText = stringResource(id = R.string.add),
-            onPositiveButtonClick = onAddShortcut,
+            onAddClick = onAddShortcut,
         )
     }
 
     if (updateShortcutDialogState.showDialog) {
-        ShortcutDialog(
+        UpdateShortcutDialog(
             shortcutDialogState = updateShortcutDialogState,
             packageName = packageName,
             contentDescription = "Update Shortcut Dialog",
-            title = stringResource(id = R.string.update_shortcut),
-            negativeButtonText = stringResource(id = R.string.cancel),
-            positiveButtonText = stringResource(id = R.string.update),
-            onPositiveButtonClick = onUpdateShortcut,
+            onUpdateClick = onUpdateShortcut,
         )
     }
 }
