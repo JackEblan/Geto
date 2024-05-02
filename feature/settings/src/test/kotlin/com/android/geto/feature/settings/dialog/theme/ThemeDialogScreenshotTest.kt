@@ -52,13 +52,12 @@ class ThemeDialogScreenshotTest {
         ) {
             GetoTheme {
                 ThemeDialog(
-                    title = "Theme dialog",
                     onDismissRequest = {},
                     selected = 0,
                     onSelect = {},
                     onCancelClick = {},
                     onChangeClick = {},
-                    contentDescription = "Theme dialog",
+                    contentDescription = "",
                 )
             }
         }
@@ -75,13 +74,12 @@ class ThemeDialogScreenshotTest {
             GetoTheme {
                 GetoBackground {
                     ThemeDialog(
-                        title = "Theme dialog",
                         onDismissRequest = {},
                         selected = 0,
                         onSelect = {},
                         onCancelClick = {},
                         onChangeClick = {},
-                        contentDescription = "Theme dialog",
+                        contentDescription = "",
                     )
                 }
             }

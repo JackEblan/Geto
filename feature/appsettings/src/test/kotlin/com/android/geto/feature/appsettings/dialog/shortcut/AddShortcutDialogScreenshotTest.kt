@@ -18,13 +18,11 @@
 package com.android.geto.feature.appsettings.dialog.shortcut
 
 import androidx.activity.ComponentActivity
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.android.geto.core.designsystem.component.GetoBackground
 import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.screenshot.testing.util.DefaultTestDevices
 import com.android.geto.core.screenshot.testing.util.captureDialogForDevice
-import com.android.geto.feature.appsettings.R
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication
 import org.junit.Before
@@ -60,14 +58,11 @@ class AddShortcutDialogScreenshotTest {
             deviceSpec = DefaultTestDevices.FOLDABLE.spec,
         ) {
             GetoTheme {
-                ShortcutDialog(
+                AddShortcutDialog(
                     shortcutDialogState = shortcutDialogState,
-                    packageName = "com.android.geto",
-                    contentDescription = "Add Shortcut Dialog",
-                    title = stringResource(id = R.string.add_shortcut),
-                    negativeButtonText = stringResource(id = R.string.cancel),
-                    positiveButtonText = stringResource(id = R.string.add),
-                    onPositiveButtonClick = {},
+                    packageName = "",
+                    contentDescription = "",
+                    onAddClick = {},
                 )
             }
         }
@@ -85,14 +80,11 @@ class AddShortcutDialogScreenshotTest {
             deviceSpec = DefaultTestDevices.FOLDABLE.spec,
         ) {
             GetoTheme {
-                ShortcutDialog(
+                AddShortcutDialog(
                     shortcutDialogState = shortcutDialogState,
-                    packageName = "com.android.geto",
-                    contentDescription = "Add Shortcut Dialog",
-                    title = stringResource(id = R.string.add_shortcut),
-                    negativeButtonText = stringResource(id = R.string.cancel),
-                    positiveButtonText = stringResource(id = R.string.add),
-                    onPositiveButtonClick = {},
+                    packageName = "",
+                    contentDescription = "",
+                    onAddClick = {},
                 )
             }
         }
@@ -108,14 +100,11 @@ class AddShortcutDialogScreenshotTest {
             deviceSpec = DefaultTestDevices.FOLDABLE.spec,
         ) {
             GetoTheme {
-                ShortcutDialog(
+                AddShortcutDialog(
                     shortcutDialogState = shortcutDialogState,
-                    packageName = "com.android.geto",
-                    contentDescription = "Add Shortcut Dialog",
-                    title = stringResource(id = R.string.add_shortcut),
-                    negativeButtonText = stringResource(id = R.string.cancel),
-                    positiveButtonText = stringResource(id = R.string.add),
-                    onPositiveButtonClick = {},
+                    packageName = "",
+                    contentDescription = "",
+                    onAddClick = {},
                 )
             }
         }
@@ -131,14 +120,11 @@ class AddShortcutDialogScreenshotTest {
         ) {
             GetoTheme {
                 GetoBackground {
-                    ShortcutDialog(
+                    AddShortcutDialog(
                         shortcutDialogState = shortcutDialogState,
-                        packageName = "com.android.geto",
-                        contentDescription = "Add Shortcut Dialog",
-                        title = stringResource(id = R.string.add_shortcut),
-                        negativeButtonText = stringResource(id = R.string.cancel),
-                        positiveButtonText = stringResource(id = R.string.add),
-                        onPositiveButtonClick = {},
+                        packageName = "",
+                        contentDescription = "",
+                        onAddClick = {},
                     )
                 }
             }
@@ -159,14 +145,11 @@ class AddShortcutDialogScreenshotTest {
         ) {
             GetoTheme {
                 GetoBackground {
-                    ShortcutDialog(
+                    AddShortcutDialog(
                         shortcutDialogState = shortcutDialogState,
-                        packageName = "com.android.geto",
-                        contentDescription = "Add Shortcut Dialog",
-                        title = stringResource(id = R.string.add_shortcut),
-                        negativeButtonText = stringResource(id = R.string.cancel),
-                        positiveButtonText = stringResource(id = R.string.add),
-                        onPositiveButtonClick = {},
+                        packageName = "",
+                        contentDescription = "",
+                        onAddClick = {},
                     )
                 }
             }
@@ -185,14 +168,11 @@ class AddShortcutDialogScreenshotTest {
         ) {
             GetoTheme {
                 GetoBackground {
-                    ShortcutDialog(
+                    AddShortcutDialog(
                         shortcutDialogState = shortcutDialogState,
-                        packageName = "com.android.geto",
-                        contentDescription = "Add Shortcut Dialog",
-                        title = stringResource(id = R.string.add_shortcut),
-                        negativeButtonText = stringResource(id = R.string.cancel),
-                        positiveButtonText = stringResource(id = R.string.add),
-                        onPositiveButtonClick = {},
+                        packageName = "",
+                        contentDescription = "",
+                        onAddClick = {},
                     )
                 }
             }

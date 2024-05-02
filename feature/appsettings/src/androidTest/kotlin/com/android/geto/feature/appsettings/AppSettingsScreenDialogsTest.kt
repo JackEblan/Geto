@@ -350,7 +350,7 @@ class AppSettingsScreenDialogsTest {
     }
 
     @Test
-    fun shortcutDialog_stateRestoration() {
+    fun addShortcutDialog_stateRestoration() {
         val restorationTester = StateRestorationTester(composeTestRule)
 
         restorationTester.setContent {
@@ -384,12 +384,12 @@ class AppSettingsScreenDialogsTest {
         }
 
         composeTestRule.onNode(
-            matcher = hasAnyAncestor(isDialog()) and hasTestTag("shortcutDialog:shortLabelTextField"),
+            matcher = hasAnyAncestor(isDialog()) and hasTestTag("addShortcutDialog:shortLabelTextField"),
             useUnmergedTree = true,
         ).performTextInput("Geto")
 
         composeTestRule.onNode(
-            matcher = hasAnyAncestor(isDialog()) and hasTestTag("shortcutDialog:longLabelTextField"),
+            matcher = hasAnyAncestor(isDialog()) and hasTestTag("addShortcutDialog:longLabelTextField"),
             useUnmergedTree = true,
         ).performTextInput("Geto")
 
@@ -399,12 +399,68 @@ class AppSettingsScreenDialogsTest {
             .assertIsDisplayed()
 
         composeTestRule.onNode(
-            matcher = hasAnyAncestor(isDialog()) and hasTestTag("shortcutDialog:shortLabelTextField"),
+            matcher = hasAnyAncestor(isDialog()) and hasTestTag("addShortcutDialog:shortLabelTextField"),
             useUnmergedTree = true,
         ).assertTextEquals("Geto")
 
         composeTestRule.onNode(
-            matcher = hasAnyAncestor(isDialog()) and hasTestTag("shortcutDialog:longLabelTextField"),
+            matcher = hasAnyAncestor(isDialog()) and hasTestTag("addShortcutDialog:longLabelTextField"),
+            useUnmergedTree = true,
+        ).assertTextEquals("Geto")
+    }
+
+    @Test
+    fun updateShortcutDialog_stateRestoration() {
+        val restorationTester = StateRestorationTester(composeTestRule)
+
+        restorationTester.setContent {
+            AppSettingsScreen(
+                packageName = "com.android.geto",
+                appName = "Geto",
+                appSettingsUiState = AppSettingsUiState.Loading,
+                snackbarHostState = SnackbarHostState(),
+                applicationIcon = null,
+                secureSettings = emptyList(),
+                applyAppSettingsResult = AppSettingsResult.NoResult,
+                revertAppSettingsResult = AppSettingsResult.NoResult,
+                shortcutResult = ShortcutResult.ShortcutFound(
+                    mappedShortcutInfoCompat = MappedShortcutInfoCompat(
+                        id = "com.android.geto",
+                        shortLabel = "Geto",
+                        longLabel = "Geto",
+                    ),
+                ),
+                clipboardResult = ClipboardResult.NoResult,
+                onNavigationIconClick = {},
+                onRevertAppSettings = {},
+                onGetShortcut = {},
+                onCheckAppSetting = { _, _ -> },
+                onDeleteAppSetting = {},
+                onLaunchApp = {},
+                onAutoLaunchApp = {},
+                onResetAppSettingsResult = {},
+                onResetShortcutResult = {},
+                onResetClipboardResult = {},
+                onGetSecureSettingsByName = { _, _ -> },
+                onAddAppSetting = {},
+                onCopyPermissionCommand = {},
+                onAddShortcut = {},
+                onUpdateShortcut = {},
+            )
+        }
+
+        restorationTester.emulateSavedInstanceStateRestore()
+
+        composeTestRule.onNode(matcher = hasParent(isDialog()) and hasContentDescription("Update Shortcut Dialog"))
+            .assertIsDisplayed()
+
+        composeTestRule.onNode(
+            matcher = hasAnyAncestor(isDialog()) and hasTestTag("updateShortcutDialog:shortLabelTextField"),
+            useUnmergedTree = true,
+        ).assertTextEquals("Geto")
+
+        composeTestRule.onNode(
+            matcher = hasAnyAncestor(isDialog()) and hasTestTag("updateShortcutDialog:longLabelTextField"),
             useUnmergedTree = true,
         ).assertTextEquals("Geto")
     }

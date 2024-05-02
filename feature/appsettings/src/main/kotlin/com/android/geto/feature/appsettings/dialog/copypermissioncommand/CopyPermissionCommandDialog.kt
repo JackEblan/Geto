@@ -69,7 +69,7 @@ internal fun CopyPermissionCommandDialog(
             CopyPermissionCommandDialogContent()
 
             CopyPermissionCommandDialogButtons(
-                modifier = modifier,
+                modifier = modifier.fillMaxWidth(),
                 onCancelClick = {
                     copyPermissionCommandDialogState.updateShowDialog(false)
                 },
@@ -108,7 +108,7 @@ private fun CopyPermissionCommandDialogTitle(modifier: Modifier = Modifier) {
     Spacer(modifier = Modifier.height(10.dp))
 
     Text(
-        modifier = modifier.padding(horizontal = 5.dp),
+        modifier = modifier,
         text = stringResource(id = R.string.permission_error),
         style = MaterialTheme.typography.titleLarge,
     )
@@ -134,7 +134,7 @@ fun CopyPermissionCommandDialogButtons(
     Spacer(modifier = Modifier.height(10.dp))
 
     Row(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier,
         horizontalArrangement = Arrangement.End,
     ) {
         TextButton(

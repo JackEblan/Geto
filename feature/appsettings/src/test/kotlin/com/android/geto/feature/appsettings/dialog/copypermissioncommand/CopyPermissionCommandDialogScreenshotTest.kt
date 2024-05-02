@@ -54,7 +54,7 @@ class CopyPermissionCommandDialogScreenshotTest {
                 CopyPermissionCommandDialog(
                     copyPermissionCommandDialogState = rememberCopyPermissionCommandDialogState(),
                     onCopyClick = {},
-                    contentDescription = "Copy Permission Command Dialog",
+                    contentDescription = "",
                 )
             }
         }
@@ -73,7 +73,7 @@ class CopyPermissionCommandDialogScreenshotTest {
                     CopyPermissionCommandDialog(
                         copyPermissionCommandDialogState = rememberCopyPermissionCommandDialogState(),
                         onCopyClick = {},
-                        contentDescription = "Copy Permission Command Dialog",
+                        contentDescription = "",
                     )
                 }
             }

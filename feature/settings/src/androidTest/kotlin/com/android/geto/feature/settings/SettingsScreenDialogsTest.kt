@@ -20,6 +20,7 @@ package com.android.geto.feature.settings
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsNotDisplayed
+import androidx.compose.ui.test.junit4.StateRestorationTester
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
@@ -120,6 +121,111 @@ class SettingsScreenDialogsTest {
         }
 
         composeTestRule.onNodeWithTag("settings:clean").performClick()
+
+        composeTestRule.onNodeWithContentDescription("Clean Dialog").assertIsDisplayed()
+
+        composeTestRule.onNodeWithText("Cancel").performClick()
+
+        composeTestRule.onNodeWithContentDescription("Clean Dialog").assertIsNotDisplayed()
+    }
+
+    @Test
+    fun themeDialog_stateRestoration() {
+        val restorationTester = StateRestorationTester(composeTestRule)
+
+        restorationTester.setContent {
+            SettingsScreen(
+                settingsUiState = SettingsUiState.Success(
+                    UserData(
+                        themeBrand = ThemeBrand.DEFAULT,
+                        useDynamicColor = true,
+                        darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+                        useAutoLaunch = true,
+                    ),
+                ),
+                supportDynamicColor = true,
+                onUpdateThemeBrand = {},
+                onUpdateDarkThemeConfig = {},
+                onCleanAppSettings = {},
+                onChangeDynamicColorPreference = {},
+                onChangeAutoLaunchPreference = {},
+                onNavigationIconClick = {},
+            )
+        }
+
+        composeTestRule.onNodeWithTag("settings:theme").performClick()
+
+        restorationTester.emulateSavedInstanceStateRestore()
+
+        composeTestRule.onNodeWithContentDescription("Theme Dialog").assertIsDisplayed()
+
+        composeTestRule.onNodeWithText("Cancel").performClick()
+
+        composeTestRule.onNodeWithContentDescription("Theme Dialog").assertIsNotDisplayed()
+    }
+
+    @Test
+    fun darkDialog_stateRestoration() {
+        val restorationTester = StateRestorationTester(composeTestRule)
+
+        restorationTester.setContent {
+            SettingsScreen(
+                settingsUiState = SettingsUiState.Success(
+                    UserData(
+                        themeBrand = ThemeBrand.DEFAULT,
+                        useDynamicColor = true,
+                        darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+                        useAutoLaunch = true,
+                    ),
+                ),
+                supportDynamicColor = true,
+                onUpdateThemeBrand = {},
+                onUpdateDarkThemeConfig = {},
+                onCleanAppSettings = {},
+                onChangeDynamicColorPreference = {},
+                onChangeAutoLaunchPreference = {},
+                onNavigationIconClick = {},
+            )
+        }
+
+        composeTestRule.onNodeWithTag("settings:dark").performClick()
+
+        restorationTester.emulateSavedInstanceStateRestore()
+
+        composeTestRule.onNodeWithContentDescription("Dark Dialog").assertIsDisplayed()
+
+        composeTestRule.onNodeWithText("Cancel").performClick()
+
+        composeTestRule.onNodeWithContentDescription("Dark Dialog").assertIsNotDisplayed()
+    }
+
+    @Test
+    fun cleanDialog_stateRestoration() {
+        val restorationTester = StateRestorationTester(composeTestRule)
+
+        restorationTester.setContent {
+            SettingsScreen(
+                settingsUiState = SettingsUiState.Success(
+                    UserData(
+                        themeBrand = ThemeBrand.DEFAULT,
+                        useDynamicColor = true,
+                        darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+                        useAutoLaunch = true,
+                    ),
+                ),
+                supportDynamicColor = true,
+                onUpdateThemeBrand = {},
+                onUpdateDarkThemeConfig = {},
+                onCleanAppSettings = {},
+                onChangeDynamicColorPreference = {},
+                onChangeAutoLaunchPreference = {},
+                onNavigationIconClick = {},
+            )
+        }
+
+        composeTestRule.onNodeWithTag("settings:clean").performClick()
+
+        restorationTester.emulateSavedInstanceStateRestore()
 
         composeTestRule.onNodeWithContentDescription("Clean Dialog").assertIsDisplayed()
 

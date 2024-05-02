@@ -67,13 +67,16 @@ internal fun AppSettingDialog(
     appSettingDialogState: AppSettingDialogState,
     scrollState: ScrollState = rememberScrollState(),
     packageName: String,
-    onAddSetting: (AppSetting) -> Unit,
+    onAddClick: (AppSetting) -> Unit,
     contentDescription: String,
 ) {
     AppSettingDialogContainer(
-        modifier = modifier,
+        modifier = modifier
+            .width(IntrinsicSize.Max)
+            .height(IntrinsicSize.Min)
+            .padding(16.dp)
+            .semantics { this.contentDescription = contentDescription },
         onDismissRequest = { appSettingDialogState.updateShowDialog(false) },
-        contentDescription = contentDescription,
     ) {
         Column(
             modifier = Modifier
@@ -93,12 +96,13 @@ internal fun AppSettingDialog(
             )
 
             AppSettingDialogButtons(
+                modifier = modifier.fillMaxWidth(),
                 onCancelClick = {
                     appSettingDialogState.updateShowDialog(false)
                 },
                 onAddClick = {
                     appSettingDialogState.getAppSetting(packageName = packageName)?.let {
-                        onAddSetting(it)
+                        onAddClick(it)
                         appSettingDialogState.resetState()
                     }
                 },
@@ -111,16 +115,11 @@ internal fun AppSettingDialog(
 private fun AppSettingDialogContainer(
     modifier: Modifier = Modifier,
     onDismissRequest: () -> Unit,
-    contentDescription: String,
     content: @Composable (ColumnScope.() -> Unit),
 ) {
     Dialog(onDismissRequest = onDismissRequest) {
         Card(
-            modifier = modifier
-                .width(IntrinsicSize.Max)
-                .height(IntrinsicSize.Min)
-                .padding(16.dp)
-                .semantics { this.contentDescription = contentDescription },
+            modifier = modifier,
             shape = RoundedCornerShape(16.dp),
         ) {
             content()
@@ -133,7 +132,7 @@ private fun AppSettingDialogTitle(modifier: Modifier = Modifier) {
     Spacer(modifier = Modifier.height(10.dp))
 
     Text(
-        modifier = modifier.padding(horizontal = 5.dp),
+        modifier = modifier,
         text = stringResource(R.string.add_app_setting),
         style = MaterialTheme.typography.titleLarge,
     )
@@ -357,7 +356,7 @@ private fun AppSettingDialogButtons(
     Spacer(modifier = Modifier.height(10.dp))
 
     Row(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier,
         horizontalArrangement = Arrangement.End,
     ) {
         TextButton(
@@ -382,7 +381,7 @@ private fun AppSettingDialogPreview() {
         AppSettingDialog(
             appSettingDialogState = rememberAppSettingDialogState(),
             packageName = "com.android.geto",
-            onAddSetting = { },
+            onAddClick = { },
             contentDescription = "App setting dialog",
         )
     }

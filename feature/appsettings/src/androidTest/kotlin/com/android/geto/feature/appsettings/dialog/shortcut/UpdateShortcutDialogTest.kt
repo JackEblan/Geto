@@ -18,14 +18,12 @@
 package com.android.geto.feature.appsettings.dialog.shortcut
 
 import androidx.activity.ComponentActivity
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
-import com.android.geto.feature.appsettings.R
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Before
 import org.junit.Rule
@@ -34,7 +32,7 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 @HiltAndroidTest
-class ShortcutDialogTest {
+class UpdateShortcutDialogTest {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
@@ -52,26 +50,23 @@ class ShortcutDialogTest {
         shortcutDialogState.updateLongLabel("")
 
         composeTestRule.setContent {
-            ShortcutDialog(
+            UpdateShortcutDialog(
                 shortcutDialogState = shortcutDialogState,
-                packageName = "com.android.geto",
-                contentDescription = "Shortcut Dialog",
-                title = stringResource(id = R.string.add_shortcut),
-                negativeButtonText = stringResource(id = R.string.cancel),
-                positiveButtonText = stringResource(id = R.string.add),
-                onPositiveButtonClick = {
+                packageName = "",
+                contentDescription = "",
+                onUpdateClick = {
                     assertTrue(shortcutDialogState.showDialog)
                 },
             )
         }
 
         composeTestRule.onNodeWithTag(
-            testTag = "shortcutDialog:shortLabelCounterSupportingText",
+            testTag = "updateShortcutDialog:shortLabelCounterSupportingText",
             useUnmergedTree = true,
         ).assertTextEquals("0/${shortcutDialogState.shortLabelMaxLength}")
 
         composeTestRule.onNodeWithTag(
-            testTag = "shortcutDialog:longLabelCounterSupportingText",
+            testTag = "updateShortcutDialog:longLabelCounterSupportingText",
             useUnmergedTree = true,
         ).assertTextEquals("0/${shortcutDialogState.longLabelMaxLength}")
     }
@@ -83,23 +78,20 @@ class ShortcutDialogTest {
         shortcutDialogState.updateLongLabel("Geto")
 
         composeTestRule.setContent {
-            ShortcutDialog(
+            UpdateShortcutDialog(
                 shortcutDialogState = shortcutDialogState,
-                packageName = "com.android.geto",
-                contentDescription = "Shortcut Dialog",
-                title = stringResource(id = R.string.add_shortcut),
-                negativeButtonText = stringResource(id = R.string.cancel),
-                positiveButtonText = stringResource(id = R.string.add),
-                onPositiveButtonClick = {
+                packageName = "",
+                contentDescription = "",
+                onUpdateClick = {
                     assertTrue(shortcutDialogState.showDialog)
                 },
             )
         }
 
-        composeTestRule.onNodeWithText("Add").performClick()
+        composeTestRule.onNodeWithText("Update").performClick()
 
         composeTestRule.onNodeWithTag(
-            testTag = "shortcutDialog:shortLabelSupportingText",
+            testTag = "updateShortcutDialog:shortLabelSupportingText",
             useUnmergedTree = true,
         ).assertIsDisplayed()
     }
@@ -111,21 +103,18 @@ class ShortcutDialogTest {
 
             shortcutDialogState.updateLongLabel("")
 
-            ShortcutDialog(
+            UpdateShortcutDialog(
                 shortcutDialogState = shortcutDialogState,
-                packageName = "com.android.geto",
-                contentDescription = "Shortcut Dialog",
-                title = stringResource(id = R.string.add_shortcut),
-                negativeButtonText = stringResource(id = R.string.cancel),
-                positiveButtonText = stringResource(id = R.string.add),
-                onPositiveButtonClick = {
+                packageName = "",
+                contentDescription = "",
+                onUpdateClick = {
                     assertTrue(shortcutDialogState.showDialog)
                 },
             )
         }
 
         composeTestRule.onNodeWithTag(
-            testTag = "shortcutDialog:shortLabelCounterSupportingText",
+            testTag = "updateShortcutDialog:shortLabelCounterSupportingText",
             useUnmergedTree = true,
         )
             .assertTextEquals("${shortcutDialogState.shortLabel.length}/${shortcutDialogState.shortLabelMaxLength}")
@@ -138,21 +127,18 @@ class ShortcutDialogTest {
         shortcutDialogState.updateLongLabel("qwerty")
 
         composeTestRule.setContent {
-            ShortcutDialog(
+            UpdateShortcutDialog(
                 shortcutDialogState = shortcutDialogState,
-                packageName = "com.android.geto",
-                contentDescription = "Shortcut Dialog",
-                title = stringResource(id = R.string.add_shortcut),
-                negativeButtonText = stringResource(id = R.string.cancel),
-                positiveButtonText = stringResource(id = R.string.add),
-                onPositiveButtonClick = {
+                packageName = "",
+                contentDescription = "",
+                onUpdateClick = {
                     assertTrue(shortcutDialogState.showDialog)
                 },
             )
         }
 
         composeTestRule.onNodeWithTag(
-            testTag = "shortcutDialog:longLabelCounterSupportingText",
+            testTag = "updateShortcutDialog:longLabelCounterSupportingText",
             useUnmergedTree = true,
         )
             .assertTextEquals("${shortcutDialogState.longLabel.length}/${shortcutDialogState.longLabelMaxLength}")
@@ -165,47 +151,41 @@ class ShortcutDialogTest {
         shortcutDialogState.updateLongLabel("")
 
         composeTestRule.setContent {
-            ShortcutDialog(
+            UpdateShortcutDialog(
                 shortcutDialogState = shortcutDialogState,
-                packageName = "com.android.geto",
-                contentDescription = "Shortcut Dialog",
-                title = stringResource(id = R.string.add_shortcut),
-                negativeButtonText = stringResource(id = R.string.cancel),
-                positiveButtonText = stringResource(id = R.string.add),
-                onPositiveButtonClick = {
+                packageName = "",
+                contentDescription = "",
+                onUpdateClick = {
                     assertTrue(shortcutDialogState.showDialog)
                 },
             )
         }
 
-        composeTestRule.onNodeWithText("Add").performClick()
+        composeTestRule.onNodeWithText("Update").performClick()
 
         composeTestRule.onNodeWithTag(
-            testTag = "shortcutDialog:longLabelSupportingText",
+            testTag = "updateShortcutDialog:longLabelSupportingText",
             useUnmergedTree = true,
         ).assertIsDisplayed()
     }
 
     @Test
-    fun shortcutDialog_isDismissed() {
+    fun updateShortcutDialog_isDismissed() {
         shortcutDialogState.updateShortLabel("Geto")
 
         shortcutDialogState.updateLongLabel("Geto")
 
         composeTestRule.setContent {
-            ShortcutDialog(
+            UpdateShortcutDialog(
                 shortcutDialogState = shortcutDialogState,
-                packageName = "com.android.geto",
-                contentDescription = "Shortcut Dialog",
-                title = stringResource(id = R.string.add_shortcut),
-                negativeButtonText = stringResource(id = R.string.cancel),
-                positiveButtonText = stringResource(id = R.string.add),
-                onPositiveButtonClick = {
+                packageName = "",
+                contentDescription = "",
+                onUpdateClick = {
                     assertFalse(shortcutDialogState.showDialog)
                 },
             )
         }
 
-        composeTestRule.onNodeWithText("Add").performClick()
+        composeTestRule.onNodeWithText("Update").performClick()
     }
 }

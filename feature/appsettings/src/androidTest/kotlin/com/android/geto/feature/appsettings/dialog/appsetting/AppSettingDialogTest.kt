@@ -63,11 +63,11 @@ class AppSettingDialogTest {
 
             AppSettingDialog(
                 appSettingDialogState = appSettingDialogState,
-                packageName = "com.android.geto",
-                onAddSetting = {
+                packageName = "",
+                onAddClick = {
                     assertTrue(appSettingDialogState.showDialog)
                 },
-                contentDescription = "Add App Setting Dialog",
+                contentDescription = "",
             )
         }
 
@@ -98,11 +98,11 @@ class AppSettingDialogTest {
 
             AppSettingDialog(
                 appSettingDialogState = appSettingDialogState,
-                packageName = "com.android.geto",
-                onAddSetting = {
+                packageName = "",
+                onAddClick = {
                     assertTrue(appSettingDialogState.showDialog)
                 },
-                contentDescription = "Add App Setting Dialog",
+                contentDescription = "",
             )
         }
 
@@ -133,11 +133,11 @@ class AppSettingDialogTest {
 
             AppSettingDialog(
                 appSettingDialogState = appSettingDialogState,
-                packageName = "com.android.geto",
-                onAddSetting = {
+                packageName = "",
+                onAddClick = {
                     assertTrue(appSettingDialogState.showDialog)
                 },
-                contentDescription = "Add App Setting Dialog",
+                contentDescription = "",
             )
         }
 
@@ -168,11 +168,11 @@ class AppSettingDialogTest {
 
             AppSettingDialog(
                 appSettingDialogState = appSettingDialogState,
-                packageName = "com.android.geto",
-                onAddSetting = {
+                packageName = "",
+                onAddClick = {
                     assertTrue(appSettingDialogState.showDialog)
                 },
-                contentDescription = "Add App Setting Dialog",
+                contentDescription = "",
             )
         }
 
@@ -203,11 +203,11 @@ class AppSettingDialogTest {
 
             AppSettingDialog(
                 appSettingDialogState = appSettingDialogState,
-                packageName = "com.android.geto",
-                onAddSetting = {
+                packageName = "",
+                onAddClick = {
                     assertTrue(appSettingDialogState.showDialog)
                 },
-                contentDescription = "Add App Setting Dialog",
+                contentDescription = "",
             )
         }
 
@@ -228,11 +228,11 @@ class AppSettingDialogTest {
 
             AppSettingDialog(
                 appSettingDialogState = appSettingDialogState,
-                packageName = "com.android.geto",
-                onAddSetting = {
+                packageName = "",
+                onAddClick = {
                     assertTrue(appSettingDialogState.showDialog)
                 },
-                contentDescription = "Add App Setting Dialog",
+                contentDescription = "",
             )
         }
 
@@ -252,11 +252,11 @@ class AppSettingDialogTest {
 
             AppSettingDialog(
                 appSettingDialogState = appSettingDialogState,
-                packageName = "com.android.geto",
-                onAddSetting = {
+                packageName = "",
+                onAddClick = {
                     assertTrue(appSettingDialogState.showDialog)
                 },
-                contentDescription = "Add App Setting Dialog",
+                contentDescription = "",
             )
         }
 
@@ -294,11 +294,11 @@ class AppSettingDialogTest {
 
             AppSettingDialog(
                 appSettingDialogState = appSettingDialogState,
-                packageName = "com.android.geto",
-                onAddSetting = {
+                packageName = "",
+                onAddClick = {
                     assertFalse(appSettingDialogState.showDialog)
                 },
-                contentDescription = "Add App Setting Dialog",
+                contentDescription = "",
             )
         }
 
