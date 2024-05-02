@@ -151,7 +151,7 @@ fun GetoOverlayLoadingWheel(
 
 @ThemePreviews
 @Composable
-fun GetoLoadingWheelPreview() {
+private fun GetoLoadingWheelPreview() {
     GetoTheme {
         Surface {
             GetoLoadingWheel(contentDescription = "GetoOverlayLoadingWheel")
@@ -161,7 +161,7 @@ fun GetoLoadingWheelPreview() {
 
 @ThemePreviews
 @Composable
-fun GetoOverlayLoadingWheelPreview() {
+private fun GetoOverlayLoadingWheelPreview() {
     GetoTheme {
         Surface {
             GetoOverlayLoadingWheel(contentDescription = "GetoOverlayLoadingWheel")

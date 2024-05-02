@@ -125,7 +125,7 @@ class ShortcutDialogScreenshotTest {
     fun shortcutDialog_empty_dark() {
         composeTestRule.captureDialogForDevice(
             fileName = "ShortcutDialogEmpty",
-            deviceName = "foldable",
+            deviceName = "foldable_dark",
             deviceSpec = DefaultTestDevices.FOLDABLE.spec,
             darkMode = true,
         ) {
@@ -153,7 +153,7 @@ class ShortcutDialogScreenshotTest {
 
         composeTestRule.captureDialogForDevice(
             fileName = "ShortcutDialogFilledTextFields",
-            deviceName = "foldable",
+            deviceName = "foldable_dark",
             deviceSpec = DefaultTestDevices.FOLDABLE.spec,
             darkMode = true,
         ) {
@@ -179,7 +179,7 @@ class ShortcutDialogScreenshotTest {
 
         composeTestRule.captureDialogForDevice(
             fileName = "ShortcutDialogErrorTextFields",
-            deviceName = "foldable",
+            deviceName = "foldable_dark",
             deviceSpec = DefaultTestDevices.FOLDABLE.spec,
             darkMode = true,
         ) {

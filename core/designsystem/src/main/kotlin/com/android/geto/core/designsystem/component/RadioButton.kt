@@ -85,7 +85,7 @@ fun GetoRadioButtonGroup(
 
 @Preview
 @Composable
-fun GetoRadioButtonGroupPreview() {
+private fun GetoRadioButtonGroupPreview() {
     GetoTheme {
         Surface {
             GetoRadioButtonGroup(selected = 0, onSelect = {}, items = arrayOf("Item 0", "Item 1"))

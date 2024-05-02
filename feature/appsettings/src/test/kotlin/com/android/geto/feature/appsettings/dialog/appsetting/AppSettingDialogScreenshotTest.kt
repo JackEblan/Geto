@@ -121,7 +121,7 @@ class AppSettingDialogScreenshotTest {
     fun appSettingDialog_empty_dark() {
         composeTestRule.captureDialogForDevice(
             fileName = "AppSettingDialogEmpty",
-            deviceName = "foldable",
+            deviceName = "foldable_dark",
             deviceSpec = DefaultTestDevices.FOLDABLE.spec,
             darkMode = true,
         ) {
@@ -152,7 +152,7 @@ class AppSettingDialogScreenshotTest {
 
         composeTestRule.captureDialogForDevice(
             fileName = "AppSettingDialogFilledTextFields",
-            deviceName = "foldable",
+            deviceName = "foldable_dark",
             deviceSpec = DefaultTestDevices.FOLDABLE.spec,
             darkMode = true,
         ) {
@@ -175,7 +175,7 @@ class AppSettingDialogScreenshotTest {
 
         composeTestRule.captureDialogForDevice(
             fileName = "AppSettingDialogErrorTextFields",
-            deviceName = "foldable",
+            deviceName = "foldable_dark",
             deviceSpec = DefaultTestDevices.FOLDABLE.spec,
             darkMode = true,
         ) {
