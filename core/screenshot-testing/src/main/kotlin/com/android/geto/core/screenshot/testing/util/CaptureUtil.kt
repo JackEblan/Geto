@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.core.screenshot.testing.util
 
 import androidx.activity.ComponentActivity

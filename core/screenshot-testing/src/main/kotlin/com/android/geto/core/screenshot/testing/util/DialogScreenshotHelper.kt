@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.core.screenshot.testing.util
 
 import androidx.activity.ComponentActivity
@@ -88,7 +87,8 @@ fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.c
         content = content,
         capture = { filePath, roborazziOptions ->
             captureScreenRoboImage(
-                filePath = filePath, roborazziOptions = roborazziOptions,
+                filePath = filePath,
+                roborazziOptions = roborazziOptions,
             )
         },
     )

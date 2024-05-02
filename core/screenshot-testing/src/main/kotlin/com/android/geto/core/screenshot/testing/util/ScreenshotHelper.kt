@@ -37,7 +37,8 @@ val DefaultRoborazziOptions = RoborazziOptions(
 )
 
 enum class DefaultTestDevices(val description: String, val spec: String) {
-    PHONE("phone", "spec:shape=Normal,width=640,height=360,unit=dp,dpi=480"), FOLDABLE(
+    PHONE("phone", "spec:shape=Normal,width=640,height=360,unit=dp,dpi=480"),
+    FOLDABLE(
         "foldable",
         "spec:shape=Normal,width=673,height=841,unit=dp,dpi=480",
     ),
@@ -101,7 +102,8 @@ fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.c
         content = content,
         capture = { filePath, roborazziOptions ->
             this.onRoot().captureRoboImage(
-                filePath = filePath, roborazziOptions = roborazziOptions,
+                filePath = filePath,
+                roborazziOptions = roborazziOptions,
             )
         },
     )
