@@ -23,7 +23,6 @@ import com.android.geto.core.designsystem.component.GetoBackground
 import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.screenshot.testing.util.DefaultTestDevices
 import com.android.geto.core.screenshot.testing.util.captureDialogForDevice
-import com.android.geto.core.screenshot.testing.util.captureDialogMultiDevice
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication
 import org.junit.Before
@@ -54,8 +53,10 @@ class AppSettingDialogScreenshotTest {
 
     @Test
     fun appSettingDialog_empty() {
-        composeTestRule.captureDialogMultiDevice(
+        composeTestRule.captureDialogForDevice(
             fileName = "AppSettingDialogEmpty",
+            deviceName = "foldable",
+            deviceSpec = DefaultTestDevices.FOLDABLE.spec,
         ) {
             GetoTheme {
                 AppSettingDialog(
@@ -80,8 +81,10 @@ class AppSettingDialogScreenshotTest {
 
         appSettingDialogState.updateValueOnRevert("1")
 
-        composeTestRule.captureDialogMultiDevice(
+        composeTestRule.captureDialogForDevice(
             fileName = "AppSettingDialogFilledTextFields",
+            deviceName = "foldable",
+            deviceSpec = DefaultTestDevices.FOLDABLE.spec,
         ) {
             GetoTheme {
                 AppSettingDialog(
@@ -98,8 +101,10 @@ class AppSettingDialogScreenshotTest {
     fun appSettingDialog_error_textfields() {
         appSettingDialogState.getAppSetting(packageName = "")
 
-        composeTestRule.captureDialogMultiDevice(
+        composeTestRule.captureDialogForDevice(
             fileName = "AppSettingDialogErrorTextFields",
+            deviceName = "foldable",
+            deviceSpec = DefaultTestDevices.FOLDABLE.spec,
         ) {
             GetoTheme {
                 AppSettingDialog(
@@ -116,8 +121,8 @@ class AppSettingDialogScreenshotTest {
     fun appSettingDialog_empty_dark() {
         composeTestRule.captureDialogForDevice(
             fileName = "AppSettingDialogEmpty",
-            deviceName = "phone_dark",
-            deviceSpec = DefaultTestDevices.PHONE.spec,
+            deviceName = "foldable",
+            deviceSpec = DefaultTestDevices.FOLDABLE.spec,
             darkMode = true,
         ) {
             GetoTheme {
@@ -147,8 +152,8 @@ class AppSettingDialogScreenshotTest {
 
         composeTestRule.captureDialogForDevice(
             fileName = "AppSettingDialogFilledTextFields",
-            deviceName = "phone_dark",
-            deviceSpec = DefaultTestDevices.PHONE.spec,
+            deviceName = "foldable",
+            deviceSpec = DefaultTestDevices.FOLDABLE.spec,
             darkMode = true,
         ) {
             GetoTheme {
@@ -170,8 +175,8 @@ class AppSettingDialogScreenshotTest {
 
         composeTestRule.captureDialogForDevice(
             fileName = "AppSettingDialogErrorTextFields",
-            deviceName = "phone_dark",
-            deviceSpec = DefaultTestDevices.PHONE.spec,
+            deviceName = "foldable",
+            deviceSpec = DefaultTestDevices.FOLDABLE.spec,
             darkMode = true,
         ) {
             GetoTheme {

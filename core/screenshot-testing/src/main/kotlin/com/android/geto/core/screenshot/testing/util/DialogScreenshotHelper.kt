@@ -24,20 +24,6 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.github.takahirom.roborazzi.ExperimentalRoborazziApi
 import com.github.takahirom.roborazzi.captureScreenRoboImage
 
-fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.captureDialogMultiDevice(
-    fileName: String,
-    body: @Composable () -> Unit,
-) {
-    DefaultTestDevices.entries.forEach {
-        this.captureDialogForDevice(
-            fileName = fileName,
-            deviceName = it.description,
-            deviceSpec = it.spec,
-            body = body,
-        )
-    }
-}
-
 /**
  * Experimental feature to capture the entire screen, including dialogs combining light/dark and default/Android themes and whether dynamic color
  * is enabled.

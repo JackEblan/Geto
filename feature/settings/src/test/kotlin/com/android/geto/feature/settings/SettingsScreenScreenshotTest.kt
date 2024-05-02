@@ -26,7 +26,6 @@ import com.android.geto.core.model.ThemeBrand
 import com.android.geto.core.model.UserData
 import com.android.geto.core.screenshot.testing.util.DefaultTestDevices
 import com.android.geto.core.screenshot.testing.util.captureForDevice
-import com.android.geto.core.screenshot.testing.util.captureMultiDevice
 import dagger.hilt.android.testing.HiltTestApplication
 import org.junit.Rule
 import org.junit.runner.RunWith
@@ -47,8 +46,10 @@ class SettingsScreenScreenshotTest {
 
     @Test
     fun settingsScreen_populated() {
-        composeTestRule.captureMultiDevice(
+        composeTestRule.captureForDevice(
             fileName = "SettingsScreenPopulated",
+            deviceName = "foldable",
+            deviceSpec = DefaultTestDevices.FOLDABLE.spec,
         ) {
             GetoTheme {
                 SettingsScreen(
@@ -74,8 +75,10 @@ class SettingsScreenScreenshotTest {
 
     @Test
     fun settingsScreen_loading() {
-        composeTestRule.captureMultiDevice(
+        composeTestRule.captureForDevice(
             fileName = "SettingsScreenLoading",
+            deviceName = "foldable",
+            deviceSpec = DefaultTestDevices.FOLDABLE.spec,
         ) {
             GetoTheme {
                 SettingsScreen(
@@ -95,9 +98,9 @@ class SettingsScreenScreenshotTest {
     @Test
     fun settingsScreen_populated_dark() {
         composeTestRule.captureForDevice(
-            deviceName = "phone_dark",
-            deviceSpec = DefaultTestDevices.PHONE.spec,
             fileName = "SettingsScreenPopulated",
+            deviceName = "foldable",
+            deviceSpec = DefaultTestDevices.FOLDABLE.spec,
             darkMode = true,
         ) {
             GetoTheme {
@@ -127,9 +130,9 @@ class SettingsScreenScreenshotTest {
     @Test
     fun settingsScreen_loading_dark() {
         composeTestRule.captureForDevice(
-            deviceName = "phone_dark",
-            deviceSpec = DefaultTestDevices.PHONE.spec,
             fileName = "SettingsScreenLoading",
+            deviceName = "foldable",
+            deviceSpec = DefaultTestDevices.FOLDABLE.spec,
             darkMode = true,
         ) {
             GetoTheme {

@@ -24,7 +24,6 @@ import com.android.geto.core.designsystem.component.GetoBackground
 import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.screenshot.testing.util.DefaultTestDevices
 import com.android.geto.core.screenshot.testing.util.captureDialogForDevice
-import com.android.geto.core.screenshot.testing.util.captureDialogMultiDevice
 import com.android.geto.feature.appsettings.R
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication
@@ -55,8 +54,10 @@ class ShortcutDialogScreenshotTest {
 
     @Test
     fun shortcutDialog_empty() {
-        composeTestRule.captureDialogMultiDevice(
+        composeTestRule.captureDialogForDevice(
             fileName = "ShortcutDialogEmpty",
+            deviceName = "foldable",
+            deviceSpec = DefaultTestDevices.FOLDABLE.spec,
         ) {
             GetoTheme {
                 ShortcutDialog(
@@ -78,8 +79,10 @@ class ShortcutDialogScreenshotTest {
 
         shortcutDialogState.updateLongLabel("Long Label")
 
-        composeTestRule.captureDialogMultiDevice(
+        composeTestRule.captureDialogForDevice(
             fileName = "ShortcutDialogFilledTextFields",
+            deviceName = "foldable",
+            deviceSpec = DefaultTestDevices.FOLDABLE.spec,
         ) {
             GetoTheme {
                 ShortcutDialog(
@@ -99,8 +102,10 @@ class ShortcutDialogScreenshotTest {
     fun shortcutDialog_error_textfields() {
         shortcutDialogState.getShortcut(packageName = "Test")
 
-        composeTestRule.captureDialogMultiDevice(
+        composeTestRule.captureDialogForDevice(
             fileName = "ShortcutDialogErrorTextFields",
+            deviceName = "foldable",
+            deviceSpec = DefaultTestDevices.FOLDABLE.spec,
         ) {
             GetoTheme {
                 ShortcutDialog(
@@ -120,8 +125,8 @@ class ShortcutDialogScreenshotTest {
     fun shortcutDialog_empty_dark() {
         composeTestRule.captureDialogForDevice(
             fileName = "ShortcutDialogEmpty",
-            deviceName = "phone_dark",
-            deviceSpec = DefaultTestDevices.PHONE.spec,
+            deviceName = "foldable",
+            deviceSpec = DefaultTestDevices.FOLDABLE.spec,
             darkMode = true,
         ) {
             GetoTheme {
@@ -148,8 +153,8 @@ class ShortcutDialogScreenshotTest {
 
         composeTestRule.captureDialogForDevice(
             fileName = "ShortcutDialogFilledTextFields",
-            deviceName = "phone_dark",
-            deviceSpec = DefaultTestDevices.PHONE.spec,
+            deviceName = "foldable",
+            deviceSpec = DefaultTestDevices.FOLDABLE.spec,
             darkMode = true,
         ) {
             GetoTheme {
@@ -174,8 +179,8 @@ class ShortcutDialogScreenshotTest {
 
         composeTestRule.captureDialogForDevice(
             fileName = "ShortcutDialogErrorTextFields",
-            deviceName = "phone_dark",
-            deviceSpec = DefaultTestDevices.PHONE.spec,
+            deviceName = "foldable",
+            deviceSpec = DefaultTestDevices.FOLDABLE.spec,
             darkMode = true,
         ) {
             GetoTheme {
