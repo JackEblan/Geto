@@ -26,6 +26,7 @@ import com.android.geto.core.model.ThemeBrand
 import com.android.geto.core.model.UserData
 import com.android.geto.core.screenshot.testing.util.DefaultTestDevices
 import com.android.geto.core.screenshot.testing.util.captureForDevice
+import com.android.geto.core.screenshot.testing.util.captureMultiDevice
 import dagger.hilt.android.testing.HiltTestApplication
 import org.junit.Rule
 import org.junit.runner.RunWith
@@ -46,9 +47,7 @@ class SettingsScreenScreenshotTest {
 
     @Test
     fun settingsScreen_populated() {
-        composeTestRule.captureForDevice(
-            deviceName = "tablet",
-            deviceSpec = DefaultTestDevices.TABLET.spec,
+        composeTestRule.captureMultiDevice(
             fileName = "SettingsScreenPopulated",
         ) {
             GetoTheme {
@@ -75,9 +74,7 @@ class SettingsScreenScreenshotTest {
 
     @Test
     fun settingsScreen_loading() {
-        composeTestRule.captureForDevice(
-            deviceName = "tablet",
-            deviceSpec = DefaultTestDevices.TABLET.spec,
+        composeTestRule.captureMultiDevice(
             fileName = "SettingsScreenLoading",
         ) {
             GetoTheme {
@@ -98,8 +95,8 @@ class SettingsScreenScreenshotTest {
     @Test
     fun settingsScreen_populated_dark() {
         composeTestRule.captureForDevice(
-            deviceName = "tablet_dark",
-            deviceSpec = DefaultTestDevices.TABLET.spec,
+            deviceName = "phone_dark",
+            deviceSpec = DefaultTestDevices.PHONE.spec,
             fileName = "SettingsScreenPopulated",
             darkMode = true,
         ) {
@@ -130,8 +127,8 @@ class SettingsScreenScreenshotTest {
     @Test
     fun settingsScreen_loading_dark() {
         composeTestRule.captureForDevice(
-            deviceName = "tablet_dark",
-            deviceSpec = DefaultTestDevices.TABLET.spec,
+            deviceName = "phone_dark",
+            deviceSpec = DefaultTestDevices.PHONE.spec,
             fileName = "SettingsScreenLoading",
             darkMode = true,
         ) {

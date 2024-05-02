@@ -24,6 +24,7 @@ import com.android.geto.core.designsystem.component.GetoBackground
 import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.screenshot.testing.util.DefaultTestDevices
 import com.android.geto.core.screenshot.testing.util.captureDialogForDevice
+import com.android.geto.core.screenshot.testing.util.captureMultiDevice
 import com.android.geto.feature.appsettings.R
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication
@@ -54,10 +55,8 @@ class ShortcutDialogScreenshotTest {
 
     @Test
     fun shortcutDialog_empty() {
-        composeTestRule.captureDialogForDevice(
+        composeTestRule.captureMultiDevice(
             fileName = "ShortcutDialogEmpty",
-            deviceName = "tablet",
-            deviceSpec = DefaultTestDevices.TABLET.spec,
         ) {
             GetoTheme {
                 ShortcutDialog(
@@ -79,10 +78,8 @@ class ShortcutDialogScreenshotTest {
 
         shortcutDialogState.updateLongLabel("Long Label")
 
-        composeTestRule.captureDialogForDevice(
+        composeTestRule.captureMultiDevice(
             fileName = "ShortcutDialogFilledTextFields",
-            deviceName = "tablet",
-            deviceSpec = DefaultTestDevices.TABLET.spec,
         ) {
             GetoTheme {
                 ShortcutDialog(
@@ -102,10 +99,8 @@ class ShortcutDialogScreenshotTest {
     fun shortcutDialog_error_textfields() {
         shortcutDialogState.getShortcut(packageName = "Test")
 
-        composeTestRule.captureDialogForDevice(
+        composeTestRule.captureMultiDevice(
             fileName = "ShortcutDialogErrorTextFields",
-            deviceName = "tablet",
-            deviceSpec = DefaultTestDevices.TABLET.spec,
         ) {
             GetoTheme {
                 ShortcutDialog(
@@ -125,8 +120,8 @@ class ShortcutDialogScreenshotTest {
     fun shortcutDialog_empty_dark() {
         composeTestRule.captureDialogForDevice(
             fileName = "ShortcutDialogEmpty",
-            deviceName = "tablet_dark",
-            deviceSpec = DefaultTestDevices.TABLET.spec,
+            deviceName = "phone_dark",
+            deviceSpec = DefaultTestDevices.PHONE.spec,
             darkMode = true,
         ) {
             GetoTheme {
@@ -153,8 +148,8 @@ class ShortcutDialogScreenshotTest {
 
         composeTestRule.captureDialogForDevice(
             fileName = "ShortcutDialogFilledTextFields",
-            deviceName = "tablet_dark",
-            deviceSpec = DefaultTestDevices.TABLET.spec,
+            deviceName = "phone_dark",
+            deviceSpec = DefaultTestDevices.PHONE.spec,
             darkMode = true,
         ) {
             GetoTheme {
@@ -179,8 +174,8 @@ class ShortcutDialogScreenshotTest {
 
         composeTestRule.captureDialogForDevice(
             fileName = "ShortcutDialogErrorTextFields",
-            deviceName = "tablet_dark",
-            deviceSpec = DefaultTestDevices.TABLET.spec,
+            deviceName = "phone_dark",
+            deviceSpec = DefaultTestDevices.PHONE.spec,
             darkMode = true,
         ) {
             GetoTheme {

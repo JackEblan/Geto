@@ -18,9 +18,9 @@
 package com.android.geto.core.designsystem
 
 import androidx.activity.ComponentActivity
+import androidx.compose.material3.Surface
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.android.geto.core.designsystem.component.SingleSelectionDialog
-import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.screenshot.testing.util.captureDialogMultiTheme
 import dagger.hilt.android.testing.HiltTestApplication
 import org.junit.Rule
@@ -45,7 +45,7 @@ class SingleSelectionDialogScreenshotTests {
             name = "SingleSelectionDialog",
             overrideFileName = "SingleSelectionDialog",
         ) {
-            GetoTheme {
+            Surface {
                 SingleSelectionDialog(
                     title = "Single Selection",
                     items = arrayOf(
