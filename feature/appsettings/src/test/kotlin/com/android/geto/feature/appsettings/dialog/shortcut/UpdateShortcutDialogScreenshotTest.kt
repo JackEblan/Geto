@@ -51,7 +51,7 @@ class UpdateShortcutDialogScreenshotTest {
     }
 
     @Test
-    fun shortcutDialog_empty() {
+    fun updateShortcutDialog_empty() {
         composeTestRule.captureDialogForDevice(
             fileName = "UpdateShortcutDialogEmpty",
             deviceName = "foldable",
@@ -69,10 +69,10 @@ class UpdateShortcutDialogScreenshotTest {
     }
 
     @Test
-    fun shortcutDialog_filled_textfields() {
-        shortcutDialogState.updateShortLabel("Short Label")
+    fun updateShortcutDialog_filled_textfields() {
+        shortcutDialogState.updateShortLabel("Geto")
 
-        shortcutDialogState.updateLongLabel("Long Label")
+        shortcutDialogState.updateLongLabel("Geto")
 
         composeTestRule.captureDialogForDevice(
             fileName = "UpdateShortcutDialogFilledTextFields",
@@ -91,7 +91,7 @@ class UpdateShortcutDialogScreenshotTest {
     }
 
     @Test
-    fun shortcutDialog_error_textfields() {
+    fun updateShortcutDialog_error_textfields() {
         shortcutDialogState.getShortcut(packageName = "Test")
 
         composeTestRule.captureDialogForDevice(
@@ -111,7 +111,7 @@ class UpdateShortcutDialogScreenshotTest {
     }
 
     @Test
-    fun shortcutDialog_empty_dark() {
+    fun updateShortcutDialog_empty_dark() {
         composeTestRule.captureDialogForDevice(
             fileName = "UpdateShortcutDialogEmpty",
             deviceName = "foldable_dark",
@@ -132,10 +132,10 @@ class UpdateShortcutDialogScreenshotTest {
     }
 
     @Test
-    fun shortcutDialog_filled_textfields_dark() {
-        shortcutDialogState.updateShortLabel("Short Label")
+    fun updateShortcutDialog_filled_textfields_dark() {
+        shortcutDialogState.updateShortLabel("Geto")
 
-        shortcutDialogState.updateLongLabel("Long Label")
+        shortcutDialogState.updateLongLabel("Geto")
 
         composeTestRule.captureDialogForDevice(
             fileName = "UpdateShortcutDialogFilledTextFields",
@@ -157,7 +157,7 @@ class UpdateShortcutDialogScreenshotTest {
     }
 
     @Test
-    fun shortcutDialog_error_textfields_dark() {
+    fun updateShortcutDialog_error_textfields_dark() {
         shortcutDialogState.getShortcut(packageName = "Test")
 
         composeTestRule.captureDialogForDevice(
