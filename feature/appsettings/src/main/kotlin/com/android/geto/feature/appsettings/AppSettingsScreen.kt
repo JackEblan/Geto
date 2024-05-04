@@ -607,13 +607,13 @@ private fun SuccessState(
                     .padding(vertical = 10.dp, horizontal = 5.dp)
                     .animateItemPlacement(),
                 appSetting = appSettings,
-                onUserAppSettingsItemCheckBoxChange = { check ->
+                onCheckAppSetting = { check ->
                     onAppSettingsItemCheckBoxChange(
                         check,
                         appSettings,
                     )
                 },
-                onDeleteUserAppSettingsItem = {
+                onDeleteAppSetting = {
                     onDeleteAppSettingsItem(appSettings)
                 },
             )

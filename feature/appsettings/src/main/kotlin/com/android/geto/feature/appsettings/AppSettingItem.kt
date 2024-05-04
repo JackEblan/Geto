@@ -41,8 +41,8 @@ import com.android.geto.core.model.SettingType
 fun AppSettingItem(
     modifier: Modifier = Modifier,
     appSetting: AppSetting,
-    onUserAppSettingsItemCheckBoxChange: (Boolean) -> Unit,
-    onDeleteUserAppSettingsItem: () -> Unit,
+    onCheckAppSetting: (Boolean) -> Unit,
+    onDeleteAppSetting: () -> Unit,
 ) {
     Row(
         modifier = modifier,
@@ -50,7 +50,7 @@ fun AppSettingItem(
     ) {
         Checkbox(
             checked = appSetting.enabled,
-            onCheckedChange = onUserAppSettingsItemCheckBoxChange,
+            onCheckedChange = onCheckAppSetting,
         )
 
         Column(modifier = Modifier.weight(1f)) {
@@ -74,7 +74,7 @@ fun AppSettingItem(
             )
         }
 
-        IconButton(onClick = onDeleteUserAppSettingsItem) {
+        IconButton(onClick = onDeleteAppSetting) {
             Icon(
                 imageVector = Icons.Default.Delete,
                 contentDescription = null,
@@ -97,8 +97,8 @@ private fun AppSettingsItemPreview() {
                 valueOnLaunch = "0",
                 valueOnRevert = "1",
             ),
-            onUserAppSettingsItemCheckBoxChange = {},
-            onDeleteUserAppSettingsItem = {},
+            onCheckAppSetting = {},
+            onDeleteAppSetting = {},
         )
     }
 }

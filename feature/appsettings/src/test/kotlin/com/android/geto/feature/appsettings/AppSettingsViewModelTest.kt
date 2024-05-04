@@ -126,22 +126,22 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun applyAppSettingsResult_isNone_whenStarted() {
+    fun applyAppSettingsResult_isNoResult_whenStarted() {
         assertIs<AppSettingsResult.NoResult>(viewModel.applyAppSettingsResult.value)
     }
 
     @Test
-    fun revertAppSettingsResult_isNone_whenStarted() {
+    fun revertAppSettingsResult_isNoResult_whenStarted() {
         assertIs<AppSettingsResult.NoResult>(viewModel.revertAppSettingsResult.value)
     }
 
     @Test
-    fun shortcutResult_isNone_whenStarted() {
+    fun shortcutResult_isNoResult_whenStarted() {
         assertIs<ShortcutResult.NoResult>(viewModel.shortcutResult.value)
     }
 
     @Test
-    fun clipboardResult_isNone_whenStarted() {
+    fun clipboardResult_isNoResult_whenStarted() {
         assertIs<ClipboardResult.NoResult>(viewModel.clipboardResult.value)
     }
 
