@@ -72,7 +72,7 @@ fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.c
         deviceSpec = deviceSpec,
         darkMode = darkMode,
         body = body,
-        capture = { filePath, roborazziOptions ->
+        onCapture = { filePath, roborazziOptions ->
             onRoot().captureRoboImage(
                 filePath = filePath,
                 roborazziOptions = roborazziOptions,
@@ -100,7 +100,7 @@ fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.c
         shouldCompareDynamicColor = shouldCompareDynamicColor,
         shouldCompareAndroidTheme = shouldCompareAndroidTheme,
         content = content,
-        capture = { filePath, roborazziOptions ->
+        onCapture = { filePath, roborazziOptions ->
             onRoot().captureRoboImage(
                 filePath = filePath,
                 roborazziOptions = roborazziOptions,

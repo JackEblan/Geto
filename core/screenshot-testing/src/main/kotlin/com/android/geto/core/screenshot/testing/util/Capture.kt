@@ -40,7 +40,7 @@ internal fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule
     roborazziOptions: RoborazziOptions = DefaultRoborazziOptions,
     darkMode: Boolean = false,
     body: @Composable () -> Unit,
-    capture: (filePath: String, roborazziOptions: RoborazziOptions) -> Unit,
+    onCapture: (filePath: String, roborazziOptions: RoborazziOptions) -> Unit,
 ) {
     val (width, height, dpi) = extractSpecs(deviceSpec)
 
@@ -57,7 +57,7 @@ internal fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule
         }
     }
 
-    capture("src/test/screenshots/${fileName}_$deviceName.png", roborazziOptions)
+    onCapture("src/test/screenshots/${fileName}_$deviceName.png", roborazziOptions)
 }
 
 internal fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.captureMultiTheme(
@@ -68,7 +68,7 @@ internal fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule
     shouldCompareDynamicColor: Boolean = true,
     shouldCompareAndroidTheme: Boolean = true,
     content: @Composable (desc: String) -> Unit,
-    capture: (
+    onCapture: (
         filePath: String,
         roborazziOptions: RoborazziOptions,
     ) -> Unit,
@@ -124,7 +124,7 @@ internal fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule
 
                 val filename = overrideFileName ?: name
 
-                capture(
+                onCapture(
                     "src/test/screenshots/" + "$name/$filename" + "_$darkModeDesc" + "_$androidThemeDesc" + "_$dynamicThemingDesc" + ".png",
                     roborazziOptions,
                 )
