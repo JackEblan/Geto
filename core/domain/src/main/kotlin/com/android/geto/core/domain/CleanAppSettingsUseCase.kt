@@ -20,7 +20,6 @@ package com.android.geto.core.domain
 import android.content.Intent
 import com.android.geto.core.data.repository.AppSettingsRepository
 import com.android.geto.core.data.repository.PackageRepository
-import com.android.geto.core.model.AppSetting
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
@@ -28,21 +27,20 @@ class CleanAppSettingsUseCase @Inject constructor(
     private val packageRepository: PackageRepository,
     private val appSettingsRepository: AppSettingsRepository,
 ) {
-
     suspend operator fun invoke(
         intent: Intent,
         flags: Int,
     ) {
-        val packageNamesFromQueriedIntentActivities = packageRepository.queryIntentActivities(
+        val packageNamesFromQueryIntentActivities = packageRepository.queryIntentActivities(
             intent = intent,
             flags = flags,
         ).map { it.packageName }
 
         val packageNamesFromAppSettings =
-            appSettingsRepository.appSettings.first().map(AppSetting::packageName)
+            appSettingsRepository.appSettings.first().map { it.packageName }
 
         val oldPackageNames = packageNamesFromAppSettings.filterNot { packageName ->
-            packageName in packageNamesFromQueriedIntentActivities
+            packageName in packageNamesFromQueryIntentActivities
         }
 
         appSettingsRepository.deleteAppSettingsByPackageName(packageNames = oldPackageNames)
