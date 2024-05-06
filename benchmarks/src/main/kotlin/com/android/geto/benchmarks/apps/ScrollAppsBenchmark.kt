@@ -29,20 +29,20 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4ClassRunner::class)
-class ScrollAppListBenchmark {
+class ScrollAppsBenchmark {
     @get:Rule
     val benchmarkRule = MacrobenchmarkRule()
 
     @Test
-    fun scrollAppListCompilationNone() = scrollAppList(CompilationMode.None())
+    fun scrollAppsCompilationNone() = scrollApps(CompilationMode.None())
 
     @Test
-    fun scrollAppListCompilationBaselineProfile() = scrollAppList(CompilationMode.Partial())
+    fun scrollAppsCompilationBaselineProfile() = scrollApps(CompilationMode.Partial())
 
     @Test
-    fun scrollAppListCompilationFull() = scrollAppList(CompilationMode.Full())
+    fun scrollAppsCompilationFull() = scrollApps(CompilationMode.Full())
 
-    private fun scrollAppList(compilationMode: CompilationMode) = benchmarkRule.measureRepeated(
+    private fun scrollApps(compilationMode: CompilationMode) = benchmarkRule.measureRepeated(
         packageName = PACKAGE_NAME,
         metrics = listOf(FrameTimingMetric()),
         compilationMode = compilationMode,
