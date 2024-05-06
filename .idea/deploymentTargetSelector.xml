@@ -8,7 +8,13 @@
       <SelectionState runConfigName="app-geto-catalog">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="themeDialog_stateRestoration()">
+      <SelectionState runConfigName="StartupBenchmark">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="startupWithPartialCompilationAndDisabledBaselineProfile()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="startupPrecompiledWithBaselineProfile()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

@@ -32,8 +32,7 @@ import javax.inject.Inject
 class AppsViewModel @Inject constructor(
     private val packageRepository: PackageRepository,
 ) : ViewModel() {
-    @VisibleForTesting
-    var intent = Intent().apply {
+    private var intent = Intent().apply {
         action = Intent.ACTION_MAIN
         addCategory(Intent.CATEGORY_LAUNCHER)
     }

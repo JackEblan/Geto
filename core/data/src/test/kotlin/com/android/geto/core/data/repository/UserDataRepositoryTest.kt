@@ -18,12 +18,20 @@
 package com.android.geto.core.data.repository
 
 import com.android.geto.core.datastore.test.testUserPreferencesDataStore
+import com.android.geto.core.model.DarkThemeConfig
+import com.android.geto.core.model.ThemeBrand
 import com.android.geto.datastore.GetoPreferencesDataSource
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class UserDataRepositoryTest {
 
@@ -47,48 +55,56 @@ class UserDataRepositoryTest {
         )
     }
 
-//    @Test
-//    fun userDataRepository_set_theme_brand_delegates_to_geto_preferences() =
-//        testScope.runTest {
-//            subject.setThemeBrand(ThemeBrand.ANDROID)
-//
-//            assertEquals(
-//                ThemeBrand.ANDROID,
-//                subject.userData.map { it.themeBrand }.first(),
-//            )
-//            assertEquals(
-//                ThemeBrand.ANDROID,
-//                getoPreferencesDataSource.userData.map { it.themeBrand }.first(),
-//            )
-//        }
-//
-//    @Test
-//    fun userDataRepository_set_dynamic_color_delegates_to_geto_preferences() =
-//        testScope.runTest {
-//            subject.setDynamicColorPreference(true)
-//
-//            assertEquals(
-//                true,
-//                subject.userData.map { it.useDynamicColor }.first(),
-//            )
-//            assertEquals(
-//                true,
-//                getoPreferencesDataSource.userData.map { it.useDynamicColor }.first(),
-//            )
-//        }
-//
-//    @Test
-//    fun userDataRepository_set_dark_theme_config_delegates_to_geto_preferences() =
-//        testScope.runTest {
-//            subject.setDarkThemeConfig(DarkThemeConfig.DARK)
-//
-//            assertEquals(
-//                DarkThemeConfig.DARK,
-//                subject.userData.map { it.darkThemeConfig }.first(),
-//            )
-//            assertEquals(
-//                DarkThemeConfig.DARK,
-//                getoPreferencesDataSource.userData.map { it.darkThemeConfig }.first(),
-//            )
-//        }
+    @Test
+    fun setThemeBrand_isAndroid() = runTest {
+        subject.setThemeBrand(ThemeBrand.ANDROID)
+
+        assertEquals(
+            ThemeBrand.ANDROID,
+            subject.userData.map { it.themeBrand }.first(),
+        )
+        assertEquals(
+            ThemeBrand.ANDROID,
+            getoPreferencesDataSource.userData.map { it.themeBrand }.first(),
+        )
+    }
+
+    @Test
+    fun setDynamicColor_isTrue() = runTest {
+        subject.setDynamicColor(true)
+
+        assertEquals(
+            true,
+            subject.userData.map { it.useDynamicColor }.first(),
+        )
+        assertEquals(
+            true,
+            getoPreferencesDataSource.userData.map { it.useDynamicColor }.first(),
+        )
+    }
+
+    @Test
+    fun setDarkThemeConfig_isDark() = runTest {
+        subject.setDarkThemeConfig(DarkThemeConfig.DARK)
+
+        assertEquals(
+            DarkThemeConfig.DARK,
+            subject.userData.map { it.darkThemeConfig }.first(),
+        )
+        assertEquals(
+            DarkThemeConfig.DARK,
+            getoPreferencesDataSource.userData.map { it.darkThemeConfig }.first(),
+        )
+    }
+
+    @Test
+    fun setAutoLaunch_isTrue() = runTest {
+        subject.setAutoLaunch(true)
+
+        assertTrue(subject.userData.map { it.useAutoLaunch }.first())
+
+        assertTrue(
+            getoPreferencesDataSource.userData.map { it.useAutoLaunch }.first(),
+        )
+    }
 }

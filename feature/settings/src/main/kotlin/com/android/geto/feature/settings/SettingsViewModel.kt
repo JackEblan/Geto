@@ -67,13 +67,13 @@ class SettingsViewModel @Inject constructor(
 
     fun updateDynamicColorPreference(useDynamicColor: Boolean) {
         viewModelScope.launch {
-            userDataRepository.setDynamicColorPreference(useDynamicColor)
+            userDataRepository.setDynamicColor(useDynamicColor)
         }
     }
 
     fun updateAutoLaunchPreference(useAutoLaunch: Boolean) {
         viewModelScope.launch {
-            userDataRepository.setAutoLaunchPreference(useAutoLaunch)
+            userDataRepository.setAutoLaunch(useAutoLaunch)
         }
     }
 
