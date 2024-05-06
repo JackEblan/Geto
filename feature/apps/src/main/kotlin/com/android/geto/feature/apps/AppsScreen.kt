@@ -17,6 +17,7 @@
  */
 package com.android.geto.feature.apps
 
+import androidx.activity.compose.ReportDrawnWhen
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -74,6 +75,10 @@ internal fun AppsScreen(
     onSettingsClick: () -> Unit,
     onItemClick: (String, String) -> Unit,
 ) {
+    ReportDrawnWhen {
+        appsUiState is AppsUiState.Success
+    }
+
     Scaffold(
         topBar = {
             AppsTopAppBar(

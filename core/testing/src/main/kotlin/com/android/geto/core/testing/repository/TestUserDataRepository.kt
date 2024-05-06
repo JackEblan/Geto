@@ -52,13 +52,13 @@ class TestUserDataRepository : UserDataRepository {
         }
     }
 
-    override suspend fun setDynamicColorPreference(useDynamicColor: Boolean) {
+    override suspend fun setDynamicColor(useDynamicColor: Boolean) {
         currentUserData.let { current ->
             _userData.tryEmit(current.copy(useDynamicColor = useDynamicColor))
         }
     }
 
-    override suspend fun setAutoLaunchPreference(useAutoLaunch: Boolean) {
+    override suspend fun setAutoLaunch(useAutoLaunch: Boolean) {
         currentUserData.let { current ->
             _userData.tryEmit(current.copy(useAutoLaunch = useAutoLaunch))
         }

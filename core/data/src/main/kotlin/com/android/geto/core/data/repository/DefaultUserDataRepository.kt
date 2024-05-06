@@ -38,11 +38,11 @@ internal class DefaultUserDataRepository @Inject constructor(
         getoPreferencesDataSource.setDarkThemeConfig(darkThemeConfig)
     }
 
-    override suspend fun setDynamicColorPreference(useDynamicColor: Boolean) {
-        getoPreferencesDataSource.setDynamicColorPreference(useDynamicColor)
+    override suspend fun setDynamicColor(useDynamicColor: Boolean) {
+        getoPreferencesDataSource.setDynamicColor(useDynamicColor)
     }
 
-    override suspend fun setAutoLaunchPreference(useAutoLaunch: Boolean) {
-        getoPreferencesDataSource.setAutoLaunchPreference(useAutoLaunch)
+    override suspend fun setAutoLaunch(useAutoLaunch: Boolean) {
+        getoPreferencesDataSource.setAutoLaunch(useAutoLaunch)
     }
 }
