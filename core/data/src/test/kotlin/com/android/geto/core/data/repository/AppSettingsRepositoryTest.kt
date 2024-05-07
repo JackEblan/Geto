@@ -22,10 +22,7 @@ import com.android.geto.core.database.model.AppSettingEntity
 import com.android.geto.core.database.model.asExternalModel
 import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.SettingType
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import kotlin.test.Test
@@ -67,8 +64,6 @@ class AppSettingsRepositoryTest {
 
     @Test
     fun deleteAppSetting() = runTest {
-        val collectJob = launch(UnconfinedTestDispatcher()) { subject.appSettings.collect() }
-
         val appSettingEntities = List(10) { index ->
             AppSettingEntity(
                 id = index,
@@ -87,14 +82,10 @@ class AppSettingsRepositoryTest {
         subject.deleteAppSetting(appSettingEntities.first().asExternalModel())
 
         assertTrue { subject.appSettings.first().size == appSettingEntities.size - 1 }
-
-        collectJob.cancel()
     }
 
     @Test
     fun deleteAppSettingsByPackageName() = runTest {
-        val collectJob = launch(UnconfinedTestDispatcher()) { subject.appSettings.collect() }
-
         val oldAppSettingEntities = List(10) { index ->
             AppSettingEntity(
                 id = index,
@@ -134,8 +125,6 @@ class AppSettingsRepositoryTest {
             subject.appSettings.first()
                 .containsAll(newAppSettingEntities.map(AppSettingEntity::asExternalModel))
         }
-
-        collectJob.cancel()
     }
 
     @Test
