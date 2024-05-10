@@ -19,7 +19,6 @@ package com.android.geto.core.packagemanager
 
 import android.content.Context
 import android.content.Intent
-import android.content.pm.ApplicationInfo
 import android.graphics.drawable.Drawable
 import com.android.geto.core.model.MappedApplicationInfo
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -32,7 +31,7 @@ internal class DefaultPackageManagerWrapper @Inject constructor(@ApplicationCont
 
     override fun queryIntentActivities(intent: Intent, flags: Int): List<MappedApplicationInfo> {
         return packageManager.queryIntentActivities(intent, flags).map { resolveInfo ->
-            resolveInfo.activityInfo.applicationInfo.asMappedApplicationInfo()
+            resolveInfo.activityInfo.applicationInfo.asMappedApplicationInfo(packageManager = packageManager)
         }
     }
 
@@ -42,14 +41,5 @@ internal class DefaultPackageManagerWrapper @Inject constructor(@ApplicationCont
 
     override fun getLaunchIntentForPackage(packageName: String): Intent? {
         return packageManager.getLaunchIntentForPackage(packageName)
-    }
-
-    private fun ApplicationInfo.asMappedApplicationInfo(): MappedApplicationInfo {
-        return MappedApplicationInfo(
-            flags = flags,
-            icon = loadIcon(packageManager),
-            packageName = packageName,
-            label = loadLabel(packageManager).toString(),
-        )
     }
 }
