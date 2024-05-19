@@ -18,7 +18,6 @@
 package com.android.geto.core.testing.repository
 
 import com.android.geto.core.data.repository.ShortcutRepository
-import com.android.geto.core.data.repository.ShortcutResult
 import com.android.geto.core.model.MappedShortcutInfoCompat
 
 class TestShortcutRepository : ShortcutRepository {
@@ -29,15 +28,25 @@ class TestShortcutRepository : ShortcutRepository {
 
     private var updateImmutableShortcuts = false
 
+    val unsupportedLauncher = "Your current launcher does not support shortcuts"
+
+    val supportedLauncher = "Your current launcher supports shortcuts"
+
+    val shortcutIdNotFound = "Shortcut id not found"
+
+    val shortcutUpdateSuccess = "Shortcut update success"
+
+    val shortcutUpdateImmutableShortcuts = "Shortcut update immutable shortcuts"
+
     override fun requestPinShortcut(
         packageName: String,
         appName: String,
         mappedShortcutInfoCompat: MappedShortcutInfoCompat,
-    ): ShortcutResult {
+    ): String {
         return if (requestPinShortcutSupported) {
-            ShortcutResult.SupportedLauncher
+            supportedLauncher
         } else {
-            ShortcutResult.UnsupportedLauncher
+            unsupportedLauncher
         }
     }
 
@@ -45,24 +54,22 @@ class TestShortcutRepository : ShortcutRepository {
         packageName: String,
         appName: String,
         mappedShortcutInfoCompat: MappedShortcutInfoCompat,
-    ): ShortcutResult {
+    ): String {
+        val shortcutIds = mappedShortcutInfoCompats.map { it.id }
+
+        if (shortcutIds.contains(mappedShortcutInfoCompat.id).not()) {
+            return shortcutIdNotFound
+        }
+
         return if (updateImmutableShortcuts) {
-            ShortcutResult.ShortcutUpdateImmutableShortcuts
+            shortcutUpdateImmutableShortcuts
         } else {
-            ShortcutResult.ShortcutUpdateSuccess
+            shortcutUpdateSuccess
         }
     }
 
-    override fun getShortcut(id: String): ShortcutResult {
-        val mappedShortcutInfoCompat = mappedShortcutInfoCompats.find { it.id == id }
-
-        return if (mappedShortcutInfoCompat != null) {
-            ShortcutResult.ShortcutFound(
-                mappedShortcutInfoCompat = mappedShortcutInfoCompat,
-            )
-        } else {
-            ShortcutResult.NoShortcutFound
-        }
+    override fun getShortcut(id: String): MappedShortcutInfoCompat? {
+        return mappedShortcutInfoCompats.find { it.id == id }
     }
 
     fun setRequestPinShortcutSupported(value: Boolean) {

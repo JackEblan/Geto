@@ -15,24 +15,17 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.core.testing.repository
 
-import com.android.geto.core.data.repository.ClipboardRepository
+plugins {
+    alias(libs.plugins.com.android.geto.library)
+    alias(libs.plugins.com.android.geto.libraryJacoco)
+    alias(libs.plugins.com.android.geto.hilt)
+}
 
-class TestClipboardRepository : ClipboardRepository {
-    private var _atleastApi32 = false
+android {
+    namespace = "com.android.geto.core.resources"
+}
 
-    val copiedToClipboard = "%s copied to clipboard"
-
-    override fun setPrimaryClip(label: String, text: String): String? {
-        return if (_atleastApi32) {
-            null
-        } else {
-            String.format(copiedToClipboard, text)
-        }
-    }
-
-    fun setAtLeastApi32(value: Boolean) {
-        _atleastApi32 = value
-    }
+dependencies {
+    implementation(projects.core.model)
 }

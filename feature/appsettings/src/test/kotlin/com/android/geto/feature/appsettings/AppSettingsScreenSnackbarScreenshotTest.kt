@@ -20,8 +20,6 @@ package com.android.geto.feature.appsettings
 import androidx.activity.ComponentActivity
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import com.android.geto.core.data.repository.ClipboardResult
-import com.android.geto.core.data.repository.ShortcutResult
 import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.domain.AppSettingsResult
 import com.android.geto.core.model.AppSetting
@@ -80,11 +78,12 @@ class AppSettingsScreenSnackbarScreenshotTest {
                     appSettingsUiState = AppSettingsUiState.Success(appSettings),
                     snackbarHostState = snackbarHostState,
                     applicationIcon = null,
+                    mappedShortcutInfoCompat = null,
                     secureSettings = emptyList(),
                     applyAppSettingsResult = AppSettingsResult.NoResult,
                     revertAppSettingsResult = AppSettingsResult.NoResult,
-                    shortcutResult = ShortcutResult.NoResult,
-                    clipboardResult = ClipboardResult.NoResult,
+                    shortcutResult = null,
+                    clipboardResult = null,
                     onNavigationIconClick = {},
                     onRevertAppSettings = {},
                     onGetShortcut = {},
@@ -92,6 +91,7 @@ class AppSettingsScreenSnackbarScreenshotTest {
                     onDeleteAppSetting = {},
                     onLaunchApp = {},
                     onAutoLaunchApp = {},
+                    onGetApplicationIcon = {},
                     onResetAppSettingsResult = {},
                     onResetShortcutResult = {},
                     onResetClipboardResult = {},

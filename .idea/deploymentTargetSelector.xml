@@ -8,13 +8,16 @@
       <SelectionState runConfigName="app-geto-catalog">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="StartupBenchmark">
+      <SelectionState runConfigName="AppSettingsScreenDialogsTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="startupWithPartialCompilationAndDisabledBaselineProfile()">
+      <SelectionState runConfigName="updateShortcutDialog_isDisplayed_whenMappedShortcutInfoCompat_isNotNull_thenDismissed()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="startupPrecompiledWithBaselineProfile()">
+      <SelectionState runConfigName="updateShortcutDialog_stateRestoration()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="addShortcutDialog_stateRestoration()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

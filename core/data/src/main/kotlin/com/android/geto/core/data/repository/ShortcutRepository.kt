@@ -25,40 +25,13 @@ interface ShortcutRepository {
         packageName: String,
         appName: String,
         mappedShortcutInfoCompat: MappedShortcutInfoCompat,
-    ): ShortcutResult
+    ): String
 
     fun updateRequestPinShortcut(
         packageName: String,
         appName: String,
         mappedShortcutInfoCompat: MappedShortcutInfoCompat,
-    ): ShortcutResult
+    ): String
 
-    fun getShortcut(id: String): ShortcutResult
-}
-
-sealed interface ShortcutResult {
-
-    data object UnsupportedLauncher : ShortcutResult
-
-    data object SupportedLauncher : ShortcutResult
-
-    data object IDNotFound : ShortcutResult
-
-    data object ShortcutUpdateSuccess : ShortcutResult
-
-    data object ShortcutUpdateFailed : ShortcutResult
-
-    data object ShortcutUpdateImmutableShortcuts : ShortcutResult
-
-    data object ShortcutDisableImmutableShortcuts : ShortcutResult
-
-    data object UserIsLocked : ShortcutResult
-
-    data class ShortcutFound(
-        val mappedShortcutInfoCompat: MappedShortcutInfoCompat,
-    ) : ShortcutResult
-
-    data object NoShortcutFound : ShortcutResult
-
-    data object NoResult : ShortcutResult
+    fun getShortcut(id: String): MappedShortcutInfoCompat?
 }

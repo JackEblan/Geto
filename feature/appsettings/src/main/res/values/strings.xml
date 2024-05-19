@@ -21,15 +21,6 @@
     <string name="apply_failure">Settings apply failed</string>
     <string name="revert_failure">Settings revert failed</string>
     <string name="revert_success">Settings reverted</string>
-    <string name="shortcut_id_not_found">Shortcut id not found</string>
-    <string name="shortcut_disable_immutable_shortcuts">Cannot disable immutable shortcuts</string>
-    <string name="shortcut_update_immutable_shortcuts">Cannot update immutable shortcuts</string>
-    <string name="shortcut_update_failed">Shortcut update failed</string>
-    <string name="shortcut_update_success">Shortcut update success</string>
-    <string name="supported_launcher">Your current launcher supports shortcuts</string>
-    <string name="unsupported_launcher">Your current launcher does not support shortcuts</string>
-    <string name="user_is_locked">User is locked</string>
-    <string name="copied_to_clipboard">%s copied to clipboard</string>
     <string name="add_your_first_settings">Add your first settings</string>
     <string name="add_app_setting">Add App Setting</string>
     <string name="setting_label">Setting label</string>

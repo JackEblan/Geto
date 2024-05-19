@@ -60,8 +60,6 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.android.geto.core.data.repository.ClipboardResult
-import com.android.geto.core.data.repository.ShortcutResult
 import com.android.geto.core.designsystem.component.GetoLoadingWheel
 import com.android.geto.core.designsystem.icon.GetoIcons
 import com.android.geto.core.designsystem.theme.GetoTheme
@@ -102,6 +100,9 @@ internal fun AppSettingsRoute(
 
     val applicationIcon = viewModel.applicationIcon.collectAsStateWithLifecycle().value
 
+    val mappedShortcutInfoCompat =
+        viewModel.mappedShortcutInfoCompat.collectAsStateWithLifecycle().value
+
     val shortcutResult = viewModel.shortcutResult.collectAsStateWithLifecycle().value
 
     val clipboardResult = viewModel.clipboardResult.collectAsStateWithLifecycle().value
@@ -117,6 +118,7 @@ internal fun AppSettingsRoute(
         appSettingsUiState = appSettingsUiState,
         snackbarHostState = snackbarHostState,
         applicationIcon = applicationIcon,
+        mappedShortcutInfoCompat = mappedShortcutInfoCompat,
         secureSettings = secureSettings,
         applyAppSettingsResult = applyAppSettingsResult,
         revertAppSettingsResult = revertAppSettingsResult,
@@ -129,6 +131,7 @@ internal fun AppSettingsRoute(
         onDeleteAppSetting = viewModel::deleteAppSetting,
         onLaunchApp = viewModel::applyAppSettings,
         onAutoLaunchApp = viewModel::autoLaunchApp,
+        onGetApplicationIcon = viewModel::getApplicationIcon,
         onResetAppSettingsResult = viewModel::resetAppSettingsResult,
         onResetShortcutResult = viewModel::resetShortcutResult,
         onResetClipboardResult = viewModel::resetClipboardResult,
@@ -149,11 +152,12 @@ internal fun AppSettingsScreen(
     appSettingsUiState: AppSettingsUiState,
     snackbarHostState: SnackbarHostState,
     applicationIcon: Drawable?,
+    mappedShortcutInfoCompat: MappedShortcutInfoCompat?,
     secureSettings: List<SecureSetting>,
     applyAppSettingsResult: AppSettingsResult,
     revertAppSettingsResult: AppSettingsResult,
-    shortcutResult: ShortcutResult,
-    clipboardResult: ClipboardResult,
+    shortcutResult: String?,
+    clipboardResult: String?,
     onNavigationIconClick: () -> Unit,
     onRevertAppSettings: () -> Unit,
     onGetShortcut: () -> Unit,
@@ -161,6 +165,7 @@ internal fun AppSettingsScreen(
     onDeleteAppSetting: (AppSetting) -> Unit,
     onLaunchApp: () -> Unit,
     onAutoLaunchApp: () -> Unit,
+    onGetApplicationIcon: () -> Unit,
     onResetAppSettingsResult: () -> Unit,
     onResetShortcutResult: () -> Unit,
     onResetClipboardResult: () -> Unit,
@@ -191,6 +196,8 @@ internal fun AppSettingsScreen(
         shortcutResult = shortcutResult,
         clipboardResult = clipboardResult,
         onAutoLaunchApp = onAutoLaunchApp,
+        onGetApplicationIcon = onGetApplicationIcon,
+        onGetShortcut = onGetShortcut,
         onResetAppSettingsResult = onResetAppSettingsResult,
         onResetShortcutResult = onResetShortcutResult,
         onResetClipboardResult = onResetClipboardResult,
@@ -206,11 +213,7 @@ internal fun AppSettingsScreen(
         onAddAppSetting = onAddAppSetting,
         onCopyPermissionCommand = onCopyPermissionCommand,
         onAddShortcut = onAddShortcut,
-        onUpdateShortcut = {
-            updateShortcutDialogState.getShortcut(
-                packageName = packageName,
-            )?.let(onUpdateShortcut)
-        },
+        onUpdateShortcut = onUpdateShortcut,
     )
 
     Scaffold(
@@ -222,11 +225,19 @@ internal fun AppSettingsScreen(
         },
         bottomBar = {
             AppSettingsBottomAppBar(
+                mappedShortcutInfoCompat = mappedShortcutInfoCompat,
                 onRevertSettingsIconClick = onRevertAppSettings,
                 onSettingsIconClick = {
                     appSettingDialogState.updateShowDialog(true)
                 },
-                onShortcutIconClick = onGetShortcut,
+                onAddShortcutIconClick = {
+                    addShortcutDialogState.updateShowDialog(true)
+                },
+                onUpdateShortcutIconClick = {
+                    updateShortcutDialogState.updateShortLabel(it.shortLabel)
+                    updateShortcutDialogState.updateLongLabel(it.longLabel)
+                    updateShortcutDialogState.updateShowDialog(true)
+                },
                 onLaunchApp = onLaunchApp,
             )
         },
@@ -275,9 +286,11 @@ private fun AppSettingsLaunchedEffects(
     secureSettings: List<SecureSetting>,
     applyAppSettingsResult: AppSettingsResult,
     revertAppSettingsResult: AppSettingsResult,
-    shortcutResult: ShortcutResult,
-    clipboardResult: ClipboardResult,
+    shortcutResult: String?,
+    clipboardResult: String?,
     onAutoLaunchApp: () -> Unit,
+    onGetApplicationIcon: () -> Unit,
+    onGetShortcut: () -> Unit,
     onResetAppSettingsResult: () -> Unit,
     onResetShortcutResult: () -> Unit,
     onResetClipboardResult: () -> Unit,
@@ -288,17 +301,6 @@ private fun AppSettingsLaunchedEffects(
     val applyFailure = stringResource(id = R.string.apply_failure)
     val revertFailure = stringResource(id = R.string.revert_failure)
     val revertSuccess = stringResource(id = R.string.revert_success)
-    val shortcutIdNotFound = stringResource(id = R.string.shortcut_id_not_found)
-    val shortcutDisableImmutableShortcuts =
-        stringResource(id = R.string.shortcut_disable_immutable_shortcuts)
-    val shortcutUpdateImmutableShortcuts =
-        stringResource(id = R.string.shortcut_update_immutable_shortcuts)
-    val shortcutUpdateFailed = stringResource(id = R.string.shortcut_update_failed)
-    val shortcutUpdateSuccess = stringResource(id = R.string.shortcut_update_success)
-    val supportedLauncher = stringResource(id = R.string.supported_launcher)
-    val unsupportedLauncher = stringResource(id = R.string.unsupported_launcher)
-    val userIsLocked = stringResource(id = R.string.user_is_locked)
-    val copiedToClipboard = stringResource(id = R.string.copied_to_clipboard)
     val invalidValues = stringResource(R.string.settings_has_invalid_values)
 
     val context = LocalContext.current
@@ -307,6 +309,8 @@ private fun AppSettingsLaunchedEffects(
 
     LaunchedEffect(key1 = true) {
         onAutoLaunchApp()
+        onGetApplicationIcon()
+        onGetShortcut()
     }
 
     LaunchedEffect(key1 = applyAppSettingsResult) {
@@ -346,45 +350,18 @@ private fun AppSettingsLaunchedEffects(
     }
 
     LaunchedEffect(key1 = shortcutResult) {
-        when (shortcutResult) {
-            ShortcutResult.IDNotFound -> snackbarHostState.showSnackbar(message = shortcutIdNotFound)
-            ShortcutResult.ShortcutDisableImmutableShortcuts -> snackbarHostState.showSnackbar(
-                message = shortcutDisableImmutableShortcuts,
-            )
-
-            ShortcutResult.ShortcutUpdateFailed -> snackbarHostState.showSnackbar(message = shortcutUpdateFailed)
-            ShortcutResult.ShortcutUpdateImmutableShortcuts -> snackbarHostState.showSnackbar(
-                message = shortcutUpdateImmutableShortcuts,
-            )
-
-            ShortcutResult.ShortcutUpdateSuccess -> snackbarHostState.showSnackbar(message = shortcutUpdateSuccess)
-            ShortcutResult.SupportedLauncher -> snackbarHostState.showSnackbar(message = supportedLauncher)
-            ShortcutResult.UnsupportedLauncher -> snackbarHostState.showSnackbar(message = unsupportedLauncher)
-            ShortcutResult.UserIsLocked -> snackbarHostState.showSnackbar(message = userIsLocked)
-            is ShortcutResult.ShortcutFound -> {
-                updateShortcutDialogState.updateShortLabel(shortcutResult.mappedShortcutInfoCompat.shortLabel)
-                updateShortcutDialogState.updateLongLabel(shortcutResult.mappedShortcutInfoCompat.longLabel)
-                updateShortcutDialogState.updateShowDialog(true)
-            }
-
-            ShortcutResult.NoShortcutFound -> addShortcutDialogState.updateShowDialog(true)
-            ShortcutResult.NoResult -> Unit
+        shortcutResult?.let {
+            snackbarHostState.showSnackbar(message = it)
         }
 
         onResetShortcutResult()
     }
 
     LaunchedEffect(key1 = clipboardResult) {
-        when (clipboardResult) {
-            ClipboardResult.NoResult -> Unit
-            is ClipboardResult.Notify -> snackbarHostState.showSnackbar(
-                message = String.format(
-                    copiedToClipboard,
-                    clipboardResult.text,
-                ),
+        clipboardResult?.let {
+            snackbarHostState.showSnackbar(
+                message = it,
             )
-
-            ClipboardResult.NoResult -> Unit
         }
 
         onResetClipboardResult()
@@ -487,17 +464,21 @@ private fun AppSettingsTopAppBar(
 
 @Composable
 private fun AppSettingsBottomAppBar(
+    mappedShortcutInfoCompat: MappedShortcutInfoCompat?,
     onRevertSettingsIconClick: () -> Unit,
     onSettingsIconClick: () -> Unit,
-    onShortcutIconClick: () -> Unit,
+    onAddShortcutIconClick: () -> Unit,
+    onUpdateShortcutIconClick: (MappedShortcutInfoCompat) -> Unit,
     onLaunchApp: () -> Unit,
 ) {
     BottomAppBar(
         actions = {
             AppSettingsBottomAppBarActions(
+                mappedShortcutInfoCompat = mappedShortcutInfoCompat,
                 onRevertSettingsIconClick = onRevertSettingsIconClick,
                 onSettingsIconClick = onSettingsIconClick,
-                onShortcutIconClick = onShortcutIconClick,
+                onAddShortcutIconClick = onAddShortcutIconClick,
+                onUpdateShortcutIconClick = onUpdateShortcutIconClick,
             )
         },
         floatingActionButton = {
@@ -524,9 +505,11 @@ private fun AppSettingsFloatingActionButton(onClick: () -> Unit) {
 
 @Composable
 private fun AppSettingsBottomAppBarActions(
+    mappedShortcutInfoCompat: MappedShortcutInfoCompat?,
     onRevertSettingsIconClick: () -> Unit,
     onSettingsIconClick: () -> Unit,
-    onShortcutIconClick: () -> Unit,
+    onAddShortcutIconClick: () -> Unit,
+    onUpdateShortcutIconClick: (MappedShortcutInfoCompat) -> Unit,
 ) {
     IconButton(onClick = onRevertSettingsIconClick) {
         Icon(
@@ -542,7 +525,17 @@ private fun AppSettingsBottomAppBarActions(
         )
     }
 
-    IconButton(onClick = onShortcutIconClick) {
+    IconButton(
+        onClick = {
+            if (mappedShortcutInfoCompat != null) {
+                onUpdateShortcutIconClick(
+                    mappedShortcutInfoCompat,
+                )
+            } else {
+                onAddShortcutIconClick()
+            }
+        },
+    ) {
         Icon(
             GetoIcons.Shortcut,
             contentDescription = "Shortcut icon",
@@ -631,11 +624,12 @@ private fun AppSettingsScreenLoadingStatePreview() {
             appSettingsUiState = AppSettingsUiState.Loading,
             snackbarHostState = SnackbarHostState(),
             applicationIcon = null,
+            mappedShortcutInfoCompat = null,
             secureSettings = emptyList(),
             applyAppSettingsResult = AppSettingsResult.NoResult,
             revertAppSettingsResult = AppSettingsResult.NoResult,
-            shortcutResult = ShortcutResult.NoResult,
-            clipboardResult = ClipboardResult.NoResult,
+            shortcutResult = null,
+            clipboardResult = null,
             onNavigationIconClick = {},
             onRevertAppSettings = {},
             onGetShortcut = {},
@@ -643,6 +637,7 @@ private fun AppSettingsScreenLoadingStatePreview() {
             onDeleteAppSetting = {},
             onLaunchApp = {},
             onAutoLaunchApp = {},
+            onGetApplicationIcon = {},
             onResetAppSettingsResult = {},
             onResetShortcutResult = {},
             onResetClipboardResult = {},
@@ -665,11 +660,12 @@ private fun AppSettingsScreenEmptyStatePreview() {
             appSettingsUiState = AppSettingsUiState.Success(emptyList()),
             snackbarHostState = SnackbarHostState(),
             applicationIcon = null,
+            mappedShortcutInfoCompat = null,
             secureSettings = emptyList(),
             applyAppSettingsResult = AppSettingsResult.NoResult,
             revertAppSettingsResult = AppSettingsResult.NoResult,
-            shortcutResult = ShortcutResult.NoResult,
-            clipboardResult = ClipboardResult.NoResult,
+            shortcutResult = null,
+            clipboardResult = null,
             onNavigationIconClick = {},
             onRevertAppSettings = {},
             onGetShortcut = {},
@@ -677,6 +673,7 @@ private fun AppSettingsScreenEmptyStatePreview() {
             onDeleteAppSetting = {},
             onLaunchApp = {},
             onAutoLaunchApp = {},
+            onGetApplicationIcon = {},
             onResetAppSettingsResult = {},
             onResetShortcutResult = {},
             onResetClipboardResult = {},
@@ -701,11 +698,12 @@ private fun AppSettingsScreenSuccessStatePreview(
             appSettingsUiState = AppSettingsUiState.Success(appSettings),
             snackbarHostState = SnackbarHostState(),
             applicationIcon = null,
+            mappedShortcutInfoCompat = null,
             secureSettings = emptyList(),
             applyAppSettingsResult = AppSettingsResult.NoResult,
             revertAppSettingsResult = AppSettingsResult.NoResult,
-            shortcutResult = ShortcutResult.NoResult,
-            clipboardResult = ClipboardResult.NoResult,
+            shortcutResult = null,
+            clipboardResult = null,
             onNavigationIconClick = {},
             onRevertAppSettings = {},
             onGetShortcut = {},
@@ -713,6 +711,7 @@ private fun AppSettingsScreenSuccessStatePreview(
             onDeleteAppSetting = {},
             onLaunchApp = {},
             onAutoLaunchApp = {},
+            onGetApplicationIcon = {},
             onResetAppSettingsResult = {},
             onResetShortcutResult = {},
             onResetClipboardResult = {},

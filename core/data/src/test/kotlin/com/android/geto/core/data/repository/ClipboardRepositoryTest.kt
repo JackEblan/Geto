@@ -18,13 +18,17 @@
 package com.android.geto.core.data.repository
 
 import com.android.geto.core.data.testdoubles.TestClipboardManagerWrapper
+import com.android.geto.core.data.testdoubles.TestResourcesWrapper
 import org.junit.Before
 import org.junit.Test
-import kotlin.test.assertIs
+import kotlin.test.assertEquals
+import kotlin.test.assertNull
 
 class ClipboardRepositoryTest {
 
     private lateinit var clipboardManagerWrapper: TestClipboardManagerWrapper
+
+    private lateinit var resourcesWrapper: TestResourcesWrapper
 
     private lateinit var subject: DefaultClipboardRepository
 
@@ -32,8 +36,11 @@ class ClipboardRepositoryTest {
     fun setup() {
         clipboardManagerWrapper = TestClipboardManagerWrapper()
 
+        resourcesWrapper = TestResourcesWrapper()
+
         subject = DefaultClipboardRepository(
             clipboardManagerWrapper = clipboardManagerWrapper,
+            resourcesWrapper = resourcesWrapper,
         )
     }
 
@@ -41,13 +48,18 @@ class ClipboardRepositoryTest {
     fun setPrimaryClip_isNoResult() {
         clipboardManagerWrapper.setAtLeastApi32(true)
 
-        assertIs<ClipboardResult.NoResult>(subject.setPrimaryClip(label = "label", text = "text"))
+        assertNull(subject.setPrimaryClip(label = "label", text = "text"))
     }
 
     @Test
     fun setPrimaryClip_isNotify() {
         clipboardManagerWrapper.setAtLeastApi32(false)
 
-        assertIs<ClipboardResult.Notify>(subject.setPrimaryClip(label = "label", text = "text"))
+        resourcesWrapper.setString("%s copied to clipboard")
+
+        assertEquals(
+            expected = "text copied to clipboard",
+            actual = subject.setPrimaryClip(label = "label", text = "text"),
+        )
     }
 }
