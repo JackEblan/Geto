@@ -407,7 +407,10 @@ class AppSettingsViewModelTest {
         viewModel.copyPermissionCommand()
 
         assertEquals(
-            expected = "${viewModel.permissionCommandText} ${clipboardRepository.copiedToClipboard}",
+            expected = String.format(
+                clipboardRepository.copiedToClipboard,
+                viewModel.permissionCommandText,
+            ),
             actual = viewModel.clipboardResult.value,
         )
     }
@@ -575,7 +578,7 @@ class AppSettingsViewModelTest {
             )
         }
 
-        shortcutRepository.setUpdateImmutableShortcuts(true)
+        shortcutRepository.setUpdateImmutableShortcuts(false)
 
         shortcutRepository.setShortcuts(shortcuts)
 
@@ -595,11 +598,21 @@ class AppSettingsViewModelTest {
 
     @Test
     fun shortcutResult_isShortcutUpdateImmutableShortcuts_whenUpdateRequestPinShortcut() = runTest {
+        val shortcuts = List(2) {
+            MappedShortcutInfoCompat(
+                id = "com.android.geto",
+                shortLabel = "Geto",
+                longLabel = "Geto",
+            )
+        }
+
         shortcutRepository.setUpdateImmutableShortcuts(true)
+
+        shortcutRepository.setShortcuts(shortcuts)
 
         viewModel.updateRequestPinShortcut(
             mappedShortcutInfoCompat = MappedShortcutInfoCompat(
-                id = "0",
+                id = "com.android.geto",
                 shortLabel = "Geto",
                 longLabel = "Geto",
             ),
@@ -613,11 +626,21 @@ class AppSettingsViewModelTest {
 
     @Test
     fun shortcutResult_isShortcutUpdateSuccess_whenUpdateRequestPinShortcut() = runTest {
+        val shortcuts = List(2) {
+            MappedShortcutInfoCompat(
+                id = "com.android.geto",
+                shortLabel = "Geto",
+                longLabel = "Geto",
+            )
+        }
+
         shortcutRepository.setUpdateImmutableShortcuts(false)
+
+        shortcutRepository.setShortcuts(shortcuts)
 
         viewModel.updateRequestPinShortcut(
             mappedShortcutInfoCompat = MappedShortcutInfoCompat(
-                id = "0",
+                id = "com.android.geto",
                 shortLabel = "Geto",
                 longLabel = "Geto",
             ),
@@ -630,7 +653,7 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun shortcutResult_isNotNull_whenGetShortcut() = runTest {
+    fun mappedShortcutInfoCompat_isNotNull_whenGetShortcut() = runTest {
         val shortcuts = List(2) {
             MappedShortcutInfoCompat(
                 id = "com.android.geto",
@@ -645,11 +668,11 @@ class AppSettingsViewModelTest {
 
         viewModel.getShortcut()
 
-        assertNotNull(viewModel.shortcutResult.value)
+        assertNotNull(viewModel.mappedShortcutInfoCompat.value)
     }
 
     @Test
-    fun shortcutResult_isNull_whenGetShortcut() = runTest {
+    fun mappedShortcutInfoCompat_isNull_whenGetShortcut() = runTest {
         val shortcuts = List(2) {
             MappedShortcutInfoCompat(
                 id = "com.android.geto",
@@ -664,7 +687,7 @@ class AppSettingsViewModelTest {
 
         viewModel.getShortcut("")
 
-        assertNull(viewModel.shortcutResult.value)
+        assertNull(viewModel.mappedShortcutInfoCompat.value)
     }
 
     @Test
