@@ -17,16 +17,15 @@
  */
 package com.android.geto.feature.appsettings
 
+import android.graphics.drawable.Drawable
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.android.geto.core.data.repository.AppSettingsRepository
 import com.android.geto.core.data.repository.ClipboardRepository
-import com.android.geto.core.data.repository.ClipboardResult
 import com.android.geto.core.data.repository.PackageRepository
 import com.android.geto.core.data.repository.SecureSettingsRepository
 import com.android.geto.core.data.repository.ShortcutRepository
-import com.android.geto.core.data.repository.ShortcutResult
 import com.android.geto.core.domain.AppSettingsResult
 import com.android.geto.core.domain.ApplyAppSettingsUseCase
 import com.android.geto.core.domain.AutoLaunchUseCase
@@ -40,11 +39,11 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.jetbrains.annotations.VisibleForTesting
 import javax.inject.Inject
 
 @HiltViewModel
@@ -59,8 +58,14 @@ class AppSettingsViewModel @Inject constructor(
     private val revertAppSettingsUseCase: RevertAppSettingsUseCase,
     private val autoLaunchUseCase: AutoLaunchUseCase,
 ) : ViewModel() {
-    private var _secureSetting = MutableStateFlow<List<SecureSetting>>(emptyList())
-    val secureSettings = _secureSetting.asStateFlow()
+    private var _secureSettings = MutableStateFlow<List<SecureSetting>>(emptyList())
+    val secureSettings = _secureSettings.asStateFlow()
+
+    private var _applicationIcon = MutableStateFlow<Drawable?>(null)
+    val applicationIcon = _applicationIcon.asStateFlow()
+
+    private val _mappedShortcutInfoCompat = MutableStateFlow<MappedShortcutInfoCompat?>(null)
+    val mappedShortcutInfoCompat = _mappedShortcutInfoCompat.asStateFlow()
 
     private val _applyAppSettingsResult =
         MutableStateFlow<AppSettingsResult>(AppSettingsResult.NoResult)
@@ -70,10 +75,10 @@ class AppSettingsViewModel @Inject constructor(
         MutableStateFlow<AppSettingsResult>(AppSettingsResult.NoResult)
     val revertAppSettingsResult = _revertAppSettingsResult.asStateFlow()
 
-    private val _shortcutResult = MutableStateFlow<ShortcutResult>(ShortcutResult.NoResult)
+    private val _shortcutResult = MutableStateFlow<String?>(null)
     val shortcutResult = _shortcutResult.asStateFlow()
 
-    private val _clipboardResult = MutableStateFlow<ClipboardResult>(ClipboardResult.NoResult)
+    private val _clipboardResult = MutableStateFlow<String?>(null)
     val clipboardResult = _clipboardResult.asStateFlow()
 
     private val appSettingsArgs = AppSettingsArgs(savedStateHandle)
@@ -82,20 +87,18 @@ class AppSettingsViewModel @Inject constructor(
 
     val appName = appSettingsArgs.appName
 
+    @VisibleForTesting
+    val permissionCommandLabel = "Command"
+
+    @VisibleForTesting
+    val permissionCommandText = "pm grant com.android.geto android.permission.WRITE_SECURE_SETTINGS"
+
     val appSettingUiState = appSettingsRepository.getAppSettingsByPackageName(packageName)
         .map<List<AppSetting>, AppSettingsUiState>(AppSettingsUiState::Success).stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000),
             initialValue = AppSettingsUiState.Loading,
         )
-
-    val applicationIcon = flow {
-        emit(packageRepository.getApplicationIcon(packageName))
-    }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = null,
-    )
 
     fun applyAppSettings() {
         viewModelScope.launch {
@@ -111,10 +114,10 @@ class AppSettingsViewModel @Inject constructor(
 
     fun checkAppSetting(checked: Boolean, appSetting: AppSetting) {
         viewModelScope.launch {
-            val updatedUserAppSettingsItem = appSetting.copy(enabled = checked)
+            val updatedAppSetting = appSetting.copy(enabled = checked)
 
             appSettingsRepository.upsertAppSetting(
-                updatedUserAppSettingsItem,
+                updatedAppSetting,
             )
         }
     }
@@ -131,17 +134,23 @@ class AppSettingsViewModel @Inject constructor(
         }
     }
 
+    fun getApplicationIcon(id: String = packageName) {
+        viewModelScope.launch {
+            _applicationIcon.update { packageRepository.getApplicationIcon(id) }
+        }
+    }
+
     fun getShortcut(id: String = packageName) {
         viewModelScope.launch {
-            _shortcutResult.update { shortcutRepository.getShortcut(id) }
+            _mappedShortcutInfoCompat.update { shortcutRepository.getShortcut(id) }
         }
     }
 
     fun copyPermissionCommand() {
         _clipboardResult.update {
             clipboardRepository.setPrimaryClip(
-                label = "Command",
-                text = "pm grant com.android.geto android.permission.WRITE_SECURE_SETTINGS",
+                label = permissionCommandLabel,
+                text = permissionCommandText,
             )
         }
     }
@@ -178,7 +187,7 @@ class AppSettingsViewModel @Inject constructor(
 
     fun getSecureSettingsByName(settingType: SettingType, text: String) {
         viewModelScope.launch {
-            _secureSetting.update {
+            _secureSettings.update {
                 secureSettingsRepository.getSecureSettingsByName(
                     settingType = settingType,
                     text = text,
@@ -193,10 +202,10 @@ class AppSettingsViewModel @Inject constructor(
     }
 
     fun resetShortcutResult() {
-        _shortcutResult.update { ShortcutResult.NoResult }
+        _shortcutResult.update { null }
     }
 
     fun resetClipboardResult() {
-        _clipboardResult.update { ClipboardResult.NoResult }
+        _clipboardResult.update { null }
     }
 }

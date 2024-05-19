@@ -15,24 +15,18 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.core.testing.repository
+package com.android.geto.core.resources
 
-import com.android.geto.core.data.repository.ClipboardRepository
+import android.content.Context
+import androidx.annotation.StringRes
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
 
-class TestClipboardRepository : ClipboardRepository {
-    private var _atleastApi32 = false
+internal class DefaultResourcesWrapper @Inject constructor(@ApplicationContext private val context: Context) :
+    ResourcesWrapper {
+    private val resources = context.resources
 
-    val copiedToClipboard = "%s copied to clipboard"
-
-    override fun setPrimaryClip(label: String, text: String): String? {
-        return if (_atleastApi32) {
-            null
-        } else {
-            String.format(copiedToClipboard, text)
-        }
-    }
-
-    fun setAtLeastApi32(value: Boolean) {
-        _atleastApi32 = value
+    override fun getString(@StringRes id: Int): String {
+        return resources.getString(id)
     }
 }

@@ -23,8 +23,6 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
-import com.android.geto.core.data.repository.ClipboardResult
-import com.android.geto.core.data.repository.ShortcutResult
 import com.android.geto.core.domain.AppSettingsResult
 import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.SettingType
@@ -57,11 +55,12 @@ class AppSettingsScreenTest {
                 appSettingsUiState = AppSettingsUiState.Loading,
                 snackbarHostState = SnackbarHostState(),
                 applicationIcon = null,
+                mappedShortcutInfoCompat = null,
                 secureSettings = emptyList(),
                 applyAppSettingsResult = AppSettingsResult.NoResult,
                 revertAppSettingsResult = AppSettingsResult.NoResult,
-                shortcutResult = ShortcutResult.NoResult,
-                clipboardResult = ClipboardResult.NoResult,
+                shortcutResult = null,
+                clipboardResult = null,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
                 onGetShortcut = {},
@@ -69,6 +68,7 @@ class AppSettingsScreenTest {
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
                 onAutoLaunchApp = {},
+                onGetApplicationIcon = {},
                 onResetAppSettingsResult = {},
                 onResetShortcutResult = {},
                 onResetClipboardResult = {},
@@ -92,11 +92,12 @@ class AppSettingsScreenTest {
                 appSettingsUiState = AppSettingsUiState.Success(emptyList()),
                 snackbarHostState = SnackbarHostState(),
                 applicationIcon = null,
+                mappedShortcutInfoCompat = null,
                 secureSettings = emptyList(),
                 applyAppSettingsResult = AppSettingsResult.NoResult,
                 revertAppSettingsResult = AppSettingsResult.NoResult,
-                shortcutResult = ShortcutResult.NoResult,
-                clipboardResult = ClipboardResult.NoResult,
+                shortcutResult = null,
+                clipboardResult = null,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
                 onGetShortcut = {},
@@ -104,6 +105,7 @@ class AppSettingsScreenTest {
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
                 onAutoLaunchApp = {},
+                onGetApplicationIcon = {},
                 onResetAppSettingsResult = {},
                 onResetShortcutResult = {},
                 onResetClipboardResult = {},
@@ -127,11 +129,12 @@ class AppSettingsScreenTest {
                 appSettingsUiState = AppSettingsUiState.Success(appSettings),
                 snackbarHostState = SnackbarHostState(),
                 applicationIcon = null,
+                mappedShortcutInfoCompat = null,
                 secureSettings = emptyList(),
                 applyAppSettingsResult = AppSettingsResult.NoResult,
                 revertAppSettingsResult = AppSettingsResult.NoResult,
-                shortcutResult = ShortcutResult.NoResult,
-                clipboardResult = ClipboardResult.NoResult,
+                shortcutResult = null,
+                clipboardResult = null,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
                 onGetShortcut = {},
@@ -139,6 +142,7 @@ class AppSettingsScreenTest {
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
                 onAutoLaunchApp = {},
+                onGetApplicationIcon = {},
                 onResetAppSettingsResult = {},
                 onResetShortcutResult = {},
                 onResetClipboardResult = {},

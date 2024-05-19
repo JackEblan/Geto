@@ -18,8 +18,6 @@
 package com.android.geto.feature.appsettings
 
 import androidx.lifecycle.SavedStateHandle
-import com.android.geto.core.data.repository.ClipboardResult
-import com.android.geto.core.data.repository.ShortcutResult
 import com.android.geto.core.domain.AppSettingsResult
 import com.android.geto.core.domain.ApplyAppSettingsUseCase
 import com.android.geto.core.domain.AutoLaunchUseCase
@@ -46,6 +44,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertIs
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
@@ -136,18 +135,28 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun shortcutResult_isNoResult_whenStarted() {
-        assertIs<ShortcutResult.NoResult>(viewModel.shortcutResult.value)
+    fun shortcutResult_isNull_whenStarted() {
+        assertNull(viewModel.shortcutResult.value)
     }
 
     @Test
-    fun clipboardResult_isNoResult_whenStarted() {
-        assertIs<ClipboardResult.NoResult>(viewModel.clipboardResult.value)
+    fun clipboardResult_isNull_whenStarted() {
+        assertNull(viewModel.clipboardResult.value)
+    }
+
+    @Test
+    fun secureSettings_isEmpty_whenStarted() {
+        assertTrue(viewModel.secureSettings.value.isEmpty())
     }
 
     @Test
     fun applicationIcon_isNull_whenStarted() {
         assertNull(viewModel.applicationIcon.value)
+    }
+
+    @Test
+    fun mappedShortcutInfoCompat_isNull_whenStarted() {
+        assertNull(viewModel.mappedShortcutInfoCompat.value)
     }
 
     @Test
@@ -392,21 +401,27 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun clipboardResult_isNotify_whenCopyPermissionCommand() = runTest {
+    fun clipboardResult_isNotNull_whenCopyPermissionCommand() = runTest {
         clipboardRepository.setAtLeastApi32(false)
 
         viewModel.copyPermissionCommand()
 
-        assertIs<ClipboardResult.Notify>(viewModel.clipboardResult.value)
+        assertEquals(
+            expected = String.format(
+                clipboardRepository.copiedToClipboard,
+                viewModel.permissionCommandText,
+            ),
+            actual = viewModel.clipboardResult.value,
+        )
     }
 
     @Test
-    fun clipboardResult_isNoResult_whenCopyPermissionCommand() = runTest {
+    fun clipboardResult_isNull_whenCopyPermissionCommand() = runTest {
         clipboardRepository.setAtLeastApi32(true)
 
         viewModel.copyPermissionCommand()
 
-        assertIs<ClipboardResult.NoResult>(viewModel.clipboardResult.value)
+        assertNull(viewModel.clipboardResult.value)
     }
 
     @Test
@@ -529,7 +544,10 @@ class AppSettingsViewModelTest {
             ),
         )
 
-        assertIs<ShortcutResult.SupportedLauncher>(viewModel.shortcutResult.value)
+        assertEquals(
+            expected = shortcutRepository.supportedLauncher,
+            actual = viewModel.shortcutResult.value,
+        )
     }
 
     @Test
@@ -544,41 +562,98 @@ class AppSettingsViewModelTest {
             ),
         )
 
-        assertIs<ShortcutResult.UnsupportedLauncher>(viewModel.shortcutResult.value)
+        assertEquals(
+            expected = shortcutRepository.unsupportedLauncher,
+            actual = viewModel.shortcutResult.value,
+        )
+    }
+
+    @Test
+    fun shortcutResult_isShortcutIdNotFound_whenUpdateRequestPinShortcut() = runTest {
+        val shortcuts = List(2) {
+            MappedShortcutInfoCompat(
+                id = "com.android.geto",
+                shortLabel = "Geto",
+                longLabel = "Geto",
+            )
+        }
+
+        shortcutRepository.setUpdateImmutableShortcuts(false)
+
+        shortcutRepository.setShortcuts(shortcuts)
+
+        viewModel.updateRequestPinShortcut(
+            mappedShortcutInfoCompat = MappedShortcutInfoCompat(
+                id = "0",
+                shortLabel = "",
+                longLabel = "",
+            ),
+        )
+
+        assertEquals(
+            expected = shortcutRepository.shortcutIdNotFound,
+            actual = viewModel.shortcutResult.value,
+        )
     }
 
     @Test
     fun shortcutResult_isShortcutUpdateImmutableShortcuts_whenUpdateRequestPinShortcut() = runTest {
+        val shortcuts = List(2) {
+            MappedShortcutInfoCompat(
+                id = "com.android.geto",
+                shortLabel = "Geto",
+                longLabel = "Geto",
+            )
+        }
+
         shortcutRepository.setUpdateImmutableShortcuts(true)
+
+        shortcutRepository.setShortcuts(shortcuts)
 
         viewModel.updateRequestPinShortcut(
             mappedShortcutInfoCompat = MappedShortcutInfoCompat(
-                id = "0",
+                id = "com.android.geto",
                 shortLabel = "Geto",
                 longLabel = "Geto",
             ),
         )
 
-        assertIs<ShortcutResult.ShortcutUpdateImmutableShortcuts>(viewModel.shortcutResult.value)
+        assertEquals(
+            expected = shortcutRepository.shortcutUpdateImmutableShortcuts,
+            actual = viewModel.shortcutResult.value,
+        )
     }
 
     @Test
     fun shortcutResult_isShortcutUpdateSuccess_whenUpdateRequestPinShortcut() = runTest {
+        val shortcuts = List(2) {
+            MappedShortcutInfoCompat(
+                id = "com.android.geto",
+                shortLabel = "Geto",
+                longLabel = "Geto",
+            )
+        }
+
         shortcutRepository.setUpdateImmutableShortcuts(false)
+
+        shortcutRepository.setShortcuts(shortcuts)
 
         viewModel.updateRequestPinShortcut(
             mappedShortcutInfoCompat = MappedShortcutInfoCompat(
-                id = "0",
+                id = "com.android.geto",
                 shortLabel = "Geto",
                 longLabel = "Geto",
             ),
         )
 
-        assertIs<ShortcutResult.ShortcutUpdateSuccess>(viewModel.shortcutResult.value)
+        assertEquals(
+            expected = shortcutRepository.shortcutUpdateSuccess,
+            actual = viewModel.shortcutResult.value,
+        )
     }
 
     @Test
-    fun shortcutResult_isShortcutFound_whenGetShortcut() = runTest {
+    fun mappedShortcutInfoCompat_isNotNull_whenGetShortcut() = runTest {
         val shortcuts = List(2) {
             MappedShortcutInfoCompat(
                 id = "com.android.geto",
@@ -593,11 +668,11 @@ class AppSettingsViewModelTest {
 
         viewModel.getShortcut()
 
-        assertIs<ShortcutResult.ShortcutFound>(viewModel.shortcutResult.value)
+        assertNotNull(viewModel.mappedShortcutInfoCompat.value)
     }
 
     @Test
-    fun shortcutResult_isNoShortcutFound_whenGetShortcut() = runTest {
+    fun mappedShortcutInfoCompat_isNull_whenGetShortcut() = runTest {
         val shortcuts = List(2) {
             MappedShortcutInfoCompat(
                 id = "com.android.geto",
@@ -612,7 +687,7 @@ class AppSettingsViewModelTest {
 
         viewModel.getShortcut("")
 
-        assertIs<ShortcutResult.NoShortcutFound>(viewModel.shortcutResult.value)
+        assertNull(viewModel.mappedShortcutInfoCompat.value)
     }
 
     @Test
@@ -627,11 +702,9 @@ class AppSettingsViewModelTest {
 
         packageRepository.setMappedApplicationInfos(mappedApplicationInfos)
 
-        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.applicationIcon.collect() }
+        viewModel.getApplicationIcon()
 
         assertNotNull(viewModel.applicationIcon.value)
-
-        collectJob.cancel()
     }
 
     @Test
@@ -639,17 +712,15 @@ class AppSettingsViewModelTest {
         val mappedApplicationInfos = List(1) { _ ->
             MappedApplicationInfo(
                 flags = 0,
-                packageName = "",
-                label = "",
+                packageName = packageName,
+                label = appName,
             )
         }
 
         packageRepository.setMappedApplicationInfos(mappedApplicationInfos)
 
-        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.applicationIcon.collect() }
+        viewModel.getApplicationIcon(id = "")
 
         assertNull(viewModel.applicationIcon.value)
-
-        collectJob.cancel()
     }
 }

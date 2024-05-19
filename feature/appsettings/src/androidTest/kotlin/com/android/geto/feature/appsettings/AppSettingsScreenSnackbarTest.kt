@@ -18,18 +18,37 @@
 package com.android.geto.feature.appsettings
 
 import androidx.activity.ComponentActivity
+import androidx.annotation.StringRes
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
-import com.android.geto.core.data.repository.ClipboardResult
-import com.android.geto.core.data.repository.ShortcutResult
+import com.android.geto.core.data.R
 import com.android.geto.core.domain.AppSettingsResult
 import org.junit.Rule
 import org.junit.Test
+import kotlin.properties.ReadOnlyProperty
 
 class AppSettingsScreenSnackbarTest {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
+
+    private fun AndroidComposeTestRule<*, *>.stringResource(@StringRes resId: Int) =
+        ReadOnlyProperty<Any, String> { _, _ -> activity.getString(resId) }
+
+    private val shortcutIdNotFound by composeTestRule.stringResource(R.string.shortcut_id_not_found)
+
+    private val shortcutUpdateImmutableShortcuts by composeTestRule.stringResource(R.string.shortcut_update_immutable_shortcuts)
+
+    private val shortcutUpdateFailed by composeTestRule.stringResource(R.string.shortcut_update_failed)
+
+    private val shortcutUpdateSuccess by composeTestRule.stringResource(R.string.shortcut_update_success)
+
+    private val supportedLauncher by composeTestRule.stringResource(R.string.supported_launcher)
+
+    private val unsupportedLauncher by composeTestRule.stringResource(R.string.unsupported_launcher)
+
+    private val copiedToClipboard by composeTestRule.stringResource(R.string.copied_to_clipboard)
 
     @Test
     fun snackbar_isShown_whenApplyAppSettingsResult_isDisabledAppSettings() {
@@ -40,11 +59,12 @@ class AppSettingsScreenSnackbarTest {
                 appSettingsUiState = AppSettingsUiState.Success(emptyList()),
                 snackbarHostState = SnackbarHostState(),
                 applicationIcon = null,
+                mappedShortcutInfoCompat = null,
                 secureSettings = emptyList(),
                 applyAppSettingsResult = AppSettingsResult.DisabledAppSettings,
                 revertAppSettingsResult = AppSettingsResult.NoResult,
-                shortcutResult = ShortcutResult.NoResult,
-                clipboardResult = ClipboardResult.NoResult,
+                shortcutResult = null,
+                clipboardResult = null,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
                 onGetShortcut = {},
@@ -52,6 +72,7 @@ class AppSettingsScreenSnackbarTest {
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
                 onAutoLaunchApp = {},
+                onGetApplicationIcon = {},
                 onResetAppSettingsResult = {},
                 onResetShortcutResult = {},
                 onResetClipboardResult = {},
@@ -75,11 +96,12 @@ class AppSettingsScreenSnackbarTest {
                 appSettingsUiState = AppSettingsUiState.Success(emptyList()),
                 snackbarHostState = SnackbarHostState(),
                 applicationIcon = null,
+                mappedShortcutInfoCompat = null,
                 secureSettings = emptyList(),
                 applyAppSettingsResult = AppSettingsResult.EmptyAppSettings,
                 revertAppSettingsResult = AppSettingsResult.NoResult,
-                shortcutResult = ShortcutResult.NoResult,
-                clipboardResult = ClipboardResult.NoResult,
+                shortcutResult = null,
+                clipboardResult = null,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
                 onGetShortcut = {},
@@ -87,6 +109,7 @@ class AppSettingsScreenSnackbarTest {
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
                 onAutoLaunchApp = {},
+                onGetApplicationIcon = {},
                 onResetAppSettingsResult = {},
                 onResetShortcutResult = {},
                 onResetClipboardResult = {},
@@ -110,11 +133,12 @@ class AppSettingsScreenSnackbarTest {
                 appSettingsUiState = AppSettingsUiState.Success(emptyList()),
                 snackbarHostState = SnackbarHostState(),
                 applicationIcon = null,
+                mappedShortcutInfoCompat = null,
                 secureSettings = emptyList(),
                 applyAppSettingsResult = AppSettingsResult.Failure,
                 revertAppSettingsResult = AppSettingsResult.NoResult,
-                shortcutResult = ShortcutResult.NoResult,
-                clipboardResult = ClipboardResult.NoResult,
+                shortcutResult = null,
+                clipboardResult = null,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
                 onGetShortcut = {},
@@ -122,6 +146,7 @@ class AppSettingsScreenSnackbarTest {
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
                 onAutoLaunchApp = {},
+                onGetApplicationIcon = {},
                 onResetAppSettingsResult = {},
                 onResetShortcutResult = {},
                 onResetClipboardResult = {},
@@ -145,11 +170,12 @@ class AppSettingsScreenSnackbarTest {
                 appSettingsUiState = AppSettingsUiState.Success(emptyList()),
                 snackbarHostState = SnackbarHostState(),
                 applicationIcon = null,
+                mappedShortcutInfoCompat = null,
                 secureSettings = emptyList(),
                 applyAppSettingsResult = AppSettingsResult.IllegalArgumentException,
                 revertAppSettingsResult = AppSettingsResult.NoResult,
-                shortcutResult = ShortcutResult.NoResult,
-                clipboardResult = ClipboardResult.NoResult,
+                shortcutResult = null,
+                clipboardResult = null,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
                 onGetShortcut = {},
@@ -157,6 +183,7 @@ class AppSettingsScreenSnackbarTest {
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
                 onAutoLaunchApp = {},
+                onGetApplicationIcon = {},
                 onResetAppSettingsResult = {},
                 onResetShortcutResult = {},
                 onResetClipboardResult = {},
@@ -172,7 +199,7 @@ class AppSettingsScreenSnackbarTest {
     }
 
     @Test
-    fun snackbar_isShown_whenShortcutResult_isIDNotFound() {
+    fun snackbar_isShown_whenShortcutResult_isShortcutIDNotFound() {
         composeTestRule.setContent {
             AppSettingsScreen(
                 packageName = "com.android.geto",
@@ -180,11 +207,12 @@ class AppSettingsScreenSnackbarTest {
                 appSettingsUiState = AppSettingsUiState.Success(emptyList()),
                 snackbarHostState = SnackbarHostState(),
                 applicationIcon = null,
+                mappedShortcutInfoCompat = null,
                 secureSettings = emptyList(),
                 applyAppSettingsResult = AppSettingsResult.NoResult,
                 revertAppSettingsResult = AppSettingsResult.NoResult,
-                shortcutResult = ShortcutResult.IDNotFound,
-                clipboardResult = ClipboardResult.NoResult,
+                shortcutResult = shortcutIdNotFound,
+                clipboardResult = null,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
                 onGetShortcut = {},
@@ -192,41 +220,7 @@ class AppSettingsScreenSnackbarTest {
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
                 onAutoLaunchApp = {},
-                onResetAppSettingsResult = {},
-                onResetShortcutResult = {},
-                onResetClipboardResult = {},
-                onGetSecureSettingsByName = { _, _ -> },
-                onAddAppSetting = {},
-                onCopyPermissionCommand = {},
-                onAddShortcut = {},
-                onUpdateShortcut = {},
-            )
-        }
-
-        composeTestRule.onNodeWithTag("appSettings:snackbar").assertExists()
-    }
-
-    @Test
-    fun snackbar_isShown_whenShortcutResult_isShortcutDisableImmutableShortcuts() {
-        composeTestRule.setContent {
-            AppSettingsScreen(
-                packageName = "com.android.geto",
-                appName = "Geto",
-                appSettingsUiState = AppSettingsUiState.Success(emptyList()),
-                snackbarHostState = SnackbarHostState(),
-                applicationIcon = null,
-                secureSettings = emptyList(),
-                applyAppSettingsResult = AppSettingsResult.NoResult,
-                revertAppSettingsResult = AppSettingsResult.NoResult,
-                shortcutResult = ShortcutResult.ShortcutDisableImmutableShortcuts,
-                clipboardResult = ClipboardResult.NoResult,
-                onNavigationIconClick = {},
-                onRevertAppSettings = {},
-                onGetShortcut = {},
-                onCheckAppSetting = { _, _ -> },
-                onDeleteAppSetting = {},
-                onLaunchApp = {},
-                onAutoLaunchApp = {},
+                onGetApplicationIcon = {},
                 onResetAppSettingsResult = {},
                 onResetShortcutResult = {},
                 onResetClipboardResult = {},
@@ -250,11 +244,12 @@ class AppSettingsScreenSnackbarTest {
                 appSettingsUiState = AppSettingsUiState.Success(emptyList()),
                 snackbarHostState = SnackbarHostState(),
                 applicationIcon = null,
+                mappedShortcutInfoCompat = null,
                 secureSettings = emptyList(),
                 applyAppSettingsResult = AppSettingsResult.NoResult,
                 revertAppSettingsResult = AppSettingsResult.NoResult,
-                shortcutResult = ShortcutResult.ShortcutUpdateFailed,
-                clipboardResult = ClipboardResult.NoResult,
+                shortcutResult = shortcutUpdateFailed,
+                clipboardResult = null,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
                 onGetShortcut = {},
@@ -262,6 +257,7 @@ class AppSettingsScreenSnackbarTest {
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
                 onAutoLaunchApp = {},
+                onGetApplicationIcon = {},
                 onResetAppSettingsResult = {},
                 onResetShortcutResult = {},
                 onResetClipboardResult = {},
@@ -285,11 +281,12 @@ class AppSettingsScreenSnackbarTest {
                 appSettingsUiState = AppSettingsUiState.Success(emptyList()),
                 snackbarHostState = SnackbarHostState(),
                 applicationIcon = null,
+                mappedShortcutInfoCompat = null,
                 secureSettings = emptyList(),
                 applyAppSettingsResult = AppSettingsResult.NoResult,
                 revertAppSettingsResult = AppSettingsResult.NoResult,
-                shortcutResult = ShortcutResult.ShortcutUpdateImmutableShortcuts,
-                clipboardResult = ClipboardResult.NoResult,
+                shortcutResult = shortcutUpdateImmutableShortcuts,
+                clipboardResult = null,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
                 onGetShortcut = {},
@@ -297,6 +294,7 @@ class AppSettingsScreenSnackbarTest {
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
                 onAutoLaunchApp = {},
+                onGetApplicationIcon = {},
                 onResetAppSettingsResult = {},
                 onResetShortcutResult = {},
                 onResetClipboardResult = {},
@@ -320,11 +318,12 @@ class AppSettingsScreenSnackbarTest {
                 appSettingsUiState = AppSettingsUiState.Success(emptyList()),
                 snackbarHostState = SnackbarHostState(),
                 applicationIcon = null,
+                mappedShortcutInfoCompat = null,
                 secureSettings = emptyList(),
                 applyAppSettingsResult = AppSettingsResult.NoResult,
                 revertAppSettingsResult = AppSettingsResult.NoResult,
-                shortcutResult = ShortcutResult.ShortcutUpdateSuccess,
-                clipboardResult = ClipboardResult.NoResult,
+                shortcutResult = shortcutUpdateSuccess,
+                clipboardResult = null,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
                 onGetShortcut = {},
@@ -332,6 +331,7 @@ class AppSettingsScreenSnackbarTest {
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
                 onAutoLaunchApp = {},
+                onGetApplicationIcon = {},
                 onResetAppSettingsResult = {},
                 onResetShortcutResult = {},
                 onResetClipboardResult = {},
@@ -355,11 +355,12 @@ class AppSettingsScreenSnackbarTest {
                 appSettingsUiState = AppSettingsUiState.Success(emptyList()),
                 snackbarHostState = SnackbarHostState(),
                 applicationIcon = null,
+                mappedShortcutInfoCompat = null,
                 secureSettings = emptyList(),
                 applyAppSettingsResult = AppSettingsResult.NoResult,
                 revertAppSettingsResult = AppSettingsResult.NoResult,
-                shortcutResult = ShortcutResult.SupportedLauncher,
-                clipboardResult = ClipboardResult.NoResult,
+                shortcutResult = supportedLauncher,
+                clipboardResult = null,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
                 onGetShortcut = {},
@@ -367,6 +368,7 @@ class AppSettingsScreenSnackbarTest {
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
                 onAutoLaunchApp = {},
+                onGetApplicationIcon = {},
                 onResetAppSettingsResult = {},
                 onResetShortcutResult = {},
                 onResetClipboardResult = {},
@@ -390,11 +392,12 @@ class AppSettingsScreenSnackbarTest {
                 appSettingsUiState = AppSettingsUiState.Success(emptyList()),
                 snackbarHostState = SnackbarHostState(),
                 applicationIcon = null,
+                mappedShortcutInfoCompat = null,
                 secureSettings = emptyList(),
                 applyAppSettingsResult = AppSettingsResult.NoResult,
                 revertAppSettingsResult = AppSettingsResult.NoResult,
-                shortcutResult = ShortcutResult.UnsupportedLauncher,
-                clipboardResult = ClipboardResult.NoResult,
+                shortcutResult = unsupportedLauncher,
+                clipboardResult = null,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
                 onGetShortcut = {},
@@ -402,6 +405,7 @@ class AppSettingsScreenSnackbarTest {
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
                 onAutoLaunchApp = {},
+                onGetApplicationIcon = {},
                 onResetAppSettingsResult = {},
                 onResetShortcutResult = {},
                 onResetClipboardResult = {},
@@ -417,7 +421,7 @@ class AppSettingsScreenSnackbarTest {
     }
 
     @Test
-    fun snackbar_isShown_whenShortcutResult_isUserIsLocked() {
+    fun snackbar_isShown_whenClipboardResult_isCopiedToClipboard() {
         composeTestRule.setContent {
             AppSettingsScreen(
                 packageName = "com.android.geto",
@@ -425,11 +429,12 @@ class AppSettingsScreenSnackbarTest {
                 appSettingsUiState = AppSettingsUiState.Success(emptyList()),
                 snackbarHostState = SnackbarHostState(),
                 applicationIcon = null,
+                mappedShortcutInfoCompat = null,
                 secureSettings = emptyList(),
                 applyAppSettingsResult = AppSettingsResult.NoResult,
                 revertAppSettingsResult = AppSettingsResult.NoResult,
-                shortcutResult = ShortcutResult.UserIsLocked,
-                clipboardResult = ClipboardResult.NoResult,
+                shortcutResult = null,
+                clipboardResult = String.format(copiedToClipboard, "Text"),
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
                 onGetShortcut = {},
@@ -437,41 +442,7 @@ class AppSettingsScreenSnackbarTest {
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
                 onAutoLaunchApp = {},
-                onResetAppSettingsResult = {},
-                onResetShortcutResult = {},
-                onResetClipboardResult = {},
-                onGetSecureSettingsByName = { _, _ -> },
-                onAddAppSetting = {},
-                onCopyPermissionCommand = {},
-                onAddShortcut = {},
-                onUpdateShortcut = {},
-            )
-        }
-
-        composeTestRule.onNodeWithTag("appSettings:snackbar").assertExists()
-    }
-
-    @Test
-    fun snackbar_isShown_whenClipboardResult_isNotify() {
-        composeTestRule.setContent {
-            AppSettingsScreen(
-                packageName = "com.android.geto",
-                appName = "Geto",
-                appSettingsUiState = AppSettingsUiState.Success(emptyList()),
-                snackbarHostState = SnackbarHostState(),
-                applicationIcon = null,
-                secureSettings = emptyList(),
-                applyAppSettingsResult = AppSettingsResult.NoResult,
-                revertAppSettingsResult = AppSettingsResult.NoResult,
-                shortcutResult = ShortcutResult.NoResult,
-                clipboardResult = ClipboardResult.Notify("Text is copied to clipboard"),
-                onNavigationIconClick = {},
-                onRevertAppSettings = {},
-                onGetShortcut = {},
-                onCheckAppSetting = { _, _ -> },
-                onDeleteAppSetting = {},
-                onLaunchApp = {},
-                onAutoLaunchApp = {},
+                onGetApplicationIcon = {},
                 onResetAppSettingsResult = {},
                 onResetShortcutResult = {},
                 onResetClipboardResult = {},

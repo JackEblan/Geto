@@ -15,24 +15,19 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.core.testing.repository
+package com.android.geto.core.resources
 
-import com.android.geto.core.data.repository.ClipboardRepository
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
-class TestClipboardRepository : ClipboardRepository {
-    private var _atleastApi32 = false
+@Module
+@InstallIn(SingletonComponent::class)
+internal interface ResourcesModule {
 
-    val copiedToClipboard = "%s copied to clipboard"
-
-    override fun setPrimaryClip(label: String, text: String): String? {
-        return if (_atleastApi32) {
-            null
-        } else {
-            String.format(copiedToClipboard, text)
-        }
-    }
-
-    fun setAtLeastApi32(value: Boolean) {
-        _atleastApi32 = value
-    }
+    @Binds
+    @Singleton
+    fun resourcesWrapper(impl: DefaultResourcesWrapper): ResourcesWrapper
 }

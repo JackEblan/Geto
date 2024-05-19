@@ -18,21 +18,24 @@
 package com.android.geto.core.data.repository
 
 import androidx.core.content.pm.ShortcutManagerCompat
+import com.android.geto.core.data.R
 import com.android.geto.core.model.MappedShortcutInfoCompat
+import com.android.geto.core.resources.ResourcesWrapper
 import com.android.geto.core.shortcutmanager.ShortcutManagerCompatWrapper
 import javax.inject.Inject
 
 internal class DefaultShortcutRepository @Inject constructor(
     private val shortcutManagerCompatWrapper: ShortcutManagerCompatWrapper,
+    private val resourcesWrapper: ResourcesWrapper,
 ) : ShortcutRepository {
 
     override fun requestPinShortcut(
         packageName: String,
         appName: String,
         mappedShortcutInfoCompat: MappedShortcutInfoCompat,
-    ): ShortcutResult {
+    ): String {
         if (shortcutManagerCompatWrapper.isRequestPinShortcutSupported().not()) {
-            return ShortcutResult.UnsupportedLauncher
+            return resourcesWrapper.getString(R.string.unsupported_launcher)
         }
 
         val requestPinShortcutSuccess = shortcutManagerCompatWrapper.requestPinShortcut(
@@ -42,9 +45,9 @@ internal class DefaultShortcutRepository @Inject constructor(
         )
 
         return if (requestPinShortcutSuccess) {
-            ShortcutResult.SupportedLauncher
+            resourcesWrapper.getString(R.string.supported_launcher)
         } else {
-            ShortcutResult.UnsupportedLauncher
+            resourcesWrapper.getString(R.string.unsupported_launcher)
         }
     }
 
@@ -52,13 +55,13 @@ internal class DefaultShortcutRepository @Inject constructor(
         packageName: String,
         appName: String,
         mappedShortcutInfoCompat: MappedShortcutInfoCompat,
-    ): ShortcutResult {
+    ): String {
         val shortcutIds =
             shortcutManagerCompatWrapper.getShortcuts(ShortcutManagerCompat.FLAG_MATCH_PINNED)
                 .map { it.id }
 
         if (shortcutIds.contains(mappedShortcutInfoCompat.id).not()) {
-            return ShortcutResult.IDNotFound
+            return resourcesWrapper.getString(R.string.shortcut_id_not_found)
         }
 
         return try {
@@ -69,26 +72,17 @@ internal class DefaultShortcutRepository @Inject constructor(
             )
 
             if (updateShortcutsSuccess) {
-                ShortcutResult.ShortcutUpdateSuccess
+                resourcesWrapper.getString(R.string.shortcut_update_success)
             } else {
-                ShortcutResult.ShortcutUpdateFailed
+                resourcesWrapper.getString(R.string.shortcut_update_failed)
             }
         } catch (e: IllegalArgumentException) {
-            ShortcutResult.ShortcutUpdateImmutableShortcuts
+            resourcesWrapper.getString(R.string.shortcut_update_immutable_shortcuts)
         }
     }
 
-    override fun getShortcut(id: String): ShortcutResult {
-        val mappedShortcutInfoCompat =
-            shortcutManagerCompatWrapper.getShortcuts(ShortcutManagerCompat.FLAG_MATCH_PINNED)
-                .find { it.id == id }
-
-        return if (mappedShortcutInfoCompat != null) {
-            ShortcutResult.ShortcutFound(
-                mappedShortcutInfoCompat = mappedShortcutInfoCompat,
-            )
-        } else {
-            ShortcutResult.NoShortcutFound
-        }
+    override fun getShortcut(id: String): MappedShortcutInfoCompat? {
+        return shortcutManagerCompatWrapper.getShortcuts(ShortcutManagerCompat.FLAG_MATCH_PINNED)
+            .find { it.id == id }
     }
 }

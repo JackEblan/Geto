@@ -34,8 +34,6 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
-import com.android.geto.core.data.repository.ClipboardResult
-import com.android.geto.core.data.repository.ShortcutResult
 import com.android.geto.core.domain.AppSettingsResult
 import com.android.geto.core.model.MappedShortcutInfoCompat
 import org.junit.Rule
@@ -54,11 +52,12 @@ class AppSettingsScreenDialogsTest {
                 appSettingsUiState = AppSettingsUiState.Loading,
                 snackbarHostState = SnackbarHostState(),
                 applicationIcon = null,
+                mappedShortcutInfoCompat = null,
                 secureSettings = emptyList(),
                 applyAppSettingsResult = AppSettingsResult.NoResult,
                 revertAppSettingsResult = AppSettingsResult.NoResult,
-                shortcutResult = ShortcutResult.NoResult,
-                clipboardResult = ClipboardResult.NoResult,
+                shortcutResult = null,
+                clipboardResult = null,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
                 onGetShortcut = {},
@@ -66,6 +65,7 @@ class AppSettingsScreenDialogsTest {
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
                 onAutoLaunchApp = {},
+                onGetApplicationIcon = {},
                 onResetAppSettingsResult = {},
                 onResetShortcutResult = {},
                 onResetClipboardResult = {},
@@ -99,11 +99,12 @@ class AppSettingsScreenDialogsTest {
                 appSettingsUiState = AppSettingsUiState.Loading,
                 snackbarHostState = SnackbarHostState(),
                 applicationIcon = null,
+                mappedShortcutInfoCompat = null,
                 secureSettings = emptyList(),
                 applyAppSettingsResult = AppSettingsResult.SecurityException,
                 revertAppSettingsResult = AppSettingsResult.NoResult,
-                shortcutResult = ShortcutResult.NoResult,
-                clipboardResult = ClipboardResult.NoResult,
+                shortcutResult = null,
+                clipboardResult = null,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
                 onGetShortcut = {},
@@ -111,6 +112,7 @@ class AppSettingsScreenDialogsTest {
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
                 onAutoLaunchApp = {},
+                onGetApplicationIcon = {},
                 onResetAppSettingsResult = {},
                 onResetShortcutResult = {},
                 onResetClipboardResult = {},
@@ -140,11 +142,12 @@ class AppSettingsScreenDialogsTest {
                 appSettingsUiState = AppSettingsUiState.Loading,
                 snackbarHostState = SnackbarHostState(),
                 applicationIcon = null,
+                mappedShortcutInfoCompat = null,
                 secureSettings = emptyList(),
                 applyAppSettingsResult = AppSettingsResult.NoResult,
                 revertAppSettingsResult = AppSettingsResult.SecurityException,
-                shortcutResult = ShortcutResult.NoResult,
-                clipboardResult = ClipboardResult.NoResult,
+                shortcutResult = null,
+                clipboardResult = null,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
                 onGetShortcut = {},
@@ -152,6 +155,7 @@ class AppSettingsScreenDialogsTest {
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
                 onAutoLaunchApp = {},
+                onGetApplicationIcon = {},
                 onResetAppSettingsResult = {},
                 onResetShortcutResult = {},
                 onResetClipboardResult = {},
@@ -173,7 +177,7 @@ class AppSettingsScreenDialogsTest {
     }
 
     @Test
-    fun addShortcutDialog_isDisplayed_whenShortcutResult_isNoShortcutFound_thenDismissed() {
+    fun addShortcutDialog_isDisplayed_whenMappedShortcutInfoCompat_isNull_thenDismissed() {
         composeTestRule.setContent {
             AppSettingsScreen(
                 packageName = "com.android.geto",
@@ -181,11 +185,12 @@ class AppSettingsScreenDialogsTest {
                 appSettingsUiState = AppSettingsUiState.Loading,
                 snackbarHostState = SnackbarHostState(),
                 applicationIcon = null,
+                mappedShortcutInfoCompat = null,
                 secureSettings = emptyList(),
                 applyAppSettingsResult = AppSettingsResult.NoResult,
                 revertAppSettingsResult = AppSettingsResult.NoResult,
-                shortcutResult = ShortcutResult.NoShortcutFound,
-                clipboardResult = ClipboardResult.NoResult,
+                shortcutResult = null,
+                clipboardResult = null,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
                 onGetShortcut = {},
@@ -193,6 +198,7 @@ class AppSettingsScreenDialogsTest {
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
                 onAutoLaunchApp = {},
+                onGetApplicationIcon = {},
                 onResetAppSettingsResult = {},
                 onResetShortcutResult = {},
                 onResetClipboardResult = {},
@@ -203,6 +209,11 @@ class AppSettingsScreenDialogsTest {
                 onUpdateShortcut = {},
             )
         }
+
+        composeTestRule.onNodeWithContentDescription(
+            label = "Shortcut icon",
+            useUnmergedTree = true,
+        ).performClick()
 
         composeTestRule.onNodeWithContentDescription("Add Shortcut Dialog").assertIsDisplayed()
 
@@ -212,7 +223,7 @@ class AppSettingsScreenDialogsTest {
     }
 
     @Test
-    fun updateShortcutDialog_isDisplayed_whenShortcutResult_isShortcutFound_thenDismissed() {
+    fun updateShortcutDialog_isDisplayed_whenMappedShortcutInfoCompat_isNotNull_thenDismissed() {
         composeTestRule.setContent {
             AppSettingsScreen(
                 packageName = "com.android.geto",
@@ -220,17 +231,16 @@ class AppSettingsScreenDialogsTest {
                 appSettingsUiState = AppSettingsUiState.Loading,
                 snackbarHostState = SnackbarHostState(),
                 applicationIcon = null,
+                mappedShortcutInfoCompat = MappedShortcutInfoCompat(
+                    id = "0",
+                    shortLabel = "Geto",
+                    longLabel = "Geto",
+                ),
                 secureSettings = emptyList(),
                 applyAppSettingsResult = AppSettingsResult.NoResult,
                 revertAppSettingsResult = AppSettingsResult.NoResult,
-                shortcutResult = ShortcutResult.ShortcutFound(
-                    mappedShortcutInfoCompat = MappedShortcutInfoCompat(
-                        id = "0",
-                        shortLabel = "Geto",
-                        longLabel = "Geto",
-                    ),
-                ),
-                clipboardResult = ClipboardResult.NoResult,
+                shortcutResult = null,
+                clipboardResult = null,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
                 onGetShortcut = {},
@@ -238,6 +248,7 @@ class AppSettingsScreenDialogsTest {
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
                 onAutoLaunchApp = {},
+                onGetApplicationIcon = {},
                 onResetAppSettingsResult = {},
                 onResetShortcutResult = {},
                 onResetClipboardResult = {},
@@ -248,6 +259,11 @@ class AppSettingsScreenDialogsTest {
                 onUpdateShortcut = {},
             )
         }
+
+        composeTestRule.onNodeWithContentDescription(
+            label = "Shortcut icon",
+            useUnmergedTree = true,
+        ).performClick()
 
         composeTestRule.onNodeWithContentDescription("Update Shortcut Dialog").assertIsDisplayed()
 
@@ -268,11 +284,12 @@ class AppSettingsScreenDialogsTest {
                 appSettingsUiState = AppSettingsUiState.Loading,
                 snackbarHostState = SnackbarHostState(),
                 applicationIcon = null,
+                mappedShortcutInfoCompat = null,
                 secureSettings = emptyList(),
                 applyAppSettingsResult = AppSettingsResult.NoResult,
                 revertAppSettingsResult = AppSettingsResult.NoResult,
-                shortcutResult = ShortcutResult.NoResult,
-                clipboardResult = ClipboardResult.NoResult,
+                shortcutResult = null,
+                clipboardResult = null,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
                 onGetShortcut = {},
@@ -280,6 +297,7 @@ class AppSettingsScreenDialogsTest {
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
                 onAutoLaunchApp = {},
+                onGetApplicationIcon = {},
                 onResetAppSettingsResult = {},
                 onResetShortcutResult = {},
                 onResetClipboardResult = {},
@@ -360,11 +378,12 @@ class AppSettingsScreenDialogsTest {
                 appSettingsUiState = AppSettingsUiState.Loading,
                 snackbarHostState = SnackbarHostState(),
                 applicationIcon = null,
+                mappedShortcutInfoCompat = null,
                 secureSettings = emptyList(),
                 applyAppSettingsResult = AppSettingsResult.NoResult,
                 revertAppSettingsResult = AppSettingsResult.NoResult,
-                shortcutResult = ShortcutResult.NoShortcutFound,
-                clipboardResult = ClipboardResult.NoResult,
+                shortcutResult = null,
+                clipboardResult = null,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
                 onGetShortcut = {},
@@ -372,6 +391,7 @@ class AppSettingsScreenDialogsTest {
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
                 onAutoLaunchApp = {},
+                onGetApplicationIcon = {},
                 onResetAppSettingsResult = {},
                 onResetShortcutResult = {},
                 onResetClipboardResult = {},
@@ -382,6 +402,11 @@ class AppSettingsScreenDialogsTest {
                 onUpdateShortcut = {},
             )
         }
+
+        composeTestRule.onNodeWithContentDescription(
+            label = "Shortcut icon",
+            useUnmergedTree = true,
+        ).performClick()
 
         composeTestRule.onNode(
             matcher = hasAnyAncestor(isDialog()) and hasTestTag("addShortcutDialog:shortLabelTextField"),
@@ -420,17 +445,16 @@ class AppSettingsScreenDialogsTest {
                 appSettingsUiState = AppSettingsUiState.Loading,
                 snackbarHostState = SnackbarHostState(),
                 applicationIcon = null,
+                mappedShortcutInfoCompat = MappedShortcutInfoCompat(
+                    id = "0",
+                    shortLabel = "Geto",
+                    longLabel = "Geto",
+                ),
                 secureSettings = emptyList(),
                 applyAppSettingsResult = AppSettingsResult.NoResult,
                 revertAppSettingsResult = AppSettingsResult.NoResult,
-                shortcutResult = ShortcutResult.ShortcutFound(
-                    mappedShortcutInfoCompat = MappedShortcutInfoCompat(
-                        id = "com.android.geto",
-                        shortLabel = "Geto",
-                        longLabel = "Geto",
-                    ),
-                ),
-                clipboardResult = ClipboardResult.NoResult,
+                shortcutResult = null,
+                clipboardResult = null,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
                 onGetShortcut = {},
@@ -438,6 +462,7 @@ class AppSettingsScreenDialogsTest {
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
                 onAutoLaunchApp = {},
+                onGetApplicationIcon = {},
                 onResetAppSettingsResult = {},
                 onResetShortcutResult = {},
                 onResetClipboardResult = {},
@@ -448,6 +473,11 @@ class AppSettingsScreenDialogsTest {
                 onUpdateShortcut = {},
             )
         }
+
+        composeTestRule.onNodeWithContentDescription(
+            label = "Shortcut icon",
+            useUnmergedTree = true,
+        ).performClick()
 
         restorationTester.emulateSavedInstanceStateRestore()
 
