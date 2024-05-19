@@ -49,10 +49,6 @@ class TestSecureSettingsRepository : SecureSettingsRepository {
         }
     }
 
-    override suspend fun getSecureSettings(settingType: SettingType): List<SecureSetting> {
-        return secureSettingList
-    }
-
     override suspend fun getSecureSettingsByName(
         settingType: SettingType,
         text: String,

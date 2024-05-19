@@ -46,10 +46,6 @@ internal class DefaultSecureSettingsRepository @Inject constructor(
         }
     }
 
-    override suspend fun getSecureSettings(settingType: SettingType): List<SecureSetting> {
-        return secureSettingsWrapper.getSecureSettings(settingType)
-    }
-
     override suspend fun getSecureSettingsByName(
         settingType: SettingType,
         text: String,
