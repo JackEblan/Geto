@@ -45,14 +45,14 @@ class ClipboardRepositoryTest {
     }
 
     @Test
-    fun setPrimaryClip_isNoResult() {
+    fun setPrimaryClip_isNull() {
         clipboardManagerWrapper.setAtLeastApi32(true)
 
         assertNull(subject.setPrimaryClip(label = "label", text = "text"))
     }
 
     @Test
-    fun setPrimaryClip_isNotify() {
+    fun setPrimaryClip_isNotNull() {
         clipboardManagerWrapper.setAtLeastApi32(false)
 
         resourcesWrapper.setString("%s copied to clipboard")
