@@ -43,10 +43,10 @@ internal fun rememberAppSettingDialogState(): AppSettingDialogState {
 internal class AppSettingDialogState {
     var secureSettings by mutableStateOf<List<SecureSetting>>(emptyList())
         private set
-    
+
     var secureSettingsExpanded by mutableStateOf(false)
         private set
-    
+
     var showDialog by mutableStateOf(false)
         private set
 
