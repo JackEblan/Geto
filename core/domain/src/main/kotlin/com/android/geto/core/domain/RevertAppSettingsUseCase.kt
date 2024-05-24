@@ -31,7 +31,7 @@ class RevertAppSettingsUseCase @Inject constructor(
 
         if (appSettings.isEmpty()) return RevertAppSettingsResult.EmptyAppSettings
 
-        if (appSettings.any { it.enabled.not() }) return RevertAppSettingsResult.DisabledAppSettings
+        if (appSettings.all { it.enabled.not() }) return RevertAppSettingsResult.DisabledAppSettings
 
         return try {
             if (secureSettingsRepository.revertSecureSettings(appSettings)) {
