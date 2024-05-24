@@ -8,10 +8,10 @@
       <SelectionState runConfigName="app-geto-catalog">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="updateShortcutDialog_stateRestoration()">
+      <SelectionState runConfigName="AppSettingsScreenSnackbarTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="addShortcutDialog_stateRestoration()">
+      <SelectionState runConfigName="AppSettingsScreenTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

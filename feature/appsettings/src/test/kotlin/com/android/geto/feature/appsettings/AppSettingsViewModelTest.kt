@@ -18,9 +18,11 @@
 package com.android.geto.feature.appsettings
 
 import androidx.lifecycle.SavedStateHandle
-import com.android.geto.core.domain.AppSettingsResult
+import com.android.geto.core.domain.ApplyAppSettingsResult
 import com.android.geto.core.domain.ApplyAppSettingsUseCase
+import com.android.geto.core.domain.AutoLaunchResult
 import com.android.geto.core.domain.AutoLaunchUseCase
+import com.android.geto.core.domain.RevertAppSettingsResult
 import com.android.geto.core.domain.RevertAppSettingsUseCase
 import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.MappedApplicationInfo
@@ -126,12 +128,17 @@ class AppSettingsViewModelTest {
 
     @Test
     fun applyAppSettingsResult_isNoResult_whenStarted() {
-        assertIs<AppSettingsResult.NoResult>(viewModel.applyAppSettingsResult.value)
+        assertIs<ApplyAppSettingsResult.NoResult>(viewModel.applyAppSettingsResult.value)
     }
 
     @Test
     fun revertAppSettingsResult_isNoResult_whenStarted() {
-        assertIs<AppSettingsResult.NoResult>(viewModel.revertAppSettingsResult.value)
+        assertIs<RevertAppSettingsResult.NoResult>(viewModel.revertAppSettingsResult.value)
+    }
+
+    @Test
+    fun autoLaunchResult_isNoResult_whenStarted() {
+        assertIs<AutoLaunchResult.NoResult>(viewModel.autoLaunchResult.value)
     }
 
     @Test
@@ -205,7 +212,7 @@ class AppSettingsViewModelTest {
 
         viewModel.applyAppSettings()
 
-        assertIs<AppSettingsResult.Success>(viewModel.applyAppSettingsResult.value)
+        assertIs<ApplyAppSettingsResult.Success>(viewModel.applyAppSettingsResult.value)
     }
 
     @Test
@@ -229,7 +236,7 @@ class AppSettingsViewModelTest {
 
         viewModel.applyAppSettings()
 
-        assertIs<AppSettingsResult.SecurityException>(viewModel.applyAppSettingsResult.value)
+        assertIs<ApplyAppSettingsResult.SecurityException>(viewModel.applyAppSettingsResult.value)
     }
 
     @Test
@@ -255,7 +262,7 @@ class AppSettingsViewModelTest {
 
         viewModel.applyAppSettings()
 
-        assertIs<AppSettingsResult.IllegalArgumentException>(viewModel.applyAppSettingsResult.value)
+        assertIs<ApplyAppSettingsResult.IllegalArgumentException>(viewModel.applyAppSettingsResult.value)
     }
 
     @Test
@@ -266,7 +273,7 @@ class AppSettingsViewModelTest {
 
         viewModel.applyAppSettings()
 
-        assertIs<AppSettingsResult.EmptyAppSettings>(viewModel.applyAppSettingsResult.value)
+        assertIs<ApplyAppSettingsResult.EmptyAppSettings>(viewModel.applyAppSettingsResult.value)
     }
 
     @Test
@@ -290,7 +297,7 @@ class AppSettingsViewModelTest {
 
         viewModel.applyAppSettings()
 
-        assertIs<AppSettingsResult.DisabledAppSettings>(viewModel.applyAppSettingsResult.value)
+        assertIs<ApplyAppSettingsResult.DisabledAppSettings>(viewModel.applyAppSettingsResult.value)
     }
 
     @Test
@@ -314,7 +321,7 @@ class AppSettingsViewModelTest {
 
         viewModel.revertAppSettings()
 
-        assertIs<AppSettingsResult.Success>(viewModel.revertAppSettingsResult.value)
+        assertIs<RevertAppSettingsResult.Success>(viewModel.revertAppSettingsResult.value)
     }
 
     @Test
@@ -338,7 +345,7 @@ class AppSettingsViewModelTest {
 
         viewModel.revertAppSettings()
 
-        assertIs<AppSettingsResult.SecurityException>(viewModel.revertAppSettingsResult.value)
+        assertIs<RevertAppSettingsResult.SecurityException>(viewModel.revertAppSettingsResult.value)
     }
 
     @Test
@@ -364,7 +371,7 @@ class AppSettingsViewModelTest {
 
         viewModel.revertAppSettings()
 
-        assertIs<AppSettingsResult.IllegalArgumentException>(viewModel.revertAppSettingsResult.value)
+        assertIs<RevertAppSettingsResult.IllegalArgumentException>(viewModel.revertAppSettingsResult.value)
     }
 
     @Test
@@ -373,7 +380,7 @@ class AppSettingsViewModelTest {
 
         viewModel.revertAppSettings()
 
-        assertIs<AppSettingsResult.EmptyAppSettings>(viewModel.revertAppSettingsResult.value)
+        assertIs<RevertAppSettingsResult.EmptyAppSettings>(viewModel.revertAppSettingsResult.value)
     }
 
     @Test
@@ -397,7 +404,7 @@ class AppSettingsViewModelTest {
 
         viewModel.revertAppSettings()
 
-        assertIs<AppSettingsResult.DisabledAppSettings>(viewModel.revertAppSettingsResult.value)
+        assertIs<RevertAppSettingsResult.DisabledAppSettings>(viewModel.revertAppSettingsResult.value)
     }
 
     @Test

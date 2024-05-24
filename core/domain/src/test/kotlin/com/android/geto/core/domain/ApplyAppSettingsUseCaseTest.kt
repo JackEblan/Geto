@@ -53,7 +53,7 @@ class ApplyAppSettingsUseCaseTest {
     fun applyAppSettingsUseCase_isEmptyAppSettings() = runTest {
         appSettingsRepository.setAppSettings(emptyList())
 
-        assertIs<AppSettingsResult.EmptyAppSettings>(applyAppSettingsUseCase(packageName = packageName))
+        assertIs<ApplyAppSettingsResult.EmptyAppSettings>(applyAppSettingsUseCase(packageName = packageName))
     }
 
     @Test
@@ -73,7 +73,7 @@ class ApplyAppSettingsUseCaseTest {
 
         appSettingsRepository.setAppSettings(appSettings)
 
-        assertIs<AppSettingsResult.DisabledAppSettings>(applyAppSettingsUseCase(packageName = packageName))
+        assertIs<ApplyAppSettingsResult.DisabledAppSettings>(applyAppSettingsUseCase(packageName = packageName))
     }
 
     @Test
@@ -103,7 +103,7 @@ class ApplyAppSettingsUseCaseTest {
 
         val result = applyAppSettingsUseCase(packageName = packageName)
 
-        assertIs<AppSettingsResult.Success>(result)
+        assertIs<ApplyAppSettingsResult.Success>(result)
 
         assertNotNull(result.launchIntent)
     }
@@ -127,7 +127,7 @@ class ApplyAppSettingsUseCaseTest {
 
         appSettingsRepository.setAppSettings(appSettings)
 
-        assertIs<AppSettingsResult.SecurityException>(applyAppSettingsUseCase(packageName = packageName))
+        assertIs<ApplyAppSettingsResult.SecurityException>(applyAppSettingsUseCase(packageName = packageName))
     }
 
     @Test
@@ -151,6 +151,6 @@ class ApplyAppSettingsUseCaseTest {
 
         appSettingsRepository.setAppSettings(appSettings)
 
-        assertIs<AppSettingsResult.IllegalArgumentException>(applyAppSettingsUseCase(packageName = packageName))
+        assertIs<ApplyAppSettingsResult.IllegalArgumentException>(applyAppSettingsUseCase(packageName = packageName))
     }
 }

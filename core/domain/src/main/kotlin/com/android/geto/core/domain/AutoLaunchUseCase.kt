@@ -17,6 +17,7 @@
  */
 package com.android.geto.core.domain
 
+import android.content.Intent
 import com.android.geto.core.data.repository.AppSettingsRepository
 import com.android.geto.core.data.repository.PackageRepository
 import com.android.geto.core.data.repository.SecureSettingsRepository
@@ -30,28 +31,38 @@ class AutoLaunchUseCase @Inject constructor(
     private val appSettingsRepository: AppSettingsRepository,
     private val secureSettingsRepository: SecureSettingsRepository,
 ) {
-    suspend operator fun invoke(packageName: String): AppSettingsResult {
+    suspend operator fun invoke(packageName: String): AutoLaunchResult {
         val launchIntent = packageRepository.getLaunchIntentForPackage(packageName)
 
         val userData = userDataRepository.userData.first()
 
         val appSettings = appSettingsRepository.getAppSettingsByPackageName(packageName).first()
 
-        if (userData.useAutoLaunch.not() || appSettings.isEmpty() || appSettings.any { it.enabled.not() }) return AutoLaunchResult.Ignore
+        if (userData.useAutoLaunch.not() || appSettings.isEmpty() || appSettings.any { it.enabled.not() }) return AutoLaunchResult.NoResult
 
         return try {
-            val applySecureSettingsSuccess =
-                secureSettingsRepository.applySecureSettings(appSettings)
 
-            if (applySecureSettingsSuccess) {
-                AppSettingsResult.Success(launchIntent = launchIntent)
+            if (secureSettingsRepository.applySecureSettings(appSettings)) {
+                AutoLaunchResult.Success(launchIntent = launchIntent)
             } else {
-                AppSettingsResult.Failure
+                AutoLaunchResult.Failure
             }
         } catch (e: SecurityException) {
-            AppSettingsResult.SecurityException
+            AutoLaunchResult.SecurityException
         } catch (e: IllegalArgumentException) {
-            AppSettingsResult.IllegalArgumentException
+            AutoLaunchResult.IllegalArgumentException
         }
     }
+}
+
+sealed interface AutoLaunchResult {
+    data class Success(val launchIntent: Intent?) : AutoLaunchResult
+
+    data object Failure : AutoLaunchResult
+
+    data object SecurityException : AutoLaunchResult
+
+    data object IllegalArgumentException : AutoLaunchResult
+
+    data object NoResult : AutoLaunchResult
 }

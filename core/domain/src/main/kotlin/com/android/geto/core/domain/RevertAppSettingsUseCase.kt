@@ -26,26 +26,39 @@ class RevertAppSettingsUseCase @Inject constructor(
     private val appSettingsRepository: AppSettingsRepository,
     private val secureSettingsRepository: SecureSettingsRepository,
 ) {
-    suspend operator fun invoke(packageName: String): AppSettingsResult {
+    suspend operator fun invoke(packageName: String): RevertAppSettingsResult {
         val appSettings = appSettingsRepository.getAppSettingsByPackageName(packageName).first()
 
-        if (appSettings.isEmpty()) return AppSettingsResult.EmptyAppSettings
+        if (appSettings.isEmpty()) return RevertAppSettingsResult.EmptyAppSettings
 
-        if (appSettings.any { it.enabled.not() }) return AppSettingsResult.DisabledAppSettings
+        if (appSettings.any { it.enabled.not() }) return RevertAppSettingsResult.DisabledAppSettings
 
         return try {
-            val revertSecureSettingsSuccess =
-                secureSettingsRepository.revertSecureSettings(appSettings)
-
-            if (revertSecureSettingsSuccess) {
-                AppSettingsResult.Success(null)
+            if (secureSettingsRepository.revertSecureSettings(appSettings)) {
+                RevertAppSettingsResult.Success
             } else {
-                AppSettingsResult.Failure
+                RevertAppSettingsResult.Failure
             }
         } catch (e: SecurityException) {
-            AppSettingsResult.SecurityException
+            RevertAppSettingsResult.SecurityException
         } catch (e: IllegalArgumentException) {
-            AppSettingsResult.IllegalArgumentException
+            RevertAppSettingsResult.IllegalArgumentException
         }
     }
+}
+
+sealed interface RevertAppSettingsResult {
+    data object Success : RevertAppSettingsResult
+
+    data object Failure : RevertAppSettingsResult
+
+    data object SecurityException : RevertAppSettingsResult
+
+    data object IllegalArgumentException : RevertAppSettingsResult
+
+    data object EmptyAppSettings : RevertAppSettingsResult
+
+    data object DisabledAppSettings : RevertAppSettingsResult
+
+    data object NoResult : RevertAppSettingsResult
 }

@@ -23,7 +23,9 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
-import com.android.geto.core.domain.AppSettingsResult
+import com.android.geto.core.domain.ApplyAppSettingsResult
+import com.android.geto.core.domain.AutoLaunchResult
+import com.android.geto.core.domain.RevertAppSettingsResult
 import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.SettingType
 import org.junit.Rule
@@ -57,8 +59,9 @@ class AppSettingsScreenTest {
                 applicationIcon = null,
                 mappedShortcutInfoCompat = null,
                 secureSettings = emptyList(),
-                applyAppSettingsResult = AppSettingsResult.NoResult,
-                revertAppSettingsResult = AppSettingsResult.NoResult,
+                applyAppSettingsResult = ApplyAppSettingsResult.NoResult,
+                revertAppSettingsResult = RevertAppSettingsResult.NoResult,
+                autoLaunchResult = AutoLaunchResult.NoResult,
                 shortcutResult = null,
                 clipboardResult = null,
                 onNavigationIconClick = {},
@@ -69,7 +72,9 @@ class AppSettingsScreenTest {
                 onLaunchApp = {},
                 onAutoLaunchApp = {},
                 onGetApplicationIcon = {},
-                onResetAppSettingsResult = {},
+                onResetApplyAppSettingsResult = {},
+                onResetRevertAppSettingsResult = {},
+                onResetAutoLaunchResult = {},
                 onResetShortcutResult = {},
                 onResetClipboardResult = {},
                 onGetSecureSettingsByName = { _, _ -> },
@@ -94,8 +99,9 @@ class AppSettingsScreenTest {
                 applicationIcon = null,
                 mappedShortcutInfoCompat = null,
                 secureSettings = emptyList(),
-                applyAppSettingsResult = AppSettingsResult.NoResult,
-                revertAppSettingsResult = AppSettingsResult.NoResult,
+                applyAppSettingsResult = ApplyAppSettingsResult.NoResult,
+                revertAppSettingsResult = RevertAppSettingsResult.NoResult,
+                autoLaunchResult = AutoLaunchResult.NoResult,
                 shortcutResult = null,
                 clipboardResult = null,
                 onNavigationIconClick = {},
@@ -106,7 +112,9 @@ class AppSettingsScreenTest {
                 onLaunchApp = {},
                 onAutoLaunchApp = {},
                 onGetApplicationIcon = {},
-                onResetAppSettingsResult = {},
+                onResetApplyAppSettingsResult = {},
+                onResetRevertAppSettingsResult = {},
+                onResetAutoLaunchResult = {},
                 onResetShortcutResult = {},
                 onResetClipboardResult = {},
                 onGetSecureSettingsByName = { _, _ -> },
@@ -131,8 +139,9 @@ class AppSettingsScreenTest {
                 applicationIcon = null,
                 mappedShortcutInfoCompat = null,
                 secureSettings = emptyList(),
-                applyAppSettingsResult = AppSettingsResult.NoResult,
-                revertAppSettingsResult = AppSettingsResult.NoResult,
+                applyAppSettingsResult = ApplyAppSettingsResult.NoResult,
+                revertAppSettingsResult = RevertAppSettingsResult.NoResult,
+                autoLaunchResult = AutoLaunchResult.NoResult,
                 shortcutResult = null,
                 clipboardResult = null,
                 onNavigationIconClick = {},
@@ -143,7 +152,9 @@ class AppSettingsScreenTest {
                 onLaunchApp = {},
                 onAutoLaunchApp = {},
                 onGetApplicationIcon = {},
-                onResetAppSettingsResult = {},
+                onResetApplyAppSettingsResult = {},
+                onResetRevertAppSettingsResult = {},
+                onResetAutoLaunchResult = {},
                 onResetShortcutResult = {},
                 onResetClipboardResult = {},
                 onGetSecureSettingsByName = { _, _ -> },
