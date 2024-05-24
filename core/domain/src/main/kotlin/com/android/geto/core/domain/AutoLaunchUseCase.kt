@@ -41,7 +41,6 @@ class AutoLaunchUseCase @Inject constructor(
         if (userData.useAutoLaunch.not() || appSettings.isEmpty() || appSettings.any { it.enabled.not() }) return AutoLaunchResult.NoResult
 
         return try {
-
             if (secureSettingsRepository.applySecureSettings(appSettings)) {
                 AutoLaunchResult.Success(launchIntent = launchIntent)
             } else {
