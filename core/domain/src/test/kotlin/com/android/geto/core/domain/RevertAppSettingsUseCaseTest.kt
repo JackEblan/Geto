@@ -47,7 +47,7 @@ class RevertAppSettingsUseCaseTest {
     fun revertAppSettingsUseCase_isEmptyAppSettings() = runTest {
         appSettingsRepository.setAppSettings(emptyList())
 
-        assertIs<AppSettingsResult.EmptyAppSettings>(revertAppSettingsUseCase(packageName = packageName))
+        assertIs<RevertAppSettingsResult.EmptyAppSettings>(revertAppSettingsUseCase(packageName = packageName))
     }
 
     @Test
@@ -67,7 +67,7 @@ class RevertAppSettingsUseCaseTest {
 
         appSettingsRepository.setAppSettings(appSettings)
 
-        assertIs<AppSettingsResult.DisabledAppSettings>(revertAppSettingsUseCase(packageName = packageName))
+        assertIs<RevertAppSettingsResult.DisabledAppSettings>(revertAppSettingsUseCase(packageName = packageName))
     }
 
     @Test
@@ -89,7 +89,7 @@ class RevertAppSettingsUseCaseTest {
 
         appSettingsRepository.setAppSettings(appSettings)
 
-        assertIs<AppSettingsResult.Success>(revertAppSettingsUseCase(packageName = packageName))
+        assertIs<RevertAppSettingsResult.Success>(revertAppSettingsUseCase(packageName = packageName))
     }
 
     @Test
@@ -111,7 +111,7 @@ class RevertAppSettingsUseCaseTest {
 
         appSettingsRepository.setAppSettings(appSettings)
 
-        assertIs<AppSettingsResult.SecurityException>(revertAppSettingsUseCase(packageName = packageName))
+        assertIs<RevertAppSettingsResult.SecurityException>(revertAppSettingsUseCase(packageName = packageName))
     }
 
     @Test
@@ -135,6 +135,6 @@ class RevertAppSettingsUseCaseTest {
 
         appSettingsRepository.setAppSettings(appSettings)
 
-        assertIs<AppSettingsResult.IllegalArgumentException>(revertAppSettingsUseCase(packageName = packageName))
+        assertIs<RevertAppSettingsResult.IllegalArgumentException>(revertAppSettingsUseCase(packageName = packageName))
     }
 }

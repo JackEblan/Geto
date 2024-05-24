@@ -63,8 +63,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.android.geto.core.designsystem.component.GetoLoadingWheel
 import com.android.geto.core.designsystem.icon.GetoIcons
 import com.android.geto.core.designsystem.theme.GetoTheme
-import com.android.geto.core.domain.AppSettingsResult
+import com.android.geto.core.domain.ApplyAppSettingsResult
 import com.android.geto.core.domain.AutoLaunchResult
+import com.android.geto.core.domain.RevertAppSettingsResult
 import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.MappedShortcutInfoCompat
 import com.android.geto.core.model.SecureSetting
@@ -98,6 +99,8 @@ internal fun AppSettingsRoute(
     val revertAppSettingsResult =
         viewModel.revertAppSettingsResult.collectAsStateWithLifecycle().value
 
+    val autoLaunchResult = viewModel.autoLaunchResult.collectAsStateWithLifecycle().value
+
     val applicationIcon = viewModel.applicationIcon.collectAsStateWithLifecycle().value
 
     val mappedShortcutInfoCompat =
@@ -122,6 +125,7 @@ internal fun AppSettingsRoute(
         secureSettings = secureSettings,
         applyAppSettingsResult = applyAppSettingsResult,
         revertAppSettingsResult = revertAppSettingsResult,
+        autoLaunchResult = autoLaunchResult,
         shortcutResult = shortcutResult,
         clipboardResult = clipboardResult,
         onNavigationIconClick = onNavigationIconClick,
@@ -132,7 +136,9 @@ internal fun AppSettingsRoute(
         onLaunchApp = viewModel::applyAppSettings,
         onAutoLaunchApp = viewModel::autoLaunchApp,
         onGetApplicationIcon = viewModel::getApplicationIcon,
-        onResetAppSettingsResult = viewModel::resetAppSettingsResult,
+        onResetApplyAppSettingsResult = viewModel::resetApplyAppSettingsResult,
+        onResetRevertAppSettingsResult = viewModel::resetRevertAppSettingsResult,
+        onResetAutoLaunchResult = viewModel::resetAutoLaunchResult,
         onResetShortcutResult = viewModel::resetShortcutResult,
         onResetClipboardResult = viewModel::resetClipboardResult,
         onGetSecureSettingsByName = viewModel::getSecureSettingsByName,
@@ -154,8 +160,9 @@ internal fun AppSettingsScreen(
     applicationIcon: Drawable?,
     mappedShortcutInfoCompat: MappedShortcutInfoCompat?,
     secureSettings: List<SecureSetting>,
-    applyAppSettingsResult: AppSettingsResult,
-    revertAppSettingsResult: AppSettingsResult,
+    applyAppSettingsResult: ApplyAppSettingsResult,
+    revertAppSettingsResult: RevertAppSettingsResult,
+    autoLaunchResult: AutoLaunchResult,
     shortcutResult: String?,
     clipboardResult: String?,
     onNavigationIconClick: () -> Unit,
@@ -166,7 +173,9 @@ internal fun AppSettingsScreen(
     onLaunchApp: () -> Unit,
     onAutoLaunchApp: () -> Unit,
     onGetApplicationIcon: () -> Unit,
-    onResetAppSettingsResult: () -> Unit,
+    onResetApplyAppSettingsResult: () -> Unit,
+    onResetRevertAppSettingsResult: () -> Unit,
+    onResetAutoLaunchResult: () -> Unit,
     onResetShortcutResult: () -> Unit,
     onResetClipboardResult: () -> Unit,
     onGetSecureSettingsByName: (SettingType, String) -> Unit,
@@ -193,12 +202,15 @@ internal fun AppSettingsScreen(
         secureSettings = secureSettings,
         applyAppSettingsResult = applyAppSettingsResult,
         revertAppSettingsResult = revertAppSettingsResult,
+        autoLaunchResult = autoLaunchResult,
         shortcutResult = shortcutResult,
         clipboardResult = clipboardResult,
         onAutoLaunchApp = onAutoLaunchApp,
         onGetApplicationIcon = onGetApplicationIcon,
         onGetShortcut = onGetShortcut,
-        onResetAppSettingsResult = onResetAppSettingsResult,
+        onResetApplyAppSettingsResult = onResetApplyAppSettingsResult,
+        onResetRevertAppSettingsResult = onResetRevertAppSettingsResult,
+        onResetAutoLaunchResult = onResetAutoLaunchResult,
         onResetShortcutResult = onResetShortcutResult,
         onResetClipboardResult = onResetClipboardResult,
         onGetSecureSettingsByName = onGetSecureSettingsByName,
@@ -284,14 +296,17 @@ private fun AppSettingsLaunchedEffects(
     updateShortcutDialogState: ShortcutDialogState,
     applicationIcon: Drawable?,
     secureSettings: List<SecureSetting>,
-    applyAppSettingsResult: AppSettingsResult,
-    revertAppSettingsResult: AppSettingsResult,
+    applyAppSettingsResult: ApplyAppSettingsResult,
+    revertAppSettingsResult: RevertAppSettingsResult,
+    autoLaunchResult: AutoLaunchResult,
     shortcutResult: String?,
     clipboardResult: String?,
     onAutoLaunchApp: () -> Unit,
     onGetApplicationIcon: () -> Unit,
     onGetShortcut: () -> Unit,
-    onResetAppSettingsResult: () -> Unit,
+    onResetApplyAppSettingsResult: () -> Unit,
+    onResetRevertAppSettingsResult: () -> Unit,
+    onResetAutoLaunchResult: () -> Unit,
     onResetShortcutResult: () -> Unit,
     onResetClipboardResult: () -> Unit,
     onGetSecureSettingsByName: (SettingType, String) -> Unit,
@@ -315,38 +330,57 @@ private fun AppSettingsLaunchedEffects(
 
     LaunchedEffect(key1 = applyAppSettingsResult) {
         when (applyAppSettingsResult) {
-            AppSettingsResult.DisabledAppSettings -> snackbarHostState.showSnackbar(message = appSettingsDisabled)
-            AppSettingsResult.EmptyAppSettings -> snackbarHostState.showSnackbar(message = emptyAppSettingsList)
-            AppSettingsResult.Failure -> snackbarHostState.showSnackbar(message = applyFailure)
-            AppSettingsResult.SecurityException -> copyPermissionCommandDialogState.updateShowDialog(
+            ApplyAppSettingsResult.DisabledAppSettings -> snackbarHostState.showSnackbar(message = appSettingsDisabled)
+            ApplyAppSettingsResult.EmptyAppSettings -> snackbarHostState.showSnackbar(message = emptyAppSettingsList)
+            ApplyAppSettingsResult.Failure -> snackbarHostState.showSnackbar(message = applyFailure)
+            ApplyAppSettingsResult.SecurityException -> copyPermissionCommandDialogState.updateShowDialog(
                 true,
             )
 
-            is AppSettingsResult.Success -> applyAppSettingsResult.launchIntent?.let(context::startActivity)
-            AutoLaunchResult.Ignore -> Unit
-            AppSettingsResult.IllegalArgumentException -> snackbarHostState.showSnackbar(message = invalidValues)
-            AppSettingsResult.NoResult -> Unit
+            is ApplyAppSettingsResult.Success -> applyAppSettingsResult.launchIntent?.let(context::startActivity)
+            ApplyAppSettingsResult.IllegalArgumentException -> snackbarHostState.showSnackbar(
+                message = invalidValues,
+            )
+
+            ApplyAppSettingsResult.NoResult -> Unit
         }
 
-        onResetAppSettingsResult()
+        onResetApplyAppSettingsResult()
     }
 
     LaunchedEffect(key1 = revertAppSettingsResult) {
         when (revertAppSettingsResult) {
-            AppSettingsResult.DisabledAppSettings -> snackbarHostState.showSnackbar(message = appSettingsDisabled)
-            AppSettingsResult.EmptyAppSettings -> snackbarHostState.showSnackbar(message = emptyAppSettingsList)
-            AppSettingsResult.Failure -> snackbarHostState.showSnackbar(message = revertFailure)
-            AppSettingsResult.SecurityException -> copyPermissionCommandDialogState.updateShowDialog(
+            RevertAppSettingsResult.DisabledAppSettings -> snackbarHostState.showSnackbar(message = appSettingsDisabled)
+            RevertAppSettingsResult.EmptyAppSettings -> snackbarHostState.showSnackbar(message = emptyAppSettingsList)
+            RevertAppSettingsResult.Failure -> snackbarHostState.showSnackbar(message = revertFailure)
+            RevertAppSettingsResult.SecurityException -> copyPermissionCommandDialogState.updateShowDialog(
                 true,
             )
 
-            is AppSettingsResult.Success -> snackbarHostState.showSnackbar(message = revertSuccess)
-            AutoLaunchResult.Ignore -> Unit
-            AppSettingsResult.IllegalArgumentException -> snackbarHostState.showSnackbar(message = invalidValues)
-            AppSettingsResult.NoResult -> Unit
+            is RevertAppSettingsResult.Success -> snackbarHostState.showSnackbar(message = revertSuccess)
+            RevertAppSettingsResult.IllegalArgumentException -> snackbarHostState.showSnackbar(
+                message = invalidValues,
+            )
+
+            RevertAppSettingsResult.NoResult -> Unit
         }
 
-        onResetAppSettingsResult()
+        onResetRevertAppSettingsResult()
+    }
+
+    LaunchedEffect(key1 = autoLaunchResult) {
+        when (autoLaunchResult) {
+            AutoLaunchResult.Failure -> snackbarHostState.showSnackbar(message = applyFailure)
+            AutoLaunchResult.SecurityException -> copyPermissionCommandDialogState.updateShowDialog(
+                true,
+            )
+
+            is AutoLaunchResult.Success -> autoLaunchResult.launchIntent?.let(context::startActivity)
+            AutoLaunchResult.IllegalArgumentException -> snackbarHostState.showSnackbar(message = invalidValues)
+            AutoLaunchResult.NoResult -> Unit
+        }
+
+        onResetAutoLaunchResult()
     }
 
     LaunchedEffect(key1 = shortcutResult) {
@@ -626,8 +660,9 @@ private fun AppSettingsScreenLoadingStatePreview() {
             applicationIcon = null,
             mappedShortcutInfoCompat = null,
             secureSettings = emptyList(),
-            applyAppSettingsResult = AppSettingsResult.NoResult,
-            revertAppSettingsResult = AppSettingsResult.NoResult,
+            applyAppSettingsResult = ApplyAppSettingsResult.NoResult,
+            revertAppSettingsResult = RevertAppSettingsResult.NoResult,
+            autoLaunchResult = AutoLaunchResult.NoResult,
             shortcutResult = null,
             clipboardResult = null,
             onNavigationIconClick = {},
@@ -638,7 +673,9 @@ private fun AppSettingsScreenLoadingStatePreview() {
             onLaunchApp = {},
             onAutoLaunchApp = {},
             onGetApplicationIcon = {},
-            onResetAppSettingsResult = {},
+            onResetApplyAppSettingsResult = {},
+            onResetRevertAppSettingsResult = {},
+            onResetAutoLaunchResult = {},
             onResetShortcutResult = {},
             onResetClipboardResult = {},
             onGetSecureSettingsByName = { _, _ -> },
@@ -662,8 +699,9 @@ private fun AppSettingsScreenEmptyStatePreview() {
             applicationIcon = null,
             mappedShortcutInfoCompat = null,
             secureSettings = emptyList(),
-            applyAppSettingsResult = AppSettingsResult.NoResult,
-            revertAppSettingsResult = AppSettingsResult.NoResult,
+            applyAppSettingsResult = ApplyAppSettingsResult.NoResult,
+            revertAppSettingsResult = RevertAppSettingsResult.NoResult,
+            autoLaunchResult = AutoLaunchResult.NoResult,
             shortcutResult = null,
             clipboardResult = null,
             onNavigationIconClick = {},
@@ -674,7 +712,9 @@ private fun AppSettingsScreenEmptyStatePreview() {
             onLaunchApp = {},
             onAutoLaunchApp = {},
             onGetApplicationIcon = {},
-            onResetAppSettingsResult = {},
+            onResetApplyAppSettingsResult = {},
+            onResetRevertAppSettingsResult = {},
+            onResetAutoLaunchResult = {},
             onResetShortcutResult = {},
             onResetClipboardResult = {},
             onGetSecureSettingsByName = { _, _ -> },
@@ -700,8 +740,9 @@ private fun AppSettingsScreenSuccessStatePreview(
             applicationIcon = null,
             mappedShortcutInfoCompat = null,
             secureSettings = emptyList(),
-            applyAppSettingsResult = AppSettingsResult.NoResult,
-            revertAppSettingsResult = AppSettingsResult.NoResult,
+            applyAppSettingsResult = ApplyAppSettingsResult.NoResult,
+            revertAppSettingsResult = RevertAppSettingsResult.NoResult,
+            autoLaunchResult = AutoLaunchResult.NoResult,
             shortcutResult = null,
             clipboardResult = null,
             onNavigationIconClick = {},
@@ -712,7 +753,9 @@ private fun AppSettingsScreenSuccessStatePreview(
             onLaunchApp = {},
             onAutoLaunchApp = {},
             onGetApplicationIcon = {},
-            onResetAppSettingsResult = {},
+            onResetApplyAppSettingsResult = {},
+            onResetRevertAppSettingsResult = {},
+            onResetAutoLaunchResult = {},
             onResetShortcutResult = {},
             onResetClipboardResult = {},
             onGetSecureSettingsByName = { _, _ -> },

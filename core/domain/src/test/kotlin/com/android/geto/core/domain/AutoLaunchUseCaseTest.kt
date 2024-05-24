@@ -69,7 +69,7 @@ class AutoLaunchUseCaseTest {
             ),
         )
 
-        assertIs<AutoLaunchResult.Ignore>(autoLaunchUseCase(packageName = packageName))
+        assertIs<AutoLaunchResult.NoResult>(autoLaunchUseCase(packageName = packageName))
     }
 
     @Test
@@ -98,7 +98,7 @@ class AutoLaunchUseCaseTest {
             ),
         )
 
-        assertIs<AutoLaunchResult.Ignore>(autoLaunchUseCase(packageName = packageName))
+        assertIs<AutoLaunchResult.NoResult>(autoLaunchUseCase(packageName = packageName))
     }
 
     @Test
@@ -137,7 +137,7 @@ class AutoLaunchUseCaseTest {
 
         val result = autoLaunchUseCase(packageName = packageName)
 
-        assertIs<AppSettingsResult.Success>(result)
+        assertIs<AutoLaunchResult.Success>(result)
 
         assertNotNull(result.launchIntent)
     }
@@ -170,7 +170,7 @@ class AutoLaunchUseCaseTest {
 
         appSettingsRepository.setAppSettings(appSettings)
 
-        assertIs<AppSettingsResult.SecurityException>(autoLaunchUseCase(packageName = packageName))
+        assertIs<AutoLaunchResult.SecurityException>(autoLaunchUseCase(packageName = packageName))
     }
 
     @Test
@@ -203,11 +203,11 @@ class AutoLaunchUseCaseTest {
 
         appSettingsRepository.setAppSettings(appSettings)
 
-        assertIs<AppSettingsResult.IllegalArgumentException>(autoLaunchUseCase(packageName = packageName))
+        assertIs<AutoLaunchResult.IllegalArgumentException>(autoLaunchUseCase(packageName = packageName))
     }
 
     @Test
-    fun autoLaunchAppUseCase_isIgnore_whenUseAutoLaunch_isFalse() = runTest {
+    fun autoLaunchAppUseCase_isNoResult_whenUseAutoLaunch_isFalse() = runTest {
         val appSettings = List(5) { index ->
             AppSetting(
                 id = index,
@@ -234,6 +234,6 @@ class AutoLaunchUseCaseTest {
 
         appSettingsRepository.setAppSettings(appSettings)
 
-        assertIs<AutoLaunchResult.Ignore>(autoLaunchUseCase(packageName = packageName))
+        assertIs<AutoLaunchResult.NoResult>(autoLaunchUseCase(packageName = packageName))
     }
 }

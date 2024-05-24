@@ -21,7 +21,9 @@ import androidx.activity.ComponentActivity
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.android.geto.core.designsystem.theme.GetoTheme
-import com.android.geto.core.domain.AppSettingsResult
+import com.android.geto.core.domain.ApplyAppSettingsResult
+import com.android.geto.core.domain.AutoLaunchResult
+import com.android.geto.core.domain.RevertAppSettingsResult
 import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.SettingType
 import com.android.geto.core.screenshot.testing.util.captureSnackbarForMultiDevice
@@ -80,8 +82,9 @@ class AppSettingsScreenSnackbarScreenshotTest {
                     applicationIcon = null,
                     mappedShortcutInfoCompat = null,
                     secureSettings = emptyList(),
-                    applyAppSettingsResult = AppSettingsResult.NoResult,
-                    revertAppSettingsResult = AppSettingsResult.NoResult,
+                    applyAppSettingsResult = ApplyAppSettingsResult.NoResult,
+                    revertAppSettingsResult = RevertAppSettingsResult.NoResult,
+                    autoLaunchResult = AutoLaunchResult.NoResult,
                     shortcutResult = null,
                     clipboardResult = null,
                     onNavigationIconClick = {},
@@ -92,7 +95,9 @@ class AppSettingsScreenSnackbarScreenshotTest {
                     onLaunchApp = {},
                     onAutoLaunchApp = {},
                     onGetApplicationIcon = {},
-                    onResetAppSettingsResult = {},
+                    onResetApplyAppSettingsResult = {},
+                    onResetRevertAppSettingsResult = {},
+                    onResetAutoLaunchResult = {},
                     onResetShortcutResult = {},
                     onResetClipboardResult = {},
                     onGetSecureSettingsByName = { _, _ -> },

@@ -26,9 +26,11 @@ import com.android.geto.core.data.repository.ClipboardRepository
 import com.android.geto.core.data.repository.PackageRepository
 import com.android.geto.core.data.repository.SecureSettingsRepository
 import com.android.geto.core.data.repository.ShortcutRepository
-import com.android.geto.core.domain.AppSettingsResult
+import com.android.geto.core.domain.ApplyAppSettingsResult
 import com.android.geto.core.domain.ApplyAppSettingsUseCase
+import com.android.geto.core.domain.AutoLaunchResult
 import com.android.geto.core.domain.AutoLaunchUseCase
+import com.android.geto.core.domain.RevertAppSettingsResult
 import com.android.geto.core.domain.RevertAppSettingsUseCase
 import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.MappedShortcutInfoCompat
@@ -68,12 +70,15 @@ class AppSettingsViewModel @Inject constructor(
     val mappedShortcutInfoCompat = _mappedShortcutInfoCompat.asStateFlow()
 
     private val _applyAppSettingsResult =
-        MutableStateFlow<AppSettingsResult>(AppSettingsResult.NoResult)
+        MutableStateFlow<ApplyAppSettingsResult>(ApplyAppSettingsResult.NoResult)
     val applyAppSettingsResult = _applyAppSettingsResult.asStateFlow()
 
     private val _revertAppSettingsResult =
-        MutableStateFlow<AppSettingsResult>(AppSettingsResult.NoResult)
+        MutableStateFlow<RevertAppSettingsResult>(RevertAppSettingsResult.NoResult)
     val revertAppSettingsResult = _revertAppSettingsResult.asStateFlow()
+
+    private val _autoLaunchResult = MutableStateFlow<AutoLaunchResult>(AutoLaunchResult.NoResult)
+    val autoLaunchResult = _autoLaunchResult.asStateFlow()
 
     private val _shortcutResult = MutableStateFlow<String?>(null)
     val shortcutResult = _shortcutResult.asStateFlow()
@@ -108,7 +113,7 @@ class AppSettingsViewModel @Inject constructor(
 
     fun autoLaunchApp() {
         viewModelScope.launch {
-            _applyAppSettingsResult.update { autoLaunchUseCase(packageName = packageName) }
+            _autoLaunchResult.update { autoLaunchUseCase(packageName = packageName) }
         }
     }
 
@@ -196,9 +201,16 @@ class AppSettingsViewModel @Inject constructor(
         }
     }
 
-    fun resetAppSettingsResult() {
-        _applyAppSettingsResult.update { AppSettingsResult.NoResult }
-        _revertAppSettingsResult.update { AppSettingsResult.NoResult }
+    fun resetApplyAppSettingsResult() {
+        _applyAppSettingsResult.update { ApplyAppSettingsResult.NoResult }
+    }
+
+    fun resetRevertAppSettingsResult() {
+        _revertAppSettingsResult.update { RevertAppSettingsResult.NoResult }
+    }
+
+    fun resetAutoLaunchResult() {
+        _autoLaunchResult.update { AutoLaunchResult.NoResult }
     }
 
     fun resetShortcutResult() {
