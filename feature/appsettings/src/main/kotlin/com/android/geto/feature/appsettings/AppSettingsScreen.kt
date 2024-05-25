@@ -25,6 +25,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -34,8 +35,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomAppBarDefaults
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
@@ -56,6 +60,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -237,18 +242,18 @@ internal fun AppSettingsScreen(
         },
         bottomBar = {
             AppSettingsBottomAppBar(
-                mappedShortcutInfoCompat = mappedShortcutInfoCompat,
                 onRevertSettingsIconClick = onRevertAppSettings,
                 onSettingsIconClick = {
                     appSettingDialogState.updateShowDialog(true)
                 },
-                onAddShortcutIconClick = {
-                    addShortcutDialogState.updateShowDialog(true)
-                },
-                onUpdateShortcutIconClick = {
-                    updateShortcutDialogState.updateShortLabel(it.shortLabel)
-                    updateShortcutDialogState.updateLongLabel(it.longLabel)
-                    updateShortcutDialogState.updateShowDialog(true)
+                onShortcutIconClick = {
+                    if (mappedShortcutInfoCompat != null) {
+                        updateShortcutDialogState.updateShortLabel(mappedShortcutInfoCompat.shortLabel)
+                        updateShortcutDialogState.updateLongLabel(mappedShortcutInfoCompat.longLabel)
+                        updateShortcutDialogState.updateShowDialog(true)
+                    } else {
+                        addShortcutDialogState.updateShowDialog(true)
+                    }
                 },
                 onLaunchApp = onLaunchApp,
             )
@@ -498,21 +503,17 @@ private fun AppSettingsTopAppBar(
 
 @Composable
 private fun AppSettingsBottomAppBar(
-    mappedShortcutInfoCompat: MappedShortcutInfoCompat?,
     onRevertSettingsIconClick: () -> Unit,
     onSettingsIconClick: () -> Unit,
-    onAddShortcutIconClick: () -> Unit,
-    onUpdateShortcutIconClick: (MappedShortcutInfoCompat) -> Unit,
+    onShortcutIconClick: () -> Unit,
     onLaunchApp: () -> Unit,
 ) {
     BottomAppBar(
         actions = {
             AppSettingsBottomAppBarActions(
-                mappedShortcutInfoCompat = mappedShortcutInfoCompat,
                 onRevertSettingsIconClick = onRevertSettingsIconClick,
                 onSettingsIconClick = onSettingsIconClick,
-                onAddShortcutIconClick = onAddShortcutIconClick,
-                onUpdateShortcutIconClick = onUpdateShortcutIconClick,
+                onShortcutIconClick = onShortcutIconClick,
             )
         },
         floatingActionButton = {
@@ -539,11 +540,9 @@ private fun AppSettingsFloatingActionButton(onClick: () -> Unit) {
 
 @Composable
 private fun AppSettingsBottomAppBarActions(
-    mappedShortcutInfoCompat: MappedShortcutInfoCompat?,
     onRevertSettingsIconClick: () -> Unit,
     onSettingsIconClick: () -> Unit,
-    onAddShortcutIconClick: () -> Unit,
-    onUpdateShortcutIconClick: (MappedShortcutInfoCompat) -> Unit,
+    onShortcutIconClick: () -> Unit,
 ) {
     IconButton(onClick = onRevertSettingsIconClick) {
         Icon(
@@ -560,15 +559,7 @@ private fun AppSettingsBottomAppBarActions(
     }
 
     IconButton(
-        onClick = {
-            if (mappedShortcutInfoCompat != null) {
-                onUpdateShortcutIconClick(
-                    mappedShortcutInfoCompat,
-                )
-            } else {
-                onAddShortcutIconClick()
-            }
-        },
+        onClick = onShortcutIconClick,
     ) {
         Icon(
             GetoIcons.Shortcut,
@@ -645,6 +636,72 @@ private fun SuccessState(
                 },
             )
         }
+    }
+}
+
+@Composable
+private fun AppSettingItem(
+    modifier: Modifier = Modifier,
+    appSetting: AppSetting,
+    onCheckAppSetting: (Boolean) -> Unit,
+    onDeleteAppSetting: () -> Unit,
+) {
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Checkbox(
+            checked = appSetting.enabled,
+            onCheckedChange = onCheckAppSetting,
+        )
+
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = appSetting.label,
+                style = MaterialTheme.typography.bodyLarge,
+            )
+
+            Spacer(modifier = Modifier.height(5.dp))
+
+            Text(
+                text = appSetting.settingType.label,
+                style = MaterialTheme.typography.bodySmall,
+            )
+
+            Spacer(modifier = Modifier.height(5.dp))
+
+            Text(
+                text = appSetting.key,
+                style = MaterialTheme.typography.bodySmall,
+            )
+        }
+
+        IconButton(onClick = onDeleteAppSetting) {
+            Icon(
+                imageVector = Icons.Default.Delete,
+                contentDescription = null,
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun AppSettingItemPreview() {
+    GetoTheme {
+        AppSettingItem(
+            appSetting = AppSetting(
+                enabled = false,
+                settingType = SettingType.SECURE,
+                packageName = "com.android.geto",
+                label = "Geto",
+                key = "settings_key",
+                valueOnLaunch = "0",
+                valueOnRevert = "1",
+            ),
+            onCheckAppSetting = {},
+            onDeleteAppSetting = {},
+        )
     }
 }
 

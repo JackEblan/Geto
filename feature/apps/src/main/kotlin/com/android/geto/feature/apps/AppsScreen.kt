@@ -19,15 +19,25 @@ package com.android.geto.feature.apps
 
 import androidx.activity.compose.ReportDrawnWhen
 import androidx.annotation.VisibleForTesting
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -39,9 +49,12 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.android.geto.core.designsystem.component.DynamicAsyncImage
 import com.android.geto.core.designsystem.component.GetoLoadingWheel
 import com.android.geto.core.designsystem.icon.GetoIcons
 import com.android.geto.core.designsystem.theme.GetoTheme
@@ -159,6 +172,64 @@ private fun SuccessState(
                 onItemClick = onItemClick,
             )
         }
+    }
+}
+
+@Composable
+private fun AppItem(
+    modifier: Modifier = Modifier,
+    mappedApplicationInfo: MappedApplicationInfo,
+    onItemClick: (String, String) -> Unit,
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .testTag("apps:appItem")
+            .clickable {
+                onItemClick(
+                    mappedApplicationInfo.packageName,
+                    mappedApplicationInfo.label,
+                )
+            }
+            .padding(10.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        DynamicAsyncImage(
+            model = mappedApplicationInfo.icon,
+            contentDescription = null,
+            modifier = Modifier.size(50.dp),
+        )
+
+        Spacer(modifier = Modifier.width(10.dp))
+
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = mappedApplicationInfo.label,
+                style = MaterialTheme.typography.bodyLarge,
+            )
+
+            Spacer(modifier = Modifier.height(5.dp))
+
+            Text(
+                text = mappedApplicationInfo.packageName,
+                style = MaterialTheme.typography.bodySmall,
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun AppItemPreview() {
+    GetoTheme {
+        AppItem(
+            mappedApplicationInfo = MappedApplicationInfo(
+                flags = 0,
+                packageName = "com.android.geto",
+                label = "Geto",
+            ),
+            onItemClick = { _, _ -> },
+        )
     }
 }
 
