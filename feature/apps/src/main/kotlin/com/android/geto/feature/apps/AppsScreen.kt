@@ -165,7 +165,7 @@ private fun SuccessState(
         columns = GridCells.Adaptive(300.dp),
         modifier = modifier
             .fillMaxSize()
-            .testTag("apps:lazyColumn"),
+            .testTag("apps:lazyVerticalGrid"),
         contentPadding = contentPadding,
     ) {
         items(appsUiState.mappedApplicationInfoList) { mappedApplicationInfo ->

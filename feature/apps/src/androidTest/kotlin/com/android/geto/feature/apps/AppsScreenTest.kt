@@ -61,6 +61,6 @@ class AppsScreenTest {
             )
         }
 
-        composeTestRule.onNodeWithTag("apps:lazyColumn").assertIsDisplayed()
+        composeTestRule.onNodeWithTag("apps:lazyVerticalGrid").assertIsDisplayed()
     }
 }

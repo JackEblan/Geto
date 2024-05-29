@@ -22,12 +22,12 @@ import androidx.test.uiautomator.By
 import com.android.geto.benchmarks.flingElementDownUp
 
 fun MacrobenchmarkScope.appsScrollDownUp() {
-    val appList = device.findObject(By.res("apps:lazyColumn"))
-    device.flingElementDownUp(appList)
+    val apps = device.findObject(By.res("apps:lazyVerticalGrid"))
+    device.flingElementDownUp(apps)
 }
 
 fun MacrobenchmarkScope.appsClickFirstItem() {
-    val appList = device.findObject(By.res("apps:lazyColumn"))
-    val firstItem = appList.findObject(By.res("apps:appItem"))
+    val apps = device.findObject(By.res("apps:lazyVerticalGrid"))
+    val firstItem = apps.findObject(By.res("apps:appItem"))
     firstItem.click()
 }
