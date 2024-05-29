@@ -18,6 +18,7 @@
 package com.android.geto.feature.appsettings.dialog.shortcut
 
 import android.graphics.Bitmap
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
@@ -30,8 +31,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -57,6 +60,7 @@ import com.android.geto.feature.appsettings.R
 internal fun AddShortcutDialog(
     modifier: Modifier = Modifier,
     shortcutDialogState: ShortcutDialogState,
+    scrollState: ScrollState = rememberScrollState(),
     packageName: String,
     contentDescription: String,
     onAddClick: (MappedShortcutInfoCompat) -> Unit,
@@ -72,6 +76,7 @@ internal fun AddShortcutDialog(
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .verticalScroll(scrollState)
                 .padding(10.dp),
         ) {
             AddShortcutDialogTitle()

@@ -28,9 +28,6 @@ import androidx.compose.runtime.setValue
 import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.SecureSetting
 import com.android.geto.core.model.SettingType
-import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.debounce
 
 @Composable
 internal fun rememberAppSettingDialogState(): AppSettingDialogState {
@@ -80,11 +77,6 @@ internal class AppSettingDialogState {
     var showValueOnRevertError by mutableStateOf(false)
         private set
 
-    private val _keyDebounce = MutableStateFlow("")
-
-    @OptIn(FlowPreview::class)
-    val keyDebounce = _keyDebounce.debounce(500)
-
     fun updateSecureSettings(value: List<SecureSetting>) {
         secureSettings = value
     }
@@ -107,7 +99,6 @@ internal class AppSettingDialogState {
 
     fun updateKey(value: String) {
         key = value
-        _keyDebounce.value = value
     }
 
     fun updateValueOnLaunch(value: String) {
