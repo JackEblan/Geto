@@ -54,6 +54,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
@@ -87,6 +88,11 @@ import com.android.geto.feature.appsettings.dialog.shortcut.AddShortcutDialog
 import com.android.geto.feature.appsettings.dialog.shortcut.ShortcutDialogState
 import com.android.geto.feature.appsettings.dialog.shortcut.UpdateShortcutDialog
 import com.android.geto.feature.appsettings.dialog.shortcut.rememberShortcutDialogState
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.onEach
 
 @Composable
 internal fun AppSettingsRoute(
@@ -292,6 +298,7 @@ internal fun AppSettingsScreen(
     }
 }
 
+@OptIn(FlowPreview::class)
 @Composable
 private fun AppSettingsLaunchedEffects(
     snackbarHostState: SnackbarHostState,
@@ -324,8 +331,6 @@ private fun AppSettingsLaunchedEffects(
     val invalidValues = stringResource(R.string.settings_has_invalid_values)
 
     val context = LocalContext.current
-
-    val keyDebounce = appSettingDialogState.keyDebounce.collectAsStateWithLifecycle("").value
 
     LaunchedEffect(key1 = true) {
         onAutoLaunchApp()
@@ -407,15 +412,30 @@ private fun AppSettingsLaunchedEffects(
     }
 
     LaunchedEffect(
-        key1 = appSettingDialogState.selectedRadioOptionIndex,
-        key2 = keyDebounce,
+        key1 = appSettingDialogState.key,
     ) {
         val settingType = SettingType.entries[appSettingDialogState.selectedRadioOptionIndex]
 
-        onGetSecureSettingsByName(
-            settingType,
-            appSettingDialogState.key,
-        )
+        snapshotFlow { appSettingDialogState.key }.debounce(500).distinctUntilChanged().onEach {
+            onGetSecureSettingsByName(
+                settingType,
+                appSettingDialogState.key,
+            )
+        }.collect()
+    }
+
+    LaunchedEffect(
+        key1 = appSettingDialogState.selectedRadioOptionIndex,
+    ) {
+        val settingType = SettingType.entries[appSettingDialogState.selectedRadioOptionIndex]
+
+        snapshotFlow { appSettingDialogState.selectedRadioOptionIndex }.debounce(500)
+            .distinctUntilChanged().onEach {
+                onGetSecureSettingsByName(
+                    settingType,
+                    appSettingDialogState.key,
+                )
+            }.collect()
     }
 
     LaunchedEffect(key1 = secureSettings) {

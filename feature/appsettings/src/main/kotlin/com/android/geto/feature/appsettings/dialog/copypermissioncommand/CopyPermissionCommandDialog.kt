@@ -53,11 +53,14 @@ internal fun CopyPermissionCommandDialog(
     contentDescription: String,
 ) {
     CopyPermissionCommandDialogContainer(
-        modifier = modifier,
+        modifier = modifier
+            .width(IntrinsicSize.Max)
+            .height(IntrinsicSize.Min)
+            .padding(16.dp)
+            .semantics { this.contentDescription = contentDescription },
         onDismissRequest = {
             copyPermissionCommandDialogState.updateShowDialog(false)
         },
-        contentDescription = contentDescription,
     ) {
         Column(
             modifier = Modifier
@@ -86,16 +89,11 @@ internal fun CopyPermissionCommandDialog(
 private fun CopyPermissionCommandDialogContainer(
     modifier: Modifier = Modifier,
     onDismissRequest: () -> Unit,
-    contentDescription: String,
     content: @Composable (ColumnScope.() -> Unit),
 ) {
     Dialog(onDismissRequest = onDismissRequest) {
         Card(
-            modifier = modifier
-                .width(IntrinsicSize.Max)
-                .height(IntrinsicSize.Min)
-                .padding(16.dp)
-                .semantics { this.contentDescription = contentDescription },
+            modifier = modifier,
             shape = RoundedCornerShape(16.dp),
         ) {
             content()
