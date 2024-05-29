@@ -61,7 +61,6 @@ internal fun CopyPermissionCommandDialog(
         onDismissRequest = {
             copyPermissionCommandDialogState.updateShowDialog(false)
         },
-        contentDescription = contentDescription,
     ) {
         Column(
             modifier = Modifier
@@ -90,7 +89,6 @@ internal fun CopyPermissionCommandDialog(
 private fun CopyPermissionCommandDialogContainer(
     modifier: Modifier = Modifier,
     onDismissRequest: () -> Unit,
-    contentDescription: String,
     content: @Composable (ColumnScope.() -> Unit),
 ) {
     Dialog(onDismissRequest = onDismissRequest) {
