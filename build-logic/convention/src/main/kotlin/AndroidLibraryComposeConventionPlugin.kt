@@ -29,6 +29,7 @@ class AndroidLibraryComposeConventionPlugin : Plugin<Project> {
         with(target) {
             with(pluginManager) {
                 apply(libs.plugins.android.library.pluginId)
+                apply(libs.plugins.compose.pluginId)
             }
 
             extensions.configure<LibraryExtension> {

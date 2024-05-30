@@ -29,6 +29,7 @@ class AndroidApplicationComposeConventionPlugin : Plugin<Project> {
         with(target) {
             with(pluginManager) {
                 apply(libs.plugins.android.application.pluginId)
+                apply(libs.plugins.compose.pluginId)
             }
 
             val extension = extensions.getByType<ApplicationExtension>()

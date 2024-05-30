@@ -34,8 +34,8 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
         with(target) {
             with(pluginManager) {
                 apply(libs.plugins.android.library.pluginId)
-                apply(libs.plugins.kotlin.android.pluginId)
                 apply(libs.plugins.com.android.geto.lint.pluginId)
+                apply(libs.plugins.kotlin.android.pluginId)
             }
 
             extensions.configure<LibraryExtension> {
