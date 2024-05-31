@@ -41,16 +41,16 @@ class SetPrimaryClipUseCaseTest {
     }
 
     @Test
-    fun setPrimaryClipUseCase_isFalse_whenBuildVersion_is32AndHigher() = runTest {
+    fun setPrimaryClipUseCase_isFalse_whenBuildVersion_isNot32AndLower() = runTest {
         buildVersionWrapper.setSdkInt(33)
 
-        assertTrue(setPrimaryClipUseCase(label = "Label", text = "Text"))
+        assertFalse(setPrimaryClipUseCase(label = "Label", text = "Text"))
     }
 
     @Test
     fun setPrimaryClipUseCase_isTrue_whenBuildVersion_is32AndLower() = runTest {
         buildVersionWrapper.setSdkInt(31)
 
-        assertFalse(setPrimaryClipUseCase(label = "Label", text = "Text"))
+        assertTrue(setPrimaryClipUseCase(label = "Label", text = "Text"))
     }
 }
