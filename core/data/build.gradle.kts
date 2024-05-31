@@ -39,7 +39,6 @@ dependencies {
     implementation(projects.core.clipboardmanager)
     implementation(projects.core.model)
     implementation(projects.core.packagemanager)
-    implementation(projects.core.resources)
     implementation(projects.core.securesettings)
     implementation(projects.core.shortcutmanager)
 

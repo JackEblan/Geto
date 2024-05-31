@@ -15,17 +15,8 @@
  *   limitations under the License.
  *
  */
+package com.android.geto.core.buildversion
 
-plugins {
-    alias(libs.plugins.com.android.geto.library)
-    alias(libs.plugins.com.android.geto.libraryJacoco)
-    alias(libs.plugins.com.android.geto.hilt)
-}
-
-android {
-    namespace = "com.android.geto.core.resources"
-}
-
-dependencies {
-    implementation(projects.core.model)
+interface BuildVersionWrapper {
+    val sdkInt: Int
 }

@@ -30,6 +30,9 @@ class TestShortcutManagerCompatWrapper : ShortcutManagerCompatWrapper {
 
     private var mappedShortcutInfoCompats = emptyList<MappedShortcutInfoCompat>()
 
+    override val flagMatchPinned: Int
+        get() = 0
+
     override fun isRequestPinShortcutSupported(): Boolean {
         return requestPinShortcutSupported
     }

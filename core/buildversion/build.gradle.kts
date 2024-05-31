@@ -15,19 +15,17 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.core.data.testdoubles
 
-import androidx.annotation.StringRes
-import com.android.geto.core.resources.ResourcesWrapper
+plugins {
+    alias(libs.plugins.com.android.geto.library)
+    alias(libs.plugins.com.android.geto.libraryJacoco)
+    alias(libs.plugins.com.android.geto.hilt)
+}
 
-class TestResourcesWrapper : ResourcesWrapper {
-    private var stringRes = ""
+android {
+    namespace = "com.android.geto.core.buildversion"
+}
 
-    override fun getString(@StringRes id: Int): String {
-        return stringRes
-    }
-
-    fun setString(value: String) {
-        stringRes = value
-    }
+dependencies {
+    implementation(projects.core.model)
 }

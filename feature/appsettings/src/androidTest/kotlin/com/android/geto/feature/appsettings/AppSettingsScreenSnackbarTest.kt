@@ -18,39 +18,20 @@
 package com.android.geto.feature.appsettings
 
 import androidx.activity.ComponentActivity
-import androidx.annotation.StringRes
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
-import com.android.geto.core.data.R
 import com.android.geto.core.domain.ApplyAppSettingsResult
 import com.android.geto.core.domain.AutoLaunchResult
+import com.android.geto.core.domain.RequestPinShortcutResult
 import com.android.geto.core.domain.RevertAppSettingsResult
+import com.android.geto.core.domain.UpdateRequestPinShortcutResult
 import org.junit.Rule
 import org.junit.Test
-import kotlin.properties.ReadOnlyProperty
 
 class AppSettingsScreenSnackbarTest {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
-
-    private fun AndroidComposeTestRule<*, *>.stringResource(@StringRes resId: Int) =
-        ReadOnlyProperty<Any, String> { _, _ -> activity.getString(resId) }
-
-    private val shortcutIdNotFound by composeTestRule.stringResource(R.string.shortcut_id_not_found)
-
-    private val shortcutUpdateImmutableShortcuts by composeTestRule.stringResource(R.string.shortcut_update_immutable_shortcuts)
-
-    private val shortcutUpdateFailed by composeTestRule.stringResource(R.string.shortcut_update_failed)
-
-    private val shortcutUpdateSuccess by composeTestRule.stringResource(R.string.shortcut_update_success)
-
-    private val supportedLauncher by composeTestRule.stringResource(R.string.supported_launcher)
-
-    private val unsupportedLauncher by composeTestRule.stringResource(R.string.unsupported_launcher)
-
-    private val copiedToClipboard by composeTestRule.stringResource(R.string.copied_to_clipboard)
 
     @Test
     fun snackbar_isShown_whenApplyAppSettingsResult_isDisabledAppSettings() {
@@ -63,11 +44,13 @@ class AppSettingsScreenSnackbarTest {
                 applicationIcon = null,
                 mappedShortcutInfoCompat = null,
                 secureSettings = emptyList(),
+                permissionCommandText = "",
                 applyAppSettingsResult = ApplyAppSettingsResult.DisabledAppSettings,
                 revertAppSettingsResult = RevertAppSettingsResult.NoResult,
                 autoLaunchResult = AutoLaunchResult.NoResult,
-                shortcutResult = null,
-                clipboardResult = null,
+                requestPinShortcutResult = null,
+                updateRequestPinShortcutResult = null,
+                clipboardResult = false,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
                 onGetShortcut = {},
@@ -103,11 +86,13 @@ class AppSettingsScreenSnackbarTest {
                 applicationIcon = null,
                 mappedShortcutInfoCompat = null,
                 secureSettings = emptyList(),
+                permissionCommandText = "",
                 applyAppSettingsResult = ApplyAppSettingsResult.EmptyAppSettings,
                 revertAppSettingsResult = RevertAppSettingsResult.NoResult,
                 autoLaunchResult = AutoLaunchResult.NoResult,
-                shortcutResult = null,
-                clipboardResult = null,
+                requestPinShortcutResult = null,
+                updateRequestPinShortcutResult = null,
+                clipboardResult = false,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
                 onGetShortcut = {},
@@ -143,11 +128,13 @@ class AppSettingsScreenSnackbarTest {
                 applicationIcon = null,
                 mappedShortcutInfoCompat = null,
                 secureSettings = emptyList(),
+                permissionCommandText = "",
                 applyAppSettingsResult = ApplyAppSettingsResult.Failure,
                 revertAppSettingsResult = RevertAppSettingsResult.NoResult,
                 autoLaunchResult = AutoLaunchResult.NoResult,
-                shortcutResult = null,
-                clipboardResult = null,
+                requestPinShortcutResult = null,
+                updateRequestPinShortcutResult = null,
+                clipboardResult = false,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
                 onGetShortcut = {},
@@ -183,11 +170,13 @@ class AppSettingsScreenSnackbarTest {
                 applicationIcon = null,
                 mappedShortcutInfoCompat = null,
                 secureSettings = emptyList(),
+                permissionCommandText = "",
                 applyAppSettingsResult = ApplyAppSettingsResult.IllegalArgumentException,
                 revertAppSettingsResult = RevertAppSettingsResult.NoResult,
                 autoLaunchResult = AutoLaunchResult.NoResult,
-                shortcutResult = null,
-                clipboardResult = null,
+                requestPinShortcutResult = null,
+                updateRequestPinShortcutResult = null,
+                clipboardResult = false,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
                 onGetShortcut = {},
@@ -223,11 +212,13 @@ class AppSettingsScreenSnackbarTest {
                 applicationIcon = null,
                 mappedShortcutInfoCompat = null,
                 secureSettings = emptyList(),
+                permissionCommandText = "",
                 applyAppSettingsResult = ApplyAppSettingsResult.NoResult,
                 revertAppSettingsResult = RevertAppSettingsResult.DisabledAppSettings,
                 autoLaunchResult = AutoLaunchResult.NoResult,
-                shortcutResult = null,
-                clipboardResult = null,
+                requestPinShortcutResult = null,
+                updateRequestPinShortcutResult = null,
+                clipboardResult = false,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
                 onGetShortcut = {},
@@ -263,11 +254,13 @@ class AppSettingsScreenSnackbarTest {
                 applicationIcon = null,
                 mappedShortcutInfoCompat = null,
                 secureSettings = emptyList(),
+                permissionCommandText = "",
                 applyAppSettingsResult = ApplyAppSettingsResult.NoResult,
                 revertAppSettingsResult = RevertAppSettingsResult.EmptyAppSettings,
                 autoLaunchResult = AutoLaunchResult.NoResult,
-                shortcutResult = null,
-                clipboardResult = null,
+                requestPinShortcutResult = null,
+                updateRequestPinShortcutResult = null,
+                clipboardResult = false,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
                 onGetShortcut = {},
@@ -303,11 +296,13 @@ class AppSettingsScreenSnackbarTest {
                 applicationIcon = null,
                 mappedShortcutInfoCompat = null,
                 secureSettings = emptyList(),
+                permissionCommandText = "",
                 applyAppSettingsResult = ApplyAppSettingsResult.NoResult,
                 revertAppSettingsResult = RevertAppSettingsResult.Failure,
                 autoLaunchResult = AutoLaunchResult.NoResult,
-                shortcutResult = null,
-                clipboardResult = null,
+                requestPinShortcutResult = null,
+                updateRequestPinShortcutResult = null,
+                clipboardResult = false,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
                 onGetShortcut = {},
@@ -343,11 +338,13 @@ class AppSettingsScreenSnackbarTest {
                 applicationIcon = null,
                 mappedShortcutInfoCompat = null,
                 secureSettings = emptyList(),
+                permissionCommandText = "",
                 applyAppSettingsResult = ApplyAppSettingsResult.NoResult,
                 revertAppSettingsResult = RevertAppSettingsResult.IllegalArgumentException,
                 autoLaunchResult = AutoLaunchResult.NoResult,
-                shortcutResult = null,
-                clipboardResult = null,
+                requestPinShortcutResult = null,
+                updateRequestPinShortcutResult = null,
+                clipboardResult = false,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
                 onGetShortcut = {},
@@ -373,7 +370,7 @@ class AppSettingsScreenSnackbarTest {
     }
 
     @Test
-    fun snackbar_isShown_whenShortcutResult_isShortcutIDNotFound() {
+    fun snackbar_isShown_whenRequestPinShortcutResult_isSupportedLauncher() {
         composeTestRule.setContent {
             AppSettingsScreen(
                 packageName = "com.android.geto",
@@ -383,11 +380,13 @@ class AppSettingsScreenSnackbarTest {
                 applicationIcon = null,
                 mappedShortcutInfoCompat = null,
                 secureSettings = emptyList(),
+                permissionCommandText = "",
                 applyAppSettingsResult = ApplyAppSettingsResult.NoResult,
                 revertAppSettingsResult = RevertAppSettingsResult.NoResult,
                 autoLaunchResult = AutoLaunchResult.NoResult,
-                shortcutResult = shortcutIdNotFound,
-                clipboardResult = null,
+                requestPinShortcutResult = RequestPinShortcutResult.SupportedLauncher,
+                updateRequestPinShortcutResult = null,
+                clipboardResult = false,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
                 onGetShortcut = {},
@@ -413,7 +412,7 @@ class AppSettingsScreenSnackbarTest {
     }
 
     @Test
-    fun snackbar_isShown_whenShortcutResult_isShortcutUpdateFailed() {
+    fun snackbar_isShown_whenRequestPinShortcutResult_isUnSupportedLauncher() {
         composeTestRule.setContent {
             AppSettingsScreen(
                 packageName = "com.android.geto",
@@ -423,11 +422,13 @@ class AppSettingsScreenSnackbarTest {
                 applicationIcon = null,
                 mappedShortcutInfoCompat = null,
                 secureSettings = emptyList(),
+                permissionCommandText = "",
                 applyAppSettingsResult = ApplyAppSettingsResult.NoResult,
                 revertAppSettingsResult = RevertAppSettingsResult.NoResult,
                 autoLaunchResult = AutoLaunchResult.NoResult,
-                shortcutResult = shortcutUpdateFailed,
-                clipboardResult = null,
+                requestPinShortcutResult = RequestPinShortcutResult.UnSupportedLauncher,
+                updateRequestPinShortcutResult = null,
+                clipboardResult = false,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
                 onGetShortcut = {},
@@ -453,7 +454,7 @@ class AppSettingsScreenSnackbarTest {
     }
 
     @Test
-    fun snackbar_isShown_whenShortcutResult_isShortcutUpdateImmutableShortcuts() {
+    fun snackbar_isShown_whenUpdateRequestPinShortcutResult_isUnSupportedLauncher() {
         composeTestRule.setContent {
             AppSettingsScreen(
                 packageName = "com.android.geto",
@@ -463,11 +464,13 @@ class AppSettingsScreenSnackbarTest {
                 applicationIcon = null,
                 mappedShortcutInfoCompat = null,
                 secureSettings = emptyList(),
+                permissionCommandText = "",
                 applyAppSettingsResult = ApplyAppSettingsResult.NoResult,
                 revertAppSettingsResult = RevertAppSettingsResult.NoResult,
                 autoLaunchResult = AutoLaunchResult.NoResult,
-                shortcutResult = shortcutUpdateImmutableShortcuts,
-                clipboardResult = null,
+                requestPinShortcutResult = null,
+                updateRequestPinShortcutResult = UpdateRequestPinShortcutResult.Failed,
+                clipboardResult = false,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
                 onGetShortcut = {},
@@ -493,7 +496,7 @@ class AppSettingsScreenSnackbarTest {
     }
 
     @Test
-    fun snackbar_isShown_whenShortcutResult_isShortcutUpdateSuccess() {
+    fun snackbar_isShown_whenUpdateRequestPinShortcutResult_isIDNotFound() {
         composeTestRule.setContent {
             AppSettingsScreen(
                 packageName = "com.android.geto",
@@ -503,11 +506,13 @@ class AppSettingsScreenSnackbarTest {
                 applicationIcon = null,
                 mappedShortcutInfoCompat = null,
                 secureSettings = emptyList(),
+                permissionCommandText = "",
                 applyAppSettingsResult = ApplyAppSettingsResult.NoResult,
                 revertAppSettingsResult = RevertAppSettingsResult.NoResult,
                 autoLaunchResult = AutoLaunchResult.NoResult,
-                shortcutResult = shortcutUpdateSuccess,
-                clipboardResult = null,
+                requestPinShortcutResult = null,
+                updateRequestPinShortcutResult = UpdateRequestPinShortcutResult.IDNotFound,
+                clipboardResult = false,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
                 onGetShortcut = {},
@@ -533,7 +538,7 @@ class AppSettingsScreenSnackbarTest {
     }
 
     @Test
-    fun snackbar_isShown_whenShortcutResult_isSupportedLauncher() {
+    fun snackbar_isShown_whenUpdateRequestPinShortcutResult_isSuccess() {
         composeTestRule.setContent {
             AppSettingsScreen(
                 packageName = "com.android.geto",
@@ -543,11 +548,13 @@ class AppSettingsScreenSnackbarTest {
                 applicationIcon = null,
                 mappedShortcutInfoCompat = null,
                 secureSettings = emptyList(),
+                permissionCommandText = "",
                 applyAppSettingsResult = ApplyAppSettingsResult.NoResult,
                 revertAppSettingsResult = RevertAppSettingsResult.NoResult,
                 autoLaunchResult = AutoLaunchResult.NoResult,
-                shortcutResult = supportedLauncher,
-                clipboardResult = null,
+                requestPinShortcutResult = null,
+                updateRequestPinShortcutResult = UpdateRequestPinShortcutResult.Success,
+                clipboardResult = false,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
                 onGetShortcut = {},
@@ -573,7 +580,7 @@ class AppSettingsScreenSnackbarTest {
     }
 
     @Test
-    fun snackbar_isShown_whenShortcutResult_isUnSupportedLauncher() {
+    fun snackbar_isShown_whenUpdateRequestPinShortcutResult_isUpdateImmutableShortcuts() {
         composeTestRule.setContent {
             AppSettingsScreen(
                 packageName = "com.android.geto",
@@ -583,11 +590,13 @@ class AppSettingsScreenSnackbarTest {
                 applicationIcon = null,
                 mappedShortcutInfoCompat = null,
                 secureSettings = emptyList(),
+                permissionCommandText = "",
                 applyAppSettingsResult = ApplyAppSettingsResult.NoResult,
                 revertAppSettingsResult = RevertAppSettingsResult.NoResult,
                 autoLaunchResult = AutoLaunchResult.NoResult,
-                shortcutResult = unsupportedLauncher,
-                clipboardResult = null,
+                requestPinShortcutResult = null,
+                updateRequestPinShortcutResult = UpdateRequestPinShortcutResult.UpdateImmutableShortcuts,
+                clipboardResult = false,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
                 onGetShortcut = {},
@@ -613,7 +622,7 @@ class AppSettingsScreenSnackbarTest {
     }
 
     @Test
-    fun snackbar_isShown_whenClipboardResult_isCopiedToClipboard() {
+    fun snackbar_isShown_whenClipboardResult_isTrue() {
         composeTestRule.setContent {
             AppSettingsScreen(
                 packageName = "com.android.geto",
@@ -623,11 +632,13 @@ class AppSettingsScreenSnackbarTest {
                 applicationIcon = null,
                 mappedShortcutInfoCompat = null,
                 secureSettings = emptyList(),
+                permissionCommandText = "permission command text",
                 applyAppSettingsResult = ApplyAppSettingsResult.NoResult,
                 revertAppSettingsResult = RevertAppSettingsResult.NoResult,
                 autoLaunchResult = AutoLaunchResult.NoResult,
-                shortcutResult = null,
-                clipboardResult = String.format(copiedToClipboard, "Text"),
+                requestPinShortcutResult = null,
+                updateRequestPinShortcutResult = null,
+                clipboardResult = true,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
                 onGetShortcut = {},

@@ -22,13 +22,19 @@ import com.android.geto.core.domain.ApplyAppSettingsResult
 import com.android.geto.core.domain.ApplyAppSettingsUseCase
 import com.android.geto.core.domain.AutoLaunchResult
 import com.android.geto.core.domain.AutoLaunchUseCase
+import com.android.geto.core.domain.RequestPinShortcutResult
+import com.android.geto.core.domain.RequestPinShortcutUseCase
 import com.android.geto.core.domain.RevertAppSettingsResult
 import com.android.geto.core.domain.RevertAppSettingsUseCase
+import com.android.geto.core.domain.SetPrimaryClipUseCase
+import com.android.geto.core.domain.UpdateRequestPinShortcutResult
+import com.android.geto.core.domain.UpdateRequestPinShortcutUseCase
 import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.MappedApplicationInfo
 import com.android.geto.core.model.MappedShortcutInfoCompat
 import com.android.geto.core.model.SecureSetting
 import com.android.geto.core.model.SettingType
+import com.android.geto.core.testing.buildversion.TestSV2
 import com.android.geto.core.testing.repository.TestAppSettingsRepository
 import com.android.geto.core.testing.repository.TestClipboardRepository
 import com.android.geto.core.testing.repository.TestPackageRepository
@@ -47,6 +53,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertIs
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
@@ -69,6 +76,8 @@ class AppSettingsViewModelTest {
 
     private val userDataRepository = TestUserDataRepository()
 
+    private val sV2 = TestSV2()
+
     private val savedStateHandle = SavedStateHandle()
 
     private lateinit var applyAppSettingsUseCase: ApplyAppSettingsUseCase
@@ -76,6 +85,12 @@ class AppSettingsViewModelTest {
     private lateinit var revertAppSettingsUseCase: RevertAppSettingsUseCase
 
     private lateinit var autoLaunchUseCase: AutoLaunchUseCase
+
+    private lateinit var setPrimaryClipUseCase: SetPrimaryClipUseCase
+
+    private lateinit var requestPinShortcutUseCase: RequestPinShortcutUseCase
+
+    private lateinit var updateRequestPinShortcutUseCase: UpdateRequestPinShortcutUseCase
 
     private lateinit var viewModel: AppSettingsViewModel
 
@@ -108,16 +123,29 @@ class AppSettingsViewModelTest {
 
         )
 
+        setPrimaryClipUseCase = SetPrimaryClipUseCase(
+            clipboardRepository = clipboardRepository,
+            buildVersionWrapper = sV2,
+        )
+
+        requestPinShortcutUseCase =
+            RequestPinShortcutUseCase(shortcutRepository = shortcutRepository)
+
+        updateRequestPinShortcutUseCase =
+            UpdateRequestPinShortcutUseCase(shortcutRepository = shortcutRepository)
+
         viewModel = AppSettingsViewModel(
             savedStateHandle = savedStateHandle,
             appSettingsRepository = appSettingsRepository,
-            clipboardRepository = clipboardRepository,
             packageRepository = packageRepository,
             secureSettingsRepository = secureSettingsRepository,
             shortcutRepository = shortcutRepository,
             applyAppSettingsUseCase = applyAppSettingsUseCase,
             revertAppSettingsUseCase = revertAppSettingsUseCase,
             autoLaunchUseCase = autoLaunchUseCase,
+            setPrimaryClipUseCase = setPrimaryClipUseCase,
+            requestPinShortcutUseCase = requestPinShortcutUseCase,
+            updateRequestPinShortcutUseCase = updateRequestPinShortcutUseCase,
         )
     }
 
@@ -147,13 +175,23 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun clipboardResult_isNull_whenStarted() {
-        assertNull(viewModel.clipboardResult.value)
+    fun setPrimaryClipResult_isFalse_whenStarted() {
+        assertFalse(viewModel.setPrimaryClipResult.value)
     }
 
     @Test
     fun secureSettings_isEmpty_whenStarted() {
         assertTrue(viewModel.secureSettings.value.isEmpty())
+    }
+
+    @Test
+    fun requestPinShortcutResult_isNull_whenStarted() {
+        assertNull(viewModel.requestPinShortcutResult.value)
+    }
+
+    @Test
+    fun updateRequestPinShortcutResult_isNull_whenStarted() {
+        assertNull(viewModel.updateRequestPinShortcutResult.value)
     }
 
     @Test
@@ -408,27 +446,27 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun clipboardResult_isNotNull_whenCopyPermissionCommand() = runTest {
-        clipboardRepository.setAtLeastApi32(false)
+    fun setPrimaryClipResult_isFalse_whenCopyPermissionCommand() = runTest {
+        sV2.setSdkInt(33)
 
         viewModel.copyPermissionCommand()
 
         assertEquals(
-            expected = String.format(
-                clipboardRepository.copiedToClipboard,
-                viewModel.permissionCommandText,
-            ),
-            actual = viewModel.clipboardResult.value,
+            expected = false,
+            actual = viewModel.setPrimaryClipResult.value,
         )
     }
 
     @Test
-    fun clipboardResult_isNull_whenCopyPermissionCommand() = runTest {
-        clipboardRepository.setAtLeastApi32(true)
+    fun setPrimaryClipResult_isTrue_whenCopyPermissionCommand() = runTest {
+        sV2.setSdkInt(32)
 
         viewModel.copyPermissionCommand()
 
-        assertNull(viewModel.clipboardResult.value)
+        assertEquals(
+            expected = true,
+            actual = viewModel.setPrimaryClipResult.value,
+        )
     }
 
     @Test
@@ -540,7 +578,7 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun shortcutResult_isSupportedLauncher_whenRequestPinShortcut() = runTest {
+    fun requestPinShortcutResult_isSupportedLauncher_whenRequestPinShortcut() = runTest {
         shortcutRepository.setRequestPinShortcutSupported(true)
 
         viewModel.requestPinShortcut(
@@ -551,14 +589,13 @@ class AppSettingsViewModelTest {
             ),
         )
 
-        assertEquals(
-            expected = shortcutRepository.supportedLauncher,
-            actual = viewModel.shortcutResult.value,
+        assertIs<RequestPinShortcutResult.SupportedLauncher>(
+            viewModel.requestPinShortcutResult.value,
         )
     }
 
     @Test
-    fun shortcutResult_isUnSupportedLauncher_whenRequestPinShortcut() = runTest {
+    fun requestPinShortcutResult_isUnSupportedLauncher_whenRequestPinShortcut() = runTest {
         shortcutRepository.setRequestPinShortcutSupported(false)
 
         viewModel.requestPinShortcut(
@@ -569,14 +606,13 @@ class AppSettingsViewModelTest {
             ),
         )
 
-        assertEquals(
-            expected = shortcutRepository.unsupportedLauncher,
-            actual = viewModel.shortcutResult.value,
+        assertIs<RequestPinShortcutResult.UnSupportedLauncher>(
+            viewModel.requestPinShortcutResult.value,
         )
     }
 
     @Test
-    fun shortcutResult_isShortcutIdNotFound_whenUpdateRequestPinShortcut() = runTest {
+    fun updateRequestPinShortcutResult_isIDNotFound_whenUpdateRequestPinShortcut() = runTest {
         val shortcuts = List(2) {
             MappedShortcutInfoCompat(
                 id = "com.android.geto",
@@ -597,14 +633,41 @@ class AppSettingsViewModelTest {
             ),
         )
 
-        assertEquals(
-            expected = shortcutRepository.shortcutIdNotFound,
-            actual = viewModel.shortcutResult.value,
+        assertIs<UpdateRequestPinShortcutResult.IDNotFound>(
+            viewModel.updateRequestPinShortcutResult.value,
         )
     }
 
     @Test
-    fun shortcutResult_isShortcutUpdateImmutableShortcuts_whenUpdateRequestPinShortcut() = runTest {
+    fun updateRequestPinShortcutResult_isUpdateImmutableShortcuts_whenUpdateRequestPinShortcut() =
+        runTest {
+            val shortcuts = List(2) {
+                MappedShortcutInfoCompat(
+                    id = "com.android.geto",
+                    shortLabel = "Geto",
+                    longLabel = "Geto",
+                )
+            }
+
+            shortcutRepository.setUpdateImmutableShortcuts(true)
+
+            shortcutRepository.setShortcuts(shortcuts)
+
+            viewModel.updateRequestPinShortcut(
+                mappedShortcutInfoCompat = MappedShortcutInfoCompat(
+                    id = "com.android.geto",
+                    shortLabel = "",
+                    longLabel = "",
+                ),
+            )
+
+            assertIs<UpdateRequestPinShortcutResult.UpdateImmutableShortcuts>(
+                viewModel.updateRequestPinShortcutResult.value,
+            )
+        }
+
+    @Test
+    fun updateRequestPinShortcutResult_isSuccess_whenUpdateRequestPinShortcut() = runTest {
         val shortcuts = List(2) {
             MappedShortcutInfoCompat(
                 id = "com.android.geto",
@@ -613,33 +676,7 @@ class AppSettingsViewModelTest {
             )
         }
 
-        shortcutRepository.setUpdateImmutableShortcuts(true)
-
-        shortcutRepository.setShortcuts(shortcuts)
-
-        viewModel.updateRequestPinShortcut(
-            mappedShortcutInfoCompat = MappedShortcutInfoCompat(
-                id = "com.android.geto",
-                shortLabel = "Geto",
-                longLabel = "Geto",
-            ),
-        )
-
-        assertEquals(
-            expected = shortcutRepository.shortcutUpdateImmutableShortcuts,
-            actual = viewModel.shortcutResult.value,
-        )
-    }
-
-    @Test
-    fun shortcutResult_isShortcutUpdateSuccess_whenUpdateRequestPinShortcut() = runTest {
-        val shortcuts = List(2) {
-            MappedShortcutInfoCompat(
-                id = "com.android.geto",
-                shortLabel = "Geto",
-                longLabel = "Geto",
-            )
-        }
+        shortcutRepository.setRequestPinShortcutSupported(true)
 
         shortcutRepository.setUpdateImmutableShortcuts(false)
 
@@ -648,14 +685,13 @@ class AppSettingsViewModelTest {
         viewModel.updateRequestPinShortcut(
             mappedShortcutInfoCompat = MappedShortcutInfoCompat(
                 id = "com.android.geto",
-                shortLabel = "Geto",
-                longLabel = "Geto",
+                shortLabel = "",
+                longLabel = "",
             ),
         )
 
-        assertEquals(
-            expected = shortcutRepository.shortcutUpdateSuccess,
-            actual = viewModel.shortcutResult.value,
+        assertIs<UpdateRequestPinShortcutResult.Success>(
+            viewModel.updateRequestPinShortcutResult.value,
         )
     }
 

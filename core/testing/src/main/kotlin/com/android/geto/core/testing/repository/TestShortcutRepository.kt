@@ -28,48 +28,32 @@ class TestShortcutRepository : ShortcutRepository {
 
     private var updateImmutableShortcuts = false
 
-    val unsupportedLauncher = "Your current launcher does not support shortcuts"
-
-    val supportedLauncher = "Your current launcher supports shortcuts"
-
-    val shortcutIdNotFound = "Shortcut id not found"
-
-    val shortcutUpdateSuccess = "Shortcut update success"
-
-    val shortcutUpdateImmutableShortcuts = "Shortcut update immutable shortcuts"
+    override fun isRequestPinShortcutSupported(): Boolean {
+        return requestPinShortcutSupported
+    }
 
     override fun requestPinShortcut(
         packageName: String,
         appName: String,
         mappedShortcutInfoCompat: MappedShortcutInfoCompat,
-    ): String {
-        return if (requestPinShortcutSupported) {
-            supportedLauncher
-        } else {
-            unsupportedLauncher
-        }
+    ): Boolean {
+        return requestPinShortcutSupported
     }
 
     override fun updateRequestPinShortcut(
         packageName: String,
         appName: String,
         mappedShortcutInfoCompat: MappedShortcutInfoCompat,
-    ): String {
-        val shortcutIds = mappedShortcutInfoCompats.map { it.id }
-
-        if (shortcutIds.contains(mappedShortcutInfoCompat.id).not()) {
-            return shortcutIdNotFound
-        }
-
+    ): Boolean {
         return if (updateImmutableShortcuts) {
-            shortcutUpdateImmutableShortcuts
+            throw IllegalArgumentException()
         } else {
-            shortcutUpdateSuccess
+            requestPinShortcutSupported
         }
     }
 
-    override fun getShortcut(id: String): MappedShortcutInfoCompat? {
-        return mappedShortcutInfoCompats.find { it.id == id }
+    override fun getPinnedShortcuts(): List<MappedShortcutInfoCompat> {
+        return mappedShortcutInfoCompats
     }
 
     fun setRequestPinShortcutSupported(value: Boolean) {

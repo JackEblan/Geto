@@ -17,22 +17,13 @@
  */
 package com.android.geto.core.data.repository
 
-import com.android.geto.core.data.R
 import com.android.geto.core.packagemanager.ClipboardManagerWrapper
-import com.android.geto.core.resources.ResourcesWrapper
 import javax.inject.Inject
 
 internal class DefaultClipboardRepository @Inject constructor(
     private val clipboardManagerWrapper: ClipboardManagerWrapper,
-    private val resourcesWrapper: ResourcesWrapper,
 ) : ClipboardRepository {
-    override fun setPrimaryClip(label: String, text: String): String? {
+    override fun setPrimaryClip(label: String, text: String) {
         clipboardManagerWrapper.setPrimaryClip(label = label, text = text)
-
-        return if (clipboardManagerWrapper.atLeastApi32) {
-            null
-        } else {
-            String.format(resourcesWrapper.getString(R.string.copied_to_clipboard), text)
-        }
     }
 }

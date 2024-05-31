@@ -21,7 +21,5 @@ import com.android.geto.core.data.repository.ClipboardRepository
 import javax.inject.Inject
 
 class FakeClipboardRepository @Inject constructor() : ClipboardRepository {
-    override fun setPrimaryClip(label: String, text: String): String? {
-        return null
-    }
+    override fun setPrimaryClip(label: String, text: String) {}
 }

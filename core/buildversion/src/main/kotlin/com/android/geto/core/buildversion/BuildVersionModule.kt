@@ -15,10 +15,20 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.core.resources
+package com.android.geto.core.buildversion
 
-import androidx.annotation.StringRes
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
-interface ResourcesWrapper {
-    fun getString(@StringRes id: Int): String
+@Module
+@InstallIn(SingletonComponent::class)
+internal interface BuildVersionModule {
+
+    @SV2Qualifier
+    @Binds
+    @Singleton
+    fun sV2(impl: SV2): BuildVersionWrapper
 }

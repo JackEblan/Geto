@@ -17,72 +17,43 @@
  */
 package com.android.geto.core.data.repository
 
-import androidx.core.content.pm.ShortcutManagerCompat
-import com.android.geto.core.data.R
 import com.android.geto.core.model.MappedShortcutInfoCompat
-import com.android.geto.core.resources.ResourcesWrapper
 import com.android.geto.core.shortcutmanager.ShortcutManagerCompatWrapper
 import javax.inject.Inject
 
 internal class DefaultShortcutRepository @Inject constructor(
     private val shortcutManagerCompatWrapper: ShortcutManagerCompatWrapper,
-    private val resourcesWrapper: ResourcesWrapper,
 ) : ShortcutRepository {
+
+    override fun isRequestPinShortcutSupported(): Boolean {
+        return shortcutManagerCompatWrapper.isRequestPinShortcutSupported()
+    }
 
     override fun requestPinShortcut(
         packageName: String,
         appName: String,
         mappedShortcutInfoCompat: MappedShortcutInfoCompat,
-    ): String {
-        if (shortcutManagerCompatWrapper.isRequestPinShortcutSupported().not()) {
-            return resourcesWrapper.getString(R.string.unsupported_launcher)
-        }
-
-        val requestPinShortcutSuccess = shortcutManagerCompatWrapper.requestPinShortcut(
+    ): Boolean {
+        return shortcutManagerCompatWrapper.requestPinShortcut(
             packageName = packageName,
             appName = appName,
             mappedShortcutInfoCompat = mappedShortcutInfoCompat,
         )
-
-        return if (requestPinShortcutSuccess) {
-            resourcesWrapper.getString(R.string.supported_launcher)
-        } else {
-            resourcesWrapper.getString(R.string.unsupported_launcher)
-        }
     }
 
     override fun updateRequestPinShortcut(
         packageName: String,
         appName: String,
         mappedShortcutInfoCompat: MappedShortcutInfoCompat,
-    ): String {
-        val shortcutIds =
-            shortcutManagerCompatWrapper.getShortcuts(ShortcutManagerCompat.FLAG_MATCH_PINNED)
-                .map { it.id }
-
-        if (shortcutIds.contains(mappedShortcutInfoCompat.id).not()) {
-            return resourcesWrapper.getString(R.string.shortcut_id_not_found)
-        }
-
-        return try {
-            val updateShortcutsSuccess = shortcutManagerCompatWrapper.updateShortcuts(
-                packageName = packageName,
-                appName = appName,
-                mappedShortcutInfoCompat = mappedShortcutInfoCompat,
-            )
-
-            if (updateShortcutsSuccess) {
-                resourcesWrapper.getString(R.string.shortcut_update_success)
-            } else {
-                resourcesWrapper.getString(R.string.shortcut_update_failed)
-            }
-        } catch (e: IllegalArgumentException) {
-            resourcesWrapper.getString(R.string.shortcut_update_immutable_shortcuts)
-        }
+    ): Boolean {
+        return shortcutManagerCompatWrapper.updateShortcuts(
+            packageName = packageName,
+            appName = appName,
+            mappedShortcutInfoCompat = mappedShortcutInfoCompat,
+        )
     }
 
-    override fun getShortcut(id: String): MappedShortcutInfoCompat? {
-        return shortcutManagerCompatWrapper.getShortcuts(ShortcutManagerCompat.FLAG_MATCH_PINNED)
-            .find { it.id == id }
+    override fun getPinnedShortcuts(): List<MappedShortcutInfoCompat> {
+        return shortcutManagerCompatWrapper.getShortcuts(shortcutManagerCompatWrapper.flagMatchPinned)
     }
 }

@@ -15,19 +15,16 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.core.resources
+package com.android.geto.core.buildversion
 
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
+import android.os.Build
+import javax.inject.Inject
+import javax.inject.Qualifier
 
-@Module
-@InstallIn(SingletonComponent::class)
-internal interface ResourcesModule {
-
-    @Binds
-    @Singleton
-    fun resourcesWrapper(impl: DefaultResourcesWrapper): ResourcesWrapper
+internal class SV2 @Inject constructor() : BuildVersionWrapper {
+    override val sdkInt: Int = Build.VERSION.SDK_INT
 }
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class SV2Qualifier

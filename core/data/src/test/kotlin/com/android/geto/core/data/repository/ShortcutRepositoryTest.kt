@@ -17,19 +17,16 @@
  */
 package com.android.geto.core.data.repository
 
-import com.android.geto.core.data.testdoubles.TestResourcesWrapper
 import com.android.geto.core.data.testdoubles.TestShortcutManagerCompatWrapper
 import com.android.geto.core.model.MappedShortcutInfoCompat
 import org.junit.Before
 import org.junit.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertNotNull
-import kotlin.test.assertNull
+import kotlin.test.assertFailsWith
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 class ShortcutRepositoryTest {
     private lateinit var shortcutManagerCompatWrapper: TestShortcutManagerCompatWrapper
-
-    private lateinit var resourcesWrapper: TestResourcesWrapper
 
     private lateinit var subject: ShortcutRepository
 
@@ -45,25 +42,19 @@ class ShortcutRepositoryTest {
     fun setup() {
         shortcutManagerCompatWrapper = TestShortcutManagerCompatWrapper()
 
-        resourcesWrapper = TestResourcesWrapper()
-
         subject = DefaultShortcutRepository(
             shortcutManagerCompatWrapper = shortcutManagerCompatWrapper,
-            resourcesWrapper = resourcesWrapper,
         )
     }
 
     @Test
-    fun requestPinShortcut_isSupportedLauncher() {
+    fun requestPinShortcut_isTrue() {
         shortcutManagerCompatWrapper.setRequestPinShortcutSupported(true)
 
         shortcutManagerCompatWrapper.setRequestPinShortcut(true)
 
-        resourcesWrapper.setString("Your current launcher supports shortcuts")
-
-        assertEquals(
-            expected = "Your current launcher supports shortcuts",
-            actual = subject.requestPinShortcut(
+        assertTrue(
+            subject.requestPinShortcut(
                 packageName = "com.android.geto",
                 appName = "Geto",
                 mappedShortcutInfoCompat = MappedShortcutInfoCompat(
@@ -76,14 +67,11 @@ class ShortcutRepositoryTest {
     }
 
     @Test
-    fun requestPinShortcut_isUnSupportedLauncher() {
+    fun requestPinShortcut_isFalse() {
         shortcutManagerCompatWrapper.setRequestPinShortcutSupported(false)
 
-        resourcesWrapper.setString("Your current launcher does not support shortcuts")
-
-        assertEquals(
-            expected = "Your current launcher does not support shortcuts",
-            actual = subject.requestPinShortcut(
+        assertFalse(
+            subject.requestPinShortcut(
                 packageName = "com.android.geto",
                 appName = "Geto",
                 mappedShortcutInfoCompat = MappedShortcutInfoCompat(
@@ -96,90 +84,65 @@ class ShortcutRepositoryTest {
     }
 
     @Test
-    fun updateRequestPinShortcut_isShortcutUpdateImmutableShortcuts() {
+    fun updateRequestPinShortcut_isTrue() {
+        shortcutManagerCompatWrapper.setUpdateImmutableShortcuts(false)
+
+        shortcutManagerCompatWrapper.setRequestPinShortcutSupported(true)
+
+        shortcutManagerCompatWrapper.setShortcuts(shortcuts)
+
+        assertTrue(
+            subject.updateRequestPinShortcut(
+                packageName = "com.android.geto",
+                appName = "Geto",
+                mappedShortcutInfoCompat = MappedShortcutInfoCompat(
+                    id = "com.android.geto",
+                    shortLabel = "Geto",
+                    longLabel = "Geto",
+                ),
+            ),
+        )
+    }
+
+    @Test
+    fun updateRequestPinShortcut_throwsIllegalArgumentException() {
         shortcutManagerCompatWrapper.setUpdateImmutableShortcuts(true)
 
-        shortcutManagerCompatWrapper.setShortcuts(shortcuts)
-
-        resourcesWrapper.setString("Cannot update immutable shortcuts")
-
-        assertEquals(
-            expected = "Cannot update immutable shortcuts",
-            actual = subject.updateRequestPinShortcut(
-                packageName = "com.android.geto",
-                appName = "Geto",
-                mappedShortcutInfoCompat = MappedShortcutInfoCompat(
-                    id = "com.android.geto",
-                    shortLabel = "Geto",
-                    longLabel = "Geto",
-                ),
-            ),
-        )
-    }
-
-    @Test
-    fun updateRequestPinShortcut_isShortcutUpdateSuccess() {
-        shortcutManagerCompatWrapper.setUpdateImmutableShortcuts(false)
-
-        shortcutManagerCompatWrapper.setRequestPinShortcutSupported(true)
-
-        shortcutManagerCompatWrapper.setShortcuts(shortcuts)
-
-        resourcesWrapper.setString("Shortcut update success")
-
-        assertEquals(
-            expected = "Shortcut update success",
-            actual = subject.updateRequestPinShortcut(
-                packageName = "com.android.geto",
-                appName = "Geto",
-                mappedShortcutInfoCompat = MappedShortcutInfoCompat(
-                    id = "com.android.geto",
-                    shortLabel = "Geto",
-                    longLabel = "Geto",
-                ),
-            ),
-        )
-    }
-
-    @Test
-    fun updateRequestPinShortcut_isShortcutUpdateFailed() {
-        shortcutManagerCompatWrapper.setUpdateImmutableShortcuts(false)
-
         shortcutManagerCompatWrapper.setRequestPinShortcutSupported(false)
 
         shortcutManagerCompatWrapper.setShortcuts(shortcuts)
 
-        resourcesWrapper.setString("Shortcut update failed")
-
-        assertEquals(
-            expected = "Shortcut update failed",
-            actual = subject.updateRequestPinShortcut(
-                packageName = "com.android.geto",
-                appName = "Geto",
-                mappedShortcutInfoCompat = MappedShortcutInfoCompat(
-                    id = "com.android.geto",
-                    shortLabel = "Geto",
-                    longLabel = "Geto",
-                ),
-            ),
+        assertFailsWith(
+            exceptionClass = IllegalArgumentException::class,
+            block = {
+                subject.updateRequestPinShortcut(
+                    packageName = "com.android.geto",
+                    appName = "Geto",
+                    mappedShortcutInfoCompat = MappedShortcutInfoCompat(
+                        id = "com.android.geto",
+                        shortLabel = "Geto",
+                        longLabel = "Geto",
+                    ),
+                )
+            },
         )
     }
 
     @Test
-    fun getShortcut_isNull() {
+    fun getPinnedShortcuts_isEmpty() {
         shortcutManagerCompatWrapper.setRequestPinShortcutSupported(true)
 
-        shortcutManagerCompatWrapper.setShortcuts(shortcuts)
+        shortcutManagerCompatWrapper.setShortcuts(emptyList())
 
-        assertNull(subject.getShortcut("com.android.sample"))
+        assertTrue(subject.getPinnedShortcuts().isEmpty())
     }
 
     @Test
-    fun getShortcut_isNotNull() {
+    fun getShortcut_isNotEmpty() {
         shortcutManagerCompatWrapper.setRequestPinShortcutSupported(true)
 
         shortcutManagerCompatWrapper.setShortcuts(shortcuts)
 
-        assertNotNull(subject.getShortcut("com.android.geto"))
+        assertTrue(subject.getPinnedShortcuts().isNotEmpty())
     }
 }

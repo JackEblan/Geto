@@ -20,19 +20,5 @@ package com.android.geto.core.testing.repository
 import com.android.geto.core.data.repository.ClipboardRepository
 
 class TestClipboardRepository : ClipboardRepository {
-    private var _atleastApi32 = false
-
-    val copiedToClipboard = "%s copied to clipboard"
-
-    override fun setPrimaryClip(label: String, text: String): String? {
-        return if (_atleastApi32) {
-            null
-        } else {
-            String.format(copiedToClipboard, text)
-        }
-    }
-
-    fun setAtLeastApi32(value: Boolean) {
-        _atleastApi32 = value
-    }
+    override fun setPrimaryClip(label: String, text: String) {}
 }
