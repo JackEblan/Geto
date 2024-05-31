@@ -41,15 +41,15 @@ internal class DefaultShortcutRepository @Inject constructor(
         )
     }
 
-    override fun updateRequestPinShortcut(
+    override fun updateShortcuts(
         packageName: String,
         appName: String,
-        mappedShortcutInfoCompat: MappedShortcutInfoCompat,
+        shortcuts: List<MappedShortcutInfoCompat>,
     ): Boolean {
         return shortcutManagerCompatWrapper.updateShortcuts(
             packageName = packageName,
             appName = appName,
-            mappedShortcutInfoCompat = mappedShortcutInfoCompat,
+            shortcuts = shortcuts,
         )
     }
 

@@ -29,10 +29,10 @@ interface ShortcutRepository {
         mappedShortcutInfoCompat: MappedShortcutInfoCompat,
     ): Boolean
 
-    fun updateRequestPinShortcut(
+    fun updateShortcuts(
         packageName: String,
         appName: String,
-        mappedShortcutInfoCompat: MappedShortcutInfoCompat,
+        shortcuts: List<MappedShortcutInfoCompat>,
     ): Boolean
 
     fun getPinnedShortcuts(): List<MappedShortcutInfoCompat>

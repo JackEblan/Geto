@@ -34,7 +34,7 @@ interface ShortcutManagerCompatWrapper {
     fun updateShortcuts(
         packageName: String,
         appName: String,
-        mappedShortcutInfoCompat: MappedShortcutInfoCompat,
+        shortcuts: List<MappedShortcutInfoCompat>,
     ): Boolean
 
     fun getShortcuts(matchFlags: Int): List<MappedShortcutInfoCompat>

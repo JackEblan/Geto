@@ -24,7 +24,7 @@ class TestBuildVersionWrapper : BuildVersionWrapper {
 
     override fun getSDKInt(): Int = _sdkInt
 
-    fun setSdkInt(value: Int) {
+    fun setSDKInt(value: Int) {
         _sdkInt = value
     }
 }

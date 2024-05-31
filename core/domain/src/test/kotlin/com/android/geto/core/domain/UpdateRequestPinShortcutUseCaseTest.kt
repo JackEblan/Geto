@@ -54,10 +54,12 @@ class UpdateRequestPinShortcutUseCaseTest {
             updateRequestPinShortcutUseCase(
                 packageName = "com.android.geto",
                 appName = "Geto",
-                mappedShortcutInfoCompat = MappedShortcutInfoCompat(
-                    id = "0",
-                    shortLabel = "shortLabel",
-                    longLabel = "longLabel",
+                shortcuts = listOf(
+                    MappedShortcutInfoCompat(
+                        id = "0",
+                        shortLabel = "shortLabel",
+                        longLabel = "longLabel",
+                    ),
                 ),
             ),
         )
@@ -82,10 +84,12 @@ class UpdateRequestPinShortcutUseCaseTest {
                 updateRequestPinShortcutUseCase(
                     packageName = "com.android.geto",
                     appName = "Geto",
-                    mappedShortcutInfoCompat = MappedShortcutInfoCompat(
-                        id = "com.android.geto",
-                        shortLabel = "shortLabel",
-                        longLabel = "longLabel",
+                    shortcuts = listOf(
+                        MappedShortcutInfoCompat(
+                            id = "com.android.geto",
+                            shortLabel = "shortLabel",
+                            longLabel = "longLabel",
+                        ),
                     ),
                 ),
             )
@@ -111,10 +115,12 @@ class UpdateRequestPinShortcutUseCaseTest {
             updateRequestPinShortcutUseCase(
                 packageName = "com.android.geto",
                 appName = "Geto",
-                mappedShortcutInfoCompat = MappedShortcutInfoCompat(
-                    id = "com.android.geto",
-                    shortLabel = "shortLabel",
-                    longLabel = "longLabel",
+                shortcuts = listOf(
+                    MappedShortcutInfoCompat(
+                        id = "com.android.geto",
+                        shortLabel = "shortLabel",
+                        longLabel = "longLabel",
+                    ),
                 ),
             ),
         )

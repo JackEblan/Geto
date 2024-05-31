@@ -19,13 +19,12 @@ package com.android.geto.core.domain
 
 import android.os.Build
 import com.android.geto.core.buildversion.BuildVersionWrapper
-import com.android.geto.core.buildversion.SV2Qualifier
 import com.android.geto.core.data.repository.ClipboardRepository
 import javax.inject.Inject
 
 class SetPrimaryClipUseCase @Inject constructor(
     private val clipboardRepository: ClipboardRepository,
-    @SV2Qualifier private val buildVersionWrapper: BuildVersionWrapper,
+    private val buildVersionWrapper: BuildVersionWrapper,
 ) {
 
     operator fun invoke(label: String, text: String): Boolean {

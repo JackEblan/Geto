@@ -53,17 +53,17 @@ internal class DefaultShortcutManagerCompatWrapper @Inject constructor(@Applicat
     override fun updateShortcuts(
         packageName: String,
         appName: String,
-        mappedShortcutInfoCompat: MappedShortcutInfoCompat,
+        shortcuts: List<MappedShortcutInfoCompat>,
     ): Boolean {
         return ShortcutManagerCompat.updateShortcuts(
             context,
-            listOf(
+            shortcuts.map { mappedShortcutInfoCompat ->
                 mappedShortcutInfoCompat.asShortcutInfoCompat(
                     context = context,
                     packageName = packageName,
                     appName = appName,
-                ),
-            ),
+                )
+            },
         )
     }
 

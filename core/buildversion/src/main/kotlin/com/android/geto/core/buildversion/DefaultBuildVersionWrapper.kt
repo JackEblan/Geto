@@ -19,12 +19,7 @@ package com.android.geto.core.buildversion
 
 import android.os.Build
 import javax.inject.Inject
-import javax.inject.Qualifier
 
-internal class SV2 @Inject constructor() : BuildVersionWrapper {
+internal class DefaultBuildVersionWrapper @Inject constructor() : BuildVersionWrapper {
     override fun getSDKInt(): Int = Build.VERSION.SDK_INT
 }
-
-@Qualifier
-@Retention(AnnotationRetention.BINARY)
-annotation class SV2Qualifier

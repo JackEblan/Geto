@@ -86,7 +86,7 @@ class ShortcutRepositoryTest {
     }
 
     @Test
-    fun updateRequestPinShortcut_isTrue() {
+    fun updateShortcuts_isTrue() {
         shortcutManagerCompatWrapper.setUpdateImmutableShortcuts(false)
 
         shortcutManagerCompatWrapper.setRequestPinShortcutSupported(true)
@@ -94,20 +94,22 @@ class ShortcutRepositoryTest {
         shortcutManagerCompatWrapper.setShortcuts(shortcuts)
 
         assertTrue(
-            subject.updateRequestPinShortcut(
+            subject.updateShortcuts(
                 packageName = "com.android.geto",
                 appName = "Geto",
-                mappedShortcutInfoCompat = MappedShortcutInfoCompat(
-                    id = "com.android.geto",
-                    shortLabel = "Geto",
-                    longLabel = "Geto",
+                shortcuts = listOf(
+                    MappedShortcutInfoCompat(
+                        id = "com.android.geto",
+                        shortLabel = "Geto",
+                        longLabel = "Geto",
+                    ),
                 ),
             ),
         )
     }
 
     @Test
-    fun updateRequestPinShortcut_throwsIllegalArgumentException() {
+    fun updateShortcuts_throwsIllegalArgumentException() {
         shortcutManagerCompatWrapper.setUpdateImmutableShortcuts(true)
 
         shortcutManagerCompatWrapper.setRequestPinShortcutSupported(false)
@@ -117,13 +119,15 @@ class ShortcutRepositoryTest {
         assertFailsWith(
             exceptionClass = IllegalArgumentException::class,
             block = {
-                subject.updateRequestPinShortcut(
+                subject.updateShortcuts(
                     packageName = "com.android.geto",
                     appName = "Geto",
-                    mappedShortcutInfoCompat = MappedShortcutInfoCompat(
-                        id = "com.android.geto",
-                        shortLabel = "Geto",
-                        longLabel = "Geto",
+                    shortcuts = listOf(
+                        MappedShortcutInfoCompat(
+                            id = "com.android.geto",
+                            shortLabel = "Geto",
+                            longLabel = "Geto",
+                        ),
                     ),
                 )
             },

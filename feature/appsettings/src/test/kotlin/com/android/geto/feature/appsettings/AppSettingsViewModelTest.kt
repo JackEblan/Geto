@@ -315,7 +315,7 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun applyAppSettingsResult_isAppSettingsDisabled_whenApplySettings() = runTest {
+    fun applyAppSettingsResult_isDisabledAppSettings_whenApplySettings() = runTest {
         val appSettings = List(5) { index ->
             AppSetting(
                 id = index,
@@ -422,7 +422,7 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun revertAppSettingsResult_isAppSettingsDisabled_whenRevertSettings() = runTest {
+    fun revertAppSettingsResult_isDisabledAppSettings_whenRevertSettings() = runTest {
         val appSettings = List(5) { index ->
             AppSetting(
                 id = index,
@@ -447,7 +447,7 @@ class AppSettingsViewModelTest {
 
     @Test
     fun setPrimaryClipResult_isFalse_whenCopyPermissionCommand() = runTest {
-        buildVersionWrapper.setSdkInt(33)
+        buildVersionWrapper.setSDKInt(33)
 
         viewModel.copyPermissionCommand()
 
@@ -459,7 +459,7 @@ class AppSettingsViewModelTest {
 
     @Test
     fun setPrimaryClipResult_isTrue_whenCopyPermissionCommand() = runTest {
-        buildVersionWrapper.setSdkInt(32)
+        buildVersionWrapper.setSDKInt(32)
 
         viewModel.copyPermissionCommand()
 

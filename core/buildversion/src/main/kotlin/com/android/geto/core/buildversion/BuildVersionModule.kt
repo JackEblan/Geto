@@ -27,8 +27,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 internal interface BuildVersionModule {
 
-    @SV2Qualifier
     @Binds
     @Singleton
-    fun sV2(impl: SV2): BuildVersionWrapper
+    fun buildVersionWrapper(impl: DefaultBuildVersionWrapper): BuildVersionWrapper
 }

@@ -196,7 +196,7 @@ class AppSettingsViewModel @Inject constructor(
                 updateRequestPinShortcutUseCase(
                     packageName = packageName,
                     appName = appName,
-                    mappedShortcutInfoCompat,
+                    shortcuts = listOf(mappedShortcutInfoCompat),
                 )
             }
         }
