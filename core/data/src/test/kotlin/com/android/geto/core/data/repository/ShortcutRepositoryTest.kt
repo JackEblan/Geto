@@ -23,6 +23,8 @@ import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertFailsWith
 import kotlin.test.assertFalse
+import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 class ShortcutRepositoryTest {
@@ -130,19 +132,29 @@ class ShortcutRepositoryTest {
 
     @Test
     fun getPinnedShortcuts_isEmpty() {
-        shortcutManagerCompatWrapper.setRequestPinShortcutSupported(true)
-
         shortcutManagerCompatWrapper.setShortcuts(emptyList())
 
         assertTrue(subject.getPinnedShortcuts().isEmpty())
     }
 
     @Test
-    fun getShortcut_isNotEmpty() {
-        shortcutManagerCompatWrapper.setRequestPinShortcutSupported(true)
-
+    fun getPinnedShortcuts_isNotEmpty() {
         shortcutManagerCompatWrapper.setShortcuts(shortcuts)
 
         assertTrue(subject.getPinnedShortcuts().isNotEmpty())
+    }
+
+    @Test
+    fun getPinnedShortcut_isNull() {
+        shortcutManagerCompatWrapper.setShortcuts(shortcuts)
+
+        assertNull(subject.getPinnedShortcut("com.android.sample"))
+    }
+
+    @Test
+    fun getPinnedShortcut_isNotNull() {
+        shortcutManagerCompatWrapper.setShortcuts(shortcuts)
+
+        assertNotNull(subject.getPinnedShortcut("com.android.geto"))
     }
 }

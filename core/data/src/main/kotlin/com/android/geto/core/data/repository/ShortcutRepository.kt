@@ -36,4 +36,6 @@ interface ShortcutRepository {
     ): Boolean
 
     fun getPinnedShortcuts(): List<MappedShortcutInfoCompat>
+
+    fun getPinnedShortcut(id: String): MappedShortcutInfoCompat?
 }

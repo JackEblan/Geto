@@ -56,4 +56,9 @@ internal class DefaultShortcutRepository @Inject constructor(
     override fun getPinnedShortcuts(): List<MappedShortcutInfoCompat> {
         return shortcutManagerCompatWrapper.getShortcuts(shortcutManagerCompatWrapper.flagMatchPinned)
     }
+
+    override fun getPinnedShortcut(id: String): MappedShortcutInfoCompat? {
+        return shortcutManagerCompatWrapper.getShortcuts(shortcutManagerCompatWrapper.flagMatchPinned)
+            .find { it.id == id }
+    }
 }

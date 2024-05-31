@@ -158,7 +158,7 @@ class AppSettingsViewModel @Inject constructor(
     fun getShortcut(id: String = packageName) {
         viewModelScope.launch {
             _mappedShortcutInfoCompat.update {
-                shortcutRepository.getPinnedShortcuts().find { it.id == id }
+                shortcutRepository.getPinnedShortcut(id = id)
             }
         }
     }

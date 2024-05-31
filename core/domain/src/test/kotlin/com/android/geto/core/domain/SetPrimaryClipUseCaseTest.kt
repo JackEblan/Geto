@@ -17,7 +17,7 @@
  */
 package com.android.geto.core.domain
 
-import com.android.geto.core.testing.buildversion.TestSV2
+import com.android.geto.core.testing.buildversion.TestBuildVersionWrapper
 import com.android.geto.core.testing.repository.TestClipboardRepository
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertFalse
@@ -30,7 +30,7 @@ class SetPrimaryClipUseCaseTest {
 
     private val clipboardRepository = TestClipboardRepository()
 
-    private val buildVersionWrapper = TestSV2()
+    private val buildVersionWrapper = TestBuildVersionWrapper()
 
     @Before
     fun setUp() {
@@ -41,7 +41,7 @@ class SetPrimaryClipUseCaseTest {
     }
 
     @Test
-    fun setPrimaryClipUseCase_isFalse_whenBuildVersion_isNot32AndLower() = runTest {
+    fun setPrimaryClipUseCase_isFalse_whenBuildVersion_isHigherThan32() = runTest {
         buildVersionWrapper.setSdkInt(33)
 
         assertFalse(setPrimaryClipUseCase(label = "Label", text = "Text"))

@@ -18,5 +18,5 @@
 package com.android.geto.core.buildversion
 
 interface BuildVersionWrapper {
-    val sdkInt: Int
+    fun getSDKInt(): Int
 }

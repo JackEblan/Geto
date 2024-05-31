@@ -34,7 +34,7 @@ import com.android.geto.core.model.MappedApplicationInfo
 import com.android.geto.core.model.MappedShortcutInfoCompat
 import com.android.geto.core.model.SecureSetting
 import com.android.geto.core.model.SettingType
-import com.android.geto.core.testing.buildversion.TestSV2
+import com.android.geto.core.testing.buildversion.TestBuildVersionWrapper
 import com.android.geto.core.testing.repository.TestAppSettingsRepository
 import com.android.geto.core.testing.repository.TestClipboardRepository
 import com.android.geto.core.testing.repository.TestPackageRepository
@@ -76,7 +76,7 @@ class AppSettingsViewModelTest {
 
     private val userDataRepository = TestUserDataRepository()
 
-    private val sV2 = TestSV2()
+    private val buildVersionWrapper = TestBuildVersionWrapper()
 
     private val savedStateHandle = SavedStateHandle()
 
@@ -125,7 +125,7 @@ class AppSettingsViewModelTest {
 
         setPrimaryClipUseCase = SetPrimaryClipUseCase(
             clipboardRepository = clipboardRepository,
-            buildVersionWrapper = sV2,
+            buildVersionWrapper = buildVersionWrapper,
         )
 
         requestPinShortcutUseCase =
@@ -447,7 +447,7 @@ class AppSettingsViewModelTest {
 
     @Test
     fun setPrimaryClipResult_isFalse_whenCopyPermissionCommand() = runTest {
-        sV2.setSdkInt(33)
+        buildVersionWrapper.setSdkInt(33)
 
         viewModel.copyPermissionCommand()
 
@@ -459,7 +459,7 @@ class AppSettingsViewModelTest {
 
     @Test
     fun setPrimaryClipResult_isTrue_whenCopyPermissionCommand() = runTest {
-        sV2.setSdkInt(32)
+        buildVersionWrapper.setSdkInt(32)
 
         viewModel.copyPermissionCommand()
 
@@ -705,8 +705,6 @@ class AppSettingsViewModelTest {
             )
         }
 
-        shortcutRepository.setUpdateImmutableShortcuts(false)
-
         shortcutRepository.setShortcuts(shortcuts)
 
         viewModel.getShortcut()
@@ -723,8 +721,6 @@ class AppSettingsViewModelTest {
                 longLabel = "Geto",
             )
         }
-
-        shortcutRepository.setUpdateImmutableShortcuts(false)
 
         shortcutRepository.setShortcuts(shortcuts)
 

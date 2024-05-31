@@ -458,7 +458,7 @@ private fun AppSettingsLaunchedEffects(
     LaunchedEffect(key1 = clipboardResult) {
         if (clipboardResult) {
             snackbarHostState.showSnackbar(
-                message = String.format("$permissionCommandText %s", copiedToClipboard),
+                message = String.format(copiedToClipboard, permissionCommandText),
             )
         }
 

@@ -19,11 +19,10 @@ package com.android.geto.core.testing.buildversion
 
 import com.android.geto.core.buildversion.BuildVersionWrapper
 
-class TestSV2 : BuildVersionWrapper {
+class TestBuildVersionWrapper : BuildVersionWrapper {
     private var _sdkInt = 0
 
-    override val sdkInt: Int
-        get() = _sdkInt
+    override fun getSDKInt(): Int = _sdkInt
 
     fun setSdkInt(value: Int) {
         _sdkInt = value

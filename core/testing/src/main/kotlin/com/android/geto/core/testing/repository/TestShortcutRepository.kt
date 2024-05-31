@@ -56,6 +56,10 @@ class TestShortcutRepository : ShortcutRepository {
         return mappedShortcutInfoCompats
     }
 
+    override fun getPinnedShortcut(id: String): MappedShortcutInfoCompat? {
+        return mappedShortcutInfoCompats.find { it.id == id }
+    }
+
     fun setRequestPinShortcutSupported(value: Boolean) {
         requestPinShortcutSupported = value
     }

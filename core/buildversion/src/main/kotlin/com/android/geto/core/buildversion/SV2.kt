@@ -22,7 +22,7 @@ import javax.inject.Inject
 import javax.inject.Qualifier
 
 internal class SV2 @Inject constructor() : BuildVersionWrapper {
-    override val sdkInt: Int = Build.VERSION.SDK_INT
+    override fun getSDKInt(): Int = Build.VERSION.SDK_INT
 }
 
 @Qualifier

@@ -46,4 +46,8 @@ class FakeShortcutRepository @Inject constructor() : ShortcutRepository {
     override fun getPinnedShortcuts(): List<MappedShortcutInfoCompat> {
         return emptyList()
     }
+
+    override fun getPinnedShortcut(id: String): MappedShortcutInfoCompat? {
+        return null
+    }
 }

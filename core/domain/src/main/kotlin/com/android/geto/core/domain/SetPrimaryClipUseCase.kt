@@ -31,6 +31,6 @@ class SetPrimaryClipUseCase @Inject constructor(
     operator fun invoke(label: String, text: String): Boolean {
         clipboardRepository.setPrimaryClip(label, text)
 
-        return buildVersionWrapper.sdkInt <= Build.VERSION_CODES.S_V2
+        return buildVersionWrapper.getSDKInt() <= Build.VERSION_CODES.S_V2
     }
 }
