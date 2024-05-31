@@ -15,19 +15,17 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.core.data.testdoubles
+package com.android.geto.core.testing.buildversion
 
-import com.android.geto.core.packagemanager.ClipboardManagerWrapper
+import com.android.geto.core.buildversion.BuildVersionWrapper
 
-class TestClipboardManagerWrapper : ClipboardManagerWrapper {
-    private var _atLeastApi32 = false
+class TestSV2 : BuildVersionWrapper {
+    private var _sdkInt = 0
 
-    override val atLeastApi32
-        get() = _atLeastApi32
+    override val sdkInt: Int
+        get() = _sdkInt
 
-    override fun setPrimaryClip(label: String, text: String) {}
-
-    fun setAtLeastApi32(value: Boolean) {
-        _atLeastApi32 = value
+    fun setSdkInt(value: Int) {
+        _sdkInt = value
     }
 }

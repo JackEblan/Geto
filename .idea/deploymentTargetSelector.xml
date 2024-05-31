@@ -5,13 +5,7 @@
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="app-geto-catalog">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="AppSettingsScreenSnackbarTest">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="AppSettingsScreenTest">
+      <SelectionState runConfigName="feature.shortcut">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

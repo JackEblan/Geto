@@ -22,7 +22,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.android.geto.core.data.repository.AppSettingsRepository
-import com.android.geto.core.data.repository.ClipboardRepository
 import com.android.geto.core.data.repository.PackageRepository
 import com.android.geto.core.data.repository.SecureSettingsRepository
 import com.android.geto.core.data.repository.ShortcutRepository
@@ -30,8 +29,13 @@ import com.android.geto.core.domain.ApplyAppSettingsResult
 import com.android.geto.core.domain.ApplyAppSettingsUseCase
 import com.android.geto.core.domain.AutoLaunchResult
 import com.android.geto.core.domain.AutoLaunchUseCase
+import com.android.geto.core.domain.RequestPinShortcutResult
+import com.android.geto.core.domain.RequestPinShortcutUseCase
 import com.android.geto.core.domain.RevertAppSettingsResult
 import com.android.geto.core.domain.RevertAppSettingsUseCase
+import com.android.geto.core.domain.SetPrimaryClipUseCase
+import com.android.geto.core.domain.UpdateRequestPinShortcutResult
+import com.android.geto.core.domain.UpdateRequestPinShortcutUseCase
 import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.MappedShortcutInfoCompat
 import com.android.geto.core.model.SecureSetting
@@ -45,20 +49,21 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import org.jetbrains.annotations.VisibleForTesting
 import javax.inject.Inject
 
 @HiltViewModel
 class AppSettingsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val appSettingsRepository: AppSettingsRepository,
-    private val clipboardRepository: ClipboardRepository,
     private val packageRepository: PackageRepository,
     private val secureSettingsRepository: SecureSettingsRepository,
     private val shortcutRepository: ShortcutRepository,
     private val applyAppSettingsUseCase: ApplyAppSettingsUseCase,
     private val revertAppSettingsUseCase: RevertAppSettingsUseCase,
     private val autoLaunchUseCase: AutoLaunchUseCase,
+    private val setPrimaryClipUseCase: SetPrimaryClipUseCase,
+    private val requestPinShortcutUseCase: RequestPinShortcutUseCase,
+    private val updateRequestPinShortcutUseCase: UpdateRequestPinShortcutUseCase,
 ) : ViewModel() {
     private var _secureSettings = MutableStateFlow<List<SecureSetting>>(emptyList())
     val secureSettings = _secureSettings.asStateFlow()
@@ -83,8 +88,15 @@ class AppSettingsViewModel @Inject constructor(
     private val _shortcutResult = MutableStateFlow<String?>(null)
     val shortcutResult = _shortcutResult.asStateFlow()
 
-    private val _clipboardResult = MutableStateFlow<String?>(null)
-    val clipboardResult = _clipboardResult.asStateFlow()
+    private val _setPrimaryClipResult = MutableStateFlow(false)
+    val setPrimaryClipResult = _setPrimaryClipResult.asStateFlow()
+
+    private val _requestPinShortcutResult = MutableStateFlow<RequestPinShortcutResult?>(null)
+    val requestPinShortcutResult = _requestPinShortcutResult.asStateFlow()
+
+    private val _updateRequestPinShortcutResult =
+        MutableStateFlow<UpdateRequestPinShortcutResult?>(null)
+    val updateRequestPinShortcutResult = _updateRequestPinShortcutResult.asStateFlow()
 
     private val appSettingsArgs = AppSettingsArgs(savedStateHandle)
 
@@ -92,10 +104,8 @@ class AppSettingsViewModel @Inject constructor(
 
     val appName = appSettingsArgs.appName
 
-    @VisibleForTesting
-    val permissionCommandLabel = "Command"
+    private val permissionCommandLabel = "Command"
 
-    @VisibleForTesting
     val permissionCommandText = "pm grant com.android.geto android.permission.WRITE_SECURE_SETTINGS"
 
     val appSettingUiState = appSettingsRepository.getAppSettingsByPackageName(packageName)
@@ -147,13 +157,15 @@ class AppSettingsViewModel @Inject constructor(
 
     fun getShortcut(id: String = packageName) {
         viewModelScope.launch {
-            _mappedShortcutInfoCompat.update { shortcutRepository.getShortcut(id) }
+            _mappedShortcutInfoCompat.update {
+                shortcutRepository.getPinnedShortcuts().find { it.id == id }
+            }
         }
     }
 
     fun copyPermissionCommand() {
-        _clipboardResult.update {
-            clipboardRepository.setPrimaryClip(
+        _setPrimaryClipResult.update {
+            setPrimaryClipUseCase(
                 label = permissionCommandLabel,
                 text = permissionCommandText,
             )
@@ -168,8 +180,8 @@ class AppSettingsViewModel @Inject constructor(
 
     fun requestPinShortcut(mappedShortcutInfoCompat: MappedShortcutInfoCompat) {
         viewModelScope.launch {
-            _shortcutResult.update {
-                shortcutRepository.requestPinShortcut(
+            _requestPinShortcutResult.update {
+                requestPinShortcutUseCase(
                     packageName = packageName,
                     appName = appName,
                     mappedShortcutInfoCompat = mappedShortcutInfoCompat,
@@ -180,8 +192,8 @@ class AppSettingsViewModel @Inject constructor(
 
     fun updateRequestPinShortcut(mappedShortcutInfoCompat: MappedShortcutInfoCompat) {
         viewModelScope.launch {
-            _shortcutResult.update {
-                shortcutRepository.updateRequestPinShortcut(
+            _updateRequestPinShortcutResult.update {
+                updateRequestPinShortcutUseCase(
                     packageName = packageName,
                     appName = appName,
                     mappedShortcutInfoCompat,
@@ -214,10 +226,11 @@ class AppSettingsViewModel @Inject constructor(
     }
 
     fun resetShortcutResult() {
-        _shortcutResult.update { null }
+        _requestPinShortcutResult.update { null }
+        _updateRequestPinShortcutResult.update { null }
     }
 
     fun resetClipboardResult() {
-        _clipboardResult.update { null }
+        _setPrimaryClipResult.update { false }
     }
 }

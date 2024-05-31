@@ -26,6 +26,7 @@
             <option value="$PROJECT_DIR$/build-logic" />
             <option value="$PROJECT_DIR$/build-logic/convention" />
             <option value="$PROJECT_DIR$/core" />
+            <option value="$PROJECT_DIR$/core/buildversion" />
             <option value="$PROJECT_DIR$/core/clipboardmanager" />
             <option value="$PROJECT_DIR$/core/common" />
             <option value="$PROJECT_DIR$/core/data" />
@@ -38,7 +39,6 @@
             <option value="$PROJECT_DIR$/core/domain" />
             <option value="$PROJECT_DIR$/core/model" />
             <option value="$PROJECT_DIR$/core/packagemanager" />
-            <option value="$PROJECT_DIR$/core/resources" />
             <option value="$PROJECT_DIR$/core/screenshot-testing" />
             <option value="$PROJECT_DIR$/core/securesettings" />
             <option value="$PROJECT_DIR$/core/shortcutmanager" />

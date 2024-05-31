@@ -15,19 +15,17 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.core.resources
 
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
+plugins {
+    alias(libs.plugins.com.android.geto.library)
+    alias(libs.plugins.com.android.geto.libraryJacoco)
+    alias(libs.plugins.com.android.geto.hilt)
+}
 
-@Module
-@InstallIn(SingletonComponent::class)
-internal interface ResourcesModule {
+android {
+    namespace = "com.android.geto.core.buildversion"
+}
 
-    @Binds
-    @Singleton
-    fun resourcesWrapper(impl: DefaultResourcesWrapper): ResourcesWrapper
+dependencies {
+    implementation(projects.core.model)
 }

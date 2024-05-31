@@ -21,17 +21,19 @@ import com.android.geto.core.model.MappedShortcutInfoCompat
 
 interface ShortcutRepository {
 
+    fun isRequestPinShortcutSupported(): Boolean
+
     fun requestPinShortcut(
         packageName: String,
         appName: String,
         mappedShortcutInfoCompat: MappedShortcutInfoCompat,
-    ): String
+    ): Boolean
 
     fun updateRequestPinShortcut(
         packageName: String,
         appName: String,
         mappedShortcutInfoCompat: MappedShortcutInfoCompat,
-    ): String
+    ): Boolean
 
-    fun getShortcut(id: String): MappedShortcutInfoCompat?
+    fun getPinnedShortcuts(): List<MappedShortcutInfoCompat>
 }

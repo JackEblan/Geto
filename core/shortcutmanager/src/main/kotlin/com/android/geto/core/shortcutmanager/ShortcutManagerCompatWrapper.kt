@@ -20,6 +20,9 @@ package com.android.geto.core.shortcutmanager
 import com.android.geto.core.model.MappedShortcutInfoCompat
 
 interface ShortcutManagerCompatWrapper {
+
+    val flagMatchPinned: Int
+
     fun isRequestPinShortcutSupported(): Boolean
 
     fun requestPinShortcut(

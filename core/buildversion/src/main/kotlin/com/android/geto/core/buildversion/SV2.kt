@@ -15,11 +15,16 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.core.data.test.repository
+package com.android.geto.core.buildversion
 
-import com.android.geto.core.data.repository.ClipboardRepository
+import android.os.Build
 import javax.inject.Inject
+import javax.inject.Qualifier
 
-class FakeClipboardRepository @Inject constructor() : ClipboardRepository {
-    override fun setPrimaryClip(label: String, text: String) {}
+internal class SV2 @Inject constructor() : BuildVersionWrapper {
+    override val sdkInt: Int = Build.VERSION.SDK_INT
 }
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class SV2Qualifier

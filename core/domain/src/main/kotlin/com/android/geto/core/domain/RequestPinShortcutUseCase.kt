@@ -15,35 +15,37 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.core.data.test.repository
+package com.android.geto.core.domain
 
 import com.android.geto.core.data.repository.ShortcutRepository
 import com.android.geto.core.model.MappedShortcutInfoCompat
 import javax.inject.Inject
 
-class FakeShortcutRepository @Inject constructor() : ShortcutRepository {
-
-    override fun isRequestPinShortcutSupported(): Boolean {
-        return false
-    }
-
-    override fun requestPinShortcut(
+class RequestPinShortcutUseCase @Inject constructor(private val shortcutRepository: ShortcutRepository) {
+    operator fun invoke(
         packageName: String,
         appName: String,
         mappedShortcutInfoCompat: MappedShortcutInfoCompat,
-    ): Boolean {
-        return false
-    }
+    ): RequestPinShortcutResult {
+        if (shortcutRepository.isRequestPinShortcutSupported().not()) {
+            return RequestPinShortcutResult.UnSupportedLauncher
+        }
 
-    override fun updateRequestPinShortcut(
-        packageName: String,
-        appName: String,
-        mappedShortcutInfoCompat: MappedShortcutInfoCompat,
-    ): Boolean {
-        return false
+        return if (shortcutRepository.requestPinShortcut(
+                packageName = packageName,
+                appName = appName,
+                mappedShortcutInfoCompat = mappedShortcutInfoCompat,
+            )
+        ) {
+            RequestPinShortcutResult.SupportedLauncher
+        } else {
+            RequestPinShortcutResult.UnSupportedLauncher
+        }
     }
+}
 
-    override fun getPinnedShortcuts(): List<MappedShortcutInfoCompat> {
-        return emptyList()
-    }
+sealed interface RequestPinShortcutResult {
+    data object UnSupportedLauncher : RequestPinShortcutResult
+
+    data object SupportedLauncher : RequestPinShortcutResult
 }

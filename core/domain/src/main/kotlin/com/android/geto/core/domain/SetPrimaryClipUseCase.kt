@@ -15,18 +15,22 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.core.resources
+package com.android.geto.core.domain
 
-import android.content.Context
-import androidx.annotation.StringRes
-import dagger.hilt.android.qualifiers.ApplicationContext
+import android.os.Build
+import com.android.geto.core.buildversion.BuildVersionWrapper
+import com.android.geto.core.buildversion.SV2Qualifier
+import com.android.geto.core.data.repository.ClipboardRepository
 import javax.inject.Inject
 
-internal class DefaultResourcesWrapper @Inject constructor(@ApplicationContext private val context: Context) :
-    ResourcesWrapper {
-    private val resources = context.resources
+class SetPrimaryClipUseCase @Inject constructor(
+    private val clipboardRepository: ClipboardRepository,
+    @SV2Qualifier private val buildVersionWrapper: BuildVersionWrapper,
+) {
 
-    override fun getString(@StringRes id: Int): String {
-        return resources.getString(id)
+    operator fun invoke(label: String, text: String): Boolean {
+        clipboardRepository.setPrimaryClip(label, text)
+
+        return buildVersionWrapper.sdkInt <= Build.VERSION_CODES.S_V2
     }
 }
