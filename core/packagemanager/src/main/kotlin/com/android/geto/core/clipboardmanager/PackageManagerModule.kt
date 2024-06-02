@@ -15,7 +15,7 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.core.packagemanager
+package com.android.geto.core.clipboardmanager
 
 import dagger.Binds
 import dagger.Module
@@ -25,9 +25,9 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-internal interface ClipboardManagerModule {
+internal interface PackageManagerModule {
 
     @Binds
     @Singleton
-    fun clipboardManagerWrapper(impl: DefaultClipboardManagerWrapper): ClipboardManagerWrapper
+    fun packageManagerWrapper(impl: DefaultPackageManagerWrapper): PackageManagerWrapper
 }

@@ -18,11 +18,19 @@
 
 syntax = "proto3";
 
-option java_package = "com.android.geto.core.datastore";
+import "com/android/geto/core/datastore/proto/dark_theme_config.proto";
+import "com/android/geto/core/datastore/proto/theme_brand.proto";
+
+option java_package = "com.android.geto.core.datastore.proto";
 option java_multiple_files = true;
 
-enum ThemeBrandProto {
-  THEME_BRAND_UNSPECIFIED = 0;
-  THEME_BRAND_DEFAULT = 1;
-  THEME_BRAND_ANDROID = 2;
+message UserPreferences {
+
+  ThemeBrandProto theme_brand = 16;
+  DarkThemeConfigProto dark_theme_config = 17;
+
+  bool use_dynamic_color = 19;
+
+  bool use_auto_launch = 20;
 }
+

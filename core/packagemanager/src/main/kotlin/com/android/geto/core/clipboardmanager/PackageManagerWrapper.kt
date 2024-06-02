@@ -15,19 +15,16 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.core.packagemanager
+package com.android.geto.core.clipboardmanager
 
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
+import android.content.Intent
+import android.graphics.drawable.Drawable
+import com.android.geto.core.model.MappedApplicationInfo
 
-@Module
-@InstallIn(SingletonComponent::class)
-internal interface PackageManagerModule {
+interface PackageManagerWrapper {
+    fun queryIntentActivities(intent: Intent, flags: Int): List<MappedApplicationInfo>
 
-    @Binds
-    @Singleton
-    fun packageManagerWrapper(impl: DefaultPackageManagerWrapper): PackageManagerWrapper
+    fun getApplicationIcon(packageName: String): Drawable
+
+    fun getLaunchIntentForPackage(packageName: String): Intent?
 }

@@ -15,17 +15,15 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.core.packagemanager
 
-import android.content.pm.ApplicationInfo
-import android.content.pm.PackageManager
-import com.android.geto.core.model.MappedApplicationInfo
+syntax = "proto3";
 
-internal fun ApplicationInfo.asMappedApplicationInfo(packageManager: PackageManager): MappedApplicationInfo {
-    return MappedApplicationInfo(
-        flags = flags,
-        icon = loadIcon(packageManager),
-        packageName = packageName,
-        label = loadLabel(packageManager).toString(),
-    )
+option java_package = "com.android.geto.core.datastore.proto";
+option java_multiple_files = true;
+
+enum DarkThemeConfigProto {
+  DARK_THEME_CONFIG_UNSPECIFIED = 0;
+  DARK_THEME_CONFIG_FOLLOW_SYSTEM = 1;
+  DARK_THEME_CONFIG_LIGHT = 2;
+  DARK_THEME_CONFIG_DARK = 3;
 }

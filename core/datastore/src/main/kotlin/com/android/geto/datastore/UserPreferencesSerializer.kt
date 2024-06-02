@@ -19,7 +19,7 @@ package com.android.geto.datastore
 
 import androidx.datastore.core.CorruptionException
 import androidx.datastore.core.Serializer
-import com.android.geto.core.datastore.UserPreferences
+import com.android.geto.core.datastore.proto.UserPreferences
 import com.google.protobuf.InvalidProtocolBufferException
 import java.io.InputStream
 import java.io.OutputStream

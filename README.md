@@ -43,9 +43,7 @@ the [Discussions](https://github.com/JackEblan/Geto/discussions)
 # Installation
 
 Download the Geto APK
-from [Releases](https://github.com/JackEblan/Geto/releases). You
-can also download the app-debug APK
-from [GitHub Actions](https://github.com/JackEblan/Geto/actions).
+from [Releases](https://github.com/JackEblan/Geto/releases).
 
 This guide is only for Android 11+ without using computer.
 For Android 10 and below, [This Youtube tutorial](https://www.youtube.com/watch?v=k4k297qItY4) can

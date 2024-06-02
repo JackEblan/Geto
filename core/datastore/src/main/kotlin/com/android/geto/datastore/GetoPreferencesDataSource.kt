@@ -18,10 +18,10 @@
 package com.android.geto.datastore
 
 import androidx.datastore.core.DataStore
-import com.android.geto.core.datastore.DarkThemeConfigProto
-import com.android.geto.core.datastore.ThemeBrandProto
-import com.android.geto.core.datastore.UserPreferences
-import com.android.geto.core.datastore.copy
+import com.android.geto.core.datastore.proto.DarkThemeConfigProto
+import com.android.geto.core.datastore.proto.ThemeBrandProto
+import com.android.geto.core.datastore.proto.UserPreferences
+import com.android.geto.core.datastore.proto.copy
 import com.android.geto.core.model.DarkThemeConfig
 import com.android.geto.core.model.ThemeBrand
 import com.android.geto.core.model.UserData

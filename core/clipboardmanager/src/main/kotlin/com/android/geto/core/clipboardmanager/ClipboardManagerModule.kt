@@ -15,15 +15,19 @@
  *   limitations under the License.
  *
  */
+package com.android.geto.core.clipboardmanager
 
-syntax = "proto3";
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
-option java_package = "com.android.geto.core.datastore";
-option java_multiple_files = true;
+@Module
+@InstallIn(SingletonComponent::class)
+internal interface ClipboardManagerModule {
 
-enum DarkThemeConfigProto {
-  DARK_THEME_CONFIG_UNSPECIFIED = 0;
-  DARK_THEME_CONFIG_FOLLOW_SYSTEM = 1;
-  DARK_THEME_CONFIG_LIGHT = 2;
-  DARK_THEME_CONFIG_DARK = 3;
+    @Binds
+    @Singleton
+    fun clipboardManagerWrapper(impl: DefaultClipboardManagerWrapper): ClipboardManagerWrapper
 }

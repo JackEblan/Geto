@@ -21,10 +21,10 @@ import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
+import com.android.geto.core.clipboardmanager.PackageManagerWrapper
 import com.android.geto.core.common.Dispatcher
 import com.android.geto.core.common.GetoDispatchers.IO
 import com.android.geto.core.model.MappedApplicationInfo
-import com.android.geto.core.packagemanager.PackageManagerWrapper
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

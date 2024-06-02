@@ -24,7 +24,7 @@ import androidx.datastore.dataStoreFile
 import com.android.geto.core.common.Dispatcher
 import com.android.geto.core.common.GetoDispatchers.IO
 import com.android.geto.core.common.di.ApplicationScope
-import com.android.geto.core.datastore.UserPreferences
+import com.android.geto.core.datastore.proto.UserPreferences
 import com.android.geto.datastore.UserPreferencesSerializer
 import dagger.Module
 import dagger.Provides

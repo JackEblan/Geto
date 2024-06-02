@@ -15,7 +15,7 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.core.packagemanager
+package com.android.geto.core.clipboardmanager
 
 interface ClipboardManagerWrapper {
     fun setPrimaryClip(label: String, text: String)
