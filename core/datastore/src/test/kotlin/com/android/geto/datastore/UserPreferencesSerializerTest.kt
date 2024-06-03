@@ -18,7 +18,7 @@
 package com.android.geto.datastore
 
 import androidx.datastore.core.CorruptionException
-import com.android.geto.core.datastore.userPreferences
+import com.android.geto.core.datastore.proto.userPreferences
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import java.io.ByteArrayInputStream
