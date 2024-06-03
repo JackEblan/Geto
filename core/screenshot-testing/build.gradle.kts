@@ -34,5 +34,5 @@ dependencies {
     implementation(libs.androidx.compose.ui.test)
     implementation(libs.robolectric)
     implementation(projects.core.common)
-    implementation(projects.core.designsystem)
+    implementation(projects.core.designSystem)
 }

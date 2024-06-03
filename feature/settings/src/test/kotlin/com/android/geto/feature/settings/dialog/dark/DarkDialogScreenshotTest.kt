@@ -21,8 +21,8 @@ import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.android.geto.core.designsystem.component.GetoBackground
 import com.android.geto.core.designsystem.theme.GetoTheme
-import com.android.geto.core.screenshot.testing.util.DefaultTestDevices
-import com.android.geto.core.screenshot.testing.util.captureDialogForDevice
+import com.android.geto.core.screenshottesting.util.DefaultTestDevices
+import com.android.geto.core.screenshottesting.util.captureDialogForDevice
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.HiltTestApplication
 import org.junit.Rule

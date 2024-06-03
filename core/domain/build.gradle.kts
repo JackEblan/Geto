@@ -27,7 +27,7 @@ android {
 }
 
 dependencies {
-    implementation(projects.core.buildversion)
+    implementation(projects.core.buildVersion)
     implementation(projects.core.data)
     implementation(projects.core.model)
 

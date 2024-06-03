@@ -22,9 +22,9 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.android.geto.core.designsystem.component.GetoBackground
 import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.model.MappedApplicationInfo
-import com.android.geto.core.screenshot.testing.util.DefaultTestDevices
-import com.android.geto.core.screenshot.testing.util.captureForDevice
-import com.android.geto.core.screenshot.testing.util.captureMultiDevice
+import com.android.geto.core.screenshottesting.util.DefaultTestDevices
+import com.android.geto.core.screenshottesting.util.captureForDevice
+import com.android.geto.core.screenshottesting.util.captureMultiDevice
 import dagger.hilt.android.testing.HiltTestApplication
 import org.junit.Rule
 import org.junit.runner.RunWith

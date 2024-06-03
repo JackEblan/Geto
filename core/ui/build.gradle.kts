@@ -31,7 +31,7 @@ android {
 }
 
 dependencies {
-    api(projects.core.designsystem)
+    api(projects.core.designSystem)
     api(projects.core.model)
 
     implementation(libs.androidx.core.ktx)

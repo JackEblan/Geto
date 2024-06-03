@@ -24,8 +24,8 @@ import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.model.DarkThemeConfig
 import com.android.geto.core.model.ThemeBrand
 import com.android.geto.core.model.UserData
-import com.android.geto.core.screenshot.testing.util.DefaultTestDevices
-import com.android.geto.core.screenshot.testing.util.captureForDevice
+import com.android.geto.core.screenshottesting.util.DefaultTestDevices
+import com.android.geto.core.screenshottesting.util.captureForDevice
 import dagger.hilt.android.testing.HiltTestApplication
 import org.junit.Rule
 import org.junit.runner.RunWith

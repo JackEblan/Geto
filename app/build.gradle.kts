@@ -63,11 +63,11 @@ android {
 
 dependencies {
     implementation(projects.core.data)
-    implementation(projects.core.designsystem)
+    implementation(projects.core.designSystem)
     implementation(projects.core.model)
 
     implementation(projects.feature.apps)
-    implementation(projects.feature.appsettings)
+    implementation(projects.feature.appSettings)
     implementation(projects.feature.settings)
 
     implementation(libs.androidx.activity.ktx)

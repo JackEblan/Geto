@@ -26,8 +26,8 @@
             <option value="$PROJECT_DIR$/build-logic" />
             <option value="$PROJECT_DIR$/build-logic/convention" />
             <option value="$PROJECT_DIR$/core" />
-            <option value="$PROJECT_DIR$/core/buildversion" />
-            <option value="$PROJECT_DIR$/core/clipboardmanager" />
+            <option value="$PROJECT_DIR$/core/build-version" />
+            <option value="$PROJECT_DIR$/core/clipboard-manager" />
             <option value="$PROJECT_DIR$/core/common" />
             <option value="$PROJECT_DIR$/core/data" />
             <option value="$PROJECT_DIR$/core/data-test" />
@@ -35,18 +35,18 @@
             <option value="$PROJECT_DIR$/core/datastore" />
             <option value="$PROJECT_DIR$/core/datastore-proto" />
             <option value="$PROJECT_DIR$/core/datastore-test" />
-            <option value="$PROJECT_DIR$/core/designsystem" />
+            <option value="$PROJECT_DIR$/core/design-system" />
             <option value="$PROJECT_DIR$/core/domain" />
             <option value="$PROJECT_DIR$/core/model" />
-            <option value="$PROJECT_DIR$/core/packagemanager" />
+            <option value="$PROJECT_DIR$/core/package-manager" />
             <option value="$PROJECT_DIR$/core/screenshot-testing" />
-            <option value="$PROJECT_DIR$/core/securesettings" />
-            <option value="$PROJECT_DIR$/core/shortcutmanager" />
+            <option value="$PROJECT_DIR$/core/secure-settings" />
+            <option value="$PROJECT_DIR$/core/shortcut-manager" />
             <option value="$PROJECT_DIR$/core/testing" />
             <option value="$PROJECT_DIR$/core/ui" />
             <option value="$PROJECT_DIR$/feature" />
+            <option value="$PROJECT_DIR$/feature/app-settings" />
             <option value="$PROJECT_DIR$/feature/apps" />
-            <option value="$PROJECT_DIR$/feature/appsettings" />
             <option value="$PROJECT_DIR$/feature/settings" />
             <option value="$PROJECT_DIR$/lint" />
           </set>

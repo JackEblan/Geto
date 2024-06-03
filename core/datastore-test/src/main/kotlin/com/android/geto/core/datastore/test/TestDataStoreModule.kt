@@ -20,7 +20,7 @@ package com.android.geto.core.datastore.test
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.DataStoreFactory
 import com.android.geto.core.common.di.ApplicationScope
-import com.android.geto.core.datastore.UserPreferences
+import com.android.geto.core.datastore.proto.UserPreferences
 import com.android.geto.datastore.UserPreferencesSerializer
 import com.android.geto.datastore.di.DataStoreModule
 import dagger.Module
