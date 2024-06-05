@@ -21,5 +21,7 @@ import android.os.Build
 import javax.inject.Inject
 
 internal class DefaultBuildVersionWrapper @Inject constructor() : BuildVersionWrapper {
+    override fun getVersionCodeForSV2(): Int = Build.VERSION_CODES.S_V2
+
     override fun getSDKInt(): Int = Build.VERSION.SDK_INT
 }

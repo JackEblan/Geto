@@ -120,6 +120,7 @@ room = { id = "androidx.room", version.ref = "room" }
 com-android-geto-application = { id = "com.android.geto.application", version = "unspecified" }
 com-android-geto-applicationCompose = { id = "com.android.geto.applicationCompose", version = "unspecified" }
 com-android-geto-applicationJacoco = { id = "com.android.geto.applicationJacoco", version = "unspecified" }
+com-android-geto-jvmLibrary = { id = "com.android.geto.jvmLibrary", version = "unspecified" }
 com-android-geto-library = { id = "com.android.geto.library", version = "unspecified" }
 com-android-geto-libraryCompose = { id = "com.android.geto.libraryCompose", version = "unspecified" }
 com-android-geto-libraryJacoco = { id = "com.android.geto.libraryJacoco", version = "unspecified" }

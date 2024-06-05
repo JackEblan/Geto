@@ -15,20 +15,19 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.core.domain
 
-import com.android.geto.core.buildversion.BuildVersionWrapper
-import com.android.geto.core.data.repository.ClipboardRepository
-import javax.inject.Inject
+import com.android.geto.configureKotlinJvm
+import org.gradle.api.Plugin
+import org.gradle.api.Project
 
-class SetPrimaryClipUseCase @Inject constructor(
-    private val clipboardRepository: ClipboardRepository,
-    private val buildVersionWrapper: BuildVersionWrapper,
-) {
-
-    operator fun invoke(label: String, text: String): Boolean {
-        clipboardRepository.setPrimaryClip(label, text)
-
-        return buildVersionWrapper.getSDKInt() <= buildVersionWrapper.getVersionCodeForSV2()
+class JvmLibraryConventionPlugin : Plugin<Project> {
+    override fun apply(target: Project) {
+        with(target) {
+            with(pluginManager) {
+                apply("org.jetbrains.kotlin.jvm")
+                apply("com.android.geto.lint")
+            }
+            configureKotlinJvm()
+        }
     }
 }

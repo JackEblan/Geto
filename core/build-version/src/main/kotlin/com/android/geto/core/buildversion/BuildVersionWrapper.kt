@@ -18,5 +18,7 @@
 package com.android.geto.core.buildversion
 
 interface BuildVersionWrapper {
+    fun getVersionCodeForSV2(): Int
+
     fun getSDKInt(): Int
 }

@@ -31,13 +31,3 @@ plugins {
     alias(libs.plugins.roborazzi) apply false
     alias(libs.plugins.room) apply false
 }
-
-// Task to print all the module paths in the project e.g. :core:data
-// Used by module graph generator script
-tasks.register("printModulePaths") {
-    subprojects {
-        if (subprojects.size == 0) {
-            println(this.path)
-        }
-    }
-}
