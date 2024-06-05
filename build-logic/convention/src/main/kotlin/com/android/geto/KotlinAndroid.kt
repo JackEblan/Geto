@@ -52,8 +52,10 @@ internal fun Project.configureKotlinAndroid(
         }
     }
 
-    extensions.configure<KotlinAndroidProjectExtension> {
-        jvmToolchain(11)
+    extensions.configure<JavaPluginExtension> {
+        toolchain {
+            languageVersion.set(JavaLanguageVersion.of(11))
+        }
     }
 
     configureKotlin<KotlinAndroidProjectExtension>()
@@ -84,7 +86,6 @@ private inline fun <reified T : KotlinTopLevelExtension> Project.configureKotlin
         is KotlinJvmProjectExtension -> compilerOptions
         else -> TODO("Unsupported project extension $this ${T::class}")
     }.apply {
-        jvmTarget = JvmTarget.JVM_11
         allWarningsAsErrors = warningsAsErrors.toBoolean()
         freeCompilerArgs.add(
             // Enable experimental coroutines APIs, including Flow
