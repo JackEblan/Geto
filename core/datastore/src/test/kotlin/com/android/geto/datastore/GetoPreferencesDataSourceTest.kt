@@ -18,11 +18,16 @@
 package com.android.geto.datastore
 
 import com.android.geto.core.datastore.test.testUserPreferencesDataStore
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
+import kotlin.test.Test
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 class GetoPreferencesDataSourceTest {
 
@@ -39,15 +44,15 @@ class GetoPreferencesDataSourceTest {
             tmpFolder.testUserPreferencesDataStore(testScope),
         )
     }
-//
-//    @Test
-//    fun shouldUseDynamicColorFalseByDefault() = testScope.runTest {
-//        assertFalse(subject.userData.first().useDynamicColor)
-//    }
-//
-//    @Test
-//    fun userShouldUseDynamicColorIsTrueWhenSet() = testScope.runTest {
-//        subject.setDynamicColorPreference(true)
-//        assertTrue(subject.userData.first().useDynamicColor)
-//    }
+
+    @Test
+    fun shouldUseDynamicColorFalseByDefault() = testScope.runTest {
+        assertFalse(subject.userData.first().useDynamicColor)
+    }
+
+    @Test
+    fun userShouldUseDynamicColorIsTrueWhenSet() = testScope.runTest {
+        subject.setDynamicColor(true)
+        assertTrue(subject.userData.first().useDynamicColor)
+    }
 }
