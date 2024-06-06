@@ -20,5 +20,15 @@ package com.android.geto.core.testing.repository
 import com.android.geto.core.data.repository.ClipboardRepository
 
 class TestClipboardRepository : ClipboardRepository {
-    override fun setPrimaryClip(label: String, text: String) {}
+    private var _sdkInt = 0
+
+    private var _versionCodeForSV2 = 32
+
+    override fun setPrimaryClip(label: String, text: String): Boolean {
+        return _sdkInt <= _versionCodeForSV2
+    }
+
+    fun setSDKInt(value: Int) {
+        _sdkInt = value
+    }
 }

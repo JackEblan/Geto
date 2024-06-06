@@ -17,13 +17,17 @@
  */
 package com.android.geto.core.data.repository
 
+import com.android.geto.core.buildversion.BuildVersionWrapper
 import com.android.geto.core.packagemanager.ClipboardManagerWrapper
 import javax.inject.Inject
 
 internal class DefaultClipboardRepository @Inject constructor(
     private val clipboardManagerWrapper: ClipboardManagerWrapper,
+    private val buildVersionWrapper: BuildVersionWrapper,
 ) : ClipboardRepository {
-    override fun setPrimaryClip(label: String, text: String) {
+    override fun setPrimaryClip(label: String, text: String): Boolean {
         clipboardManagerWrapper.setPrimaryClip(label = label, text = text)
+
+        return buildVersionWrapper.getSDKInt() <= buildVersionWrapper.getVersionCodeForSV2()
     }
 }

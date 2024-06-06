@@ -26,7 +26,6 @@ import com.android.geto.core.domain.RequestPinShortcutResult
 import com.android.geto.core.domain.RequestPinShortcutUseCase
 import com.android.geto.core.domain.RevertAppSettingsResult
 import com.android.geto.core.domain.RevertAppSettingsUseCase
-import com.android.geto.core.domain.SetPrimaryClipUseCase
 import com.android.geto.core.domain.UpdateRequestPinShortcutResult
 import com.android.geto.core.domain.UpdateRequestPinShortcutUseCase
 import com.android.geto.core.model.AppSetting
@@ -34,7 +33,6 @@ import com.android.geto.core.model.MappedApplicationInfo
 import com.android.geto.core.model.MappedShortcutInfoCompat
 import com.android.geto.core.model.SecureSetting
 import com.android.geto.core.model.SettingType
-import com.android.geto.core.testing.buildversion.TestBuildVersionWrapper
 import com.android.geto.core.testing.repository.TestAppSettingsRepository
 import com.android.geto.core.testing.repository.TestClipboardRepository
 import com.android.geto.core.testing.repository.TestPackageRepository
@@ -76,8 +74,6 @@ class AppSettingsViewModelTest {
 
     private val userDataRepository = TestUserDataRepository()
 
-    private val buildVersionWrapper = TestBuildVersionWrapper()
-
     private val savedStateHandle = SavedStateHandle()
 
     private lateinit var applyAppSettingsUseCase: ApplyAppSettingsUseCase
@@ -85,8 +81,6 @@ class AppSettingsViewModelTest {
     private lateinit var revertAppSettingsUseCase: RevertAppSettingsUseCase
 
     private lateinit var autoLaunchUseCase: AutoLaunchUseCase
-
-    private lateinit var setPrimaryClipUseCase: SetPrimaryClipUseCase
 
     private lateinit var requestPinShortcutUseCase: RequestPinShortcutUseCase
 
@@ -123,11 +117,6 @@ class AppSettingsViewModelTest {
 
         )
 
-        setPrimaryClipUseCase = SetPrimaryClipUseCase(
-            clipboardRepository = clipboardRepository,
-            buildVersionWrapper = buildVersionWrapper,
-        )
-
         requestPinShortcutUseCase =
             RequestPinShortcutUseCase(shortcutRepository = shortcutRepository)
 
@@ -138,12 +127,12 @@ class AppSettingsViewModelTest {
             savedStateHandle = savedStateHandle,
             appSettingsRepository = appSettingsRepository,
             packageRepository = packageRepository,
+            clipboardRepository = clipboardRepository,
             secureSettingsRepository = secureSettingsRepository,
             shortcutRepository = shortcutRepository,
             applyAppSettingsUseCase = applyAppSettingsUseCase,
             revertAppSettingsUseCase = revertAppSettingsUseCase,
             autoLaunchUseCase = autoLaunchUseCase,
-            setPrimaryClipUseCase = setPrimaryClipUseCase,
             requestPinShortcutUseCase = requestPinShortcutUseCase,
             updateRequestPinShortcutUseCase = updateRequestPinShortcutUseCase,
         )
@@ -447,7 +436,7 @@ class AppSettingsViewModelTest {
 
     @Test
     fun setPrimaryClipResult_isFalse_whenCopyPermissionCommand() = runTest {
-        buildVersionWrapper.setSDKInt(33)
+        clipboardRepository.setSDKInt(33)
 
         viewModel.copyPermissionCommand()
 
@@ -459,7 +448,7 @@ class AppSettingsViewModelTest {
 
     @Test
     fun setPrimaryClipResult_isTrue_whenCopyPermissionCommand() = runTest {
-        buildVersionWrapper.setSDKInt(32)
+        clipboardRepository.setSDKInt(32)
 
         viewModel.copyPermissionCommand()
 

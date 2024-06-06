@@ -33,6 +33,7 @@ android {
 }
 
 dependencies {
+    implementation(projects.core.buildVersion)
     implementation(projects.core.common)
     implementation(projects.core.database)
     implementation(projects.core.datastore)

@@ -18,5 +18,5 @@
 package com.android.geto.core.data.repository
 
 interface ClipboardRepository {
-    fun setPrimaryClip(label: String, text: String)
+    fun setPrimaryClip(label: String, text: String): Boolean
 }

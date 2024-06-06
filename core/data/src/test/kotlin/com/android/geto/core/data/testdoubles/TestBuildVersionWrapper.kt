@@ -15,20 +15,18 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.core.domain
+package com.android.geto.core.data.testdoubles
 
 import com.android.geto.core.buildversion.BuildVersionWrapper
-import com.android.geto.core.data.repository.ClipboardRepository
-import javax.inject.Inject
 
-class SetPrimaryClipUseCase @Inject constructor(
-    private val clipboardRepository: ClipboardRepository,
-    private val buildVersionWrapper: BuildVersionWrapper,
-) {
+class TestBuildVersionWrapper : BuildVersionWrapper {
+    private var _sdkInt = 0
 
-    operator fun invoke(label: String, text: String): Boolean {
-        clipboardRepository.setPrimaryClip(label, text)
+    override fun getSDKInt(): Int = _sdkInt
 
-        return buildVersionWrapper.getSDKInt() <= buildVersionWrapper.getVersionCodeForSV2()
+    override fun getVersionCodeForSV2(): Int = 32
+
+    fun setSDKInt(value: Int) {
+        _sdkInt = value
     }
 }

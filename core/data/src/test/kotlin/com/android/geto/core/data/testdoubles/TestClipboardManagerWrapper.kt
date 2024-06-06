@@ -15,18 +15,10 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.core.testing.buildversion
+package com.android.geto.core.data.testdoubles
 
-import com.android.geto.core.buildversion.BuildVersionWrapper
+import com.android.geto.core.packagemanager.ClipboardManagerWrapper
 
-class TestBuildVersionWrapper : BuildVersionWrapper {
-    private var _sdkInt = 0
-
-    override fun getSDKInt(): Int = _sdkInt
-
-    override fun getVersionCodeForSV2(): Int = 32
-
-    fun setSDKInt(value: Int) {
-        _sdkInt = value
-    }
+internal class TestClipboardManagerWrapper : ClipboardManagerWrapper {
+    override fun setPrimaryClip(label: String, text: String) {}
 }

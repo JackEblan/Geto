@@ -15,42 +15,46 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.core.domain
+package com.android.geto.core.data.repository
 
-import com.android.geto.core.testing.buildversion.TestBuildVersionWrapper
-import com.android.geto.core.testing.repository.TestClipboardRepository
+import com.android.geto.core.data.testdoubles.TestBuildVersionWrapper
+import com.android.geto.core.data.testdoubles.TestClipboardManagerWrapper
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 
-class SetPrimaryClipUseCaseTest {
-    private lateinit var setPrimaryClipUseCase: SetPrimaryClipUseCase
+class ClipboardManagerTest {
+    private lateinit var clipboardRepository: ClipboardRepository
 
-    private val clipboardRepository = TestClipboardRepository()
+    private lateinit var clipboardManagerWrapper: TestClipboardManagerWrapper
 
-    private val buildVersionWrapper = TestBuildVersionWrapper()
+    private lateinit var buildVersionWrapper: TestBuildVersionWrapper
 
     @Before
     fun setUp() {
-        setPrimaryClipUseCase = SetPrimaryClipUseCase(
-            clipboardRepository = clipboardRepository,
+        clipboardManagerWrapper = TestClipboardManagerWrapper()
+
+        buildVersionWrapper = TestBuildVersionWrapper()
+
+        clipboardRepository = DefaultClipboardRepository(
+            clipboardManagerWrapper = clipboardManagerWrapper,
             buildVersionWrapper = buildVersionWrapper,
         )
     }
 
     @Test
-    fun setPrimaryClipUseCase_isFalse_whenBuildVersion_isHigherThan32() = runTest {
+    fun setPrimaryClip_isFalse_whenBuildVersion_isHigherThan32() = runTest {
         buildVersionWrapper.setSDKInt(33)
 
-        assertFalse(setPrimaryClipUseCase(label = "Label", text = "Text"))
+        assertFalse(clipboardRepository.setPrimaryClip(label = "Label", text = "Text"))
     }
 
     @Test
     fun setPrimaryClipUseCase_isTrue_whenBuildVersion_is32AndLower() = runTest {
         buildVersionWrapper.setSDKInt(31)
 
-        assertTrue(setPrimaryClipUseCase(label = "Label", text = "Text"))
+        assertTrue(clipboardRepository.setPrimaryClip(label = "Label", text = "Text"))
     }
 }

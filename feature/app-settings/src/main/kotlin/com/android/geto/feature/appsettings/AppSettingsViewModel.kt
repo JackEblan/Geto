@@ -22,6 +22,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.android.geto.core.data.repository.AppSettingsRepository
+import com.android.geto.core.data.repository.ClipboardRepository
 import com.android.geto.core.data.repository.PackageRepository
 import com.android.geto.core.data.repository.SecureSettingsRepository
 import com.android.geto.core.data.repository.ShortcutRepository
@@ -33,7 +34,6 @@ import com.android.geto.core.domain.RequestPinShortcutResult
 import com.android.geto.core.domain.RequestPinShortcutUseCase
 import com.android.geto.core.domain.RevertAppSettingsResult
 import com.android.geto.core.domain.RevertAppSettingsUseCase
-import com.android.geto.core.domain.SetPrimaryClipUseCase
 import com.android.geto.core.domain.UpdateRequestPinShortcutResult
 import com.android.geto.core.domain.UpdateRequestPinShortcutUseCase
 import com.android.geto.core.model.AppSetting
@@ -56,12 +56,12 @@ class AppSettingsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val appSettingsRepository: AppSettingsRepository,
     private val packageRepository: PackageRepository,
+    private val clipboardRepository: ClipboardRepository,
     private val secureSettingsRepository: SecureSettingsRepository,
     private val shortcutRepository: ShortcutRepository,
     private val applyAppSettingsUseCase: ApplyAppSettingsUseCase,
     private val revertAppSettingsUseCase: RevertAppSettingsUseCase,
     private val autoLaunchUseCase: AutoLaunchUseCase,
-    private val setPrimaryClipUseCase: SetPrimaryClipUseCase,
     private val requestPinShortcutUseCase: RequestPinShortcutUseCase,
     private val updateRequestPinShortcutUseCase: UpdateRequestPinShortcutUseCase,
 ) : ViewModel() {
@@ -165,7 +165,7 @@ class AppSettingsViewModel @Inject constructor(
 
     fun copyPermissionCommand() {
         _setPrimaryClipResult.update {
-            setPrimaryClipUseCase(
+            clipboardRepository.setPrimaryClip(
                 label = permissionCommandLabel,
                 text = permissionCommandText,
             )
