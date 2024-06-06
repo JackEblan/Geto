@@ -25,7 +25,7 @@ class TestSecureSettingsWrapper : SecureSettingsWrapper {
 
     private var writeSecureSettings = false
 
-    private var secureSettings = emptyList<SecureSetting>()
+    private var secureSettings = listOf<SecureSetting>()
 
     override suspend fun canWriteSecureSettings(
         settingType: SettingType,

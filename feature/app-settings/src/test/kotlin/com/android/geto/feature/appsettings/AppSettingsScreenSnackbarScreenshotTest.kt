@@ -21,9 +21,7 @@ import androidx.activity.ComponentActivity
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.android.geto.core.designsystem.theme.GetoTheme
-import com.android.geto.core.domain.ApplyAppSettingsResult
 import com.android.geto.core.domain.AutoLaunchResult
-import com.android.geto.core.domain.RevertAppSettingsResult
 import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.SettingType
 import com.android.geto.core.screenshottesting.util.captureSnackbarForMultiDevice
@@ -83,9 +81,9 @@ class AppSettingsScreenSnackbarScreenshotTest {
                     mappedShortcutInfoCompat = null,
                     secureSettings = emptyList(),
                     permissionCommandText = "",
-                    applyAppSettingsResult = ApplyAppSettingsResult.NoResult,
-                    revertAppSettingsResult = RevertAppSettingsResult.NoResult,
-                    autoLaunchResult = AutoLaunchResult.NoResult,
+                    applyAppSettingsResult = null,
+                    revertAppSettingsResult = null,
+                    autoLaunchResult = AutoLaunchResult.Ignore,
                     requestPinShortcutResult = null,
                     updateRequestPinShortcutResult = null,
                     setPrimaryClipResult = false,
@@ -101,7 +99,7 @@ class AppSettingsScreenSnackbarScreenshotTest {
                     onResetRevertAppSettingsResult = {},
                     onResetAutoLaunchResult = {},
                     onResetShortcutResult = {},
-                    onResetClipboardResult = {},
+                    onResetSetPrimaryClipResult = {},
                     onGetSecureSettingsByName = { _, _ -> },
                     onAddAppSetting = {},
                     onCopyPermissionCommand = {},

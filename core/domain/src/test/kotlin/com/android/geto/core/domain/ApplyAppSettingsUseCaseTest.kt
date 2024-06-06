@@ -32,16 +32,22 @@ import kotlin.test.assertNotNull
 class ApplyAppSettingsUseCaseTest {
     private lateinit var applyAppSettingsUseCase: ApplyAppSettingsUseCase
 
-    private val packageRepository = TestPackageRepository()
+    private lateinit var packageRepository: TestPackageRepository
 
-    private val appSettingsRepository = TestAppSettingsRepository()
+    private lateinit var appSettingsRepository: TestAppSettingsRepository
 
-    private val secureSettingsRepository = TestSecureSettingsRepository()
+    private lateinit var secureSettingsRepository: TestSecureSettingsRepository
 
     private val packageName = "com.android.geto"
 
     @Before
     fun setup() {
+        packageRepository = TestPackageRepository()
+
+        appSettingsRepository = TestAppSettingsRepository()
+
+        secureSettingsRepository = TestSecureSettingsRepository()
+
         applyAppSettingsUseCase = ApplyAppSettingsUseCase(
             packageRepository = packageRepository,
             appSettingsRepository = appSettingsRepository,
@@ -151,6 +157,10 @@ class ApplyAppSettingsUseCaseTest {
 
         appSettingsRepository.setAppSettings(appSettings)
 
-        assertIs<ApplyAppSettingsResult.IllegalArgumentException>(applyAppSettingsUseCase(packageName = packageName))
+        assertIs<ApplyAppSettingsResult.IllegalArgumentException>(
+            applyAppSettingsUseCase(
+                packageName = packageName,
+            ),
+        )
     }
 }

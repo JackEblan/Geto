@@ -26,6 +26,7 @@ import org.junit.Before
 import org.junit.Test
 
 class ClipboardManagerTest {
+
     private lateinit var clipboardRepository: ClipboardRepository
 
     private lateinit var clipboardManagerWrapper: TestClipboardManagerWrapper

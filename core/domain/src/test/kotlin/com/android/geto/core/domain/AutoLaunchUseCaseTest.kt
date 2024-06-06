@@ -36,18 +36,26 @@ import kotlin.test.assertNotNull
 class AutoLaunchUseCaseTest {
     private lateinit var autoLaunchUseCase: AutoLaunchUseCase
 
-    private val packageRepository = TestPackageRepository()
+    private lateinit var packageRepository: TestPackageRepository
 
-    private val appSettingsRepository = TestAppSettingsRepository()
+    private lateinit var appSettingsRepository: TestAppSettingsRepository
 
-    private val userDataRepository = TestUserDataRepository()
+    private lateinit var userDataRepository: TestUserDataRepository
 
-    private val secureSettingsRepository = TestSecureSettingsRepository()
+    private lateinit var secureSettingsRepository: TestSecureSettingsRepository
 
     private val packageName = "com.android.geto"
 
     @Before
     fun setup() {
+        packageRepository = TestPackageRepository()
+
+        appSettingsRepository = TestAppSettingsRepository()
+
+        userDataRepository = TestUserDataRepository()
+
+        secureSettingsRepository = TestSecureSettingsRepository()
+
         autoLaunchUseCase = AutoLaunchUseCase(
             packageRepository = packageRepository,
             userDataRepository = userDataRepository,
@@ -69,7 +77,7 @@ class AutoLaunchUseCaseTest {
             ),
         )
 
-        assertIs<AutoLaunchResult.NoResult>(autoLaunchUseCase(packageName = packageName))
+        assertIs<AutoLaunchResult.Ignore>(autoLaunchUseCase(packageName = packageName))
     }
 
     @Test
@@ -98,7 +106,7 @@ class AutoLaunchUseCaseTest {
             ),
         )
 
-        assertIs<AutoLaunchResult.NoResult>(autoLaunchUseCase(packageName = packageName))
+        assertIs<AutoLaunchResult.Ignore>(autoLaunchUseCase(packageName = packageName))
     }
 
     @Test
@@ -234,6 +242,6 @@ class AutoLaunchUseCaseTest {
 
         appSettingsRepository.setAppSettings(appSettings)
 
-        assertIs<AutoLaunchResult.NoResult>(autoLaunchUseCase(packageName = packageName))
+        assertIs<AutoLaunchResult.Ignore>(autoLaunchUseCase(packageName = packageName))
     }
 }

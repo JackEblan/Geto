@@ -27,10 +27,12 @@ import kotlin.test.assertIs
 class UpdateRequestPinShortcutUseCaseTest {
     private lateinit var updateRequestPinShortcutUseCase: UpdateRequestPinShortcutUseCase
 
-    private val shortcutRepository = TestShortcutRepository()
+    private lateinit var shortcutRepository: TestShortcutRepository
 
     @Before
     fun setUp() {
+        shortcutRepository = TestShortcutRepository()
+
         updateRequestPinShortcutUseCase = UpdateRequestPinShortcutUseCase(
             shortcutRepository = shortcutRepository,
         )

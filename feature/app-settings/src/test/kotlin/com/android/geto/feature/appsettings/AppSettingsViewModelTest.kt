@@ -62,19 +62,19 @@ class AppSettingsViewModelTest {
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
-    private val packageRepository = TestPackageRepository()
+    private lateinit var packageRepository: TestPackageRepository
 
-    private val appSettingsRepository = TestAppSettingsRepository()
+    private lateinit var appSettingsRepository: TestAppSettingsRepository
 
-    private val secureSettingsRepository = TestSecureSettingsRepository()
+    private lateinit var secureSettingsRepository: TestSecureSettingsRepository
 
-    private val clipboardRepository = TestClipboardRepository()
+    private lateinit var clipboardRepository: TestClipboardRepository
 
-    private val shortcutRepository = TestShortcutRepository()
+    private lateinit var shortcutRepository: TestShortcutRepository
 
-    private val userDataRepository = TestUserDataRepository()
+    private lateinit var userDataRepository: TestUserDataRepository
 
-    private val savedStateHandle = SavedStateHandle()
+    private lateinit var savedStateHandle: SavedStateHandle
 
     private lateinit var applyAppSettingsUseCase: ApplyAppSettingsUseCase
 
@@ -94,9 +94,19 @@ class AppSettingsViewModelTest {
 
     @Before
     fun setup() {
-        savedStateHandle[PACKAGE_NAME_ARG] = packageName
+        packageRepository = TestPackageRepository()
 
-        savedStateHandle[APP_NAME_ARG] = appName
+        appSettingsRepository = TestAppSettingsRepository()
+
+        secureSettingsRepository = TestSecureSettingsRepository()
+
+        clipboardRepository = TestClipboardRepository()
+
+        shortcutRepository = TestShortcutRepository()
+
+        userDataRepository = TestUserDataRepository()
+
+        savedStateHandle = SavedStateHandle()
 
         applyAppSettingsUseCase = ApplyAppSettingsUseCase(
             packageRepository = packageRepository,
@@ -123,6 +133,10 @@ class AppSettingsViewModelTest {
         updateRequestPinShortcutUseCase =
             UpdateRequestPinShortcutUseCase(shortcutRepository = shortcutRepository)
 
+        savedStateHandle[PACKAGE_NAME_ARG] = packageName
+
+        savedStateHandle[APP_NAME_ARG] = appName
+
         viewModel = AppSettingsViewModel(
             savedStateHandle = savedStateHandle,
             appSettingsRepository = appSettingsRepository,
@@ -144,18 +158,18 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun applyAppSettingsResult_isNoResult_whenStarted() {
-        assertIs<ApplyAppSettingsResult.NoResult>(viewModel.applyAppSettingsResult.value)
+    fun applyAppSettingsResult_isNull_whenStarted() {
+        assertNull(viewModel.applyAppSettingsResult.value)
     }
 
     @Test
-    fun revertAppSettingsResult_isNoResult_whenStarted() {
-        assertIs<RevertAppSettingsResult.NoResult>(viewModel.revertAppSettingsResult.value)
+    fun revertAppSettingsResult_isNull_whenStarted() {
+        assertNull(viewModel.revertAppSettingsResult.value)
     }
 
     @Test
     fun autoLaunchResult_isNoResult_whenStarted() {
-        assertIs<AutoLaunchResult.NoResult>(viewModel.autoLaunchResult.value)
+        assertIs<AutoLaunchResult.Ignore>(viewModel.autoLaunchResult.value)
     }
 
     @Test

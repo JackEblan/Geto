@@ -29,14 +29,18 @@ import kotlin.test.assertIs
 class RevertAppSettingsUseCaseTest {
     private lateinit var revertAppSettingsUseCase: RevertAppSettingsUseCase
 
-    private val appSettingsRepository = TestAppSettingsRepository()
+    private lateinit var appSettingsRepository: TestAppSettingsRepository
 
-    private val secureSettingsRepository = TestSecureSettingsRepository()
+    private lateinit var secureSettingsRepository: TestSecureSettingsRepository
 
     private val packageName = "com.android.geto"
 
     @Before
     fun setup() {
+        appSettingsRepository = TestAppSettingsRepository()
+
+        secureSettingsRepository = TestSecureSettingsRepository()
+
         revertAppSettingsUseCase = RevertAppSettingsUseCase(
             appSettingsRepository = appSettingsRepository,
             secureSettingsRepository = secureSettingsRepository,
@@ -135,6 +139,10 @@ class RevertAppSettingsUseCaseTest {
 
         appSettingsRepository.setAppSettings(appSettings)
 
-        assertIs<RevertAppSettingsResult.IllegalArgumentException>(revertAppSettingsUseCase(packageName = packageName))
+        assertIs<RevertAppSettingsResult.IllegalArgumentException>(
+            revertAppSettingsUseCase(
+                packageName = packageName,
+            ),
+        )
     }
 }

@@ -59,6 +59,4 @@ sealed interface RevertAppSettingsResult {
     data object EmptyAppSettings : RevertAppSettingsResult
 
     data object DisabledAppSettings : RevertAppSettingsResult
-
-    data object NoResult : RevertAppSettingsResult
 }

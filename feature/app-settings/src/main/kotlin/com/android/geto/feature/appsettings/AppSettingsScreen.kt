@@ -159,7 +159,7 @@ internal fun AppSettingsRoute(
         onResetRevertAppSettingsResult = viewModel::resetRevertAppSettingsResult,
         onResetAutoLaunchResult = viewModel::resetAutoLaunchResult,
         onResetShortcutResult = viewModel::resetShortcutResult,
-        onResetClipboardResult = viewModel::resetClipboardResult,
+        onResetSetPrimaryClipResult = viewModel::resetSetPrimaryClipResult,
         onGetSecureSettingsByName = viewModel::getSecureSettingsByName,
         onAddAppSetting = viewModel::addAppSettings,
         onCopyPermissionCommand = viewModel::copyPermissionCommand,
@@ -180,8 +180,8 @@ internal fun AppSettingsScreen(
     mappedShortcutInfoCompat: MappedShortcutInfoCompat?,
     secureSettings: List<SecureSetting>,
     permissionCommandText: String,
-    applyAppSettingsResult: ApplyAppSettingsResult,
-    revertAppSettingsResult: RevertAppSettingsResult,
+    applyAppSettingsResult: ApplyAppSettingsResult?,
+    revertAppSettingsResult: RevertAppSettingsResult?,
     autoLaunchResult: AutoLaunchResult,
     requestPinShortcutResult: RequestPinShortcutResult?,
     updateRequestPinShortcutResult: UpdateRequestPinShortcutResult?,
@@ -198,7 +198,7 @@ internal fun AppSettingsScreen(
     onResetRevertAppSettingsResult: () -> Unit,
     onResetAutoLaunchResult: () -> Unit,
     onResetShortcutResult: () -> Unit,
-    onResetClipboardResult: () -> Unit,
+    onResetSetPrimaryClipResult: () -> Unit,
     onGetSecureSettingsByName: (SettingType, String) -> Unit,
     onAddAppSetting: (AppSetting) -> Unit,
     onCopyPermissionCommand: () -> Unit,
@@ -235,7 +235,7 @@ internal fun AppSettingsScreen(
         onResetRevertAppSettingsResult = onResetRevertAppSettingsResult,
         onResetAutoLaunchResult = onResetAutoLaunchResult,
         onResetShortcutResult = onResetShortcutResult,
-        onResetClipboardResult = onResetClipboardResult,
+        onResetSetPrimaryClipResult = onResetSetPrimaryClipResult,
         onGetSecureSettingsByName = onGetSecureSettingsByName,
     )
 
@@ -321,8 +321,8 @@ private fun AppSettingsLaunchedEffects(
     applicationIcon: Drawable?,
     secureSettings: List<SecureSetting>,
     permissionCommandText: String,
-    applyAppSettingsResult: ApplyAppSettingsResult,
-    revertAppSettingsResult: RevertAppSettingsResult,
+    applyAppSettingsResult: ApplyAppSettingsResult?,
+    revertAppSettingsResult: RevertAppSettingsResult?,
     autoLaunchResult: AutoLaunchResult,
     requestPinShortcutResult: RequestPinShortcutResult?,
     updateRequestPinShortcutResult: UpdateRequestPinShortcutResult?,
@@ -334,7 +334,7 @@ private fun AppSettingsLaunchedEffects(
     onResetRevertAppSettingsResult: () -> Unit,
     onResetAutoLaunchResult: () -> Unit,
     onResetShortcutResult: () -> Unit,
-    onResetClipboardResult: () -> Unit,
+    onResetSetPrimaryClipResult: () -> Unit,
     onGetSecureSettingsByName: (SettingType, String) -> Unit,
 ) {
     val appSettingsDisabled = stringResource(id = R.string.app_settings_disabled)
@@ -374,7 +374,7 @@ private fun AppSettingsLaunchedEffects(
                 message = invalidValues,
             )
 
-            ApplyAppSettingsResult.NoResult -> Unit
+            null -> Unit
         }
 
         onResetApplyAppSettingsResult()
@@ -394,7 +394,7 @@ private fun AppSettingsLaunchedEffects(
                 message = invalidValues,
             )
 
-            RevertAppSettingsResult.NoResult -> Unit
+            null -> Unit
         }
 
         onResetRevertAppSettingsResult()
@@ -409,7 +409,7 @@ private fun AppSettingsLaunchedEffects(
 
             is AutoLaunchResult.Success -> autoLaunchResult.launchIntent?.let(context::startActivity)
             AutoLaunchResult.IllegalArgumentException -> snackbarHostState.showSnackbar(message = invalidValues)
-            AutoLaunchResult.NoResult -> Unit
+            AutoLaunchResult.Ignore -> Unit
         }
 
         onResetAutoLaunchResult()
@@ -462,7 +462,7 @@ private fun AppSettingsLaunchedEffects(
             )
         }
 
-        onResetClipboardResult()
+        onResetSetPrimaryClipResult()
     }
 
     LaunchedEffect(
@@ -792,9 +792,9 @@ private fun AppSettingsScreenLoadingStatePreview() {
             mappedShortcutInfoCompat = null,
             secureSettings = emptyList(),
             permissionCommandText = "",
-            applyAppSettingsResult = ApplyAppSettingsResult.NoResult,
-            revertAppSettingsResult = RevertAppSettingsResult.NoResult,
-            autoLaunchResult = AutoLaunchResult.NoResult,
+            applyAppSettingsResult = null,
+            revertAppSettingsResult = null,
+            autoLaunchResult = AutoLaunchResult.Ignore,
             requestPinShortcutResult = null,
             updateRequestPinShortcutResult = null,
             setPrimaryClipResult = false,
@@ -810,7 +810,7 @@ private fun AppSettingsScreenLoadingStatePreview() {
             onResetRevertAppSettingsResult = {},
             onResetAutoLaunchResult = {},
             onResetShortcutResult = {},
-            onResetClipboardResult = {},
+            onResetSetPrimaryClipResult = {},
             onGetSecureSettingsByName = { _, _ -> },
             onAddAppSetting = {},
             onCopyPermissionCommand = {},
@@ -833,9 +833,9 @@ private fun AppSettingsScreenEmptyStatePreview() {
             mappedShortcutInfoCompat = null,
             secureSettings = emptyList(),
             permissionCommandText = "",
-            applyAppSettingsResult = ApplyAppSettingsResult.NoResult,
-            revertAppSettingsResult = RevertAppSettingsResult.NoResult,
-            autoLaunchResult = AutoLaunchResult.NoResult,
+            applyAppSettingsResult = null,
+            revertAppSettingsResult = null,
+            autoLaunchResult = AutoLaunchResult.Ignore,
             requestPinShortcutResult = null,
             updateRequestPinShortcutResult = null,
             setPrimaryClipResult = false,
@@ -851,7 +851,7 @@ private fun AppSettingsScreenEmptyStatePreview() {
             onResetRevertAppSettingsResult = {},
             onResetAutoLaunchResult = {},
             onResetShortcutResult = {},
-            onResetClipboardResult = {},
+            onResetSetPrimaryClipResult = {},
             onGetSecureSettingsByName = { _, _ -> },
             onAddAppSetting = {},
             onCopyPermissionCommand = {},
@@ -876,9 +876,9 @@ private fun AppSettingsScreenSuccessStatePreview(
             mappedShortcutInfoCompat = null,
             secureSettings = emptyList(),
             permissionCommandText = "",
-            applyAppSettingsResult = ApplyAppSettingsResult.NoResult,
-            revertAppSettingsResult = RevertAppSettingsResult.NoResult,
-            autoLaunchResult = AutoLaunchResult.NoResult,
+            applyAppSettingsResult = null,
+            revertAppSettingsResult = null,
+            autoLaunchResult = AutoLaunchResult.Ignore,
             requestPinShortcutResult = null,
             updateRequestPinShortcutResult = null,
             setPrimaryClipResult = false,
@@ -894,7 +894,7 @@ private fun AppSettingsScreenSuccessStatePreview(
             onResetRevertAppSettingsResult = {},
             onResetAutoLaunchResult = {},
             onResetShortcutResult = {},
-            onResetClipboardResult = {},
+            onResetSetPrimaryClipResult = {},
             onGetSecureSettingsByName = { _, _ -> },
             onAddAppSetting = {},
             onCopyPermissionCommand = {},

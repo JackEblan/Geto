@@ -34,12 +34,14 @@ class AppsViewModelTest {
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
-    private val packageRepository = TestPackageRepository()
+    private lateinit var packageRepository: TestPackageRepository
 
     private lateinit var viewModel: AppsViewModel
 
     @Before
     fun setup() {
+        packageRepository = TestPackageRepository()
+
         viewModel = AppsViewModel(packageRepository)
     }
 

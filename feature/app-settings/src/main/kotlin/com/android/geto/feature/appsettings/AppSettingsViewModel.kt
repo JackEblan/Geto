@@ -75,14 +75,14 @@ class AppSettingsViewModel @Inject constructor(
     val mappedShortcutInfoCompat = _mappedShortcutInfoCompat.asStateFlow()
 
     private val _applyAppSettingsResult =
-        MutableStateFlow<ApplyAppSettingsResult>(ApplyAppSettingsResult.NoResult)
+        MutableStateFlow<ApplyAppSettingsResult?>(null)
     val applyAppSettingsResult = _applyAppSettingsResult.asStateFlow()
 
     private val _revertAppSettingsResult =
-        MutableStateFlow<RevertAppSettingsResult>(RevertAppSettingsResult.NoResult)
+        MutableStateFlow<RevertAppSettingsResult?>(null)
     val revertAppSettingsResult = _revertAppSettingsResult.asStateFlow()
 
-    private val _autoLaunchResult = MutableStateFlow<AutoLaunchResult>(AutoLaunchResult.NoResult)
+    private val _autoLaunchResult = MutableStateFlow<AutoLaunchResult>(AutoLaunchResult.Ignore)
     val autoLaunchResult = _autoLaunchResult.asStateFlow()
 
     private val _shortcutResult = MutableStateFlow<String?>(null)
@@ -214,15 +214,15 @@ class AppSettingsViewModel @Inject constructor(
     }
 
     fun resetApplyAppSettingsResult() {
-        _applyAppSettingsResult.update { ApplyAppSettingsResult.NoResult }
+        _applyAppSettingsResult.update { null }
     }
 
     fun resetRevertAppSettingsResult() {
-        _revertAppSettingsResult.update { RevertAppSettingsResult.NoResult }
+        _revertAppSettingsResult.update { null }
     }
 
     fun resetAutoLaunchResult() {
-        _autoLaunchResult.update { AutoLaunchResult.NoResult }
+        _autoLaunchResult.update { AutoLaunchResult.Ignore }
     }
 
     fun resetShortcutResult() {
@@ -230,7 +230,7 @@ class AppSettingsViewModel @Inject constructor(
         _updateRequestPinShortcutResult.update { null }
     }
 
-    fun resetClipboardResult() {
+    fun resetSetPrimaryClipResult() {
         _setPrimaryClipResult.update { false }
     }
 }

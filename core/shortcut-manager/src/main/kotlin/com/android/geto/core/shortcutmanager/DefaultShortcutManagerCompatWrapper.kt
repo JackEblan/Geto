@@ -27,8 +27,7 @@ import javax.inject.Inject
 internal class DefaultShortcutManagerCompatWrapper @Inject constructor(@ApplicationContext private val context: Context) :
     ShortcutManagerCompatWrapper {
 
-    override val flagMatchPinned: Int
-        get() = ShortcutManagerCompat.FLAG_MATCH_PINNED
+    override val flagMatchPinned = ShortcutManagerCompat.FLAG_MATCH_PINNED
 
     override fun isRequestPinShortcutSupported(): Boolean {
         return ShortcutManagerCompat.isRequestPinShortcutSupported(context)

@@ -29,11 +29,12 @@ import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 class PackageRepositoryTest {
+
+    private val testDispatcher = StandardTestDispatcher()
+
     private lateinit var packageManagerWrapper: TestPackageManagerWrapper
 
     private lateinit var subject: PackageRepository
-
-    private val testDispatcher = StandardTestDispatcher()
 
     @Before
     fun setup() {

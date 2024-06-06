@@ -23,9 +23,7 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
-import com.android.geto.core.domain.ApplyAppSettingsResult
 import com.android.geto.core.domain.AutoLaunchResult
-import com.android.geto.core.domain.RevertAppSettingsResult
 import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.SettingType
 import org.junit.Rule
@@ -60,9 +58,9 @@ class AppSettingsScreenTest {
                 mappedShortcutInfoCompat = null,
                 secureSettings = emptyList(),
                 permissionCommandText = "",
-                applyAppSettingsResult = ApplyAppSettingsResult.NoResult,
-                revertAppSettingsResult = RevertAppSettingsResult.NoResult,
-                autoLaunchResult = AutoLaunchResult.NoResult,
+                applyAppSettingsResult = null,
+                revertAppSettingsResult = null,
+                autoLaunchResult = AutoLaunchResult.Ignore,
                 requestPinShortcutResult = null,
                 updateRequestPinShortcutResult = null,
                 setPrimaryClipResult = false,
@@ -78,7 +76,7 @@ class AppSettingsScreenTest {
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
                 onResetShortcutResult = {},
-                onResetClipboardResult = {},
+                onResetSetPrimaryClipResult = {},
                 onGetSecureSettingsByName = { _, _ -> },
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
@@ -102,9 +100,9 @@ class AppSettingsScreenTest {
                 mappedShortcutInfoCompat = null,
                 secureSettings = emptyList(),
                 permissionCommandText = "",
-                applyAppSettingsResult = ApplyAppSettingsResult.NoResult,
-                revertAppSettingsResult = RevertAppSettingsResult.NoResult,
-                autoLaunchResult = AutoLaunchResult.NoResult,
+                applyAppSettingsResult = null,
+                revertAppSettingsResult = null,
+                autoLaunchResult = AutoLaunchResult.Ignore,
                 requestPinShortcutResult = null,
                 updateRequestPinShortcutResult = null,
                 setPrimaryClipResult = false,
@@ -120,7 +118,7 @@ class AppSettingsScreenTest {
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
                 onResetShortcutResult = {},
-                onResetClipboardResult = {},
+                onResetSetPrimaryClipResult = {},
                 onGetSecureSettingsByName = { _, _ -> },
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
@@ -144,9 +142,9 @@ class AppSettingsScreenTest {
                 mappedShortcutInfoCompat = null,
                 secureSettings = emptyList(),
                 permissionCommandText = "",
-                applyAppSettingsResult = ApplyAppSettingsResult.NoResult,
-                revertAppSettingsResult = RevertAppSettingsResult.NoResult,
-                autoLaunchResult = AutoLaunchResult.NoResult,
+                applyAppSettingsResult = null,
+                revertAppSettingsResult = null,
+                autoLaunchResult = AutoLaunchResult.Ignore,
                 requestPinShortcutResult = null,
                 updateRequestPinShortcutResult = null,
                 setPrimaryClipResult = false,
@@ -162,7 +160,7 @@ class AppSettingsScreenTest {
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
                 onResetShortcutResult = {},
-                onResetClipboardResult = {},
+                onResetSetPrimaryClipResult = {},
                 onGetSecureSettingsByName = { _, _ -> },
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},

@@ -38,7 +38,7 @@ class AutoLaunchUseCase @Inject constructor(
 
         val appSettings = appSettingsRepository.getAppSettingsByPackageName(packageName).first()
 
-        if (userData.useAutoLaunch.not() || appSettings.isEmpty() || appSettings.all { it.enabled.not() }) return AutoLaunchResult.NoResult
+        if (userData.useAutoLaunch.not() || appSettings.isEmpty() || appSettings.all { it.enabled.not() }) return AutoLaunchResult.Ignore
 
         return try {
             if (secureSettingsRepository.applySecureSettings(appSettings)) {
@@ -63,5 +63,5 @@ sealed interface AutoLaunchResult {
 
     data object IllegalArgumentException : AutoLaunchResult
 
-    data object NoResult : AutoLaunchResult
+    data object Ignore : AutoLaunchResult
 }

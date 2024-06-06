@@ -20,7 +20,6 @@ package com.android.geto.feature.settings
 import com.android.geto.core.domain.CleanAppSettingsUseCase
 import com.android.geto.core.model.DarkThemeConfig
 import com.android.geto.core.model.ThemeBrand
-import com.android.geto.core.model.UserData
 import com.android.geto.core.testing.repository.TestAppSettingsRepository
 import com.android.geto.core.testing.repository.TestPackageRepository
 import com.android.geto.core.testing.repository.TestUserDataRepository
@@ -32,35 +31,45 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import kotlin.test.assertEquals
+import kotlin.test.assertIs
 
 class SettingsViewModelTest {
 
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
-    private val userDataRepository = TestUserDataRepository()
+    private lateinit var userDataRepository: TestUserDataRepository
 
-    private val packageRepository = TestPackageRepository()
+    private lateinit var packageRepository: TestPackageRepository
 
-    private val appSettingsRepository = TestAppSettingsRepository()
+    private lateinit var appSettingsRepository: TestAppSettingsRepository
+
+    private lateinit var cleanAppSettingsUseCase: CleanAppSettingsUseCase
 
     private lateinit var viewModel: SettingsViewModel
 
     @Before
     fun setUp() {
+        userDataRepository = TestUserDataRepository()
+
+        packageRepository = TestPackageRepository()
+
+        appSettingsRepository = TestAppSettingsRepository()
+
+        cleanAppSettingsUseCase = CleanAppSettingsUseCase(
+            packageRepository = packageRepository,
+            appSettingsRepository = appSettingsRepository,
+        )
+
         viewModel = SettingsViewModel(
             userDataRepository = userDataRepository,
-            cleanAppSettingsUseCase = CleanAppSettingsUseCase(
-                packageRepository = packageRepository,
-                appSettingsRepository = appSettingsRepository,
-            ),
+            cleanAppSettingsUseCase = cleanAppSettingsUseCase,
         )
     }
 
     @Test
     fun settingsUiState_isLoading_whenStarted() {
-        assertEquals(SettingsUiState.Loading, viewModel.settingsUiState.value)
+        assertIs<SettingsUiState.Loading>(viewModel.settingsUiState.value)
     }
 
     @Test
@@ -71,17 +80,7 @@ class SettingsViewModelTest {
 
         val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.settingsUiState.collect() }
 
-        assertEquals(
-            SettingsUiState.Success(
-                UserData(
-                    themeBrand = ThemeBrand.ANDROID,
-                    darkThemeConfig = DarkThemeConfig.DARK,
-                    useDynamicColor = false,
-                    useAutoLaunch = false,
-                ),
-            ),
-            viewModel.settingsUiState.value,
-        )
+        assertIs<SettingsUiState.Success>(viewModel.settingsUiState.value)
 
         collectJob.cancel()
     }

@@ -25,7 +25,7 @@ import com.android.geto.core.model.MappedApplicationInfo
 import com.android.geto.core.packagemanager.PackageManagerWrapper
 
 class TestPackageManagerWrapper : PackageManagerWrapper {
-    private var _mappedApplicationInfoList = emptyList<MappedApplicationInfo>()
+    private var _mappedApplicationInfoList = listOf<MappedApplicationInfo>()
 
     override fun queryIntentActivities(intent: Intent, flags: Int): List<MappedApplicationInfo> {
         return _mappedApplicationInfoList
