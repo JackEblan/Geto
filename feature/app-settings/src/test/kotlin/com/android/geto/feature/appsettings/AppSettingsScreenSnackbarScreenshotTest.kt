@@ -88,7 +88,7 @@ class AppSettingsScreenSnackbarScreenshotTest {
                     autoLaunchResult = AutoLaunchResult.NoResult,
                     requestPinShortcutResult = null,
                     updateRequestPinShortcutResult = null,
-                    clipboardResult = false,
+                    setPrimaryClipResult = false,
                     onNavigationIconClick = {},
                     onRevertAppSettings = {},
                     onGetShortcut = {},

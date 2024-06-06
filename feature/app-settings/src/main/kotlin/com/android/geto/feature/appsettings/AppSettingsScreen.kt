@@ -119,7 +119,7 @@ internal fun AppSettingsRoute(
     val mappedShortcutInfoCompat =
         viewModel.mappedShortcutInfoCompat.collectAsStateWithLifecycle().value
 
-    val clipboardResult = viewModel.setPrimaryClipResult.collectAsStateWithLifecycle().value
+    val setPrimaryClipResult = viewModel.setPrimaryClipResult.collectAsStateWithLifecycle().value
 
     val requestPinShortcutResult =
         viewModel.requestPinShortcutResult.collectAsStateWithLifecycle().value
@@ -146,7 +146,7 @@ internal fun AppSettingsRoute(
         autoLaunchResult = autoLaunchResult,
         requestPinShortcutResult = requestPinShortcutResult,
         updateRequestPinShortcutResult = updateRequestPinShortcutResult,
-        clipboardResult = clipboardResult,
+        setPrimaryClipResult = setPrimaryClipResult,
         onNavigationIconClick = onNavigationIconClick,
         onRevertAppSettings = viewModel::revertAppSettings,
         onGetShortcut = viewModel::getShortcut,
@@ -185,7 +185,7 @@ internal fun AppSettingsScreen(
     autoLaunchResult: AutoLaunchResult,
     requestPinShortcutResult: RequestPinShortcutResult?,
     updateRequestPinShortcutResult: UpdateRequestPinShortcutResult?,
-    clipboardResult: Boolean,
+    setPrimaryClipResult: Boolean,
     onNavigationIconClick: () -> Unit,
     onRevertAppSettings: () -> Unit,
     onGetShortcut: () -> Unit,
@@ -227,7 +227,7 @@ internal fun AppSettingsScreen(
         autoLaunchResult = autoLaunchResult,
         requestPinShortcutResult = requestPinShortcutResult,
         updateRequestPinShortcutResult = updateRequestPinShortcutResult,
-        clipboardResult = clipboardResult,
+        setPrimaryClipResult = setPrimaryClipResult,
         onAutoLaunchApp = onAutoLaunchApp,
         onGetApplicationIcon = onGetApplicationIcon,
         onGetShortcut = onGetShortcut,
@@ -326,7 +326,7 @@ private fun AppSettingsLaunchedEffects(
     autoLaunchResult: AutoLaunchResult,
     requestPinShortcutResult: RequestPinShortcutResult?,
     updateRequestPinShortcutResult: UpdateRequestPinShortcutResult?,
-    clipboardResult: Boolean,
+    setPrimaryClipResult: Boolean,
     onAutoLaunchApp: () -> Unit,
     onGetApplicationIcon: () -> Unit,
     onGetShortcut: () -> Unit,
@@ -455,8 +455,8 @@ private fun AppSettingsLaunchedEffects(
         onResetShortcutResult()
     }
 
-    LaunchedEffect(key1 = clipboardResult) {
-        if (clipboardResult) {
+    LaunchedEffect(key1 = setPrimaryClipResult) {
+        if (setPrimaryClipResult) {
             snackbarHostState.showSnackbar(
                 message = String.format(copiedToClipboard, permissionCommandText),
             )
@@ -797,7 +797,7 @@ private fun AppSettingsScreenLoadingStatePreview() {
             autoLaunchResult = AutoLaunchResult.NoResult,
             requestPinShortcutResult = null,
             updateRequestPinShortcutResult = null,
-            clipboardResult = false,
+            setPrimaryClipResult = false,
             onNavigationIconClick = {},
             onRevertAppSettings = {},
             onGetShortcut = {},
@@ -838,7 +838,7 @@ private fun AppSettingsScreenEmptyStatePreview() {
             autoLaunchResult = AutoLaunchResult.NoResult,
             requestPinShortcutResult = null,
             updateRequestPinShortcutResult = null,
-            clipboardResult = false,
+            setPrimaryClipResult = false,
             onNavigationIconClick = {},
             onRevertAppSettings = {},
             onGetShortcut = {},
@@ -881,7 +881,7 @@ private fun AppSettingsScreenSuccessStatePreview(
             autoLaunchResult = AutoLaunchResult.NoResult,
             requestPinShortcutResult = null,
             updateRequestPinShortcutResult = null,
-            clipboardResult = false,
+            setPrimaryClipResult = false,
             onNavigationIconClick = {},
             onRevertAppSettings = {},
             onGetShortcut = {},
