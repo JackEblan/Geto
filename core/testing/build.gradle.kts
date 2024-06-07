@@ -29,7 +29,6 @@ android {
 dependencies {
     api(kotlin("test"))
     api(libs.androidx.compose.ui.test)
-    api(projects.core.buildVersion)
     api(projects.core.data)
 
     debugApi(libs.androidx.compose.ui.test.manifest)
