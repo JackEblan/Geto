@@ -46,12 +46,13 @@ class GetoPreferencesDataSourceTest {
     }
 
     @Test
-    fun shouldUseDynamicColorFalseByDefault() = testScope.runTest {
+    fun useDynamicColor_isFalse() = testScope.runTest {
+        println(subject.userData.first().useDynamicColor)
         assertFalse(subject.userData.first().useDynamicColor)
     }
 
     @Test
-    fun userShouldUseDynamicColorIsTrueWhenSet() = testScope.runTest {
+    fun useDynamicColor_isTrue_whenSetDynamicColor() = testScope.runTest {
         subject.setDynamicColor(true)
         assertTrue(subject.userData.first().useDynamicColor)
     }
