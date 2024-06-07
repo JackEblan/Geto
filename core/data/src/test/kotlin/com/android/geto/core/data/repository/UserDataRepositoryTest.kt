@@ -21,13 +21,11 @@ import com.android.geto.core.datastore.test.testUserPreferencesDataStore
 import com.android.geto.core.model.DarkThemeConfig
 import com.android.geto.core.model.ThemeBrand
 import com.android.geto.datastore.GetoPreferencesDataSource
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
-import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
@@ -55,11 +53,6 @@ class UserDataRepositoryTest {
         subject = DefaultUserDataRepository(
             getoPreferencesDataSource = getoPreferencesDataSource,
         )
-    }
-
-    @After
-    fun tearDown() {
-        testScope.cancel()
     }
 
     @Test
