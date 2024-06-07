@@ -41,7 +41,7 @@ class GetoPreferencesDataSourceTest {
     @Before
     fun setup() {
         subject = GetoPreferencesDataSource(
-            tmpFolder.testUserPreferencesDataStore(testScope.backgroundScope),
+            tmpFolder.testUserPreferencesDataStore(testScope),
         )
     }
 
