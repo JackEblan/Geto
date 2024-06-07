@@ -47,7 +47,6 @@ class GetoPreferencesDataSourceTest {
 
     @Test
     fun useDynamicColor_isFalse() = testScope.runTest {
-        println(subject.userData.first().useDynamicColor)
         assertFalse(subject.userData.first().useDynamicColor)
     }
 

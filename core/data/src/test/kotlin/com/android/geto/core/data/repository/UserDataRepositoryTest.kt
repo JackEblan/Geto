@@ -21,6 +21,7 @@ import com.android.geto.core.datastore.test.testUserPreferencesDataStore
 import com.android.geto.core.model.DarkThemeConfig
 import com.android.geto.core.model.ThemeBrand
 import com.android.geto.datastore.GetoPreferencesDataSource
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.test.TestScope
@@ -67,6 +68,8 @@ class UserDataRepositoryTest {
             ThemeBrand.ANDROID,
             getoPreferencesDataSource.userData.map { it.themeBrand }.first(),
         )
+
+        cancel()
     }
 
     @Test
@@ -81,6 +84,8 @@ class UserDataRepositoryTest {
             true,
             getoPreferencesDataSource.userData.map { it.useDynamicColor }.first(),
         )
+
+        cancel()
     }
 
     @Test
@@ -95,6 +100,8 @@ class UserDataRepositoryTest {
             DarkThemeConfig.DARK,
             getoPreferencesDataSource.userData.map { it.darkThemeConfig }.first(),
         )
+
+        cancel()
     }
 
     @Test
@@ -106,5 +113,7 @@ class UserDataRepositoryTest {
         assertTrue(
             getoPreferencesDataSource.userData.map { it.useAutoLaunch }.first(),
         )
+
+        cancel()
     }
 }
