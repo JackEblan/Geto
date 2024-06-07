@@ -56,7 +56,7 @@ class UserDataRepositoryTest {
     }
 
     @Test
-    fun setThemeBrand_isAndroid() = runTest {
+    fun setThemeBrand_isAndroid() = testScope.runTest {
         subject.setThemeBrand(ThemeBrand.ANDROID)
 
         assertEquals(
@@ -70,7 +70,7 @@ class UserDataRepositoryTest {
     }
 
     @Test
-    fun setDynamicColor_isTrue() = runTest {
+    fun setDynamicColor_isTrue() = testScope.runTest {
         subject.setDynamicColor(true)
 
         assertEquals(
@@ -84,7 +84,7 @@ class UserDataRepositoryTest {
     }
 
     @Test
-    fun setDarkThemeConfig_isDark() = runTest {
+    fun setDarkThemeConfig_isDark() = testScope.runTest {
         subject.setDarkThemeConfig(DarkThemeConfig.DARK)
 
         assertEquals(
@@ -98,7 +98,7 @@ class UserDataRepositoryTest {
     }
 
     @Test
-    fun setAutoLaunch_isTrue() = runTest {
+    fun setAutoLaunch_isTrue() = testScope.runTest {
         subject.setAutoLaunch(true)
 
         assertTrue(subject.userData.map { it.useAutoLaunch }.first())
