@@ -107,7 +107,7 @@ jobs:
 
       - name: Run local tests and create report
         if: always()
-        run: ./gradlew testDebug --scan
+        run: ./gradlew :core:datastore:testDebugUnitTest --stacktrace
 
 #      - name: Build all build type and flavor permutations
 #        run: ./gradlew :app:assemble :benchmarks:assemble
