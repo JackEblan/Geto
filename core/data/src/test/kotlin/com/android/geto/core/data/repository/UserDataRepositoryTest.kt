@@ -47,7 +47,7 @@ class UserDataRepositoryTest {
     @Before
     fun setup() {
         getoPreferencesDataSource = GetoPreferencesDataSource(
-            tmpFolder.testUserPreferencesDataStore(testScope),
+            tmpFolder.testUserPreferencesDataStore(testScope.backgroundScope),
         )
 
         subject = DefaultUserDataRepository(
