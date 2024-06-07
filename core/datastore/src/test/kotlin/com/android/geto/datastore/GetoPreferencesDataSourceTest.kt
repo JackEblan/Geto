@@ -18,10 +18,12 @@
 package com.android.geto.datastore
 
 import com.android.geto.core.datastore.test.testUserPreferencesDataStore
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
@@ -43,6 +45,11 @@ class GetoPreferencesDataSourceTest {
         subject = GetoPreferencesDataSource(
             tmpFolder.testUserPreferencesDataStore(testScope),
         )
+    }
+
+    @After
+    fun tearDown() {
+        testScope.cancel()
     }
 
     @Test

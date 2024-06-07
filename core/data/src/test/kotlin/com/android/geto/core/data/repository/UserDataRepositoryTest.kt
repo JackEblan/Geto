@@ -27,6 +27,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
@@ -56,6 +57,11 @@ class UserDataRepositoryTest {
         )
     }
 
+    @After
+    fun tearDown() {
+        testScope.cancel()
+    }
+
     @Test
     fun setThemeBrand_isAndroid() = testScope.runTest {
         subject.setThemeBrand(ThemeBrand.ANDROID)
@@ -68,8 +74,6 @@ class UserDataRepositoryTest {
             ThemeBrand.ANDROID,
             getoPreferencesDataSource.userData.map { it.themeBrand }.first(),
         )
-
-        cancel()
     }
 
     @Test
@@ -84,8 +88,6 @@ class UserDataRepositoryTest {
             true,
             getoPreferencesDataSource.userData.map { it.useDynamicColor }.first(),
         )
-
-        cancel()
     }
 
     @Test
@@ -100,8 +102,6 @@ class UserDataRepositoryTest {
             DarkThemeConfig.DARK,
             getoPreferencesDataSource.userData.map { it.darkThemeConfig }.first(),
         )
-
-        cancel()
     }
 
     @Test
@@ -113,7 +113,5 @@ class UserDataRepositoryTest {
         assertTrue(
             getoPreferencesDataSource.userData.map { it.useAutoLaunch }.first(),
         )
-
-        cancel()
     }
 }
