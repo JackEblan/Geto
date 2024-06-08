@@ -20,7 +20,6 @@ package com.android.geto.feature.appsettings
 import androidx.lifecycle.SavedStateHandle
 import com.android.geto.core.domain.ApplyAppSettingsResult
 import com.android.geto.core.domain.ApplyAppSettingsUseCase
-import com.android.geto.core.domain.AutoLaunchResult
 import com.android.geto.core.domain.AutoLaunchUseCase
 import com.android.geto.core.domain.RequestPinShortcutResult
 import com.android.geto.core.domain.RequestPinShortcutUseCase
@@ -168,8 +167,8 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun autoLaunchResult_isNoResult_whenStarted() {
-        assertIs<AutoLaunchResult.Ignore>(viewModel.autoLaunchResult.value)
+    fun autoLaunchResult_isNull_whenStarted() {
+        assertNull(viewModel.autoLaunchResult.value)
     }
 
     @Test
