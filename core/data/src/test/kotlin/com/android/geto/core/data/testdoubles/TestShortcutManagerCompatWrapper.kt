@@ -18,7 +18,7 @@
 package com.android.geto.core.data.testdoubles
 
 import com.android.geto.core.model.MappedShortcutInfoCompat
-import com.android.geto.core.shortcutmanager.ShortcutManagerCompatWrapper
+import com.android.geto.framework.shortcutmanager.ShortcutManagerCompatWrapper
 
 class TestShortcutManagerCompatWrapper : ShortcutManagerCompatWrapper {
 

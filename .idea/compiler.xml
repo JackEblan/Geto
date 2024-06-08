@@ -4,15 +4,20 @@
     <bytecodeTargetLevel target="11">
       <module name="Geto.core.broadcast" target="17" />
       <module name="Geto.core.broadcastreceiver" target="17" />
+      <module name="Geto.core.build-version" target="17" />
+      <module name="Geto.core.clipboard-manager" target="17" />
       <module name="Geto.core.clipboardmanager-test" target="17" />
       <module name="Geto.core.datastore-proto.test" target="17" />
       <module name="Geto.core.datastore-test.test" target="17" />
       <module name="Geto.core.datastore.test" target="17" />
       <module name="Geto.core.domani" target="17" />
+      <module name="Geto.core.package-manager" target="17" />
       <module name="Geto.core.packagemanager-test" target="17" />
       <module name="Geto.core.pendingintent" target="17" />
       <module name="Geto.core.screenshot-testing.test" target="17" />
+      <module name="Geto.core.secure-settings" target="17" />
       <module name="Geto.core.securesettings-test" target="17" />
+      <module name="Geto.core.shortcut-manager" target="17" />
       <module name="Geto.core.shortcutmanager-test" target="17" />
       <module name="Geto.feature.applist" target="17" />
       <module name="Geto.feature.securesettingslist" target="17" />

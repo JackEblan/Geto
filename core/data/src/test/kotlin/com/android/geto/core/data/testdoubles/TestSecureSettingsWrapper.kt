@@ -19,7 +19,7 @@ package com.android.geto.core.data.testdoubles
 
 import com.android.geto.core.model.SecureSetting
 import com.android.geto.core.model.SettingType
-import com.android.geto.core.securesettings.SecureSettingsWrapper
+import com.android.geto.framework.securesettings.SecureSettingsWrapper
 
 class TestSecureSettingsWrapper : SecureSettingsWrapper {
 

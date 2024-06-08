@@ -17,7 +17,7 @@
  */
 package com.android.geto.core.data.testdoubles
 
-import com.android.geto.core.buildversion.BuildVersionWrapper
+import com.android.geto.framework.buildversion.BuildVersionWrapper
 
 class TestBuildVersionWrapper : BuildVersionWrapper {
     private var _sdkInt = 0

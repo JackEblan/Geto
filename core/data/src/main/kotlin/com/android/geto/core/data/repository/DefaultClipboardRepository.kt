@@ -17,8 +17,8 @@
  */
 package com.android.geto.core.data.repository
 
-import com.android.geto.core.buildversion.BuildVersionWrapper
-import com.android.geto.core.packagemanager.ClipboardManagerWrapper
+import com.android.geto.framework.buildversion.BuildVersionWrapper
+import com.android.geto.framework.packagemanager.ClipboardManagerWrapper
 import javax.inject.Inject
 
 internal class DefaultClipboardRepository @Inject constructor(

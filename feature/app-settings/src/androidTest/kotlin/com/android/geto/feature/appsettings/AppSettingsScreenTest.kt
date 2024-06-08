@@ -23,7 +23,6 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
-import com.android.geto.core.domain.AutoLaunchResult
 import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.SettingType
 import org.junit.Rule
@@ -60,7 +59,7 @@ class AppSettingsScreenTest {
                 permissionCommandText = "",
                 applyAppSettingsResult = null,
                 revertAppSettingsResult = null,
-                autoLaunchResult = AutoLaunchResult.Ignore,
+                autoLaunchResult = null,
                 requestPinShortcutResult = null,
                 updateRequestPinShortcutResult = null,
                 setPrimaryClipResult = false,
@@ -102,7 +101,7 @@ class AppSettingsScreenTest {
                 permissionCommandText = "",
                 applyAppSettingsResult = null,
                 revertAppSettingsResult = null,
-                autoLaunchResult = AutoLaunchResult.Ignore,
+                autoLaunchResult = null,
                 requestPinShortcutResult = null,
                 updateRequestPinShortcutResult = null,
                 setPrimaryClipResult = false,
@@ -144,7 +143,7 @@ class AppSettingsScreenTest {
                 permissionCommandText = "",
                 applyAppSettingsResult = null,
                 revertAppSettingsResult = null,
-                autoLaunchResult = AutoLaunchResult.Ignore,
+                autoLaunchResult = null,
                 requestPinShortcutResult = null,
                 updateRequestPinShortcutResult = null,
                 setPrimaryClipResult = false,
