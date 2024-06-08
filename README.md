@@ -31,10 +31,7 @@ that when you modify your settings through its Shared Preferences, you won't los
 once the Developer Options is modified. So basically, you have to grant this app
 with `android.permission.WRITE_SECURE_SETTINGS` in order for it to modify your Settings values.
 
-I want your feedback about the upcoming features in
-the [Discussions](https://github.com/JackEblan/Geto/discussions)
-
-We have some awesome tutorials on how to use **Geto** in our [Wiki](https://github.com/JackEblan/Geto/wiki) page!
+> **_Attention:_** We have some awesome tutorials on how to use this application in our [Wiki](https://github.com/JackEblan/Geto/wiki) page!
 
 # Screenshots
 
