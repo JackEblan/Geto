@@ -20,7 +20,7 @@ package com.android.geto.core.data.repository
 import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.SecureSetting
 import com.android.geto.core.model.SettingType
-import com.android.geto.core.securesettings.SecureSettingsWrapper
+import com.android.geto.framework.securesettings.SecureSettingsWrapper
 import javax.inject.Inject
 
 internal class DefaultSecureSettingsRepository @Inject constructor(

@@ -18,7 +18,7 @@
 package com.android.geto.core.data.repository
 
 import com.android.geto.core.model.MappedShortcutInfoCompat
-import com.android.geto.core.shortcutmanager.ShortcutManagerCompatWrapper
+import com.android.geto.framework.shortcutmanager.ShortcutManagerCompatWrapper
 import javax.inject.Inject
 
 internal class DefaultShortcutRepository @Inject constructor(

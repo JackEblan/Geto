@@ -182,7 +182,7 @@ internal fun AppSettingsScreen(
     permissionCommandText: String,
     applyAppSettingsResult: ApplyAppSettingsResult?,
     revertAppSettingsResult: RevertAppSettingsResult?,
-    autoLaunchResult: AutoLaunchResult,
+    autoLaunchResult: AutoLaunchResult?,
     requestPinShortcutResult: RequestPinShortcutResult?,
     updateRequestPinShortcutResult: UpdateRequestPinShortcutResult?,
     setPrimaryClipResult: Boolean,
@@ -323,7 +323,7 @@ private fun AppSettingsLaunchedEffects(
     permissionCommandText: String,
     applyAppSettingsResult: ApplyAppSettingsResult?,
     revertAppSettingsResult: RevertAppSettingsResult?,
-    autoLaunchResult: AutoLaunchResult,
+    autoLaunchResult: AutoLaunchResult?,
     requestPinShortcutResult: RequestPinShortcutResult?,
     updateRequestPinShortcutResult: UpdateRequestPinShortcutResult?,
     setPrimaryClipResult: Boolean,
@@ -409,7 +409,7 @@ private fun AppSettingsLaunchedEffects(
 
             is AutoLaunchResult.Success -> autoLaunchResult.launchIntent?.let(context::startActivity)
             AutoLaunchResult.IllegalArgumentException -> snackbarHostState.showSnackbar(message = invalidValues)
-            AutoLaunchResult.Ignore -> Unit
+            AutoLaunchResult.Ignore, null -> Unit
         }
 
         onResetAutoLaunchResult()

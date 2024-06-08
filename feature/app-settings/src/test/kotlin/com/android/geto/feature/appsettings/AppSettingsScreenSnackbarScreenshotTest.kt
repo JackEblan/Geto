@@ -21,7 +21,6 @@ import androidx.activity.ComponentActivity
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.android.geto.core.designsystem.theme.GetoTheme
-import com.android.geto.core.domain.AutoLaunchResult
 import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.SettingType
 import com.android.geto.core.screenshottesting.util.captureSnackbarForMultiDevice
@@ -83,7 +82,7 @@ class AppSettingsScreenSnackbarScreenshotTest {
                     permissionCommandText = "",
                     applyAppSettingsResult = null,
                     revertAppSettingsResult = null,
-                    autoLaunchResult = AutoLaunchResult.Ignore,
+                    autoLaunchResult = null,
                     requestPinShortcutResult = null,
                     updateRequestPinShortcutResult = null,
                     setPrimaryClipResult = false,

@@ -17,7 +17,7 @@
  */
 package com.android.geto.core.data.testdoubles
 
-import com.android.geto.core.packagemanager.ClipboardManagerWrapper
+import com.android.geto.framework.packagemanager.ClipboardManagerWrapper
 
 internal class TestClipboardManagerWrapper : ClipboardManagerWrapper {
     override fun setPrimaryClip(label: String, text: String) {}

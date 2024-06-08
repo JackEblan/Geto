@@ -173,11 +173,6 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun shortcutResult_isNull_whenStarted() {
-        assertNull(viewModel.shortcutResult.value)
-    }
-
-    @Test
     fun setPrimaryClipResult_isFalse_whenStarted() {
         assertFalse(viewModel.setPrimaryClipResult.value)
     }

@@ -82,11 +82,8 @@ class AppSettingsViewModel @Inject constructor(
         MutableStateFlow<RevertAppSettingsResult?>(null)
     val revertAppSettingsResult = _revertAppSettingsResult.asStateFlow()
 
-    private val _autoLaunchResult = MutableStateFlow<AutoLaunchResult>(AutoLaunchResult.Ignore)
+    private val _autoLaunchResult = MutableStateFlow<AutoLaunchResult?>(null)
     val autoLaunchResult = _autoLaunchResult.asStateFlow()
-
-    private val _shortcutResult = MutableStateFlow<String?>(null)
-    val shortcutResult = _shortcutResult.asStateFlow()
 
     private val _setPrimaryClipResult = MutableStateFlow(false)
     val setPrimaryClipResult = _setPrimaryClipResult.asStateFlow()
@@ -222,7 +219,7 @@ class AppSettingsViewModel @Inject constructor(
     }
 
     fun resetAutoLaunchResult() {
-        _autoLaunchResult.update { AutoLaunchResult.Ignore }
+        _autoLaunchResult.update { null }
     }
 
     fun resetShortcutResult() {
