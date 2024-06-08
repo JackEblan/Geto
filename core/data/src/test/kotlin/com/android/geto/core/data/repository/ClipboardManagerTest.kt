@@ -53,7 +53,7 @@ class ClipboardManagerTest {
     }
 
     @Test
-    fun setPrimaryClipUseCase_isTrue_whenBuildVersion_is32AndLower() = runTest {
+    fun setPrimaryClip_isTrue_whenBuildVersion_is32AndLower() = runTest {
         buildVersionWrapper.setSDKInt(31)
 
         assertTrue(clipboardRepository.setPrimaryClip(label = "Label", text = "Text"))
