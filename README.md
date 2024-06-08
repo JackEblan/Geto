@@ -4,7 +4,7 @@
 
 # Geto
 
-### Apply custom settings to your apps
+Apply custom settings to your apps
 
 ![GitHub Release](https://img.shields.io/github/v/release/JackEblan/Geto?style=for-the-badge)
 ![GitHub License](https://img.shields.io/github/license/JackEblan/Geto?style=for-the-badge)
@@ -33,6 +33,8 @@ with `android.permission.WRITE_SECURE_SETTINGS` in order for it to modify your S
 
 I want your feedback about the upcoming features in
 the [Discussions](https://github.com/JackEblan/Geto/discussions)
+
+We have some awesome tutorials on how to use **Geto** in our [Wiki](https://github.com/JackEblan/Geto/wiki) page!
 
 # Screenshots
 
