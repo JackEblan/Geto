@@ -30,7 +30,7 @@ once the Developer Options is modified. So basically, you have to grant this app
 with `android.permission.WRITE_SECURE_SETTINGS` in order for it to modify your Settings values.
 
 > [!IMPORTANT]  
-> We have some awesome tutorials on how to use this application in our [Wiki](https://github.com/JackEblan/Geto/wiki) page!
+> We moved the instructions on how to use this application to our [Wiki](https://github.com/JackEblan/Geto/wiki) page!
 
 # Screenshots
 
@@ -38,41 +38,7 @@ with `android.permission.WRITE_SECURE_SETTINGS` in order for it to modify your S
 <img src="https://github.com/JackEblan/Geto/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/1.jpg" width="120" height="280" />  <img src="https://github.com/JackEblan/Geto/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/2.jpg" width="120" height="280" />  <img src="https://github.com/JackEblan/Geto/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/3.jpg" width="120" height="280" /> <img src="https://github.com/JackEblan/Geto/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/4.jpg" width="120" height="280" /> <img src="https://github.com/JackEblan/Geto/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/5.jpg" width="120" height="280" /> <img src="https://github.com/JackEblan/Geto/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/6.jpg" width="120" height="280" /> <img src="https://github.com/JackEblan/Geto/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/7.jpg" width="120" height="280" /> <img src="https://github.com/JackEblan/Geto/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/8.jpg" width="120" height="280" />
 </pre>
 
-# Installation
-
-Download the Geto APK
-from [Releases](https://github.com/JackEblan/Geto/releases).
-
-This guide is only for Android 11+ without using computer.
-For Android 10 and below, [This Youtube tutorial](https://www.youtube.com/watch?v=k4k297qItY4) can
-help you.
-
-1. **Install Shizuku and aShell:**
-    - Download and
-      install [Shizuku](https://play.google.com/store/apps/details?id=moe.shizuku.privileged.api&hl=en&gl=US)
-      and [aShell](https://play.google.com/store/apps/details?id=in.sunilpaulmathew.ashell&hl=en&gl=US&pli=1)
-      from the Google Play Store.
-
-2. **Set Up Shizuku:**
-    - Refer to the Shizuku documentation or follow the
-      guidelines [here](https://shizuku.rikka.app/guide/setup/) to properly configure Shizuku.
-
-3. **Open aShell:**
-    - Launch aShell on your device. If the app does not show any errors then Shizuku service is
-      working properly.
-
-4. **Grant Necessary Permissions:**
-    - In the aShell command box, enter the following command and press Enter:
-      ```bash
-      pm grant com.android.geto android.permission.WRITE_SECURE_SETTINGS
-      ```
-    - Ensure that no errors are reported during the execution of the command.
-
-5. **Start Using Geto:**
-    - If the permission is granted successfully, you can now start using Geto without any issues.
-
 # License
-
 **Geto** is licensed under the GNU General Public License v3.0. See the [license](LICENSE) for more
 information.
 </div>
