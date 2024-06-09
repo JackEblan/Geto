@@ -15,8 +15,6 @@ Apply custom settings to your apps
 
 </div>
 
-<div align ="left">
-
 About The Project
 ==================
 
