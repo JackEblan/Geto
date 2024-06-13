@@ -19,7 +19,7 @@ About The Project
 ==================
 
 The architecture and modularization of this project are inspired
-by [Now in Android](https://github.com/android/nowinandroid) and my goal is to apply the modern
+from [Now in Android](https://github.com/android/nowinandroid) and my goal is to apply the modern
 architectures and principles of programming to this project.
 
 The only reason I created this app is to turn off that damn Developer Options when using a banking
@@ -30,7 +30,7 @@ once the Developer Options is modified. So basically, you have to grant this app
 with `android.permission.WRITE_SECURE_SETTINGS` in order for it to modify your Settings values.
 
 > [!IMPORTANT]  
-> We moved the instructions on how to use this application to our [Wiki](https://github.com/JackEblan/Geto/wiki) page!
+> We moved the instructions on how to use this application into our [Wiki](https://github.com/JackEblan/Geto/wiki) page!
 
 # Screenshots
 
