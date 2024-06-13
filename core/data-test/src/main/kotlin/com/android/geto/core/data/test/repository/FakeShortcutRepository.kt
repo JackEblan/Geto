@@ -38,7 +38,7 @@ class FakeShortcutRepository @Inject constructor() : ShortcutRepository {
     override fun updateShortcuts(
         packageName: String,
         appName: String,
-        shortcuts: List<MappedShortcutInfoCompat>,
+        mappedShortcutInfoCompats: List<MappedShortcutInfoCompat>,
     ): Boolean {
         return false
     }

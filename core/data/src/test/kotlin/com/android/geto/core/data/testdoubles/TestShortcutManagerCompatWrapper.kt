@@ -47,7 +47,7 @@ class TestShortcutManagerCompatWrapper : ShortcutManagerCompatWrapper {
     override fun updateShortcuts(
         packageName: String,
         appName: String,
-        shortcuts: List<MappedShortcutInfoCompat>,
+        mappedShortcutInfoCompats: List<MappedShortcutInfoCompat>,
     ): Boolean {
         return if (updateImmutableShortcuts) {
             throw IllegalArgumentException()

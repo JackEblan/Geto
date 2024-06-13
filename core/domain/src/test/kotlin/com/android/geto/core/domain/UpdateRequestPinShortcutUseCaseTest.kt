@@ -56,7 +56,7 @@ class UpdateRequestPinShortcutUseCaseTest {
             updateRequestPinShortcutUseCase(
                 packageName = "com.android.geto",
                 appName = "Geto",
-                shortcuts = listOf(
+                mappedShortcutInfoCompats = listOf(
                     MappedShortcutInfoCompat(
                         id = "0",
                         shortLabel = "shortLabel",
@@ -86,7 +86,7 @@ class UpdateRequestPinShortcutUseCaseTest {
                 updateRequestPinShortcutUseCase(
                     packageName = "com.android.geto",
                     appName = "Geto",
-                    shortcuts = listOf(
+                    mappedShortcutInfoCompats = listOf(
                         MappedShortcutInfoCompat(
                             id = "com.android.geto",
                             shortLabel = "shortLabel",
@@ -117,7 +117,7 @@ class UpdateRequestPinShortcutUseCaseTest {
             updateRequestPinShortcutUseCase(
                 packageName = "com.android.geto",
                 appName = "Geto",
-                shortcuts = listOf(
+                mappedShortcutInfoCompats = listOf(
                     MappedShortcutInfoCompat(
                         id = "com.android.geto",
                         shortLabel = "shortLabel",

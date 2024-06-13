@@ -23,8 +23,8 @@ import com.android.geto.core.designsystem.component.GetoBackground
 import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.model.MappedApplicationInfo
 import com.android.geto.core.screenshottesting.util.DefaultTestDevices
-import com.android.geto.core.screenshottesting.util.captureForDevice
-import com.android.geto.core.screenshottesting.util.captureMultiDevice
+import com.android.geto.core.screenshottesting.util.captureScreenForDevice
+import com.android.geto.core.screenshottesting.util.captureScreenForMultiDevice
 import dagger.hilt.android.testing.HiltTestApplication
 import org.junit.Rule
 import org.junit.runner.RunWith
@@ -53,7 +53,7 @@ class AppsScreenScreenshotTest {
 
     @Test
     fun appsScreen_populated() {
-        composeTestRule.captureMultiDevice("AppsScreenPopulated") {
+        composeTestRule.captureScreenForMultiDevice("AppsScreenPopulated") {
             GetoTheme {
                 AppsScreen(
                     appsUiState = AppsUiState.Success(mappedApplicationInfos),
@@ -66,7 +66,7 @@ class AppsScreenScreenshotTest {
 
     @Test
     fun appsScreen_loading() {
-        composeTestRule.captureMultiDevice("AppsScreenLoading") {
+        composeTestRule.captureScreenForMultiDevice("AppsScreenLoading") {
             GetoTheme {
                 AppsScreen(
                     appsUiState = AppsUiState.Loading,
@@ -79,7 +79,7 @@ class AppsScreenScreenshotTest {
 
     @Test
     fun appsScreen_populated_dark() {
-        composeTestRule.captureForDevice(
+        composeTestRule.captureScreenForDevice(
             deviceName = "phone_dark",
             deviceSpec = DefaultTestDevices.PHONE.spec,
             fileName = "AppsScreenPopulated",
@@ -101,7 +101,7 @@ class AppsScreenScreenshotTest {
 
     @Test
     fun appsScreen_loading_dark() {
-        composeTestRule.captureForDevice(
+        composeTestRule.captureScreenForDevice(
             deviceName = "phone_dark",
             deviceSpec = DefaultTestDevices.PHONE.spec,
             fileName = "AppsScreenLoading",

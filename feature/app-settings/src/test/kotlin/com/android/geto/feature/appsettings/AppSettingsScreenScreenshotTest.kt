@@ -25,8 +25,8 @@ import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.SettingType
 import com.android.geto.core.screenshottesting.util.DefaultTestDevices
-import com.android.geto.core.screenshottesting.util.captureForDevice
-import com.android.geto.core.screenshottesting.util.captureMultiDevice
+import com.android.geto.core.screenshottesting.util.captureScreenForDevice
+import com.android.geto.core.screenshottesting.util.captureScreenForMultiDevice
 import dagger.hilt.android.testing.HiltTestApplication
 import org.junit.Rule
 import org.junit.runner.RunWith
@@ -60,7 +60,7 @@ class AppSettingsScreenScreenshotTest {
 
     @Test
     fun appSettingsScreen_populated() {
-        composeTestRule.captureMultiDevice("AppSettingsScreenPopulated") {
+        composeTestRule.captureScreenForMultiDevice("AppSettingsScreenPopulated") {
             GetoTheme {
                 AppSettingsScreen(
                     packageName = "com.android.geto",
@@ -102,7 +102,7 @@ class AppSettingsScreenScreenshotTest {
 
     @Test
     fun appSettingsScreen_loading() {
-        composeTestRule.captureMultiDevice("AppSettingsScreenLoading") {
+        composeTestRule.captureScreenForMultiDevice("AppSettingsScreenLoading") {
             GetoTheme {
                 AppSettingsScreen(
                     packageName = "com.android.geto",
@@ -144,7 +144,7 @@ class AppSettingsScreenScreenshotTest {
 
     @Test
     fun appSettingsScreen_empty() {
-        composeTestRule.captureMultiDevice("AppSettingsScreenEmpty") {
+        composeTestRule.captureScreenForMultiDevice("AppSettingsScreenEmpty") {
             GetoTheme {
                 AppSettingsScreen(
                     packageName = "com.android.geto",
@@ -186,7 +186,7 @@ class AppSettingsScreenScreenshotTest {
 
     @Test
     fun appSettingsScreen_populated_dark() {
-        composeTestRule.captureForDevice(
+        composeTestRule.captureScreenForDevice(
             deviceName = "phone_dark",
             deviceSpec = DefaultTestDevices.PHONE.spec,
             fileName = "AppSettingsScreenPopulated",
@@ -235,7 +235,7 @@ class AppSettingsScreenScreenshotTest {
 
     @Test
     fun appSettingsScreen_loading_dark() {
-        composeTestRule.captureForDevice(
+        composeTestRule.captureScreenForDevice(
             deviceName = "phone_dark",
             deviceSpec = DefaultTestDevices.PHONE.spec,
             fileName = "AppSettingsScreenLoading",
@@ -284,7 +284,7 @@ class AppSettingsScreenScreenshotTest {
 
     @Test
     fun appSettingsScreen_empty_dark() {
-        composeTestRule.captureForDevice(
+        composeTestRule.captureScreenForDevice(
             deviceName = "phone_dark",
             deviceSpec = DefaultTestDevices.PHONE.spec,
             fileName = "AppSettingsScreenEmpty",

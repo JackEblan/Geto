@@ -97,7 +97,7 @@ class ShortcutRepositoryTest {
             subject.updateShortcuts(
                 packageName = "com.android.geto",
                 appName = "Geto",
-                shortcuts = listOf(
+                mappedShortcutInfoCompats = listOf(
                     MappedShortcutInfoCompat(
                         id = "com.android.geto",
                         shortLabel = "Geto",
@@ -122,7 +122,7 @@ class ShortcutRepositoryTest {
                 subject.updateShortcuts(
                     packageName = "com.android.geto",
                     appName = "Geto",
-                    shortcuts = listOf(
+                    mappedShortcutInfoCompats = listOf(
                         MappedShortcutInfoCompat(
                             id = "com.android.geto",
                             shortLabel = "Geto",

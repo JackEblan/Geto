@@ -25,11 +25,11 @@ class UpdateRequestPinShortcutUseCase @Inject constructor(private val shortcutRe
     operator fun invoke(
         packageName: String,
         appName: String,
-        shortcuts: List<MappedShortcutInfoCompat>,
+        mappedShortcutInfoCompats: List<MappedShortcutInfoCompat>,
     ): UpdateRequestPinShortcutResult {
         val oldMappedShortcutInfoCompatIds = shortcutRepository.getPinnedShortcuts().map { it.id }
 
-        val newMappedShortcutInfoCompatIds = shortcuts.map { it.id }
+        val newMappedShortcutInfoCompatIds = mappedShortcutInfoCompats.map { it.id }
 
         if (oldMappedShortcutInfoCompatIds.any { it !in newMappedShortcutInfoCompatIds }) {
             return UpdateRequestPinShortcutResult.IDNotFound
@@ -39,7 +39,7 @@ class UpdateRequestPinShortcutUseCase @Inject constructor(private val shortcutRe
             if (shortcutRepository.updateShortcuts(
                     packageName = packageName,
                     appName = appName,
-                    shortcuts = shortcuts,
+                    mappedShortcutInfoCompats = mappedShortcutInfoCompats,
                 )
             ) {
                 UpdateRequestPinShortcutResult.Success

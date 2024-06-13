@@ -38,8 +38,8 @@ fun GetoNavHost(navController: NavHostController) {
             onSettingsClick = navController::navigateToSettings,
         )
 
-        appSettingsScreen(onNavigationIconClick = navController::popBackStack)
+        appSettingsScreen(onNavigationIconClick = navController::navigateUp)
 
-        settingsScreen(onNavigationIconClick = navController::popBackStack)
+        settingsScreen(onNavigationIconClick = navController::navigateUp)
     }
 }

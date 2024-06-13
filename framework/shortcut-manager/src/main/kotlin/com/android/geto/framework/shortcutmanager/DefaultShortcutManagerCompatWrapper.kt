@@ -18,7 +18,6 @@
 package com.android.geto.framework.shortcutmanager
 
 import android.content.Context
-import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import com.android.geto.core.model.MappedShortcutInfoCompat
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -52,12 +51,12 @@ internal class DefaultShortcutManagerCompatWrapper @Inject constructor(@Applicat
     override fun updateShortcuts(
         packageName: String,
         appName: String,
-        shortcuts: List<MappedShortcutInfoCompat>,
+        mappedShortcutInfoCompats: List<MappedShortcutInfoCompat>,
     ): Boolean {
         return ShortcutManagerCompat.updateShortcuts(
             context,
-            shortcuts.map { mappedShortcutInfoCompat ->
-                mappedShortcutInfoCompat.asShortcutInfoCompat(
+            mappedShortcutInfoCompats.map {
+                it.asShortcutInfoCompat(
                     context = context,
                     packageName = packageName,
                     appName = appName,
@@ -70,6 +69,6 @@ internal class DefaultShortcutManagerCompatWrapper @Inject constructor(@Applicat
         return ShortcutManagerCompat.getShortcuts(
             context,
             matchFlags,
-        ).map(ShortcutInfoCompat::asMappedShortcutInfoCompat)
+        ).map { it.asMappedShortcutInfoCompat() }
     }
 }

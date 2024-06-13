@@ -45,12 +45,12 @@ enum class DefaultTestDevices(val description: String, val spec: String) {
     TABLET("tablet", "spec:shape=Normal,width=1280,height=800,unit=dp,dpi=480"),
 }
 
-fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.captureMultiDevice(
+fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.captureScreenForMultiDevice(
     fileName: String,
     body: @Composable () -> Unit,
 ) {
     DefaultTestDevices.entries.forEach {
-        this.captureForDevice(
+        captureScreenForDevice(
             deviceName = it.description,
             deviceSpec = it.spec,
             fileName = fileName,
@@ -59,14 +59,14 @@ fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.c
     }
 }
 
-fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.captureForDevice(
+fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.captureScreenForDevice(
     fileName: String,
     deviceName: String,
     deviceSpec: String,
     darkMode: Boolean = false,
     body: @Composable () -> Unit,
 ) {
-    captureForDevice(
+    captureScreenForDevice(
         fileName = fileName,
         deviceName = deviceName,
         deviceSpec = deviceSpec,

@@ -33,7 +33,7 @@ import com.github.takahirom.roborazzi.RoborazziOptions
 import com.google.accompanist.testharness.TestHarness
 import org.robolectric.RuntimeEnvironment
 
-internal fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.captureForDevice(
+internal fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.captureScreenForDevice(
     fileName: String,
     deviceName: String,
     deviceSpec: String,

@@ -44,12 +44,12 @@ internal class DefaultShortcutRepository @Inject constructor(
     override fun updateShortcuts(
         packageName: String,
         appName: String,
-        shortcuts: List<MappedShortcutInfoCompat>,
+        mappedShortcutInfoCompats: List<MappedShortcutInfoCompat>,
     ): Boolean {
         return shortcutManagerCompatWrapper.updateShortcuts(
             packageName = packageName,
             appName = appName,
-            shortcuts = shortcuts,
+            mappedShortcutInfoCompats = mappedShortcutInfoCompats,
         )
     }
 

@@ -25,7 +25,7 @@ import com.android.geto.core.model.DarkThemeConfig
 import com.android.geto.core.model.ThemeBrand
 import com.android.geto.core.model.UserData
 import com.android.geto.core.screenshottesting.util.DefaultTestDevices
-import com.android.geto.core.screenshottesting.util.captureForDevice
+import com.android.geto.core.screenshottesting.util.captureScreenForDevice
 import dagger.hilt.android.testing.HiltTestApplication
 import org.junit.Rule
 import org.junit.runner.RunWith
@@ -46,7 +46,7 @@ class SettingsScreenScreenshotTest {
 
     @Test
     fun settingsScreen_populated() {
-        composeTestRule.captureForDevice(
+        composeTestRule.captureScreenForDevice(
             fileName = "SettingsScreenPopulated",
             deviceName = "foldable",
             deviceSpec = DefaultTestDevices.FOLDABLE.spec,
@@ -75,7 +75,7 @@ class SettingsScreenScreenshotTest {
 
     @Test
     fun settingsScreen_loading() {
-        composeTestRule.captureForDevice(
+        composeTestRule.captureScreenForDevice(
             fileName = "SettingsScreenLoading",
             deviceName = "foldable",
             deviceSpec = DefaultTestDevices.FOLDABLE.spec,
@@ -97,7 +97,7 @@ class SettingsScreenScreenshotTest {
 
     @Test
     fun settingsScreen_populated_dark() {
-        composeTestRule.captureForDevice(
+        composeTestRule.captureScreenForDevice(
             fileName = "SettingsScreenPopulated",
             deviceName = "foldable_dark",
             deviceSpec = DefaultTestDevices.FOLDABLE.spec,
@@ -129,7 +129,7 @@ class SettingsScreenScreenshotTest {
 
     @Test
     fun settingsScreen_loading_dark() {
-        composeTestRule.captureForDevice(
+        composeTestRule.captureScreenForDevice(
             fileName = "SettingsScreenLoading",
             deviceName = "foldable_dark",
             deviceSpec = DefaultTestDevices.FOLDABLE.spec,

@@ -36,7 +36,7 @@ fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.c
     darkMode: Boolean = false,
     body: @Composable () -> Unit,
 ) {
-    captureForDevice(
+    captureScreenForDevice(
         fileName = fileName,
         deviceName = deviceName,
         deviceSpec = deviceSpec,

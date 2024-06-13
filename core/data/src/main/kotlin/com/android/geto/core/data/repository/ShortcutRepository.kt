@@ -32,7 +32,7 @@ interface ShortcutRepository {
     fun updateShortcuts(
         packageName: String,
         appName: String,
-        shortcuts: List<MappedShortcutInfoCompat>,
+        mappedShortcutInfoCompats: List<MappedShortcutInfoCompat>,
     ): Boolean
 
     fun getPinnedShortcuts(): List<MappedShortcutInfoCompat>
