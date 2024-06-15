@@ -25,7 +25,7 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 
-class ClipboardManagerTest {
+class ClipboardRepositoryTest {
 
     private lateinit var clipboardRepository: ClipboardRepository
 
