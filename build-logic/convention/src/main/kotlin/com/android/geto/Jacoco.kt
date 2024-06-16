@@ -61,7 +61,7 @@ internal fun Project.configureJacoco(
     androidComponentsExtension: AndroidComponentsExtension<*, *, *>,
 ) {
     configure<JacocoPluginExtension> {
-        toolVersion = libs.versions.jacoco.get()
+        toolVersion = libs.findVersion("jacoco").get().toString()
     }
 
     androidComponentsExtension.onVariants { variant ->

@@ -17,7 +17,6 @@
  */
 
 import com.android.geto.libs
-import com.android.geto.pluginId
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
@@ -26,18 +25,13 @@ class AndroidHiltConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             with(pluginManager) {
-                apply(libs.plugins.ksp.pluginId)
-                apply(libs.plugins.hilt.pluginId)
+                apply("com.google.devtools.ksp")
+                apply("com.google.dagger.hilt.android")
             }
 
             dependencies {
-                add("implementation", libs.hilt.android)
-                add("implementation", libs.androidx.hilt.navigation.compose)
-                add("ksp", libs.hilt.compiler)
-                add("ksp", libs.dagger.compiler)
-
-                add("kspAndroidTest", libs.hilt.compiler)
-                add("ksp", libs.hilt.compiler)
+                add("implementation", (libs.findLibrary("hilt.android").get()))
+                add("ksp", (libs.findLibrary("hilt.compiler").get()))
             }
         }
     }

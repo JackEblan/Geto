@@ -140,7 +140,7 @@ class AppSettingsViewModel @Inject constructor(
         }
     }
 
-    fun addAppSettings(appSetting: AppSetting) {
+    fun addAppSetting(appSetting: AppSetting) {
         viewModelScope.launch {
             appSettingsRepository.upsertAppSetting(appSetting)
         }

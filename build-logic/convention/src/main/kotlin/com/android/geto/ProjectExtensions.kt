@@ -18,13 +18,10 @@
 
 package com.android.geto
 
-import org.gradle.accessors.dm.LibrariesForLibs
 import org.gradle.api.Project
-import org.gradle.api.provider.Provider
-import org.gradle.plugin.use.PluginDependency
+import org.gradle.api.artifacts.VersionCatalog
+import org.gradle.api.artifacts.VersionCatalogsExtension
+import org.gradle.kotlin.dsl.getByType
 
 val Project.libs
-    get(): LibrariesForLibs = extensions.getByName("libs") as LibrariesForLibs
-
-val Provider<PluginDependency>.pluginId
-    get(): String = get().pluginId
+    get(): VersionCatalog = extensions.getByType<VersionCatalogsExtension>().named("libs")

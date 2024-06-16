@@ -227,7 +227,7 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun applyAppSettingsResult_isSuccess_whenApplySettings() = runTest {
+    fun applyAppSettingsResult_isSuccess_whenApplyAppSettings() = runTest {
         val appSettings = List(5) { index ->
             AppSetting(
                 id = index,
@@ -251,7 +251,7 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun applyAppSettingsResult_isSecurityException_whenApplySettings() = runTest {
+    fun applyAppSettingsResult_isSecurityException_whenApplyAppSettings() = runTest {
         val appSettings = List(5) { index ->
             AppSetting(
                 id = index,
@@ -275,7 +275,7 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun applyAppSettingsResult_isIllegalArgumentException_whenApplySettings() = runTest {
+    fun applyAppSettingsResult_isIllegalArgumentException_whenApplyAppSettings() = runTest {
         val appSettings = List(5) { index ->
             AppSetting(
                 id = index,
@@ -301,7 +301,7 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun applyAppSettingsResult_isEmptyAppSettings_whenApplySettings() = runTest {
+    fun applyAppSettingsResult_isEmptyAppSettings_whenApplyAppSettings() = runTest {
         appSettingsRepository.setAppSettings(emptyList())
 
         secureSettingsRepository.setWriteSecureSettings(true)
@@ -312,7 +312,7 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun applyAppSettingsResult_isDisabledAppSettings_whenApplySettings() = runTest {
+    fun applyAppSettingsResult_isDisabledAppSettings_whenApplyAppSettings() = runTest {
         val appSettings = List(5) { index ->
             AppSetting(
                 id = index,
@@ -336,7 +336,7 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun revertAppSettingsResult_isSuccess_whenRevertSettings() = runTest {
+    fun revertAppSettingsResult_isSuccess_whenRevertAppSettings() = runTest {
         val appSettings = List(5) { index ->
             AppSetting(
                 id = index,
@@ -360,7 +360,7 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun revertAppSettingsResult_isSecurityException_whenRevertSettings() = runTest {
+    fun revertAppSettingsResult_isSecurityException_whenRevertAppSettings() = runTest {
         val appSettings = List(5) { index ->
             AppSetting(
                 id = index,
@@ -384,7 +384,7 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun revertAppSettingsResultI_isIllegalArgumentException_whenRevertSettings() = runTest {
+    fun revertAppSettingsResultI_isIllegalArgumentException_whenRevertAppSettings() = runTest {
         val appSettings = List(5) { index ->
             AppSetting(
                 id = index,
@@ -410,7 +410,7 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun revertAppSettingsResult_isEmptyAppSettings_whenRevertSettings() = runTest {
+    fun revertAppSettingsResult_isEmptyAppSettings_whenRevertAppSettings() = runTest {
         appSettingsRepository.setAppSettings(emptyList())
 
         viewModel.revertAppSettings()
@@ -419,7 +419,7 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun revertAppSettingsResult_isDisabledAppSettings_whenRevertSettings() = runTest {
+    fun revertAppSettingsResult_isDisabledAppSettings_whenRevertAppSettings() = runTest {
         val appSettings = List(5) { index ->
             AppSetting(
                 id = index,

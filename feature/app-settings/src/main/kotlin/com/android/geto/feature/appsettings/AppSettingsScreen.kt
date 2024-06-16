@@ -161,7 +161,7 @@ internal fun AppSettingsRoute(
         onResetShortcutResult = viewModel::resetShortcutResult,
         onResetSetPrimaryClipResult = viewModel::resetSetPrimaryClipResult,
         onGetSecureSettingsByName = viewModel::getSecureSettingsByName,
-        onAddAppSetting = viewModel::addAppSettings,
+        onAddAppSetting = viewModel::addAppSetting,
         onCopyPermissionCommand = viewModel::copyPermissionCommand,
         onAddShortcut = viewModel::requestPinShortcut,
         onUpdateShortcut = viewModel::updateRequestPinShortcut,
@@ -260,7 +260,7 @@ internal fun AppSettingsScreen(
         },
         bottomBar = {
             AppSettingsBottomAppBar(
-                onRevertSettingsIconClick = onRevertAppSettings,
+                onRefreshIconClick = onRevertAppSettings,
                 onSettingsIconClick = {
                     appSettingDialogState.updateShowDialog(true)
                 },
@@ -577,7 +577,7 @@ private fun AppSettingsTopAppBar(
 
 @Composable
 private fun AppSettingsBottomAppBar(
-    onRevertSettingsIconClick: () -> Unit,
+    onRefreshIconClick: () -> Unit,
     onSettingsIconClick: () -> Unit,
     onShortcutIconClick: () -> Unit,
     onLaunchApp: () -> Unit,
@@ -585,7 +585,7 @@ private fun AppSettingsBottomAppBar(
     BottomAppBar(
         actions = {
             AppSettingsBottomAppBarActions(
-                onRevertSettingsIconClick = onRevertSettingsIconClick,
+                onRefreshIconClick = onRefreshIconClick,
                 onSettingsIconClick = onSettingsIconClick,
                 onShortcutIconClick = onShortcutIconClick,
             )
@@ -614,11 +614,11 @@ private fun AppSettingsFloatingActionButton(onClick: () -> Unit) {
 
 @Composable
 private fun AppSettingsBottomAppBarActions(
-    onRevertSettingsIconClick: () -> Unit,
+    onRefreshIconClick: () -> Unit,
     onSettingsIconClick: () -> Unit,
     onShortcutIconClick: () -> Unit,
 ) {
-    IconButton(onClick = onRevertSettingsIconClick) {
+    IconButton(onClick = onRefreshIconClick) {
         Icon(
             imageVector = GetoIcons.Refresh,
             contentDescription = "Revert icon",
