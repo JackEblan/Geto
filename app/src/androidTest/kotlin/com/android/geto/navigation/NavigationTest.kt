@@ -27,15 +27,18 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.testing.TestNavHostController
+import androidx.navigation.toRoute
 import com.android.geto.MainActivity
-import com.android.geto.feature.apps.navigation.APPS_NAVIGATION_ROUTE
-import com.android.geto.feature.settings.navigation.SETTINGS_NAVIGATION_ROUTE
+import com.android.geto.feature.apps.navigation.AppsRouteData
+import com.android.geto.feature.appsettings.navigation.AppSettingsRouteData
+import com.android.geto.feature.settings.navigation.SettingsRouteData
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertIs
 
 @HiltAndroidTest
 class NavigationTest {
@@ -66,12 +69,9 @@ class NavigationTest {
     fun appSettingsScreen_isDisplayed_whenMappedApplicationInfoItem_isClicked() {
         composeTestRule.onAllNodes(hasTestTag("apps:appItem"))[0].performClick()
 
-        val appSettingsRoute = navController.currentBackStackEntry?.destination?.route
+        val appSettingsRouteData = navController.currentBackStackEntry?.toRoute<AppSettingsRouteData>()
 
-        assertEquals(
-            expected = "app_settings_route/{package_name}/{app_name}",
-            actual = appSettingsRoute,
-        )
+        assertIs<AppSettingsRouteData>(appSettingsRouteData)
     }
 
     @Test
@@ -83,24 +83,18 @@ class NavigationTest {
             useUnmergedTree = true,
         ).performClick()
 
-        val appListRoute = navController.currentBackStackEntry?.destination?.route
+        val appsRouteData = navController.currentBackStackEntry?.toRoute<AppsRouteData>()
 
-        assertEquals(
-            expected = APPS_NAVIGATION_ROUTE,
-            actual = appListRoute,
-        )
+        assertIs<AppsRouteData>(appsRouteData)
     }
 
     @Test
     fun settingsScreen_isDisplayed_whenSettingsIcon_isClicked() {
         composeTestRule.onNodeWithContentDescription("Settings icon").performClick()
 
-        val settingsRoute = navController.currentBackStackEntry?.destination?.route
+        val settingsRouteData = navController.currentBackStackEntry?.toRoute<SettingsRouteData>()
 
-        assertEquals(
-            expected = SETTINGS_NAVIGATION_ROUTE,
-            actual = settingsRoute,
-        )
+        assertIs<SettingsRouteData>(settingsRouteData)
     }
 
     @Test
@@ -112,11 +106,13 @@ class NavigationTest {
             useUnmergedTree = true,
         ).performClick()
 
-        val appListRoute = navController.currentBackStackEntry?.destination?.route
+        val appsRouteData = navController.currentBackStackEntry?.toRoute<AppsRouteData>()
 
         assertEquals(
-            expected = APPS_NAVIGATION_ROUTE,
-            actual = appListRoute,
+            expected = appsRouteData,
+            actual = AppsRouteData,
         )
+
+        assertIs<AppsRouteData>(appsRouteData)
     }
 }

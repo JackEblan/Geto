@@ -17,51 +17,30 @@
  */
 package com.android.geto.feature.appsettings.navigation
 
-import androidx.annotation.VisibleForTesting
-import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navDeepLink
+import androidx.navigation.toRoute
 import com.android.geto.feature.appsettings.AppSettingsRoute
-import java.net.URLDecoder
-import kotlin.text.Charsets.UTF_8
 
-private val URL_CHARACTER_ENCODING = UTF_8.name()
-
-@VisibleForTesting
-internal const val PACKAGE_NAME_ARG = "package_name"
-
-@VisibleForTesting
-internal const val APP_NAME_ARG = "app_name"
-
-internal const val DEEP_LINK_URI = "https://www.android.geto.com"
-
-internal class AppSettingsArgs(val packageName: String, val appName: String) {
-    constructor(savedStateHandle: SavedStateHandle) : this(
-        URLDecoder.decode(
-            checkNotNull(
-                savedStateHandle[PACKAGE_NAME_ARG],
-            ),
-            URL_CHARACTER_ENCODING,
-        ),
-        URLDecoder.decode(checkNotNull(savedStateHandle[APP_NAME_ARG]), URL_CHARACTER_ENCODING),
-    )
-}
+private const val DEEP_LINK_URI = "https://www.android.geto.com"
 
 fun NavController.navigateToAppSettings(packageName: String, appName: String) {
-    navigate("app_settings_route/$packageName/$appName")
+    navigate(AppSettingsRouteData(packageName = packageName, appName = appName))
 }
 
 fun NavGraphBuilder.appSettingsScreen(onNavigationIconClick: () -> Unit) {
-    composable(
-        route = "app_settings_route/{$PACKAGE_NAME_ARG}/{$APP_NAME_ARG}",
+    composable<AppSettingsRouteData>(
         deepLinks = listOf(
-            navDeepLink {
-                uriPattern = "$DEEP_LINK_URI/{$PACKAGE_NAME_ARG}/{$APP_NAME_ARG}"
-            },
+            navDeepLink<AppSettingsRouteData>(basePath = DEEP_LINK_URI),
         ),
-    ) {
-        AppSettingsRoute(onNavigationIconClick = onNavigationIconClick)
+    ) { backStackEntry ->
+        val appSettingsRouteData: AppSettingsRouteData = backStackEntry.toRoute()
+
+        AppSettingsRoute(
+            appSettingsRouteData = appSettingsRouteData,
+            onNavigationIconClick = onNavigationIconClick,
+        )
     }
 }

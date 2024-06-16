@@ -17,7 +17,6 @@
  */
 package com.android.geto.feature.appsettings
 
-import androidx.lifecycle.SavedStateHandle
 import com.android.geto.core.domain.ApplyAppSettingsResult
 import com.android.geto.core.domain.ApplyAppSettingsUseCase
 import com.android.geto.core.domain.AutoLaunchUseCase
@@ -39,8 +38,6 @@ import com.android.geto.core.testing.repository.TestSecureSettingsRepository
 import com.android.geto.core.testing.repository.TestShortcutRepository
 import com.android.geto.core.testing.repository.TestUserDataRepository
 import com.android.geto.core.testing.util.MainDispatcherRule
-import com.android.geto.feature.appsettings.navigation.APP_NAME_ARG
-import com.android.geto.feature.appsettings.navigation.PACKAGE_NAME_ARG
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -73,8 +70,6 @@ class AppSettingsViewModelTest {
 
     private lateinit var userDataRepository: TestUserDataRepository
 
-    private lateinit var savedStateHandle: SavedStateHandle
-
     private lateinit var applyAppSettingsUseCase: ApplyAppSettingsUseCase
 
     private lateinit var revertAppSettingsUseCase: RevertAppSettingsUseCase
@@ -105,8 +100,6 @@ class AppSettingsViewModelTest {
 
         userDataRepository = TestUserDataRepository()
 
-        savedStateHandle = SavedStateHandle()
-
         applyAppSettingsUseCase = ApplyAppSettingsUseCase(
             packageRepository = packageRepository,
             appSettingsRepository = appSettingsRepository,
@@ -132,12 +125,7 @@ class AppSettingsViewModelTest {
         updateRequestPinShortcutUseCase =
             UpdateRequestPinShortcutUseCase(shortcutRepository = shortcutRepository)
 
-        savedStateHandle[PACKAGE_NAME_ARG] = packageName
-
-        savedStateHandle[APP_NAME_ARG] = appName
-
         viewModel = AppSettingsViewModel(
-            savedStateHandle = savedStateHandle,
             appSettingsRepository = appSettingsRepository,
             packageRepository = packageRepository,
             clipboardRepository = clipboardRepository,
@@ -153,7 +141,7 @@ class AppSettingsViewModelTest {
 
     @Test
     fun appSettingsUiState_isLoading_whenStarted() {
-        assertIs<AppSettingsUiState.Loading>(viewModel.appSettingUiState.value)
+        assertIs<AppSettingsUiState.Loading>(viewModel.appSettingsUiState.value)
     }
 
     @Test
@@ -216,12 +204,15 @@ class AppSettingsViewModelTest {
             )
         }
 
+        viewModel.updatePackageName(packageName = packageName)
+
         appSettingsRepository.setAppSettings(appSettings)
 
-        val collectJob =
-            launch(UnconfinedTestDispatcher()) { viewModel.appSettingUiState.collect() }
+        val collectJob = launch(UnconfinedTestDispatcher()) {
+            viewModel.appSettingsUiState.collect()
+        }
 
-        assertIs<AppSettingsUiState.Success>(viewModel.appSettingUiState.value)
+        assertIs<AppSettingsUiState.Success>(viewModel.appSettingsUiState.value)
 
         collectJob.cancel()
     }
@@ -245,7 +236,7 @@ class AppSettingsViewModelTest {
 
         secureSettingsRepository.setWriteSecureSettings(true)
 
-        viewModel.applyAppSettings()
+        viewModel.applyAppSettings(packageName = packageName)
 
         assertIs<ApplyAppSettingsResult.Success>(viewModel.applyAppSettingsResult.value)
     }
@@ -269,7 +260,7 @@ class AppSettingsViewModelTest {
 
         secureSettingsRepository.setWriteSecureSettings(false)
 
-        viewModel.applyAppSettings()
+        viewModel.applyAppSettings(packageName = packageName)
 
         assertIs<ApplyAppSettingsResult.SecurityException>(viewModel.applyAppSettingsResult.value)
     }
@@ -295,7 +286,7 @@ class AppSettingsViewModelTest {
 
         secureSettingsRepository.setInvalidValues(true)
 
-        viewModel.applyAppSettings()
+        viewModel.applyAppSettings(packageName = packageName)
 
         assertIs<ApplyAppSettingsResult.IllegalArgumentException>(viewModel.applyAppSettingsResult.value)
     }
@@ -306,7 +297,7 @@ class AppSettingsViewModelTest {
 
         secureSettingsRepository.setWriteSecureSettings(true)
 
-        viewModel.applyAppSettings()
+        viewModel.applyAppSettings(packageName = packageName)
 
         assertIs<ApplyAppSettingsResult.EmptyAppSettings>(viewModel.applyAppSettingsResult.value)
     }
@@ -330,7 +321,7 @@ class AppSettingsViewModelTest {
 
         secureSettingsRepository.setWriteSecureSettings(true)
 
-        viewModel.applyAppSettings()
+        viewModel.applyAppSettings(packageName = packageName)
 
         assertIs<ApplyAppSettingsResult.DisabledAppSettings>(viewModel.applyAppSettingsResult.value)
     }
@@ -354,7 +345,7 @@ class AppSettingsViewModelTest {
 
         appSettingsRepository.setAppSettings(appSettings)
 
-        viewModel.revertAppSettings()
+        viewModel.revertAppSettings(packageName = packageName)
 
         assertIs<RevertAppSettingsResult.Success>(viewModel.revertAppSettingsResult.value)
     }
@@ -378,7 +369,7 @@ class AppSettingsViewModelTest {
 
         appSettingsRepository.setAppSettings(appSettings)
 
-        viewModel.revertAppSettings()
+        viewModel.revertAppSettings(packageName = packageName)
 
         assertIs<RevertAppSettingsResult.SecurityException>(viewModel.revertAppSettingsResult.value)
     }
@@ -404,7 +395,7 @@ class AppSettingsViewModelTest {
 
         secureSettingsRepository.setInvalidValues(true)
 
-        viewModel.revertAppSettings()
+        viewModel.revertAppSettings(packageName = packageName)
 
         assertIs<RevertAppSettingsResult.IllegalArgumentException>(viewModel.revertAppSettingsResult.value)
     }
@@ -413,7 +404,7 @@ class AppSettingsViewModelTest {
     fun revertAppSettingsResult_isEmptyAppSettings_whenRevertAppSettings() = runTest {
         appSettingsRepository.setAppSettings(emptyList())
 
-        viewModel.revertAppSettings()
+        viewModel.revertAppSettings(packageName = packageName)
 
         assertIs<RevertAppSettingsResult.EmptyAppSettings>(viewModel.revertAppSettingsResult.value)
     }
@@ -437,7 +428,7 @@ class AppSettingsViewModelTest {
 
         secureSettingsRepository.setWriteSecureSettings(true)
 
-        viewModel.revertAppSettings()
+        viewModel.revertAppSettings(packageName = packageName)
 
         assertIs<RevertAppSettingsResult.DisabledAppSettings>(viewModel.revertAppSettingsResult.value)
     }
@@ -579,6 +570,8 @@ class AppSettingsViewModelTest {
         shortcutRepository.setRequestPinShortcutSupported(true)
 
         viewModel.requestPinShortcut(
+            packageName = packageName,
+            appName = appName,
             mappedShortcutInfoCompat = MappedShortcutInfoCompat(
                 id = "0",
                 shortLabel = "shortLabel",
@@ -596,6 +589,8 @@ class AppSettingsViewModelTest {
         shortcutRepository.setRequestPinShortcutSupported(false)
 
         viewModel.requestPinShortcut(
+            packageName = packageName,
+            appName = appName,
             mappedShortcutInfoCompat = MappedShortcutInfoCompat(
                 id = "0",
                 shortLabel = "shortLabel",
@@ -623,6 +618,8 @@ class AppSettingsViewModelTest {
         shortcutRepository.setShortcuts(shortcuts)
 
         viewModel.updateRequestPinShortcut(
+            packageName = packageName,
+            appName = appName,
             mappedShortcutInfoCompat = MappedShortcutInfoCompat(
                 id = "0",
                 shortLabel = "",
@@ -651,6 +648,8 @@ class AppSettingsViewModelTest {
             shortcutRepository.setShortcuts(shortcuts)
 
             viewModel.updateRequestPinShortcut(
+                packageName = packageName,
+                appName = appName,
                 mappedShortcutInfoCompat = MappedShortcutInfoCompat(
                     id = "com.android.geto",
                     shortLabel = "",
@@ -680,6 +679,8 @@ class AppSettingsViewModelTest {
         shortcutRepository.setShortcuts(shortcuts)
 
         viewModel.updateRequestPinShortcut(
+            packageName = packageName,
+            appName = appName,
             mappedShortcutInfoCompat = MappedShortcutInfoCompat(
                 id = "com.android.geto",
                 shortLabel = "",
@@ -704,7 +705,7 @@ class AppSettingsViewModelTest {
 
         shortcutRepository.setShortcuts(shortcuts)
 
-        viewModel.getShortcut()
+        viewModel.getShortcut(packageName = packageName)
 
         assertNotNull(viewModel.mappedShortcutInfoCompat.value)
     }
@@ -738,7 +739,7 @@ class AppSettingsViewModelTest {
 
         packageRepository.setMappedApplicationInfos(mappedApplicationInfos)
 
-        viewModel.getApplicationIcon()
+        viewModel.getApplicationIcon(packageName = packageName)
 
         assertNotNull(viewModel.applicationIcon.value)
     }
@@ -755,7 +756,7 @@ class AppSettingsViewModelTest {
 
         packageRepository.setMappedApplicationInfos(mappedApplicationInfos)
 
-        viewModel.getApplicationIcon(id = "")
+        viewModel.getApplicationIcon(packageName = "")
 
         assertNull(viewModel.applicationIcon.value)
     }

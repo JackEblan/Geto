@@ -18,7 +18,6 @@
 package com.android.geto.feature.appsettings
 
 import android.graphics.drawable.Drawable
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.android.geto.core.data.repository.AppSettingsRepository
@@ -40,11 +39,13 @@ import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.MappedShortcutInfoCompat
 import com.android.geto.core.model.SecureSetting
 import com.android.geto.core.model.SettingType
-import com.android.geto.feature.appsettings.navigation.AppSettingsArgs
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -53,7 +54,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AppSettingsViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle,
     private val appSettingsRepository: AppSettingsRepository,
     private val packageRepository: PackageRepository,
     private val clipboardRepository: ClipboardRepository,
@@ -65,6 +65,9 @@ class AppSettingsViewModel @Inject constructor(
     private val requestPinShortcutUseCase: RequestPinShortcutUseCase,
     private val updateRequestPinShortcutUseCase: UpdateRequestPinShortcutUseCase,
 ) : ViewModel() {
+    private var _packageName = MutableStateFlow<String?>(null)
+    val packageName = _packageName.asStateFlow()
+
     private var _secureSettings = MutableStateFlow<List<SecureSetting>>(emptyList())
     val secureSettings = _secureSettings.asStateFlow()
 
@@ -74,12 +77,10 @@ class AppSettingsViewModel @Inject constructor(
     private val _mappedShortcutInfoCompat = MutableStateFlow<MappedShortcutInfoCompat?>(null)
     val mappedShortcutInfoCompat = _mappedShortcutInfoCompat.asStateFlow()
 
-    private val _applyAppSettingsResult =
-        MutableStateFlow<ApplyAppSettingsResult?>(null)
+    private val _applyAppSettingsResult = MutableStateFlow<ApplyAppSettingsResult?>(null)
     val applyAppSettingsResult = _applyAppSettingsResult.asStateFlow()
 
-    private val _revertAppSettingsResult =
-        MutableStateFlow<RevertAppSettingsResult?>(null)
+    private val _revertAppSettingsResult = MutableStateFlow<RevertAppSettingsResult?>(null)
     val revertAppSettingsResult = _revertAppSettingsResult.asStateFlow()
 
     private val _autoLaunchResult = MutableStateFlow<AutoLaunchResult?>(null)
@@ -95,30 +96,35 @@ class AppSettingsViewModel @Inject constructor(
         MutableStateFlow<UpdateRequestPinShortcutResult?>(null)
     val updateRequestPinShortcutResult = _updateRequestPinShortcutResult.asStateFlow()
 
-    private val appSettingsArgs = AppSettingsArgs(savedStateHandle)
-
-    val packageName = appSettingsArgs.packageName
-
-    val appName = appSettingsArgs.appName
-
     private val permissionCommandLabel = "Command"
 
     val permissionCommandText = "pm grant com.android.geto android.permission.WRITE_SECURE_SETTINGS"
 
-    val appSettingUiState = appSettingsRepository.getAppSettingsByPackageName(packageName)
-        .map<List<AppSetting>, AppSettingsUiState>(AppSettingsUiState::Success).stateIn(
+    val appSettingsUiState: StateFlow<AppSettingsUiState> =
+        _packageName.filterNotNull().flatMapLatest { packageName ->
+            appSettingsRepository.getAppSettingsByPackageName(packageName)
+                .map<List<AppSetting>, AppSettingsUiState>(AppSettingsUiState::Success).stateIn(
+                    scope = viewModelScope,
+                    started = SharingStarted.WhileSubscribed(5_000),
+                    initialValue = AppSettingsUiState.Loading,
+                )
+        }.stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000),
             initialValue = AppSettingsUiState.Loading,
         )
 
-    fun applyAppSettings() {
+    fun updatePackageName(packageName: String) {
+        _packageName.update { packageName }
+    }
+
+    fun applyAppSettings(packageName: String) {
         viewModelScope.launch {
             _applyAppSettingsResult.update { applyAppSettingsUseCase(packageName = packageName) }
         }
     }
 
-    fun autoLaunchApp() {
+    fun autoLaunchApp(packageName: String) {
         viewModelScope.launch {
             _autoLaunchResult.update { autoLaunchUseCase(packageName = packageName) }
         }
@@ -146,16 +152,16 @@ class AppSettingsViewModel @Inject constructor(
         }
     }
 
-    fun getApplicationIcon(id: String = packageName) {
+    fun getApplicationIcon(packageName: String) {
         viewModelScope.launch {
-            _applicationIcon.update { packageRepository.getApplicationIcon(id) }
+            _applicationIcon.update { packageRepository.getApplicationIcon(packageName) }
         }
     }
 
-    fun getShortcut(id: String = packageName) {
+    fun getShortcut(packageName: String) {
         viewModelScope.launch {
             _mappedShortcutInfoCompat.update {
-                shortcutRepository.getPinnedShortcut(id = id)
+                shortcutRepository.getPinnedShortcut(id = packageName)
             }
         }
     }
@@ -169,13 +175,17 @@ class AppSettingsViewModel @Inject constructor(
         }
     }
 
-    fun revertAppSettings() {
+    fun revertAppSettings(packageName: String) {
         viewModelScope.launch {
             _revertAppSettingsResult.update { revertAppSettingsUseCase(packageName = packageName) }
         }
     }
 
-    fun requestPinShortcut(mappedShortcutInfoCompat: MappedShortcutInfoCompat) {
+    fun requestPinShortcut(
+        packageName: String,
+        appName: String,
+        mappedShortcutInfoCompat: MappedShortcutInfoCompat,
+    ) {
         viewModelScope.launch {
             _requestPinShortcutResult.update {
                 requestPinShortcutUseCase(
@@ -187,7 +197,11 @@ class AppSettingsViewModel @Inject constructor(
         }
     }
 
-    fun updateRequestPinShortcut(mappedShortcutInfoCompat: MappedShortcutInfoCompat) {
+    fun updateRequestPinShortcut(
+        packageName: String,
+        appName: String,
+        mappedShortcutInfoCompat: MappedShortcutInfoCompat,
+    ) {
         viewModelScope.launch {
             _updateRequestPinShortcutResult.update {
                 updateRequestPinShortcutUseCase(

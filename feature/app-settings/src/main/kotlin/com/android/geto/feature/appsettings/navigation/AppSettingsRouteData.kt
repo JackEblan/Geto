@@ -15,20 +15,9 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.feature.apps.navigation
+package com.android.geto.feature.appsettings.navigation
 
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.compose.composable
-import com.android.geto.feature.apps.AppsRoute
+import kotlinx.serialization.Serializable
 
-fun NavGraphBuilder.appsScreen(
-    onItemClick: (String, String) -> Unit,
-    onSettingsClick: () -> Unit,
-) {
-    composable<AppsRouteData> {
-        AppsRoute(
-            onItemClick = onItemClick,
-            onSettingsClick = onSettingsClick,
-        )
-    }
-}
+@Serializable
+data class AppSettingsRouteData(val packageName: String, val appName: String)
