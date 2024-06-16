@@ -19,7 +19,6 @@ package com.android.geto.feature.appsettings
 
 import android.graphics.drawable.Drawable
 import androidx.annotation.VisibleForTesting
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -90,6 +89,7 @@ import com.android.geto.feature.appsettings.dialog.shortcut.AddShortcutDialog
 import com.android.geto.feature.appsettings.dialog.shortcut.ShortcutDialogState
 import com.android.geto.feature.appsettings.dialog.shortcut.UpdateShortcutDialog
 import com.android.geto.feature.appsettings.dialog.shortcut.rememberShortcutDialogState
+import com.android.geto.feature.appsettings.navigation.AppSettingsRouteData
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
@@ -100,9 +100,10 @@ import kotlinx.coroutines.flow.onEach
 internal fun AppSettingsRoute(
     modifier: Modifier = Modifier,
     viewModel: AppSettingsViewModel = hiltViewModel(),
+    appSettingsRouteData: AppSettingsRouteData,
     onNavigationIconClick: () -> Unit,
 ) {
-    val appSettingsUiState = viewModel.appSettingUiState.collectAsStateWithLifecycle().value
+    val appSettingsUiState = viewModel.appSettingsUiState.collectAsStateWithLifecycle().value
 
     val secureSettings = viewModel.secureSettings.collectAsStateWithLifecycle().value
 
@@ -133,8 +134,8 @@ internal fun AppSettingsRoute(
 
     AppSettingsScreen(
         modifier = modifier,
-        packageName = viewModel.packageName,
-        appName = viewModel.appName,
+        packageName = appSettingsRouteData.packageName,
+        appName = appSettingsRouteData.appName,
         appSettingsUiState = appSettingsUiState,
         snackbarHostState = snackbarHostState,
         applicationIcon = applicationIcon,
@@ -148,13 +149,14 @@ internal fun AppSettingsRoute(
         updateRequestPinShortcutResult = updateRequestPinShortcutResult,
         setPrimaryClipResult = setPrimaryClipResult,
         onNavigationIconClick = onNavigationIconClick,
-        onRevertAppSettings = viewModel::revertAppSettings,
-        onGetShortcut = viewModel::getShortcut,
+        onRevertAppSettings = { viewModel.revertAppSettings(packageName = appSettingsRouteData.packageName) },
+        onGetShortcut = { viewModel.getShortcut(packageName = appSettingsRouteData.packageName) },
         onCheckAppSetting = viewModel::checkAppSetting,
         onDeleteAppSetting = viewModel::deleteAppSetting,
-        onLaunchApp = viewModel::applyAppSettings,
-        onAutoLaunchApp = viewModel::autoLaunchApp,
-        onGetApplicationIcon = viewModel::getApplicationIcon,
+        onLaunchApp = { viewModel.applyAppSettings(packageName = appSettingsRouteData.packageName) },
+        onUpdatePackageName = { viewModel.updatePackageName(packageName = appSettingsRouteData.packageName) },
+        onAutoLaunchApp = { viewModel.autoLaunchApp(packageName = appSettingsRouteData.packageName) },
+        onGetApplicationIcon = { viewModel.getApplicationIcon(packageName = appSettingsRouteData.packageName) },
         onResetApplyAppSettingsResult = viewModel::resetApplyAppSettingsResult,
         onResetRevertAppSettingsResult = viewModel::resetRevertAppSettingsResult,
         onResetAutoLaunchResult = viewModel::resetAutoLaunchResult,
@@ -163,8 +165,20 @@ internal fun AppSettingsRoute(
         onGetSecureSettingsByName = viewModel::getSecureSettingsByName,
         onAddAppSetting = viewModel::addAppSetting,
         onCopyPermissionCommand = viewModel::copyPermissionCommand,
-        onAddShortcut = viewModel::requestPinShortcut,
-        onUpdateShortcut = viewModel::updateRequestPinShortcut,
+        onAddShortcut = {
+            viewModel.requestPinShortcut(
+                packageName = appSettingsRouteData.packageName,
+                appName = appSettingsRouteData.appName,
+                mappedShortcutInfoCompat = it,
+            )
+        },
+        onUpdateShortcut = {
+            viewModel.updateRequestPinShortcut(
+                packageName = appSettingsRouteData.packageName,
+                appName = appSettingsRouteData.appName,
+                mappedShortcutInfoCompat = it,
+            )
+        },
     )
 }
 
@@ -192,6 +206,7 @@ internal fun AppSettingsScreen(
     onCheckAppSetting: (Boolean, AppSetting) -> Unit,
     onDeleteAppSetting: (AppSetting) -> Unit,
     onLaunchApp: () -> Unit,
+    onUpdatePackageName: () -> Unit,
     onAutoLaunchApp: () -> Unit,
     onGetApplicationIcon: () -> Unit,
     onResetApplyAppSettingsResult: () -> Unit,
@@ -228,6 +243,7 @@ internal fun AppSettingsScreen(
         requestPinShortcutResult = requestPinShortcutResult,
         updateRequestPinShortcutResult = updateRequestPinShortcutResult,
         setPrimaryClipResult = setPrimaryClipResult,
+        onUpdatePackageName = onUpdatePackageName,
         onAutoLaunchApp = onAutoLaunchApp,
         onGetApplicationIcon = onGetApplicationIcon,
         onGetShortcut = onGetShortcut,
@@ -327,6 +343,7 @@ private fun AppSettingsLaunchedEffects(
     requestPinShortcutResult: RequestPinShortcutResult?,
     updateRequestPinShortcutResult: UpdateRequestPinShortcutResult?,
     setPrimaryClipResult: Boolean,
+    onUpdatePackageName: () -> Unit,
     onAutoLaunchApp: () -> Unit,
     onGetApplicationIcon: () -> Unit,
     onGetShortcut: () -> Unit,
@@ -355,6 +372,7 @@ private fun AppSettingsLaunchedEffects(
     val context = LocalContext.current
 
     LaunchedEffect(key1 = true) {
+        onUpdatePackageName()
         onAutoLaunchApp()
         onGetApplicationIcon()
         onGetShortcut()
@@ -677,7 +695,6 @@ private fun LoadingState(modifier: Modifier = Modifier) {
     )
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun SuccessState(
     modifier: Modifier = Modifier,
@@ -697,7 +714,7 @@ private fun SuccessState(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 10.dp, horizontal = 5.dp)
-                    .animateItemPlacement(),
+                    .animateItem(),
                 appSetting = appSettings,
                 onCheckAppSetting = { check ->
                     onAppSettingsItemCheckBoxChange(
@@ -804,6 +821,7 @@ private fun AppSettingsScreenLoadingStatePreview() {
             onCheckAppSetting = { _, _ -> },
             onDeleteAppSetting = {},
             onLaunchApp = {},
+            onUpdatePackageName = {},
             onAutoLaunchApp = {},
             onGetApplicationIcon = {},
             onResetApplyAppSettingsResult = {},
@@ -845,6 +863,7 @@ private fun AppSettingsScreenEmptyStatePreview() {
             onCheckAppSetting = { _, _ -> },
             onDeleteAppSetting = {},
             onLaunchApp = {},
+            onUpdatePackageName = {},
             onAutoLaunchApp = {},
             onGetApplicationIcon = {},
             onResetApplyAppSettingsResult = {},
@@ -888,6 +907,7 @@ private fun AppSettingsScreenSuccessStatePreview(
             onCheckAppSetting = { _, _ -> },
             onDeleteAppSetting = {},
             onLaunchApp = {},
+            onUpdatePackageName = {},
             onAutoLaunchApp = {},
             onGetApplicationIcon = {},
             onResetApplyAppSettingsResult = {},

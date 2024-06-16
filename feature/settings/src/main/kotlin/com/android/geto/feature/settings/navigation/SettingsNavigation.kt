@@ -22,18 +22,14 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.android.geto.feature.settings.SettingsRoute
 
-const val SETTINGS_NAVIGATION_ROUTE = "settings_route"
-
 fun NavController.navigateToSettings() {
-    navigate(SETTINGS_NAVIGATION_ROUTE)
+    navigate(SettingsRouteData)
 }
 
 fun NavGraphBuilder.settingsScreen(
     onNavigationIconClick: () -> Unit,
 ) {
-    composable(
-        route = SETTINGS_NAVIGATION_ROUTE,
-    ) {
+    composable<SettingsRouteData> {
         SettingsRoute(
             onNavigationIconClick = onNavigationIconClick,
 
