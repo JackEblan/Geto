@@ -710,11 +710,11 @@ private fun SuccessState(
         contentPadding = contentPadding,
     ) {
         items(appSettingsUiState.appSettingList, key = { it.id!! }) { appSettings ->
-            Modifier
-                .fillMaxWidth()
-                .padding(vertical = 10.dp, horizontal = 5.dp)
             AppSettingItem(
-                modifier = Modifier.animateItem(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 10.dp, horizontal = 5.dp)
+                    .animateItem(),
                 appSetting = appSettings,
                 onCheckAppSetting = { check ->
                     onAppSettingsItemCheckBoxChange(
