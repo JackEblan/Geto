@@ -48,6 +48,9 @@ internal fun Project.configureAndroidCompose(
                 isIncludeAndroidResources = true
 
                 isReturnDefaultValues = true
+                all {
+                    it.systemProperties["robolectric.pixelCopyRenderMode"] = "hardware"
+                }
             }
         }
     }
