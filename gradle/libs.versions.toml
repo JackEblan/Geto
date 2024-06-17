@@ -36,7 +36,7 @@ protobuf = "4.26.1"
 protobufPlugin = "0.9.4"
 room = "2.6.1"
 robolectric = "4.12.2"
-roborazzi = "1.15.0"
+roborazzi = "1.20.0"
 
 [libraries]
 accompanist-testharness = { group = "com.google.accompanist", name = "accompanist-testharness", version.ref = "accompanist" }
