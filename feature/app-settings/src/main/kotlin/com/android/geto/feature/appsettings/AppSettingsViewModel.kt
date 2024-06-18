@@ -24,11 +24,12 @@ import com.android.geto.core.data.repository.AppSettingsRepository
 import com.android.geto.core.data.repository.ClipboardRepository
 import com.android.geto.core.data.repository.PackageRepository
 import com.android.geto.core.data.repository.SecureSettingsRepository
-import com.android.geto.core.data.repository.ShortcutRepository
 import com.android.geto.core.domain.ApplyAppSettingsResult
 import com.android.geto.core.domain.ApplyAppSettingsUseCase
 import com.android.geto.core.domain.AutoLaunchResult
 import com.android.geto.core.domain.AutoLaunchUseCase
+import com.android.geto.core.domain.GetPinnedShortcutResult
+import com.android.geto.core.domain.GetPinnedShortcutUseCase
 import com.android.geto.core.domain.RequestPinShortcutResult
 import com.android.geto.core.domain.RequestPinShortcutUseCase
 import com.android.geto.core.domain.RevertAppSettingsResult
@@ -58,12 +59,12 @@ class AppSettingsViewModel @Inject constructor(
     private val packageRepository: PackageRepository,
     private val clipboardRepository: ClipboardRepository,
     private val secureSettingsRepository: SecureSettingsRepository,
-    private val shortcutRepository: ShortcutRepository,
     private val applyAppSettingsUseCase: ApplyAppSettingsUseCase,
     private val revertAppSettingsUseCase: RevertAppSettingsUseCase,
     private val autoLaunchUseCase: AutoLaunchUseCase,
     private val requestPinShortcutUseCase: RequestPinShortcutUseCase,
     private val updateRequestPinShortcutUseCase: UpdateRequestPinShortcutUseCase,
+    private val getPinnedShortcutUseCase: GetPinnedShortcutUseCase,
 ) : ViewModel() {
     private var _packageName = MutableStateFlow<String?>(null)
     val packageName = _packageName.asStateFlow()
@@ -73,9 +74,6 @@ class AppSettingsViewModel @Inject constructor(
 
     private var _applicationIcon = MutableStateFlow<Drawable?>(null)
     val applicationIcon = _applicationIcon.asStateFlow()
-
-    private val _mappedShortcutInfoCompat = MutableStateFlow<MappedShortcutInfoCompat?>(null)
-    val mappedShortcutInfoCompat = _mappedShortcutInfoCompat.asStateFlow()
 
     private val _applyAppSettingsResult = MutableStateFlow<ApplyAppSettingsResult?>(null)
     val applyAppSettingsResult = _applyAppSettingsResult.asStateFlow()
@@ -95,6 +93,10 @@ class AppSettingsViewModel @Inject constructor(
     private val _updateRequestPinShortcutResult =
         MutableStateFlow<UpdateRequestPinShortcutResult?>(null)
     val updateRequestPinShortcutResult = _updateRequestPinShortcutResult.asStateFlow()
+
+    private val _getPinnedShortcutResult =
+        MutableStateFlow<GetPinnedShortcutResult?>(null)
+    val getPinnedShortcutResult = _getPinnedShortcutResult.asStateFlow()
 
     private val permissionCommandLabel = "Command"
 
@@ -158,10 +160,10 @@ class AppSettingsViewModel @Inject constructor(
         }
     }
 
-    fun getShortcut(packageName: String) {
+    fun getPinnedShortcut(packageName: String) {
         viewModelScope.launch {
-            _mappedShortcutInfoCompat.update {
-                shortcutRepository.getPinnedShortcut(id = packageName)
+            _getPinnedShortcutResult.update {
+                getPinnedShortcutUseCase(id = packageName)
             }
         }
     }
@@ -236,9 +238,16 @@ class AppSettingsViewModel @Inject constructor(
         _autoLaunchResult.update { null }
     }
 
-    fun resetShortcutResult() {
+    fun resetRequestPinShortcutResult() {
         _requestPinShortcutResult.update { null }
+    }
+
+    fun resetUpdateRequestPinShortcutResult() {
         _updateRequestPinShortcutResult.update { null }
+    }
+
+    fun resetGetPinnedShortcutResult() {
+        _getPinnedShortcutResult.update { null }
     }
 
     fun resetSetPrimaryClipResult() {

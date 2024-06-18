@@ -8,13 +8,13 @@
       <SelectionState runConfigName="Generate Baseline Profile for app">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="appsScreen_isDisplayed_whenNavigateBackFromSettingsScreen()">
+      <SelectionState runConfigName="AppSettingsScreenTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="NavigationTest">
+      <SelectionState runConfigName="AppSettingsScreenSnackbarTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="appsScreen_isDisplayed_whenStarted()">
+      <SelectionState runConfigName="AppSettingsScreenDialogsTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>
