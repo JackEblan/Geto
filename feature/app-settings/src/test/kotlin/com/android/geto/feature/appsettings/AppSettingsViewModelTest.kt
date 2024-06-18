@@ -18,6 +18,7 @@
 package com.android.geto.feature.appsettings
 
 import androidx.lifecycle.SavedStateHandle
+import androidx.navigation.testing.invoke
 import com.android.geto.core.domain.ApplyAppSettingsResult
 import com.android.geto.core.domain.ApplyAppSettingsUseCase
 import com.android.geto.core.domain.AutoLaunchUseCase
@@ -41,6 +42,7 @@ import com.android.geto.core.testing.repository.TestSecureSettingsRepository
 import com.android.geto.core.testing.repository.TestShortcutRepository
 import com.android.geto.core.testing.repository.TestUserDataRepository
 import com.android.geto.core.testing.util.MainDispatcherRule
+import com.android.geto.feature.appsettings.navigation.AppSettingsRouteData
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -134,9 +136,9 @@ class AppSettingsViewModelTest {
         getPinnedShortcutUseCase = GetPinnedShortcutUseCase(shortcutRepository = shortcutRepository)
 
         savedStateHandle = SavedStateHandle(
-            mapOf(
-                "packageName" to packageName,
-                "appName" to appName,
+            route = AppSettingsRouteData(
+                packageName = packageName,
+                appName = appName,
             ),
         )
 

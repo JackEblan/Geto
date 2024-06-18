@@ -52,6 +52,7 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                 add("implementation", libs.findLibrary("kotlinx.serialization.json").get())
 
                 add("androidTestImplementation", libs.findLibrary("androidx.lifecycle.runtime.testing").get())
+                add("testImplementation", libs.findLibrary("androidx-navigation-testing").get())
             }
         }
     }
