@@ -39,7 +39,7 @@ class UpdateRequestPinShortcutUseCaseTest {
     }
 
     @Test
-    fun updateRequestPinShortcutUseCase_isIDNotFound_whenUpdateRequestPinShortcut() = runTest {
+    fun updateRequestPinShortcutUseCase_isIDNotFound() = runTest {
         val shortcuts = List(2) {
             MappedShortcutInfoCompat(
                 id = "com.android.geto",
@@ -68,7 +68,7 @@ class UpdateRequestPinShortcutUseCaseTest {
     }
 
     @Test
-    fun updateRequestPinShortcutUseCase_isUpdateImmutableShortcuts_whenUpdateRequestPinShortcut() =
+    fun updateRequestPinShortcutUseCase_isUpdateImmutableShortcuts() =
         runTest {
             val shortcuts = List(2) {
                 MappedShortcutInfoCompat(
@@ -98,7 +98,7 @@ class UpdateRequestPinShortcutUseCaseTest {
         }
 
     @Test
-    fun updateRequestPinShortcutUseCase_isSuccess_whenUpdateRequestPinShortcut() = runTest {
+    fun updateRequestPinShortcutUseCase_isSuccess() = runTest {
         val shortcuts = List(2) {
             MappedShortcutInfoCompat(
                 id = "com.android.geto",

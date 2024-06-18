@@ -20,6 +20,8 @@ package com.android.geto.feature.appsettings
 import com.android.geto.core.domain.ApplyAppSettingsResult
 import com.android.geto.core.domain.ApplyAppSettingsUseCase
 import com.android.geto.core.domain.AutoLaunchUseCase
+import com.android.geto.core.domain.GetPinnedShortcutResult
+import com.android.geto.core.domain.GetPinnedShortcutUseCase
 import com.android.geto.core.domain.RequestPinShortcutResult
 import com.android.geto.core.domain.RequestPinShortcutUseCase
 import com.android.geto.core.domain.RevertAppSettingsResult
@@ -80,6 +82,8 @@ class AppSettingsViewModelTest {
 
     private lateinit var updateRequestPinShortcutUseCase: UpdateRequestPinShortcutUseCase
 
+    private lateinit var getPinnedShortcutUseCase: GetPinnedShortcutUseCase
+
     private lateinit var viewModel: AppSettingsViewModel
 
     private val packageName = "com.android.geto"
@@ -125,17 +129,19 @@ class AppSettingsViewModelTest {
         updateRequestPinShortcutUseCase =
             UpdateRequestPinShortcutUseCase(shortcutRepository = shortcutRepository)
 
+        getPinnedShortcutUseCase = GetPinnedShortcutUseCase(shortcutRepository = shortcutRepository)
+
         viewModel = AppSettingsViewModel(
             appSettingsRepository = appSettingsRepository,
             packageRepository = packageRepository,
             clipboardRepository = clipboardRepository,
             secureSettingsRepository = secureSettingsRepository,
-            shortcutRepository = shortcutRepository,
             applyAppSettingsUseCase = applyAppSettingsUseCase,
             revertAppSettingsUseCase = revertAppSettingsUseCase,
             autoLaunchUseCase = autoLaunchUseCase,
             requestPinShortcutUseCase = requestPinShortcutUseCase,
             updateRequestPinShortcutUseCase = updateRequestPinShortcutUseCase,
+            getPinnedShortcutUseCase = getPinnedShortcutUseCase,
         )
     }
 
@@ -185,8 +191,8 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun mappedShortcutInfoCompat_isNull_whenStarted() {
-        assertNull(viewModel.mappedShortcutInfoCompat.value)
+    fun getPinnedShortcutResult_isNull_whenStarted() {
+        assertNull(viewModel.getPinnedShortcutResult.value)
     }
 
     @Test
@@ -694,7 +700,7 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun mappedShortcutInfoCompat_isNotNull_whenGetShortcut() = runTest {
+    fun getPinnedShortcutResult_isSuccess_whenGetShortcut() = runTest {
         val shortcuts = List(2) {
             MappedShortcutInfoCompat(
                 id = "com.android.geto",
@@ -705,13 +711,13 @@ class AppSettingsViewModelTest {
 
         shortcutRepository.setShortcuts(shortcuts)
 
-        viewModel.getShortcut(packageName = packageName)
+        viewModel.getPinnedShortcut(packageName = packageName)
 
-        assertNotNull(viewModel.mappedShortcutInfoCompat.value)
+        assertIs<GetPinnedShortcutResult.Success>(viewModel.getPinnedShortcutResult.value)
     }
 
     @Test
-    fun mappedShortcutInfoCompat_isNull_whenGetShortcut() = runTest {
+    fun getPinnedShortcutResult_isFailure_whenGetShortcut() = runTest {
         val shortcuts = List(2) {
             MappedShortcutInfoCompat(
                 id = "com.android.geto",
@@ -722,9 +728,9 @@ class AppSettingsViewModelTest {
 
         shortcutRepository.setShortcuts(shortcuts)
 
-        viewModel.getShortcut("")
+        viewModel.getPinnedShortcut("")
 
-        assertNull(viewModel.mappedShortcutInfoCompat.value)
+        assertIs<GetPinnedShortcutResult.Failure>(viewModel.getPinnedShortcutResult.value)
     }
 
     @Test

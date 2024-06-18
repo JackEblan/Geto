@@ -39,7 +39,7 @@ class RequestPinShortcutUseCaseTest {
     }
 
     @Test
-    fun requestPinShortcutUseCase_isSupportedLauncher_whenRequestPinShortcut() = runTest {
+    fun requestPinShortcutUseCase_isSupportedLauncher() = runTest {
         shortcutRepository.setRequestPinShortcutSupported(true)
 
         assertIs<RequestPinShortcutResult.SupportedLauncher>(
@@ -56,7 +56,7 @@ class RequestPinShortcutUseCaseTest {
     }
 
     @Test
-    fun requestPinShortcutUseCase_isUnSupportedLauncher_whenRequestPinShortcut() = runTest {
+    fun requestPinShortcutUseCase_isUnSupportedLauncher() = runTest {
         shortcutRepository.setRequestPinShortcutSupported(false)
 
         assertIs<RequestPinShortcutResult.UnSupportedLauncher>(

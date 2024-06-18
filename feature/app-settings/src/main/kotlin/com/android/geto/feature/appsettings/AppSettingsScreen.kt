@@ -70,6 +70,7 @@ import com.android.geto.core.designsystem.icon.GetoIcons
 import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.domain.ApplyAppSettingsResult
 import com.android.geto.core.domain.AutoLaunchResult
+import com.android.geto.core.domain.GetPinnedShortcutResult
 import com.android.geto.core.domain.RequestPinShortcutResult
 import com.android.geto.core.domain.RevertAppSettingsResult
 import com.android.geto.core.domain.UpdateRequestPinShortcutResult
@@ -117,8 +118,8 @@ internal fun AppSettingsRoute(
 
     val applicationIcon = viewModel.applicationIcon.collectAsStateWithLifecycle().value
 
-    val mappedShortcutInfoCompat =
-        viewModel.mappedShortcutInfoCompat.collectAsStateWithLifecycle().value
+    val getPinnedShortcutResult =
+        viewModel.getPinnedShortcutResult.collectAsStateWithLifecycle().value
 
     val setPrimaryClipResult = viewModel.setPrimaryClipResult.collectAsStateWithLifecycle().value
 
@@ -139,7 +140,6 @@ internal fun AppSettingsRoute(
         appSettingsUiState = appSettingsUiState,
         snackbarHostState = snackbarHostState,
         applicationIcon = applicationIcon,
-        mappedShortcutInfoCompat = mappedShortcutInfoCompat,
         secureSettings = secureSettings,
         permissionCommandText = viewModel.permissionCommandText,
         applyAppSettingsResult = applyAppSettingsResult,
@@ -147,10 +147,11 @@ internal fun AppSettingsRoute(
         autoLaunchResult = autoLaunchResult,
         requestPinShortcutResult = requestPinShortcutResult,
         updateRequestPinShortcutResult = updateRequestPinShortcutResult,
+        getPinnedShortcutResult = getPinnedShortcutResult,
         setPrimaryClipResult = setPrimaryClipResult,
         onNavigationIconClick = onNavigationIconClick,
         onRevertAppSettings = { viewModel.revertAppSettings(packageName = appSettingsRouteData.packageName) },
-        onGetShortcut = { viewModel.getShortcut(packageName = appSettingsRouteData.packageName) },
+        onGetPinnedShortcut = { viewModel.getPinnedShortcut(packageName = appSettingsRouteData.packageName) },
         onCheckAppSetting = viewModel::checkAppSetting,
         onDeleteAppSetting = viewModel::deleteAppSetting,
         onLaunchApp = { viewModel.applyAppSettings(packageName = appSettingsRouteData.packageName) },
@@ -160,7 +161,9 @@ internal fun AppSettingsRoute(
         onResetApplyAppSettingsResult = viewModel::resetApplyAppSettingsResult,
         onResetRevertAppSettingsResult = viewModel::resetRevertAppSettingsResult,
         onResetAutoLaunchResult = viewModel::resetAutoLaunchResult,
-        onResetShortcutResult = viewModel::resetShortcutResult,
+        onResetRequestPinShortcutResult = viewModel::resetRequestPinShortcutResult,
+        onResetUpdateRequestPinShortcutResult = viewModel::resetUpdateRequestPinShortcutResult,
+        onResetGetPinnedShortcutResult = viewModel::resetGetPinnedShortcutResult,
         onResetSetPrimaryClipResult = viewModel::resetSetPrimaryClipResult,
         onGetSecureSettingsByName = viewModel::getSecureSettingsByName,
         onAddAppSetting = viewModel::addAppSetting,
@@ -191,7 +194,6 @@ internal fun AppSettingsScreen(
     appSettingsUiState: AppSettingsUiState,
     snackbarHostState: SnackbarHostState,
     applicationIcon: Drawable?,
-    mappedShortcutInfoCompat: MappedShortcutInfoCompat?,
     secureSettings: List<SecureSetting>,
     permissionCommandText: String,
     applyAppSettingsResult: ApplyAppSettingsResult?,
@@ -199,10 +201,11 @@ internal fun AppSettingsScreen(
     autoLaunchResult: AutoLaunchResult?,
     requestPinShortcutResult: RequestPinShortcutResult?,
     updateRequestPinShortcutResult: UpdateRequestPinShortcutResult?,
+    getPinnedShortcutResult: GetPinnedShortcutResult?,
     setPrimaryClipResult: Boolean,
     onNavigationIconClick: () -> Unit,
     onRevertAppSettings: () -> Unit,
-    onGetShortcut: () -> Unit,
+    onGetPinnedShortcut: () -> Unit,
     onCheckAppSetting: (Boolean, AppSetting) -> Unit,
     onDeleteAppSetting: (AppSetting) -> Unit,
     onLaunchApp: () -> Unit,
@@ -212,7 +215,9 @@ internal fun AppSettingsScreen(
     onResetApplyAppSettingsResult: () -> Unit,
     onResetRevertAppSettingsResult: () -> Unit,
     onResetAutoLaunchResult: () -> Unit,
-    onResetShortcutResult: () -> Unit,
+    onResetRequestPinShortcutResult: () -> Unit,
+    onResetUpdateRequestPinShortcutResult: () -> Unit,
+    onResetGetPinnedShortcutResult: () -> Unit,
     onResetSetPrimaryClipResult: () -> Unit,
     onGetSecureSettingsByName: (SettingType, String) -> Unit,
     onAddAppSetting: (AppSetting) -> Unit,
@@ -242,15 +247,18 @@ internal fun AppSettingsScreen(
         autoLaunchResult = autoLaunchResult,
         requestPinShortcutResult = requestPinShortcutResult,
         updateRequestPinShortcutResult = updateRequestPinShortcutResult,
+        getPinnedShortcutResult = getPinnedShortcutResult,
         setPrimaryClipResult = setPrimaryClipResult,
         onUpdatePackageName = onUpdatePackageName,
         onAutoLaunchApp = onAutoLaunchApp,
         onGetApplicationIcon = onGetApplicationIcon,
-        onGetShortcut = onGetShortcut,
+        onGetPinnedShortcut = onGetPinnedShortcut,
         onResetApplyAppSettingsResult = onResetApplyAppSettingsResult,
         onResetRevertAppSettingsResult = onResetRevertAppSettingsResult,
         onResetAutoLaunchResult = onResetAutoLaunchResult,
-        onResetShortcutResult = onResetShortcutResult,
+        onResetRequestPinShortcutResult = onResetRequestPinShortcutResult,
+        onResetUpdateRequestPinShortcutResult = onResetUpdateRequestPinShortcutResult,
+        onResetGetPinnedShortcutResult = onResetGetPinnedShortcutResult,
         onResetSetPrimaryClipResult = onResetSetPrimaryClipResult,
         onGetSecureSettingsByName = onGetSecureSettingsByName,
     )
@@ -280,15 +288,7 @@ internal fun AppSettingsScreen(
                 onSettingsIconClick = {
                     appSettingDialogState.updateShowDialog(true)
                 },
-                onShortcutIconClick = {
-                    if (mappedShortcutInfoCompat != null) {
-                        updateShortcutDialogState.updateShortLabel(mappedShortcutInfoCompat.shortLabel)
-                        updateShortcutDialogState.updateLongLabel(mappedShortcutInfoCompat.longLabel)
-                        updateShortcutDialogState.updateShowDialog(true)
-                    } else {
-                        addShortcutDialogState.updateShowDialog(true)
-                    }
-                },
+                onShortcutIconClick = onGetPinnedShortcut,
                 onLaunchApp = onLaunchApp,
             )
         },
@@ -342,15 +342,18 @@ private fun AppSettingsLaunchedEffects(
     autoLaunchResult: AutoLaunchResult?,
     requestPinShortcutResult: RequestPinShortcutResult?,
     updateRequestPinShortcutResult: UpdateRequestPinShortcutResult?,
+    getPinnedShortcutResult: GetPinnedShortcutResult?,
     setPrimaryClipResult: Boolean,
     onUpdatePackageName: () -> Unit,
     onAutoLaunchApp: () -> Unit,
     onGetApplicationIcon: () -> Unit,
-    onGetShortcut: () -> Unit,
+    onGetPinnedShortcut: () -> Unit,
     onResetApplyAppSettingsResult: () -> Unit,
     onResetRevertAppSettingsResult: () -> Unit,
     onResetAutoLaunchResult: () -> Unit,
-    onResetShortcutResult: () -> Unit,
+    onResetRequestPinShortcutResult: () -> Unit,
+    onResetUpdateRequestPinShortcutResult: () -> Unit,
+    onResetGetPinnedShortcutResult: () -> Unit,
     onResetSetPrimaryClipResult: () -> Unit,
     onGetSecureSettingsByName: (SettingType, String) -> Unit,
 ) {
@@ -375,7 +378,7 @@ private fun AppSettingsLaunchedEffects(
         onUpdatePackageName()
         onAutoLaunchApp()
         onGetApplicationIcon()
-        onGetShortcut()
+        onGetPinnedShortcut()
     }
 
     LaunchedEffect(key1 = applyAppSettingsResult) {
@@ -446,12 +449,12 @@ private fun AppSettingsLaunchedEffects(
             null -> Unit
         }
 
-        onResetShortcutResult()
+        onResetRequestPinShortcutResult()
     }
 
     LaunchedEffect(key1 = updateRequestPinShortcutResult) {
         when (updateRequestPinShortcutResult) {
-            UpdateRequestPinShortcutResult.Failed -> snackbarHostState.showSnackbar(
+            UpdateRequestPinShortcutResult.Failure -> snackbarHostState.showSnackbar(
                 message = shortcutUpdateFailed,
             )
 
@@ -470,7 +473,25 @@ private fun AppSettingsLaunchedEffects(
             null -> Unit
         }
 
-        onResetShortcutResult()
+        onResetUpdateRequestPinShortcutResult()
+    }
+
+    LaunchedEffect(key1 = getPinnedShortcutResult) {
+        when (getPinnedShortcutResult) {
+            GetPinnedShortcutResult.Failure -> {
+                addShortcutDialogState.updateShowDialog(true)
+            }
+
+            is GetPinnedShortcutResult.Success -> {
+                updateShortcutDialogState.updateShortLabel(getPinnedShortcutResult.mappedShortcutInfoCompat.shortLabel)
+                updateShortcutDialogState.updateLongLabel(getPinnedShortcutResult.mappedShortcutInfoCompat.longLabel)
+                updateShortcutDialogState.updateShowDialog(true)
+            }
+
+            null -> Unit
+        }
+
+        onResetGetPinnedShortcutResult()
     }
 
     LaunchedEffect(key1 = setPrimaryClipResult) {
@@ -806,7 +827,6 @@ private fun AppSettingsScreenLoadingStatePreview() {
             appSettingsUiState = AppSettingsUiState.Loading,
             snackbarHostState = SnackbarHostState(),
             applicationIcon = null,
-            mappedShortcutInfoCompat = null,
             secureSettings = emptyList(),
             permissionCommandText = "",
             applyAppSettingsResult = null,
@@ -814,10 +834,11 @@ private fun AppSettingsScreenLoadingStatePreview() {
             autoLaunchResult = AutoLaunchResult.Ignore,
             requestPinShortcutResult = null,
             updateRequestPinShortcutResult = null,
+            getPinnedShortcutResult = null,
             setPrimaryClipResult = false,
             onNavigationIconClick = {},
             onRevertAppSettings = {},
-            onGetShortcut = {},
+            onGetPinnedShortcut = {},
             onCheckAppSetting = { _, _ -> },
             onDeleteAppSetting = {},
             onLaunchApp = {},
@@ -827,7 +848,9 @@ private fun AppSettingsScreenLoadingStatePreview() {
             onResetApplyAppSettingsResult = {},
             onResetRevertAppSettingsResult = {},
             onResetAutoLaunchResult = {},
-            onResetShortcutResult = {},
+            onResetRequestPinShortcutResult = {},
+            onResetUpdateRequestPinShortcutResult = {},
+            onResetGetPinnedShortcutResult = {},
             onResetSetPrimaryClipResult = {},
             onGetSecureSettingsByName = { _, _ -> },
             onAddAppSetting = {},
@@ -848,7 +871,6 @@ private fun AppSettingsScreenEmptyStatePreview() {
             appSettingsUiState = AppSettingsUiState.Success(emptyList()),
             snackbarHostState = SnackbarHostState(),
             applicationIcon = null,
-            mappedShortcutInfoCompat = null,
             secureSettings = emptyList(),
             permissionCommandText = "",
             applyAppSettingsResult = null,
@@ -856,10 +878,11 @@ private fun AppSettingsScreenEmptyStatePreview() {
             autoLaunchResult = AutoLaunchResult.Ignore,
             requestPinShortcutResult = null,
             updateRequestPinShortcutResult = null,
+            getPinnedShortcutResult = null,
             setPrimaryClipResult = false,
             onNavigationIconClick = {},
             onRevertAppSettings = {},
-            onGetShortcut = {},
+            onGetPinnedShortcut = {},
             onCheckAppSetting = { _, _ -> },
             onDeleteAppSetting = {},
             onLaunchApp = {},
@@ -869,7 +892,9 @@ private fun AppSettingsScreenEmptyStatePreview() {
             onResetApplyAppSettingsResult = {},
             onResetRevertAppSettingsResult = {},
             onResetAutoLaunchResult = {},
-            onResetShortcutResult = {},
+            onResetRequestPinShortcutResult = {},
+            onResetUpdateRequestPinShortcutResult = {},
+            onResetGetPinnedShortcutResult = {},
             onResetSetPrimaryClipResult = {},
             onGetSecureSettingsByName = { _, _ -> },
             onAddAppSetting = {},
@@ -892,7 +917,6 @@ private fun AppSettingsScreenSuccessStatePreview(
             appSettingsUiState = AppSettingsUiState.Success(appSettings),
             snackbarHostState = SnackbarHostState(),
             applicationIcon = null,
-            mappedShortcutInfoCompat = null,
             secureSettings = emptyList(),
             permissionCommandText = "",
             applyAppSettingsResult = null,
@@ -900,10 +924,11 @@ private fun AppSettingsScreenSuccessStatePreview(
             autoLaunchResult = AutoLaunchResult.Ignore,
             requestPinShortcutResult = null,
             updateRequestPinShortcutResult = null,
+            getPinnedShortcutResult = null,
             setPrimaryClipResult = false,
             onNavigationIconClick = {},
             onRevertAppSettings = {},
-            onGetShortcut = {},
+            onGetPinnedShortcut = {},
             onCheckAppSetting = { _, _ -> },
             onDeleteAppSetting = {},
             onLaunchApp = {},
@@ -913,7 +938,9 @@ private fun AppSettingsScreenSuccessStatePreview(
             onResetApplyAppSettingsResult = {},
             onResetRevertAppSettingsResult = {},
             onResetAutoLaunchResult = {},
-            onResetShortcutResult = {},
+            onResetRequestPinShortcutResult = {},
+            onResetUpdateRequestPinShortcutResult = {},
+            onResetGetPinnedShortcutResult = {},
             onResetSetPrimaryClipResult = {},
             onGetSecureSettingsByName = { _, _ -> },
             onAddAppSetting = {},

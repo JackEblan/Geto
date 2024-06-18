@@ -44,7 +44,7 @@ class UpdateRequestPinShortcutUseCase @Inject constructor(private val shortcutRe
             ) {
                 UpdateRequestPinShortcutResult.Success
             } else {
-                UpdateRequestPinShortcutResult.Failed
+                UpdateRequestPinShortcutResult.Failure
             }
         } catch (e: IllegalArgumentException) {
             UpdateRequestPinShortcutResult.UpdateImmutableShortcuts
@@ -57,7 +57,7 @@ sealed interface UpdateRequestPinShortcutResult {
 
     data object Success : UpdateRequestPinShortcutResult
 
-    data object Failed : UpdateRequestPinShortcutResult
+    data object Failure : UpdateRequestPinShortcutResult
 
     data object UpdateImmutableShortcuts : UpdateRequestPinShortcutResult
 }
