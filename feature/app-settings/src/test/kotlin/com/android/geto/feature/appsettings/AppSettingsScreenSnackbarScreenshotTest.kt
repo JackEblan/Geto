@@ -92,7 +92,6 @@ class AppSettingsScreenSnackbarScreenshotTest {
                     onCheckAppSetting = { _, _ -> },
                     onDeleteAppSetting = {},
                     onLaunchApp = {},
-                    onUpdatePackageName = {},
                     onAutoLaunchApp = {},
                     onGetApplicationIcon = {},
                     onResetApplyAppSettingsResult = {},

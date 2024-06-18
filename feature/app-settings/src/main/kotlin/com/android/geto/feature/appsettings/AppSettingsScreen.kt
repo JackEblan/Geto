@@ -150,14 +150,13 @@ internal fun AppSettingsRoute(
         getPinnedShortcutResult = getPinnedShortcutResult,
         setPrimaryClipResult = setPrimaryClipResult,
         onNavigationIconClick = onNavigationIconClick,
-        onRevertAppSettings = { viewModel.revertAppSettings(packageName = appSettingsRouteData.packageName) },
-        onGetPinnedShortcut = { viewModel.getPinnedShortcut(packageName = appSettingsRouteData.packageName) },
+        onRevertAppSettings = viewModel::revertAppSettings,
+        onGetPinnedShortcut = viewModel::getPinnedShortcut,
         onCheckAppSetting = viewModel::checkAppSetting,
         onDeleteAppSetting = viewModel::deleteAppSetting,
-        onLaunchApp = { viewModel.applyAppSettings(packageName = appSettingsRouteData.packageName) },
-        onUpdatePackageName = { viewModel.updatePackageName(packageName = appSettingsRouteData.packageName) },
-        onAutoLaunchApp = { viewModel.autoLaunchApp(packageName = appSettingsRouteData.packageName) },
-        onGetApplicationIcon = { viewModel.getApplicationIcon(packageName = appSettingsRouteData.packageName) },
+        onLaunchApp = viewModel::applyAppSettings,
+        onAutoLaunchApp = viewModel::autoLaunchApp,
+        onGetApplicationIcon = viewModel::getApplicationIcon,
         onResetApplyAppSettingsResult = viewModel::resetApplyAppSettingsResult,
         onResetRevertAppSettingsResult = viewModel::resetRevertAppSettingsResult,
         onResetAutoLaunchResult = viewModel::resetAutoLaunchResult,
@@ -168,20 +167,8 @@ internal fun AppSettingsRoute(
         onGetSecureSettingsByName = viewModel::getSecureSettingsByName,
         onAddAppSetting = viewModel::addAppSetting,
         onCopyPermissionCommand = viewModel::copyPermissionCommand,
-        onAddShortcut = {
-            viewModel.requestPinShortcut(
-                packageName = appSettingsRouteData.packageName,
-                appName = appSettingsRouteData.appName,
-                mappedShortcutInfoCompat = it,
-            )
-        },
-        onUpdateShortcut = {
-            viewModel.updateRequestPinShortcut(
-                packageName = appSettingsRouteData.packageName,
-                appName = appSettingsRouteData.appName,
-                mappedShortcutInfoCompat = it,
-            )
-        },
+        onAddShortcut = viewModel::requestPinShortcut,
+        onUpdateShortcut = viewModel::updateRequestPinShortcut,
     )
 }
 
@@ -209,7 +196,6 @@ internal fun AppSettingsScreen(
     onCheckAppSetting: (Boolean, AppSetting) -> Unit,
     onDeleteAppSetting: (AppSetting) -> Unit,
     onLaunchApp: () -> Unit,
-    onUpdatePackageName: () -> Unit,
     onAutoLaunchApp: () -> Unit,
     onGetApplicationIcon: () -> Unit,
     onResetApplyAppSettingsResult: () -> Unit,
@@ -249,7 +235,6 @@ internal fun AppSettingsScreen(
         updateRequestPinShortcutResult = updateRequestPinShortcutResult,
         getPinnedShortcutResult = getPinnedShortcutResult,
         setPrimaryClipResult = setPrimaryClipResult,
-        onUpdatePackageName = onUpdatePackageName,
         onAutoLaunchApp = onAutoLaunchApp,
         onGetApplicationIcon = onGetApplicationIcon,
         onGetPinnedShortcut = onGetPinnedShortcut,
@@ -344,7 +329,6 @@ private fun AppSettingsLaunchedEffects(
     updateRequestPinShortcutResult: UpdateRequestPinShortcutResult?,
     getPinnedShortcutResult: GetPinnedShortcutResult?,
     setPrimaryClipResult: Boolean,
-    onUpdatePackageName: () -> Unit,
     onAutoLaunchApp: () -> Unit,
     onGetApplicationIcon: () -> Unit,
     onGetPinnedShortcut: () -> Unit,
@@ -375,7 +359,6 @@ private fun AppSettingsLaunchedEffects(
     val context = LocalContext.current
 
     LaunchedEffect(key1 = true) {
-        onUpdatePackageName()
         onAutoLaunchApp()
         onGetApplicationIcon()
         onGetPinnedShortcut()
@@ -842,7 +825,6 @@ private fun AppSettingsScreenLoadingStatePreview() {
             onCheckAppSetting = { _, _ -> },
             onDeleteAppSetting = {},
             onLaunchApp = {},
-            onUpdatePackageName = {},
             onAutoLaunchApp = {},
             onGetApplicationIcon = {},
             onResetApplyAppSettingsResult = {},
@@ -886,7 +868,6 @@ private fun AppSettingsScreenEmptyStatePreview() {
             onCheckAppSetting = { _, _ -> },
             onDeleteAppSetting = {},
             onLaunchApp = {},
-            onUpdatePackageName = {},
             onAutoLaunchApp = {},
             onGetApplicationIcon = {},
             onResetApplyAppSettingsResult = {},
@@ -932,7 +913,6 @@ private fun AppSettingsScreenSuccessStatePreview(
             onCheckAppSetting = { _, _ -> },
             onDeleteAppSetting = {},
             onLaunchApp = {},
-            onUpdatePackageName = {},
             onAutoLaunchApp = {},
             onGetApplicationIcon = {},
             onResetApplyAppSettingsResult = {},
