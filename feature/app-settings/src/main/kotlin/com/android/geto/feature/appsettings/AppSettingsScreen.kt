@@ -237,7 +237,6 @@ internal fun AppSettingsScreen(
         setPrimaryClipResult = setPrimaryClipResult,
         onAutoLaunchApp = onAutoLaunchApp,
         onGetApplicationIcon = onGetApplicationIcon,
-        onGetPinnedShortcut = onGetPinnedShortcut,
         onResetApplyAppSettingsResult = onResetApplyAppSettingsResult,
         onResetRevertAppSettingsResult = onResetRevertAppSettingsResult,
         onResetAutoLaunchResult = onResetAutoLaunchResult,
@@ -331,7 +330,6 @@ private fun AppSettingsLaunchedEffects(
     setPrimaryClipResult: Boolean,
     onAutoLaunchApp: () -> Unit,
     onGetApplicationIcon: () -> Unit,
-    onGetPinnedShortcut: () -> Unit,
     onResetApplyAppSettingsResult: () -> Unit,
     onResetRevertAppSettingsResult: () -> Unit,
     onResetAutoLaunchResult: () -> Unit,
@@ -361,7 +359,6 @@ private fun AppSettingsLaunchedEffects(
     LaunchedEffect(key1 = true) {
         onAutoLaunchApp()
         onGetApplicationIcon()
-        onGetPinnedShortcut()
     }
 
     LaunchedEffect(key1 = applyAppSettingsResult) {
