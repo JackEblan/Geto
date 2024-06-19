@@ -65,7 +65,7 @@ internal fun AddShortcutDialog(
     contentDescription: String,
     onAddClick: (MappedShortcutInfoCompat) -> Unit,
 ) {
-    AddShortcutDialogContainer(
+    ShortcutDialogContainer(
         modifier = modifier
             .width(IntrinsicSize.Max)
             .height(IntrinsicSize.Min)
@@ -79,26 +79,24 @@ internal fun AddShortcutDialog(
                 .verticalScroll(scrollState)
                 .padding(10.dp),
         ) {
-            AddShortcutDialogTitle()
+            ShortcutDialogTitle(title = stringResource(id = R.string.add_shortcut))
 
-            AddShortcutDialogApplicationIcon(
+            ShortcutDialogApplicationIcon(
                 modifier = modifier
                     .size(50.dp)
                     .align(Alignment.CenterHorizontally),
                 icon = shortcutDialogState.icon,
             )
 
-            AddShortcutDialogTextFields(
+            ShortcutDialogTextFields(
                 shortcutDialogState = shortcutDialogState,
             )
 
-            AddShortcutDialogButtons(
-                modifier = modifier
-                    .fillMaxWidth(),
-                onCancelClick = {
-                    shortcutDialogState.updateShowDialog(false)
-                },
-                onAddClick = {
+            ShortcutDialogButtons(
+                modifier = modifier.fillMaxWidth(),
+                positiveTextButton = stringResource(id = R.string.add),
+                negativeTextButton = stringResource(id = R.string.cancel),
+                onPositiveTextButtonClick = {
                     shortcutDialogState.getShortcut(
                         packageName = packageName,
                     )?.let {
@@ -106,13 +104,70 @@ internal fun AddShortcutDialog(
                         shortcutDialogState.resetState()
                     }
                 },
+                onNegativeTextButtonClick = {
+                    shortcutDialogState.updateShowDialog(false)
+                },
             )
         }
     }
 }
 
 @Composable
-private fun AddShortcutDialogContainer(
+internal fun UpdateShortcutDialog(
+    modifier: Modifier = Modifier,
+    shortcutDialogState: ShortcutDialogState,
+    packageName: String,
+    contentDescription: String,
+    onUpdateClick: (MappedShortcutInfoCompat) -> Unit,
+) {
+    ShortcutDialogContainer(
+        modifier = modifier
+            .width(IntrinsicSize.Max)
+            .height(IntrinsicSize.Min)
+            .padding(16.dp)
+            .semantics { this.contentDescription = contentDescription },
+        onDismissRequest = { shortcutDialogState.updateShowDialog(false) },
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(10.dp),
+        ) {
+            ShortcutDialogTitle(title = stringResource(id = R.string.update_shortcut))
+
+            ShortcutDialogApplicationIcon(
+                modifier = Modifier
+                    .size(50.dp)
+                    .align(Alignment.CenterHorizontally),
+                icon = shortcutDialogState.icon,
+            )
+
+            ShortcutDialogTextFields(
+                shortcutDialogState = shortcutDialogState,
+            )
+
+            ShortcutDialogButtons(
+                modifier = modifier.fillMaxWidth(),
+                positiveTextButton = stringResource(id = R.string.update),
+                negativeTextButton = stringResource(id = R.string.cancel),
+                onPositiveTextButtonClick = {
+                    shortcutDialogState.getShortcut(
+                        packageName = packageName,
+                    )?.let {
+                        onUpdateClick(it)
+                        shortcutDialogState.resetState()
+                    }
+                },
+                onNegativeTextButtonClick = {
+                    shortcutDialogState.updateShowDialog(false)
+                },
+            )
+        }
+    }
+}
+
+@Composable
+private fun ShortcutDialogContainer(
     modifier: Modifier = Modifier,
     onDismissRequest: () -> Unit,
     content: @Composable (ColumnScope.() -> Unit),
@@ -128,18 +183,18 @@ private fun AddShortcutDialogContainer(
 }
 
 @Composable
-private fun AddShortcutDialogTitle(modifier: Modifier = Modifier) {
+private fun ShortcutDialogTitle(modifier: Modifier = Modifier, title: String) {
     Spacer(modifier = Modifier.height(10.dp))
 
     Text(
         modifier = modifier,
-        text = stringResource(id = R.string.add_shortcut),
+        text = title,
         style = MaterialTheme.typography.titleLarge,
     )
 }
 
 @Composable
-private fun AddShortcutDialogApplicationIcon(
+private fun ShortcutDialogApplicationIcon(
     modifier: Modifier = Modifier,
     icon: Bitmap?,
 ) {
@@ -153,7 +208,7 @@ private fun AddShortcutDialogApplicationIcon(
 }
 
 @Composable
-private fun AddShortcutDialogTextFields(
+private fun ShortcutDialogTextFields(
     shortcutDialogState: ShortcutDialogState,
 ) {
     val shortLabelIsBlank = stringResource(id = R.string.short_label_is_blank)
@@ -224,10 +279,12 @@ private fun AddShortcutDialogTextFields(
 }
 
 @Composable
-private fun AddShortcutDialogButtons(
+private fun ShortcutDialogButtons(
     modifier: Modifier = Modifier,
-    onCancelClick: () -> Unit,
-    onAddClick: () -> Unit,
+    positiveTextButton: String,
+    negativeTextButton: String,
+    onPositiveTextButtonClick: () -> Unit,
+    onNegativeTextButtonClick: () -> Unit,
 ) {
     Spacer(modifier = Modifier.height(10.dp))
 
@@ -236,14 +293,14 @@ private fun AddShortcutDialogButtons(
         horizontalArrangement = Arrangement.End,
     ) {
         TextButton(
-            onClick = onCancelClick,
+            onClick = onNegativeTextButtonClick,
         ) {
-            Text(text = stringResource(id = R.string.cancel))
+            Text(text = negativeTextButton)
         }
         TextButton(
-            onClick = onAddClick,
+            onClick = onPositiveTextButtonClick,
         ) {
-            Text(text = stringResource(id = R.string.add))
+            Text(text = positiveTextButton)
         }
     }
 }
@@ -257,6 +314,19 @@ private fun AddShortcutDialogPreview() {
             packageName = "com.android.geto",
             contentDescription = "Shortcut",
             onAddClick = {},
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun UpdateShortcutDialogPreview() {
+    GetoTheme {
+        UpdateShortcutDialog(
+            shortcutDialogState = rememberShortcutDialogState(),
+            packageName = "com.android.geto",
+            contentDescription = "Shortcut",
+            onUpdateClick = {},
         )
     }
 }
