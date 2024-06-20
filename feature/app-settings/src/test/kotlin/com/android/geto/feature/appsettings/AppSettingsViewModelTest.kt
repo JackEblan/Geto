@@ -623,7 +623,7 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun requestPinShortcutResult_isSuccess_whenRequestPinShortcut() = runTest {
+    fun requestPinShortcutResult_isUpdateSuccess_whenRequestPinShortcut() = runTest {
         val shortcuts = List(2) {
             MappedShortcutInfoCompat(
                 id = "com.android.geto",

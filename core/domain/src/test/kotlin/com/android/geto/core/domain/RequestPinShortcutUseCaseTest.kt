@@ -102,7 +102,7 @@ class RequestPinShortcutUseCaseTest {
     }
 
     @Test
-    fun requestPinShortcutUseCase_isSuccess() = runTest {
+    fun requestPinShortcutUseCase_isUpdateSuccess() = runTest {
         val shortcuts = List(2) {
             MappedShortcutInfoCompat(
                 id = "com.android.geto",
