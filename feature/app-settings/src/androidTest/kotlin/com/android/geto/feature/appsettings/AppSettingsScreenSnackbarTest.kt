@@ -18,19 +18,50 @@
 package com.android.geto.feature.appsettings
 
 import androidx.activity.ComponentActivity
+import androidx.annotation.StringRes
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.ui.test.hasAnyAncestor
+import androidx.compose.ui.test.hasTestTag
+import androidx.compose.ui.test.hasText
+import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.compose.ui.test.onNodeWithTag
 import com.android.geto.core.domain.ApplyAppSettingsResult
 import com.android.geto.core.domain.RequestPinShortcutResult
 import com.android.geto.core.domain.RevertAppSettingsResult
-import com.android.geto.core.domain.UpdateRequestPinShortcutResult
 import org.junit.Rule
 import org.junit.Test
+import kotlin.properties.ReadOnlyProperty
 
 class AppSettingsScreenSnackbarTest {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
+
+    private fun AndroidComposeTestRule<*, *>.stringResource(@StringRes id: Int) =
+        ReadOnlyProperty<Any, String> { _, _ -> activity.getString(id) }
+
+    private val appSettingsDisabled by composeTestRule.stringResource(id = R.string.app_settings_disabled)
+
+    private val emptyAppSettings by composeTestRule.stringResource(id = R.string.empty_app_settings_list)
+
+    private val applyFailure by composeTestRule.stringResource(id = R.string.apply_failure)
+
+    private val revertFailure by composeTestRule.stringResource(id = R.string.revert_failure)
+
+    private val revertSuccess by composeTestRule.stringResource(id = R.string.revert_success)
+
+    private val shortcutUpdateImmutableShortcuts by composeTestRule.stringResource(id = R.string.shortcut_update_immutable_shortcuts)
+
+    private val shortcutUpdateFailed by composeTestRule.stringResource(id = R.string.shortcut_update_failed)
+
+    private val shortcutUpdateSuccess by composeTestRule.stringResource(id = R.string.shortcut_update_success)
+
+    private val supportedLauncher by composeTestRule.stringResource(id = R.string.supported_launcher)
+
+    private val unsupportedLauncher by composeTestRule.stringResource(id = R.string.unsupported_launcher)
+
+    private val copiedToClipboard by composeTestRule.stringResource(id = R.string.copied_to_clipboard)
+
+    private val invalidValues by composeTestRule.stringResource(R.string.settings_has_invalid_values)
 
     @Test
     fun snackbar_isShown_whenApplyAppSettingsResult_isDisabledAppSettings() {
@@ -47,12 +78,9 @@ class AppSettingsScreenSnackbarTest {
                 revertAppSettingsResult = null,
                 autoLaunchResult = null,
                 requestPinShortcutResult = null,
-                updateRequestPinShortcutResult = null,
-                getPinnedShortcutResult = null,
                 setPrimaryClipResult = false,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
-                onGetPinnedShortcut = {},
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
@@ -62,18 +90,21 @@ class AppSettingsScreenSnackbarTest {
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
                 onResetRequestPinShortcutResult = {},
-                onResetUpdateRequestPinShortcutResult = {},
-                onResetGetPinnedShortcutResult = {},
                 onResetSetPrimaryClipResult = {},
                 onGetSecureSettingsByName = { _, _ -> },
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
-                onUpdateShortcut = {},
             )
         }
 
-        composeTestRule.onNodeWithTag("appSettings:snackbar").assertExists()
+        composeTestRule.onNode(
+            matcher = hasAnyAncestor(
+                hasTestTag("appSettings:snackbar"),
+            ) and hasText(
+                appSettingsDisabled,
+            ),
+        ).assertExists()
     }
 
     @Test
@@ -91,12 +122,9 @@ class AppSettingsScreenSnackbarTest {
                 revertAppSettingsResult = null,
                 autoLaunchResult = null,
                 requestPinShortcutResult = null,
-                updateRequestPinShortcutResult = null,
-                getPinnedShortcutResult = null,
                 setPrimaryClipResult = false,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
-                onGetPinnedShortcut = {},
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
@@ -106,18 +134,21 @@ class AppSettingsScreenSnackbarTest {
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
                 onResetRequestPinShortcutResult = {},
-                onResetUpdateRequestPinShortcutResult = {},
-                onResetGetPinnedShortcutResult = {},
                 onResetSetPrimaryClipResult = {},
                 onGetSecureSettingsByName = { _, _ -> },
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
-                onUpdateShortcut = {},
             )
         }
 
-        composeTestRule.onNodeWithTag("appSettings:snackbar").assertExists()
+        composeTestRule.onNode(
+            matcher = hasAnyAncestor(
+                hasTestTag("appSettings:snackbar"),
+            ) and hasText(
+                emptyAppSettings,
+            ),
+        ).assertExists()
     }
 
     @Test
@@ -135,12 +166,9 @@ class AppSettingsScreenSnackbarTest {
                 revertAppSettingsResult = null,
                 autoLaunchResult = null,
                 requestPinShortcutResult = null,
-                updateRequestPinShortcutResult = null,
-                getPinnedShortcutResult = null,
                 setPrimaryClipResult = false,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
-                onGetPinnedShortcut = {},
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
@@ -150,18 +178,21 @@ class AppSettingsScreenSnackbarTest {
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
                 onResetRequestPinShortcutResult = {},
-                onResetUpdateRequestPinShortcutResult = {},
-                onResetGetPinnedShortcutResult = {},
                 onResetSetPrimaryClipResult = {},
                 onGetSecureSettingsByName = { _, _ -> },
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
-                onUpdateShortcut = {},
             )
         }
 
-        composeTestRule.onNodeWithTag("appSettings:snackbar").assertExists()
+        composeTestRule.onNode(
+            matcher = hasAnyAncestor(
+                hasTestTag("appSettings:snackbar"),
+            ) and hasText(
+                applyFailure,
+            ),
+        ).assertExists()
     }
 
     @Test
@@ -179,12 +210,9 @@ class AppSettingsScreenSnackbarTest {
                 revertAppSettingsResult = null,
                 autoLaunchResult = null,
                 requestPinShortcutResult = null,
-                updateRequestPinShortcutResult = null,
-                getPinnedShortcutResult = null,
                 setPrimaryClipResult = false,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
-                onGetPinnedShortcut = {},
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
@@ -194,18 +222,21 @@ class AppSettingsScreenSnackbarTest {
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
                 onResetRequestPinShortcutResult = {},
-                onResetUpdateRequestPinShortcutResult = {},
-                onResetGetPinnedShortcutResult = {},
                 onResetSetPrimaryClipResult = {},
                 onGetSecureSettingsByName = { _, _ -> },
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
-                onUpdateShortcut = {},
             )
         }
 
-        composeTestRule.onNodeWithTag("appSettings:snackbar").assertExists()
+        composeTestRule.onNode(
+            matcher = hasAnyAncestor(
+                hasTestTag("appSettings:snackbar"),
+            ) and hasText(
+                invalidValues,
+            ),
+        ).assertExists()
     }
 
     @Test
@@ -223,12 +254,9 @@ class AppSettingsScreenSnackbarTest {
                 revertAppSettingsResult = RevertAppSettingsResult.DisabledAppSettings,
                 autoLaunchResult = null,
                 requestPinShortcutResult = null,
-                updateRequestPinShortcutResult = null,
-                getPinnedShortcutResult = null,
                 setPrimaryClipResult = false,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
-                onGetPinnedShortcut = {},
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
@@ -238,18 +266,21 @@ class AppSettingsScreenSnackbarTest {
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
                 onResetRequestPinShortcutResult = {},
-                onResetUpdateRequestPinShortcutResult = {},
-                onResetGetPinnedShortcutResult = {},
                 onResetSetPrimaryClipResult = {},
                 onGetSecureSettingsByName = { _, _ -> },
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
-                onUpdateShortcut = {},
             )
         }
 
-        composeTestRule.onNodeWithTag("appSettings:snackbar").assertExists()
+        composeTestRule.onNode(
+            matcher = hasAnyAncestor(
+                hasTestTag("appSettings:snackbar"),
+            ) and hasText(
+                appSettingsDisabled,
+            ),
+        ).assertExists()
     }
 
     @Test
@@ -267,12 +298,9 @@ class AppSettingsScreenSnackbarTest {
                 revertAppSettingsResult = RevertAppSettingsResult.EmptyAppSettings,
                 autoLaunchResult = null,
                 requestPinShortcutResult = null,
-                updateRequestPinShortcutResult = null,
-                getPinnedShortcutResult = null,
                 setPrimaryClipResult = false,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
-                onGetPinnedShortcut = {},
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
@@ -282,18 +310,21 @@ class AppSettingsScreenSnackbarTest {
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
                 onResetRequestPinShortcutResult = {},
-                onResetUpdateRequestPinShortcutResult = {},
-                onResetGetPinnedShortcutResult = {},
                 onResetSetPrimaryClipResult = {},
                 onGetSecureSettingsByName = { _, _ -> },
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
-                onUpdateShortcut = {},
             )
         }
 
-        composeTestRule.onNodeWithTag("appSettings:snackbar").assertExists()
+        composeTestRule.onNode(
+            matcher = hasAnyAncestor(
+                hasTestTag("appSettings:snackbar"),
+            ) and hasText(
+                emptyAppSettings,
+            ),
+        ).assertExists()
     }
 
     @Test
@@ -311,12 +342,9 @@ class AppSettingsScreenSnackbarTest {
                 revertAppSettingsResult = RevertAppSettingsResult.Failure,
                 autoLaunchResult = null,
                 requestPinShortcutResult = null,
-                updateRequestPinShortcutResult = null,
-                getPinnedShortcutResult = null,
                 setPrimaryClipResult = false,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
-                onGetPinnedShortcut = {},
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
@@ -326,18 +354,65 @@ class AppSettingsScreenSnackbarTest {
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
                 onResetRequestPinShortcutResult = {},
-                onResetUpdateRequestPinShortcutResult = {},
-                onResetGetPinnedShortcutResult = {},
                 onResetSetPrimaryClipResult = {},
                 onGetSecureSettingsByName = { _, _ -> },
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
-                onUpdateShortcut = {},
             )
         }
 
-        composeTestRule.onNodeWithTag("appSettings:snackbar").assertExists()
+        composeTestRule.onNode(
+            matcher = hasAnyAncestor(
+                hasTestTag("appSettings:snackbar"),
+            ) and hasText(
+                revertFailure,
+            ),
+        ).assertExists()
+    }
+
+    @Test
+    fun snackbar_isShown_whenRevertAppSettingsResult_isSuccess() {
+        composeTestRule.setContent {
+            AppSettingsScreen(
+                packageName = "com.android.geto",
+                appName = "Geto",
+                appSettingsUiState = AppSettingsUiState.Success(emptyList()),
+                snackbarHostState = SnackbarHostState(),
+                applicationIcon = null,
+                secureSettings = emptyList(),
+                permissionCommandText = "",
+                applyAppSettingsResult = null,
+                revertAppSettingsResult = RevertAppSettingsResult.Success,
+                autoLaunchResult = null,
+                requestPinShortcutResult = null,
+                setPrimaryClipResult = false,
+                onNavigationIconClick = {},
+                onRevertAppSettings = {},
+                onCheckAppSetting = { _, _ -> },
+                onDeleteAppSetting = {},
+                onLaunchApp = {},
+                onAutoLaunchApp = {},
+                onGetApplicationIcon = {},
+                onResetApplyAppSettingsResult = {},
+                onResetRevertAppSettingsResult = {},
+                onResetAutoLaunchResult = {},
+                onResetRequestPinShortcutResult = {},
+                onResetSetPrimaryClipResult = {},
+                onGetSecureSettingsByName = { _, _ -> },
+                onAddAppSetting = {},
+                onCopyPermissionCommand = {},
+                onAddShortcut = {},
+            )
+        }
+
+        composeTestRule.onNode(
+            matcher = hasAnyAncestor(
+                hasTestTag("appSettings:snackbar"),
+            ) and hasText(
+                revertSuccess,
+            ),
+        ).assertExists()
     }
 
     @Test
@@ -355,12 +430,9 @@ class AppSettingsScreenSnackbarTest {
                 revertAppSettingsResult = RevertAppSettingsResult.IllegalArgumentException,
                 autoLaunchResult = null,
                 requestPinShortcutResult = null,
-                updateRequestPinShortcutResult = null,
-                getPinnedShortcutResult = null,
                 setPrimaryClipResult = false,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
-                onGetPinnedShortcut = {},
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
@@ -370,18 +442,21 @@ class AppSettingsScreenSnackbarTest {
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
                 onResetRequestPinShortcutResult = {},
-                onResetUpdateRequestPinShortcutResult = {},
-                onResetGetPinnedShortcutResult = {},
                 onResetSetPrimaryClipResult = {},
                 onGetSecureSettingsByName = { _, _ -> },
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
-                onUpdateShortcut = {},
             )
         }
 
-        composeTestRule.onNodeWithTag("appSettings:snackbar").assertExists()
+        composeTestRule.onNode(
+            matcher = hasAnyAncestor(
+                hasTestTag("appSettings:snackbar"),
+            ) and hasText(
+                invalidValues,
+            ),
+        ).assertExists()
     }
 
     @Test
@@ -399,12 +474,9 @@ class AppSettingsScreenSnackbarTest {
                 revertAppSettingsResult = null,
                 autoLaunchResult = null,
                 requestPinShortcutResult = RequestPinShortcutResult.SupportedLauncher,
-                updateRequestPinShortcutResult = null,
-                getPinnedShortcutResult = null,
                 setPrimaryClipResult = false,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
-                onGetPinnedShortcut = {},
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
@@ -414,18 +486,21 @@ class AppSettingsScreenSnackbarTest {
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
                 onResetRequestPinShortcutResult = {},
-                onResetUpdateRequestPinShortcutResult = {},
-                onResetGetPinnedShortcutResult = {},
                 onResetSetPrimaryClipResult = {},
                 onGetSecureSettingsByName = { _, _ -> },
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
-                onUpdateShortcut = {},
             )
         }
 
-        composeTestRule.onNodeWithTag("appSettings:snackbar").assertExists()
+        composeTestRule.onNode(
+            matcher = hasAnyAncestor(
+                hasTestTag("appSettings:snackbar"),
+            ) and hasText(
+                supportedLauncher,
+            ),
+        ).assertExists()
     }
 
     @Test
@@ -443,12 +518,9 @@ class AppSettingsScreenSnackbarTest {
                 revertAppSettingsResult = null,
                 autoLaunchResult = null,
                 requestPinShortcutResult = RequestPinShortcutResult.UnSupportedLauncher,
-                updateRequestPinShortcutResult = null,
-                getPinnedShortcutResult = null,
                 setPrimaryClipResult = false,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
-                onGetPinnedShortcut = {},
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
@@ -458,22 +530,25 @@ class AppSettingsScreenSnackbarTest {
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
                 onResetRequestPinShortcutResult = {},
-                onResetUpdateRequestPinShortcutResult = {},
-                onResetGetPinnedShortcutResult = {},
                 onResetSetPrimaryClipResult = {},
                 onGetSecureSettingsByName = { _, _ -> },
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
-                onUpdateShortcut = {},
             )
         }
 
-        composeTestRule.onNodeWithTag("appSettings:snackbar").assertExists()
+        composeTestRule.onNode(
+            matcher = hasAnyAncestor(
+                hasTestTag("appSettings:snackbar"),
+            ) and hasText(
+                unsupportedLauncher,
+            ),
+        ).assertExists()
     }
 
     @Test
-    fun snackbar_isShown_whenUpdateRequestPinShortcutResult_isFailure() {
+    fun snackbar_isShown_whenRequestPinShortcutResult_isUpdateFailure() {
         composeTestRule.setContent {
             AppSettingsScreen(
                 packageName = "com.android.geto",
@@ -486,13 +561,10 @@ class AppSettingsScreenSnackbarTest {
                 applyAppSettingsResult = null,
                 revertAppSettingsResult = null,
                 autoLaunchResult = null,
-                requestPinShortcutResult = null,
-                updateRequestPinShortcutResult = UpdateRequestPinShortcutResult.Failure,
-                getPinnedShortcutResult = null,
+                requestPinShortcutResult = RequestPinShortcutResult.UpdateFailure,
                 setPrimaryClipResult = false,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
-                onGetPinnedShortcut = {},
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
@@ -502,22 +574,25 @@ class AppSettingsScreenSnackbarTest {
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
                 onResetRequestPinShortcutResult = {},
-                onResetUpdateRequestPinShortcutResult = {},
-                onResetGetPinnedShortcutResult = {},
                 onResetSetPrimaryClipResult = {},
                 onGetSecureSettingsByName = { _, _ -> },
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
-                onUpdateShortcut = {},
             )
         }
 
-        composeTestRule.onNodeWithTag("appSettings:snackbar").assertExists()
+        composeTestRule.onNode(
+            matcher = hasAnyAncestor(
+                hasTestTag("appSettings:snackbar"),
+            ) and hasText(
+                shortcutUpdateFailed,
+            ),
+        ).assertExists()
     }
 
     @Test
-    fun snackbar_isShown_whenUpdateRequestPinShortcutResult_isIDNotFound() {
+    fun snackbar_isShown_whenRequestPinShortcutResult_isUpdateSuccess() {
         composeTestRule.setContent {
             AppSettingsScreen(
                 packageName = "com.android.geto",
@@ -530,13 +605,10 @@ class AppSettingsScreenSnackbarTest {
                 applyAppSettingsResult = null,
                 revertAppSettingsResult = null,
                 autoLaunchResult = null,
-                requestPinShortcutResult = null,
-                updateRequestPinShortcutResult = UpdateRequestPinShortcutResult.IDNotFound,
-                getPinnedShortcutResult = null,
+                requestPinShortcutResult = RequestPinShortcutResult.UpdateSuccess,
                 setPrimaryClipResult = false,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
-                onGetPinnedShortcut = {},
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
@@ -546,22 +618,25 @@ class AppSettingsScreenSnackbarTest {
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
                 onResetRequestPinShortcutResult = {},
-                onResetUpdateRequestPinShortcutResult = {},
-                onResetGetPinnedShortcutResult = {},
                 onResetSetPrimaryClipResult = {},
                 onGetSecureSettingsByName = { _, _ -> },
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
-                onUpdateShortcut = {},
             )
         }
 
-        composeTestRule.onNodeWithTag("appSettings:snackbar").assertExists()
+        composeTestRule.onNode(
+            matcher = hasAnyAncestor(
+                hasTestTag("appSettings:snackbar"),
+            ) and hasText(
+                shortcutUpdateSuccess,
+            ),
+        ).assertExists()
     }
 
     @Test
-    fun snackbar_isShown_whenUpdateRequestPinShortcutResult_isSuccess() {
+    fun snackbar_isShown_whenRequestPinShortcutResult_isUpdateImmutableShortcuts() {
         composeTestRule.setContent {
             AppSettingsScreen(
                 packageName = "com.android.geto",
@@ -574,13 +649,10 @@ class AppSettingsScreenSnackbarTest {
                 applyAppSettingsResult = null,
                 revertAppSettingsResult = null,
                 autoLaunchResult = null,
-                requestPinShortcutResult = null,
-                updateRequestPinShortcutResult = UpdateRequestPinShortcutResult.Success,
-                getPinnedShortcutResult = null,
+                requestPinShortcutResult = RequestPinShortcutResult.UpdateImmutableShortcuts,
                 setPrimaryClipResult = false,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
-                onGetPinnedShortcut = {},
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
@@ -590,66 +662,27 @@ class AppSettingsScreenSnackbarTest {
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
                 onResetRequestPinShortcutResult = {},
-                onResetUpdateRequestPinShortcutResult = {},
-                onResetGetPinnedShortcutResult = {},
                 onResetSetPrimaryClipResult = {},
                 onGetSecureSettingsByName = { _, _ -> },
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
-                onUpdateShortcut = {},
             )
         }
 
-        composeTestRule.onNodeWithTag("appSettings:snackbar").assertExists()
-    }
-
-    @Test
-    fun snackbar_isShown_whenUpdateRequestPinShortcutResult_isUpdateImmutableShortcuts() {
-        composeTestRule.setContent {
-            AppSettingsScreen(
-                packageName = "com.android.geto",
-                appName = "Geto",
-                appSettingsUiState = AppSettingsUiState.Success(emptyList()),
-                snackbarHostState = SnackbarHostState(),
-                applicationIcon = null,
-                secureSettings = emptyList(),
-                permissionCommandText = "",
-                applyAppSettingsResult = null,
-                revertAppSettingsResult = null,
-                autoLaunchResult = null,
-                requestPinShortcutResult = null,
-                updateRequestPinShortcutResult = UpdateRequestPinShortcutResult.UpdateImmutableShortcuts,
-                getPinnedShortcutResult = null,
-                setPrimaryClipResult = false,
-                onNavigationIconClick = {},
-                onRevertAppSettings = {},
-                onGetPinnedShortcut = {},
-                onCheckAppSetting = { _, _ -> },
-                onDeleteAppSetting = {},
-                onLaunchApp = {},
-                onAutoLaunchApp = {},
-                onGetApplicationIcon = {},
-                onResetApplyAppSettingsResult = {},
-                onResetRevertAppSettingsResult = {},
-                onResetAutoLaunchResult = {},
-                onResetRequestPinShortcutResult = {},
-                onResetUpdateRequestPinShortcutResult = {},
-                onResetGetPinnedShortcutResult = {},
-                onResetSetPrimaryClipResult = {},
-                onGetSecureSettingsByName = { _, _ -> },
-                onAddAppSetting = {},
-                onCopyPermissionCommand = {},
-                onAddShortcut = {},
-                onUpdateShortcut = {},
-            )
-        }
-
-        composeTestRule.onNodeWithTag("appSettings:snackbar").assertExists()
+        composeTestRule.onNode(
+            matcher = hasAnyAncestor(
+                hasTestTag("appSettings:snackbar"),
+            ) and hasText(
+                shortcutUpdateImmutableShortcuts,
+            ),
+        ).assertExists()
     }
 
     @Test
     fun snackbar_isShown_whenSetPrimaryClipResult_isTrue() {
+        val permissionCommandText = "permission command text"
+
         composeTestRule.setContent {
             AppSettingsScreen(
                 packageName = "com.android.geto",
@@ -658,17 +691,14 @@ class AppSettingsScreenSnackbarTest {
                 snackbarHostState = SnackbarHostState(),
                 applicationIcon = null,
                 secureSettings = emptyList(),
-                permissionCommandText = "permission command text",
+                permissionCommandText = permissionCommandText,
                 applyAppSettingsResult = null,
                 revertAppSettingsResult = null,
                 autoLaunchResult = null,
                 requestPinShortcutResult = null,
-                updateRequestPinShortcutResult = null,
-                getPinnedShortcutResult = null,
                 setPrimaryClipResult = true,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
-                onGetPinnedShortcut = {},
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
@@ -678,17 +708,20 @@ class AppSettingsScreenSnackbarTest {
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
                 onResetRequestPinShortcutResult = {},
-                onResetUpdateRequestPinShortcutResult = {},
-                onResetGetPinnedShortcutResult = {},
                 onResetSetPrimaryClipResult = {},
                 onGetSecureSettingsByName = { _, _ -> },
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
-                onUpdateShortcut = {},
             )
         }
 
-        composeTestRule.onNodeWithTag("appSettings:snackbar").assertExists()
+        composeTestRule.onNode(
+            matcher = hasAnyAncestor(
+                hasTestTag("appSettings:snackbar"),
+            ) and hasText(
+                String.format(copiedToClipboard, permissionCommandText),
+            ),
+        ).assertExists()
     }
 }

@@ -71,4 +71,62 @@ class RequestPinShortcutUseCaseTest {
             ),
         )
     }
+
+    @Test
+    fun requestPinShortcutUseCase_isUpdateImmutableShortcuts() = runTest {
+        val shortcuts = List(2) {
+            MappedShortcutInfoCompat(
+                id = "com.android.geto",
+                shortLabel = "Geto",
+                longLabel = "Geto",
+            )
+        }
+
+        shortcutRepository.setRequestPinShortcutSupported(true)
+
+        shortcutRepository.setUpdateImmutableShortcuts(true)
+
+        shortcutRepository.setShortcuts(shortcuts)
+
+        assertIs<RequestPinShortcutResult.UpdateImmutableShortcuts>(
+            requestPinShortcutUseCase(
+                packageName = "com.android.geto",
+                appName = "Geto",
+                mappedShortcutInfoCompat = MappedShortcutInfoCompat(
+                    id = "com.android.geto",
+                    shortLabel = "shortLabel",
+                    longLabel = "longLabel",
+                ),
+            ),
+        )
+    }
+
+    @Test
+    fun requestPinShortcutUseCase_isSuccess() = runTest {
+        val shortcuts = List(2) {
+            MappedShortcutInfoCompat(
+                id = "com.android.geto",
+                shortLabel = "Geto",
+                longLabel = "Geto",
+            )
+        }
+
+        shortcutRepository.setRequestPinShortcutSupported(true)
+
+        shortcutRepository.setUpdateImmutableShortcuts(false)
+
+        shortcutRepository.setShortcuts(shortcuts)
+
+        assertIs<RequestPinShortcutResult.UpdateSuccess>(
+            requestPinShortcutUseCase(
+                packageName = "com.android.geto",
+                appName = "Geto",
+                mappedShortcutInfoCompat = MappedShortcutInfoCompat(
+                    id = "com.android.geto",
+                    shortLabel = "shortLabel",
+                    longLabel = "longLabel",
+                ),
+            ),
+        )
+    }
 }

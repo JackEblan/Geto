@@ -39,7 +39,7 @@ import kotlin.test.Test
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 @Config(application = HiltTestApplication::class)
 @LooperMode(LooperMode.Mode.PAUSED)
-class AddShortcutDialogScreenshotTest {
+class ShortcutDialogScreenshotTest {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
@@ -51,14 +51,14 @@ class AddShortcutDialogScreenshotTest {
     }
 
     @Test
-    fun addShortcutDialog_empty() {
+    fun shortcutDialog_empty() {
         composeTestRule.captureDialogForDevice(
-            fileName = "AddShortcutDialogEmpty",
+            fileName = "ShortcutDialogEmpty",
             deviceName = "foldable",
             deviceSpec = DefaultTestDevices.FOLDABLE.spec,
         ) {
             GetoTheme {
-                AddShortcutDialog(
+                ShortcutDialog(
                     shortcutDialogState = shortcutDialogState,
                     packageName = "",
                     contentDescription = "",
@@ -69,18 +69,18 @@ class AddShortcutDialogScreenshotTest {
     }
 
     @Test
-    fun addShortcutDialog_filled_textfields() {
+    fun shortcutDialog_filled_textfields() {
         shortcutDialogState.updateShortLabel("Geto")
 
         shortcutDialogState.updateLongLabel("Geto")
 
         composeTestRule.captureDialogForDevice(
-            fileName = "AddShortcutDialogFilledTextFields",
+            fileName = "ShortcutDialogFilledTextFields",
             deviceName = "foldable",
             deviceSpec = DefaultTestDevices.FOLDABLE.spec,
         ) {
             GetoTheme {
-                AddShortcutDialog(
+                ShortcutDialog(
                     shortcutDialogState = shortcutDialogState,
                     packageName = "",
                     contentDescription = "",
@@ -91,16 +91,16 @@ class AddShortcutDialogScreenshotTest {
     }
 
     @Test
-    fun addShortcutDialog_error_textfields() {
+    fun shortcutDialog_error_textfields() {
         shortcutDialogState.getShortcut(packageName = "Test")
 
         composeTestRule.captureDialogForDevice(
-            fileName = "AddShortcutDialogErrorTextFields",
+            fileName = "ShortcutDialogErrorTextFields",
             deviceName = "foldable",
             deviceSpec = DefaultTestDevices.FOLDABLE.spec,
         ) {
             GetoTheme {
-                AddShortcutDialog(
+                ShortcutDialog(
                     shortcutDialogState = shortcutDialogState,
                     packageName = "",
                     contentDescription = "",
@@ -111,16 +111,16 @@ class AddShortcutDialogScreenshotTest {
     }
 
     @Test
-    fun addShortcutDialog_empty_dark() {
+    fun shortcutDialog_empty_dark() {
         composeTestRule.captureDialogForDevice(
-            fileName = "AddShortcutDialogEmpty",
+            fileName = "ShortcutDialogEmpty",
             deviceName = "foldable_dark",
             deviceSpec = DefaultTestDevices.FOLDABLE.spec,
             darkMode = true,
         ) {
             GetoTheme {
                 GetoBackground {
-                    AddShortcutDialog(
+                    ShortcutDialog(
                         shortcutDialogState = shortcutDialogState,
                         packageName = "",
                         contentDescription = "",
@@ -132,20 +132,20 @@ class AddShortcutDialogScreenshotTest {
     }
 
     @Test
-    fun addShortcutDialog_filled_textfields_dark() {
+    fun shortcutDialog_filled_textfields_dark() {
         shortcutDialogState.updateShortLabel("Geto")
 
         shortcutDialogState.updateLongLabel("Geto")
 
         composeTestRule.captureDialogForDevice(
-            fileName = "AddShortcutDialogFilledTextFields",
+            fileName = "ShortcutDialogFilledTextFields",
             deviceName = "foldable_dark",
             deviceSpec = DefaultTestDevices.FOLDABLE.spec,
             darkMode = true,
         ) {
             GetoTheme {
                 GetoBackground {
-                    AddShortcutDialog(
+                    ShortcutDialog(
                         shortcutDialogState = shortcutDialogState,
                         packageName = "",
                         contentDescription = "",
@@ -157,18 +157,18 @@ class AddShortcutDialogScreenshotTest {
     }
 
     @Test
-    fun addShortcutDialog_error_textfields_dark() {
+    fun shortcutDialog_error_textfields_dark() {
         shortcutDialogState.getShortcut(packageName = "Test")
 
         composeTestRule.captureDialogForDevice(
-            fileName = "AddShortcutDialogErrorTextFields",
+            fileName = "ShortcutDialogErrorTextFields",
             deviceName = "foldable_dark",
             deviceSpec = DefaultTestDevices.FOLDABLE.spec,
             darkMode = true,
         ) {
             GetoTheme {
                 GetoBackground {
-                    AddShortcutDialog(
+                    ShortcutDialog(
                         shortcutDialogState = shortcutDialogState,
                         packageName = "",
                         contentDescription = "",

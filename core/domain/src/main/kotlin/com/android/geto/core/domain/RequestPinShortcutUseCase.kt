@@ -21,16 +21,40 @@ import com.android.geto.core.data.repository.ShortcutRepository
 import com.android.geto.core.model.MappedShortcutInfoCompat
 import javax.inject.Inject
 
-class RequestPinShortcutUseCase @Inject constructor(private val shortcutRepository: ShortcutRepository) {
+class RequestPinShortcutUseCase @Inject constructor(
+    private val shortcutRepository: ShortcutRepository,
+) {
     operator fun invoke(
         packageName: String,
         appName: String,
         mappedShortcutInfoCompat: MappedShortcutInfoCompat,
     ): RequestPinShortcutResult {
-        if (shortcutRepository.isRequestPinShortcutSupported().not()) {
+        if (!shortcutRepository.isRequestPinShortcutSupported()) {
             return RequestPinShortcutResult.UnSupportedLauncher
         }
 
+        return if (mappedShortcutInfoCompat.id !in shortcutRepository.getPinnedShortcuts()
+                .map { it.id }
+        ) {
+            requestPinShortcut(
+                packageName = packageName,
+                appName = appName,
+                mappedShortcutInfoCompat = mappedShortcutInfoCompat,
+            )
+        } else {
+            updateShortcuts(
+                packageName = packageName,
+                appName = appName,
+                mappedShortcutInfoCompat = mappedShortcutInfoCompat,
+            )
+        }
+    }
+
+    private fun requestPinShortcut(
+        packageName: String,
+        appName: String,
+        mappedShortcutInfoCompat: MappedShortcutInfoCompat,
+    ): RequestPinShortcutResult {
         return if (shortcutRepository.requestPinShortcut(
                 packageName = packageName,
                 appName = appName,
@@ -42,10 +66,37 @@ class RequestPinShortcutUseCase @Inject constructor(private val shortcutReposito
             RequestPinShortcutResult.UnSupportedLauncher
         }
     }
+
+    private fun updateShortcuts(
+        packageName: String,
+        appName: String,
+        mappedShortcutInfoCompat: MappedShortcutInfoCompat,
+    ): RequestPinShortcutResult {
+        return try {
+            if (shortcutRepository.updateShortcuts(
+                    packageName = packageName,
+                    appName = appName,
+                    mappedShortcutInfoCompats = listOf(mappedShortcutInfoCompat),
+                )
+            ) {
+                RequestPinShortcutResult.UpdateSuccess
+            } else {
+                RequestPinShortcutResult.UpdateFailure
+            }
+        } catch (e: IllegalArgumentException) {
+            RequestPinShortcutResult.UpdateImmutableShortcuts
+        }
+    }
 }
 
 sealed interface RequestPinShortcutResult {
     data object UnSupportedLauncher : RequestPinShortcutResult
 
     data object SupportedLauncher : RequestPinShortcutResult
+
+    data object UpdateSuccess : RequestPinShortcutResult
+
+    data object UpdateFailure : RequestPinShortcutResult
+
+    data object UpdateImmutableShortcuts : RequestPinShortcutResult
 }

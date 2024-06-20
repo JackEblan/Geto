@@ -8,13 +8,13 @@
       <SelectionState runConfigName="Generate Baseline Profile for app">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="AppSettingsScreenTest">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
       <SelectionState runConfigName="AppSettingsScreenSnackbarTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="AppSettingsScreenDialogsTest">
+      <SelectionState runConfigName="snackbar_isShown_whenApplyAppSettingsResult_isDisabledAppSettings()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="snackbar_isShown_whenSetPrimaryClipResult_isTrue()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>
