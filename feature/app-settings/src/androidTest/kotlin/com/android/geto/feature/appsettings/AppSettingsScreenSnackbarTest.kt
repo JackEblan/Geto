@@ -20,11 +20,11 @@ package com.android.geto.feature.appsettings
 import androidx.activity.ComponentActivity
 import androidx.annotation.StringRes
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.ui.test.assertTextEquals
+import androidx.compose.ui.test.hasAnyAncestor
+import androidx.compose.ui.test.hasTestTag
+import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.compose.ui.test.onChild
-import androidx.compose.ui.test.onNodeWithTag
 import com.android.geto.core.domain.ApplyAppSettingsResult
 import com.android.geto.core.domain.RequestPinShortcutResult
 import com.android.geto.core.domain.RevertAppSettingsResult
@@ -39,7 +39,6 @@ class AppSettingsScreenSnackbarTest {
     private fun AndroidComposeTestRule<*, *>.stringResource(@StringRes id: Int) =
         ReadOnlyProperty<Any, String> { _, _ -> activity.getString(id) }
 
-    // The strings used for matching in these tests
     private val appSettingsDisabled by composeTestRule.stringResource(id = R.string.app_settings_disabled)
 
     private val emptyAppSettings by composeTestRule.stringResource(id = R.string.empty_app_settings_list)
@@ -99,8 +98,13 @@ class AppSettingsScreenSnackbarTest {
             )
         }
 
-        composeTestRule.onNodeWithTag(testTag = "appSettings:snackbar").onChild().onChild()
-            .onChild().assertTextEquals(appSettingsDisabled)
+        composeTestRule.onNode(
+            matcher = hasAnyAncestor(
+                hasTestTag("appSettings:snackbar"),
+            ) and hasText(
+                appSettingsDisabled,
+            ),
+        ).assertExists()
     }
 
     @Test
@@ -138,8 +142,13 @@ class AppSettingsScreenSnackbarTest {
             )
         }
 
-        composeTestRule.onNodeWithTag(testTag = "appSettings:snackbar").onChild().onChild()
-            .onChild().assertTextEquals(emptyAppSettings)
+        composeTestRule.onNode(
+            matcher = hasAnyAncestor(
+                hasTestTag("appSettings:snackbar"),
+            ) and hasText(
+                emptyAppSettings,
+            ),
+        ).assertExists()
     }
 
     @Test
@@ -177,8 +186,13 @@ class AppSettingsScreenSnackbarTest {
             )
         }
 
-        composeTestRule.onNodeWithTag(testTag = "appSettings:snackbar").onChild().onChild()
-            .onChild().assertTextEquals(applyFailure)
+        composeTestRule.onNode(
+            matcher = hasAnyAncestor(
+                hasTestTag("appSettings:snackbar"),
+            ) and hasText(
+                applyFailure,
+            ),
+        ).assertExists()
     }
 
     @Test
@@ -216,8 +230,13 @@ class AppSettingsScreenSnackbarTest {
             )
         }
 
-        composeTestRule.onNodeWithTag(testTag = "appSettings:snackbar").onChild().onChild()
-            .onChild().assertTextEquals(invalidValues)
+        composeTestRule.onNode(
+            matcher = hasAnyAncestor(
+                hasTestTag("appSettings:snackbar"),
+            ) and hasText(
+                invalidValues,
+            ),
+        ).assertExists()
     }
 
     @Test
@@ -255,8 +274,13 @@ class AppSettingsScreenSnackbarTest {
             )
         }
 
-        composeTestRule.onNodeWithTag(testTag = "appSettings:snackbar").onChild().onChild()
-            .onChild().assertTextEquals(appSettingsDisabled)
+        composeTestRule.onNode(
+            matcher = hasAnyAncestor(
+                hasTestTag("appSettings:snackbar"),
+            ) and hasText(
+                appSettingsDisabled,
+            ),
+        ).assertExists()
     }
 
     @Test
@@ -294,8 +318,13 @@ class AppSettingsScreenSnackbarTest {
             )
         }
 
-        composeTestRule.onNodeWithTag(testTag = "appSettings:snackbar").onChild().onChild()
-            .onChild().assertTextEquals(emptyAppSettings)
+        composeTestRule.onNode(
+            matcher = hasAnyAncestor(
+                hasTestTag("appSettings:snackbar"),
+            ) and hasText(
+                emptyAppSettings,
+            ),
+        ).assertExists()
     }
 
     @Test
@@ -333,8 +362,13 @@ class AppSettingsScreenSnackbarTest {
             )
         }
 
-        composeTestRule.onNodeWithTag(testTag = "appSettings:snackbar").onChild().onChild()
-            .onChild().assertTextEquals(revertFailure)
+        composeTestRule.onNode(
+            matcher = hasAnyAncestor(
+                hasTestTag("appSettings:snackbar"),
+            ) and hasText(
+                revertFailure,
+            ),
+        ).assertExists()
     }
 
     @Test
@@ -372,8 +406,13 @@ class AppSettingsScreenSnackbarTest {
             )
         }
 
-        composeTestRule.onNodeWithTag(testTag = "appSettings:snackbar").onChild().onChild()
-            .onChild().assertTextEquals(revertSuccess)
+        composeTestRule.onNode(
+            matcher = hasAnyAncestor(
+                hasTestTag("appSettings:snackbar"),
+            ) and hasText(
+                revertSuccess,
+            ),
+        ).assertExists()
     }
 
     @Test
@@ -411,8 +450,13 @@ class AppSettingsScreenSnackbarTest {
             )
         }
 
-        composeTestRule.onNodeWithTag(testTag = "appSettings:snackbar").onChild().onChild()
-            .onChild().assertTextEquals(invalidValues)
+        composeTestRule.onNode(
+            matcher = hasAnyAncestor(
+                hasTestTag("appSettings:snackbar"),
+            ) and hasText(
+                invalidValues,
+            ),
+        ).assertExists()
     }
 
     @Test
@@ -450,8 +494,13 @@ class AppSettingsScreenSnackbarTest {
             )
         }
 
-        composeTestRule.onNodeWithTag(testTag = "appSettings:snackbar").onChild().onChild()
-            .onChild().assertTextEquals(supportedLauncher)
+        composeTestRule.onNode(
+            matcher = hasAnyAncestor(
+                hasTestTag("appSettings:snackbar"),
+            ) and hasText(
+                supportedLauncher,
+            ),
+        ).assertExists()
     }
 
     @Test
@@ -489,8 +538,13 @@ class AppSettingsScreenSnackbarTest {
             )
         }
 
-        composeTestRule.onNodeWithTag(testTag = "appSettings:snackbar").onChild().onChild()
-            .onChild().assertTextEquals(unsupportedLauncher)
+        composeTestRule.onNode(
+            matcher = hasAnyAncestor(
+                hasTestTag("appSettings:snackbar"),
+            ) and hasText(
+                unsupportedLauncher,
+            ),
+        ).assertExists()
     }
 
     @Test
@@ -528,8 +582,13 @@ class AppSettingsScreenSnackbarTest {
             )
         }
 
-        composeTestRule.onNodeWithTag(testTag = "appSettings:snackbar").onChild().onChild()
-            .onChild().assertTextEquals(shortcutUpdateFailed)
+        composeTestRule.onNode(
+            matcher = hasAnyAncestor(
+                hasTestTag("appSettings:snackbar"),
+            ) and hasText(
+                shortcutUpdateFailed,
+            ),
+        ).assertExists()
     }
 
     @Test
@@ -567,8 +626,13 @@ class AppSettingsScreenSnackbarTest {
             )
         }
 
-        composeTestRule.onNodeWithTag(testTag = "appSettings:snackbar").onChild().onChild()
-            .onChild().assertTextEquals(shortcutUpdateSuccess)
+        composeTestRule.onNode(
+            matcher = hasAnyAncestor(
+                hasTestTag("appSettings:snackbar"),
+            ) and hasText(
+                shortcutUpdateSuccess,
+            ),
+        ).assertExists()
     }
 
     @Test
@@ -606,8 +670,13 @@ class AppSettingsScreenSnackbarTest {
             )
         }
 
-        composeTestRule.onNodeWithTag(testTag = "appSettings:snackbar").onChild().onChild()
-            .onChild().assertTextEquals(shortcutUpdateImmutableShortcuts)
+        composeTestRule.onNode(
+            matcher = hasAnyAncestor(
+                hasTestTag("appSettings:snackbar"),
+            ) and hasText(
+                shortcutUpdateImmutableShortcuts,
+            ),
+        ).assertExists()
     }
 
     @Test
@@ -647,7 +716,12 @@ class AppSettingsScreenSnackbarTest {
             )
         }
 
-        composeTestRule.onNodeWithTag(testTag = "appSettings:snackbar").onChild().onChild()
-            .onChild().assertTextEquals(String.format(copiedToClipboard, permissionCommandText))
+        composeTestRule.onNode(
+            matcher = hasAnyAncestor(
+                hasTestTag("appSettings:snackbar"),
+            ) and hasText(
+                String.format(copiedToClipboard, permissionCommandText),
+            ),
+        ).assertExists()
     }
 }
