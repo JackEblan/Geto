@@ -32,7 +32,7 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 @HiltAndroidTest
-class UpdateShortcutDialogTest {
+class ShortcutDialogTest {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
@@ -50,23 +50,23 @@ class UpdateShortcutDialogTest {
         shortcutDialogState.updateLongLabel("")
 
         composeTestRule.setContent {
-            UpdateShortcutDialog(
+            ShortcutDialog(
                 shortcutDialogState = shortcutDialogState,
                 packageName = "",
                 contentDescription = "",
-                onUpdateClick = {
+                onAddClick = {
                     assertTrue(shortcutDialogState.showDialog)
                 },
             )
         }
 
         composeTestRule.onNodeWithTag(
-            testTag = "updateShortcutDialog:shortLabelCounterSupportingText",
+            testTag = "shortcutDialog:shortLabelCounterSupportingText",
             useUnmergedTree = true,
         ).assertTextEquals("0/${shortcutDialogState.shortLabelMaxLength}")
 
         composeTestRule.onNodeWithTag(
-            testTag = "updateShortcutDialog:longLabelCounterSupportingText",
+            testTag = "shortcutDialog:longLabelCounterSupportingText",
             useUnmergedTree = true,
         ).assertTextEquals("0/${shortcutDialogState.longLabelMaxLength}")
     }
@@ -78,20 +78,20 @@ class UpdateShortcutDialogTest {
         shortcutDialogState.updateLongLabel("Geto")
 
         composeTestRule.setContent {
-            UpdateShortcutDialog(
+            ShortcutDialog(
                 shortcutDialogState = shortcutDialogState,
                 packageName = "",
                 contentDescription = "",
-                onUpdateClick = {
+                onAddClick = {
                     assertTrue(shortcutDialogState.showDialog)
                 },
             )
         }
 
-        composeTestRule.onNodeWithText("Update").performClick()
+        composeTestRule.onNodeWithText("Add").performClick()
 
         composeTestRule.onNodeWithTag(
-            testTag = "updateShortcutDialog:shortLabelSupportingText",
+            testTag = "shortcutDialog:shortLabelSupportingText",
             useUnmergedTree = true,
         ).assertIsDisplayed()
     }
@@ -103,18 +103,18 @@ class UpdateShortcutDialogTest {
 
             shortcutDialogState.updateLongLabel("")
 
-            UpdateShortcutDialog(
+            ShortcutDialog(
                 shortcutDialogState = shortcutDialogState,
                 packageName = "",
                 contentDescription = "",
-                onUpdateClick = {
+                onAddClick = {
                     assertTrue(shortcutDialogState.showDialog)
                 },
             )
         }
 
         composeTestRule.onNodeWithTag(
-            testTag = "updateShortcutDialog:shortLabelCounterSupportingText",
+            testTag = "shortcutDialog:shortLabelCounterSupportingText",
             useUnmergedTree = true,
         )
             .assertTextEquals("${shortcutDialogState.shortLabel.length}/${shortcutDialogState.shortLabelMaxLength}")
@@ -127,18 +127,18 @@ class UpdateShortcutDialogTest {
         shortcutDialogState.updateLongLabel("qwerty")
 
         composeTestRule.setContent {
-            UpdateShortcutDialog(
+            ShortcutDialog(
                 shortcutDialogState = shortcutDialogState,
                 packageName = "",
                 contentDescription = "",
-                onUpdateClick = {
+                onAddClick = {
                     assertTrue(shortcutDialogState.showDialog)
                 },
             )
         }
 
         composeTestRule.onNodeWithTag(
-            testTag = "updateShortcutDialog:longLabelCounterSupportingText",
+            testTag = "shortcutDialog:longLabelCounterSupportingText",
             useUnmergedTree = true,
         )
             .assertTextEquals("${shortcutDialogState.longLabel.length}/${shortcutDialogState.longLabelMaxLength}")
@@ -151,41 +151,41 @@ class UpdateShortcutDialogTest {
         shortcutDialogState.updateLongLabel("")
 
         composeTestRule.setContent {
-            UpdateShortcutDialog(
+            ShortcutDialog(
                 shortcutDialogState = shortcutDialogState,
                 packageName = "",
                 contentDescription = "",
-                onUpdateClick = {
+                onAddClick = {
                     assertTrue(shortcutDialogState.showDialog)
                 },
             )
         }
 
-        composeTestRule.onNodeWithText("Update").performClick()
+        composeTestRule.onNodeWithText("Add").performClick()
 
         composeTestRule.onNodeWithTag(
-            testTag = "updateShortcutDialog:longLabelSupportingText",
+            testTag = "shortcutDialog:longLabelSupportingText",
             useUnmergedTree = true,
         ).assertIsDisplayed()
     }
 
     @Test
-    fun updateShortcutDialog_isDismissed() {
+    fun addShortcutDialog_isDismissed() {
         shortcutDialogState.updateShortLabel("Geto")
 
         shortcutDialogState.updateLongLabel("Geto")
 
         composeTestRule.setContent {
-            UpdateShortcutDialog(
+            ShortcutDialog(
                 shortcutDialogState = shortcutDialogState,
                 packageName = "",
                 contentDescription = "",
-                onUpdateClick = {
+                onAddClick = {
                     assertFalse(shortcutDialogState.showDialog)
                 },
             )
         }
 
-        composeTestRule.onNodeWithText("Update").performClick()
+        composeTestRule.onNodeWithText("Add").performClick()
     }
 }

@@ -36,9 +36,7 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import com.android.geto.core.domain.ApplyAppSettingsResult
 import com.android.geto.core.domain.AutoLaunchResult
-import com.android.geto.core.domain.GetPinnedShortcutResult
 import com.android.geto.core.domain.RevertAppSettingsResult
-import com.android.geto.core.model.MappedShortcutInfoCompat
 import org.junit.Rule
 import org.junit.Test
 
@@ -61,12 +59,9 @@ class AppSettingsScreenDialogsTest {
                 revertAppSettingsResult = null,
                 autoLaunchResult = null,
                 requestPinShortcutResult = null,
-                updateRequestPinShortcutResult = null,
-                getPinnedShortcutResult = null,
                 setPrimaryClipResult = false,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
-                onGetPinnedShortcut = {},
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
@@ -76,14 +71,11 @@ class AppSettingsScreenDialogsTest {
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
                 onResetRequestPinShortcutResult = {},
-                onResetUpdateRequestPinShortcutResult = {},
-                onResetGetPinnedShortcutResult = {},
                 onResetSetPrimaryClipResult = {},
                 onGetSecureSettingsByName = { _, _ -> },
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
-                onUpdateShortcut = {},
             )
         }
 
@@ -115,12 +107,9 @@ class AppSettingsScreenDialogsTest {
                 revertAppSettingsResult = null,
                 autoLaunchResult = null,
                 requestPinShortcutResult = null,
-                updateRequestPinShortcutResult = null,
-                getPinnedShortcutResult = null,
                 setPrimaryClipResult = false,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
-                onGetPinnedShortcut = {},
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
@@ -130,14 +119,11 @@ class AppSettingsScreenDialogsTest {
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
                 onResetRequestPinShortcutResult = {},
-                onResetUpdateRequestPinShortcutResult = {},
-                onResetGetPinnedShortcutResult = {},
                 onResetSetPrimaryClipResult = {},
                 onGetSecureSettingsByName = { _, _ -> },
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
-                onUpdateShortcut = {},
             )
         }
 
@@ -165,12 +151,9 @@ class AppSettingsScreenDialogsTest {
                 revertAppSettingsResult = RevertAppSettingsResult.SecurityException,
                 autoLaunchResult = null,
                 requestPinShortcutResult = null,
-                updateRequestPinShortcutResult = null,
-                getPinnedShortcutResult = null,
                 setPrimaryClipResult = false,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
-                onGetPinnedShortcut = {},
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
@@ -180,14 +163,11 @@ class AppSettingsScreenDialogsTest {
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
                 onResetRequestPinShortcutResult = {},
-                onResetUpdateRequestPinShortcutResult = {},
-                onResetGetPinnedShortcutResult = {},
                 onResetSetPrimaryClipResult = {},
                 onGetSecureSettingsByName = { _, _ -> },
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
-                onUpdateShortcut = {},
             )
         }
 
@@ -215,12 +195,9 @@ class AppSettingsScreenDialogsTest {
                 revertAppSettingsResult = null,
                 autoLaunchResult = AutoLaunchResult.SecurityException,
                 requestPinShortcutResult = null,
-                updateRequestPinShortcutResult = null,
-                getPinnedShortcutResult = null,
                 setPrimaryClipResult = false,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
-                onGetPinnedShortcut = {},
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
@@ -230,14 +207,11 @@ class AppSettingsScreenDialogsTest {
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
                 onResetRequestPinShortcutResult = {},
-                onResetUpdateRequestPinShortcutResult = {},
-                onResetGetPinnedShortcutResult = {},
                 onResetSetPrimaryClipResult = {},
                 onGetSecureSettingsByName = { _, _ -> },
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
-                onUpdateShortcut = {},
             )
         }
 
@@ -251,7 +225,7 @@ class AppSettingsScreenDialogsTest {
     }
 
     @Test
-    fun addShortcutDialog_isDisplayed_whenGetPinnedShortcutResult_isFailure_thenDismissed() {
+    fun shortcutDialog_isDisplayed_whenShortcutIcon_isClicked_thenDismissed() {
         composeTestRule.setContent {
             AppSettingsScreen(
                 packageName = "com.android.geto",
@@ -265,12 +239,9 @@ class AppSettingsScreenDialogsTest {
                 revertAppSettingsResult = null,
                 autoLaunchResult = null,
                 requestPinShortcutResult = null,
-                updateRequestPinShortcutResult = null,
-                getPinnedShortcutResult = GetPinnedShortcutResult.Failure,
                 setPrimaryClipResult = false,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
-                onGetPinnedShortcut = {},
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
@@ -280,14 +251,11 @@ class AppSettingsScreenDialogsTest {
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
                 onResetRequestPinShortcutResult = {},
-                onResetUpdateRequestPinShortcutResult = {},
-                onResetGetPinnedShortcutResult = {},
                 onResetSetPrimaryClipResult = {},
                 onGetSecureSettingsByName = { _, _ -> },
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
-                onUpdateShortcut = {},
             )
         }
 
@@ -301,66 +269,6 @@ class AppSettingsScreenDialogsTest {
         composeTestRule.onNodeWithText("Cancel").performClick()
 
         composeTestRule.onNodeWithContentDescription("Add Shortcut Dialog").assertIsNotDisplayed()
-    }
-
-    @Test
-    fun updateShortcutDialog_isDisplayed_whenGetPinnedShortcutResult_isSuccess_thenDismissed() {
-        composeTestRule.setContent {
-            AppSettingsScreen(
-                packageName = "com.android.geto",
-                appName = "Geto",
-                appSettingsUiState = AppSettingsUiState.Loading,
-                snackbarHostState = SnackbarHostState(),
-                applicationIcon = null,
-                secureSettings = emptyList(),
-                permissionCommandText = "",
-                applyAppSettingsResult = null,
-                revertAppSettingsResult = null,
-                autoLaunchResult = null,
-                requestPinShortcutResult = null,
-                updateRequestPinShortcutResult = null,
-                getPinnedShortcutResult = GetPinnedShortcutResult.Success(
-                    MappedShortcutInfoCompat(
-                        id = "com.android.geto",
-                        shortLabel = "Geto",
-                        longLabel = "Geto",
-                    ),
-                ),
-                setPrimaryClipResult = false,
-                onNavigationIconClick = {},
-                onRevertAppSettings = {},
-                onGetPinnedShortcut = {},
-                onCheckAppSetting = { _, _ -> },
-                onDeleteAppSetting = {},
-                onLaunchApp = {},
-                onAutoLaunchApp = {},
-                onGetApplicationIcon = {},
-                onResetApplyAppSettingsResult = {},
-                onResetRevertAppSettingsResult = {},
-                onResetAutoLaunchResult = {},
-                onResetRequestPinShortcutResult = {},
-                onResetUpdateRequestPinShortcutResult = {},
-                onResetGetPinnedShortcutResult = {},
-                onResetSetPrimaryClipResult = {},
-                onGetSecureSettingsByName = { _, _ -> },
-                onAddAppSetting = {},
-                onCopyPermissionCommand = {},
-                onAddShortcut = {},
-                onUpdateShortcut = {},
-            )
-        }
-
-        composeTestRule.onNodeWithContentDescription(
-            label = "Shortcut icon",
-            useUnmergedTree = true,
-        ).performClick()
-
-        composeTestRule.onNodeWithContentDescription("Update Shortcut Dialog").assertIsDisplayed()
-
-        composeTestRule.onNodeWithText("Cancel").performClick()
-
-        composeTestRule.onNodeWithContentDescription("Update Shortcut Dialog")
-            .assertIsNotDisplayed()
     }
 
     @Test
@@ -380,12 +288,9 @@ class AppSettingsScreenDialogsTest {
                 revertAppSettingsResult = null,
                 autoLaunchResult = null,
                 requestPinShortcutResult = null,
-                updateRequestPinShortcutResult = null,
-                getPinnedShortcutResult = null,
                 setPrimaryClipResult = false,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
-                onGetPinnedShortcut = {},
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
@@ -395,14 +300,11 @@ class AppSettingsScreenDialogsTest {
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
                 onResetRequestPinShortcutResult = {},
-                onResetUpdateRequestPinShortcutResult = {},
-                onResetGetPinnedShortcutResult = {},
                 onResetSetPrimaryClipResult = {},
                 onGetSecureSettingsByName = { _, _ -> },
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
-                onUpdateShortcut = {},
             )
         }
 
@@ -465,7 +367,7 @@ class AppSettingsScreenDialogsTest {
     }
 
     @Test
-    fun addShortcutDialog_stateRestoration() {
+    fun shortcutDialog_stateRestoration() {
         val restorationTester = StateRestorationTester(composeTestRule)
 
         restorationTester.setContent {
@@ -481,12 +383,9 @@ class AppSettingsScreenDialogsTest {
                 revertAppSettingsResult = null,
                 autoLaunchResult = null,
                 requestPinShortcutResult = null,
-                updateRequestPinShortcutResult = null,
-                getPinnedShortcutResult = GetPinnedShortcutResult.Failure,
                 setPrimaryClipResult = false,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
-                onGetPinnedShortcut = {},
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
@@ -496,14 +395,11 @@ class AppSettingsScreenDialogsTest {
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
                 onResetRequestPinShortcutResult = {},
-                onResetUpdateRequestPinShortcutResult = {},
-                onResetGetPinnedShortcutResult = {},
                 onResetSetPrimaryClipResult = {},
                 onGetSecureSettingsByName = { _, _ -> },
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
-                onUpdateShortcut = {},
             )
         }
 
@@ -513,12 +409,12 @@ class AppSettingsScreenDialogsTest {
         ).performClick()
 
         composeTestRule.onNode(
-            matcher = hasAnyAncestor(isDialog()) and hasTestTag("addShortcutDialog:shortLabelTextField"),
+            matcher = hasAnyAncestor(isDialog()) and hasTestTag("shortcutDialog:shortLabelTextField"),
             useUnmergedTree = true,
         ).performTextInput("Geto")
 
         composeTestRule.onNode(
-            matcher = hasAnyAncestor(isDialog()) and hasTestTag("addShortcutDialog:longLabelTextField"),
+            matcher = hasAnyAncestor(isDialog()) and hasTestTag("shortcutDialog:longLabelTextField"),
             useUnmergedTree = true,
         ).performTextInput("Geto")
 
@@ -528,82 +424,12 @@ class AppSettingsScreenDialogsTest {
             .assertIsDisplayed()
 
         composeTestRule.onNode(
-            matcher = hasAnyAncestor(isDialog()) and hasTestTag("addShortcutDialog:shortLabelTextField"),
+            matcher = hasAnyAncestor(isDialog()) and hasTestTag("shortcutDialog:shortLabelTextField"),
             useUnmergedTree = true,
         ).assertTextEquals("Geto")
 
         composeTestRule.onNode(
-            matcher = hasAnyAncestor(isDialog()) and hasTestTag("addShortcutDialog:longLabelTextField"),
-            useUnmergedTree = true,
-        ).assertTextEquals("Geto")
-    }
-
-    @Test
-    fun updateShortcutDialog_stateRestoration() {
-        val restorationTester = StateRestorationTester(composeTestRule)
-
-        restorationTester.setContent {
-            AppSettingsScreen(
-                packageName = "com.android.geto",
-                appName = "Geto",
-                appSettingsUiState = AppSettingsUiState.Loading,
-                snackbarHostState = SnackbarHostState(),
-                applicationIcon = null,
-                secureSettings = emptyList(),
-                permissionCommandText = "",
-                applyAppSettingsResult = null,
-                revertAppSettingsResult = null,
-                autoLaunchResult = null,
-                requestPinShortcutResult = null,
-                updateRequestPinShortcutResult = null,
-                getPinnedShortcutResult = GetPinnedShortcutResult.Success(
-                    MappedShortcutInfoCompat(
-                        id = "com.android.geto",
-                        shortLabel = "Geto",
-                        longLabel = "Geto",
-                    ),
-                ),
-                setPrimaryClipResult = false,
-                onNavigationIconClick = {},
-                onRevertAppSettings = {},
-                onGetPinnedShortcut = {},
-                onCheckAppSetting = { _, _ -> },
-                onDeleteAppSetting = {},
-                onLaunchApp = {},
-                onAutoLaunchApp = {},
-                onGetApplicationIcon = {},
-                onResetApplyAppSettingsResult = {},
-                onResetRevertAppSettingsResult = {},
-                onResetAutoLaunchResult = {},
-                onResetRequestPinShortcutResult = {},
-                onResetUpdateRequestPinShortcutResult = {},
-                onResetGetPinnedShortcutResult = {},
-                onResetSetPrimaryClipResult = {},
-                onGetSecureSettingsByName = { _, _ -> },
-                onAddAppSetting = {},
-                onCopyPermissionCommand = {},
-                onAddShortcut = {},
-                onUpdateShortcut = {},
-            )
-        }
-
-        composeTestRule.onNodeWithContentDescription(
-            label = "Shortcut icon",
-            useUnmergedTree = true,
-        ).performClick()
-
-        restorationTester.emulateSavedInstanceStateRestore()
-
-        composeTestRule.onNode(matcher = hasParent(isDialog()) and hasContentDescription("Update Shortcut Dialog"))
-            .assertIsDisplayed()
-
-        composeTestRule.onNode(
-            matcher = hasAnyAncestor(isDialog()) and hasTestTag("updateShortcutDialog:shortLabelTextField"),
-            useUnmergedTree = true,
-        ).assertTextEquals("Geto")
-
-        composeTestRule.onNode(
-            matcher = hasAnyAncestor(isDialog()) and hasTestTag("updateShortcutDialog:longLabelTextField"),
+            matcher = hasAnyAncestor(isDialog()) and hasTestTag("shortcutDialog:longLabelTextField"),
             useUnmergedTree = true,
         ).assertTextEquals("Geto")
     }

@@ -22,14 +22,10 @@ import androidx.navigation.testing.invoke
 import com.android.geto.core.domain.ApplyAppSettingsResult
 import com.android.geto.core.domain.ApplyAppSettingsUseCase
 import com.android.geto.core.domain.AutoLaunchUseCase
-import com.android.geto.core.domain.GetPinnedShortcutResult
-import com.android.geto.core.domain.GetPinnedShortcutUseCase
 import com.android.geto.core.domain.RequestPinShortcutResult
 import com.android.geto.core.domain.RequestPinShortcutUseCase
 import com.android.geto.core.domain.RevertAppSettingsResult
 import com.android.geto.core.domain.RevertAppSettingsUseCase
-import com.android.geto.core.domain.UpdateRequestPinShortcutResult
-import com.android.geto.core.domain.UpdateRequestPinShortcutUseCase
 import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.MappedApplicationInfo
 import com.android.geto.core.model.MappedShortcutInfoCompat
@@ -86,10 +82,6 @@ class AppSettingsViewModelTest {
 
     private lateinit var requestPinShortcutUseCase: RequestPinShortcutUseCase
 
-    private lateinit var updateRequestPinShortcutUseCase: UpdateRequestPinShortcutUseCase
-
-    private lateinit var getPinnedShortcutUseCase: GetPinnedShortcutUseCase
-
     private lateinit var savedStateHandle: SavedStateHandle
 
     private lateinit var viewModel: AppSettingsViewModel
@@ -133,11 +125,6 @@ class AppSettingsViewModelTest {
         requestPinShortcutUseCase =
             RequestPinShortcutUseCase(shortcutRepository = shortcutRepository)
 
-        updateRequestPinShortcutUseCase =
-            UpdateRequestPinShortcutUseCase(shortcutRepository = shortcutRepository)
-
-        getPinnedShortcutUseCase = GetPinnedShortcutUseCase(shortcutRepository = shortcutRepository)
-
         savedStateHandle = SavedStateHandle(
             route = AppSettingsRouteData(
                 packageName = packageName,
@@ -155,8 +142,6 @@ class AppSettingsViewModelTest {
             revertAppSettingsUseCase = revertAppSettingsUseCase,
             autoLaunchUseCase = autoLaunchUseCase,
             requestPinShortcutUseCase = requestPinShortcutUseCase,
-            updateRequestPinShortcutUseCase = updateRequestPinShortcutUseCase,
-            getPinnedShortcutUseCase = getPinnedShortcutUseCase,
         )
     }
 
@@ -196,18 +181,8 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun updateRequestPinShortcutResult_isNull_whenStarted() {
-        assertNull(viewModel.updateRequestPinShortcutResult.value)
-    }
-
-    @Test
     fun applicationIcon_isNull_whenStarted() {
         assertNull(viewModel.applicationIcon.value)
-    }
-
-    @Test
-    fun getPinnedShortcutResult_isNull_whenStarted() {
-        assertNull(viewModel.getPinnedShortcutResult.value)
     }
 
     @Test
@@ -619,7 +594,7 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun updateRequestPinShortcutResult_isIDNotFound_whenUpdateRequestPinShortcut() = runTest {
+    fun requestPinShortcutResult_isUpdateImmutableShortcuts_whenRequestPinShortcut() = runTest {
         val shortcuts = List(2) {
             MappedShortcutInfoCompat(
                 id = "com.android.geto",
@@ -628,53 +603,27 @@ class AppSettingsViewModelTest {
             )
         }
 
-        shortcutRepository.setUpdateImmutableShortcuts(false)
+        shortcutRepository.setRequestPinShortcutSupported(true)
+
+        shortcutRepository.setUpdateImmutableShortcuts(true)
 
         shortcutRepository.setShortcuts(shortcuts)
 
-        viewModel.updateRequestPinShortcut(
+        viewModel.requestPinShortcut(
             mappedShortcutInfoCompat = MappedShortcutInfoCompat(
-                id = "0",
+                id = "com.android.geto",
                 shortLabel = "",
                 longLabel = "",
             ),
         )
 
-        assertIs<UpdateRequestPinShortcutResult.IDNotFound>(
-            viewModel.updateRequestPinShortcutResult.value,
+        assertIs<RequestPinShortcutResult.UpdateImmutableShortcuts>(
+            viewModel.requestPinShortcutResult.value,
         )
     }
 
     @Test
-    fun updateRequestPinShortcutResult_isUpdateImmutableShortcuts_whenUpdateRequestPinShortcut() =
-        runTest {
-            val shortcuts = List(2) {
-                MappedShortcutInfoCompat(
-                    id = "com.android.geto",
-                    shortLabel = "Geto",
-                    longLabel = "Geto",
-                )
-            }
-
-            shortcutRepository.setUpdateImmutableShortcuts(true)
-
-            shortcutRepository.setShortcuts(shortcuts)
-
-            viewModel.updateRequestPinShortcut(
-                mappedShortcutInfoCompat = MappedShortcutInfoCompat(
-                    id = "com.android.geto",
-                    shortLabel = "",
-                    longLabel = "",
-                ),
-            )
-
-            assertIs<UpdateRequestPinShortcutResult.UpdateImmutableShortcuts>(
-                viewModel.updateRequestPinShortcutResult.value,
-            )
-        }
-
-    @Test
-    fun updateRequestPinShortcutResult_isSuccess_whenUpdateRequestPinShortcut() = runTest {
+    fun requestPinShortcutResult_isSuccess_whenRequestPinShortcut() = runTest {
         val shortcuts = List(2) {
             MappedShortcutInfoCompat(
                 id = "com.android.geto",
@@ -689,7 +638,7 @@ class AppSettingsViewModelTest {
 
         shortcutRepository.setShortcuts(shortcuts)
 
-        viewModel.updateRequestPinShortcut(
+        viewModel.requestPinShortcut(
             mappedShortcutInfoCompat = MappedShortcutInfoCompat(
                 id = "com.android.geto",
                 shortLabel = "",
@@ -697,43 +646,9 @@ class AppSettingsViewModelTest {
             ),
         )
 
-        assertIs<UpdateRequestPinShortcutResult.Success>(
-            viewModel.updateRequestPinShortcutResult.value,
+        assertIs<RequestPinShortcutResult.UpdateSuccess>(
+            viewModel.requestPinShortcutResult.value,
         )
-    }
-
-    @Test
-    fun getPinnedShortcutResult_isSuccess_whenGetPinnedShortcut() = runTest {
-        val shortcuts = List(2) {
-            MappedShortcutInfoCompat(
-                id = "com.android.geto",
-                shortLabel = "Geto",
-                longLabel = "Geto",
-            )
-        }
-
-        shortcutRepository.setShortcuts(shortcuts)
-
-        viewModel.getPinnedShortcut()
-
-        assertIs<GetPinnedShortcutResult.Success>(viewModel.getPinnedShortcutResult.value)
-    }
-
-    @Test
-    fun getPinnedShortcutResult_isFailure_whenGetPinnedShortcut() = runTest {
-        val shortcuts = List(2) {
-            MappedShortcutInfoCompat(
-                id = "",
-                shortLabel = "Geto",
-                longLabel = "Geto",
-            )
-        }
-
-        shortcutRepository.setShortcuts(shortcuts)
-
-        viewModel.getPinnedShortcut()
-
-        assertIs<GetPinnedShortcutResult.Failure>(viewModel.getPinnedShortcutResult.value)
     }
 
     @Test

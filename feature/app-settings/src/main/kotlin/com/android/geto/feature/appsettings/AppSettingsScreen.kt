@@ -70,10 +70,8 @@ import com.android.geto.core.designsystem.icon.GetoIcons
 import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.domain.ApplyAppSettingsResult
 import com.android.geto.core.domain.AutoLaunchResult
-import com.android.geto.core.domain.GetPinnedShortcutResult
 import com.android.geto.core.domain.RequestPinShortcutResult
 import com.android.geto.core.domain.RevertAppSettingsResult
-import com.android.geto.core.domain.UpdateRequestPinShortcutResult
 import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.MappedShortcutInfoCompat
 import com.android.geto.core.model.SecureSetting
@@ -86,9 +84,8 @@ import com.android.geto.feature.appsettings.dialog.appsetting.rememberAppSetting
 import com.android.geto.feature.appsettings.dialog.copypermissioncommand.CopyPermissionCommandDialog
 import com.android.geto.feature.appsettings.dialog.copypermissioncommand.CopyPermissionCommandDialogState
 import com.android.geto.feature.appsettings.dialog.copypermissioncommand.rememberCopyPermissionCommandDialogState
-import com.android.geto.feature.appsettings.dialog.shortcut.AddShortcutDialog
+import com.android.geto.feature.appsettings.dialog.shortcut.ShortcutDialog
 import com.android.geto.feature.appsettings.dialog.shortcut.ShortcutDialogState
-import com.android.geto.feature.appsettings.dialog.shortcut.UpdateShortcutDialog
 import com.android.geto.feature.appsettings.dialog.shortcut.rememberShortcutDialogState
 import com.android.geto.feature.appsettings.navigation.AppSettingsRouteData
 import kotlinx.coroutines.FlowPreview
@@ -118,16 +115,10 @@ internal fun AppSettingsRoute(
 
     val applicationIcon = viewModel.applicationIcon.collectAsStateWithLifecycle().value
 
-    val getPinnedShortcutResult =
-        viewModel.getPinnedShortcutResult.collectAsStateWithLifecycle().value
-
     val setPrimaryClipResult = viewModel.setPrimaryClipResult.collectAsStateWithLifecycle().value
 
     val requestPinShortcutResult =
         viewModel.requestPinShortcutResult.collectAsStateWithLifecycle().value
-
-    val updateRequestPinShortcutResult =
-        viewModel.updateRequestPinShortcutResult.collectAsStateWithLifecycle().value
 
     val snackbarHostState = remember {
         SnackbarHostState()
@@ -146,12 +137,9 @@ internal fun AppSettingsRoute(
         revertAppSettingsResult = revertAppSettingsResult,
         autoLaunchResult = autoLaunchResult,
         requestPinShortcutResult = requestPinShortcutResult,
-        updateRequestPinShortcutResult = updateRequestPinShortcutResult,
-        getPinnedShortcutResult = getPinnedShortcutResult,
         setPrimaryClipResult = setPrimaryClipResult,
         onNavigationIconClick = onNavigationIconClick,
         onRevertAppSettings = viewModel::revertAppSettings,
-        onGetPinnedShortcut = viewModel::getPinnedShortcut,
         onCheckAppSetting = viewModel::checkAppSetting,
         onDeleteAppSetting = viewModel::deleteAppSetting,
         onLaunchApp = viewModel::applyAppSettings,
@@ -161,14 +149,11 @@ internal fun AppSettingsRoute(
         onResetRevertAppSettingsResult = viewModel::resetRevertAppSettingsResult,
         onResetAutoLaunchResult = viewModel::resetAutoLaunchResult,
         onResetRequestPinShortcutResult = viewModel::resetRequestPinShortcutResult,
-        onResetUpdateRequestPinShortcutResult = viewModel::resetUpdateRequestPinShortcutResult,
-        onResetGetPinnedShortcutResult = viewModel::resetGetPinnedShortcutResult,
         onResetSetPrimaryClipResult = viewModel::resetSetPrimaryClipResult,
         onGetSecureSettingsByName = viewModel::getSecureSettingsByName,
         onAddAppSetting = viewModel::addAppSetting,
         onCopyPermissionCommand = viewModel::copyPermissionCommand,
         onAddShortcut = viewModel::requestPinShortcut,
-        onUpdateShortcut = viewModel::updateRequestPinShortcut,
     )
 }
 
@@ -187,12 +172,9 @@ internal fun AppSettingsScreen(
     revertAppSettingsResult: RevertAppSettingsResult?,
     autoLaunchResult: AutoLaunchResult?,
     requestPinShortcutResult: RequestPinShortcutResult?,
-    updateRequestPinShortcutResult: UpdateRequestPinShortcutResult?,
-    getPinnedShortcutResult: GetPinnedShortcutResult?,
     setPrimaryClipResult: Boolean,
     onNavigationIconClick: () -> Unit,
     onRevertAppSettings: () -> Unit,
-    onGetPinnedShortcut: () -> Unit,
     onCheckAppSetting: (Boolean, AppSetting) -> Unit,
     onDeleteAppSetting: (AppSetting) -> Unit,
     onLaunchApp: () -> Unit,
@@ -202,29 +184,23 @@ internal fun AppSettingsScreen(
     onResetRevertAppSettingsResult: () -> Unit,
     onResetAutoLaunchResult: () -> Unit,
     onResetRequestPinShortcutResult: () -> Unit,
-    onResetUpdateRequestPinShortcutResult: () -> Unit,
-    onResetGetPinnedShortcutResult: () -> Unit,
     onResetSetPrimaryClipResult: () -> Unit,
     onGetSecureSettingsByName: (SettingType, String) -> Unit,
     onAddAppSetting: (AppSetting) -> Unit,
     onCopyPermissionCommand: () -> Unit,
     onAddShortcut: (MappedShortcutInfoCompat) -> Unit,
-    onUpdateShortcut: (MappedShortcutInfoCompat) -> Unit,
 ) {
     val copyPermissionCommandDialogState = rememberCopyPermissionCommandDialogState()
 
     val appSettingDialogState = rememberAppSettingDialogState()
 
-    val addShortcutDialogState = rememberShortcutDialogState()
-
-    val updateShortcutDialogState = rememberShortcutDialogState()
+    val shortcutDialogState = rememberShortcutDialogState()
 
     AppSettingsLaunchedEffects(
         snackbarHostState = snackbarHostState,
         copyPermissionCommandDialogState = copyPermissionCommandDialogState,
         appSettingDialogState = appSettingDialogState,
-        addShortcutDialogState = addShortcutDialogState,
-        updateShortcutDialogState = updateShortcutDialogState,
+        shortcutDialogState = shortcutDialogState,
         applicationIcon = applicationIcon,
         secureSettings = secureSettings,
         permissionCommandText = permissionCommandText,
@@ -232,8 +208,6 @@ internal fun AppSettingsScreen(
         revertAppSettingsResult = revertAppSettingsResult,
         autoLaunchResult = autoLaunchResult,
         requestPinShortcutResult = requestPinShortcutResult,
-        updateRequestPinShortcutResult = updateRequestPinShortcutResult,
-        getPinnedShortcutResult = getPinnedShortcutResult,
         setPrimaryClipResult = setPrimaryClipResult,
         onAutoLaunchApp = onAutoLaunchApp,
         onGetApplicationIcon = onGetApplicationIcon,
@@ -241,8 +215,6 @@ internal fun AppSettingsScreen(
         onResetRevertAppSettingsResult = onResetRevertAppSettingsResult,
         onResetAutoLaunchResult = onResetAutoLaunchResult,
         onResetRequestPinShortcutResult = onResetRequestPinShortcutResult,
-        onResetUpdateRequestPinShortcutResult = onResetUpdateRequestPinShortcutResult,
-        onResetGetPinnedShortcutResult = onResetGetPinnedShortcutResult,
         onResetSetPrimaryClipResult = onResetSetPrimaryClipResult,
         onGetSecureSettingsByName = onGetSecureSettingsByName,
     )
@@ -250,13 +222,11 @@ internal fun AppSettingsScreen(
     AppSettingsDialogs(
         copyPermissionCommandDialogState = copyPermissionCommandDialogState,
         appSettingDialogState = appSettingDialogState,
-        addShortcutDialogState = addShortcutDialogState,
-        updateShortcutDialogState = updateShortcutDialogState,
+        shortcutDialogState = shortcutDialogState,
         packageName = packageName,
         onAddAppSetting = onAddAppSetting,
         onCopyPermissionCommand = onCopyPermissionCommand,
         onAddShortcut = onAddShortcut,
-        onUpdateShortcut = onUpdateShortcut,
     )
 
     Scaffold(
@@ -272,7 +242,9 @@ internal fun AppSettingsScreen(
                 onSettingsIconClick = {
                     appSettingDialogState.updateShowDialog(true)
                 },
-                onShortcutIconClick = onGetPinnedShortcut,
+                onShortcutIconClick = {
+                    shortcutDialogState.updateShowDialog(true)
+                },
                 onLaunchApp = onLaunchApp,
             )
         },
@@ -316,8 +288,7 @@ private fun AppSettingsLaunchedEffects(
     snackbarHostState: SnackbarHostState,
     copyPermissionCommandDialogState: CopyPermissionCommandDialogState,
     appSettingDialogState: AppSettingDialogState,
-    addShortcutDialogState: ShortcutDialogState,
-    updateShortcutDialogState: ShortcutDialogState,
+    shortcutDialogState: ShortcutDialogState,
     applicationIcon: Drawable?,
     secureSettings: List<SecureSetting>,
     permissionCommandText: String,
@@ -325,8 +296,6 @@ private fun AppSettingsLaunchedEffects(
     revertAppSettingsResult: RevertAppSettingsResult?,
     autoLaunchResult: AutoLaunchResult?,
     requestPinShortcutResult: RequestPinShortcutResult?,
-    updateRequestPinShortcutResult: UpdateRequestPinShortcutResult?,
-    getPinnedShortcutResult: GetPinnedShortcutResult?,
     setPrimaryClipResult: Boolean,
     onAutoLaunchApp: () -> Unit,
     onGetApplicationIcon: () -> Unit,
@@ -334,8 +303,6 @@ private fun AppSettingsLaunchedEffects(
     onResetRevertAppSettingsResult: () -> Unit,
     onResetAutoLaunchResult: () -> Unit,
     onResetRequestPinShortcutResult: () -> Unit,
-    onResetUpdateRequestPinShortcutResult: () -> Unit,
-    onResetGetPinnedShortcutResult: () -> Unit,
     onResetSetPrimaryClipResult: () -> Unit,
     onGetSecureSettingsByName: (SettingType, String) -> Unit,
 ) {
@@ -344,7 +311,6 @@ private fun AppSettingsLaunchedEffects(
     val applyFailure = stringResource(id = R.string.apply_failure)
     val revertFailure = stringResource(id = R.string.revert_failure)
     val revertSuccess = stringResource(id = R.string.revert_success)
-    val shortcutIdNotFound = stringResource(id = R.string.shortcut_id_not_found)
     val shortcutUpdateImmutableShortcuts =
         stringResource(id = R.string.shortcut_update_immutable_shortcuts)
     val shortcutUpdateFailed = stringResource(id = R.string.shortcut_update_failed)
@@ -426,52 +392,28 @@ private fun AppSettingsLaunchedEffects(
                 message = unsupportedLauncher,
             )
 
+            RequestPinShortcutResult.UpdateFailure -> {
+                snackbarHostState.showSnackbar(
+                    message = shortcutUpdateFailed,
+                )
+            }
+
+            RequestPinShortcutResult.UpdateSuccess -> {
+                snackbarHostState.showSnackbar(
+                    message = shortcutUpdateSuccess,
+                )
+            }
+
+            RequestPinShortcutResult.UpdateImmutableShortcuts -> {
+                snackbarHostState.showSnackbar(
+                    message = shortcutUpdateImmutableShortcuts,
+                )
+            }
+
             null -> Unit
         }
 
         onResetRequestPinShortcutResult()
-    }
-
-    LaunchedEffect(key1 = updateRequestPinShortcutResult) {
-        when (updateRequestPinShortcutResult) {
-            UpdateRequestPinShortcutResult.Failure -> snackbarHostState.showSnackbar(
-                message = shortcutUpdateFailed,
-            )
-
-            UpdateRequestPinShortcutResult.IDNotFound -> snackbarHostState.showSnackbar(
-                message = shortcutIdNotFound,
-            )
-
-            UpdateRequestPinShortcutResult.Success -> snackbarHostState.showSnackbar(
-                message = shortcutUpdateSuccess,
-            )
-
-            UpdateRequestPinShortcutResult.UpdateImmutableShortcuts -> snackbarHostState.showSnackbar(
-                message = shortcutUpdateImmutableShortcuts,
-            )
-
-            null -> Unit
-        }
-
-        onResetUpdateRequestPinShortcutResult()
-    }
-
-    LaunchedEffect(key1 = getPinnedShortcutResult) {
-        when (getPinnedShortcutResult) {
-            GetPinnedShortcutResult.Failure -> {
-                addShortcutDialogState.updateShowDialog(true)
-            }
-
-            is GetPinnedShortcutResult.Success -> {
-                updateShortcutDialogState.updateShortLabel(getPinnedShortcutResult.mappedShortcutInfoCompat.shortLabel)
-                updateShortcutDialogState.updateLongLabel(getPinnedShortcutResult.mappedShortcutInfoCompat.longLabel)
-                updateShortcutDialogState.updateShowDialog(true)
-            }
-
-            null -> Unit
-        }
-
-        onResetGetPinnedShortcutResult()
     }
 
     LaunchedEffect(key1 = setPrimaryClipResult) {
@@ -517,8 +459,7 @@ private fun AppSettingsLaunchedEffects(
 
     LaunchedEffect(key1 = applicationIcon) {
         applicationIcon?.let {
-            addShortcutDialogState.updateIcon(it)
-            updateShortcutDialogState.updateIcon(it)
+            shortcutDialogState.updateIcon(it)
         }
     }
 }
@@ -527,13 +468,11 @@ private fun AppSettingsLaunchedEffects(
 private fun AppSettingsDialogs(
     copyPermissionCommandDialogState: CopyPermissionCommandDialogState,
     appSettingDialogState: AppSettingDialogState,
-    addShortcutDialogState: ShortcutDialogState,
-    updateShortcutDialogState: ShortcutDialogState,
+    shortcutDialogState: ShortcutDialogState,
     packageName: String,
     onAddAppSetting: (AppSetting) -> Unit,
     onCopyPermissionCommand: () -> Unit,
     onAddShortcut: (MappedShortcutInfoCompat) -> Unit,
-    onUpdateShortcut: (MappedShortcutInfoCompat) -> Unit,
 ) {
     if (appSettingDialogState.showDialog) {
         AppSettingDialog(
@@ -552,21 +491,12 @@ private fun AppSettingsDialogs(
         )
     }
 
-    if (addShortcutDialogState.showDialog) {
-        AddShortcutDialog(
-            shortcutDialogState = addShortcutDialogState,
+    if (shortcutDialogState.showDialog) {
+        ShortcutDialog(
+            shortcutDialogState = shortcutDialogState,
             packageName = packageName,
             contentDescription = "Add Shortcut Dialog",
             onAddClick = onAddShortcut,
-        )
-    }
-
-    if (updateShortcutDialogState.showDialog) {
-        UpdateShortcutDialog(
-            shortcutDialogState = updateShortcutDialogState,
-            packageName = packageName,
-            contentDescription = "Update Shortcut Dialog",
-            onUpdateClick = onUpdateShortcut,
         )
     }
 }
@@ -813,12 +743,9 @@ private fun AppSettingsScreenLoadingStatePreview() {
             revertAppSettingsResult = null,
             autoLaunchResult = AutoLaunchResult.Ignore,
             requestPinShortcutResult = null,
-            updateRequestPinShortcutResult = null,
-            getPinnedShortcutResult = null,
             setPrimaryClipResult = false,
             onNavigationIconClick = {},
             onRevertAppSettings = {},
-            onGetPinnedShortcut = {},
             onCheckAppSetting = { _, _ -> },
             onDeleteAppSetting = {},
             onLaunchApp = {},
@@ -828,14 +755,11 @@ private fun AppSettingsScreenLoadingStatePreview() {
             onResetRevertAppSettingsResult = {},
             onResetAutoLaunchResult = {},
             onResetRequestPinShortcutResult = {},
-            onResetUpdateRequestPinShortcutResult = {},
-            onResetGetPinnedShortcutResult = {},
             onResetSetPrimaryClipResult = {},
             onGetSecureSettingsByName = { _, _ -> },
             onAddAppSetting = {},
             onCopyPermissionCommand = {},
             onAddShortcut = {},
-            onUpdateShortcut = {},
         )
     }
 }
@@ -856,12 +780,9 @@ private fun AppSettingsScreenEmptyStatePreview() {
             revertAppSettingsResult = null,
             autoLaunchResult = AutoLaunchResult.Ignore,
             requestPinShortcutResult = null,
-            updateRequestPinShortcutResult = null,
-            getPinnedShortcutResult = null,
             setPrimaryClipResult = false,
             onNavigationIconClick = {},
             onRevertAppSettings = {},
-            onGetPinnedShortcut = {},
             onCheckAppSetting = { _, _ -> },
             onDeleteAppSetting = {},
             onLaunchApp = {},
@@ -871,14 +792,11 @@ private fun AppSettingsScreenEmptyStatePreview() {
             onResetRevertAppSettingsResult = {},
             onResetAutoLaunchResult = {},
             onResetRequestPinShortcutResult = {},
-            onResetUpdateRequestPinShortcutResult = {},
-            onResetGetPinnedShortcutResult = {},
             onResetSetPrimaryClipResult = {},
             onGetSecureSettingsByName = { _, _ -> },
             onAddAppSetting = {},
             onCopyPermissionCommand = {},
             onAddShortcut = {},
-            onUpdateShortcut = {},
         )
     }
 }
@@ -901,12 +819,9 @@ private fun AppSettingsScreenSuccessStatePreview(
             revertAppSettingsResult = null,
             autoLaunchResult = AutoLaunchResult.Ignore,
             requestPinShortcutResult = null,
-            updateRequestPinShortcutResult = null,
-            getPinnedShortcutResult = null,
             setPrimaryClipResult = false,
             onNavigationIconClick = {},
             onRevertAppSettings = {},
-            onGetPinnedShortcut = {},
             onCheckAppSetting = { _, _ -> },
             onDeleteAppSetting = {},
             onLaunchApp = {},
@@ -916,14 +831,11 @@ private fun AppSettingsScreenSuccessStatePreview(
             onResetRevertAppSettingsResult = {},
             onResetAutoLaunchResult = {},
             onResetRequestPinShortcutResult = {},
-            onResetUpdateRequestPinShortcutResult = {},
-            onResetGetPinnedShortcutResult = {},
             onResetSetPrimaryClipResult = {},
             onGetSecureSettingsByName = { _, _ -> },
             onAddAppSetting = {},
             onCopyPermissionCommand = {},
             onAddShortcut = {},
-            onUpdateShortcut = {},
         )
     }
 }

@@ -35,8 +35,6 @@
     <string name="add_shortcut">Add Shortcut</string>
     <string name="short_label">Short label</string>
     <string name="long_label">Long label</string>
-    <string name="update_shortcut">Update Shortcut</string>
-    <string name="update">Update</string>
     <string name="short_label_is_blank">Short label is blank</string>
     <string name="long_label_is_blank">Long label is blank</string>
     <string name="setting_label_is_blank">Setting label is blank</string>
@@ -46,7 +44,6 @@
     <string name="setting_value_on_revert_is_blank">Setting value on revert is blank</string>
     <string name="settings_has_invalid_values">Settings has invalid values</string>
     <string name="copied_to_clipboard">%s copied to clipboard</string>
-    <string name="shortcut_id_not_found">Shortcut id not found</string>
     <string name="shortcut_update_immutable_shortcuts">Cannot update immutable shortcuts</string>
     <string name="shortcut_update_failed">Shortcut update failed</string>
     <string name="shortcut_update_success">Shortcut update success</string>
