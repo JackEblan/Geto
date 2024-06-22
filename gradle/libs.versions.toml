@@ -3,7 +3,7 @@ accompanist = "0.34.0"
 androidDesugarJdkLibs = "2.0.4"
 # AGP and tools should be updated together
 androidGradlePlugin = "8.3.0"
-androidTools = "31.3.0"
+androidTools = "31.4.1"
 androidxActivity = "1.9.0"
 androidxComposeBom = "2024.05.00"
 androidxCoreKtx = "1.13.1"
