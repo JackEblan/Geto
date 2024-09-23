@@ -21,6 +21,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     `java-library`
     kotlin("jvm")
+    alias(libs.plugins.com.android.geto.lint)
 }
 
 java {

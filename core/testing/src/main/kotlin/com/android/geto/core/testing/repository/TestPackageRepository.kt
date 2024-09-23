@@ -24,7 +24,7 @@ import com.android.geto.core.data.repository.PackageRepository
 import com.android.geto.core.model.MappedApplicationInfo
 
 class TestPackageRepository : PackageRepository {
-    private var _mappedApplicationInfos = listOf<MappedApplicationInfo>()
+    private val _mappedApplicationInfos = mutableListOf<MappedApplicationInfo>()
 
     override suspend fun queryIntentActivities(
         intent: Intent,
@@ -42,6 +42,6 @@ class TestPackageRepository : PackageRepository {
     }
 
     fun setMappedApplicationInfos(value: List<MappedApplicationInfo>) {
-        _mappedApplicationInfos = value
+        _mappedApplicationInfos.addAll(value)
     }
 }

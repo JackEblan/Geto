@@ -60,14 +60,11 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.android.geto.core.designsystem.component.GetoLoadingWheel
 import com.android.geto.core.designsystem.icon.GetoIcons
-import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.domain.ApplyAppSettingsResult
 import com.android.geto.core.domain.AutoLaunchResult
 import com.android.geto.core.domain.RequestPinShortcutResult
@@ -76,8 +73,6 @@ import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.MappedShortcutInfoCompat
 import com.android.geto.core.model.SecureSetting
 import com.android.geto.core.model.SettingType
-import com.android.geto.core.ui.AppSettingsPreviewParameterProvider
-import com.android.geto.core.ui.DevicePreviews
 import com.android.geto.feature.appsettings.dialog.appsetting.AppSettingDialog
 import com.android.geto.feature.appsettings.dialog.appsetting.AppSettingDialogState
 import com.android.geto.feature.appsettings.dialog.appsetting.rememberAppSettingDialogState
@@ -704,138 +699,5 @@ private fun AppSettingItem(
                 contentDescription = null,
             )
         }
-    }
-}
-
-@Preview
-@Composable
-private fun AppSettingItemPreview() {
-    GetoTheme {
-        AppSettingItem(
-            appSetting = AppSetting(
-                enabled = false,
-                settingType = SettingType.SECURE,
-                packageName = "com.android.geto",
-                label = "Geto",
-                key = "settings_key",
-                valueOnLaunch = "0",
-                valueOnRevert = "1",
-            ),
-            onCheckAppSetting = {},
-            onDeleteAppSetting = {},
-        )
-    }
-}
-
-@DevicePreviews
-@Composable
-private fun AppSettingsScreenLoadingStatePreview() {
-    GetoTheme {
-        AppSettingsScreen(
-            packageName = "com.android.geto",
-            appName = "Geto",
-            appSettingsUiState = AppSettingsUiState.Loading,
-            snackbarHostState = SnackbarHostState(),
-            applicationIcon = null,
-            secureSettings = emptyList(),
-            permissionCommandText = "",
-            applyAppSettingsResult = null,
-            revertAppSettingsResult = null,
-            autoLaunchResult = AutoLaunchResult.Ignore,
-            requestPinShortcutResult = null,
-            setPrimaryClipResult = false,
-            onNavigationIconClick = {},
-            onRevertAppSettings = {},
-            onCheckAppSetting = { _, _ -> },
-            onDeleteAppSetting = {},
-            onLaunchApp = {},
-            onAutoLaunchApp = {},
-            onGetApplicationIcon = {},
-            onResetApplyAppSettingsResult = {},
-            onResetRevertAppSettingsResult = {},
-            onResetAutoLaunchResult = {},
-            onResetRequestPinShortcutResult = {},
-            onResetSetPrimaryClipResult = {},
-            onGetSecureSettingsByName = { _, _ -> },
-            onAddAppSetting = {},
-            onCopyPermissionCommand = {},
-            onAddShortcut = {},
-        )
-    }
-}
-
-@DevicePreviews
-@Composable
-private fun AppSettingsScreenEmptyStatePreview() {
-    GetoTheme {
-        AppSettingsScreen(
-            packageName = "com.android.geto",
-            appName = "Geto",
-            appSettingsUiState = AppSettingsUiState.Success(emptyList()),
-            snackbarHostState = SnackbarHostState(),
-            applicationIcon = null,
-            secureSettings = emptyList(),
-            permissionCommandText = "",
-            applyAppSettingsResult = null,
-            revertAppSettingsResult = null,
-            autoLaunchResult = AutoLaunchResult.Ignore,
-            requestPinShortcutResult = null,
-            setPrimaryClipResult = false,
-            onNavigationIconClick = {},
-            onRevertAppSettings = {},
-            onCheckAppSetting = { _, _ -> },
-            onDeleteAppSetting = {},
-            onLaunchApp = {},
-            onAutoLaunchApp = {},
-            onGetApplicationIcon = {},
-            onResetApplyAppSettingsResult = {},
-            onResetRevertAppSettingsResult = {},
-            onResetAutoLaunchResult = {},
-            onResetRequestPinShortcutResult = {},
-            onResetSetPrimaryClipResult = {},
-            onGetSecureSettingsByName = { _, _ -> },
-            onAddAppSetting = {},
-            onCopyPermissionCommand = {},
-            onAddShortcut = {},
-        )
-    }
-}
-
-@DevicePreviews
-@Composable
-private fun AppSettingsScreenSuccessStatePreview(
-    @PreviewParameter(AppSettingsPreviewParameterProvider::class) appSettings: List<AppSetting>,
-) {
-    GetoTheme {
-        AppSettingsScreen(
-            packageName = "com.android.geto",
-            appName = "Geto",
-            appSettingsUiState = AppSettingsUiState.Success(appSettings),
-            snackbarHostState = SnackbarHostState(),
-            applicationIcon = null,
-            secureSettings = emptyList(),
-            permissionCommandText = "",
-            applyAppSettingsResult = null,
-            revertAppSettingsResult = null,
-            autoLaunchResult = AutoLaunchResult.Ignore,
-            requestPinShortcutResult = null,
-            setPrimaryClipResult = false,
-            onNavigationIconClick = {},
-            onRevertAppSettings = {},
-            onCheckAppSetting = { _, _ -> },
-            onDeleteAppSetting = {},
-            onLaunchApp = {},
-            onAutoLaunchApp = {},
-            onGetApplicationIcon = {},
-            onResetApplyAppSettingsResult = {},
-            onResetRevertAppSettingsResult = {},
-            onResetAutoLaunchResult = {},
-            onResetRequestPinShortcutResult = {},
-            onResetSetPrimaryClipResult = {},
-            onGetSecureSettingsByName = { _, _ -> },
-            onAddAppSetting = {},
-            onCopyPermissionCommand = {},
-            onAddShortcut = {},
-        )
     }
 }

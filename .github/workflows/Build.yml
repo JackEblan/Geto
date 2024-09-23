@@ -7,6 +7,7 @@ on:
     paths-ignore:
       - '**.md'
       - 'fastlane/**'
+      - 'docs/**'
   pull_request:
 
 concurrency:
@@ -25,6 +26,13 @@ jobs:
     timeout-minutes: 60
 
     steps:
+      - name: Enable KVM group perms
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+          ls /dev/kvm
+
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -105,14 +113,31 @@ jobs:
           disable_globbing: true
           commit_message: "🤖 Updates screenshots"
 
-      - name: Run local tests and create report
+      - name: Google Services JSON file
+        if: always()
+        env:
+          DATA: ${{ secrets.GOOGLE_SERVICES_JSON }}
+        run: |
+          cat /home/runner/work/SocialWorkReviewer/SocialWorkReviewer/app/google-services.json | base64
+          echo $DATA > /home/runner/work/SocialWorkReviewer/SocialWorkReviewer/app/google-services.json      
+
+      - name: Run local tests
         if: always()
         run: ./gradlew testDebug :lint:test
 
+      - name: Setup GMD
+        run: ./gradlew :benchmarks:pixel6Api33Setup
+          --info
+          -Pandroid.experimental.testOptions.managedDevices.emulator.showKernelLogging=true
+          -Pandroid.testoptions.manageddevices.emulator.gpu="swiftshader_indirect"
+
       - name: Build all build type and flavor permutations
-        run: ./gradlew :app:assemble :benchmarks:assemble
-          -x pixel6Api33NonMinifiedReleaseAndroidTest
-          -x collectNonMinifiedReleaseBaselineProfile
+        run: ./gradlew :app:assemble :benchmarks:assemble -Pandroidx.baselineprofile.skipgeneration
+          -Pandroid.testoptions.manageddevices.emulator.gpu="swiftshader_indirect"
+          -Pandroid.experimental.testOptions.managedDevices.emulator.showKernelLogging=true
+          -Pandroid.experimental.androidTest.numManagedDeviceShards=1
+          -Pandroid.experimental.testOptions.managedDevices.maxConcurrentDevices=1
+          -Pandroid.experimental.testOptions.managedDevices.setupTimeoutMinutes=5
 
       - name: Upload build outputs (APKs)
         uses: actions/upload-artifact@v4
@@ -127,12 +152,34 @@ jobs:
           name: local-test-results
           path: '**/build/test-results/test*UnitTest/**.xml'
 
+      - name: Upload screenshot results (PNG)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshot-test-results
+          path: '**/build/outputs/roborazzi/*_compare.png'
+
+      - name: Check lint
+        run: ./gradlew :app:lintRelease :lint:lint
+
+      - name: Upload lint reports (HTML)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lint-reports
+          path: '**/build/reports/lint-results-*.html'
+
+      - name: Check badging
+        run: ./gradlew :app:checkReleaseBadging
+
   androidTest:
     runs-on: ubuntu-latest
     timeout-minutes: 55
     strategy:
       matrix:
         api-level: [ 26, 30 ]
+    permissions:
+      pull-requests: write
 
     steps:
       - name: Delete unnecessary tools 🔧

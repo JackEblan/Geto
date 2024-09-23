@@ -50,18 +50,13 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.android.geto.core.designsystem.component.DynamicAsyncImage
 import com.android.geto.core.designsystem.component.GetoLoadingWheel
+import com.android.geto.core.designsystem.component.ShimmerImage
 import com.android.geto.core.designsystem.icon.GetoIcons
-import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.model.MappedApplicationInfo
-import com.android.geto.core.ui.DevicePreviews
-import com.android.geto.core.ui.MappedApplicationInfoPreviewParameterProvider
 
 @Composable
 internal fun AppsRoute(
@@ -85,7 +80,7 @@ internal fun AppsRoute(
 @Composable
 internal fun AppsScreen(
     modifier: Modifier = Modifier,
-    appsUiState: AppsUiState,
+    appsUiState: AppsUiState?,
     onSettingsClick: () -> Unit,
     onItemClick: (String, String) -> Unit,
 ) {
@@ -121,6 +116,8 @@ internal fun AppsScreen(
                     contentPadding = innerPadding,
                     onItemClick = onItemClick,
                 )
+
+                null -> {}
             }
         }
     }
@@ -196,10 +193,9 @@ private fun AppItem(
             .padding(10.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        DynamicAsyncImage(
-            model = mappedApplicationInfo.icon,
-            contentDescription = null,
+        ShimmerImage(
             modifier = Modifier.size(50.dp),
+            model = mappedApplicationInfo.icon,
         )
 
         Spacer(modifier = Modifier.width(10.dp))
@@ -217,46 +213,5 @@ private fun AppItem(
                 style = MaterialTheme.typography.bodySmall,
             )
         }
-    }
-}
-
-@Preview
-@Composable
-private fun AppItemPreview() {
-    GetoTheme {
-        AppItem(
-            mappedApplicationInfo = MappedApplicationInfo(
-                flags = 0,
-                packageName = "com.android.geto",
-                label = "Geto",
-            ),
-            onItemClick = { _, _ -> },
-        )
-    }
-}
-
-@DevicePreviews
-@Composable
-private fun AppsScreenLoadingStatePreview() {
-    GetoTheme {
-        AppsScreen(
-            appsUiState = AppsUiState.Loading,
-            onSettingsClick = {},
-            onItemClick = { _, _ -> },
-        )
-    }
-}
-
-@DevicePreviews
-@Composable
-private fun AppsScreenSuccessStatePreview(
-    @PreviewParameter(MappedApplicationInfoPreviewParameterProvider::class) mappedApplicationInfos: List<MappedApplicationInfo>,
-) {
-    GetoTheme {
-        AppsScreen(
-            appsUiState = AppsUiState.Success(mappedApplicationInfos),
-            onSettingsClick = {},
-            onItemClick = { _, _ -> },
-        )
     }
 }
