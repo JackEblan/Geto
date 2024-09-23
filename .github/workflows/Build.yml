@@ -113,14 +113,6 @@ jobs:
           disable_globbing: true
           commit_message: "🤖 Updates screenshots"
 
-      - name: Google Services JSON file
-        if: always()
-        env:
-          DATA: ${{ secrets.GOOGLE_SERVICES_JSON }}
-        run: |
-          cat /home/runner/work/SocialWorkReviewer/SocialWorkReviewer/app/google-services.json | base64
-          echo $DATA > /home/runner/work/SocialWorkReviewer/SocialWorkReviewer/app/google-services.json      
-
       - name: Run local tests
         if: always()
         run: ./gradlew testDebug :lint:test
