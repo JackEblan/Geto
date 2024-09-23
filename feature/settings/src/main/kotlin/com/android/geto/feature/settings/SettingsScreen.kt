@@ -57,12 +57,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.android.geto.core.designsystem.component.GetoLoadingWheel
 import com.android.geto.core.designsystem.icon.GetoIcons
-import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.designsystem.theme.supportsDynamicTheming
 import com.android.geto.core.model.DarkThemeConfig
 import com.android.geto.core.model.ThemeBrand
-import com.android.geto.core.model.UserData
-import com.android.geto.core.ui.DevicePreviews
 import com.android.geto.feature.settings.dialog.clean.CleanDialog
 import com.android.geto.feature.settings.dialog.dark.DarkDialog
 import com.android.geto.feature.settings.dialog.theme.ThemeDialog
@@ -471,47 +468,6 @@ private fun CleanSetting(
         Text(
             text = "Remove all app settings from the uninstalled applications",
             style = MaterialTheme.typography.bodySmall,
-        )
-    }
-}
-
-@DevicePreviews
-@Composable
-private fun SettingsScreenLoadingStatePreview() {
-    GetoTheme {
-        SettingsScreen(
-            settingsUiState = SettingsUiState.Loading,
-            supportDynamicColor = false,
-            onUpdateThemeBrand = {},
-            onUpdateDarkThemeConfig = {},
-            onCleanAppSettings = {},
-            onChangeDynamicColorPreference = {},
-            onChangeAutoLaunchPreference = {},
-            onNavigationIconClick = {},
-        )
-    }
-}
-
-@DevicePreviews
-@Composable
-private fun SettingsScreenSuccessStatePreview() {
-    GetoTheme {
-        SettingsScreen(
-            settingsUiState = SettingsUiState.Success(
-                userData = UserData(
-                    themeBrand = ThemeBrand.DEFAULT,
-                    useDynamicColor = true,
-                    darkThemeConfig = DarkThemeConfig.DARK,
-                    useAutoLaunch = false,
-                ),
-            ),
-            supportDynamicColor = false,
-            onUpdateThemeBrand = {},
-            onUpdateDarkThemeConfig = {},
-            onCleanAppSettings = {},
-            onChangeDynamicColorPreference = {},
-            onChangeAutoLaunchPreference = {},
-            onNavigationIconClick = {},
         )
     }
 }

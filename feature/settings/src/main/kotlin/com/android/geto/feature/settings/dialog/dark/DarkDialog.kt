@@ -19,8 +19,6 @@ package com.android.geto.feature.settings.dialog.dark
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -28,11 +26,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -42,10 +37,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
-import com.android.geto.core.designsystem.theme.GetoTheme
+import com.android.geto.core.designsystem.component.DialogContainer
 import com.android.geto.feature.settings.R
 
 @Composable
@@ -58,9 +51,8 @@ internal fun DarkDialog(
     onChangeClick: () -> Unit,
     contentDescription: String,
 ) {
-    DarkDialogContainer(
+    DialogContainer(
         modifier = modifier
-            .height(IntrinsicSize.Min)
             .padding(16.dp)
             .semantics { this.contentDescription = contentDescription },
         onDismissRequest = onDismissRequest,
@@ -82,22 +74,6 @@ internal fun DarkDialog(
                 onCancelClick = onCancelClick,
                 onChangeClick = onChangeClick,
             )
-        }
-    }
-}
-
-@Composable
-private fun DarkDialogContainer(
-    modifier: Modifier = Modifier,
-    onDismissRequest: () -> Unit,
-    content: @Composable (ColumnScope.() -> Unit),
-) {
-    Dialog(onDismissRequest = onDismissRequest) {
-        Card(
-            modifier = modifier,
-            shape = RoundedCornerShape(16.dp),
-        ) {
-            content()
         }
     }
 }
@@ -185,23 +161,6 @@ private fun DarkDialogButtons(
             modifier = Modifier.padding(5.dp),
         ) {
             Text(text = stringResource(id = R.string.change))
-        }
-    }
-}
-
-@Preview
-@Composable
-private fun SingleSelectionDialogPreview() {
-    GetoTheme {
-        Surface {
-            DarkDialog(
-                onDismissRequest = {},
-                selected = 0,
-                onSelect = {},
-                onCancelClick = {},
-                onChangeClick = {},
-                contentDescription = "Dark dialog",
-            )
         }
     }
 }

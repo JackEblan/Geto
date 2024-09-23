@@ -21,21 +21,15 @@ import android.graphics.Bitmap
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -48,11 +42,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
-import com.android.geto.core.designsystem.component.DynamicAsyncImage
-import com.android.geto.core.designsystem.theme.GetoTheme
+import com.android.geto.core.designsystem.component.DialogContainer
+import com.android.geto.core.designsystem.component.ShimmerImage
 import com.android.geto.core.model.MappedShortcutInfoCompat
 import com.android.geto.feature.appsettings.R
 
@@ -65,17 +57,15 @@ internal fun ShortcutDialog(
     contentDescription: String,
     onAddClick: (MappedShortcutInfoCompat) -> Unit,
 ) {
-    ShortcutDialogContainer(
+    DialogContainer(
         modifier = modifier
-            .width(IntrinsicSize.Max)
-            .height(IntrinsicSize.Min)
             .padding(16.dp)
             .semantics { this.contentDescription = contentDescription },
         onDismissRequest = { shortcutDialogState.updateShowDialog(false) },
     ) {
         Column(
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxWidth()
                 .verticalScroll(scrollState)
                 .padding(10.dp),
         ) {
@@ -113,22 +103,6 @@ internal fun ShortcutDialog(
 }
 
 @Composable
-private fun ShortcutDialogContainer(
-    modifier: Modifier = Modifier,
-    onDismissRequest: () -> Unit,
-    content: @Composable (ColumnScope.() -> Unit),
-) {
-    Dialog(onDismissRequest = onDismissRequest) {
-        Card(
-            modifier = modifier,
-            shape = RoundedCornerShape(16.dp),
-        ) {
-            content()
-        }
-    }
-}
-
-@Composable
 private fun ShortcutDialogTitle(modifier: Modifier = Modifier, title: String) {
     Spacer(modifier = Modifier.height(10.dp))
 
@@ -146,10 +120,9 @@ private fun ShortcutDialogApplicationIcon(
 ) {
     Spacer(modifier = Modifier.height(10.dp))
 
-    DynamicAsyncImage(
-        model = icon,
-        contentDescription = null,
+    ShimmerImage(
         modifier = modifier,
+        model = icon,
     )
 }
 
@@ -248,18 +221,5 @@ private fun ShortcutDialogButtons(
         ) {
             Text(text = positiveTextButton)
         }
-    }
-}
-
-@Preview
-@Composable
-private fun ShortcutDialogPreview() {
-    GetoTheme {
-        ShortcutDialog(
-            shortcutDialogState = rememberShortcutDialogState(),
-            packageName = "com.android.geto",
-            contentDescription = "Shortcut",
-            onAddClick = {},
-        )
     }
 }

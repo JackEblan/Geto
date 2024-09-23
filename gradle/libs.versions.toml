@@ -1,25 +1,25 @@
 [versions]
 accompanist = "0.34.0"
-androidDesugarJdkLibs = "2.0.4"
+androidDesugarJdkLibs = "2.1.2"
 # AGP and tools should be updated together
-androidGradlePlugin = "8.3.0"
-androidTools = "31.3.0"
-androidxActivity = "1.9.0"
-androidxComposeBom = "2024.05.00"
+androidGradlePlugin = "8.4.2"
+androidTools = "31.6.1"
+androidxActivity = "1.9.2"
+androidxComposeBom = "2024.09.02"
 androidxCoreKtx = "1.13.1"
 androidxCoreSplashscreen = "1.0.1"
-androidxDataStore = "1.0.0"
-androidxEspresso = "3.5.1"
+androidxDataStore = "1.1.1"
+androidxEspresso = "3.6.1"
 androidxHiltNavigationCompose = "1.2.0"
-androidxLifeCycle = "2.7.0"
-androidxLifecycleViewModelCompose = "2.7.0"
-androidxMacroBenchmark = "1.2.4"
-androidxNavigationCompose = "2.8.0-beta03"
-androidxProfileInstaller = "1.3.1"
-androidxTestCore = "1.5.0"
-androidxTestExt = "1.1.5"
-androidxTestRules = "1.5.0"
-androidxTestRunner = "1.5.2"
+androidxLifeCycle = "2.8.6"
+androidxLifecycleViewModelCompose = "2.8.6"
+androidxMacroBenchmark = "1.3.1"
+androidxNavigationCompose = "2.8.1"
+androidxProfileInstaller = "1.4.0"
+androidxTestCore = "1.6.1"
+androidxTestExt = "1.2.1"
+androidxTestRules = "1.6.1"
+androidxTestRunner = "1.6.2"
 androidxTracing = "1.3.0-alpha02"
 androidxUiAutomator = "2.3.0"
 coil = "2.6.0"
@@ -37,6 +37,7 @@ protobufPlugin = "0.9.4"
 room = "2.6.1"
 robolectric = "4.12.2"
 roborazzi = "1.15.0"
+truth = "1.4.2"
 
 [libraries]
 accompanist-testharness = { group = "com.google.accompanist", name = "accompanist-testharness", version.ref = "accompanist" }
@@ -96,9 +97,11 @@ room-compiler = { group = "androidx.room", name = "room-compiler", version.ref =
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 room-testing = { group = "androidx.room", name = "room-testing", version.ref = "room" }
+truth = { group = "com.google.truth", name = "truth", version.ref = "truth" }
 
 # Dependencies of the included build-logic
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
+android-tools-common = { group = "com.android.tools", name = "common", version.ref = "androidTools" }
 compose-gradlePlugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
@@ -122,15 +125,15 @@ roborazzi = { id = "io.github.takahirom.roborazzi", version.ref = "roborazzi" }
 room = { id = "androidx.room", version.ref = "room" }
 
 # Plugins defined by this project
-com-android-geto-application = { id = "com.android.geto.application", version = "unspecified" }
-com-android-geto-applicationCompose = { id = "com.android.geto.applicationCompose", version = "unspecified" }
-com-android-geto-applicationJacoco = { id = "com.android.geto.applicationJacoco", version = "unspecified" }
-com-android-geto-jvmLibrary = { id = "com.android.geto.jvmLibrary", version = "unspecified" }
-com-android-geto-library = { id = "com.android.geto.library", version = "unspecified" }
-com-android-geto-libraryCompose = { id = "com.android.geto.libraryCompose", version = "unspecified" }
-com-android-geto-libraryJacoco = { id = "com.android.geto.libraryJacoco", version = "unspecified" }
-com-android-geto-feature = { id = "com.android.geto.feature", version = "unspecified" }
-com-android-geto-hilt = { id = "com.android.geto.hilt", version = "unspecified" }
-com-android-geto-lint = { id = "com.android.geto.lint", version = "unspecified" }
-com-android-geto-room = { id = "com.android.geto.room", version = "unspecified" }
-com-android-geto-test = { id = "com.android.geto.test", version = "unspecified" }
+com-android-geto-application = { id = "com.android.geto.application"}
+com-android-geto-applicationCompose = { id = "com.android.geto.applicationCompose"}
+com-android-geto-applicationJacoco = { id = "com.android.geto.applicationJacoco"}
+com-android-geto-jvmLibrary = { id = "com.android.geto.jvmLibrary"}
+com-android-geto-library = { id = "com.android.geto.library"}
+com-android-geto-libraryCompose = { id = "com.android.geto.libraryCompose"}
+com-android-geto-libraryJacoco = { id = "com.android.geto.libraryJacoco"}
+com-android-geto-feature = { id = "com.android.geto.feature"}
+com-android-geto-hilt = { id = "com.android.geto.hilt"}
+com-android-geto-lint = { id = "com.android.geto.lint"}
+com-android-geto-room = { id = "com.android.geto.room"}
+com-android-geto-test = { id = "com.android.geto.test"}

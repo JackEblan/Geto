@@ -28,6 +28,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertIs
+import kotlin.test.assertNull
 
 class AppsViewModelTest {
 
@@ -42,17 +43,21 @@ class AppsViewModelTest {
     fun setup() {
         packageRepository = TestPackageRepository()
 
-        viewModel = AppsViewModel(packageRepository)
+        viewModel = AppsViewModel(packageRepository = packageRepository)
     }
 
     @Test
-    fun appsUiState_isLoading_whenStarted() {
-        assertIs<AppsUiState.Loading>(viewModel.appsUiState.value)
+    fun appsUiState_isNull_whenStarted() {
+        assertNull(viewModel.appsUiState.value)
     }
 
     @Test
     fun appsUiState_isSuccess_whenQueryIntentActivities() = runTest {
-        val mappedApplicationInfos = List(2) { index ->
+        backgroundScope.launch(UnconfinedTestDispatcher()) {
+            viewModel.appsUiState.collect()
+        }
+
+        val mappedApplicationInfos = List(10) { index ->
             MappedApplicationInfo(
                 flags = 0,
                 packageName = "com.android.geto$index",
@@ -60,17 +65,17 @@ class AppsViewModelTest {
             )
         }
 
-        packageRepository.setMappedApplicationInfos(mappedApplicationInfos)
-
-        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.appsUiState.collect() }
+        packageRepository.setMappedApplicationInfos(value = mappedApplicationInfos)
 
         assertIs<AppsUiState.Success>(viewModel.appsUiState.value)
-
-        collectJob.cancel()
     }
 
     @Test
     fun appsUiState_isSuccessEmpty_whenQueryIntentActivities() = runTest {
+        backgroundScope.launch(UnconfinedTestDispatcher()) {
+            viewModel.appsUiState.collect()
+        }
+
         viewModel.flags = 1
 
         val mappedApplicationInfos = List(2) { index ->
@@ -83,10 +88,6 @@ class AppsViewModelTest {
 
         packageRepository.setMappedApplicationInfos(mappedApplicationInfos)
 
-        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.appsUiState.collect() }
-
         assertIs<AppsUiState.Success>(viewModel.appsUiState.value)
-
-        collectJob.cancel()
     }
 }
