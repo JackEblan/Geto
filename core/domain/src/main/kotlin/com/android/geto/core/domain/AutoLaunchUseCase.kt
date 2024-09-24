@@ -20,6 +20,7 @@ package com.android.geto.core.domain
 import com.android.geto.core.data.repository.AppSettingsRepository
 import com.android.geto.core.data.repository.SecureSettingsRepository
 import com.android.geto.core.data.repository.UserDataRepository
+import com.android.geto.core.model.AppSettingsResult
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
@@ -28,35 +29,23 @@ class AutoLaunchUseCase @Inject constructor(
     private val appSettingsRepository: AppSettingsRepository,
     private val secureSettingsRepository: SecureSettingsRepository,
 ) {
-    suspend operator fun invoke(packageName: String): AutoLaunchResult {
+    suspend operator fun invoke(packageName: String): AppSettingsResult {
         val userData = userDataRepository.userData.first()
 
         val appSettings = appSettingsRepository.getAppSettingsByPackageName(packageName).first()
 
-        if (userData.useAutoLaunch.not() || appSettings.isEmpty() || appSettings.all { it.enabled.not() }) return AutoLaunchResult.Ignore
+        if (userData.useAutoLaunch.not() || appSettings.isEmpty() || appSettings.all { it.enabled.not() }) return AppSettingsResult.Failure
 
         return try {
             if (secureSettingsRepository.applySecureSettings(appSettings)) {
-                AutoLaunchResult.Success(packageName = packageName)
+                AppSettingsResult.Success
             } else {
-                AutoLaunchResult.Failure
+                AppSettingsResult.Failure
             }
         } catch (e: SecurityException) {
-            AutoLaunchResult.SecurityException
+            AppSettingsResult.SecurityException
         } catch (e: IllegalArgumentException) {
-            AutoLaunchResult.IllegalArgumentException
+            AppSettingsResult.IllegalArgumentException
         }
     }
-}
-
-sealed interface AutoLaunchResult {
-    data class Success(val packageName: String) : AutoLaunchResult
-
-    data object Failure : AutoLaunchResult
-
-    data object SecurityException : AutoLaunchResult
-
-    data object IllegalArgumentException : AutoLaunchResult
-
-    data object Ignore : AutoLaunchResult
 }

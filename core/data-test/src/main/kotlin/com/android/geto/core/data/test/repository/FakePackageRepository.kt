@@ -17,16 +17,15 @@
  */
 package com.android.geto.core.data.test.repository
 
-import android.content.Intent
-import android.graphics.drawable.Drawable
+import android.graphics.Bitmap
 import com.android.geto.core.data.repository.PackageRepository
-import com.android.geto.core.model.MappedApplicationInfo
+import com.android.geto.core.model.ApplicationInfo
 import javax.inject.Inject
 
 class FakePackageRepository @Inject constructor() : PackageRepository {
-    override suspend fun queryIntentActivities(intent: Intent, flags: Int): List<MappedApplicationInfo> {
+    override suspend fun queryIntentActivities(): List<ApplicationInfo> {
         return List(20) { index ->
-            MappedApplicationInfo(
+            ApplicationInfo(
                 flags = 0,
                 packageName = "com.android.geto$index",
                 label = "Geto $index",
@@ -34,11 +33,10 @@ class FakePackageRepository @Inject constructor() : PackageRepository {
         }
     }
 
-    override suspend fun getApplicationIcon(packageName: String): Drawable? {
+    override fun getApplicationIcon(packageName: String): Bitmap? {
         return null
     }
 
-    override fun getLaunchIntentForPackage(packageName: String): Intent? {
-        return null
+    override fun launchIntentForPackage(packageName: String) {
     }
 }

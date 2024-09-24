@@ -64,12 +64,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.android.geto.core.designsystem.component.GetoLoadingWheel
 import com.android.geto.core.designsystem.icon.GetoIcons
-import com.android.geto.core.domain.ApplyAppSettingsResult
-import com.android.geto.core.domain.AutoLaunchResult
-import com.android.geto.core.domain.RequestPinShortcutResult
-import com.android.geto.core.domain.RevertAppSettingsResult
 import com.android.geto.core.model.AppSetting
+import com.android.geto.core.model.AppSettingsResult
 import com.android.geto.core.model.MappedShortcutInfoCompat
+import com.android.geto.core.model.RequestPinShortcutResult
 import com.android.geto.core.model.SecureSetting
 import com.android.geto.core.model.SettingType
 import com.android.geto.feature.appsettings.dialog.appsetting.AppSettingDialog
@@ -127,7 +125,7 @@ internal fun AppSettingsRoute(
         applicationIcon = applicationIcon,
         secureSettings = secureSettings,
         permissionCommandText = viewModel.permissionCommandText,
-        applyAppSettingsResult = applyAppSettingsResult,
+        appSettingsResult = applyAppSettingsResult,
         revertAppSettingsResult = revertAppSettingsResult,
         autoLaunchResult = autoLaunchResult,
         requestPinShortcutResult = requestPinShortcutResult,
@@ -161,9 +159,9 @@ internal fun AppSettingsScreen(
     applicationIcon: Bitmap?,
     secureSettings: List<SecureSetting>,
     permissionCommandText: String,
-    applyAppSettingsResult: ApplyAppSettingsResult?,
-    revertAppSettingsResult: RevertAppSettingsResult?,
-    autoLaunchResult: AutoLaunchResult?,
+    appSettingsResult: AppSettingsResult?,
+    revertAppSettingsResult: AppSettingsResult?,
+    autoLaunchResult: AppSettingsResult?,
     requestPinShortcutResult: RequestPinShortcutResult?,
     setPrimaryClipResult: Boolean,
     onNavigationIconClick: () -> Unit,
@@ -180,7 +178,7 @@ internal fun AppSettingsScreen(
     onAddAppSetting: (AppSetting) -> Unit,
     onCopyPermissionCommand: () -> Unit,
     onAddShortcut: (MappedShortcutInfoCompat) -> Unit,
-    onLaunchIntent: (String) -> Unit,
+    onLaunchIntent: () -> Unit,
 ) {
     val copyPermissionCommandDialogState = rememberCopyPermissionCommandDialogState()
 
@@ -196,7 +194,7 @@ internal fun AppSettingsScreen(
         applicationIcon = applicationIcon,
         secureSettings = secureSettings,
         permissionCommandText = permissionCommandText,
-        applyAppSettingsResult = applyAppSettingsResult,
+        appSettingsResult = appSettingsResult,
         revertAppSettingsResult = revertAppSettingsResult,
         autoLaunchResult = autoLaunchResult,
         requestPinShortcutResult = requestPinShortcutResult,
@@ -283,9 +281,9 @@ private fun AppSettingsLaunchedEffects(
     applicationIcon: Bitmap?,
     secureSettings: List<SecureSetting>,
     permissionCommandText: String,
-    applyAppSettingsResult: ApplyAppSettingsResult?,
-    revertAppSettingsResult: RevertAppSettingsResult?,
-    autoLaunchResult: AutoLaunchResult?,
+    appSettingsResult: AppSettingsResult?,
+    revertAppSettingsResult: AppSettingsResult?,
+    autoLaunchResult: AppSettingsResult?,
     requestPinShortcutResult: RequestPinShortcutResult?,
     setPrimaryClipResult: Boolean,
     onResetApplyAppSettingsResult: () -> Unit,
@@ -294,7 +292,7 @@ private fun AppSettingsLaunchedEffects(
     onResetRequestPinShortcutResult: () -> Unit,
     onResetSetPrimaryClipResult: () -> Unit,
     onGetSecureSettingsByName: (SettingType, String) -> Unit,
-    onLaunchIntent: (String) -> Unit,
+    onLaunchIntent: () -> Unit,
 ) {
     val appSettingsDisabled = stringResource(id = R.string.app_settings_disabled)
     val emptyAppSettingsList = stringResource(id = R.string.empty_app_settings_list)
@@ -310,17 +308,17 @@ private fun AppSettingsLaunchedEffects(
     val copiedToClipboard = stringResource(id = R.string.copied_to_clipboard)
     val invalidValues = stringResource(R.string.settings_has_invalid_values)
 
-    LaunchedEffect(key1 = applyAppSettingsResult) {
-        when (applyAppSettingsResult) {
-            ApplyAppSettingsResult.DisabledAppSettings -> snackbarHostState.showSnackbar(message = appSettingsDisabled)
-            ApplyAppSettingsResult.EmptyAppSettings -> snackbarHostState.showSnackbar(message = emptyAppSettingsList)
-            ApplyAppSettingsResult.Failure -> snackbarHostState.showSnackbar(message = applyFailure)
-            ApplyAppSettingsResult.SecurityException -> copyPermissionCommandDialogState.updateShowDialog(
+    LaunchedEffect(key1 = appSettingsResult) {
+        when (appSettingsResult) {
+            AppSettingsResult.DisabledAppSettings -> snackbarHostState.showSnackbar(message = appSettingsDisabled)
+            AppSettingsResult.EmptyAppSettings -> snackbarHostState.showSnackbar(message = emptyAppSettingsList)
+            AppSettingsResult.Failure -> snackbarHostState.showSnackbar(message = applyFailure)
+            AppSettingsResult.SecurityException -> copyPermissionCommandDialogState.updateShowDialog(
                 true,
             )
 
-            is ApplyAppSettingsResult.Success -> onLaunchIntent(applyAppSettingsResult.packageName)
-            ApplyAppSettingsResult.IllegalArgumentException -> snackbarHostState.showSnackbar(
+            AppSettingsResult.Success -> onLaunchIntent()
+            AppSettingsResult.IllegalArgumentException -> snackbarHostState.showSnackbar(
                 message = invalidValues,
             )
 
@@ -332,15 +330,15 @@ private fun AppSettingsLaunchedEffects(
 
     LaunchedEffect(key1 = revertAppSettingsResult) {
         when (revertAppSettingsResult) {
-            RevertAppSettingsResult.DisabledAppSettings -> snackbarHostState.showSnackbar(message = appSettingsDisabled)
-            RevertAppSettingsResult.EmptyAppSettings -> snackbarHostState.showSnackbar(message = emptyAppSettingsList)
-            RevertAppSettingsResult.Failure -> snackbarHostState.showSnackbar(message = revertFailure)
-            RevertAppSettingsResult.SecurityException -> copyPermissionCommandDialogState.updateShowDialog(
+            AppSettingsResult.DisabledAppSettings -> snackbarHostState.showSnackbar(message = appSettingsDisabled)
+            AppSettingsResult.EmptyAppSettings -> snackbarHostState.showSnackbar(message = emptyAppSettingsList)
+            AppSettingsResult.Failure -> snackbarHostState.showSnackbar(message = revertFailure)
+            AppSettingsResult.SecurityException -> copyPermissionCommandDialogState.updateShowDialog(
                 true,
             )
 
-            is RevertAppSettingsResult.Success -> snackbarHostState.showSnackbar(message = revertSuccess)
-            RevertAppSettingsResult.IllegalArgumentException -> snackbarHostState.showSnackbar(
+            AppSettingsResult.Success -> snackbarHostState.showSnackbar(message = revertSuccess)
+            AppSettingsResult.IllegalArgumentException -> snackbarHostState.showSnackbar(
                 message = invalidValues,
             )
 
@@ -352,14 +350,14 @@ private fun AppSettingsLaunchedEffects(
 
     LaunchedEffect(key1 = autoLaunchResult) {
         when (autoLaunchResult) {
-            AutoLaunchResult.Failure -> snackbarHostState.showSnackbar(message = applyFailure)
-            AutoLaunchResult.SecurityException -> copyPermissionCommandDialogState.updateShowDialog(
+            AppSettingsResult.Failure -> snackbarHostState.showSnackbar(message = applyFailure)
+            AppSettingsResult.SecurityException -> copyPermissionCommandDialogState.updateShowDialog(
                 true,
             )
 
-            is AutoLaunchResult.Success -> onLaunchIntent(autoLaunchResult.packageName)
-            AutoLaunchResult.IllegalArgumentException -> snackbarHostState.showSnackbar(message = invalidValues)
-            AutoLaunchResult.Ignore, null -> Unit
+            AppSettingsResult.Success -> onLaunchIntent()
+            AppSettingsResult.IllegalArgumentException -> snackbarHostState.showSnackbar(message = invalidValues)
+            AppSettingsResult.EmptyAppSettings, AppSettingsResult.DisabledAppSettings, null -> Unit
         }
 
         onResetAutoLaunchResult()

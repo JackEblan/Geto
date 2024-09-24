@@ -29,12 +29,15 @@ class TestPackageRepository : PackageRepository {
     }
 
     override fun getApplicationIcon(packageName: String): Bitmap? {
-        return if (applicationInfos.any { it.packageName == packageName }) Bitmap.createBitmap(
-            100,
-            100,
-            Bitmap.Config.ARGB_8888,
-        )
-        else null
+        return if (applicationInfos.any { it.packageName == packageName }) {
+            Bitmap.createBitmap(
+                100,
+                100,
+                Bitmap.Config.ARGB_8888,
+            )
+        } else {
+            null
+        }
     }
 
     override fun launchIntentForPackage(packageName: String) {

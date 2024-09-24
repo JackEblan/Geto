@@ -18,11 +18,12 @@
 package com.android.geto.core.domain
 
 import com.android.geto.core.model.MappedShortcutInfoCompat
+import com.android.geto.core.model.RequestPinShortcutResult
 import com.android.geto.core.testing.repository.TestShortcutRepository
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
-import kotlin.test.assertIs
+import kotlin.test.assertEquals
 
 class RequestPinShortcutUseCaseTest {
     private lateinit var requestPinShortcutUseCase: RequestPinShortcutUseCase
@@ -42,8 +43,9 @@ class RequestPinShortcutUseCaseTest {
     fun requestPinShortcutUseCase_isSupportedLauncher() = runTest {
         shortcutRepository.setRequestPinShortcutSupported(true)
 
-        assertIs<RequestPinShortcutResult.SupportedLauncher>(
-            requestPinShortcutUseCase(
+        assertEquals(
+            expected = RequestPinShortcutResult.SupportedLauncher,
+            actual = requestPinShortcutUseCase(
                 packageName = "com.android.geto",
                 appName = "Geto",
                 mappedShortcutInfoCompat = MappedShortcutInfoCompat(
@@ -59,8 +61,9 @@ class RequestPinShortcutUseCaseTest {
     fun requestPinShortcutUseCase_isUnSupportedLauncher() = runTest {
         shortcutRepository.setRequestPinShortcutSupported(false)
 
-        assertIs<RequestPinShortcutResult.UnSupportedLauncher>(
-            requestPinShortcutUseCase(
+        assertEquals(
+            expected = RequestPinShortcutResult.UnSupportedLauncher,
+            actual = requestPinShortcutUseCase(
                 packageName = "com.android.geto",
                 appName = "Geto",
                 mappedShortcutInfoCompat = MappedShortcutInfoCompat(
@@ -88,8 +91,9 @@ class RequestPinShortcutUseCaseTest {
 
         shortcutRepository.setShortcuts(shortcuts)
 
-        assertIs<RequestPinShortcutResult.UpdateImmutableShortcuts>(
-            requestPinShortcutUseCase(
+        assertEquals(
+            expected = RequestPinShortcutResult.UpdateImmutableShortcuts,
+            actual = requestPinShortcutUseCase(
                 packageName = "com.android.geto",
                 appName = "Geto",
                 mappedShortcutInfoCompat = MappedShortcutInfoCompat(
@@ -117,8 +121,9 @@ class RequestPinShortcutUseCaseTest {
 
         shortcutRepository.setShortcuts(shortcuts)
 
-        assertIs<RequestPinShortcutResult.UpdateSuccess>(
-            requestPinShortcutUseCase(
+        assertEquals(
+            expected = RequestPinShortcutResult.UpdateSuccess,
+            actual = requestPinShortcutUseCase(
                 packageName = "com.android.geto",
                 appName = "Geto",
                 mappedShortcutInfoCompat = MappedShortcutInfoCompat(

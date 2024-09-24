@@ -18,6 +18,7 @@
 package com.android.geto.core.domain
 
 import com.android.geto.core.model.AppSetting
+import com.android.geto.core.model.AppSettingsResult
 import com.android.geto.core.model.ApplicationInfo
 import com.android.geto.core.model.SettingType
 import com.android.geto.core.testing.repository.TestAppSettingsRepository
@@ -26,8 +27,7 @@ import com.android.geto.core.testing.repository.TestSecureSettingsRepository
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
-import kotlin.test.assertIs
-import kotlin.test.assertNotNull
+import kotlin.test.assertEquals
 
 class ApplyAppSettingsUseCaseTest {
     private lateinit var applyAppSettingsUseCase: ApplyAppSettingsUseCase
@@ -58,7 +58,10 @@ class ApplyAppSettingsUseCaseTest {
     fun applyAppSettingsUseCase_isEmptyAppSettings() = runTest {
         appSettingsRepository.setAppSettings(emptyList())
 
-        assertIs<ApplyAppSettingsResult.EmptyAppSettings>(applyAppSettingsUseCase(packageName = packageName))
+        assertEquals(
+            expected = AppSettingsResult.EmptyAppSettings,
+            actual = applyAppSettingsUseCase(packageName = packageName),
+        )
     }
 
     @Test
@@ -78,7 +81,10 @@ class ApplyAppSettingsUseCaseTest {
 
         appSettingsRepository.setAppSettings(appSettings)
 
-        assertIs<ApplyAppSettingsResult.DisabledAppSettings>(applyAppSettingsUseCase(packageName = packageName))
+        assertEquals(
+            expected = AppSettingsResult.DisabledAppSettings,
+            actual = applyAppSettingsUseCase(packageName = packageName),
+        )
     }
 
     @Test
@@ -106,11 +112,10 @@ class ApplyAppSettingsUseCaseTest {
 
         appSettingsRepository.setAppSettings(appSettings)
 
-        val result = applyAppSettingsUseCase(packageName = packageName)
-
-        assertIs<ApplyAppSettingsResult.Success>(result)
-
-        assertNotNull(result.packageName)
+        assertEquals(
+            expected = AppSettingsResult.Success,
+            actual = applyAppSettingsUseCase(packageName = packageName),
+        )
     }
 
     @Test
@@ -132,7 +137,10 @@ class ApplyAppSettingsUseCaseTest {
 
         appSettingsRepository.setAppSettings(appSettings)
 
-        assertIs<ApplyAppSettingsResult.SecurityException>(applyAppSettingsUseCase(packageName = packageName))
+        assertEquals(
+            expected = AppSettingsResult.SecurityException,
+            actual = applyAppSettingsUseCase(packageName = packageName),
+        )
     }
 
     @Test
@@ -156,10 +164,9 @@ class ApplyAppSettingsUseCaseTest {
 
         appSettingsRepository.setAppSettings(appSettings)
 
-        assertIs<ApplyAppSettingsResult.IllegalArgumentException>(
-            applyAppSettingsUseCase(
-                packageName = packageName,
-            ),
+        assertEquals(
+            expected = AppSettingsResult.IllegalArgumentException,
+            actual = applyAppSettingsUseCase(packageName = packageName),
         )
     }
 }

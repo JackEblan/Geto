@@ -17,9 +17,7 @@
  */
 package com.android.geto.framework.packagemanager
 
-import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
 import com.android.geto.core.model.ApplicationInfo
 
 interface PackageManagerWrapper {

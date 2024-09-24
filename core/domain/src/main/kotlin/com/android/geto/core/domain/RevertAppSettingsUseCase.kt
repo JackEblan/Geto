@@ -19,6 +19,7 @@ package com.android.geto.core.domain
 
 import com.android.geto.core.data.repository.AppSettingsRepository
 import com.android.geto.core.data.repository.SecureSettingsRepository
+import com.android.geto.core.model.AppSettingsResult
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
@@ -26,37 +27,23 @@ class RevertAppSettingsUseCase @Inject constructor(
     private val appSettingsRepository: AppSettingsRepository,
     private val secureSettingsRepository: SecureSettingsRepository,
 ) {
-    suspend operator fun invoke(packageName: String): RevertAppSettingsResult {
+    suspend operator fun invoke(packageName: String): AppSettingsResult {
         val appSettings = appSettingsRepository.getAppSettingsByPackageName(packageName).first()
 
-        if (appSettings.isEmpty()) return RevertAppSettingsResult.EmptyAppSettings
+        if (appSettings.isEmpty()) return AppSettingsResult.EmptyAppSettings
 
-        if (appSettings.all { it.enabled.not() }) return RevertAppSettingsResult.DisabledAppSettings
+        if (appSettings.all { it.enabled.not() }) return AppSettingsResult.DisabledAppSettings
 
         return try {
             if (secureSettingsRepository.revertSecureSettings(appSettings)) {
-                RevertAppSettingsResult.Success
+                AppSettingsResult.Success
             } else {
-                RevertAppSettingsResult.Failure
+                AppSettingsResult.Failure
             }
         } catch (e: SecurityException) {
-            RevertAppSettingsResult.SecurityException
+            AppSettingsResult.SecurityException
         } catch (e: IllegalArgumentException) {
-            RevertAppSettingsResult.IllegalArgumentException
+            AppSettingsResult.IllegalArgumentException
         }
     }
-}
-
-sealed interface RevertAppSettingsResult {
-    data object Success : RevertAppSettingsResult
-
-    data object Failure : RevertAppSettingsResult
-
-    data object SecurityException : RevertAppSettingsResult
-
-    data object IllegalArgumentException : RevertAppSettingsResult
-
-    data object EmptyAppSettings : RevertAppSettingsResult
-
-    data object DisabledAppSettings : RevertAppSettingsResult
 }

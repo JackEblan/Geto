@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.framework.packagemanager.model
 
 import android.graphics.drawable.Drawable

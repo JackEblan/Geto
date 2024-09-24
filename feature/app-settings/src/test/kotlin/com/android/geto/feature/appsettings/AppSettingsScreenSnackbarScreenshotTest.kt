@@ -79,7 +79,7 @@ class AppSettingsScreenSnackbarScreenshotTest {
                     applicationIcon = null,
                     secureSettings = emptyList(),
                     permissionCommandText = "",
-                    applyAppSettingsResult = null,
+                    appSettingsResult = null,
                     revertAppSettingsResult = null,
                     autoLaunchResult = null,
                     requestPinShortcutResult = null,
@@ -98,7 +98,7 @@ class AppSettingsScreenSnackbarScreenshotTest {
                     onAddAppSetting = {},
                     onCopyPermissionCommand = {},
                     onAddShortcut = {},
-                    onLaunchIntent = {}
+                    onLaunchIntent = {},
                 )
             }
         }

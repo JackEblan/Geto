@@ -26,16 +26,14 @@ import com.android.geto.core.data.repository.AppSettingsRepository
 import com.android.geto.core.data.repository.ClipboardRepository
 import com.android.geto.core.data.repository.PackageRepository
 import com.android.geto.core.data.repository.SecureSettingsRepository
-import com.android.geto.core.domain.ApplyAppSettingsResult
 import com.android.geto.core.domain.ApplyAppSettingsUseCase
-import com.android.geto.core.domain.AutoLaunchResult
 import com.android.geto.core.domain.AutoLaunchUseCase
-import com.android.geto.core.domain.RequestPinShortcutResult
 import com.android.geto.core.domain.RequestPinShortcutUseCase
-import com.android.geto.core.domain.RevertAppSettingsResult
 import com.android.geto.core.domain.RevertAppSettingsUseCase
 import com.android.geto.core.model.AppSetting
+import com.android.geto.core.model.AppSettingsResult
 import com.android.geto.core.model.MappedShortcutInfoCompat
+import com.android.geto.core.model.RequestPinShortcutResult
 import com.android.geto.core.model.SecureSetting
 import com.android.geto.core.model.SettingType
 import com.android.geto.feature.appsettings.navigation.AppSettingsRouteData
@@ -78,13 +76,13 @@ class AppSettingsViewModel @Inject constructor(
         initialValue = null,
     )
 
-    private val _applyAppSettingsResult = MutableStateFlow<ApplyAppSettingsResult?>(null)
+    private val _applyAppSettingsResult = MutableStateFlow<AppSettingsResult?>(null)
     val applyAppSettingsResult = _applyAppSettingsResult.asStateFlow()
 
-    private val _revertAppSettingsResult = MutableStateFlow<RevertAppSettingsResult?>(null)
+    private val _revertAppSettingsResult = MutableStateFlow<AppSettingsResult?>(null)
     val revertAppSettingsResult = _revertAppSettingsResult.asStateFlow()
 
-    private val _autoLaunchResult = MutableStateFlow<AutoLaunchResult?>(null)
+    private val _autoLaunchResult = MutableStateFlow<AppSettingsResult?>(null)
     val autoLaunchResult = _autoLaunchResult.onStart {
         autoLaunchApp()
     }.stateIn(
@@ -103,12 +101,13 @@ class AppSettingsViewModel @Inject constructor(
 
     val permissionCommandText = "pm grant com.android.geto android.permission.WRITE_SECURE_SETTINGS"
 
-    val appSettingsUiState = appSettingsRepository.getAppSettingsByPackageName(packageName)
-        .map<List<AppSetting>, AppSettingsUiState>(AppSettingsUiState::Success).stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5_000),
-            initialValue = AppSettingsUiState.Loading,
-        )
+    val appSettingsUiState =
+        appSettingsRepository.getAppSettingsByPackageName(packageName = packageName)
+            .map<List<AppSetting>, AppSettingsUiState>(AppSettingsUiState::Success).stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5_000),
+                initialValue = AppSettingsUiState.Loading,
+            )
 
     fun applyAppSettings() {
         viewModelScope.launch {
@@ -188,7 +187,7 @@ class AppSettingsViewModel @Inject constructor(
         }
     }
 
-    fun launchIntentForPackage(packageName: String) {
+    fun launchIntentForPackage() {
         packageRepository.launchIntentForPackage(packageName = packageName)
     }
 

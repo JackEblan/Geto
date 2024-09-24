@@ -19,16 +19,15 @@ package com.android.geto.feature.appsettings
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.testing.invoke
-import com.android.geto.core.domain.ApplyAppSettingsResult
 import com.android.geto.core.domain.ApplyAppSettingsUseCase
 import com.android.geto.core.domain.AutoLaunchUseCase
-import com.android.geto.core.domain.RequestPinShortcutResult
 import com.android.geto.core.domain.RequestPinShortcutUseCase
-import com.android.geto.core.domain.RevertAppSettingsResult
 import com.android.geto.core.domain.RevertAppSettingsUseCase
 import com.android.geto.core.model.AppSetting
+import com.android.geto.core.model.AppSettingsResult
 import com.android.geto.core.model.ApplicationInfo
 import com.android.geto.core.model.MappedShortcutInfoCompat
+import com.android.geto.core.model.RequestPinShortcutResult
 import com.android.geto.core.model.SecureSetting
 import com.android.geto.core.model.SettingType
 import com.android.geto.core.testing.repository.TestAppSettingsRepository
@@ -232,7 +231,10 @@ class AppSettingsViewModelTest {
 
         viewModel.applyAppSettings()
 
-        assertIs<ApplyAppSettingsResult.Success>(viewModel.applyAppSettingsResult.value)
+        assertEquals(
+            expected = AppSettingsResult.Success,
+            actual = viewModel.applyAppSettingsResult.value,
+        )
     }
 
     @Test
@@ -260,7 +262,10 @@ class AppSettingsViewModelTest {
 
         viewModel.applyAppSettings()
 
-        assertIs<ApplyAppSettingsResult.SecurityException>(viewModel.applyAppSettingsResult.value)
+        assertEquals(
+            expected = AppSettingsResult.SecurityException,
+            actual = viewModel.applyAppSettingsResult.value,
+        )
     }
 
     @Test
@@ -290,7 +295,10 @@ class AppSettingsViewModelTest {
 
         viewModel.applyAppSettings()
 
-        assertIs<ApplyAppSettingsResult.IllegalArgumentException>(viewModel.applyAppSettingsResult.value)
+        assertEquals(
+            expected = AppSettingsResult.IllegalArgumentException,
+            actual = viewModel.applyAppSettingsResult.value,
+        )
     }
 
     @Test
@@ -305,7 +313,10 @@ class AppSettingsViewModelTest {
 
         viewModel.applyAppSettings()
 
-        assertIs<ApplyAppSettingsResult.EmptyAppSettings>(viewModel.applyAppSettingsResult.value)
+        assertEquals(
+            expected = AppSettingsResult.EmptyAppSettings,
+            actual = viewModel.applyAppSettingsResult.value,
+        )
     }
 
     @Test
@@ -333,7 +344,10 @@ class AppSettingsViewModelTest {
 
         viewModel.applyAppSettings()
 
-        assertIs<ApplyAppSettingsResult.DisabledAppSettings>(viewModel.applyAppSettingsResult.value)
+        assertEquals(
+            expected = AppSettingsResult.DisabledAppSettings,
+            actual = viewModel.applyAppSettingsResult.value,
+        )
     }
 
     @Test
@@ -361,7 +375,10 @@ class AppSettingsViewModelTest {
 
         viewModel.revertAppSettings()
 
-        assertIs<RevertAppSettingsResult.Success>(viewModel.revertAppSettingsResult.value)
+        assertEquals(
+            expected = AppSettingsResult.Success,
+            actual = viewModel.applyAppSettingsResult.value,
+        )
     }
 
     @Test
@@ -389,7 +406,10 @@ class AppSettingsViewModelTest {
 
         viewModel.revertAppSettings()
 
-        assertIs<RevertAppSettingsResult.SecurityException>(viewModel.revertAppSettingsResult.value)
+        assertEquals(
+            expected = AppSettingsResult.SecurityException,
+            actual = viewModel.revertAppSettingsResult.value,
+        )
     }
 
     @Test
@@ -419,7 +439,10 @@ class AppSettingsViewModelTest {
 
         viewModel.revertAppSettings()
 
-        assertIs<RevertAppSettingsResult.IllegalArgumentException>(viewModel.revertAppSettingsResult.value)
+        assertEquals(
+            expected = AppSettingsResult.IllegalArgumentException,
+            actual = viewModel.revertAppSettingsResult.value,
+        )
     }
 
     @Test
@@ -432,7 +455,10 @@ class AppSettingsViewModelTest {
 
         viewModel.revertAppSettings()
 
-        assertIs<RevertAppSettingsResult.EmptyAppSettings>(viewModel.revertAppSettingsResult.value)
+        assertEquals(
+            expected = AppSettingsResult.EmptyAppSettings,
+            actual = viewModel.revertAppSettingsResult.value,
+        )
     }
 
     @Test
@@ -460,7 +486,10 @@ class AppSettingsViewModelTest {
 
         viewModel.revertAppSettings()
 
-        assertIs<RevertAppSettingsResult.DisabledAppSettings>(viewModel.revertAppSettingsResult.value)
+        assertEquals(
+            expected = AppSettingsResult.DisabledAppSettings,
+            actual = viewModel.revertAppSettingsResult.value,
+        )
     }
 
     @Test
@@ -489,10 +518,7 @@ class AppSettingsViewModelTest {
 
         viewModel.copyPermissionCommand()
 
-        assertEquals(
-            expected = true,
-            actual = viewModel.setPrimaryClipResult.value,
-        )
+        assertTrue(viewModel.setPrimaryClipResult.value)
     }
 
     @Test
@@ -643,8 +669,9 @@ class AppSettingsViewModelTest {
             ),
         )
 
-        assertIs<RequestPinShortcutResult.SupportedLauncher>(
-            viewModel.requestPinShortcutResult.value,
+        assertEquals(
+            expected = RequestPinShortcutResult.SupportedLauncher,
+            actual = viewModel.requestPinShortcutResult.value,
         )
     }
 
@@ -664,8 +691,9 @@ class AppSettingsViewModelTest {
             ),
         )
 
-        assertIs<RequestPinShortcutResult.UnSupportedLauncher>(
-            viewModel.requestPinShortcutResult.value,
+        assertEquals(
+            expected = RequestPinShortcutResult.UnSupportedLauncher,
+            actual = viewModel.requestPinShortcutResult.value,
         )
     }
 
@@ -697,8 +725,9 @@ class AppSettingsViewModelTest {
             ),
         )
 
-        assertIs<RequestPinShortcutResult.UpdateImmutableShortcuts>(
-            viewModel.requestPinShortcutResult.value,
+        assertEquals(
+            expected = RequestPinShortcutResult.UpdateImmutableShortcuts,
+            actual = viewModel.requestPinShortcutResult.value,
         )
     }
 
@@ -730,8 +759,9 @@ class AppSettingsViewModelTest {
             ),
         )
 
-        assertIs<RequestPinShortcutResult.UpdateSuccess>(
-            viewModel.requestPinShortcutResult.value,
+        assertEquals(
+            expected = RequestPinShortcutResult.UpdateSuccess,
+            actual = viewModel.requestPinShortcutResult.value,
         )
     }
 

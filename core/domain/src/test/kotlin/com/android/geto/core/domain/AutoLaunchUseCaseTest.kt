@@ -18,6 +18,7 @@
 package com.android.geto.core.domain
 
 import com.android.geto.core.model.AppSetting
+import com.android.geto.core.model.AppSettingsResult
 import com.android.geto.core.model.ApplicationInfo
 import com.android.geto.core.model.DarkThemeConfig
 import com.android.geto.core.model.SettingType
@@ -30,8 +31,7 @@ import com.android.geto.core.testing.repository.TestUserDataRepository
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
-import kotlin.test.assertIs
-import kotlin.test.assertNotNull
+import kotlin.test.assertEquals
 
 class AutoLaunchUseCaseTest {
     private lateinit var autoLaunchUseCase: AutoLaunchUseCase
@@ -64,7 +64,7 @@ class AutoLaunchUseCaseTest {
     }
 
     @Test
-    fun autoLaunchAppUseCase_isIgnore_whenAppSettings_isEmpty() = runTest {
+    fun autoLaunchAppUseCase_isFailure_whenAppSettings_isEmpty() = runTest {
         appSettingsRepository.setAppSettings(emptyList())
 
         userDataRepository.setUserData(
@@ -76,11 +76,14 @@ class AutoLaunchUseCaseTest {
             ),
         )
 
-        assertIs<AutoLaunchResult.Ignore>(autoLaunchUseCase(packageName = packageName))
+        assertEquals(
+            expected = AppSettingsResult.Failure,
+            actual = autoLaunchUseCase(packageName = packageName),
+        )
     }
 
     @Test
-    fun autoLaunchAppUseCase_isIgnore_whenAppSettings_isDisabled() = runTest {
+    fun autoLaunchAppUseCase_isFailure_whenAppSettings_isDisabled() = runTest {
         val appSettings = List(5) { index ->
             AppSetting(
                 id = index,
@@ -105,7 +108,10 @@ class AutoLaunchUseCaseTest {
             ),
         )
 
-        assertIs<AutoLaunchResult.Ignore>(autoLaunchUseCase(packageName = packageName))
+        assertEquals(
+            expected = AppSettingsResult.Failure,
+            actual = autoLaunchUseCase(packageName = packageName),
+        )
     }
 
     @Test
@@ -144,9 +150,10 @@ class AutoLaunchUseCaseTest {
 
         val result = autoLaunchUseCase(packageName = packageName)
 
-        assertIs<AutoLaunchResult.Success>(result)
-
-        assertNotNull(result.packageName)
+        assertEquals(
+            expected = AppSettingsResult.Success,
+            actual = autoLaunchUseCase(packageName = packageName),
+        )
     }
 
     @Test
@@ -177,7 +184,10 @@ class AutoLaunchUseCaseTest {
 
         appSettingsRepository.setAppSettings(appSettings)
 
-        assertIs<AutoLaunchResult.SecurityException>(autoLaunchUseCase(packageName = packageName))
+        assertEquals(
+            expected = AppSettingsResult.SecurityException,
+            actual = autoLaunchUseCase(packageName = packageName),
+        )
     }
 
     @Test
@@ -210,7 +220,10 @@ class AutoLaunchUseCaseTest {
 
         appSettingsRepository.setAppSettings(appSettings)
 
-        assertIs<AutoLaunchResult.IllegalArgumentException>(autoLaunchUseCase(packageName = packageName))
+        assertEquals(
+            expected = AppSettingsResult.IllegalArgumentException,
+            actual = autoLaunchUseCase(packageName = packageName),
+        )
     }
 
     @Test
@@ -241,6 +254,9 @@ class AutoLaunchUseCaseTest {
 
         appSettingsRepository.setAppSettings(appSettings)
 
-        assertIs<AutoLaunchResult.Ignore>(autoLaunchUseCase(packageName = packageName))
+        assertEquals(
+            expected = AppSettingsResult.Failure,
+            actual = autoLaunchUseCase(packageName = packageName),
+        )
     }
 }

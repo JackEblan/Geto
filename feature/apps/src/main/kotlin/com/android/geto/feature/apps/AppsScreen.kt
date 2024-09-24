@@ -53,8 +53,8 @@ import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.android.geto.core.designsystem.component.DynamicAsyncImage
 import com.android.geto.core.designsystem.component.GetoLoadingWheel
+import com.android.geto.core.designsystem.component.ShimmerImage
 import com.android.geto.core.designsystem.icon.GetoIcons
 import com.android.geto.core.model.ApplicationInfo
 
@@ -193,9 +193,8 @@ private fun AppItem(
             .padding(10.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        DynamicAsyncImage(
+        ShimmerImage(
             model = applicationInfo.icon,
-            contentDescription = null,
             modifier = Modifier.size(50.dp),
         )
 

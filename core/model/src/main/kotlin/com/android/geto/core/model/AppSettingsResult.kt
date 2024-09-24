@@ -15,17 +15,13 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.framework.packagemanager.mapper
+package com.android.geto.core.model
 
-import android.content.pm.PackageManager
-import androidx.core.graphics.drawable.toBitmap
-import com.android.geto.core.model.ApplicationInfo
-
-internal fun android.content.pm.ApplicationInfo.toApplicationInfo(packageManager: PackageManager): ApplicationInfo {
-    return ApplicationInfo(
-        flags = flags,
-        icon = loadIcon(packageManager).toBitmap(),
-        packageName = packageName,
-        label = loadLabel(packageManager).toString(),
-    )
+enum class AppSettingsResult {
+    Success,
+    Failure,
+    SecurityException,
+    IllegalArgumentException,
+    EmptyAppSettings,
+    DisabledAppSettings,
 }

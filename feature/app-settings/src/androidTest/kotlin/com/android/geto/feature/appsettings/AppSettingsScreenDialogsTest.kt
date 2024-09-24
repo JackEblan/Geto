@@ -34,9 +34,7 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
-import com.android.geto.core.domain.ApplyAppSettingsResult
-import com.android.geto.core.domain.AutoLaunchResult
-import com.android.geto.core.domain.RevertAppSettingsResult
+import com.android.geto.core.model.AppSettingsResult
 import org.junit.Rule
 import org.junit.Test
 
@@ -55,7 +53,7 @@ class AppSettingsScreenDialogsTest {
                 applicationIcon = null,
                 secureSettings = emptyList(),
                 permissionCommandText = "",
-                applyAppSettingsResult = null,
+                appSettingsResult = null,
                 revertAppSettingsResult = null,
                 autoLaunchResult = null,
                 requestPinShortcutResult = null,
@@ -102,7 +100,7 @@ class AppSettingsScreenDialogsTest {
                 applicationIcon = null,
                 secureSettings = emptyList(),
                 permissionCommandText = "",
-                applyAppSettingsResult = ApplyAppSettingsResult.SecurityException,
+                appSettingsResult = AppSettingsResult.SecurityException,
                 revertAppSettingsResult = null,
                 autoLaunchResult = null,
                 requestPinShortcutResult = null,
@@ -145,8 +143,8 @@ class AppSettingsScreenDialogsTest {
                 applicationIcon = null,
                 secureSettings = emptyList(),
                 permissionCommandText = "",
-                applyAppSettingsResult = null,
-                revertAppSettingsResult = RevertAppSettingsResult.SecurityException,
+                appSettingsResult = null,
+                revertAppSettingsResult = AppSettingsResult.SecurityException,
                 autoLaunchResult = null,
                 requestPinShortcutResult = null,
                 setPrimaryClipResult = false,
@@ -188,9 +186,9 @@ class AppSettingsScreenDialogsTest {
                 applicationIcon = null,
                 secureSettings = emptyList(),
                 permissionCommandText = "",
-                applyAppSettingsResult = null,
+                appSettingsResult = null,
                 revertAppSettingsResult = null,
-                autoLaunchResult = AutoLaunchResult.SecurityException,
+                autoLaunchResult = AppSettingsResult.SecurityException,
                 requestPinShortcutResult = null,
                 setPrimaryClipResult = false,
                 onNavigationIconClick = {},
@@ -231,7 +229,7 @@ class AppSettingsScreenDialogsTest {
                 applicationIcon = null,
                 secureSettings = emptyList(),
                 permissionCommandText = "",
-                applyAppSettingsResult = null,
+                appSettingsResult = null,
                 revertAppSettingsResult = null,
                 autoLaunchResult = null,
                 requestPinShortcutResult = null,
@@ -279,7 +277,7 @@ class AppSettingsScreenDialogsTest {
                 applicationIcon = null,
                 secureSettings = emptyList(),
                 permissionCommandText = "",
-                applyAppSettingsResult = null,
+                appSettingsResult = null,
                 revertAppSettingsResult = null,
                 autoLaunchResult = null,
                 requestPinShortcutResult = null,
@@ -373,7 +371,7 @@ class AppSettingsScreenDialogsTest {
                 applicationIcon = null,
                 secureSettings = emptyList(),
                 permissionCommandText = "",
-                applyAppSettingsResult = null,
+                appSettingsResult = null,
                 revertAppSettingsResult = null,
                 autoLaunchResult = null,
                 requestPinShortcutResult = null,
