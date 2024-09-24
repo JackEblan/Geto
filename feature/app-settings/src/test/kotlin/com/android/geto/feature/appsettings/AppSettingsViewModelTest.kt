@@ -377,7 +377,7 @@ class AppSettingsViewModelTest {
 
         assertEquals(
             expected = AppSettingsResult.Success,
-            actual = viewModel.applyAppSettingsResult.value,
+            actual = viewModel.revertAppSettingsResult.value,
         )
     }
 
