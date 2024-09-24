@@ -18,13 +18,14 @@
 package com.android.geto.core.domain
 
 import com.android.geto.core.model.AppSetting
+import com.android.geto.core.model.AppSettingsResult
 import com.android.geto.core.model.SettingType
 import com.android.geto.core.testing.repository.TestAppSettingsRepository
 import com.android.geto.core.testing.repository.TestSecureSettingsRepository
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
-import kotlin.test.assertIs
+import kotlin.test.assertEquals
 
 class RevertAppSettingsUseCaseTest {
     private lateinit var revertAppSettingsUseCase: RevertAppSettingsUseCase
@@ -51,7 +52,10 @@ class RevertAppSettingsUseCaseTest {
     fun revertAppSettingsUseCase_isEmptyAppSettings() = runTest {
         appSettingsRepository.setAppSettings(emptyList())
 
-        assertIs<RevertAppSettingsResult.EmptyAppSettings>(revertAppSettingsUseCase(packageName = packageName))
+        assertEquals(
+            expected = AppSettingsResult.EmptyAppSettings,
+            actual = revertAppSettingsUseCase(packageName = packageName),
+        )
     }
 
     @Test
@@ -71,7 +75,10 @@ class RevertAppSettingsUseCaseTest {
 
         appSettingsRepository.setAppSettings(appSettings)
 
-        assertIs<RevertAppSettingsResult.DisabledAppSettings>(revertAppSettingsUseCase(packageName = packageName))
+        assertEquals(
+            expected = AppSettingsResult.DisabledAppSettings,
+            actual = revertAppSettingsUseCase(packageName = packageName),
+        )
     }
 
     @Test
@@ -93,7 +100,10 @@ class RevertAppSettingsUseCaseTest {
 
         appSettingsRepository.setAppSettings(appSettings)
 
-        assertIs<RevertAppSettingsResult.Success>(revertAppSettingsUseCase(packageName = packageName))
+        assertEquals(
+            expected = AppSettingsResult.Success,
+            actual = revertAppSettingsUseCase(packageName = packageName),
+        )
     }
 
     @Test
@@ -115,7 +125,10 @@ class RevertAppSettingsUseCaseTest {
 
         appSettingsRepository.setAppSettings(appSettings)
 
-        assertIs<RevertAppSettingsResult.SecurityException>(revertAppSettingsUseCase(packageName = packageName))
+        assertEquals(
+            expected = AppSettingsResult.SecurityException,
+            actual = revertAppSettingsUseCase(packageName = packageName),
+        )
     }
 
     @Test
@@ -139,10 +152,9 @@ class RevertAppSettingsUseCaseTest {
 
         appSettingsRepository.setAppSettings(appSettings)
 
-        assertIs<RevertAppSettingsResult.IllegalArgumentException>(
-            revertAppSettingsUseCase(
-                packageName = packageName,
-            ),
+        assertEquals(
+            expected = AppSettingsResult.IllegalArgumentException,
+            actual = revertAppSettingsUseCase(packageName = packageName),
         )
     }
 }

@@ -68,8 +68,12 @@ class TestMethodNameDetector : Detector(), SourceCodeScanner {
             scope = usageInfo.usage,
             location = context.getNameLocation(this),
             message = PREFIX.getBriefDescription(RAW),
-            quickfixData = LintFix.create().name("Remove prefix").replace()
-                .pattern("""test[\s_]*""").with("").autoFix().build(),
+            quickfixData = LintFix.create()
+                .name("Remove prefix")
+                .replace().pattern("""test[\s_]*""")
+                .with("")
+                .autoFix()
+                .build(),
         )
     }
 

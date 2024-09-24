@@ -56,7 +56,7 @@ class AppSettingsScreenTest {
                 applicationIcon = null,
                 secureSettings = emptyList(),
                 permissionCommandText = "",
-                applyAppSettingsResult = null,
+                appSettingsResult = null,
                 revertAppSettingsResult = null,
                 autoLaunchResult = null,
                 requestPinShortcutResult = null,
@@ -66,8 +66,6 @@ class AppSettingsScreenTest {
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
-                onAutoLaunchApp = {},
-                onGetApplicationIcon = {},
                 onResetApplyAppSettingsResult = {},
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
@@ -77,6 +75,7 @@ class AppSettingsScreenTest {
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
+                onLaunchIntent = {},
             )
         }
 
@@ -94,7 +93,7 @@ class AppSettingsScreenTest {
                 applicationIcon = null,
                 secureSettings = emptyList(),
                 permissionCommandText = "",
-                applyAppSettingsResult = null,
+                appSettingsResult = null,
                 revertAppSettingsResult = null,
                 autoLaunchResult = null,
                 requestPinShortcutResult = null,
@@ -104,8 +103,6 @@ class AppSettingsScreenTest {
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
-                onAutoLaunchApp = {},
-                onGetApplicationIcon = {},
                 onResetApplyAppSettingsResult = {},
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
@@ -115,6 +112,7 @@ class AppSettingsScreenTest {
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
+                onLaunchIntent = {},
             )
         }
 
@@ -132,7 +130,7 @@ class AppSettingsScreenTest {
                 applicationIcon = null,
                 secureSettings = emptyList(),
                 permissionCommandText = "",
-                applyAppSettingsResult = null,
+                appSettingsResult = null,
                 revertAppSettingsResult = null,
                 autoLaunchResult = null,
                 requestPinShortcutResult = null,
@@ -142,8 +140,6 @@ class AppSettingsScreenTest {
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
-                onAutoLaunchApp = {},
-                onGetApplicationIcon = {},
                 onResetApplyAppSettingsResult = {},
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
@@ -153,6 +149,7 @@ class AppSettingsScreenTest {
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
+                onLaunchIntent = {},
             )
         }
 

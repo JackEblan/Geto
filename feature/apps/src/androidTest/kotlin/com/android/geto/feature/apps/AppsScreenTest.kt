@@ -22,7 +22,7 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
-import com.android.geto.core.model.MappedApplicationInfo
+import com.android.geto.core.model.ApplicationInfo
 import org.junit.Rule
 import org.junit.Test
 
@@ -46,7 +46,7 @@ class AppsScreenTest {
     @Test
     fun lazyColumn_isDisplayed_whenAppsUiState_isSuccess() {
         val mappedApplicationInfos = List(2) { index ->
-            MappedApplicationInfo(
+            ApplicationInfo(
                 flags = 0,
                 packageName = "com.android.geto$index",
                 label = "Geto $index",

@@ -25,9 +25,8 @@ import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import com.android.geto.core.domain.ApplyAppSettingsResult
-import com.android.geto.core.domain.RequestPinShortcutResult
-import com.android.geto.core.domain.RevertAppSettingsResult
+import com.android.geto.core.model.AppSettingsResult
+import com.android.geto.core.model.RequestPinShortcutResult
 import org.junit.Rule
 import org.junit.Test
 import kotlin.properties.ReadOnlyProperty
@@ -74,7 +73,7 @@ class AppSettingsScreenSnackbarTest {
                 applicationIcon = null,
                 secureSettings = emptyList(),
                 permissionCommandText = "",
-                applyAppSettingsResult = ApplyAppSettingsResult.DisabledAppSettings,
+                appSettingsResult = AppSettingsResult.DisabledAppSettings,
                 revertAppSettingsResult = null,
                 autoLaunchResult = null,
                 requestPinShortcutResult = null,
@@ -84,8 +83,7 @@ class AppSettingsScreenSnackbarTest {
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
-                onAutoLaunchApp = {},
-                onGetApplicationIcon = {},
+
                 onResetApplyAppSettingsResult = {},
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
@@ -95,6 +93,7 @@ class AppSettingsScreenSnackbarTest {
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
+                onLaunchIntent = {},
             )
         }
 
@@ -118,7 +117,7 @@ class AppSettingsScreenSnackbarTest {
                 applicationIcon = null,
                 secureSettings = emptyList(),
                 permissionCommandText = "",
-                applyAppSettingsResult = ApplyAppSettingsResult.EmptyAppSettings,
+                appSettingsResult = AppSettingsResult.EmptyAppSettings,
                 revertAppSettingsResult = null,
                 autoLaunchResult = null,
                 requestPinShortcutResult = null,
@@ -128,8 +127,7 @@ class AppSettingsScreenSnackbarTest {
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
-                onAutoLaunchApp = {},
-                onGetApplicationIcon = {},
+
                 onResetApplyAppSettingsResult = {},
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
@@ -139,6 +137,7 @@ class AppSettingsScreenSnackbarTest {
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
+                onLaunchIntent = {},
             )
         }
 
@@ -162,7 +161,7 @@ class AppSettingsScreenSnackbarTest {
                 applicationIcon = null,
                 secureSettings = emptyList(),
                 permissionCommandText = "",
-                applyAppSettingsResult = ApplyAppSettingsResult.Failure,
+                appSettingsResult = AppSettingsResult.Failure,
                 revertAppSettingsResult = null,
                 autoLaunchResult = null,
                 requestPinShortcutResult = null,
@@ -172,8 +171,7 @@ class AppSettingsScreenSnackbarTest {
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
-                onAutoLaunchApp = {},
-                onGetApplicationIcon = {},
+
                 onResetApplyAppSettingsResult = {},
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
@@ -183,6 +181,7 @@ class AppSettingsScreenSnackbarTest {
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
+                onLaunchIntent = {},
             )
         }
 
@@ -206,7 +205,7 @@ class AppSettingsScreenSnackbarTest {
                 applicationIcon = null,
                 secureSettings = emptyList(),
                 permissionCommandText = "",
-                applyAppSettingsResult = ApplyAppSettingsResult.IllegalArgumentException,
+                appSettingsResult = AppSettingsResult.IllegalArgumentException,
                 revertAppSettingsResult = null,
                 autoLaunchResult = null,
                 requestPinShortcutResult = null,
@@ -216,8 +215,7 @@ class AppSettingsScreenSnackbarTest {
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
-                onAutoLaunchApp = {},
-                onGetApplicationIcon = {},
+
                 onResetApplyAppSettingsResult = {},
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
@@ -227,6 +225,7 @@ class AppSettingsScreenSnackbarTest {
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
+                onLaunchIntent = {},
             )
         }
 
@@ -250,8 +249,8 @@ class AppSettingsScreenSnackbarTest {
                 applicationIcon = null,
                 secureSettings = emptyList(),
                 permissionCommandText = "",
-                applyAppSettingsResult = null,
-                revertAppSettingsResult = RevertAppSettingsResult.DisabledAppSettings,
+                appSettingsResult = null,
+                revertAppSettingsResult = AppSettingsResult.DisabledAppSettings,
                 autoLaunchResult = null,
                 requestPinShortcutResult = null,
                 setPrimaryClipResult = false,
@@ -260,8 +259,7 @@ class AppSettingsScreenSnackbarTest {
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
-                onAutoLaunchApp = {},
-                onGetApplicationIcon = {},
+
                 onResetApplyAppSettingsResult = {},
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
@@ -271,6 +269,7 @@ class AppSettingsScreenSnackbarTest {
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
+                onLaunchIntent = {},
             )
         }
 
@@ -294,8 +293,8 @@ class AppSettingsScreenSnackbarTest {
                 applicationIcon = null,
                 secureSettings = emptyList(),
                 permissionCommandText = "",
-                applyAppSettingsResult = null,
-                revertAppSettingsResult = RevertAppSettingsResult.EmptyAppSettings,
+                appSettingsResult = null,
+                revertAppSettingsResult = AppSettingsResult.EmptyAppSettings,
                 autoLaunchResult = null,
                 requestPinShortcutResult = null,
                 setPrimaryClipResult = false,
@@ -304,8 +303,6 @@ class AppSettingsScreenSnackbarTest {
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
-                onAutoLaunchApp = {},
-                onGetApplicationIcon = {},
                 onResetApplyAppSettingsResult = {},
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
@@ -315,6 +312,7 @@ class AppSettingsScreenSnackbarTest {
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
+                onLaunchIntent = {},
             )
         }
 
@@ -338,8 +336,8 @@ class AppSettingsScreenSnackbarTest {
                 applicationIcon = null,
                 secureSettings = emptyList(),
                 permissionCommandText = "",
-                applyAppSettingsResult = null,
-                revertAppSettingsResult = RevertAppSettingsResult.Failure,
+                appSettingsResult = null,
+                revertAppSettingsResult = AppSettingsResult.Failure,
                 autoLaunchResult = null,
                 requestPinShortcutResult = null,
                 setPrimaryClipResult = false,
@@ -348,8 +346,7 @@ class AppSettingsScreenSnackbarTest {
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
-                onAutoLaunchApp = {},
-                onGetApplicationIcon = {},
+
                 onResetApplyAppSettingsResult = {},
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
@@ -359,6 +356,7 @@ class AppSettingsScreenSnackbarTest {
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
+                onLaunchIntent = {},
             )
         }
 
@@ -382,8 +380,8 @@ class AppSettingsScreenSnackbarTest {
                 applicationIcon = null,
                 secureSettings = emptyList(),
                 permissionCommandText = "",
-                applyAppSettingsResult = null,
-                revertAppSettingsResult = RevertAppSettingsResult.Success,
+                appSettingsResult = null,
+                revertAppSettingsResult = AppSettingsResult.Success,
                 autoLaunchResult = null,
                 requestPinShortcutResult = null,
                 setPrimaryClipResult = false,
@@ -392,8 +390,7 @@ class AppSettingsScreenSnackbarTest {
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
-                onAutoLaunchApp = {},
-                onGetApplicationIcon = {},
+
                 onResetApplyAppSettingsResult = {},
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
@@ -403,6 +400,7 @@ class AppSettingsScreenSnackbarTest {
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
+                onLaunchIntent = {},
             )
         }
 
@@ -426,8 +424,8 @@ class AppSettingsScreenSnackbarTest {
                 applicationIcon = null,
                 secureSettings = emptyList(),
                 permissionCommandText = "",
-                applyAppSettingsResult = null,
-                revertAppSettingsResult = RevertAppSettingsResult.IllegalArgumentException,
+                appSettingsResult = null,
+                revertAppSettingsResult = AppSettingsResult.IllegalArgumentException,
                 autoLaunchResult = null,
                 requestPinShortcutResult = null,
                 setPrimaryClipResult = false,
@@ -436,8 +434,7 @@ class AppSettingsScreenSnackbarTest {
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
-                onAutoLaunchApp = {},
-                onGetApplicationIcon = {},
+
                 onResetApplyAppSettingsResult = {},
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
@@ -447,6 +444,7 @@ class AppSettingsScreenSnackbarTest {
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
+                onLaunchIntent = {},
             )
         }
 
@@ -470,7 +468,7 @@ class AppSettingsScreenSnackbarTest {
                 applicationIcon = null,
                 secureSettings = emptyList(),
                 permissionCommandText = "",
-                applyAppSettingsResult = null,
+                appSettingsResult = null,
                 revertAppSettingsResult = null,
                 autoLaunchResult = null,
                 requestPinShortcutResult = RequestPinShortcutResult.SupportedLauncher,
@@ -480,8 +478,7 @@ class AppSettingsScreenSnackbarTest {
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
-                onAutoLaunchApp = {},
-                onGetApplicationIcon = {},
+
                 onResetApplyAppSettingsResult = {},
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
@@ -491,6 +488,7 @@ class AppSettingsScreenSnackbarTest {
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
+                onLaunchIntent = {},
             )
         }
 
@@ -514,7 +512,7 @@ class AppSettingsScreenSnackbarTest {
                 applicationIcon = null,
                 secureSettings = emptyList(),
                 permissionCommandText = "",
-                applyAppSettingsResult = null,
+                appSettingsResult = null,
                 revertAppSettingsResult = null,
                 autoLaunchResult = null,
                 requestPinShortcutResult = RequestPinShortcutResult.UnSupportedLauncher,
@@ -524,8 +522,6 @@ class AppSettingsScreenSnackbarTest {
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
-                onAutoLaunchApp = {},
-                onGetApplicationIcon = {},
                 onResetApplyAppSettingsResult = {},
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
@@ -535,6 +531,7 @@ class AppSettingsScreenSnackbarTest {
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
+                onLaunchIntent = {},
             )
         }
 
@@ -558,7 +555,7 @@ class AppSettingsScreenSnackbarTest {
                 applicationIcon = null,
                 secureSettings = emptyList(),
                 permissionCommandText = "",
-                applyAppSettingsResult = null,
+                appSettingsResult = null,
                 revertAppSettingsResult = null,
                 autoLaunchResult = null,
                 requestPinShortcutResult = RequestPinShortcutResult.UpdateFailure,
@@ -568,8 +565,7 @@ class AppSettingsScreenSnackbarTest {
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
-                onAutoLaunchApp = {},
-                onGetApplicationIcon = {},
+
                 onResetApplyAppSettingsResult = {},
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
@@ -579,6 +575,7 @@ class AppSettingsScreenSnackbarTest {
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
+                onLaunchIntent = {},
             )
         }
 
@@ -602,7 +599,7 @@ class AppSettingsScreenSnackbarTest {
                 applicationIcon = null,
                 secureSettings = emptyList(),
                 permissionCommandText = "",
-                applyAppSettingsResult = null,
+                appSettingsResult = null,
                 revertAppSettingsResult = null,
                 autoLaunchResult = null,
                 requestPinShortcutResult = RequestPinShortcutResult.UpdateSuccess,
@@ -612,8 +609,7 @@ class AppSettingsScreenSnackbarTest {
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
-                onAutoLaunchApp = {},
-                onGetApplicationIcon = {},
+
                 onResetApplyAppSettingsResult = {},
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
@@ -623,6 +619,7 @@ class AppSettingsScreenSnackbarTest {
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
+                onLaunchIntent = {},
             )
         }
 
@@ -646,7 +643,7 @@ class AppSettingsScreenSnackbarTest {
                 applicationIcon = null,
                 secureSettings = emptyList(),
                 permissionCommandText = "",
-                applyAppSettingsResult = null,
+                appSettingsResult = null,
                 revertAppSettingsResult = null,
                 autoLaunchResult = null,
                 requestPinShortcutResult = RequestPinShortcutResult.UpdateImmutableShortcuts,
@@ -656,8 +653,7 @@ class AppSettingsScreenSnackbarTest {
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
-                onAutoLaunchApp = {},
-                onGetApplicationIcon = {},
+
                 onResetApplyAppSettingsResult = {},
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
@@ -667,6 +663,7 @@ class AppSettingsScreenSnackbarTest {
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
+                onLaunchIntent = {},
             )
         }
 
@@ -692,7 +689,7 @@ class AppSettingsScreenSnackbarTest {
                 applicationIcon = null,
                 secureSettings = emptyList(),
                 permissionCommandText = permissionCommandText,
-                applyAppSettingsResult = null,
+                appSettingsResult = null,
                 revertAppSettingsResult = null,
                 autoLaunchResult = null,
                 requestPinShortcutResult = null,
@@ -702,8 +699,7 @@ class AppSettingsScreenSnackbarTest {
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
-                onAutoLaunchApp = {},
-                onGetApplicationIcon = {},
+
                 onResetApplyAppSettingsResult = {},
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
@@ -713,6 +709,7 @@ class AppSettingsScreenSnackbarTest {
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
+                onLaunchIntent = {},
             )
         }
 

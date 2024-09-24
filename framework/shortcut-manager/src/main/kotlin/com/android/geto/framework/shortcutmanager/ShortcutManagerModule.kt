@@ -29,5 +29,5 @@ internal interface ShortcutManagerModule {
 
     @Binds
     @Singleton
-    fun shortcutManagerCompatWrapper(impl: DefaultShortcutManagerCompatWrapper): ShortcutManagerCompatWrapper
+    fun shortcutManagerCompatWrapper(impl: AndroidShortcutManagerCompatWrapper): ShortcutManagerCompatWrapper
 }

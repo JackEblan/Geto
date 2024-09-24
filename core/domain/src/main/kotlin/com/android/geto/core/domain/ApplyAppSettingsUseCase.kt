@@ -17,51 +17,34 @@
  */
 package com.android.geto.core.domain
 
-import android.content.Intent
 import com.android.geto.core.data.repository.AppSettingsRepository
-import com.android.geto.core.data.repository.PackageRepository
 import com.android.geto.core.data.repository.SecureSettingsRepository
+import com.android.geto.core.model.AppSettingsResult
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 class ApplyAppSettingsUseCase @Inject constructor(
-    private val packageRepository: PackageRepository,
     private val appSettingsRepository: AppSettingsRepository,
     private val secureSettingsRepository: SecureSettingsRepository,
 ) {
-    suspend operator fun invoke(packageName: String): ApplyAppSettingsResult {
-        val launchIntent = packageRepository.getLaunchIntentForPackage(packageName)
+    suspend operator fun invoke(packageName: String): AppSettingsResult {
+        val appSettings =
+            appSettingsRepository.getAppSettingsByPackageName(packageName = packageName).first()
 
-        val appSettings = appSettingsRepository.getAppSettingsByPackageName(packageName).first()
+        if (appSettings.isEmpty()) return AppSettingsResult.EmptyAppSettings
 
-        if (appSettings.isEmpty()) return ApplyAppSettingsResult.EmptyAppSettings
-
-        if (appSettings.all { it.enabled.not() }) return ApplyAppSettingsResult.DisabledAppSettings
+        if (appSettings.all { it.enabled.not() }) return AppSettingsResult.DisabledAppSettings
 
         return try {
             if (secureSettingsRepository.applySecureSettings(appSettings)) {
-                ApplyAppSettingsResult.Success(launchIntent = launchIntent)
+                AppSettingsResult.Success
             } else {
-                ApplyAppSettingsResult.Failure
+                AppSettingsResult.Failure
             }
         } catch (e: SecurityException) {
-            ApplyAppSettingsResult.SecurityException
+            AppSettingsResult.SecurityException
         } catch (e: IllegalArgumentException) {
-            ApplyAppSettingsResult.IllegalArgumentException
+            AppSettingsResult.IllegalArgumentException
         }
     }
-}
-
-sealed interface ApplyAppSettingsResult {
-    data class Success(val launchIntent: Intent?) : ApplyAppSettingsResult
-
-    data object Failure : ApplyAppSettingsResult
-
-    data object SecurityException : ApplyAppSettingsResult
-
-    data object IllegalArgumentException : ApplyAppSettingsResult
-
-    data object EmptyAppSettings : ApplyAppSettingsResult
-
-    data object DisabledAppSettings : ApplyAppSettingsResult
 }

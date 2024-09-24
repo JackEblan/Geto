@@ -70,7 +70,7 @@ class AppSettingsScreenScreenshotTest {
                     applicationIcon = null,
                     secureSettings = emptyList(),
                     permissionCommandText = "",
-                    applyAppSettingsResult = null,
+                    appSettingsResult = null,
                     revertAppSettingsResult = null,
                     autoLaunchResult = null,
                     requestPinShortcutResult = null,
@@ -80,8 +80,6 @@ class AppSettingsScreenScreenshotTest {
                     onCheckAppSetting = { _, _ -> },
                     onDeleteAppSetting = {},
                     onLaunchApp = {},
-                    onAutoLaunchApp = {},
-                    onGetApplicationIcon = {},
                     onResetApplyAppSettingsResult = {},
                     onResetRevertAppSettingsResult = {},
                     onResetAutoLaunchResult = {},
@@ -91,6 +89,7 @@ class AppSettingsScreenScreenshotTest {
                     onAddAppSetting = {},
                     onCopyPermissionCommand = {},
                     onAddShortcut = {},
+                    onLaunchIntent = {},
                 )
             }
         }
@@ -108,7 +107,7 @@ class AppSettingsScreenScreenshotTest {
                     applicationIcon = null,
                     secureSettings = emptyList(),
                     permissionCommandText = "",
-                    applyAppSettingsResult = null,
+                    appSettingsResult = null,
                     revertAppSettingsResult = null,
                     autoLaunchResult = null,
                     requestPinShortcutResult = null,
@@ -118,8 +117,6 @@ class AppSettingsScreenScreenshotTest {
                     onCheckAppSetting = { _, _ -> },
                     onDeleteAppSetting = {},
                     onLaunchApp = {},
-                    onAutoLaunchApp = {},
-                    onGetApplicationIcon = {},
                     onResetApplyAppSettingsResult = {},
                     onResetRevertAppSettingsResult = {},
                     onResetAutoLaunchResult = {},
@@ -129,6 +126,7 @@ class AppSettingsScreenScreenshotTest {
                     onAddAppSetting = {},
                     onCopyPermissionCommand = {},
                     onAddShortcut = {},
+                    onLaunchIntent = {},
                 )
             }
         }
@@ -146,7 +144,7 @@ class AppSettingsScreenScreenshotTest {
                     applicationIcon = null,
                     secureSettings = emptyList(),
                     permissionCommandText = "",
-                    applyAppSettingsResult = null,
+                    appSettingsResult = null,
                     revertAppSettingsResult = null,
                     autoLaunchResult = null,
                     requestPinShortcutResult = null,
@@ -156,8 +154,6 @@ class AppSettingsScreenScreenshotTest {
                     onCheckAppSetting = { _, _ -> },
                     onDeleteAppSetting = {},
                     onLaunchApp = {},
-                    onAutoLaunchApp = {},
-                    onGetApplicationIcon = {},
                     onResetApplyAppSettingsResult = {},
                     onResetRevertAppSettingsResult = {},
                     onResetAutoLaunchResult = {},
@@ -167,6 +163,7 @@ class AppSettingsScreenScreenshotTest {
                     onAddAppSetting = {},
                     onCopyPermissionCommand = {},
                     onAddShortcut = {},
+                    onLaunchIntent = {},
                 )
             }
         }
@@ -190,7 +187,7 @@ class AppSettingsScreenScreenshotTest {
                         applicationIcon = null,
                         secureSettings = emptyList(),
                         permissionCommandText = "",
-                        applyAppSettingsResult = null,
+                        appSettingsResult = null,
                         revertAppSettingsResult = null,
                         autoLaunchResult = null,
                         requestPinShortcutResult = null,
@@ -200,8 +197,6 @@ class AppSettingsScreenScreenshotTest {
                         onCheckAppSetting = { _, _ -> },
                         onDeleteAppSetting = {},
                         onLaunchApp = {},
-                        onAutoLaunchApp = {},
-                        onGetApplicationIcon = {},
                         onResetApplyAppSettingsResult = {},
                         onResetRevertAppSettingsResult = {},
                         onResetAutoLaunchResult = {},
@@ -211,6 +206,7 @@ class AppSettingsScreenScreenshotTest {
                         onAddAppSetting = {},
                         onCopyPermissionCommand = {},
                         onAddShortcut = {},
+                        onLaunchIntent = {},
                     )
                 }
             }
@@ -235,7 +231,7 @@ class AppSettingsScreenScreenshotTest {
                         applicationIcon = null,
                         secureSettings = emptyList(),
                         permissionCommandText = "",
-                        applyAppSettingsResult = null,
+                        appSettingsResult = null,
                         revertAppSettingsResult = null,
                         autoLaunchResult = null,
                         requestPinShortcutResult = null,
@@ -245,8 +241,6 @@ class AppSettingsScreenScreenshotTest {
                         onCheckAppSetting = { _, _ -> },
                         onDeleteAppSetting = {},
                         onLaunchApp = {},
-                        onAutoLaunchApp = {},
-                        onGetApplicationIcon = {},
                         onResetApplyAppSettingsResult = {},
                         onResetRevertAppSettingsResult = {},
                         onResetAutoLaunchResult = {},
@@ -256,6 +250,7 @@ class AppSettingsScreenScreenshotTest {
                         onAddAppSetting = {},
                         onCopyPermissionCommand = {},
                         onAddShortcut = {},
+                        onLaunchIntent = {},
                     )
                 }
             }
@@ -280,7 +275,7 @@ class AppSettingsScreenScreenshotTest {
                         applicationIcon = null,
                         secureSettings = emptyList(),
                         permissionCommandText = "",
-                        applyAppSettingsResult = null,
+                        appSettingsResult = null,
                         revertAppSettingsResult = null,
                         autoLaunchResult = null,
                         requestPinShortcutResult = null,
@@ -290,8 +285,6 @@ class AppSettingsScreenScreenshotTest {
                         onCheckAppSetting = { _, _ -> },
                         onDeleteAppSetting = {},
                         onLaunchApp = {},
-                        onAutoLaunchApp = {},
-                        onGetApplicationIcon = {},
                         onResetApplyAppSettingsResult = {},
                         onResetRevertAppSettingsResult = {},
                         onResetAutoLaunchResult = {},
@@ -301,6 +294,7 @@ class AppSettingsScreenScreenshotTest {
                         onAddAppSetting = {},
                         onCopyPermissionCommand = {},
                         onAddShortcut = {},
+                        onLaunchIntent = {},
                     )
                 }
             }

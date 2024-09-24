@@ -17,7 +17,7 @@
  */
 package com.android.geto.feature.appsettings
 
-import android.graphics.drawable.Drawable
+import android.graphics.Bitmap
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -26,16 +26,14 @@ import com.android.geto.core.data.repository.AppSettingsRepository
 import com.android.geto.core.data.repository.ClipboardRepository
 import com.android.geto.core.data.repository.PackageRepository
 import com.android.geto.core.data.repository.SecureSettingsRepository
-import com.android.geto.core.domain.ApplyAppSettingsResult
 import com.android.geto.core.domain.ApplyAppSettingsUseCase
-import com.android.geto.core.domain.AutoLaunchResult
 import com.android.geto.core.domain.AutoLaunchUseCase
-import com.android.geto.core.domain.RequestPinShortcutResult
 import com.android.geto.core.domain.RequestPinShortcutUseCase
-import com.android.geto.core.domain.RevertAppSettingsResult
 import com.android.geto.core.domain.RevertAppSettingsUseCase
 import com.android.geto.core.model.AppSetting
+import com.android.geto.core.model.AppSettingsResult
 import com.android.geto.core.model.MappedShortcutInfoCompat
+import com.android.geto.core.model.RequestPinShortcutResult
 import com.android.geto.core.model.SecureSetting
 import com.android.geto.core.model.SettingType
 import com.android.geto.feature.appsettings.navigation.AppSettingsRouteData
@@ -44,6 +42,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -70,17 +69,27 @@ class AppSettingsViewModel @Inject constructor(
     private var _secureSettings = MutableStateFlow<List<SecureSetting>>(emptyList())
     val secureSettings = _secureSettings.asStateFlow()
 
-    private var _applicationIcon = MutableStateFlow<Drawable?>(null)
-    val applicationIcon = _applicationIcon.asStateFlow()
+    private var _applicationIcon = MutableStateFlow<Bitmap?>(null)
+    val applicationIcon = _applicationIcon.onStart { getApplicationIcon() }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000),
+        initialValue = null,
+    )
 
-    private val _applyAppSettingsResult = MutableStateFlow<ApplyAppSettingsResult?>(null)
+    private val _applyAppSettingsResult = MutableStateFlow<AppSettingsResult?>(null)
     val applyAppSettingsResult = _applyAppSettingsResult.asStateFlow()
 
-    private val _revertAppSettingsResult = MutableStateFlow<RevertAppSettingsResult?>(null)
+    private val _revertAppSettingsResult = MutableStateFlow<AppSettingsResult?>(null)
     val revertAppSettingsResult = _revertAppSettingsResult.asStateFlow()
 
-    private val _autoLaunchResult = MutableStateFlow<AutoLaunchResult?>(null)
-    val autoLaunchResult = _autoLaunchResult.asStateFlow()
+    private val _autoLaunchResult = MutableStateFlow<AppSettingsResult?>(null)
+    val autoLaunchResult = _autoLaunchResult.onStart {
+        autoLaunchApp()
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000),
+        initialValue = null,
+    )
 
     private val _setPrimaryClipResult = MutableStateFlow(false)
     val setPrimaryClipResult = _setPrimaryClipResult.asStateFlow()
@@ -92,12 +101,13 @@ class AppSettingsViewModel @Inject constructor(
 
     val permissionCommandText = "pm grant com.android.geto android.permission.WRITE_SECURE_SETTINGS"
 
-    val appSettingsUiState = appSettingsRepository.getAppSettingsByPackageName(packageName)
-        .map<List<AppSetting>, AppSettingsUiState>(AppSettingsUiState::Success).stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5_000),
-            initialValue = AppSettingsUiState.Loading,
-        )
+    val appSettingsUiState =
+        appSettingsRepository.getAppSettingsByPackageName(packageName = packageName)
+            .map<List<AppSetting>, AppSettingsUiState>(AppSettingsUiState::Success).stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5_000),
+                initialValue = AppSettingsUiState.Loading,
+            )
 
     fun applyAppSettings() {
         viewModelScope.launch {
@@ -105,7 +115,7 @@ class AppSettingsViewModel @Inject constructor(
         }
     }
 
-    fun autoLaunchApp() {
+    private fun autoLaunchApp() {
         viewModelScope.launch {
             _autoLaunchResult.update { autoLaunchUseCase(packageName = packageName) }
         }
@@ -133,9 +143,9 @@ class AppSettingsViewModel @Inject constructor(
         }
     }
 
-    fun getApplicationIcon() {
+    private fun getApplicationIcon() {
         viewModelScope.launch {
-            _applicationIcon.update { packageRepository.getApplicationIcon(packageName) }
+            _applicationIcon.update { packageRepository.getApplicationIcon(packageName = packageName) }
         }
     }
 
@@ -175,6 +185,10 @@ class AppSettingsViewModel @Inject constructor(
                 )
             }
         }
+    }
+
+    fun launchIntentForPackage() {
+        packageRepository.launchIntentForPackage(packageName = packageName)
     }
 
     fun resetApplyAppSettingsResult() {

@@ -29,5 +29,5 @@ internal interface SecureSettingsModule {
 
     @Binds
     @Singleton
-    fun secureSettingsWrapper(impl: DefaultSecureSettingsWrapper): SecureSettingsWrapper
+    fun secureSettingsWrapper(impl: AndroidSecureSettingsWrapper): SecureSettingsWrapper
 }

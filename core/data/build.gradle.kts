@@ -38,7 +38,6 @@ dependencies {
     implementation(projects.core.datastore)
     implementation(projects.core.model)
 
-    implementation(projects.framework.buildVersion)
     implementation(projects.framework.clipboardManager)
     implementation(projects.framework.packageManager)
     implementation(projects.framework.secureSettings)

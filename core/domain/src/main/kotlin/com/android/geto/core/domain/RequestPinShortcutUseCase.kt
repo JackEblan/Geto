@@ -19,6 +19,7 @@ package com.android.geto.core.domain
 
 import com.android.geto.core.data.repository.ShortcutRepository
 import com.android.geto.core.model.MappedShortcutInfoCompat
+import com.android.geto.core.model.RequestPinShortcutResult
 import javax.inject.Inject
 
 class RequestPinShortcutUseCase @Inject constructor(
@@ -87,16 +88,4 @@ class RequestPinShortcutUseCase @Inject constructor(
             RequestPinShortcutResult.UpdateImmutableShortcuts
         }
     }
-}
-
-sealed interface RequestPinShortcutResult {
-    data object UnSupportedLauncher : RequestPinShortcutResult
-
-    data object SupportedLauncher : RequestPinShortcutResult
-
-    data object UpdateSuccess : RequestPinShortcutResult
-
-    data object UpdateFailure : RequestPinShortcutResult
-
-    data object UpdateImmutableShortcuts : RequestPinShortcutResult
 }

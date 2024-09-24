@@ -29,5 +29,5 @@ internal interface ClipboardManagerModule {
 
     @Binds
     @Singleton
-    fun clipboardManagerWrapper(impl: DefaultClipboardManagerWrapper): ClipboardManagerWrapper
+    fun clipboardManagerWrapper(impl: AndroidClipboardManagerWrapper): ClipboardManagerWrapper
 }

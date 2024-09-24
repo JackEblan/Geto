@@ -17,31 +17,33 @@
  */
 package com.android.geto.core.testing.repository
 
-import android.content.Intent
-import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
+import android.graphics.Bitmap
 import com.android.geto.core.data.repository.PackageRepository
-import com.android.geto.core.model.MappedApplicationInfo
+import com.android.geto.core.model.ApplicationInfo
 
 class TestPackageRepository : PackageRepository {
-    private var _mappedApplicationInfos = listOf<MappedApplicationInfo>()
+    private var applicationInfos = listOf<ApplicationInfo>()
 
-    override suspend fun queryIntentActivities(
-        intent: Intent,
-        flags: Int,
-    ): List<MappedApplicationInfo> {
-        return _mappedApplicationInfos.filter { it.flags == flags }.sortedBy { it.label }
+    override suspend fun queryIntentActivities(): List<ApplicationInfo> {
+        return applicationInfos.filter { it.flags == 0 }.sortedBy { it.label }
     }
 
-    override suspend fun getApplicationIcon(packageName: String): Drawable? {
-        return if (packageName in _mappedApplicationInfos.map { it.packageName }) ColorDrawable() else null
+    override fun getApplicationIcon(packageName: String): Bitmap? {
+        return if (applicationInfos.any { it.packageName == packageName }) {
+            Bitmap.createBitmap(
+                100,
+                100,
+                Bitmap.Config.ARGB_8888,
+            )
+        } else {
+            null
+        }
     }
 
-    override fun getLaunchIntentForPackage(packageName: String): Intent? {
-        return if (packageName in _mappedApplicationInfos.map { it.packageName }) Intent() else null
+    override fun launchIntentForPackage(packageName: String) {
     }
 
-    fun setMappedApplicationInfos(value: List<MappedApplicationInfo>) {
-        _mappedApplicationInfos = value
+    fun setApplicationInfos(value: List<ApplicationInfo>) {
+        applicationInfos = value
     }
 }

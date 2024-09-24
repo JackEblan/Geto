@@ -17,41 +17,40 @@
  */
 package com.android.geto.feature.apps
 
-import android.content.Intent
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.android.geto.core.data.repository.PackageRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
-import org.jetbrains.annotations.VisibleForTesting
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class AppsViewModel @Inject constructor(
     private val packageRepository: PackageRepository,
 ) : ViewModel() {
-    private val intent = Intent().apply {
-        action = Intent.ACTION_MAIN
-        addCategory(Intent.CATEGORY_LAUNCHER)
-    }
-
-    @VisibleForTesting
-    var flags = 0
-
-    val appsUiState = flow {
-        emit(
-            AppsUiState.Success(
-                packageRepository.queryIntentActivities(
-                    intent = intent,
-                    flags = flags,
-                ),
-            ),
-        )
+    private val _appUiState = MutableStateFlow<AppsUiState?>(null)
+    val appsUiState = _appUiState.onStart {
+        queryIntentActivities()
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = AppsUiState.Loading,
+        initialValue = null,
     )
+
+    private fun queryIntentActivities() {
+        viewModelScope.launch {
+            _appUiState.update {
+                AppsUiState.Loading
+            }
+
+            _appUiState.update {
+                AppsUiState.Success(applicationInfos = packageRepository.queryIntentActivities())
+            }
+        }
+    }
 }
