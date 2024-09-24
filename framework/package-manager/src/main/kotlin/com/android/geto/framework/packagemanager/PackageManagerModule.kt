@@ -29,5 +29,5 @@ internal interface PackageManagerModule {
 
     @Binds
     @Singleton
-    fun packageManagerWrapper(impl: DefaultPackageManagerWrapper): PackageManagerWrapper
+    fun packageManagerWrapper(impl: AndroidPackageManagerWrapper): PackageManagerWrapper
 }

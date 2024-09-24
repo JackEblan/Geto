@@ -17,7 +17,7 @@
  */
 package com.android.geto.feature.appsettings
 
-import android.graphics.drawable.Drawable
+import android.graphics.Bitmap
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -57,17 +57,13 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.android.geto.core.designsystem.component.GetoLoadingWheel
 import com.android.geto.core.designsystem.icon.GetoIcons
-import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.domain.ApplyAppSettingsResult
 import com.android.geto.core.domain.AutoLaunchResult
 import com.android.geto.core.domain.RequestPinShortcutResult
@@ -76,8 +72,6 @@ import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.MappedShortcutInfoCompat
 import com.android.geto.core.model.SecureSetting
 import com.android.geto.core.model.SettingType
-import com.android.geto.core.ui.AppSettingsPreviewParameterProvider
-import com.android.geto.core.ui.DevicePreviews
 import com.android.geto.feature.appsettings.dialog.appsetting.AppSettingDialog
 import com.android.geto.feature.appsettings.dialog.appsetting.AppSettingDialogState
 import com.android.geto.feature.appsettings.dialog.appsetting.rememberAppSettingDialogState
@@ -143,8 +137,6 @@ internal fun AppSettingsRoute(
         onCheckAppSetting = viewModel::checkAppSetting,
         onDeleteAppSetting = viewModel::deleteAppSetting,
         onLaunchApp = viewModel::applyAppSettings,
-        onAutoLaunchApp = viewModel::autoLaunchApp,
-        onGetApplicationIcon = viewModel::getApplicationIcon,
         onResetApplyAppSettingsResult = viewModel::resetApplyAppSettingsResult,
         onResetRevertAppSettingsResult = viewModel::resetRevertAppSettingsResult,
         onResetAutoLaunchResult = viewModel::resetAutoLaunchResult,
@@ -154,6 +146,7 @@ internal fun AppSettingsRoute(
         onAddAppSetting = viewModel::addAppSetting,
         onCopyPermissionCommand = viewModel::copyPermissionCommand,
         onAddShortcut = viewModel::requestPinShortcut,
+        onLaunchIntent = viewModel::launchIntentForPackage,
     )
 }
 
@@ -165,7 +158,7 @@ internal fun AppSettingsScreen(
     appName: String,
     appSettingsUiState: AppSettingsUiState,
     snackbarHostState: SnackbarHostState,
-    applicationIcon: Drawable?,
+    applicationIcon: Bitmap?,
     secureSettings: List<SecureSetting>,
     permissionCommandText: String,
     applyAppSettingsResult: ApplyAppSettingsResult?,
@@ -178,8 +171,6 @@ internal fun AppSettingsScreen(
     onCheckAppSetting: (Boolean, AppSetting) -> Unit,
     onDeleteAppSetting: (AppSetting) -> Unit,
     onLaunchApp: () -> Unit,
-    onAutoLaunchApp: () -> Unit,
-    onGetApplicationIcon: () -> Unit,
     onResetApplyAppSettingsResult: () -> Unit,
     onResetRevertAppSettingsResult: () -> Unit,
     onResetAutoLaunchResult: () -> Unit,
@@ -189,6 +180,7 @@ internal fun AppSettingsScreen(
     onAddAppSetting: (AppSetting) -> Unit,
     onCopyPermissionCommand: () -> Unit,
     onAddShortcut: (MappedShortcutInfoCompat) -> Unit,
+    onLaunchIntent: (String) -> Unit,
 ) {
     val copyPermissionCommandDialogState = rememberCopyPermissionCommandDialogState()
 
@@ -209,14 +201,13 @@ internal fun AppSettingsScreen(
         autoLaunchResult = autoLaunchResult,
         requestPinShortcutResult = requestPinShortcutResult,
         setPrimaryClipResult = setPrimaryClipResult,
-        onAutoLaunchApp = onAutoLaunchApp,
-        onGetApplicationIcon = onGetApplicationIcon,
         onResetApplyAppSettingsResult = onResetApplyAppSettingsResult,
         onResetRevertAppSettingsResult = onResetRevertAppSettingsResult,
         onResetAutoLaunchResult = onResetAutoLaunchResult,
         onResetRequestPinShortcutResult = onResetRequestPinShortcutResult,
         onResetSetPrimaryClipResult = onResetSetPrimaryClipResult,
         onGetSecureSettingsByName = onGetSecureSettingsByName,
+        onLaunchIntent = onLaunchIntent,
     )
 
     AppSettingsDialogs(
@@ -289,7 +280,7 @@ private fun AppSettingsLaunchedEffects(
     copyPermissionCommandDialogState: CopyPermissionCommandDialogState,
     appSettingDialogState: AppSettingDialogState,
     shortcutDialogState: ShortcutDialogState,
-    applicationIcon: Drawable?,
+    applicationIcon: Bitmap?,
     secureSettings: List<SecureSetting>,
     permissionCommandText: String,
     applyAppSettingsResult: ApplyAppSettingsResult?,
@@ -297,14 +288,13 @@ private fun AppSettingsLaunchedEffects(
     autoLaunchResult: AutoLaunchResult?,
     requestPinShortcutResult: RequestPinShortcutResult?,
     setPrimaryClipResult: Boolean,
-    onAutoLaunchApp: () -> Unit,
-    onGetApplicationIcon: () -> Unit,
     onResetApplyAppSettingsResult: () -> Unit,
     onResetRevertAppSettingsResult: () -> Unit,
     onResetAutoLaunchResult: () -> Unit,
     onResetRequestPinShortcutResult: () -> Unit,
     onResetSetPrimaryClipResult: () -> Unit,
     onGetSecureSettingsByName: (SettingType, String) -> Unit,
+    onLaunchIntent: (String) -> Unit,
 ) {
     val appSettingsDisabled = stringResource(id = R.string.app_settings_disabled)
     val emptyAppSettingsList = stringResource(id = R.string.empty_app_settings_list)
@@ -320,13 +310,6 @@ private fun AppSettingsLaunchedEffects(
     val copiedToClipboard = stringResource(id = R.string.copied_to_clipboard)
     val invalidValues = stringResource(R.string.settings_has_invalid_values)
 
-    val context = LocalContext.current
-
-    LaunchedEffect(key1 = true) {
-        onAutoLaunchApp()
-        onGetApplicationIcon()
-    }
-
     LaunchedEffect(key1 = applyAppSettingsResult) {
         when (applyAppSettingsResult) {
             ApplyAppSettingsResult.DisabledAppSettings -> snackbarHostState.showSnackbar(message = appSettingsDisabled)
@@ -336,7 +319,7 @@ private fun AppSettingsLaunchedEffects(
                 true,
             )
 
-            is ApplyAppSettingsResult.Success -> applyAppSettingsResult.launchIntent?.let(context::startActivity)
+            is ApplyAppSettingsResult.Success -> onLaunchIntent(applyAppSettingsResult.packageName)
             ApplyAppSettingsResult.IllegalArgumentException -> snackbarHostState.showSnackbar(
                 message = invalidValues,
             )
@@ -374,7 +357,7 @@ private fun AppSettingsLaunchedEffects(
                 true,
             )
 
-            is AutoLaunchResult.Success -> autoLaunchResult.launchIntent?.let(context::startActivity)
+            is AutoLaunchResult.Success -> onLaunchIntent(autoLaunchResult.packageName)
             AutoLaunchResult.IllegalArgumentException -> snackbarHostState.showSnackbar(message = invalidValues)
             AutoLaunchResult.Ignore, null -> Unit
         }
@@ -704,138 +687,5 @@ private fun AppSettingItem(
                 contentDescription = null,
             )
         }
-    }
-}
-
-@Preview
-@Composable
-private fun AppSettingItemPreview() {
-    GetoTheme {
-        AppSettingItem(
-            appSetting = AppSetting(
-                enabled = false,
-                settingType = SettingType.SECURE,
-                packageName = "com.android.geto",
-                label = "Geto",
-                key = "settings_key",
-                valueOnLaunch = "0",
-                valueOnRevert = "1",
-            ),
-            onCheckAppSetting = {},
-            onDeleteAppSetting = {},
-        )
-    }
-}
-
-@DevicePreviews
-@Composable
-private fun AppSettingsScreenLoadingStatePreview() {
-    GetoTheme {
-        AppSettingsScreen(
-            packageName = "com.android.geto",
-            appName = "Geto",
-            appSettingsUiState = AppSettingsUiState.Loading,
-            snackbarHostState = SnackbarHostState(),
-            applicationIcon = null,
-            secureSettings = emptyList(),
-            permissionCommandText = "",
-            applyAppSettingsResult = null,
-            revertAppSettingsResult = null,
-            autoLaunchResult = AutoLaunchResult.Ignore,
-            requestPinShortcutResult = null,
-            setPrimaryClipResult = false,
-            onNavigationIconClick = {},
-            onRevertAppSettings = {},
-            onCheckAppSetting = { _, _ -> },
-            onDeleteAppSetting = {},
-            onLaunchApp = {},
-            onAutoLaunchApp = {},
-            onGetApplicationIcon = {},
-            onResetApplyAppSettingsResult = {},
-            onResetRevertAppSettingsResult = {},
-            onResetAutoLaunchResult = {},
-            onResetRequestPinShortcutResult = {},
-            onResetSetPrimaryClipResult = {},
-            onGetSecureSettingsByName = { _, _ -> },
-            onAddAppSetting = {},
-            onCopyPermissionCommand = {},
-            onAddShortcut = {},
-        )
-    }
-}
-
-@DevicePreviews
-@Composable
-private fun AppSettingsScreenEmptyStatePreview() {
-    GetoTheme {
-        AppSettingsScreen(
-            packageName = "com.android.geto",
-            appName = "Geto",
-            appSettingsUiState = AppSettingsUiState.Success(emptyList()),
-            snackbarHostState = SnackbarHostState(),
-            applicationIcon = null,
-            secureSettings = emptyList(),
-            permissionCommandText = "",
-            applyAppSettingsResult = null,
-            revertAppSettingsResult = null,
-            autoLaunchResult = AutoLaunchResult.Ignore,
-            requestPinShortcutResult = null,
-            setPrimaryClipResult = false,
-            onNavigationIconClick = {},
-            onRevertAppSettings = {},
-            onCheckAppSetting = { _, _ -> },
-            onDeleteAppSetting = {},
-            onLaunchApp = {},
-            onAutoLaunchApp = {},
-            onGetApplicationIcon = {},
-            onResetApplyAppSettingsResult = {},
-            onResetRevertAppSettingsResult = {},
-            onResetAutoLaunchResult = {},
-            onResetRequestPinShortcutResult = {},
-            onResetSetPrimaryClipResult = {},
-            onGetSecureSettingsByName = { _, _ -> },
-            onAddAppSetting = {},
-            onCopyPermissionCommand = {},
-            onAddShortcut = {},
-        )
-    }
-}
-
-@DevicePreviews
-@Composable
-private fun AppSettingsScreenSuccessStatePreview(
-    @PreviewParameter(AppSettingsPreviewParameterProvider::class) appSettings: List<AppSetting>,
-) {
-    GetoTheme {
-        AppSettingsScreen(
-            packageName = "com.android.geto",
-            appName = "Geto",
-            appSettingsUiState = AppSettingsUiState.Success(appSettings),
-            snackbarHostState = SnackbarHostState(),
-            applicationIcon = null,
-            secureSettings = emptyList(),
-            permissionCommandText = "",
-            applyAppSettingsResult = null,
-            revertAppSettingsResult = null,
-            autoLaunchResult = AutoLaunchResult.Ignore,
-            requestPinShortcutResult = null,
-            setPrimaryClipResult = false,
-            onNavigationIconClick = {},
-            onRevertAppSettings = {},
-            onCheckAppSetting = { _, _ -> },
-            onDeleteAppSetting = {},
-            onLaunchApp = {},
-            onAutoLaunchApp = {},
-            onGetApplicationIcon = {},
-            onResetApplyAppSettingsResult = {},
-            onResetRevertAppSettingsResult = {},
-            onResetAutoLaunchResult = {},
-            onResetRequestPinShortcutResult = {},
-            onResetSetPrimaryClipResult = {},
-            onGetSecureSettingsByName = { _, _ -> },
-            onAddAppSetting = {},
-            onCopyPermissionCommand = {},
-            onAddShortcut = {},
-        )
     }
 }

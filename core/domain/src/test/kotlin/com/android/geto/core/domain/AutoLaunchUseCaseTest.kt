@@ -18,8 +18,8 @@
 package com.android.geto.core.domain
 
 import com.android.geto.core.model.AppSetting
+import com.android.geto.core.model.ApplicationInfo
 import com.android.geto.core.model.DarkThemeConfig
-import com.android.geto.core.model.MappedApplicationInfo
 import com.android.geto.core.model.SettingType
 import com.android.geto.core.model.ThemeBrand
 import com.android.geto.core.model.UserData
@@ -57,7 +57,6 @@ class AutoLaunchUseCaseTest {
         secureSettingsRepository = TestSecureSettingsRepository()
 
         autoLaunchUseCase = AutoLaunchUseCase(
-            packageRepository = packageRepository,
             userDataRepository = userDataRepository,
             appSettingsRepository = appSettingsRepository,
             secureSettingsRepository = secureSettingsRepository,
@@ -124,11 +123,11 @@ class AutoLaunchUseCaseTest {
             )
         }
 
-        val mappedApplicationInfos = List(5) { index ->
-            MappedApplicationInfo(flags = 0, packageName = packageName, label = "Geto $index")
+        val applicationInfos = List(5) { index ->
+            ApplicationInfo(flags = 0, packageName = packageName, label = "Geto $index")
         }
 
-        packageRepository.setMappedApplicationInfos(mappedApplicationInfos)
+        packageRepository.setApplicationInfos(applicationInfos)
 
         secureSettingsRepository.setWriteSecureSettings(true)
 
@@ -147,7 +146,7 @@ class AutoLaunchUseCaseTest {
 
         assertIs<AutoLaunchResult.Success>(result)
 
-        assertNotNull(result.launchIntent)
+        assertNotNull(result.packageName)
     }
 
     @Test

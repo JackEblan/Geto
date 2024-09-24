@@ -15,13 +15,14 @@
  *   limitations under the License.
  *
  */
+
 package com.android.geto.core.model
 
-import android.graphics.drawable.Drawable
+import android.graphics.Bitmap
 
-data class MappedApplicationInfo(
+data class ApplicationInfo(
     val flags: Int,
-    val icon: Drawable? = null,
+    val icon: Bitmap? = null,
     val packageName: String,
     val label: String,
 )

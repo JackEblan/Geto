@@ -17,7 +17,7 @@
  */
 package com.android.geto.feature.apps
 
-import com.android.geto.core.model.MappedApplicationInfo
+import com.android.geto.core.model.ApplicationInfo
 import com.android.geto.core.testing.repository.TestPackageRepository
 import com.android.geto.core.testing.util.MainDispatcherRule
 import kotlinx.coroutines.flow.collect
@@ -28,9 +28,9 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertIs
+import kotlin.test.assertNull
 
 class AppsViewModelTest {
-
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
@@ -46,47 +46,45 @@ class AppsViewModelTest {
     }
 
     @Test
-    fun appsUiState_isLoading_whenStarted() {
-        assertIs<AppsUiState.Loading>(viewModel.appsUiState.value)
+    fun appsUiState_isNull_whenStarted() {
+        assertNull(viewModel.appsUiState.value)
     }
 
     @Test
     fun appsUiState_isSuccess_whenQueryIntentActivities() = runTest {
-        val mappedApplicationInfos = List(2) { index ->
-            MappedApplicationInfo(
+        backgroundScope.launch(UnconfinedTestDispatcher()) {
+            viewModel.appsUiState.collect()
+        }
+
+        val applicationInfos = List(2) { index ->
+            ApplicationInfo(
                 flags = 0,
                 packageName = "com.android.geto$index",
                 label = "Geto $index",
             )
         }
 
-        packageRepository.setMappedApplicationInfos(mappedApplicationInfos)
-
-        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.appsUiState.collect() }
+        packageRepository.setApplicationInfos(applicationInfos)
 
         assertIs<AppsUiState.Success>(viewModel.appsUiState.value)
-
-        collectJob.cancel()
     }
 
     @Test
     fun appsUiState_isSuccessEmpty_whenQueryIntentActivities() = runTest {
-        viewModel.flags = 1
+        backgroundScope.launch(UnconfinedTestDispatcher()) {
+            viewModel.appsUiState.collect()
+        }
 
-        val mappedApplicationInfos = List(2) { index ->
-            MappedApplicationInfo(
+        val applicationInfos = List(2) { index ->
+            ApplicationInfo(
                 flags = 0,
                 packageName = "com.android.geto$index",
                 label = "Geto $index",
             )
         }
 
-        packageRepository.setMappedApplicationInfos(mappedApplicationInfos)
-
-        val collectJob = launch(UnconfinedTestDispatcher()) { viewModel.appsUiState.collect() }
+        packageRepository.setApplicationInfos(applicationInfos)
 
         assertIs<AppsUiState.Success>(viewModel.appsUiState.value)
-
-        collectJob.cancel()
     }
 }

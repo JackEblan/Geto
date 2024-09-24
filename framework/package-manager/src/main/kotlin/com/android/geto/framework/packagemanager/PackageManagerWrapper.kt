@@ -18,13 +18,14 @@
 package com.android.geto.framework.packagemanager
 
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
-import com.android.geto.core.model.MappedApplicationInfo
+import com.android.geto.core.model.ApplicationInfo
 
 interface PackageManagerWrapper {
-    fun queryIntentActivities(intent: Intent, flags: Int): List<MappedApplicationInfo>
+    suspend fun queryIntentActivities(): List<ApplicationInfo>
 
-    fun getApplicationIcon(packageName: String): Drawable
+    fun getApplicationIcon(packageName: String): Bitmap?
 
-    fun getLaunchIntentForPackage(packageName: String): Intent?
+    fun launchIntentForPackage(packageName: String)
 }

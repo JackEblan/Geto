@@ -17,42 +17,24 @@
  */
 package com.android.geto.core.data.repository
 
-import android.content.Intent
-import android.content.pm.ApplicationInfo
-import android.content.pm.PackageManager
-import android.graphics.drawable.Drawable
-import com.android.geto.core.common.Dispatcher
-import com.android.geto.core.common.GetoDispatchers.IO
-import com.android.geto.core.model.MappedApplicationInfo
+import android.graphics.Bitmap
+import com.android.geto.core.model.ApplicationInfo
 import com.android.geto.framework.packagemanager.PackageManagerWrapper
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 internal class DefaultPackageRepository @Inject constructor(
     private val packageManagerWrapper: PackageManagerWrapper,
-    @Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher,
 ) : PackageRepository {
 
-    override suspend fun queryIntentActivities(intent: Intent, flags: Int): List<MappedApplicationInfo> {
-        return withContext(ioDispatcher) {
-            packageManagerWrapper.queryIntentActivities(intent, flags).filter { applicationInfo ->
-                (applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM) == 0
-            }.sortedBy { it.label }
-        }
+    override suspend fun queryIntentActivities(): List<ApplicationInfo> {
+        return packageManagerWrapper.queryIntentActivities()
     }
 
-    override suspend fun getApplicationIcon(packageName: String): Drawable? {
-        return withContext(ioDispatcher) {
-            try {
-                packageManagerWrapper.getApplicationIcon(packageName)
-            } catch (e: PackageManager.NameNotFoundException) {
-                null
-            }
-        }
+    override fun getApplicationIcon(packageName: String): Bitmap? {
+        return packageManagerWrapper.getApplicationIcon(packageName = packageName)
     }
 
-    override fun getLaunchIntentForPackage(packageName: String): Intent? {
-        return packageManagerWrapper.getLaunchIntentForPackage(packageName)
+    override fun launchIntentForPackage(packageName: String) {
+        return packageManagerWrapper.launchIntentForPackage(packageName = packageName)
     }
 }

@@ -17,7 +17,7 @@
  */
 package com.android.geto.feature.appsettings
 
-import android.graphics.drawable.Drawable
+import android.graphics.Bitmap
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -44,6 +44,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -70,8 +71,12 @@ class AppSettingsViewModel @Inject constructor(
     private var _secureSettings = MutableStateFlow<List<SecureSetting>>(emptyList())
     val secureSettings = _secureSettings.asStateFlow()
 
-    private var _applicationIcon = MutableStateFlow<Drawable?>(null)
-    val applicationIcon = _applicationIcon.asStateFlow()
+    private var _applicationIcon = MutableStateFlow<Bitmap?>(null)
+    val applicationIcon = _applicationIcon.onStart { getApplicationIcon() }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000),
+        initialValue = null,
+    )
 
     private val _applyAppSettingsResult = MutableStateFlow<ApplyAppSettingsResult?>(null)
     val applyAppSettingsResult = _applyAppSettingsResult.asStateFlow()
@@ -80,7 +85,13 @@ class AppSettingsViewModel @Inject constructor(
     val revertAppSettingsResult = _revertAppSettingsResult.asStateFlow()
 
     private val _autoLaunchResult = MutableStateFlow<AutoLaunchResult?>(null)
-    val autoLaunchResult = _autoLaunchResult.asStateFlow()
+    val autoLaunchResult = _autoLaunchResult.onStart {
+        autoLaunchApp()
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000),
+        initialValue = null,
+    )
 
     private val _setPrimaryClipResult = MutableStateFlow(false)
     val setPrimaryClipResult = _setPrimaryClipResult.asStateFlow()
@@ -105,7 +116,7 @@ class AppSettingsViewModel @Inject constructor(
         }
     }
 
-    fun autoLaunchApp() {
+    private fun autoLaunchApp() {
         viewModelScope.launch {
             _autoLaunchResult.update { autoLaunchUseCase(packageName = packageName) }
         }
@@ -133,9 +144,9 @@ class AppSettingsViewModel @Inject constructor(
         }
     }
 
-    fun getApplicationIcon() {
+    private fun getApplicationIcon() {
         viewModelScope.launch {
-            _applicationIcon.update { packageRepository.getApplicationIcon(packageName) }
+            _applicationIcon.update { packageRepository.getApplicationIcon(packageName = packageName) }
         }
     }
 
@@ -175,6 +186,10 @@ class AppSettingsViewModel @Inject constructor(
                 )
             }
         }
+    }
+
+    fun launchIntentForPackage(packageName: String) {
+        packageRepository.launchIntentForPackage(packageName = packageName)
     }
 
     fun resetApplyAppSettingsResult() {

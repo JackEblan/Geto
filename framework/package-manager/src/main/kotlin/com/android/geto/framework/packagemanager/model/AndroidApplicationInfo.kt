@@ -15,10 +15,14 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.core.data.testdoubles
 
-import com.android.geto.framework.packagemanager.ClipboardManagerWrapper
+package com.android.geto.framework.packagemanager.model
 
-internal class TestClipboardManagerWrapper : ClipboardManagerWrapper {
-    override fun setPrimaryClip(label: String, text: String) {}
-}
+import android.graphics.drawable.Drawable
+
+data class AndroidApplicationInfo(
+    val flags: Int,
+    val icon: Drawable? = null,
+    val packageName: String,
+    val label: String,
+)

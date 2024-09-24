@@ -17,22 +17,17 @@
  */
 package com.android.geto.core.domain
 
-import android.content.Intent
 import com.android.geto.core.data.repository.AppSettingsRepository
-import com.android.geto.core.data.repository.PackageRepository
 import com.android.geto.core.data.repository.SecureSettingsRepository
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 class ApplyAppSettingsUseCase @Inject constructor(
-    private val packageRepository: PackageRepository,
     private val appSettingsRepository: AppSettingsRepository,
     private val secureSettingsRepository: SecureSettingsRepository,
 ) {
     suspend operator fun invoke(packageName: String): ApplyAppSettingsResult {
-        val launchIntent = packageRepository.getLaunchIntentForPackage(packageName)
-
-        val appSettings = appSettingsRepository.getAppSettingsByPackageName(packageName).first()
+        val appSettings = appSettingsRepository.getAppSettingsByPackageName(packageName = packageName).first()
 
         if (appSettings.isEmpty()) return ApplyAppSettingsResult.EmptyAppSettings
 
@@ -40,7 +35,7 @@ class ApplyAppSettingsUseCase @Inject constructor(
 
         return try {
             if (secureSettingsRepository.applySecureSettings(appSettings)) {
-                ApplyAppSettingsResult.Success(launchIntent = launchIntent)
+                ApplyAppSettingsResult.Success(packageName = packageName)
             } else {
                 ApplyAppSettingsResult.Failure
             }
@@ -53,7 +48,7 @@ class ApplyAppSettingsUseCase @Inject constructor(
 }
 
 sealed interface ApplyAppSettingsResult {
-    data class Success(val launchIntent: Intent?) : ApplyAppSettingsResult
+    data class Success(val packageName: String) : ApplyAppSettingsResult
 
     data object Failure : ApplyAppSettingsResult
 

@@ -17,23 +17,18 @@
  */
 package com.android.geto.core.domain
 
-import android.content.Intent
 import com.android.geto.core.data.repository.AppSettingsRepository
-import com.android.geto.core.data.repository.PackageRepository
 import com.android.geto.core.data.repository.SecureSettingsRepository
 import com.android.geto.core.data.repository.UserDataRepository
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 class AutoLaunchUseCase @Inject constructor(
-    private val packageRepository: PackageRepository,
     private val userDataRepository: UserDataRepository,
     private val appSettingsRepository: AppSettingsRepository,
     private val secureSettingsRepository: SecureSettingsRepository,
 ) {
     suspend operator fun invoke(packageName: String): AutoLaunchResult {
-        val launchIntent = packageRepository.getLaunchIntentForPackage(packageName)
-
         val userData = userDataRepository.userData.first()
 
         val appSettings = appSettingsRepository.getAppSettingsByPackageName(packageName).first()
@@ -42,7 +37,7 @@ class AutoLaunchUseCase @Inject constructor(
 
         return try {
             if (secureSettingsRepository.applySecureSettings(appSettings)) {
-                AutoLaunchResult.Success(launchIntent = launchIntent)
+                AutoLaunchResult.Success(packageName = packageName)
             } else {
                 AutoLaunchResult.Failure
             }
@@ -55,7 +50,7 @@ class AutoLaunchUseCase @Inject constructor(
 }
 
 sealed interface AutoLaunchResult {
-    data class Success(val launchIntent: Intent?) : AutoLaunchResult
+    data class Success(val packageName: String) : AutoLaunchResult
 
     data object Failure : AutoLaunchResult
 

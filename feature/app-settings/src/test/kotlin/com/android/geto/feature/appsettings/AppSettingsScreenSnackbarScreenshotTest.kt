@@ -89,8 +89,6 @@ class AppSettingsScreenSnackbarScreenshotTest {
                     onCheckAppSetting = { _, _ -> },
                     onDeleteAppSetting = {},
                     onLaunchApp = {},
-                    onAutoLaunchApp = {},
-                    onGetApplicationIcon = {},
                     onResetApplyAppSettingsResult = {},
                     onResetRevertAppSettingsResult = {},
                     onResetAutoLaunchResult = {},
@@ -100,6 +98,7 @@ class AppSettingsScreenSnackbarScreenshotTest {
                     onAddAppSetting = {},
                     onCopyPermissionCommand = {},
                     onAddShortcut = {},
+                    onLaunchIntent = {}
                 )
             }
         }

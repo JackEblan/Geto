@@ -54,7 +54,6 @@ include(":feature:apps")
 include(":feature:app-settings")
 include(":feature:settings")
 
-include(":framework:build-version")
 include(":framework:clipboard-manager")
 include(":framework:package-manager")
 include(":framework:secure-settings")

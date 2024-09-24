@@ -17,14 +17,13 @@
  */
 package com.android.geto.core.data.repository
 
-import android.content.Intent
-import android.graphics.drawable.Drawable
-import com.android.geto.core.model.MappedApplicationInfo
+import android.graphics.Bitmap
+import com.android.geto.core.model.ApplicationInfo
 
 interface PackageRepository {
-    suspend fun queryIntentActivities(intent: Intent, flags: Int): List<MappedApplicationInfo>
+    suspend fun queryIntentActivities(): List<ApplicationInfo>
 
-    suspend fun getApplicationIcon(packageName: String): Drawable?
+    fun getApplicationIcon(packageName: String): Bitmap?
 
-    fun getLaunchIntentForPackage(packageName: String): Intent?
+    fun launchIntentForPackage(packageName: String)
 }

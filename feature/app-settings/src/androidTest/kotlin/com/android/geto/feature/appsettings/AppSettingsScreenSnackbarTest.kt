@@ -84,8 +84,7 @@ class AppSettingsScreenSnackbarTest {
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
-                onAutoLaunchApp = {},
-                onGetApplicationIcon = {},
+
                 onResetApplyAppSettingsResult = {},
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
@@ -95,6 +94,7 @@ class AppSettingsScreenSnackbarTest {
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
+                onLaunchIntent = {},
             )
         }
 
@@ -128,8 +128,7 @@ class AppSettingsScreenSnackbarTest {
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
-                onAutoLaunchApp = {},
-                onGetApplicationIcon = {},
+
                 onResetApplyAppSettingsResult = {},
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
@@ -139,6 +138,7 @@ class AppSettingsScreenSnackbarTest {
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
+                onLaunchIntent = {},
             )
         }
 
@@ -172,8 +172,7 @@ class AppSettingsScreenSnackbarTest {
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
-                onAutoLaunchApp = {},
-                onGetApplicationIcon = {},
+
                 onResetApplyAppSettingsResult = {},
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
@@ -183,6 +182,7 @@ class AppSettingsScreenSnackbarTest {
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
+                onLaunchIntent = {},
             )
         }
 
@@ -216,8 +216,7 @@ class AppSettingsScreenSnackbarTest {
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
-                onAutoLaunchApp = {},
-                onGetApplicationIcon = {},
+
                 onResetApplyAppSettingsResult = {},
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
@@ -227,6 +226,7 @@ class AppSettingsScreenSnackbarTest {
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
+                onLaunchIntent = {},
             )
         }
 
@@ -260,8 +260,7 @@ class AppSettingsScreenSnackbarTest {
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
-                onAutoLaunchApp = {},
-                onGetApplicationIcon = {},
+
                 onResetApplyAppSettingsResult = {},
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
@@ -271,6 +270,7 @@ class AppSettingsScreenSnackbarTest {
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
+                onLaunchIntent = {},
             )
         }
 
@@ -304,8 +304,6 @@ class AppSettingsScreenSnackbarTest {
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
-                onAutoLaunchApp = {},
-                onGetApplicationIcon = {},
                 onResetApplyAppSettingsResult = {},
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
@@ -315,6 +313,7 @@ class AppSettingsScreenSnackbarTest {
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
+                onLaunchIntent = {},
             )
         }
 
@@ -348,8 +347,7 @@ class AppSettingsScreenSnackbarTest {
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
-                onAutoLaunchApp = {},
-                onGetApplicationIcon = {},
+
                 onResetApplyAppSettingsResult = {},
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
@@ -359,6 +357,7 @@ class AppSettingsScreenSnackbarTest {
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
+                onLaunchIntent = {},
             )
         }
 
@@ -392,8 +391,7 @@ class AppSettingsScreenSnackbarTest {
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
-                onAutoLaunchApp = {},
-                onGetApplicationIcon = {},
+
                 onResetApplyAppSettingsResult = {},
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
@@ -403,6 +401,7 @@ class AppSettingsScreenSnackbarTest {
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
+                onLaunchIntent = {},
             )
         }
 
@@ -436,8 +435,7 @@ class AppSettingsScreenSnackbarTest {
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
-                onAutoLaunchApp = {},
-                onGetApplicationIcon = {},
+
                 onResetApplyAppSettingsResult = {},
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
@@ -447,6 +445,7 @@ class AppSettingsScreenSnackbarTest {
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
+                onLaunchIntent = {},
             )
         }
 
@@ -480,8 +479,7 @@ class AppSettingsScreenSnackbarTest {
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
-                onAutoLaunchApp = {},
-                onGetApplicationIcon = {},
+
                 onResetApplyAppSettingsResult = {},
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
@@ -491,6 +489,7 @@ class AppSettingsScreenSnackbarTest {
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
+                onLaunchIntent = {},
             )
         }
 
@@ -524,8 +523,6 @@ class AppSettingsScreenSnackbarTest {
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
-                onAutoLaunchApp = {},
-                onGetApplicationIcon = {},
                 onResetApplyAppSettingsResult = {},
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
@@ -535,6 +532,7 @@ class AppSettingsScreenSnackbarTest {
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
+                onLaunchIntent = {},
             )
         }
 
@@ -568,8 +566,7 @@ class AppSettingsScreenSnackbarTest {
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
-                onAutoLaunchApp = {},
-                onGetApplicationIcon = {},
+
                 onResetApplyAppSettingsResult = {},
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
@@ -579,6 +576,7 @@ class AppSettingsScreenSnackbarTest {
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
+                onLaunchIntent = {},
             )
         }
 
@@ -612,8 +610,7 @@ class AppSettingsScreenSnackbarTest {
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
-                onAutoLaunchApp = {},
-                onGetApplicationIcon = {},
+
                 onResetApplyAppSettingsResult = {},
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
@@ -623,6 +620,7 @@ class AppSettingsScreenSnackbarTest {
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
+                onLaunchIntent = {},
             )
         }
 
@@ -656,8 +654,7 @@ class AppSettingsScreenSnackbarTest {
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
-                onAutoLaunchApp = {},
-                onGetApplicationIcon = {},
+
                 onResetApplyAppSettingsResult = {},
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
@@ -667,6 +664,7 @@ class AppSettingsScreenSnackbarTest {
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
+                onLaunchIntent = {},
             )
         }
 
@@ -702,8 +700,7 @@ class AppSettingsScreenSnackbarTest {
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
-                onAutoLaunchApp = {},
-                onGetApplicationIcon = {},
+
                 onResetApplyAppSettingsResult = {},
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
@@ -713,6 +710,7 @@ class AppSettingsScreenSnackbarTest {
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
+                onLaunchIntent = {},
             )
         }
 

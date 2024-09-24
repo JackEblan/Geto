@@ -65,8 +65,6 @@ class AppSettingsScreenDialogsTest {
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
-                onAutoLaunchApp = {},
-                onGetApplicationIcon = {},
                 onResetApplyAppSettingsResult = {},
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
@@ -76,6 +74,7 @@ class AppSettingsScreenDialogsTest {
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
+                onLaunchIntent = {},
             )
         }
 
@@ -113,8 +112,6 @@ class AppSettingsScreenDialogsTest {
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
-                onAutoLaunchApp = {},
-                onGetApplicationIcon = {},
                 onResetApplyAppSettingsResult = {},
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
@@ -124,6 +121,7 @@ class AppSettingsScreenDialogsTest {
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
+                onLaunchIntent = {},
             )
         }
 
@@ -157,8 +155,6 @@ class AppSettingsScreenDialogsTest {
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
-                onAutoLaunchApp = {},
-                onGetApplicationIcon = {},
                 onResetApplyAppSettingsResult = {},
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
@@ -168,6 +164,7 @@ class AppSettingsScreenDialogsTest {
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
+                onLaunchIntent = {},
             )
         }
 
@@ -201,8 +198,6 @@ class AppSettingsScreenDialogsTest {
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
-                onAutoLaunchApp = {},
-                onGetApplicationIcon = {},
                 onResetApplyAppSettingsResult = {},
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
@@ -212,6 +207,7 @@ class AppSettingsScreenDialogsTest {
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
+                onLaunchIntent = {},
             )
         }
 
@@ -245,8 +241,6 @@ class AppSettingsScreenDialogsTest {
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
-                onAutoLaunchApp = {},
-                onGetApplicationIcon = {},
                 onResetApplyAppSettingsResult = {},
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
@@ -256,6 +250,7 @@ class AppSettingsScreenDialogsTest {
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
+                onLaunchIntent = {},
             )
         }
 
@@ -294,8 +289,6 @@ class AppSettingsScreenDialogsTest {
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
-                onAutoLaunchApp = {},
-                onGetApplicationIcon = {},
                 onResetApplyAppSettingsResult = {},
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
@@ -305,6 +298,7 @@ class AppSettingsScreenDialogsTest {
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
+                onLaunchIntent = {},
             )
         }
 
@@ -389,8 +383,6 @@ class AppSettingsScreenDialogsTest {
                 onCheckAppSetting = { _, _ -> },
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
-                onAutoLaunchApp = {},
-                onGetApplicationIcon = {},
                 onResetApplyAppSettingsResult = {},
                 onResetRevertAppSettingsResult = {},
                 onResetAutoLaunchResult = {},
@@ -400,6 +392,7 @@ class AppSettingsScreenDialogsTest {
                 onAddAppSetting = {},
                 onCopyPermissionCommand = {},
                 onAddShortcut = {},
+                onLaunchIntent = {},
             )
         }
 

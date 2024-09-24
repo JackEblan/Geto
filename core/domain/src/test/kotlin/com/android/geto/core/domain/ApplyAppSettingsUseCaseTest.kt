@@ -18,7 +18,7 @@
 package com.android.geto.core.domain
 
 import com.android.geto.core.model.AppSetting
-import com.android.geto.core.model.MappedApplicationInfo
+import com.android.geto.core.model.ApplicationInfo
 import com.android.geto.core.model.SettingType
 import com.android.geto.core.testing.repository.TestAppSettingsRepository
 import com.android.geto.core.testing.repository.TestPackageRepository
@@ -49,7 +49,6 @@ class ApplyAppSettingsUseCaseTest {
         secureSettingsRepository = TestSecureSettingsRepository()
 
         applyAppSettingsUseCase = ApplyAppSettingsUseCase(
-            packageRepository = packageRepository,
             appSettingsRepository = appSettingsRepository,
             secureSettingsRepository = secureSettingsRepository,
         )
@@ -97,11 +96,11 @@ class ApplyAppSettingsUseCaseTest {
             )
         }
 
-        val mappedApplicationInfos = List(5) { index ->
-            MappedApplicationInfo(flags = 0, packageName = packageName, label = "Geto $index")
+        val applicationInfos = List(5) { index ->
+            ApplicationInfo(flags = 0, packageName = packageName, label = "Geto $index")
         }
 
-        packageRepository.setMappedApplicationInfos(mappedApplicationInfos)
+        packageRepository.setApplicationInfos(applicationInfos)
 
         secureSettingsRepository.setWriteSecureSettings(true)
 
@@ -111,7 +110,7 @@ class ApplyAppSettingsUseCaseTest {
 
         assertIs<ApplyAppSettingsResult.Success>(result)
 
-        assertNotNull(result.launchIntent)
+        assertNotNull(result.packageName)
     }
 
     @Test

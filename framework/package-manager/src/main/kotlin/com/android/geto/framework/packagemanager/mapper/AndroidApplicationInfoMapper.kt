@@ -15,18 +15,18 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.core.data.testdoubles
 
-import com.android.geto.framework.buildversion.BuildVersionWrapper
+package com.android.geto.framework.packagemanager.mapper
 
-class TestBuildVersionWrapper : BuildVersionWrapper {
-    private var _sdkInt = 0
+import android.content.pm.PackageManager
+import androidx.core.graphics.drawable.toBitmap
+import com.android.geto.core.model.ApplicationInfo
 
-    override fun getSDKInt(): Int = _sdkInt
-
-    override fun getVersionCodeForSV2(): Int = 32
-
-    fun setSDKInt(value: Int) {
-        _sdkInt = value
-    }
+internal fun android.content.pm.ApplicationInfo.toApplicationInfo(packageManager: PackageManager): ApplicationInfo {
+    return ApplicationInfo(
+        flags = flags,
+        icon = loadIcon(packageManager).toBitmap(),
+        packageName = packageName,
+        label = loadLabel(packageManager).toString(),
+    )
 }

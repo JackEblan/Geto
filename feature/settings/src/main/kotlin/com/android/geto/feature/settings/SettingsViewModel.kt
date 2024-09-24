@@ -17,7 +17,6 @@
  */
 package com.android.geto.feature.settings
 
-import android.content.Intent
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.android.geto.core.data.repository.UserDataRepository
@@ -30,7 +29,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import org.jetbrains.annotations.VisibleForTesting
 import javax.inject.Inject
 
 @HiltViewModel
@@ -38,14 +36,6 @@ class SettingsViewModel @Inject constructor(
     private val userDataRepository: UserDataRepository,
     private val cleanAppSettingsUseCase: CleanAppSettingsUseCase,
 ) : ViewModel() {
-    private val intent = Intent().apply {
-        action = Intent.ACTION_MAIN
-        addCategory(Intent.CATEGORY_LAUNCHER)
-    }
-
-    @VisibleForTesting
-    var flags = 0
-
     val settingsUiState: StateFlow<SettingsUiState> =
         userDataRepository.userData.map(SettingsUiState::Success).stateIn(
             scope = viewModelScope,
@@ -79,7 +69,7 @@ class SettingsViewModel @Inject constructor(
 
     fun cleanAppSettings() {
         viewModelScope.launch {
-            cleanAppSettingsUseCase(intent = intent, flags = flags)
+            cleanAppSettingsUseCase()
         }
     }
 }

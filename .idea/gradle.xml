@@ -44,7 +44,6 @@
             <option value="$PROJECT_DIR$/feature/apps" />
             <option value="$PROJECT_DIR$/feature/settings" />
             <option value="$PROJECT_DIR$/framework" />
-            <option value="$PROJECT_DIR$/framework/build-version" />
             <option value="$PROJECT_DIR$/framework/clipboard-manager" />
             <option value="$PROJECT_DIR$/framework/package-manager" />
             <option value="$PROJECT_DIR$/framework/secure-settings" />

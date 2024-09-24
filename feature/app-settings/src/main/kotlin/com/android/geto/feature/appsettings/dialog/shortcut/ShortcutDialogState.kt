@@ -18,7 +18,6 @@
 package com.android.geto.feature.appsettings.dialog.shortcut
 
 import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
@@ -26,7 +25,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.core.graphics.drawable.toBitmap
 import com.android.geto.core.model.MappedShortcutInfoCompat
 
 @Composable
@@ -64,8 +62,8 @@ internal class ShortcutDialogState {
         showDialog = value
     }
 
-    fun updateIcon(value: Drawable?) {
-        icon = value?.toBitmap()
+    fun updateIcon(value: Bitmap?) {
+        icon = value
     }
 
     fun updateShortLabel(value: String) {

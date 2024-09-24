@@ -27,7 +27,7 @@ import com.android.geto.core.domain.RequestPinShortcutUseCase
 import com.android.geto.core.domain.RevertAppSettingsResult
 import com.android.geto.core.domain.RevertAppSettingsUseCase
 import com.android.geto.core.model.AppSetting
-import com.android.geto.core.model.MappedApplicationInfo
+import com.android.geto.core.model.ApplicationInfo
 import com.android.geto.core.model.MappedShortcutInfoCompat
 import com.android.geto.core.model.SecureSetting
 import com.android.geto.core.model.SettingType
@@ -105,7 +105,6 @@ class AppSettingsViewModelTest {
         userDataRepository = TestUserDataRepository()
 
         applyAppSettingsUseCase = ApplyAppSettingsUseCase(
-            packageRepository = packageRepository,
             appSettingsRepository = appSettingsRepository,
             secureSettingsRepository = secureSettingsRepository,
         )
@@ -116,7 +115,6 @@ class AppSettingsViewModelTest {
         )
 
         autoLaunchUseCase = AutoLaunchUseCase(
-            packageRepository = packageRepository,
             userDataRepository = userDataRepository,
             appSettingsRepository = appSettingsRepository,
             secureSettingsRepository = secureSettingsRepository,
@@ -187,6 +185,10 @@ class AppSettingsViewModelTest {
 
     @Test
     fun appSettingsUiState_isSuccess_whenAppSettings_isNotEmpty() = runTest {
+        backgroundScope.launch(UnconfinedTestDispatcher()) {
+            viewModel.appSettingsUiState.collect()
+        }
+
         val appSettings = List(5) { index ->
             AppSetting(
                 id = index,
@@ -202,17 +204,15 @@ class AppSettingsViewModelTest {
 
         appSettingsRepository.setAppSettings(appSettings)
 
-        val collectJob = launch(UnconfinedTestDispatcher()) {
-            viewModel.appSettingsUiState.collect()
-        }
-
         assertIs<AppSettingsUiState.Success>(viewModel.appSettingsUiState.value)
-
-        collectJob.cancel()
     }
 
     @Test
     fun applyAppSettingsResult_isSuccess_whenApplyAppSettings() = runTest {
+        backgroundScope.launch(UnconfinedTestDispatcher()) {
+            viewModel.applyAppSettingsResult.collect()
+        }
+
         val appSettings = List(5) { index ->
             AppSetting(
                 id = index,
@@ -237,6 +237,10 @@ class AppSettingsViewModelTest {
 
     @Test
     fun applyAppSettingsResult_isSecurityException_whenApplyAppSettings() = runTest {
+        backgroundScope.launch(UnconfinedTestDispatcher()) {
+            viewModel.applyAppSettingsResult.collect()
+        }
+
         val appSettings = List(5) { index ->
             AppSetting(
                 id = index,
@@ -261,6 +265,10 @@ class AppSettingsViewModelTest {
 
     @Test
     fun applyAppSettingsResult_isIllegalArgumentException_whenApplyAppSettings() = runTest {
+        backgroundScope.launch(UnconfinedTestDispatcher()) {
+            viewModel.applyAppSettingsResult.collect()
+        }
+
         val appSettings = List(5) { index ->
             AppSetting(
                 id = index,
@@ -287,6 +295,10 @@ class AppSettingsViewModelTest {
 
     @Test
     fun applyAppSettingsResult_isEmptyAppSettings_whenApplyAppSettings() = runTest {
+        backgroundScope.launch(UnconfinedTestDispatcher()) {
+            viewModel.applyAppSettingsResult.collect()
+        }
+
         appSettingsRepository.setAppSettings(emptyList())
 
         secureSettingsRepository.setWriteSecureSettings(true)
@@ -298,6 +310,10 @@ class AppSettingsViewModelTest {
 
     @Test
     fun applyAppSettingsResult_isDisabledAppSettings_whenApplyAppSettings() = runTest {
+        backgroundScope.launch(UnconfinedTestDispatcher()) {
+            viewModel.applyAppSettingsResult.collect()
+        }
+
         val appSettings = List(5) { index ->
             AppSetting(
                 id = index,
@@ -322,6 +338,10 @@ class AppSettingsViewModelTest {
 
     @Test
     fun revertAppSettingsResult_isSuccess_whenRevertAppSettings() = runTest {
+        backgroundScope.launch(UnconfinedTestDispatcher()) {
+            viewModel.revertAppSettingsResult.collect()
+        }
+
         val appSettings = List(5) { index ->
             AppSetting(
                 id = index,
@@ -346,6 +366,10 @@ class AppSettingsViewModelTest {
 
     @Test
     fun revertAppSettingsResult_isSecurityException_whenRevertAppSettings() = runTest {
+        backgroundScope.launch(UnconfinedTestDispatcher()) {
+            viewModel.revertAppSettingsResult.collect()
+        }
+
         val appSettings = List(5) { index ->
             AppSetting(
                 id = index,
@@ -370,6 +394,10 @@ class AppSettingsViewModelTest {
 
     @Test
     fun revertAppSettingsResultI_isIllegalArgumentException_whenRevertAppSettings() = runTest {
+        backgroundScope.launch(UnconfinedTestDispatcher()) {
+            viewModel.revertAppSettingsResult.collect()
+        }
+
         val appSettings = List(5) { index ->
             AppSetting(
                 id = index,
@@ -396,6 +424,10 @@ class AppSettingsViewModelTest {
 
     @Test
     fun revertAppSettingsResult_isEmptyAppSettings_whenRevertAppSettings() = runTest {
+        backgroundScope.launch(UnconfinedTestDispatcher()) {
+            viewModel.revertAppSettingsResult.collect()
+        }
+
         appSettingsRepository.setAppSettings(emptyList())
 
         viewModel.revertAppSettings()
@@ -405,6 +437,10 @@ class AppSettingsViewModelTest {
 
     @Test
     fun revertAppSettingsResult_isDisabledAppSettings_whenRevertAppSettings() = runTest {
+        backgroundScope.launch(UnconfinedTestDispatcher()) {
+            viewModel.revertAppSettingsResult.collect()
+        }
+
         val appSettings = List(5) { index ->
             AppSetting(
                 id = index,
@@ -429,6 +465,10 @@ class AppSettingsViewModelTest {
 
     @Test
     fun setPrimaryClipResult_isFalse_whenCopyPermissionCommand() = runTest {
+        backgroundScope.launch(UnconfinedTestDispatcher()) {
+            viewModel.revertAppSettingsResult.collect()
+        }
+
         clipboardRepository.setSDKInt(33)
 
         viewModel.copyPermissionCommand()
@@ -441,6 +481,10 @@ class AppSettingsViewModelTest {
 
     @Test
     fun setPrimaryClipResult_isTrue_whenCopyPermissionCommand() = runTest {
+        backgroundScope.launch(UnconfinedTestDispatcher()) {
+            viewModel.setPrimaryClipResult.collect()
+        }
+
         clipboardRepository.setSDKInt(32)
 
         viewModel.copyPermissionCommand()
@@ -453,6 +497,10 @@ class AppSettingsViewModelTest {
 
     @Test
     fun secureSettings_isNotEmpty_whenGetSecureSettingsByName_ofSettingTypeSystem() = runTest {
+        backgroundScope.launch(UnconfinedTestDispatcher()) {
+            viewModel.secureSettings.collect()
+        }
+
         val secureSettings = List(5) { index ->
             SecureSetting(
                 settingType = SettingType.SYSTEM,
@@ -471,6 +519,10 @@ class AppSettingsViewModelTest {
 
     @Test
     fun secureSettings_isNotEmpty_whenGetSecureSettingsByName_ofSettingTypeSecure() = runTest {
+        backgroundScope.launch(UnconfinedTestDispatcher()) {
+            viewModel.secureSettings.collect()
+        }
+
         val secureSettings = List(5) { index ->
             SecureSetting(
                 settingType = SettingType.SECURE,
@@ -489,6 +541,10 @@ class AppSettingsViewModelTest {
 
     @Test
     fun secureSettings_isNotEmpty_whenGetSecureSettingsByName_ofSettingTypeGlobal() = runTest {
+        backgroundScope.launch(UnconfinedTestDispatcher()) {
+            viewModel.secureSettings.collect()
+        }
+
         val secureSettings = List(5) { index ->
             SecureSetting(
                 settingType = SettingType.GLOBAL,
@@ -507,6 +563,10 @@ class AppSettingsViewModelTest {
 
     @Test
     fun secureSettings_isEmpty_whenGetSecureSettingsByName_ofSettingTypeSystem() = runTest {
+        backgroundScope.launch(UnconfinedTestDispatcher()) {
+            viewModel.secureSettings.collect()
+        }
+
         val secureSettings = List(5) { index ->
             SecureSetting(
                 settingType = SettingType.SYSTEM,
@@ -525,6 +585,10 @@ class AppSettingsViewModelTest {
 
     @Test
     fun secureSettings_isEmpty_whenGetSecureSettingsByName_ofSettingTypeSecure() = runTest {
+        backgroundScope.launch(UnconfinedTestDispatcher()) {
+            viewModel.secureSettings.collect()
+        }
+
         val secureSettings = List(5) { index ->
             SecureSetting(
                 settingType = SettingType.SECURE,
@@ -543,6 +607,10 @@ class AppSettingsViewModelTest {
 
     @Test
     fun secureSettings_isEmpty_whenGetSecureSettingsByName_ofSettingTypeGlobal() = runTest {
+        backgroundScope.launch(UnconfinedTestDispatcher()) {
+            viewModel.secureSettings.collect()
+        }
+
         val secureSettings = List(5) { index ->
             SecureSetting(
                 settingType = SettingType.GLOBAL,
@@ -561,6 +629,10 @@ class AppSettingsViewModelTest {
 
     @Test
     fun requestPinShortcutResult_isSupportedLauncher_whenRequestPinShortcut() = runTest {
+        backgroundScope.launch(UnconfinedTestDispatcher()) {
+            viewModel.requestPinShortcutResult.collect()
+        }
+
         shortcutRepository.setRequestPinShortcutSupported(true)
 
         viewModel.requestPinShortcut(
@@ -578,6 +650,10 @@ class AppSettingsViewModelTest {
 
     @Test
     fun requestPinShortcutResult_isUnSupportedLauncher_whenRequestPinShortcut() = runTest {
+        backgroundScope.launch(UnconfinedTestDispatcher()) {
+            viewModel.requestPinShortcutResult.collect()
+        }
+
         shortcutRepository.setRequestPinShortcutSupported(false)
 
         viewModel.requestPinShortcut(
@@ -595,6 +671,10 @@ class AppSettingsViewModelTest {
 
     @Test
     fun requestPinShortcutResult_isUpdateImmutableShortcuts_whenRequestPinShortcut() = runTest {
+        backgroundScope.launch(UnconfinedTestDispatcher()) {
+            viewModel.requestPinShortcutResult.collect()
+        }
+
         val shortcuts = List(2) {
             MappedShortcutInfoCompat(
                 id = "com.android.geto",
@@ -624,6 +704,10 @@ class AppSettingsViewModelTest {
 
     @Test
     fun requestPinShortcutResult_isUpdateSuccess_whenRequestPinShortcut() = runTest {
+        backgroundScope.launch(UnconfinedTestDispatcher()) {
+            viewModel.requestPinShortcutResult.collect()
+        }
+
         val shortcuts = List(2) {
             MappedShortcutInfoCompat(
                 id = "com.android.geto",
@@ -653,34 +737,38 @@ class AppSettingsViewModelTest {
 
     @Test
     fun applicationIcon_isNotNull_whenGetApplicationIcon() = runTest {
-        val mappedApplicationInfos = List(1) { _ ->
-            MappedApplicationInfo(
-                flags = 0,
-                packageName = packageName,
-                label = appName,
-            )
+        backgroundScope.launch(UnconfinedTestDispatcher()) {
+            val applicationInfos = List(1) { _ ->
+                ApplicationInfo(
+                    flags = 0,
+                    packageName = packageName,
+                    label = appName,
+                )
+            }
+
+            packageRepository.setApplicationInfos(applicationInfos)
+
+            viewModel.applicationIcon.collect()
         }
-
-        packageRepository.setMappedApplicationInfos(mappedApplicationInfos)
-
-        viewModel.getApplicationIcon()
 
         assertNotNull(viewModel.applicationIcon.value)
     }
 
     @Test
     fun applicationIcon_isNull_whenGetApplicationIcon() = runTest {
-        val mappedApplicationInfos = List(1) { _ ->
-            MappedApplicationInfo(
-                flags = 0,
-                packageName = "",
-                label = appName,
-            )
+        backgroundScope.launch(UnconfinedTestDispatcher()) {
+            val applicationInfos = List(1) { _ ->
+                ApplicationInfo(
+                    flags = 0,
+                    packageName = "",
+                    label = appName,
+                )
+            }
+
+            packageRepository.setApplicationInfos(applicationInfos)
+
+            viewModel.applicationIcon.collect()
         }
-
-        packageRepository.setMappedApplicationInfos(mappedApplicationInfos)
-
-        viewModel.getApplicationIcon()
 
         assertNull(viewModel.applicationIcon.value)
     }
