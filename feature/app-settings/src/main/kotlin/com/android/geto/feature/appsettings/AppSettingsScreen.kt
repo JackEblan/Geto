@@ -350,7 +350,6 @@ private fun AppSettingsLaunchedEffects(
 
     LaunchedEffect(key1 = autoLaunchResult) {
         when (autoLaunchResult) {
-            AppSettingsResult.Failure -> snackbarHostState.showSnackbar(message = applyFailure)
             AppSettingsResult.SecurityException -> copyPermissionCommandDialogState.updateShowDialog(
                 true,
             )
@@ -358,6 +357,7 @@ private fun AppSettingsLaunchedEffects(
             AppSettingsResult.Success -> onLaunchIntent()
             AppSettingsResult.IllegalArgumentException -> snackbarHostState.showSnackbar(message = invalidValues)
             AppSettingsResult.EmptyAppSettings, AppSettingsResult.DisabledAppSettings, null -> Unit
+            AppSettingsResult.Failure -> Unit
         }
 
         onResetAutoLaunchResult()
@@ -373,23 +373,17 @@ private fun AppSettingsLaunchedEffects(
                 message = unsupportedLauncher,
             )
 
-            RequestPinShortcutResult.UpdateFailure -> {
-                snackbarHostState.showSnackbar(
-                    message = shortcutUpdateFailed,
-                )
-            }
+            RequestPinShortcutResult.UpdateFailure -> snackbarHostState.showSnackbar(
+                message = shortcutUpdateFailed,
+            )
 
-            RequestPinShortcutResult.UpdateSuccess -> {
-                snackbarHostState.showSnackbar(
-                    message = shortcutUpdateSuccess,
-                )
-            }
+            RequestPinShortcutResult.UpdateSuccess -> snackbarHostState.showSnackbar(
+                message = shortcutUpdateSuccess,
+            )
 
-            RequestPinShortcutResult.UpdateImmutableShortcuts -> {
-                snackbarHostState.showSnackbar(
-                    message = shortcutUpdateImmutableShortcuts,
-                )
-            }
+            RequestPinShortcutResult.UpdateImmutableShortcuts -> snackbarHostState.showSnackbar(
+                message = shortcutUpdateImmutableShortcuts,
+            )
 
             null -> Unit
         }

@@ -53,7 +53,7 @@ internal fun CleanDialog(
     ) {
         Column(
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxWidth()
                 .padding(10.dp),
         ) {
             CleanDialogTitle()

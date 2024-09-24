@@ -54,7 +54,7 @@ internal fun CopyPermissionCommandDialog(
     ) {
         Column(
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxWidth()
                 .padding(10.dp),
         ) {
             CopyPermissionCommandDialogTitle()
