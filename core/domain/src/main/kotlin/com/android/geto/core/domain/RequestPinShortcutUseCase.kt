@@ -25,7 +25,7 @@ import javax.inject.Inject
 class RequestPinShortcutUseCase @Inject constructor(
     private val shortcutRepository: ShortcutRepository,
 ) {
-    operator fun invoke(
+    suspend operator fun invoke(
         packageName: String,
         appName: String,
         mappedShortcutInfoCompat: MappedShortcutInfoCompat,
@@ -68,7 +68,7 @@ class RequestPinShortcutUseCase @Inject constructor(
         }
     }
 
-    private fun updateShortcuts(
+    private suspend fun updateShortcuts(
         packageName: String,
         appName: String,
         mappedShortcutInfoCompat: MappedShortcutInfoCompat,
