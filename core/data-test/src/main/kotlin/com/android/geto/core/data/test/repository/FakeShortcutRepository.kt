@@ -35,7 +35,7 @@ class FakeShortcutRepository @Inject constructor() : ShortcutRepository {
         return false
     }
 
-    override fun updateShortcuts(
+    override suspend fun updateShortcuts(
         packageName: String,
         appName: String,
         mappedShortcutInfoCompats: List<MappedShortcutInfoCompat>,
@@ -43,11 +43,11 @@ class FakeShortcutRepository @Inject constructor() : ShortcutRepository {
         return false
     }
 
-    override fun getPinnedShortcuts(): List<MappedShortcutInfoCompat> {
+    override suspend fun getPinnedShortcuts(): List<MappedShortcutInfoCompat> {
         return emptyList()
     }
 
-    override fun getPinnedShortcut(id: String): MappedShortcutInfoCompat? {
+    override suspend fun getPinnedShortcut(id: String): MappedShortcutInfoCompat? {
         return null
     }
 }

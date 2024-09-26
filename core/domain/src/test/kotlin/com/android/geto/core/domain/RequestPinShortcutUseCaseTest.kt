@@ -20,6 +20,7 @@ package com.android.geto.core.domain
 import com.android.geto.core.model.MappedShortcutInfoCompat
 import com.android.geto.core.model.RequestPinShortcutResult
 import com.android.geto.core.testing.repository.TestShortcutRepository
+import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
@@ -30,17 +31,20 @@ class RequestPinShortcutUseCaseTest {
 
     private lateinit var shortcutRepository: TestShortcutRepository
 
+    private val testDispatcher = StandardTestDispatcher()
+
     @Before
     fun setUp() {
         shortcutRepository = TestShortcutRepository()
 
         requestPinShortcutUseCase = RequestPinShortcutUseCase(
+            defaultDispatcher = testDispatcher,
             shortcutRepository = shortcutRepository,
         )
     }
 
     @Test
-    fun requestPinShortcutUseCase_isSupportedLauncher() = runTest {
+    fun requestPinShortcutUseCase_isSupportedLauncher() = runTest(testDispatcher) {
         shortcutRepository.setRequestPinShortcutSupported(true)
 
         assertEquals(
@@ -58,7 +62,7 @@ class RequestPinShortcutUseCaseTest {
     }
 
     @Test
-    fun requestPinShortcutUseCase_isUnSupportedLauncher() = runTest {
+    fun requestPinShortcutUseCase_isUnSupportedLauncher() = runTest(testDispatcher) {
         shortcutRepository.setRequestPinShortcutSupported(false)
 
         assertEquals(
@@ -76,7 +80,7 @@ class RequestPinShortcutUseCaseTest {
     }
 
     @Test
-    fun requestPinShortcutUseCase_isUpdateImmutableShortcuts() = runTest {
+    fun requestPinShortcutUseCase_isUpdateImmutableShortcuts() = runTest(testDispatcher) {
         val shortcuts = List(2) {
             MappedShortcutInfoCompat(
                 id = "com.android.geto",
@@ -106,7 +110,7 @@ class RequestPinShortcutUseCaseTest {
     }
 
     @Test
-    fun requestPinShortcutUseCase_isUpdateSuccess() = runTest {
+    fun requestPinShortcutUseCase_isUpdateSuccess() = runTest(testDispatcher) {
         val shortcuts = List(2) {
             MappedShortcutInfoCompat(
                 id = "com.android.geto",

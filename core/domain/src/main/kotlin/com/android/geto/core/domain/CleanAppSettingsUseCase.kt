@@ -17,26 +17,33 @@
  */
 package com.android.geto.core.domain
 
+import com.android.geto.core.common.Dispatcher
+import com.android.geto.core.common.GetoDispatchers.Default
 import com.android.geto.core.data.repository.AppSettingsRepository
 import com.android.geto.core.data.repository.PackageRepository
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class CleanAppSettingsUseCase @Inject constructor(
+    @Dispatcher(Default) private val defaultDispatcher: CoroutineDispatcher,
     private val packageRepository: PackageRepository,
     private val appSettingsRepository: AppSettingsRepository,
 ) {
     suspend operator fun invoke() {
-        val packageNamesFromQueryIntentActivities =
-            packageRepository.queryIntentActivities().map { it.packageName }
+        withContext(defaultDispatcher) {
+            val packageNamesFromQueryIntentActivities =
+                packageRepository.queryIntentActivities().map { it.packageName }
 
-        val packageNamesFromAppSettings =
-            appSettingsRepository.appSettings.first().map { it.packageName }
+            val packageNamesFromAppSettings =
+                appSettingsRepository.appSettings.first().map { it.packageName }
 
-        val oldPackageNames = packageNamesFromAppSettings.filterNot { packageName ->
-            packageName in packageNamesFromQueryIntentActivities
+            val oldPackageNames = packageNamesFromAppSettings.filterNot { packageName ->
+                packageName in packageNamesFromQueryIntentActivities
+            }
+
+            appSettingsRepository.deleteAppSettingsByPackageName(packageNames = oldPackageNames)
         }
-
-        appSettingsRepository.deleteAppSettingsByPackageName(packageNames = oldPackageNames)
     }
 }
