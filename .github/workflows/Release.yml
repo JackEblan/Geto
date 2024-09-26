@@ -27,9 +27,6 @@ jobs:
       - name: Grant execute permission to Gradle wrapper
         run: chmod +x ./gradlew
 
-      - name: Validate Gradle Wrapper
-        uses: gradle/actions/wrapper-validation@v3
-
       - name: Copy CI gradle.properties
         run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
 
@@ -41,9 +38,6 @@ jobs:
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
-        with:
-          validate-wrappers: true
-          gradle-home-cache-cleanup: true
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
