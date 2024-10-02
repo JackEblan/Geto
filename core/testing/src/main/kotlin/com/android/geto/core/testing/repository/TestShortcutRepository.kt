@@ -40,7 +40,7 @@ class TestShortcutRepository : ShortcutRepository {
         return requestPinShortcutSupported
     }
 
-    override fun updateShortcuts(
+    override suspend fun updateShortcuts(
         packageName: String,
         appName: String,
         mappedShortcutInfoCompats: List<MappedShortcutInfoCompat>,
@@ -52,11 +52,11 @@ class TestShortcutRepository : ShortcutRepository {
         }
     }
 
-    override fun getPinnedShortcuts(): List<MappedShortcutInfoCompat> {
+    override suspend fun getPinnedShortcuts(): List<MappedShortcutInfoCompat> {
         return mappedShortcutInfoCompats
     }
 
-    override fun getPinnedShortcut(id: String): MappedShortcutInfoCompat? {
+    override suspend fun getPinnedShortcut(id: String): MappedShortcutInfoCompat? {
         return mappedShortcutInfoCompats.find { it.id == id }
     }
 

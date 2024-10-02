@@ -15,7 +15,7 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.framework.shortcutmanager
+package com.android.geto.framework.shortcutmanager.mapper
 
 import android.content.Context
 import android.content.Intent

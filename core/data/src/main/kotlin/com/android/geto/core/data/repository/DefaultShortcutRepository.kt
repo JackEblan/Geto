@@ -41,7 +41,7 @@ internal class DefaultShortcutRepository @Inject constructor(
         )
     }
 
-    override fun updateShortcuts(
+    override suspend fun updateShortcuts(
         packageName: String,
         appName: String,
         mappedShortcutInfoCompats: List<MappedShortcutInfoCompat>,
@@ -53,12 +53,11 @@ internal class DefaultShortcutRepository @Inject constructor(
         )
     }
 
-    override fun getPinnedShortcuts(): List<MappedShortcutInfoCompat> {
-        return shortcutManagerCompatWrapper.getShortcuts(shortcutManagerCompatWrapper.flagMatchPinned)
+    override suspend fun getPinnedShortcuts(): List<MappedShortcutInfoCompat> {
+        return shortcutManagerCompatWrapper.getShortcuts()
     }
 
-    override fun getPinnedShortcut(id: String): MappedShortcutInfoCompat? {
-        return shortcutManagerCompatWrapper.getShortcuts(shortcutManagerCompatWrapper.flagMatchPinned)
-            .find { it.id == id }
+    override suspend fun getPinnedShortcut(id: String): MappedShortcutInfoCompat? {
+        return shortcutManagerCompatWrapper.getShortcuts().find { it.id == id }
     }
 }

@@ -85,6 +85,8 @@ class AppSettingsViewModelTest {
 
     private lateinit var viewModel: AppSettingsViewModel
 
+    private val testDispatcher = UnconfinedTestDispatcher()
+
     private val packageName = "com.android.geto"
 
     private val appName = "Geto"
@@ -119,8 +121,10 @@ class AppSettingsViewModelTest {
             secureSettingsRepository = secureSettingsRepository,
         )
 
-        requestPinShortcutUseCase =
-            RequestPinShortcutUseCase(shortcutRepository = shortcutRepository)
+        requestPinShortcutUseCase = RequestPinShortcutUseCase(
+            defaultDispatcher = testDispatcher,
+            shortcutRepository = shortcutRepository,
+        )
 
         savedStateHandle = SavedStateHandle(
             route = AppSettingsRouteData(

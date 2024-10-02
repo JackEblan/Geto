@@ -2,7 +2,7 @@ name: NightlyBaselineProfiles
 
 on:
   schedule:
-    - cron: '42 4 * * *'
+    - cron:  '42 4 * * *'
 
 jobs:
   baseline_profiles:
@@ -18,11 +18,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Grant execute permission to Gradle wrapper
-        run: chmod +x ./gradlew
-
-      - name: Validate Gradle Wrapper
-        uses: gradle/wrapper-validation-action@v1
+      - name: Enable KVM group perms
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+          ls /dev/kvm
 
       - name: Copy CI gradle.properties
         run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
@@ -33,6 +34,18 @@ jobs:
           distribution: 'zulu'
           java-version: 17
 
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Accept licenses
+        run: yes | sdkmanager --licenses || true
+
+      - name: Check build-logic
+        run: ./gradlew check -p build-logic
+
       - name: Setup GMD
         run: ./gradlew :benchmarks:pixel6Api33Setup
           --info
@@ -41,6 +54,6 @@ jobs:
 
       - name: Build all build type and flavor permutations including baseline profiles
         run: ./gradlew :app:assemble
-          -Pandroid.testInstrumentationRunnerArguments.androidx.benchmark.enabledRules=baselineprofile
-          -Pandroid.testoptions.manageddevices.emulator.gpu="swiftshader_indirect"
-          -Pandroid.experimental.testOptions.managedDevices.emulator.showKernelLogging=true
+             -Pandroid.testInstrumentationRunnerArguments.androidx.benchmark.enabledRules=baselineprofile
+             -Pandroid.testoptions.manageddevices.emulator.gpu="swiftshader_indirect"
+             -Pandroid.experimental.testOptions.managedDevices.emulator.showKernelLogging=true

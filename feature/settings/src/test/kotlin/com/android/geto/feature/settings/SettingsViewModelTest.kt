@@ -46,6 +46,8 @@ class SettingsViewModelTest {
 
     private lateinit var cleanAppSettingsUseCase: CleanAppSettingsUseCase
 
+    private val testDispatcher = UnconfinedTestDispatcher()
+
     private lateinit var viewModel: SettingsViewModel
 
     @Before
@@ -57,6 +59,7 @@ class SettingsViewModelTest {
         appSettingsRepository = TestAppSettingsRepository()
 
         cleanAppSettingsUseCase = CleanAppSettingsUseCase(
+            defaultDispatcher = testDispatcher,
             packageRepository = packageRepository,
             appSettingsRepository = appSettingsRepository,
         )
