@@ -210,7 +210,6 @@ fun GetoTheme(
     CompositionLocalProvider {
         MaterialTheme(
             colorScheme = colorScheme,
-            typography = SwrTypography,
             content = content,
         )
     }
