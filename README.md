@@ -30,15 +30,25 @@ once the Developer Options is modified. So basically, you have to grant this app
 with `android.permission.WRITE_SECURE_SETTINGS` in order for it to modify your Settings values.
 
 > [!IMPORTANT]  
-> We moved the instructions on how to use this application into our [Wiki](https://github.com/JackEblan/Geto/wiki) page!
+> We moved the instructions on how to use this application into
+> our [Wiki](https://github.com/JackEblan/Geto/wiki) page!
 
 # Screenshots
 
-<pre>
-<img src="https://github.com/JackEblan/Geto/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/1.jpg" width="120" height="280" />  <img src="https://github.com/JackEblan/Geto/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/2.jpg" width="120" height="280" />  <img src="https://github.com/JackEblan/Geto/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/3.jpg" width="120" height="280" /> <img src="https://github.com/JackEblan/Geto/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/4.jpg" width="120" height="280" /> <img src="https://github.com/JackEblan/Geto/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/5.jpg" width="120" height="280" /> <img src="https://github.com/JackEblan/Geto/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/6.jpg" width="120" height="280" /> <img src="https://github.com/JackEblan/Geto/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/7.jpg" width="120" height="280" /> <img src="https://github.com/JackEblan/Geto/blob/master/fastlane/metadata/android/en-US/images/phoneScreenshots/8.jpg" width="120" height="280" />
-</pre>
+<div style="width:100%; display:flex; justify-content:space-between;">
+
+[<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/1.jpg" width=19% alt="1">](fastlane/metadata/android/en-US/images/phoneScreenshots/1.jpg)
+[<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/2.jpg" width=19% alt="2">](fastlane/metadata/android/en-US/images/phoneScreenshots/2.jpg)
+[<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/3.jpg" width=19% alt="3">](fastlane/metadata/android/en-US/images/phoneScreenshots/3.jpg)
+[<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/4.jpg" width=19% alt="4">](fastlane/metadata/android/en-US/images/phoneScreenshots/4.jpg)
+[<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/5.jpg" width=19% alt="5">](fastlane/metadata/android/en-US/images/phoneScreenshots/5.jpg)
+[<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/6.jpg" width=19% alt="6">](fastlane/metadata/android/en-US/images/phoneScreenshots/6.jpg)
+[<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/7.jpg" width=19% alt="6">](fastlane/metadata/android/en-US/images/phoneScreenshots/7.jpg)
+[<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/8.jpg" width=19% alt="6">](fastlane/metadata/android/en-US/images/phoneScreenshots/8.jpg)
+</div>
 
 # License
+
 **Geto** is licensed under the GNU General Public License v3.0. See the [license](LICENSE) for more
 information.
 </div>
