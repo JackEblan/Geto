@@ -27,14 +27,13 @@ import androidx.compose.ui.test.hasAnyAncestor
 import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.test.hasParent
 import androidx.compose.ui.test.hasTestTag
-import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.isDialog
 import androidx.compose.ui.test.junit4.StateRestorationTester
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
-import androidx.compose.ui.test.performScrollToNode
+import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.performTextInput
 import com.android.geto.core.model.AppSettingsResult
 import org.junit.Rule
@@ -83,12 +82,12 @@ class AppSettingsScreenDialogsTest {
             useUnmergedTree = true,
         ).performClick()
 
-        composeTestRule.onNodeWithContentDescription("AppSettingDialog").assertIsDisplayed()
+        composeTestRule.onNodeWithContentDescription("Add App Settings Dialog").assertIsDisplayed()
 
-        composeTestRule.onNodeWithContentDescription("AppSettingDialog")
-            .performScrollToNode(hasText("Add")).performClick()
+        composeTestRule.onNodeWithText("Cancel").performScrollTo().performClick()
 
-        composeTestRule.onNodeWithContentDescription("AppSettingDialog").assertIsNotDisplayed()
+        composeTestRule.onNodeWithContentDescription("Add App Settings Dialog")
+            .assertIsNotDisplayed()
     }
 
     @Test
@@ -261,7 +260,7 @@ class AppSettingsScreenDialogsTest {
 
         composeTestRule.onNodeWithContentDescription("Add Shortcut Dialog").assertIsDisplayed()
 
-        composeTestRule.onNodeWithText("Cancel").performClick()
+        composeTestRule.onNodeWithText("Cancel").performScrollTo().performClick()
 
         composeTestRule.onNodeWithContentDescription("Add Shortcut Dialog").assertIsNotDisplayed()
     }

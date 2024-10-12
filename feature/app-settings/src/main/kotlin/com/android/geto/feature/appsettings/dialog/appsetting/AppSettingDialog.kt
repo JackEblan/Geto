@@ -67,13 +67,12 @@ internal fun AppSettingDialog(
     DialogContainer(
         modifier = modifier
             .padding(16.dp)
+            .verticalScroll(scrollState)
             .semantics { this.contentDescription = contentDescription },
         onDismissRequest = { appSettingDialogState.updateShowDialog(false) },
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .verticalScroll(scrollState),
+            modifier = Modifier.fillMaxWidth(),
         ) {
             AppSettingDialogTitle()
 
@@ -347,7 +346,7 @@ private fun AppSettingDialogButtons(
         }
         TextButton(
             onClick = onAddClick,
-            modifier = Modifier.padding(5.dp),
+            modifier = Modifier.padding(5.dp).testTag("Test Add"),
         ) {
             Text(text = stringResource(R.string.add))
         }
