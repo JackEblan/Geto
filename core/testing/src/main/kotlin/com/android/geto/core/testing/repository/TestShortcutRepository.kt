@@ -18,13 +18,13 @@
 package com.android.geto.core.testing.repository
 
 import com.android.geto.core.data.repository.ShortcutRepository
-import com.android.geto.core.model.MappedShortcutInfoCompat
+import com.android.geto.core.model.GetoShortcutInfoCompat
 
 class TestShortcutRepository : ShortcutRepository {
 
     private var requestPinShortcutSupported = false
 
-    private var mappedShortcutInfoCompats = listOf<MappedShortcutInfoCompat>()
+    private var getoShortcutInfoCompats = listOf<GetoShortcutInfoCompat>()
 
     private var updateImmutableShortcuts = false
 
@@ -35,7 +35,7 @@ class TestShortcutRepository : ShortcutRepository {
     override fun requestPinShortcut(
         packageName: String,
         appName: String,
-        mappedShortcutInfoCompat: MappedShortcutInfoCompat,
+        getoShortcutInfoCompat: GetoShortcutInfoCompat,
     ): Boolean {
         return requestPinShortcutSupported
     }
@@ -43,7 +43,7 @@ class TestShortcutRepository : ShortcutRepository {
     override fun updateShortcuts(
         packageName: String,
         appName: String,
-        mappedShortcutInfoCompats: List<MappedShortcutInfoCompat>,
+        getoShortcutInfoCompats: List<GetoShortcutInfoCompat>,
     ): Boolean {
         return if (updateImmutableShortcuts) {
             throw IllegalArgumentException()
@@ -52,20 +52,20 @@ class TestShortcutRepository : ShortcutRepository {
         }
     }
 
-    override fun getPinnedShortcuts(): List<MappedShortcutInfoCompat> {
-        return mappedShortcutInfoCompats
+    override fun getPinnedShortcuts(): List<GetoShortcutInfoCompat> {
+        return getoShortcutInfoCompats
     }
 
-    override fun getPinnedShortcut(id: String): MappedShortcutInfoCompat? {
-        return mappedShortcutInfoCompats.find { it.id == id }
+    override fun getPinnedShortcut(id: String): GetoShortcutInfoCompat? {
+        return getoShortcutInfoCompats.find { it.id == id }
     }
 
     fun setRequestPinShortcutSupported(value: Boolean) {
         requestPinShortcutSupported = value
     }
 
-    fun setShortcuts(value: List<MappedShortcutInfoCompat>) {
-        mappedShortcutInfoCompats = value
+    fun setShortcuts(value: List<GetoShortcutInfoCompat>) {
+        getoShortcutInfoCompats = value
     }
 
     fun setUpdateImmutableShortcuts(value: Boolean) {

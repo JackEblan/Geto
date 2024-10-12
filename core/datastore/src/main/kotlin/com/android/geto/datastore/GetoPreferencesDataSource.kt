@@ -37,10 +37,10 @@ class GetoPreferencesDataSource @Inject constructor(
                 null,
                 ThemeBrandProto.THEME_BRAND_UNSPECIFIED,
                 ThemeBrandProto.UNRECOGNIZED,
-                ThemeBrandProto.THEME_BRAND_DEFAULT,
-                -> ThemeBrand.DEFAULT
+                ThemeBrandProto.THEME_BRAND_GREEN,
+                -> ThemeBrand.GREEN
 
-                ThemeBrandProto.THEME_BRAND_ANDROID -> ThemeBrand.ANDROID
+                ThemeBrandProto.THEME_BRAND_PURPLE -> ThemeBrand.PURPLE
             },
             darkThemeConfig = when (it.darkThemeConfig) {
                 null,
@@ -61,8 +61,8 @@ class GetoPreferencesDataSource @Inject constructor(
         userPreferences.updateData {
             it.copy {
                 this.themeBrand = when (themeBrand) {
-                    ThemeBrand.DEFAULT -> ThemeBrandProto.THEME_BRAND_DEFAULT
-                    ThemeBrand.ANDROID -> ThemeBrandProto.THEME_BRAND_ANDROID
+                    ThemeBrand.GREEN -> ThemeBrandProto.THEME_BRAND_GREEN
+                    ThemeBrand.PURPLE -> ThemeBrandProto.THEME_BRAND_PURPLE
                 }
             }
         }

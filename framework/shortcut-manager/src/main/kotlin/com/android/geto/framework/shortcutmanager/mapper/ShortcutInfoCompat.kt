@@ -15,24 +15,24 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.framework.shortcutmanager
+package com.android.geto.framework.shortcutmanager.mapper
 
 import android.content.Context
 import android.content.Intent
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.graphics.drawable.IconCompat
 import androidx.core.net.toUri
-import com.android.geto.core.model.MappedShortcutInfoCompat
+import com.android.geto.core.model.GetoShortcutInfoCompat
 
-internal fun ShortcutInfoCompat.asMappedShortcutInfoCompat(): MappedShortcutInfoCompat {
-    return MappedShortcutInfoCompat(
+internal fun ShortcutInfoCompat.asGetoShortcutInfoCompat(): GetoShortcutInfoCompat {
+    return GetoShortcutInfoCompat(
         id = id,
         shortLabel = shortLabel.toString(),
         longLabel = longLabel.toString(),
     )
 }
 
-internal fun MappedShortcutInfoCompat.asShortcutInfoCompat(
+internal fun GetoShortcutInfoCompat.asShortcutInfoCompat(
     context: Context,
     packageName: String,
     appName: String,

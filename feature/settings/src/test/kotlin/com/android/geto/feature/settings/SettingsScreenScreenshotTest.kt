@@ -55,7 +55,7 @@ class SettingsScreenScreenshotTest {
                 SettingsScreen(
                     settingsUiState = SettingsUiState.Success(
                         userData = UserData(
-                            themeBrand = ThemeBrand.DEFAULT,
+                            themeBrand = ThemeBrand.PURPLE,
                             useDynamicColor = false,
                             darkThemeConfig = DarkThemeConfig.DARK,
                             useAutoLaunch = false,
@@ -108,7 +108,7 @@ class SettingsScreenScreenshotTest {
                     SettingsScreen(
                         settingsUiState = SettingsUiState.Success(
                             userData = UserData(
-                                themeBrand = ThemeBrand.DEFAULT,
+                                themeBrand = ThemeBrand.PURPLE,
                                 useDynamicColor = false,
                                 darkThemeConfig = DarkThemeConfig.DARK,
                                 useAutoLaunch = false,

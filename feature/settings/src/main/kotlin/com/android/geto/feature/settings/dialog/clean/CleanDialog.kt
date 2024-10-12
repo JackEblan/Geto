@@ -60,7 +60,6 @@ internal fun CleanDialog(
             CleanDialogContent()
 
             CleanDialogButtons(
-                modifier = modifier.fillMaxWidth(),
                 onCancelClick = onCancelClick,
                 onCleanClick = onCleanClick,
             )
@@ -99,7 +98,7 @@ private fun CleanDialogButtons(
     Spacer(modifier = Modifier.height(10.dp))
 
     Row(
-        modifier = modifier,
+        modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.End,
     ) {
         TextButton(

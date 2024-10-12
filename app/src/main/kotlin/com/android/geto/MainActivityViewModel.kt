@@ -20,7 +20,6 @@ package com.android.geto
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.android.geto.core.data.repository.UserDataRepository
-import com.android.geto.core.model.UserData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -38,9 +37,4 @@ class MainActivityViewModel @Inject constructor(
             initialValue = MainActivityUiState.Loading,
             started = SharingStarted.WhileSubscribed(5_000),
         )
-}
-
-sealed interface MainActivityUiState {
-    data object Loading : MainActivityUiState
-    data class Success(val userData: UserData) : MainActivityUiState
 }

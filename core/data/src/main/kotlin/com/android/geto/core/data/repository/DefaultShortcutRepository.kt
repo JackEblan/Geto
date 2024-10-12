@@ -17,7 +17,7 @@
  */
 package com.android.geto.core.data.repository
 
-import com.android.geto.core.model.MappedShortcutInfoCompat
+import com.android.geto.core.model.GetoShortcutInfoCompat
 import com.android.geto.framework.shortcutmanager.ShortcutManagerCompatWrapper
 import javax.inject.Inject
 
@@ -32,32 +32,32 @@ internal class DefaultShortcutRepository @Inject constructor(
     override fun requestPinShortcut(
         packageName: String,
         appName: String,
-        mappedShortcutInfoCompat: MappedShortcutInfoCompat,
+        getoShortcutInfoCompat: GetoShortcutInfoCompat,
     ): Boolean {
         return shortcutManagerCompatWrapper.requestPinShortcut(
             packageName = packageName,
             appName = appName,
-            mappedShortcutInfoCompat = mappedShortcutInfoCompat,
+            getoShortcutInfoCompat = getoShortcutInfoCompat,
         )
     }
 
     override fun updateShortcuts(
         packageName: String,
         appName: String,
-        mappedShortcutInfoCompats: List<MappedShortcutInfoCompat>,
+        getoShortcutInfoCompats: List<GetoShortcutInfoCompat>,
     ): Boolean {
         return shortcutManagerCompatWrapper.updateShortcuts(
             packageName = packageName,
             appName = appName,
-            mappedShortcutInfoCompats = mappedShortcutInfoCompats,
+            getoShortcutInfoCompats = getoShortcutInfoCompats,
         )
     }
 
-    override fun getPinnedShortcuts(): List<MappedShortcutInfoCompat> {
+    override fun getPinnedShortcuts(): List<GetoShortcutInfoCompat> {
         return shortcutManagerCompatWrapper.getShortcuts(shortcutManagerCompatWrapper.flagMatchPinned)
     }
 
-    override fun getPinnedShortcut(id: String): MappedShortcutInfoCompat? {
+    override fun getPinnedShortcut(id: String): GetoShortcutInfoCompat? {
         return shortcutManagerCompatWrapper.getShortcuts(shortcutManagerCompatWrapper.flagMatchPinned)
             .find { it.id == id }
     }

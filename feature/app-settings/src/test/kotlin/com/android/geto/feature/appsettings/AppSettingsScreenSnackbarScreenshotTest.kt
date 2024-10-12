@@ -86,7 +86,7 @@ class AppSettingsScreenSnackbarScreenshotTest {
                     setPrimaryClipResult = false,
                     onNavigationIconClick = {},
                     onRevertAppSettings = {},
-                    onCheckAppSetting = { _, _ -> },
+                    onCheckAppSetting = {},
                     onDeleteAppSetting = {},
                     onLaunchApp = {},
                     onResetApplyAppSettingsResult = {},

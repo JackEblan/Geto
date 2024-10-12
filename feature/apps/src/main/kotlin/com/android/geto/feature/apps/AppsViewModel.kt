@@ -35,7 +35,9 @@ class AppsViewModel @Inject constructor(
 ) : ViewModel() {
     private val _appUiState = MutableStateFlow<AppsUiState?>(null)
     val appsUiState = _appUiState.onStart {
-        queryIntentActivities()
+        if (_appUiState.value == null) {
+            queryIntentActivities()
+        }
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
@@ -49,7 +51,7 @@ class AppsViewModel @Inject constructor(
             }
 
             _appUiState.update {
-                AppsUiState.Success(applicationInfos = packageRepository.queryIntentActivities())
+                AppsUiState.Success(getoApplicationInfos = packageRepository.queryIntentActivities())
             }
         }
     }

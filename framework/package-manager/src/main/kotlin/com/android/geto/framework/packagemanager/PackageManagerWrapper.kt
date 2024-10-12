@@ -18,10 +18,10 @@
 package com.android.geto.framework.packagemanager
 
 import android.graphics.Bitmap
-import com.android.geto.core.model.ApplicationInfo
+import com.android.geto.core.model.GetoApplicationInfo
 
 interface PackageManagerWrapper {
-    suspend fun queryIntentActivities(): List<ApplicationInfo>
+    suspend fun queryIntentActivities(): List<GetoApplicationInfo>
 
     fun getApplicationIcon(packageName: String): Bitmap?
 

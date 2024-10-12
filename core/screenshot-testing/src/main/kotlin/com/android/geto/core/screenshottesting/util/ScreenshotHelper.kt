@@ -45,20 +45,6 @@ enum class DefaultTestDevices(val description: String, val spec: String) {
     TABLET("tablet", "spec:shape=Normal,width=1280,height=800,unit=dp,dpi=480"),
 }
 
-fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.captureScreenForMultiDevice(
-    fileName: String,
-    body: @Composable () -> Unit,
-) {
-    DefaultTestDevices.entries.forEach {
-        captureScreenForDevice(
-            deviceName = it.description,
-            deviceSpec = it.spec,
-            fileName = fileName,
-            body = body,
-        )
-    }
-}
-
 fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.captureScreenForDevice(
     fileName: String,
     deviceName: String,
@@ -85,20 +71,14 @@ fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.c
  * Takes six screenshots combining light/dark and default/Android themes and whether dynamic color
  * is enabled.
  */
-fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.captureMultiTheme(
+fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.captureScreenMultiTheme(
     name: String,
     overrideFileName: String? = null,
-    shouldCompareDarkMode: Boolean = true,
-    shouldCompareDynamicColor: Boolean = true,
-    shouldCompareAndroidTheme: Boolean = true,
-    content: @Composable (desc: String) -> Unit,
+    content: @Composable (description: String) -> Unit,
 ) {
-    captureMultiTheme(
+    captureScreenMultiTheme(
         name = name,
         overrideFileName = overrideFileName,
-        shouldCompareDarkMode = shouldCompareDarkMode,
-        shouldCompareDynamicColor = shouldCompareDynamicColor,
-        shouldCompareAndroidTheme = shouldCompareAndroidTheme,
         content = content,
         onCapture = { filePath, roborazziOptions ->
             onRoot().captureRoboImage(
@@ -107,32 +87,6 @@ fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.c
             )
         },
     )
-}
-
-@Composable
-internal fun generateDescription(
-    shouldCompareDarkMode: Boolean,
-    darkMode: Boolean,
-    shouldCompareAndroidTheme: Boolean,
-    androidTheme: Boolean,
-    shouldCompareDynamicColor: Boolean,
-    dynamicTheming: Boolean,
-): String {
-    val description = "" + if (shouldCompareDarkMode) {
-        if (darkMode) "Dark" else "Light"
-    } else {
-        ""
-    } + if (shouldCompareAndroidTheme) {
-        if (androidTheme) " Android" else " Default"
-    } else {
-        ""
-    } + if (shouldCompareDynamicColor) {
-        if (dynamicTheming) " Dynamic" else ""
-    } else {
-        ""
-    }
-
-    return description.trim()
 }
 
 /**

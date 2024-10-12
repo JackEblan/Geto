@@ -17,12 +17,13 @@
  */
 package com.android.geto.framework.packagemanager.mapper
 
+import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import androidx.core.graphics.drawable.toBitmap
-import com.android.geto.core.model.ApplicationInfo
+import com.android.geto.core.model.GetoApplicationInfo
 
-internal fun android.content.pm.ApplicationInfo.toApplicationInfo(packageManager: PackageManager): ApplicationInfo {
-    return ApplicationInfo(
+internal fun ApplicationInfo.toApplicationInfo(packageManager: PackageManager): GetoApplicationInfo {
+    return GetoApplicationInfo(
         flags = flags,
         icon = loadIcon(packageManager).toBitmap(),
         packageName = packageName,

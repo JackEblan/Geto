@@ -45,7 +45,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.android.geto.core.designsystem.component.DialogContainer
 import com.android.geto.core.designsystem.component.ShimmerImage
-import com.android.geto.core.model.MappedShortcutInfoCompat
+import com.android.geto.core.model.GetoShortcutInfoCompat
 import com.android.geto.feature.appsettings.R
 
 @Composable
@@ -55,7 +55,7 @@ internal fun ShortcutDialog(
     scrollState: ScrollState = rememberScrollState(),
     packageName: String,
     contentDescription: String,
-    onAddClick: (MappedShortcutInfoCompat) -> Unit,
+    onAddClick: (GetoShortcutInfoCompat) -> Unit,
 ) {
     DialogContainer(
         modifier = modifier
@@ -83,9 +83,6 @@ internal fun ShortcutDialog(
             )
 
             ShortcutDialogButtons(
-                modifier = modifier.fillMaxWidth(),
-                positiveTextButton = stringResource(id = R.string.add),
-                negativeTextButton = stringResource(id = R.string.cancel),
                 onPositiveTextButtonClick = {
                     shortcutDialogState.getShortcut(
                         packageName = packageName,
@@ -200,26 +197,24 @@ private fun ShortcutDialogTextFields(
 @Composable
 private fun ShortcutDialogButtons(
     modifier: Modifier = Modifier,
-    positiveTextButton: String,
-    negativeTextButton: String,
     onPositiveTextButtonClick: () -> Unit,
     onNegativeTextButtonClick: () -> Unit,
 ) {
     Spacer(modifier = Modifier.height(10.dp))
 
     Row(
-        modifier = modifier,
+        modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.End,
     ) {
         TextButton(
             onClick = onNegativeTextButtonClick,
         ) {
-            Text(text = negativeTextButton)
+            Text(text = stringResource(id = R.string.cancel))
         }
         TextButton(
             onClick = onPositiveTextButtonClick,
         ) {
-            Text(text = positiveTextButton)
+            Text(text = stringResource(id = R.string.add))
         }
     }
 }

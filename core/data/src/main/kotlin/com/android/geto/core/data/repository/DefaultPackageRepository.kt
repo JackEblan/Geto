@@ -18,7 +18,7 @@
 package com.android.geto.core.data.repository
 
 import android.graphics.Bitmap
-import com.android.geto.core.model.ApplicationInfo
+import com.android.geto.core.model.GetoApplicationInfo
 import com.android.geto.framework.packagemanager.PackageManagerWrapper
 import javax.inject.Inject
 
@@ -26,7 +26,7 @@ internal class DefaultPackageRepository @Inject constructor(
     private val packageManagerWrapper: PackageManagerWrapper,
 ) : PackageRepository {
 
-    override suspend fun queryIntentActivities(): List<ApplicationInfo> {
+    override suspend fun queryIntentActivities(): List<GetoApplicationInfo> {
         return packageManagerWrapper.queryIntentActivities()
     }
 

@@ -43,6 +43,7 @@
             <option value="$PROJECT_DIR$/feature" />
             <option value="$PROJECT_DIR$/feature/app-settings" />
             <option value="$PROJECT_DIR$/feature/apps" />
+            <option value="$PROJECT_DIR$/feature/home" />
             <option value="$PROJECT_DIR$/feature/settings" />
             <option value="$PROJECT_DIR$/framework" />
             <option value="$PROJECT_DIR$/framework/clipboard-manager" />

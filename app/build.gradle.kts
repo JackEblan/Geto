@@ -68,6 +68,7 @@ dependencies {
 
     implementation(projects.feature.apps)
     implementation(projects.feature.appSettings)
+    implementation(projects.feature.home)
     implementation(projects.feature.settings)
 
     implementation(libs.androidx.activity.ktx)

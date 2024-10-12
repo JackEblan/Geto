@@ -25,8 +25,8 @@ import com.android.geto.core.domain.RequestPinShortcutUseCase
 import com.android.geto.core.domain.RevertAppSettingsUseCase
 import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.AppSettingsResult
-import com.android.geto.core.model.ApplicationInfo
-import com.android.geto.core.model.MappedShortcutInfoCompat
+import com.android.geto.core.model.GetoApplicationInfo
+import com.android.geto.core.model.GetoShortcutInfoCompat
 import com.android.geto.core.model.RequestPinShortcutResult
 import com.android.geto.core.model.SecureSetting
 import com.android.geto.core.model.SettingType
@@ -662,7 +662,7 @@ class AppSettingsViewModelTest {
         shortcutRepository.setRequestPinShortcutSupported(true)
 
         viewModel.requestPinShortcut(
-            mappedShortcutInfoCompat = MappedShortcutInfoCompat(
+            getoShortcutInfoCompat = GetoShortcutInfoCompat(
                 id = "0",
                 shortLabel = "shortLabel",
                 longLabel = "longLabel",
@@ -684,7 +684,7 @@ class AppSettingsViewModelTest {
         shortcutRepository.setRequestPinShortcutSupported(false)
 
         viewModel.requestPinShortcut(
-            mappedShortcutInfoCompat = MappedShortcutInfoCompat(
+            getoShortcutInfoCompat = GetoShortcutInfoCompat(
                 id = "0",
                 shortLabel = "shortLabel",
                 longLabel = "longLabel",
@@ -704,7 +704,7 @@ class AppSettingsViewModelTest {
         }
 
         val shortcuts = List(2) {
-            MappedShortcutInfoCompat(
+            GetoShortcutInfoCompat(
                 id = "com.android.geto",
                 shortLabel = "Geto",
                 longLabel = "Geto",
@@ -718,7 +718,7 @@ class AppSettingsViewModelTest {
         shortcutRepository.setShortcuts(shortcuts)
 
         viewModel.requestPinShortcut(
-            mappedShortcutInfoCompat = MappedShortcutInfoCompat(
+            getoShortcutInfoCompat = GetoShortcutInfoCompat(
                 id = "com.android.geto",
                 shortLabel = "",
                 longLabel = "",
@@ -738,7 +738,7 @@ class AppSettingsViewModelTest {
         }
 
         val shortcuts = List(2) {
-            MappedShortcutInfoCompat(
+            GetoShortcutInfoCompat(
                 id = "com.android.geto",
                 shortLabel = "Geto",
                 longLabel = "Geto",
@@ -752,7 +752,7 @@ class AppSettingsViewModelTest {
         shortcutRepository.setShortcuts(shortcuts)
 
         viewModel.requestPinShortcut(
-            mappedShortcutInfoCompat = MappedShortcutInfoCompat(
+            getoShortcutInfoCompat = GetoShortcutInfoCompat(
                 id = "com.android.geto",
                 shortLabel = "",
                 longLabel = "",
@@ -768,15 +768,15 @@ class AppSettingsViewModelTest {
     @Test
     fun applicationIcon_isNotNull_whenGetApplicationIcon() = runTest {
         backgroundScope.launch(UnconfinedTestDispatcher()) {
-            val applicationInfos = List(1) { _ ->
-                ApplicationInfo(
+            val getoApplicationInfos = List(1) { _ ->
+                GetoApplicationInfo(
                     flags = 0,
                     packageName = packageName,
                     label = appName,
                 )
             }
 
-            packageRepository.setApplicationInfos(applicationInfos)
+            packageRepository.setApplicationInfos(getoApplicationInfos)
 
             viewModel.applicationIcon.collect()
         }
@@ -787,15 +787,15 @@ class AppSettingsViewModelTest {
     @Test
     fun applicationIcon_isNull_whenGetApplicationIcon() = runTest {
         backgroundScope.launch(UnconfinedTestDispatcher()) {
-            val applicationInfos = List(1) { _ ->
-                ApplicationInfo(
+            val getoApplicationInfos = List(1) { _ ->
+                GetoApplicationInfo(
                     flags = 0,
                     packageName = "",
                     label = appName,
                 )
             }
 
-            packageRepository.setApplicationInfos(applicationInfos)
+            packageRepository.setApplicationInfos(getoApplicationInfos)
 
             viewModel.applicationIcon.collect()
         }

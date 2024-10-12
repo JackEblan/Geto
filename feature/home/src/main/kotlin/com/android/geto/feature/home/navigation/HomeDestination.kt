@@ -15,13 +15,20 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.core.model
+package com.android.geto.feature.home.navigation
 
-import android.graphics.Bitmap
+import androidx.annotation.StringRes
+import androidx.compose.ui.graphics.vector.ImageVector
+import kotlin.reflect.KClass
 
-data class ApplicationInfo(
-    val flags: Int,
-    val icon: Bitmap? = null,
-    val packageName: String,
-    val label: String,
-)
+interface HomeDestination {
+    @get:StringRes
+    val label: Int
+
+    val icon: ImageVector
+
+    @get:StringRes
+    val contentDescription: Int
+
+    val route: KClass<*>
+}

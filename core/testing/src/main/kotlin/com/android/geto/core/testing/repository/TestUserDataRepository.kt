@@ -27,7 +27,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.filterNotNull
 
 val emptyUserData = UserData(
-    themeBrand = ThemeBrand.DEFAULT,
+    themeBrand = ThemeBrand.PURPLE,
     darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
     useDynamicColor = false,
     useAutoLaunch = false,

@@ -19,13 +19,13 @@ package com.android.geto.core.data.test.repository
 
 import android.graphics.Bitmap
 import com.android.geto.core.data.repository.PackageRepository
-import com.android.geto.core.model.ApplicationInfo
+import com.android.geto.core.model.GetoApplicationInfo
 import javax.inject.Inject
 
 class FakePackageRepository @Inject constructor() : PackageRepository {
-    override suspend fun queryIntentActivities(): List<ApplicationInfo> {
+    override suspend fun queryIntentActivities(): List<GetoApplicationInfo> {
         return List(20) { index ->
-            ApplicationInfo(
+            GetoApplicationInfo(
                 flags = 0,
                 packageName = "com.android.geto$index",
                 label = "Geto $index",

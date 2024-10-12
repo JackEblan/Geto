@@ -66,7 +66,7 @@ import com.android.geto.core.designsystem.component.GetoLoadingWheel
 import com.android.geto.core.designsystem.icon.GetoIcons
 import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.AppSettingsResult
-import com.android.geto.core.model.MappedShortcutInfoCompat
+import com.android.geto.core.model.GetoShortcutInfoCompat
 import com.android.geto.core.model.RequestPinShortcutResult
 import com.android.geto.core.model.SecureSetting
 import com.android.geto.core.model.SettingType
@@ -166,7 +166,7 @@ internal fun AppSettingsScreen(
     setPrimaryClipResult: Boolean,
     onNavigationIconClick: () -> Unit,
     onRevertAppSettings: () -> Unit,
-    onCheckAppSetting: (Boolean, AppSetting) -> Unit,
+    onCheckAppSetting: (AppSetting) -> Unit,
     onDeleteAppSetting: (AppSetting) -> Unit,
     onLaunchApp: () -> Unit,
     onResetApplyAppSettingsResult: () -> Unit,
@@ -177,7 +177,7 @@ internal fun AppSettingsScreen(
     onGetSecureSettingsByName: (SettingType, String) -> Unit,
     onAddAppSetting: (AppSetting) -> Unit,
     onCopyPermissionCommand: () -> Unit,
-    onAddShortcut: (MappedShortcutInfoCompat) -> Unit,
+    onAddShortcut: (GetoShortcutInfoCompat) -> Unit,
     onLaunchIntent: () -> Unit,
 ) {
     val copyPermissionCommandDialogState = rememberCopyPermissionCommandDialogState()
@@ -259,7 +259,7 @@ internal fun AppSettingsScreen(
                         SuccessState(
                             appSettingsUiState = appSettingsUiState,
                             contentPadding = innerPadding,
-                            onAppSettingsItemCheckBoxChange = onCheckAppSetting,
+                            onCheckAppSetting = onCheckAppSetting,
                             onDeleteAppSettingsItem = onDeleteAppSetting,
                         )
                     } else {
@@ -447,7 +447,7 @@ private fun AppSettingsDialogs(
     packageName: String,
     onAddAppSetting: (AppSetting) -> Unit,
     onCopyPermissionCommand: () -> Unit,
-    onAddShortcut: (MappedShortcutInfoCompat) -> Unit,
+    onAddShortcut: (GetoShortcutInfoCompat) -> Unit,
 ) {
     if (appSettingDialogState.showDialog) {
         AppSettingDialog(
@@ -579,7 +579,7 @@ private fun EmptyState(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Image(
-            imageVector = GetoIcons.Empty,
+            imageVector = GetoIcons.Android,
             contentDescription = null,
             modifier = Modifier.size(100.dp),
             colorFilter = ColorFilter.tint(
@@ -606,7 +606,7 @@ private fun SuccessState(
     modifier: Modifier = Modifier,
     appSettingsUiState: AppSettingsUiState.Success,
     contentPadding: PaddingValues,
-    onAppSettingsItemCheckBoxChange: (Boolean, AppSetting) -> Unit,
+    onCheckAppSetting: (AppSetting) -> Unit,
     onDeleteAppSettingsItem: (AppSetting) -> Unit,
 ) {
     LazyColumn(
@@ -623,9 +623,8 @@ private fun SuccessState(
                     .animateItem(),
                 appSetting = appSettings,
                 onCheckAppSetting = { check ->
-                    onAppSettingsItemCheckBoxChange(
-                        check,
-                        appSettings,
+                    onCheckAppSetting(
+                        appSettings.copy(enabled = check),
                     )
                 },
                 onDeleteAppSetting = {

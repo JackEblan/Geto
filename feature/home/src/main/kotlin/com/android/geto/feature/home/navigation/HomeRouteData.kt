@@ -15,13 +15,9 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.framework.packagemanager.model
+package com.android.geto.feature.home.navigation
 
-import android.graphics.drawable.Drawable
+import kotlinx.serialization.Serializable
 
-data class AndroidApplicationInfo(
-    val flags: Int,
-    val icon: Drawable? = null,
-    val packageName: String,
-    val label: String,
-)
+@Serializable
+data object HomeRouteData

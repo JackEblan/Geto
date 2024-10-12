@@ -25,7 +25,7 @@ import androidx.compose.ui.text.style.LineHeightStyle.Alignment
 import androidx.compose.ui.text.style.LineHeightStyle.Trim
 import androidx.compose.ui.unit.sp
 
-internal val GetoTypography = Typography(
+internal val SwrTypography = Typography(
     displayLarge = TextStyle(
         fontWeight = FontWeight.Normal,
         fontSize = 57.sp,

@@ -17,7 +17,7 @@
  */
 package com.android.geto.core.data.repository
 
-import com.android.geto.core.model.MappedShortcutInfoCompat
+import com.android.geto.core.model.GetoShortcutInfoCompat
 
 interface ShortcutRepository {
 
@@ -26,16 +26,16 @@ interface ShortcutRepository {
     fun requestPinShortcut(
         packageName: String,
         appName: String,
-        mappedShortcutInfoCompat: MappedShortcutInfoCompat,
+        getoShortcutInfoCompat: GetoShortcutInfoCompat,
     ): Boolean
 
     fun updateShortcuts(
         packageName: String,
         appName: String,
-        mappedShortcutInfoCompats: List<MappedShortcutInfoCompat>,
+        getoShortcutInfoCompats: List<GetoShortcutInfoCompat>,
     ): Boolean
 
-    fun getPinnedShortcuts(): List<MappedShortcutInfoCompat>
+    fun getPinnedShortcuts(): List<GetoShortcutInfoCompat>
 
-    fun getPinnedShortcut(id: String): MappedShortcutInfoCompat?
+    fun getPinnedShortcut(id: String): GetoShortcutInfoCompat?
 }

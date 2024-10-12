@@ -25,7 +25,7 @@ import com.android.geto.core.designsystem.component.GetoLoadingWheel
 import com.android.geto.core.designsystem.component.GetoOverlayLoadingWheel
 import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.screenshottesting.util.DefaultRoborazziOptions
-import com.android.geto.core.screenshottesting.util.captureMultiTheme
+import com.android.geto.core.screenshottesting.util.captureScreenMultiTheme
 import com.github.takahirom.roborazzi.captureRoboImage
 import dagger.hilt.android.testing.HiltTestApplication
 import org.junit.Rule
@@ -47,7 +47,7 @@ class LoadingWheelScreenshotTests {
 
     @Test
     fun getoLoadingWheel_multipleThemes() {
-        composeTestRule.captureMultiTheme("LoadingWheel") {
+        composeTestRule.captureScreenMultiTheme("LoadingWheel") {
             Surface {
                 GetoLoadingWheel(contentDescription = "test")
             }
@@ -56,7 +56,7 @@ class LoadingWheelScreenshotTests {
 
     @Test
     fun getoOverlayLoadingWheel_multipleThemes() {
-        composeTestRule.captureMultiTheme("LoadingWheel", "OverlayLoadingWheel") {
+        composeTestRule.captureScreenMultiTheme("LoadingWheel", "OverlayLoadingWheel") {
             Surface {
                 GetoOverlayLoadingWheel(contentDescription = "test")
             }

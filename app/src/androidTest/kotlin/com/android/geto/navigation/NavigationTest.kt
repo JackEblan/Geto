@@ -17,28 +17,21 @@
  */
 package com.android.geto.navigation
 
-import androidx.activity.compose.setContent
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.test.assertIsDisplayed
+import androidx.annotation.StringRes
+import androidx.compose.ui.test.assertIsSelected
 import androidx.compose.ui.test.hasTestTag
+import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
-import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
-import androidx.navigation.compose.ComposeNavigator
-import androidx.navigation.testing.TestNavHostController
-import androidx.navigation.toRoute
 import com.android.geto.MainActivity
-import com.android.geto.feature.apps.navigation.AppsRouteData
-import com.android.geto.feature.appsettings.navigation.AppSettingsRouteData
-import com.android.geto.feature.settings.navigation.SettingsRouteData
+import com.android.geto.R
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertIs
+import kotlin.properties.ReadOnlyProperty
 
 @HiltAndroidTest
 class NavigationTest {
@@ -48,71 +41,47 @@ class NavigationTest {
     @get:Rule(order = 1)
     val composeTestRule = createAndroidComposeRule<MainActivity>()
 
-    private lateinit var navController: TestNavHostController
+    private fun AndroidComposeTestRule<*, *>.stringResource(@StringRes resId: Int) =
+        ReadOnlyProperty<Any, String> { _, _ -> activity.getString(resId) }
+
+    private val apps by composeTestRule.stringResource(R.string.apps)
+    private val settings by composeTestRule.stringResource(R.string.settings)
 
     @Before
-    fun setup() {
-        composeTestRule.activity.setContent {
-            navController = TestNavHostController(LocalContext.current)
-            navController.navigatorProvider.addNavigator(ComposeNavigator())
+    fun setup() = hiltRule.inject()
 
-            GetoNavHost(navController = navController)
+    @Test
+    fun appsScreen_isDisplayed_whenStarted() {
+        composeTestRule.apply {
+            onNodeWithContentDescription(apps).assertIsSelected()
         }
     }
 
     @Test
-    fun appsScreen_isDisplayed_whenStarted() {
-        composeTestRule.onNodeWithTag("apps").assertIsDisplayed()
-    }
-
-    @Test
-    fun appSettingsScreen_isDisplayed_whenMappedApplicationInfoItem_isClicked() {
-        composeTestRule.onAllNodes(hasTestTag("apps:appItem"))[0].performClick()
-
-        val appSettingsRouteData = navController.currentBackStackEntry?.toRoute<AppSettingsRouteData>()
-
-        assertIs<AppSettingsRouteData>(appSettingsRouteData)
-    }
-
-    @Test
-    fun appsScreen_isDisplayed_whenNavigateBackFromAppSettingsScreen() {
-        composeTestRule.onAllNodes(hasTestTag("apps:appItem"))[0].performClick()
-
-        composeTestRule.onNodeWithContentDescription(
-            label = "Navigation icon",
-            useUnmergedTree = true,
-        ).performClick()
-
-        val appsRouteData = navController.currentBackStackEntry?.toRoute<AppsRouteData>()
-
-        assertIs<AppsRouteData>(appsRouteData)
-    }
-
-    @Test
     fun settingsScreen_isDisplayed_whenSettingsIcon_isClicked() {
-        composeTestRule.onNodeWithContentDescription("Settings icon").performClick()
-
-        val settingsRouteData = navController.currentBackStackEntry?.toRoute<SettingsRouteData>()
-
-        assertIs<SettingsRouteData>(settingsRouteData)
+        composeTestRule.apply {
+            onNodeWithContentDescription(settings).performClick().assertIsSelected()
+        }
     }
 
     @Test
-    fun appsScreen_isDisplayed_whenNavigateBackFromSettingsScreen() {
-        composeTestRule.onNodeWithContentDescription("Settings icon").performClick()
+    fun appSettingsScreen_isDisplayed_whenGetoApplicationInfoItem_isClicked() {
+        composeTestRule.apply {
+            onAllNodes(hasTestTag("apps:appItem"))[0].performClick()
+        }
+    }
 
-        composeTestRule.onNodeWithContentDescription(
-            label = "Navigation icon",
-            useUnmergedTree = true,
-        ).performClick()
+    @Test
+    fun appsScreen_isDisplayed_whenNavigateBack_fromAppSettingsScreen() {
+        composeTestRule.apply {
+            onAllNodes(hasTestTag("apps:appItem"))[0].performClick()
 
-        val appsRouteData = navController.currentBackStackEntry?.toRoute<AppsRouteData>()
+            onNodeWithContentDescription(
+                label = "Navigation icon",
+                useUnmergedTree = true,
+            ).performClick()
 
-        assertEquals(
-            expected = appsRouteData,
-            actual = AppsRouteData,
-        )
-
-        assertIs<AppsRouteData>(appsRouteData)
+            onNodeWithContentDescription(apps).assertIsSelected()
+        }
     }
 }

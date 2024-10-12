@@ -49,7 +49,4 @@ dependencies {
     testImplementation(libs.roborazzi)
     testImplementation(projects.core.screenshotTesting)
     testImplementation(projects.core.testing)
-
-    androidTestImplementation(libs.androidx.compose.ui.test)
-    androidTestImplementation(projects.core.testing)
 }

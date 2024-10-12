@@ -39,6 +39,7 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.android.geto.core.designsystem.component.DialogContainer
+import com.android.geto.core.model.DarkThemeConfig
 import com.android.geto.feature.settings.R
 
 @Composable
@@ -58,9 +59,7 @@ internal fun DarkDialog(
         onDismissRequest = onDismissRequest,
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(10.dp),
+            modifier = Modifier.fillMaxWidth(),
         ) {
             DarkDialogTitle()
 
@@ -70,7 +69,6 @@ internal fun DarkDialog(
             )
 
             DarkDialogButtons(
-                modifier = modifier.fillMaxWidth(),
                 onCancelClick = onCancelClick,
                 onChangeClick = onChangeClick,
             )
@@ -83,7 +81,7 @@ private fun DarkDialogTitle(modifier: Modifier = Modifier) {
     Spacer(modifier = Modifier.height(10.dp))
 
     Text(
-        modifier = modifier.padding(horizontal = 5.dp),
+        modifier = modifier.padding(10.dp),
         text = stringResource(id = R.string.theme),
         style = MaterialTheme.typography.titleLarge,
     )
@@ -95,12 +93,6 @@ private fun DarkDialogRadioButtonGroup(
     selected: Int,
     onSelect: (Int) -> Unit,
 ) {
-    val items = arrayOf(
-        stringResource(id = R.string.follow_system),
-        stringResource(id = R.string.light),
-        stringResource(id = R.string.dark),
-    )
-
     Spacer(modifier = Modifier.height(10.dp))
 
     Column(
@@ -108,10 +100,11 @@ private fun DarkDialogRadioButtonGroup(
             .fillMaxWidth()
             .selectableGroup(),
     ) {
-        items.forEachIndexed { index, text ->
+        DarkThemeConfig.entries.map { it.title }.forEachIndexed { index, text ->
             Row(
                 Modifier
-                    .padding(vertical = 10.dp)
+                    .fillMaxWidth()
+                    .height(56.dp)
                     .selectable(
                         selected = index == selected,
                         role = Role.RadioButton,
@@ -147,7 +140,9 @@ private fun DarkDialogButtons(
     Spacer(modifier = Modifier.height(10.dp))
 
     Row(
-        modifier = modifier,
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(10.dp),
         horizontalArrangement = Arrangement.End,
     ) {
         TextButton(

@@ -19,17 +19,17 @@ package com.android.geto.core.testing.repository
 
 import android.graphics.Bitmap
 import com.android.geto.core.data.repository.PackageRepository
-import com.android.geto.core.model.ApplicationInfo
+import com.android.geto.core.model.GetoApplicationInfo
 
 class TestPackageRepository : PackageRepository {
-    private var applicationInfos = listOf<ApplicationInfo>()
+    private var getoApplicationInfos = listOf<GetoApplicationInfo>()
 
-    override suspend fun queryIntentActivities(): List<ApplicationInfo> {
-        return applicationInfos.filter { it.flags == 0 }.sortedBy { it.label }
+    override suspend fun queryIntentActivities(): List<GetoApplicationInfo> {
+        return getoApplicationInfos.filter { it.flags == 0 }.sortedBy { it.label }
     }
 
     override fun getApplicationIcon(packageName: String): Bitmap? {
-        return if (applicationInfos.any { it.packageName == packageName }) {
+        return if (getoApplicationInfos.any { it.packageName == packageName }) {
             Bitmap.createBitmap(
                 100,
                 100,
@@ -43,7 +43,7 @@ class TestPackageRepository : PackageRepository {
     override fun launchIntentForPackage(packageName: String) {
     }
 
-    fun setApplicationInfos(value: List<ApplicationInfo>) {
-        applicationInfos = value
+    fun setApplicationInfos(value: List<GetoApplicationInfo>) {
+        getoApplicationInfos = value
     }
 }

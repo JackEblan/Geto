@@ -15,13 +15,11 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.core.model
+package com.android.geto
 
-import android.graphics.Bitmap
+import com.android.geto.core.model.UserData
 
-data class MappedShortcutInfoCompat(
-    val id: String,
-    val icon: Bitmap? = null,
-    val shortLabel: String,
-    val longLabel: String,
-)
+sealed interface MainActivityUiState {
+    data object Loading : MainActivityUiState
+    data class Success(val userData: UserData) : MainActivityUiState
+}

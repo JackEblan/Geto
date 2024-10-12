@@ -42,7 +42,7 @@ class SettingsScreenDialogsTest {
             SettingsScreen(
                 settingsUiState = SettingsUiState.Success(
                     UserData(
-                        themeBrand = ThemeBrand.DEFAULT,
+                        themeBrand = ThemeBrand.PURPLE,
                         useDynamicColor = true,
                         darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
                         useAutoLaunch = true,
@@ -73,7 +73,7 @@ class SettingsScreenDialogsTest {
             SettingsScreen(
                 settingsUiState = SettingsUiState.Success(
                     UserData(
-                        themeBrand = ThemeBrand.DEFAULT,
+                        themeBrand = ThemeBrand.PURPLE,
                         useDynamicColor = true,
                         darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
                         useAutoLaunch = true,
@@ -104,7 +104,7 @@ class SettingsScreenDialogsTest {
             SettingsScreen(
                 settingsUiState = SettingsUiState.Success(
                     UserData(
-                        themeBrand = ThemeBrand.DEFAULT,
+                        themeBrand = ThemeBrand.PURPLE,
                         useDynamicColor = true,
                         darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
                         useAutoLaunch = true,
@@ -137,7 +137,7 @@ class SettingsScreenDialogsTest {
             SettingsScreen(
                 settingsUiState = SettingsUiState.Success(
                     UserData(
-                        themeBrand = ThemeBrand.DEFAULT,
+                        themeBrand = ThemeBrand.PURPLE,
                         useDynamicColor = true,
                         darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
                         useAutoLaunch = true,
@@ -172,7 +172,7 @@ class SettingsScreenDialogsTest {
             SettingsScreen(
                 settingsUiState = SettingsUiState.Success(
                     UserData(
-                        themeBrand = ThemeBrand.DEFAULT,
+                        themeBrand = ThemeBrand.PURPLE,
                         useDynamicColor = true,
                         darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
                         useAutoLaunch = true,
@@ -207,7 +207,7 @@ class SettingsScreenDialogsTest {
             SettingsScreen(
                 settingsUiState = SettingsUiState.Success(
                     UserData(
-                        themeBrand = ThemeBrand.DEFAULT,
+                        themeBrand = ThemeBrand.PURPLE,
                         useDynamicColor = true,
                         darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
                         useAutoLaunch = true,
