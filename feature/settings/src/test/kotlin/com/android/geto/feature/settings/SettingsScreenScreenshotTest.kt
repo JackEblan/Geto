@@ -67,7 +67,6 @@ class SettingsScreenScreenshotTest {
                     onCleanAppSettings = {},
                     onChangeDynamicColorPreference = {},
                     onChangeAutoLaunchPreference = {},
-                    onNavigationIconClick = {},
                 )
             }
         }
@@ -89,7 +88,6 @@ class SettingsScreenScreenshotTest {
                     onCleanAppSettings = {},
                     onChangeDynamicColorPreference = {},
                     onChangeAutoLaunchPreference = {},
-                    onNavigationIconClick = {},
                 )
             }
         }
@@ -120,7 +118,6 @@ class SettingsScreenScreenshotTest {
                         onCleanAppSettings = {},
                         onChangeDynamicColorPreference = {},
                         onChangeAutoLaunchPreference = {},
-                        onNavigationIconClick = {},
                     )
                 }
             }
@@ -145,7 +142,6 @@ class SettingsScreenScreenshotTest {
                         onCleanAppSettings = {},
                         onChangeDynamicColorPreference = {},
                         onChangeAutoLaunchPreference = {},
-                        onNavigationIconClick = {},
                     )
                 }
             }

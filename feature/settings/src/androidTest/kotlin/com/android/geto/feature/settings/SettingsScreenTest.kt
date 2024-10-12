@@ -47,7 +47,6 @@ class SettingsScreenTest {
                 onCleanAppSettings = {},
                 onChangeDynamicColorPreference = {},
                 onChangeAutoLaunchPreference = {},
-                onNavigationIconClick = {},
             )
         }
 
@@ -72,7 +71,6 @@ class SettingsScreenTest {
                 onCleanAppSettings = {},
                 onChangeDynamicColorPreference = {},
                 onChangeAutoLaunchPreference = {},
-                onNavigationIconClick = {},
             )
         }
 
@@ -97,7 +95,6 @@ class SettingsScreenTest {
                 onCleanAppSettings = {},
                 onChangeDynamicColorPreference = {},
                 onChangeAutoLaunchPreference = {},
-                onNavigationIconClick = {},
             )
         }
 
@@ -122,7 +119,6 @@ class SettingsScreenTest {
                 onCleanAppSettings = {},
                 onChangeDynamicColorPreference = {},
                 onChangeAutoLaunchPreference = {},
-                onNavigationIconClick = {},
             )
         }
 
@@ -147,7 +143,6 @@ class SettingsScreenTest {
                 onCleanAppSettings = {},
                 onChangeDynamicColorPreference = {},
                 onChangeAutoLaunchPreference = {},
-                onNavigationIconClick = {},
             )
         }
 
@@ -172,7 +167,6 @@ class SettingsScreenTest {
                 onCleanAppSettings = {},
                 onChangeDynamicColorPreference = {},
                 onChangeAutoLaunchPreference = {},
-                onNavigationIconClick = {},
             )
         }
 
@@ -197,7 +191,6 @@ class SettingsScreenTest {
                 onCleanAppSettings = {},
                 onChangeDynamicColorPreference = {},
                 onChangeAutoLaunchPreference = {},
-                onNavigationIconClick = {},
             )
         }
 
@@ -222,7 +215,6 @@ class SettingsScreenTest {
                 onCleanAppSettings = {},
                 onChangeDynamicColorPreference = {},
                 onChangeAutoLaunchPreference = {},
-                onNavigationIconClick = {},
             )
         }
 
@@ -247,7 +239,6 @@ class SettingsScreenTest {
                 onCleanAppSettings = {},
                 onChangeDynamicColorPreference = {},
                 onChangeAutoLaunchPreference = {},
-                onNavigationIconClick = {},
             )
         }
 

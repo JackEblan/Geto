@@ -36,7 +36,6 @@ class AppsScreenTest {
             AppsScreen(
                 appsUiState = AppsUiState.Loading,
                 onItemClick = { _, _ -> },
-                onSettingsClick = {},
             )
         }
 
@@ -57,7 +56,6 @@ class AppsScreenTest {
             AppsScreen(
                 appsUiState = AppsUiState.Success(mappedGetoApplicationInfos),
                 onItemClick = { _, _ -> },
-                onSettingsClick = {},
             )
         }
 

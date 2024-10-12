@@ -58,7 +58,6 @@ class AppsScreenScreenshotTest {
                 AppsScreen(
                     appsUiState = AppsUiState.Success(mappedGetoApplicationInfos),
                     onItemClick = { _, _ -> },
-                    onSettingsClick = {},
                 )
             }
         }
@@ -71,7 +70,6 @@ class AppsScreenScreenshotTest {
                 AppsScreen(
                     appsUiState = AppsUiState.Loading,
                     onItemClick = { _, _ -> },
-                    onSettingsClick = {},
                 )
             }
         }
@@ -92,7 +90,6 @@ class AppsScreenScreenshotTest {
                             mappedGetoApplicationInfos,
                         ),
                         onItemClick = { _, _ -> },
-                        onSettingsClick = {},
                     )
                 }
             }
@@ -112,7 +109,6 @@ class AppsScreenScreenshotTest {
                     AppsScreen(
                         appsUiState = AppsUiState.Loading,
                         onItemClick = { _, _ -> },
-                        onSettingsClick = {},
                     )
                 }
             }

@@ -54,7 +54,6 @@ class SettingsScreenDialogsTest {
                 onCleanAppSettings = {},
                 onChangeDynamicColorPreference = {},
                 onChangeAutoLaunchPreference = {},
-                onNavigationIconClick = {},
             )
         }
 
@@ -85,7 +84,6 @@ class SettingsScreenDialogsTest {
                 onCleanAppSettings = {},
                 onChangeDynamicColorPreference = {},
                 onChangeAutoLaunchPreference = {},
-                onNavigationIconClick = {},
             )
         }
 
@@ -116,7 +114,6 @@ class SettingsScreenDialogsTest {
                 onCleanAppSettings = {},
                 onChangeDynamicColorPreference = {},
                 onChangeAutoLaunchPreference = {},
-                onNavigationIconClick = {},
             )
         }
 
@@ -149,7 +146,6 @@ class SettingsScreenDialogsTest {
                 onCleanAppSettings = {},
                 onChangeDynamicColorPreference = {},
                 onChangeAutoLaunchPreference = {},
-                onNavigationIconClick = {},
             )
         }
 
@@ -184,7 +180,6 @@ class SettingsScreenDialogsTest {
                 onCleanAppSettings = {},
                 onChangeDynamicColorPreference = {},
                 onChangeAutoLaunchPreference = {},
-                onNavigationIconClick = {},
             )
         }
 
@@ -219,7 +214,6 @@ class SettingsScreenDialogsTest {
                 onCleanAppSettings = {},
                 onChangeDynamicColorPreference = {},
                 onChangeAutoLaunchPreference = {},
-                onNavigationIconClick = {},
             )
         }
 

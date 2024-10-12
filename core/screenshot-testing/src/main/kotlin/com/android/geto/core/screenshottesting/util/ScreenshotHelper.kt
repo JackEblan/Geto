@@ -67,6 +67,20 @@ fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.c
     )
 }
 
+fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.captureScreenForMultiDevice(
+    fileName: String,
+    body: @Composable () -> Unit,
+) {
+    DefaultTestDevices.entries.forEach {
+        captureScreenForDevice(
+            deviceName = it.description,
+            deviceSpec = it.spec,
+            fileName = fileName,
+            body = body,
+        )
+    }
+}
+
 /**
  * Takes six screenshots combining light/dark and default/Android themes and whether dynamic color
  * is enabled.
