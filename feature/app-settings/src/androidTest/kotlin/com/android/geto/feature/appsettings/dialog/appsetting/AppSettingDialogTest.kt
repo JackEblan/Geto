@@ -23,6 +23,7 @@ import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.isDialog
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
@@ -70,11 +71,12 @@ class AppSettingDialogTest {
                 onAddClick = {
                     assertTrue(appSettingDialogState.showDialog)
                 },
-                contentDescription = "",
+                contentDescription = "AppSettingDialog",
             )
         }
 
-        composeTestRule.onNode(isDialog()).performScrollToNode(hasText("Add")).performClick()
+        composeTestRule.onNodeWithContentDescription("AppSettingDialog")
+            .performScrollToNode(hasText("Add")).performClick()
 
         composeTestRule.onNodeWithTag(
             testTag = "appSettingDialog:labelSupportingText",
@@ -109,7 +111,8 @@ class AppSettingDialogTest {
             )
         }
 
-        composeTestRule.onNode(isDialog()).performScrollToNode(hasText("Add")).performClick()
+        composeTestRule.onNodeWithContentDescription("AppSettingDialog")
+            .performScrollToNode(hasText("Add")).performClick()
 
         composeTestRule.onNodeWithTag(
             testTag = "appSettingDialog:keySupportingText",
@@ -144,7 +147,8 @@ class AppSettingDialogTest {
             )
         }
 
-        composeTestRule.onNode(isDialog()).performScrollToNode(hasText("Add")).performClick()
+        composeTestRule.onNodeWithContentDescription("AppSettingDialog")
+            .performScrollToNode(hasText("Add")).performClick()
 
         composeTestRule.onNodeWithTag(
             testTag = "appSettingDialog:settingsKeyNotFoundSupportingText",
@@ -179,7 +183,8 @@ class AppSettingDialogTest {
             )
         }
 
-        composeTestRule.onNode(isDialog()).performScrollToNode(hasText("Add")).performClick()
+        composeTestRule.onNodeWithContentDescription("AppSettingDialog")
+            .performScrollToNode(hasText("Add")).performClick()
 
         composeTestRule.onNodeWithTag(
             testTag = "appSettingDialog:valueOnLaunchSupportingText",
@@ -214,7 +219,8 @@ class AppSettingDialogTest {
             )
         }
 
-        composeTestRule.onNode(isDialog()).performScrollToNode(hasText("Add")).performClick()
+        composeTestRule.onNodeWithContentDescription("AppSettingDialog")
+            .performScrollToNode(hasText("Add")).performClick()
 
         composeTestRule.onNodeWithTag(
             testTag = "appSettingDialog:valueOnRevertSupportingText",
@@ -305,6 +311,7 @@ class AppSettingDialogTest {
             )
         }
 
-        composeTestRule.onNode(isDialog()).performScrollToNode(hasText("Add")).performClick()
+        composeTestRule.onNodeWithContentDescription("AppSettingDialog")
+            .performScrollToNode(hasText("Add")).performClick()
     }
 }

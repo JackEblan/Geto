@@ -83,12 +83,12 @@ class AppSettingsScreenDialogsTest {
             useUnmergedTree = true,
         ).performClick()
 
-        composeTestRule.onNodeWithContentDescription("Add App Settings Dialog").assertIsDisplayed()
+        composeTestRule.onNodeWithContentDescription("AppSettingDialog").assertIsDisplayed()
 
-        composeTestRule.onNode(isDialog()).performScrollToNode(hasText("Add")).performClick()
+        composeTestRule.onNodeWithContentDescription("AppSettingDialog")
+            .performScrollToNode(hasText("Add")).performClick()
 
-        composeTestRule.onNodeWithContentDescription("Add App Settings Dialog")
-            .assertIsNotDisplayed()
+        composeTestRule.onNodeWithContentDescription("AppSettingDialog").assertIsNotDisplayed()
     }
 
     @Test
