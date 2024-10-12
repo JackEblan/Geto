@@ -19,7 +19,6 @@ package com.android.geto.feature.appsettings
 
 import android.graphics.Bitmap
 import androidx.annotation.VisibleForTesting
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -56,7 +55,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -263,7 +261,10 @@ internal fun AppSettingsScreen(
                             onDeleteAppSettingsItem = onDeleteAppSetting,
                         )
                     } else {
-                        EmptyState(text = stringResource(R.string.add_your_first_settings))
+                        EmptyState(
+                            title = stringResource(R.string.no_settings_found),
+                            subtitle = stringResource(R.string.add_your_first_settings),
+                        )
                     }
                 }
             }
@@ -569,7 +570,8 @@ private fun AppSettingsBottomAppBarActions(
 @Composable
 private fun EmptyState(
     modifier: Modifier = Modifier,
-    text: String,
+    title: String,
+    subtitle: String,
 ) {
     Column(
         modifier = modifier
@@ -578,18 +580,19 @@ private fun EmptyState(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Image(
-            imageVector = GetoIcons.Android,
-            contentDescription = null,
+        Icon(
             modifier = Modifier.size(100.dp),
-            colorFilter = ColorFilter.tint(
-                MaterialTheme.colorScheme.onSurface,
-            ),
+            imageVector = GetoIcons.OutlinedSettings,
+            contentDescription = null,
         )
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        Text(text = text, style = MaterialTheme.typography.bodyLarge)
+        Text(text = title, style = MaterialTheme.typography.titleLarge)
+
+        Spacer(modifier = Modifier.height(10.dp))
+
+        Text(text = subtitle, style = MaterialTheme.typography.bodyLarge)
     }
 }
 

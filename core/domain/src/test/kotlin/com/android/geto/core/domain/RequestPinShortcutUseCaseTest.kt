@@ -48,7 +48,7 @@ class RequestPinShortcutUseCaseTest {
             actual = requestPinShortcutUseCase(
                 packageName = "com.android.geto",
                 appName = "Geto",
-                mappedShortcutInfoCompat = GetoShortcutInfoCompat(
+                getoShortcutInfoCompat = GetoShortcutInfoCompat(
                     id = "com.android.geto",
                     shortLabel = "shortLabel",
                     longLabel = "longLabel",
@@ -66,7 +66,7 @@ class RequestPinShortcutUseCaseTest {
             actual = requestPinShortcutUseCase(
                 packageName = "com.android.geto",
                 appName = "Geto",
-                mappedShortcutInfoCompat = GetoShortcutInfoCompat(
+                getoShortcutInfoCompat = GetoShortcutInfoCompat(
                     id = "com.android.geto",
                     shortLabel = "shortLabel",
                     longLabel = "longLabel",
@@ -96,7 +96,7 @@ class RequestPinShortcutUseCaseTest {
             actual = requestPinShortcutUseCase(
                 packageName = "com.android.geto",
                 appName = "Geto",
-                mappedShortcutInfoCompat = GetoShortcutInfoCompat(
+                getoShortcutInfoCompat = GetoShortcutInfoCompat(
                     id = "com.android.geto",
                     shortLabel = "shortLabel",
                     longLabel = "longLabel",
@@ -126,7 +126,7 @@ class RequestPinShortcutUseCaseTest {
             actual = requestPinShortcutUseCase(
                 packageName = "com.android.geto",
                 appName = "Geto",
-                mappedShortcutInfoCompat = GetoShortcutInfoCompat(
+                getoShortcutInfoCompat = GetoShortcutInfoCompat(
                     id = "com.android.geto",
                     shortLabel = "shortLabel",
                     longLabel = "longLabel",

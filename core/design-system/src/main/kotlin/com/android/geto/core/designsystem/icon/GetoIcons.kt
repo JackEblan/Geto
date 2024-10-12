@@ -24,10 +24,12 @@ import androidx.compose.material.icons.filled.AppShortcut
 import androidx.compose.material.icons.filled.Apps
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.outlined.Settings
 
 object GetoIcons {
     val Apps = Icons.Default.Apps
     val Settings = Icons.Default.Settings
+    val OutlinedSettings = Icons.Outlined.Settings
     val Android = Icons.Default.Android
     val Back = Icons.AutoMirrored.Filled.ArrowBack
     val Refresh = Icons.Default.Refresh

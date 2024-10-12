@@ -148,8 +148,6 @@ class AutoLaunchUseCaseTest {
 
         appSettingsRepository.setAppSettings(appSettings)
 
-        val result = autoLaunchUseCase(packageName = packageName)
-
         assertEquals(
             expected = AppSettingsResult.Success,
             actual = autoLaunchUseCase(packageName = packageName),
