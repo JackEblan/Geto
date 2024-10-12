@@ -39,4 +39,5 @@ dependencies {
 
     androidTestImplementation(libs.hilt.android.testing)
     androidTestImplementation(projects.core.testing)
+    androidTestImplementation(libs.bundles.androidx.compose.ui.test)
 }

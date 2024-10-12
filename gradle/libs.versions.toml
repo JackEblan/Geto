@@ -3,9 +3,9 @@ accompanist = "0.34.0"
 androidDesugarJdkLibs = "2.1.2"
 # AGP and tools should be updated together
 androidGradlePlugin = "8.6.1"
-androidTools = "31.6.1"
+androidTools = "31.7.0"
 androidxActivity = "1.9.2"
-androidxComposeBom = "2024.09.00"
+androidxComposeBom = "2024.09.03"
 androidxCoreKtx = "1.13.1"
 androidxCoreSplashscreen = "1.0.1"
 androidxDataStore = "1.1.1"
@@ -38,6 +38,9 @@ room = "2.6.1"
 robolectric = "4.12.2"
 roborazzi = "1.15.0"
 truth = "1.4.2"
+
+[bundles]
+androidx-compose-ui-test = ["androidx-compose-ui-test", "androidx-compose-ui-test-manifest"]
 
 [libraries]
 accompanist-testharness = { group = "com.google.accompanist", name = "accompanist-testharness", version.ref = "accompanist" }
