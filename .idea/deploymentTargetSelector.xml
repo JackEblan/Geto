@@ -11,10 +11,10 @@
       <SelectionState runConfigName="NavigationTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="settingsScreen_isDisplayed_whenSettingsIcon_isClicked()">
+      <SelectionState runConfigName="appsScreen_isDisplayed_whenStarted()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="appsScreen_isDisplayed_whenStarted()">
+      <SelectionState runConfigName="settingsScreen_isSelected()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

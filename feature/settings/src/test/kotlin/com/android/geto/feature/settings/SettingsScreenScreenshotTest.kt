@@ -18,8 +18,8 @@
 package com.android.geto.feature.settings
 
 import androidx.activity.ComponentActivity
+import androidx.compose.material3.Surface
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import com.android.geto.core.designsystem.component.GetoBackground
 import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.model.DarkThemeConfig
 import com.android.geto.core.model.ThemeBrand
@@ -102,7 +102,7 @@ class SettingsScreenScreenshotTest {
             darkMode = true,
         ) {
             GetoTheme {
-                GetoBackground {
+                Surface {
                     SettingsScreen(
                         settingsUiState = SettingsUiState.Success(
                             userData = UserData(
@@ -133,7 +133,7 @@ class SettingsScreenScreenshotTest {
             darkMode = true,
         ) {
             GetoTheme {
-                GetoBackground {
+                Surface {
                     SettingsScreen(
                         settingsUiState = SettingsUiState.Loading,
                         supportDynamicColor = true,

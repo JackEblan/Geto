@@ -18,8 +18,8 @@
 package com.android.geto.feature.settings.dialog.dark
 
 import androidx.activity.ComponentActivity
+import androidx.compose.material3.Surface
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import com.android.geto.core.designsystem.component.GetoBackground
 import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.screenshottesting.util.DefaultTestDevices
 import com.android.geto.core.screenshottesting.util.captureDialogForDevice
@@ -72,7 +72,7 @@ class DarkDialogScreenshotTest {
             darkMode = true,
         ) {
             GetoTheme {
-                GetoBackground {
+                Surface {
                     DarkDialog(
                         onDismissRequest = {},
                         selected = 0,

@@ -84,7 +84,9 @@ dependencies {
 
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 
+    androidTestImplementation(libs.accompanist.testharness)
     androidTestImplementation(libs.androidx.navigation.testing)
+    androidTestImplementation(libs.androidx.test.espresso.core)
     androidTestImplementation(libs.hilt.android.testing)
     androidTestImplementation(projects.core.dataTest)
     androidTestImplementation(projects.core.testing)

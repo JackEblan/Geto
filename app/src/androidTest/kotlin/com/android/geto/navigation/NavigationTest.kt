@@ -18,8 +18,11 @@
 package com.android.geto.navigation
 
 import androidx.annotation.StringRes
-import androidx.compose.ui.test.assertIsSelected
+import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.hasTestTag
+import androidx.compose.ui.test.hasText
+import androidx.compose.ui.test.isSelectable
+import androidx.compose.ui.test.isSelected
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
@@ -51,16 +54,17 @@ class NavigationTest {
     fun setup() = hiltRule.inject()
 
     @Test
-    fun appsScreen_isDisplayed_whenStarted() {
+    fun appsScreen_isSelected() {
         composeTestRule.apply {
-            onNodeWithContentDescription(apps).assertIsSelected()
+            onNode(isSelected()).assertTextEquals(apps)
         }
     }
 
     @Test
-    fun settingsScreen_isDisplayed_whenSettingsIcon_isClicked() {
+    fun settingsScreen_isSelected() {
         composeTestRule.apply {
-            onNodeWithContentDescription(settings).performClick().assertIsSelected()
+            onNode(isSelectable() and hasText(settings)).performClick()
+            onNode(isSelected()).assertTextEquals(settings)
         }
     }
 
@@ -72,7 +76,7 @@ class NavigationTest {
     }
 
     @Test
-    fun appsScreen_isDisplayed_whenNavigateBack_fromAppSettingsScreen() {
+    fun appsScreen_isDisplayed_whenNavigateUp_fromAppSettingsScreen() {
         composeTestRule.apply {
             onAllNodes(hasTestTag("apps:appItem"))[0].performClick()
 
@@ -81,7 +85,7 @@ class NavigationTest {
                 useUnmergedTree = true,
             ).performClick()
 
-            onNodeWithContentDescription(apps).assertIsSelected()
+            onNode(isSelected()).assertTextEquals(apps)
         }
     }
 }

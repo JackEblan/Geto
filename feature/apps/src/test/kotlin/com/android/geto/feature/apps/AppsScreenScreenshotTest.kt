@@ -18,8 +18,8 @@
 package com.android.geto.feature.apps
 
 import androidx.activity.ComponentActivity
+import androidx.compose.material3.Surface
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import com.android.geto.core.designsystem.component.GetoBackground
 import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.model.GetoApplicationInfo
 import com.android.geto.core.screenshottesting.util.DefaultTestDevices
@@ -84,7 +84,7 @@ class AppsScreenScreenshotTest {
             darkMode = true,
         ) {
             GetoTheme {
-                GetoBackground {
+                Surface {
                     AppsScreen(
                         appsUiState = AppsUiState.Success(
                             mappedGetoApplicationInfos,
@@ -105,7 +105,7 @@ class AppsScreenScreenshotTest {
             darkMode = true,
         ) {
             GetoTheme {
-                GetoBackground {
+                Surface {
                     AppsScreen(
                         appsUiState = AppsUiState.Loading,
                         onItemClick = { _, _ -> },
