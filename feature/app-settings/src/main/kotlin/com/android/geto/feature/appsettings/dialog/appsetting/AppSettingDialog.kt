@@ -73,8 +73,7 @@ internal fun AppSettingDialog(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .verticalScroll(scrollState)
-                .padding(10.dp),
+                .verticalScroll(scrollState),
         ) {
             AppSettingDialogTitle()
 
@@ -88,7 +87,6 @@ internal fun AppSettingDialog(
             )
 
             AppSettingDialogButtons(
-                modifier = modifier.fillMaxWidth(),
                 onCancelClick = {
                     appSettingDialogState.updateShowDialog(false)
                 },
@@ -108,7 +106,7 @@ private fun AppSettingDialogTitle(modifier: Modifier = Modifier) {
     Spacer(modifier = Modifier.height(10.dp))
 
     Text(
-        modifier = modifier,
+        modifier = modifier.padding(10.dp),
         text = stringResource(R.string.add_app_setting),
         style = MaterialTheme.typography.titleLarge,
     )
@@ -130,7 +128,8 @@ private fun AppSettingDialogRadioButtonGroup(
         SettingType.entries.map { it.label }.toTypedArray().forEachIndexed { index, text ->
             Row(
                 Modifier
-                    .padding(vertical = 10.dp)
+                    .fillMaxWidth()
+                    .height(56.dp)
                     .selectable(
                         selected = index == selected,
                         role = Role.RadioButton,
@@ -170,7 +169,7 @@ private fun AppSettingDialogTextFields(
     OutlinedTextField(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 5.dp)
+            .padding(horizontal = 10.dp)
             .testTag("appSettingDialog:labelTextField"),
         value = appSettingDialogState.label,
         onValueChange = appSettingDialogState::updateLabel,
@@ -197,7 +196,7 @@ private fun AppSettingDialogTextFields(
     OutlinedTextField(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 5.dp)
+            .padding(horizontal = 10.dp)
             .testTag("appSettingDialog:valueOnLaunchTextField"),
         value = appSettingDialogState.valueOnLaunch,
         onValueChange = appSettingDialogState::updateValueOnLaunch,
@@ -220,7 +219,7 @@ private fun AppSettingDialogTextFields(
     OutlinedTextField(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 5.dp)
+            .padding(horizontal = 10.dp)
             .testTag("appSettingDialog:valueOnRevertTextField"),
         value = appSettingDialogState.valueOnRevert,
         onValueChange = appSettingDialogState::updateValueOnRevert,
@@ -261,7 +260,7 @@ private fun AppSettingDialogTextFieldWithDropdownMenu(
                     enabled = true,
                 )
                 .fillMaxWidth()
-                .padding(horizontal = 5.dp)
+                .padding(horizontal = 10.dp)
                 .testTag("appSettingDialog:keyTextField"),
             value = appSettingDialogState.key,
             onValueChange = appSettingDialogState::updateKey,
@@ -335,7 +334,9 @@ private fun AppSettingDialogButtons(
     Spacer(modifier = Modifier.height(10.dp))
 
     Row(
-        modifier = modifier,
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(10.dp),
         horizontalArrangement = Arrangement.End,
     ) {
         TextButton(
