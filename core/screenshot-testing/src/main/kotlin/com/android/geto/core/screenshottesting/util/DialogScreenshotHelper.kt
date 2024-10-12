@@ -18,11 +18,17 @@
 package com.android.geto.core.screenshottesting.util
 
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.github.takahirom.roborazzi.ExperimentalRoborazziApi
+import com.github.takahirom.roborazzi.RoborazziOptions
 import com.github.takahirom.roborazzi.captureScreenRoboImage
+import com.google.accompanist.testharness.TestHarness
+import org.robolectric.RuntimeEnvironment
 
 /**
  * Experimental feature to capture the entire screen, including dialogs combining light/dark and default/Android themes and whether dynamic color
@@ -33,20 +39,26 @@ fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.c
     fileName: String,
     deviceName: String,
     deviceSpec: String,
+    roborazziOptions: RoborazziOptions = DefaultRoborazziOptions,
     darkMode: Boolean = false,
     body: @Composable () -> Unit,
 ) {
-    captureScreenForDevice(
-        fileName = fileName,
-        deviceName = deviceName,
-        deviceSpec = deviceSpec,
-        darkMode = darkMode,
-        body = body,
-        onCapture = { filePath, roborazziOptions ->
-            captureScreenRoboImage(
-                filePath = filePath,
-                roborazziOptions = roborazziOptions,
-            )
-        },
+    val (width, height, dpi) = extractSpecs(deviceSpec)
+
+    RuntimeEnvironment.setQualifiers("w${width}dp-h${height}dp-${dpi}dpi")
+
+    this.activity.setContent {
+        CompositionLocalProvider(
+            LocalInspectionMode provides true,
+        ) {
+            TestHarness(darkMode = darkMode) {
+                body()
+            }
+        }
+    }
+
+    captureScreenRoboImage(
+        filePath = "src/test/screenshots/${fileName}_$deviceName.png",
+        roborazziOptions = roborazziOptions,
     )
 }
