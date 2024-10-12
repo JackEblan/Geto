@@ -582,7 +582,7 @@ private fun EmptyState(
     ) {
         Icon(
             modifier = Modifier.size(100.dp),
-            imageVector = GetoIcons.OutlinedSettings,
+            imageVector = GetoIcons.Android,
             contentDescription = null,
         )
 

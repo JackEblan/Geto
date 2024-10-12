@@ -149,8 +149,8 @@ private fun AppItem(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         ShimmerImage(
-            model = getoApplicationInfo.icon,
             modifier = Modifier.size(50.dp),
+            model = getoApplicationInfo.icon,
         )
 
         Spacer(modifier = Modifier.width(10.dp))
