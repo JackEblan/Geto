@@ -91,13 +91,13 @@ jobs:
 
       - name: Rename signed Files
         run: |
-          mv ${{steps.sign_release_apk.outputs.signedReleaseFile}} app/build/outputs/apk/release/swr-${{ github.ref_name }}.apk
-          mv ${{steps.sign_release_aab.outputs.signedReleaseFile}} app/build/outputs/bundle/release/swr-${{ github.ref_name }}.aab
+          mv ${{steps.sign_release_apk.outputs.signedReleaseFile}} app/build/outputs/apk/release/geto-${{ github.ref_name }}.apk
+          mv ${{steps.sign_release_aab.outputs.signedReleaseFile}} app/build/outputs/bundle/release/geto-${{ github.ref_name }}.aab
 
       - name: Release
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
-            app/build/outputs/apk/release/swr-${{ github.ref_name }}.apk
-            app/build/outputs/bundle/release/swr-${{ github.ref_name }}.aab
+            app/build/outputs/apk/release/geto-${{ github.ref_name }}.apk
+            app/build/outputs/bundle/release/geto-${{ github.ref_name }}.aab
