@@ -17,15 +17,20 @@
  */
 package com.android.geto.core.domain
 
+import com.android.geto.core.common.Dispatcher
+import com.android.geto.core.common.GetoDispatchers.Default
 import com.android.geto.core.data.repository.ShortcutRepository
 import com.android.geto.core.model.GetoShortcutInfoCompat
 import com.android.geto.core.model.RequestPinShortcutResult
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class RequestPinShortcutUseCase @Inject constructor(
+    @Dispatcher(Default) private val defaultDispatcher: CoroutineDispatcher,
     private val shortcutRepository: ShortcutRepository,
 ) {
-    operator fun invoke(
+    suspend operator fun invoke(
         packageName: String,
         appName: String,
         getoShortcutInfoCompat: GetoShortcutInfoCompat,
@@ -34,9 +39,11 @@ class RequestPinShortcutUseCase @Inject constructor(
             return RequestPinShortcutResult.UnSupportedLauncher
         }
 
-        return if (getoShortcutInfoCompat.id !in shortcutRepository.getPinnedShortcuts()
-                .map { it.id }
-        ) {
+        val pinnedShortcutId = withContext(defaultDispatcher) {
+            getoShortcutInfoCompat.id !in shortcutRepository.getPinnedShortcuts().map { it.id }
+        }
+
+        return if (pinnedShortcutId) {
             requestPinShortcut(
                 packageName = packageName,
                 appName = appName,

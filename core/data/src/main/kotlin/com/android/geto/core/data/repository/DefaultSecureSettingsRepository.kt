@@ -17,13 +17,18 @@
  */
 package com.android.geto.core.data.repository
 
+import com.android.geto.core.common.Dispatcher
+import com.android.geto.core.common.GetoDispatchers.Default
 import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.SecureSetting
 import com.android.geto.core.model.SettingType
 import com.android.geto.framework.securesettings.SecureSettingsWrapper
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 internal class DefaultSecureSettingsRepository @Inject constructor(
+    @Dispatcher(Default) private val defaultDispatcher: CoroutineDispatcher,
     private val secureSettingsWrapper: SecureSettingsWrapper,
 ) : SecureSettingsRepository {
     override suspend fun applySecureSettings(appSettings: List<AppSetting>): Boolean {
@@ -50,7 +55,9 @@ internal class DefaultSecureSettingsRepository @Inject constructor(
         settingType: SettingType,
         text: String,
     ): List<SecureSetting> {
-        return secureSettingsWrapper.getSecureSettings(settingType)
-            .filter { it.name!!.contains(text) }.take(20)
+        return withContext(defaultDispatcher) {
+            secureSettingsWrapper.getSecureSettings(settingType).filter { it.name!!.contains(text) }
+                .take(20)
+        }
     }
 }
