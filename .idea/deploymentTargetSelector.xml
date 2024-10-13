@@ -14,9 +14,6 @@
       <SelectionState runConfigName="AppSettingsScreenDialogsTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="shortcutDialog_isDisplayed_whenShortcutIcon_isClicked_thenDismissed()">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
       <SelectionState runConfigName="exposedDropdownMenuBox_isDisplayed_whenSecureSettingsListExpanded_isTrue()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
