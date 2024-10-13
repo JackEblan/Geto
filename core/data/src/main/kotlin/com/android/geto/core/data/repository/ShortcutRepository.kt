@@ -35,7 +35,7 @@ interface ShortcutRepository {
         getoShortcutInfoCompats: List<GetoShortcutInfoCompat>,
     ): Boolean
 
-    fun getPinnedShortcuts(): List<GetoShortcutInfoCompat>
+    suspend fun getPinnedShortcuts(): List<GetoShortcutInfoCompat>
 
-    fun getPinnedShortcut(id: String): GetoShortcutInfoCompat?
+    suspend fun getPinnedShortcut(id: String): GetoShortcutInfoCompat?
 }

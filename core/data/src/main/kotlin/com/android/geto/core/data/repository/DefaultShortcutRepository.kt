@@ -17,11 +17,16 @@
  */
 package com.android.geto.core.data.repository
 
+import com.android.geto.core.common.Dispatcher
+import com.android.geto.core.common.GetoDispatchers.Default
 import com.android.geto.core.model.GetoShortcutInfoCompat
 import com.android.geto.framework.shortcutmanager.ShortcutManagerCompatWrapper
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 internal class DefaultShortcutRepository @Inject constructor(
+    @Dispatcher(Default) private val defaultDispatcher: CoroutineDispatcher,
     private val shortcutManagerCompatWrapper: ShortcutManagerCompatWrapper,
 ) : ShortcutRepository {
 
@@ -53,12 +58,13 @@ internal class DefaultShortcutRepository @Inject constructor(
         )
     }
 
-    override fun getPinnedShortcuts(): List<GetoShortcutInfoCompat> {
-        return shortcutManagerCompatWrapper.getShortcuts(shortcutManagerCompatWrapper.flagMatchPinned)
+    override suspend fun getPinnedShortcuts(): List<GetoShortcutInfoCompat> {
+        return shortcutManagerCompatWrapper.getShortcuts()
     }
 
-    override fun getPinnedShortcut(id: String): GetoShortcutInfoCompat? {
-        return shortcutManagerCompatWrapper.getShortcuts(shortcutManagerCompatWrapper.flagMatchPinned)
-            .find { it.id == id }
+    override suspend fun getPinnedShortcut(id: String): GetoShortcutInfoCompat? {
+        return withContext(defaultDispatcher) {
+            shortcutManagerCompatWrapper.getShortcuts().find { it.id == id }
+        }
     }
 }

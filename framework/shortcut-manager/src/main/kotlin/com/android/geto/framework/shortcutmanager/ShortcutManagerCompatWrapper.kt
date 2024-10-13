@@ -21,8 +21,6 @@ import com.android.geto.core.model.GetoShortcutInfoCompat
 
 interface ShortcutManagerCompatWrapper {
 
-    val flagMatchPinned: Int
-
     fun isRequestPinShortcutSupported(): Boolean
 
     fun requestPinShortcut(
@@ -37,5 +35,5 @@ interface ShortcutManagerCompatWrapper {
         getoShortcutInfoCompats: List<GetoShortcutInfoCompat>,
     ): Boolean
 
-    fun getShortcuts(matchFlags: Int): List<GetoShortcutInfoCompat>
+    suspend fun getShortcuts(): List<GetoShortcutInfoCompat>
 }

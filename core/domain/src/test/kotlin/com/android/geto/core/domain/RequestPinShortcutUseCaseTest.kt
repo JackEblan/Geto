@@ -20,7 +20,6 @@ package com.android.geto.core.domain
 import com.android.geto.core.model.GetoShortcutInfoCompat
 import com.android.geto.core.model.RequestPinShortcutResult
 import com.android.geto.core.testing.repository.TestShortcutRepository
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
@@ -31,14 +30,11 @@ class RequestPinShortcutUseCaseTest {
 
     private lateinit var shortcutRepository: TestShortcutRepository
 
-    private val testDispatcher = UnconfinedTestDispatcher()
-
     @Before
     fun setUp() {
         shortcutRepository = TestShortcutRepository()
 
         requestPinShortcutUseCase = RequestPinShortcutUseCase(
-            defaultDispatcher = testDispatcher,
             shortcutRepository = shortcutRepository,
         )
     }

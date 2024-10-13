@@ -52,11 +52,11 @@ class TestShortcutRepository : ShortcutRepository {
         }
     }
 
-    override fun getPinnedShortcuts(): List<GetoShortcutInfoCompat> {
+    override suspend fun getPinnedShortcuts(): List<GetoShortcutInfoCompat> {
         return getoShortcutInfoCompats
     }
 
-    override fun getPinnedShortcut(id: String): GetoShortcutInfoCompat? {
+    override suspend fun getPinnedShortcut(id: String): GetoShortcutInfoCompat? {
         return getoShortcutInfoCompats.find { it.id == id }
     }
 
