@@ -19,8 +19,8 @@ package com.android.geto.feature.appsettings
 
 import androidx.activity.ComponentActivity
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Surface
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import com.android.geto.core.designsystem.component.GetoBackground
 import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.SettingType
@@ -77,7 +77,7 @@ class AppSettingsScreenScreenshotTest {
                     setPrimaryClipResult = false,
                     onNavigationIconClick = {},
                     onRevertAppSettings = {},
-                    onCheckAppSetting = { _, _ -> },
+                    onCheckAppSetting = {},
                     onDeleteAppSetting = {},
                     onLaunchApp = {},
                     onResetApplyAppSettingsResult = {},
@@ -114,7 +114,7 @@ class AppSettingsScreenScreenshotTest {
                     setPrimaryClipResult = false,
                     onNavigationIconClick = {},
                     onRevertAppSettings = {},
-                    onCheckAppSetting = { _, _ -> },
+                    onCheckAppSetting = {},
                     onDeleteAppSetting = {},
                     onLaunchApp = {},
                     onResetApplyAppSettingsResult = {},
@@ -151,7 +151,7 @@ class AppSettingsScreenScreenshotTest {
                     setPrimaryClipResult = false,
                     onNavigationIconClick = {},
                     onRevertAppSettings = {},
-                    onCheckAppSetting = { _, _ -> },
+                    onCheckAppSetting = {},
                     onDeleteAppSetting = {},
                     onLaunchApp = {},
                     onResetApplyAppSettingsResult = {},
@@ -178,7 +178,7 @@ class AppSettingsScreenScreenshotTest {
             darkMode = true,
         ) {
             GetoTheme {
-                GetoBackground {
+                Surface {
                     AppSettingsScreen(
                         packageName = "com.android.geto",
                         appName = "Geto",
@@ -194,7 +194,7 @@ class AppSettingsScreenScreenshotTest {
                         setPrimaryClipResult = false,
                         onNavigationIconClick = {},
                         onRevertAppSettings = {},
-                        onCheckAppSetting = { _, _ -> },
+                        onCheckAppSetting = {},
                         onDeleteAppSetting = {},
                         onLaunchApp = {},
                         onResetApplyAppSettingsResult = {},
@@ -222,7 +222,7 @@ class AppSettingsScreenScreenshotTest {
             darkMode = true,
         ) {
             GetoTheme {
-                GetoBackground {
+                Surface {
                     AppSettingsScreen(
                         packageName = "com.android.geto",
                         appName = "Geto",
@@ -238,7 +238,7 @@ class AppSettingsScreenScreenshotTest {
                         setPrimaryClipResult = false,
                         onNavigationIconClick = {},
                         onRevertAppSettings = {},
-                        onCheckAppSetting = { _, _ -> },
+                        onCheckAppSetting = {},
                         onDeleteAppSetting = {},
                         onLaunchApp = {},
                         onResetApplyAppSettingsResult = {},
@@ -266,7 +266,7 @@ class AppSettingsScreenScreenshotTest {
             darkMode = true,
         ) {
             GetoTheme {
-                GetoBackground {
+                Surface {
                     AppSettingsScreen(
                         packageName = "com.android.geto",
                         appName = "Geto",
@@ -282,7 +282,7 @@ class AppSettingsScreenScreenshotTest {
                         setPrimaryClipResult = false,
                         onNavigationIconClick = {},
                         onRevertAppSettings = {},
-                        onCheckAppSetting = { _, _ -> },
+                        onCheckAppSetting = {},
                         onDeleteAppSetting = {},
                         onLaunchApp = {},
                         onResetApplyAppSettingsResult = {},

@@ -19,7 +19,7 @@ package com.android.geto.core.domain
 
 import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.AppSettingsResult
-import com.android.geto.core.model.ApplicationInfo
+import com.android.geto.core.model.GetoApplicationInfo
 import com.android.geto.core.model.SettingType
 import com.android.geto.core.testing.repository.TestAppSettingsRepository
 import com.android.geto.core.testing.repository.TestPackageRepository
@@ -102,11 +102,11 @@ class ApplyAppSettingsUseCaseTest {
             )
         }
 
-        val applicationInfos = List(5) { index ->
-            ApplicationInfo(flags = 0, packageName = packageName, label = "Geto $index")
+        val getoApplicationInfos = List(5) { index ->
+            GetoApplicationInfo(flags = 0, packageName = packageName, label = "Geto $index")
         }
 
-        packageRepository.setApplicationInfos(applicationInfos)
+        packageRepository.setApplicationInfos(getoApplicationInfos)
 
         secureSettingsRepository.setWriteSecureSettings(true)
 

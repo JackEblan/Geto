@@ -26,7 +26,7 @@ import android.graphics.Bitmap
 import androidx.core.graphics.drawable.toBitmap
 import com.android.geto.core.common.Dispatcher
 import com.android.geto.core.common.GetoDispatchers.Default
-import com.android.geto.core.model.ApplicationInfo
+import com.android.geto.core.model.GetoApplicationInfo
 import com.android.geto.framework.packagemanager.mapper.toApplicationInfo
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
@@ -40,7 +40,7 @@ internal class AndroidPackageManagerWrapper @Inject constructor(
 
     private val packageManager = context.packageManager
 
-    override suspend fun queryIntentActivities(): List<ApplicationInfo> {
+    override suspend fun queryIntentActivities(): List<GetoApplicationInfo> {
         val intent = Intent().apply {
             action = Intent.ACTION_MAIN
             addCategory(Intent.CATEGORY_LAUNCHER)

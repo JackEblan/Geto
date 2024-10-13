@@ -18,15 +18,25 @@
 package com.android.geto.core.screenshottesting.util
 
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.compose.ui.test.onRoot
 import androidx.test.ext.junit.rules.ActivityScenarioRule
+import com.android.geto.core.designsystem.theme.GetoTheme
 import com.github.takahirom.roborazzi.ExperimentalRoborazziApi
 import com.github.takahirom.roborazzi.RoborazziOptions
 import com.github.takahirom.roborazzi.RoborazziOptions.CompareOptions
 import com.github.takahirom.roborazzi.RoborazziOptions.RecordOptions
 import com.github.takahirom.roborazzi.captureRoboImage
+import com.google.accompanist.testharness.TestHarness
+import org.robolectric.RuntimeEnvironment
 
 @OptIn(ExperimentalRoborazziApi::class)
 val DefaultRoborazziOptions = RoborazziOptions(
@@ -45,6 +55,34 @@ enum class DefaultTestDevices(val description: String, val spec: String) {
     TABLET("tablet", "spec:shape=Normal,width=1280,height=800,unit=dp,dpi=480"),
 }
 
+fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.captureScreenForDevice(
+    fileName: String,
+    deviceName: String,
+    deviceSpec: String,
+    roborazziOptions: RoborazziOptions = DefaultRoborazziOptions,
+    darkMode: Boolean = false,
+    body: @Composable () -> Unit,
+) {
+    val (width, height, dpi) = extractSpecs(deviceSpec)
+
+    RuntimeEnvironment.setQualifiers("w${width}dp-h${height}dp-${dpi}dpi")
+
+    activity.setContent {
+        CompositionLocalProvider(
+            LocalInspectionMode provides true,
+        ) {
+            TestHarness(darkMode = darkMode) {
+                body()
+            }
+        }
+    }
+
+    onRoot().captureRoboImage(
+        filePath = "src/test/screenshots/${fileName}_$deviceName.png",
+        roborazziOptions = roborazziOptions,
+    )
+}
+
 fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.captureScreenForMultiDevice(
     fileName: String,
     body: @Composable () -> Unit,
@@ -59,80 +97,55 @@ fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.c
     }
 }
 
-fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.captureScreenForDevice(
-    fileName: String,
-    deviceName: String,
-    deviceSpec: String,
-    darkMode: Boolean = false,
-    body: @Composable () -> Unit,
-) {
-    captureScreenForDevice(
-        fileName = fileName,
-        deviceName = deviceName,
-        deviceSpec = deviceSpec,
-        darkMode = darkMode,
-        body = body,
-        onCapture = { filePath, roborazziOptions ->
-            onRoot().captureRoboImage(
-                filePath = filePath,
-                roborazziOptions = roborazziOptions,
-            )
-        },
-    )
-}
-
 /**
  * Takes six screenshots combining light/dark and default/Android themes and whether dynamic color
  * is enabled.
  */
-fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.captureMultiTheme(
+fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.captureScreenMultiTheme(
     name: String,
     overrideFileName: String? = null,
-    shouldCompareDarkMode: Boolean = true,
-    shouldCompareDynamicColor: Boolean = true,
-    shouldCompareAndroidTheme: Boolean = true,
-    content: @Composable (desc: String) -> Unit,
+    roborazziOptions: RoborazziOptions = DefaultRoborazziOptions,
+    content: @Composable (description: String) -> Unit,
 ) {
-    captureMultiTheme(
-        name = name,
-        overrideFileName = overrideFileName,
-        shouldCompareDarkMode = shouldCompareDarkMode,
-        shouldCompareDynamicColor = shouldCompareDynamicColor,
-        shouldCompareAndroidTheme = shouldCompareAndroidTheme,
-        content = content,
-        onCapture = { filePath, roborazziOptions ->
-            onRoot().captureRoboImage(
-                filePath = filePath,
-                roborazziOptions = roborazziOptions,
-            )
-        },
-    )
-}
+    var description by mutableStateOf("")
 
-@Composable
-internal fun generateDescription(
-    shouldCompareDarkMode: Boolean,
-    darkMode: Boolean,
-    shouldCompareAndroidTheme: Boolean,
-    androidTheme: Boolean,
-    shouldCompareDynamicColor: Boolean,
-    dynamicTheming: Boolean,
-): String {
-    val description = "" + if (shouldCompareDarkMode) {
-        if (darkMode) "Dark" else "Light"
-    } else {
-        ""
-    } + if (shouldCompareAndroidTheme) {
-        if (androidTheme) " Android" else " Default"
-    } else {
-        ""
-    } + if (shouldCompareDynamicColor) {
-        if (dynamicTheming) " Dynamic" else ""
-    } else {
-        ""
+    var greenTheme by mutableStateOf(false)
+
+    var purpleTheme by mutableStateOf(false)
+
+    var darkTheme by mutableStateOf(false)
+
+    var dynamicTheme by mutableStateOf(false)
+
+    this.setContent {
+        CompositionLocalProvider(
+            LocalInspectionMode provides true,
+        ) {
+            GetoTheme(
+                greenTheme = greenTheme,
+                purpleTheme = purpleTheme,
+                darkTheme = darkTheme,
+                dynamicTheme = dynamicTheme,
+            ) {
+                key(greenTheme, purpleTheme, darkTheme, dynamicTheme) {
+                    content(description)
+                }
+            }
+        }
     }
 
-    return description.trim()
+    swrMultiThemes.forEach { (swrGreenTheme, swrPurpleTheme, swrDarkTheme, swrDynamicTheme, swrDescription) ->
+        description = swrDescription
+        greenTheme = swrGreenTheme
+        purpleTheme = swrPurpleTheme
+        darkTheme = swrDarkTheme
+        dynamicTheme = swrDynamicTheme
+
+        onRoot().captureRoboImage(
+            filePath = "src/test/screenshots/" + "$name/${overrideFileName ?: name}" + swrDescription + ".png",
+            roborazziOptions = roborazziOptions,
+        )
+    }
 }
 
 /**
@@ -148,3 +161,56 @@ internal fun extractSpecs(deviceSpec: String): TestDeviceSpecs {
 }
 
 data class TestDeviceSpecs(val width: Int, val height: Int, val dpi: Int)
+
+private data class SwrMultiTheme(
+    val greenTheme: Boolean,
+    val purpleTheme: Boolean,
+    val darkTheme: Boolean,
+    val dynamicTheme: Boolean,
+    val description: String,
+)
+
+private val swrMultiThemes = listOf(
+    SwrMultiTheme(
+        greenTheme = true,
+        purpleTheme = false,
+        darkTheme = false,
+        dynamicTheme = false,
+        description = "GreenTheme",
+    ),
+    SwrMultiTheme(
+        greenTheme = false,
+        purpleTheme = true,
+        darkTheme = false,
+        dynamicTheme = false,
+        description = "PurpleTheme",
+    ),
+    SwrMultiTheme(
+        greenTheme = true,
+        purpleTheme = false,
+        darkTheme = true,
+        dynamicTheme = false,
+        description = "GreenDarkTheme",
+    ),
+    SwrMultiTheme(
+        greenTheme = false,
+        purpleTheme = true,
+        darkTheme = true,
+        dynamicTheme = false,
+        description = "PurpleDarkTheme",
+    ),
+    SwrMultiTheme(
+        greenTheme = false,
+        purpleTheme = false,
+        darkTheme = false,
+        dynamicTheme = true,
+        description = "DynamicTheme",
+    ),
+    SwrMultiTheme(
+        greenTheme = false,
+        purpleTheme = false,
+        darkTheme = true,
+        dynamicTheme = true,
+        description = "DynamicDarkTheme",
+    ),
+)

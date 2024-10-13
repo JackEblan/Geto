@@ -19,8 +19,8 @@ package com.android.geto.core.domain
 
 import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.AppSettingsResult
-import com.android.geto.core.model.ApplicationInfo
 import com.android.geto.core.model.DarkThemeConfig
+import com.android.geto.core.model.GetoApplicationInfo
 import com.android.geto.core.model.SettingType
 import com.android.geto.core.model.ThemeBrand
 import com.android.geto.core.model.UserData
@@ -69,7 +69,7 @@ class AutoLaunchUseCaseTest {
 
         userDataRepository.setUserData(
             userData = UserData(
-                themeBrand = ThemeBrand.DEFAULT,
+                themeBrand = ThemeBrand.PURPLE,
                 darkThemeConfig = DarkThemeConfig.DARK,
                 useDynamicColor = false,
                 useAutoLaunch = false,
@@ -101,7 +101,7 @@ class AutoLaunchUseCaseTest {
 
         userDataRepository.setUserData(
             userData = UserData(
-                themeBrand = ThemeBrand.DEFAULT,
+                themeBrand = ThemeBrand.PURPLE,
                 darkThemeConfig = DarkThemeConfig.DARK,
                 useDynamicColor = false,
                 useAutoLaunch = false,
@@ -129,17 +129,17 @@ class AutoLaunchUseCaseTest {
             )
         }
 
-        val applicationInfos = List(5) { index ->
-            ApplicationInfo(flags = 0, packageName = packageName, label = "Geto $index")
+        val getoApplicationInfos = List(5) { index ->
+            GetoApplicationInfo(flags = 0, packageName = packageName, label = "Geto $index")
         }
 
-        packageRepository.setApplicationInfos(applicationInfos)
+        packageRepository.setApplicationInfos(getoApplicationInfos)
 
         secureSettingsRepository.setWriteSecureSettings(true)
 
         userDataRepository.setUserData(
             userData = UserData(
-                themeBrand = ThemeBrand.DEFAULT,
+                themeBrand = ThemeBrand.PURPLE,
                 darkThemeConfig = DarkThemeConfig.DARK,
                 useDynamicColor = false,
                 useAutoLaunch = true,
@@ -147,8 +147,6 @@ class AutoLaunchUseCaseTest {
         )
 
         appSettingsRepository.setAppSettings(appSettings)
-
-        val result = autoLaunchUseCase(packageName = packageName)
 
         assertEquals(
             expected = AppSettingsResult.Success,
@@ -175,7 +173,7 @@ class AutoLaunchUseCaseTest {
 
         userDataRepository.setUserData(
             userData = UserData(
-                themeBrand = ThemeBrand.DEFAULT,
+                themeBrand = ThemeBrand.PURPLE,
                 darkThemeConfig = DarkThemeConfig.DARK,
                 useDynamicColor = false,
                 useAutoLaunch = true,
@@ -211,7 +209,7 @@ class AutoLaunchUseCaseTest {
 
         userDataRepository.setUserData(
             userData = UserData(
-                themeBrand = ThemeBrand.DEFAULT,
+                themeBrand = ThemeBrand.PURPLE,
                 darkThemeConfig = DarkThemeConfig.DARK,
                 useDynamicColor = false,
                 useAutoLaunch = true,
@@ -245,7 +243,7 @@ class AutoLaunchUseCaseTest {
 
         userDataRepository.setUserData(
             userData = UserData(
-                themeBrand = ThemeBrand.DEFAULT,
+                themeBrand = ThemeBrand.PURPLE,
                 darkThemeConfig = DarkThemeConfig.DARK,
                 useDynamicColor = false,
                 useAutoLaunch = false,

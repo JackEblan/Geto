@@ -17,7 +17,7 @@
  */
 package com.android.geto.feature.apps
 
-import com.android.geto.core.model.ApplicationInfo
+import com.android.geto.core.model.GetoApplicationInfo
 import com.android.geto.core.testing.repository.TestPackageRepository
 import com.android.geto.core.testing.util.MainDispatcherRule
 import kotlinx.coroutines.flow.collect
@@ -56,15 +56,15 @@ class AppsViewModelTest {
             viewModel.appsUiState.collect()
         }
 
-        val applicationInfos = List(2) { index ->
-            ApplicationInfo(
+        val getoApplicationInfos = List(2) { index ->
+            GetoApplicationInfo(
                 flags = 0,
                 packageName = "com.android.geto$index",
                 label = "Geto $index",
             )
         }
 
-        packageRepository.setApplicationInfos(applicationInfos)
+        packageRepository.setApplicationInfos(getoApplicationInfos)
 
         assertIs<AppsUiState.Success>(viewModel.appsUiState.value)
     }
@@ -75,15 +75,15 @@ class AppsViewModelTest {
             viewModel.appsUiState.collect()
         }
 
-        val applicationInfos = List(2) { index ->
-            ApplicationInfo(
+        val getoApplicationInfos = List(2) { index ->
+            GetoApplicationInfo(
                 flags = 0,
                 packageName = "com.android.geto$index",
                 label = "Geto $index",
             )
         }
 
-        packageRepository.setApplicationInfos(applicationInfos)
+        packageRepository.setApplicationInfos(getoApplicationInfos)
 
         assertIs<AppsUiState.Success>(viewModel.appsUiState.value)
     }

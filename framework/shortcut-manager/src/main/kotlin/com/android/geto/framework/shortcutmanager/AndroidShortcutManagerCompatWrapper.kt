@@ -19,14 +19,20 @@ package com.android.geto.framework.shortcutmanager
 
 import android.content.Context
 import androidx.core.content.pm.ShortcutManagerCompat
-import com.android.geto.core.model.MappedShortcutInfoCompat
+import com.android.geto.core.common.Dispatcher
+import com.android.geto.core.common.GetoDispatchers.Default
+import com.android.geto.core.model.GetoShortcutInfoCompat
+import com.android.geto.framework.shortcutmanager.mapper.asGetoShortcutInfoCompat
+import com.android.geto.framework.shortcutmanager.mapper.asShortcutInfoCompat
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-internal class AndroidShortcutManagerCompatWrapper @Inject constructor(@ApplicationContext private val context: Context) :
-    ShortcutManagerCompatWrapper {
-
-    override val flagMatchPinned = ShortcutManagerCompat.FLAG_MATCH_PINNED
+internal class AndroidShortcutManagerCompatWrapper @Inject constructor(
+    @ApplicationContext private val context: Context,
+    @Dispatcher(Default) private val defaultDispatcher: CoroutineDispatcher,
+) : ShortcutManagerCompatWrapper {
 
     override fun isRequestPinShortcutSupported(): Boolean {
         return ShortcutManagerCompat.isRequestPinShortcutSupported(context)
@@ -35,11 +41,11 @@ internal class AndroidShortcutManagerCompatWrapper @Inject constructor(@Applicat
     override fun requestPinShortcut(
         packageName: String,
         appName: String,
-        mappedShortcutInfoCompat: MappedShortcutInfoCompat,
+        getoShortcutInfoCompat: GetoShortcutInfoCompat,
     ): Boolean {
         return ShortcutManagerCompat.requestPinShortcut(
             context,
-            mappedShortcutInfoCompat.asShortcutInfoCompat(
+            getoShortcutInfoCompat.asShortcutInfoCompat(
                 context = context,
                 packageName = packageName,
                 appName = appName,
@@ -51,11 +57,11 @@ internal class AndroidShortcutManagerCompatWrapper @Inject constructor(@Applicat
     override fun updateShortcuts(
         packageName: String,
         appName: String,
-        mappedShortcutInfoCompats: List<MappedShortcutInfoCompat>,
+        getoShortcutInfoCompats: List<GetoShortcutInfoCompat>,
     ): Boolean {
         return ShortcutManagerCompat.updateShortcuts(
             context,
-            mappedShortcutInfoCompats.map {
+            getoShortcutInfoCompats.map {
                 it.asShortcutInfoCompat(
                     context = context,
                     packageName = packageName,
@@ -65,10 +71,12 @@ internal class AndroidShortcutManagerCompatWrapper @Inject constructor(@Applicat
         )
     }
 
-    override fun getShortcuts(matchFlags: Int): List<MappedShortcutInfoCompat> {
-        return ShortcutManagerCompat.getShortcuts(
-            context,
-            matchFlags,
-        ).map { it.asMappedShortcutInfoCompat() }
+    override suspend fun getShortcuts(): List<GetoShortcutInfoCompat> {
+        return withContext(defaultDispatcher) {
+            ShortcutManagerCompat.getShortcuts(
+                context,
+                ShortcutManagerCompat.FLAG_MATCH_PINNED,
+            ).map { it.asGetoShortcutInfoCompat() }
+        }
     }
 }

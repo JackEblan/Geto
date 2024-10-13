@@ -18,8 +18,8 @@
 package com.android.geto.feature.appsettings.dialog.copypermissioncommand
 
 import androidx.activity.ComponentActivity
+import androidx.compose.material3.Surface
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import com.android.geto.core.designsystem.component.GetoBackground
 import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.screenshottesting.util.DefaultTestDevices
 import com.android.geto.core.screenshottesting.util.captureDialogForDevice
@@ -69,7 +69,7 @@ class CopyPermissionCommandDialogScreenshotTest {
             darkMode = true,
         ) {
             GetoTheme {
-                GetoBackground {
+                Surface {
                     CopyPermissionCommandDialog(
                         copyPermissionCommandDialogState = rememberCopyPermissionCommandDialogState(),
                         onCopyClick = {},

@@ -18,8 +18,8 @@
 package com.android.geto.feature.settings
 
 import androidx.activity.ComponentActivity
+import androidx.compose.material3.Surface
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import com.android.geto.core.designsystem.component.GetoBackground
 import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.model.DarkThemeConfig
 import com.android.geto.core.model.ThemeBrand
@@ -55,7 +55,7 @@ class SettingsScreenScreenshotTest {
                 SettingsScreen(
                     settingsUiState = SettingsUiState.Success(
                         userData = UserData(
-                            themeBrand = ThemeBrand.DEFAULT,
+                            themeBrand = ThemeBrand.PURPLE,
                             useDynamicColor = false,
                             darkThemeConfig = DarkThemeConfig.DARK,
                             useAutoLaunch = false,
@@ -67,7 +67,6 @@ class SettingsScreenScreenshotTest {
                     onCleanAppSettings = {},
                     onChangeDynamicColorPreference = {},
                     onChangeAutoLaunchPreference = {},
-                    onNavigationIconClick = {},
                 )
             }
         }
@@ -89,7 +88,6 @@ class SettingsScreenScreenshotTest {
                     onCleanAppSettings = {},
                     onChangeDynamicColorPreference = {},
                     onChangeAutoLaunchPreference = {},
-                    onNavigationIconClick = {},
                 )
             }
         }
@@ -104,11 +102,11 @@ class SettingsScreenScreenshotTest {
             darkMode = true,
         ) {
             GetoTheme {
-                GetoBackground {
+                Surface {
                     SettingsScreen(
                         settingsUiState = SettingsUiState.Success(
                             userData = UserData(
-                                themeBrand = ThemeBrand.DEFAULT,
+                                themeBrand = ThemeBrand.PURPLE,
                                 useDynamicColor = false,
                                 darkThemeConfig = DarkThemeConfig.DARK,
                                 useAutoLaunch = false,
@@ -120,7 +118,6 @@ class SettingsScreenScreenshotTest {
                         onCleanAppSettings = {},
                         onChangeDynamicColorPreference = {},
                         onChangeAutoLaunchPreference = {},
-                        onNavigationIconClick = {},
                     )
                 }
             }
@@ -136,7 +133,7 @@ class SettingsScreenScreenshotTest {
             darkMode = true,
         ) {
             GetoTheme {
-                GetoBackground {
+                Surface {
                     SettingsScreen(
                         settingsUiState = SettingsUiState.Loading,
                         supportDynamicColor = true,
@@ -145,7 +142,6 @@ class SettingsScreenScreenshotTest {
                         onCleanAppSettings = {},
                         onChangeDynamicColorPreference = {},
                         onChangeAutoLaunchPreference = {},
-                        onNavigationIconClick = {},
                     )
                 }
             }

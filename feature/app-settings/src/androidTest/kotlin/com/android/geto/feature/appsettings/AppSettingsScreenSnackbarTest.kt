@@ -80,7 +80,7 @@ class AppSettingsScreenSnackbarTest {
                 setPrimaryClipResult = false,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
-                onCheckAppSetting = { _, _ -> },
+                onCheckAppSetting = {},
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
 
@@ -124,7 +124,7 @@ class AppSettingsScreenSnackbarTest {
                 setPrimaryClipResult = false,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
-                onCheckAppSetting = { _, _ -> },
+                onCheckAppSetting = {},
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
 
@@ -168,7 +168,7 @@ class AppSettingsScreenSnackbarTest {
                 setPrimaryClipResult = false,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
-                onCheckAppSetting = { _, _ -> },
+                onCheckAppSetting = {},
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
 
@@ -212,7 +212,7 @@ class AppSettingsScreenSnackbarTest {
                 setPrimaryClipResult = false,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
-                onCheckAppSetting = { _, _ -> },
+                onCheckAppSetting = {},
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
 
@@ -256,7 +256,7 @@ class AppSettingsScreenSnackbarTest {
                 setPrimaryClipResult = false,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
-                onCheckAppSetting = { _, _ -> },
+                onCheckAppSetting = {},
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
 
@@ -300,7 +300,7 @@ class AppSettingsScreenSnackbarTest {
                 setPrimaryClipResult = false,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
-                onCheckAppSetting = { _, _ -> },
+                onCheckAppSetting = {},
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
                 onResetApplyAppSettingsResult = {},
@@ -343,7 +343,7 @@ class AppSettingsScreenSnackbarTest {
                 setPrimaryClipResult = false,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
-                onCheckAppSetting = { _, _ -> },
+                onCheckAppSetting = {},
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
 
@@ -387,7 +387,7 @@ class AppSettingsScreenSnackbarTest {
                 setPrimaryClipResult = false,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
-                onCheckAppSetting = { _, _ -> },
+                onCheckAppSetting = {},
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
 
@@ -431,7 +431,7 @@ class AppSettingsScreenSnackbarTest {
                 setPrimaryClipResult = false,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
-                onCheckAppSetting = { _, _ -> },
+                onCheckAppSetting = {},
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
 
@@ -475,7 +475,7 @@ class AppSettingsScreenSnackbarTest {
                 setPrimaryClipResult = false,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
-                onCheckAppSetting = { _, _ -> },
+                onCheckAppSetting = {},
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
 
@@ -519,7 +519,7 @@ class AppSettingsScreenSnackbarTest {
                 setPrimaryClipResult = false,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
-                onCheckAppSetting = { _, _ -> },
+                onCheckAppSetting = {},
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
                 onResetApplyAppSettingsResult = {},
@@ -562,7 +562,7 @@ class AppSettingsScreenSnackbarTest {
                 setPrimaryClipResult = false,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
-                onCheckAppSetting = { _, _ -> },
+                onCheckAppSetting = {},
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
 
@@ -606,7 +606,7 @@ class AppSettingsScreenSnackbarTest {
                 setPrimaryClipResult = false,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
-                onCheckAppSetting = { _, _ -> },
+                onCheckAppSetting = {},
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
 
@@ -650,7 +650,7 @@ class AppSettingsScreenSnackbarTest {
                 setPrimaryClipResult = false,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
-                onCheckAppSetting = { _, _ -> },
+                onCheckAppSetting = {},
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
 
@@ -696,7 +696,7 @@ class AppSettingsScreenSnackbarTest {
                 setPrimaryClipResult = true,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
-                onCheckAppSetting = { _, _ -> },
+                onCheckAppSetting = {},
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
 

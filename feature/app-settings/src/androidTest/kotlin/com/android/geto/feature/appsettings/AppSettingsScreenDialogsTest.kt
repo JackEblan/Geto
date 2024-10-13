@@ -33,6 +33,7 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.performTextInput
 import com.android.geto.core.model.AppSettingsResult
 import org.junit.Rule
@@ -60,7 +61,7 @@ class AppSettingsScreenDialogsTest {
                 setPrimaryClipResult = false,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
-                onCheckAppSetting = { _, _ -> },
+                onCheckAppSetting = {},
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
                 onResetApplyAppSettingsResult = {},
@@ -83,7 +84,7 @@ class AppSettingsScreenDialogsTest {
 
         composeTestRule.onNodeWithContentDescription("Add App Settings Dialog").assertIsDisplayed()
 
-        composeTestRule.onNodeWithText("Cancel").performClick()
+        composeTestRule.onNodeWithText("Cancel").performScrollTo().performClick()
 
         composeTestRule.onNodeWithContentDescription("Add App Settings Dialog")
             .assertIsNotDisplayed()
@@ -107,7 +108,7 @@ class AppSettingsScreenDialogsTest {
                 setPrimaryClipResult = false,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
-                onCheckAppSetting = { _, _ -> },
+                onCheckAppSetting = {},
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
                 onResetApplyAppSettingsResult = {},
@@ -150,7 +151,7 @@ class AppSettingsScreenDialogsTest {
                 setPrimaryClipResult = false,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
-                onCheckAppSetting = { _, _ -> },
+                onCheckAppSetting = {},
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
                 onResetApplyAppSettingsResult = {},
@@ -193,7 +194,7 @@ class AppSettingsScreenDialogsTest {
                 setPrimaryClipResult = false,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
-                onCheckAppSetting = { _, _ -> },
+                onCheckAppSetting = {},
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
                 onResetApplyAppSettingsResult = {},
@@ -236,7 +237,7 @@ class AppSettingsScreenDialogsTest {
                 setPrimaryClipResult = false,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
-                onCheckAppSetting = { _, _ -> },
+                onCheckAppSetting = {},
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
                 onResetApplyAppSettingsResult = {},
@@ -259,7 +260,7 @@ class AppSettingsScreenDialogsTest {
 
         composeTestRule.onNodeWithContentDescription("Add Shortcut Dialog").assertIsDisplayed()
 
-        composeTestRule.onNodeWithText("Cancel").performClick()
+        composeTestRule.onNodeWithText("Cancel").performScrollTo().performClick()
 
         composeTestRule.onNodeWithContentDescription("Add Shortcut Dialog").assertIsNotDisplayed()
     }
@@ -284,7 +285,7 @@ class AppSettingsScreenDialogsTest {
                 setPrimaryClipResult = false,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
-                onCheckAppSetting = { _, _ -> },
+                onCheckAppSetting = {},
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
                 onResetApplyAppSettingsResult = {},
@@ -378,7 +379,7 @@ class AppSettingsScreenDialogsTest {
                 setPrimaryClipResult = false,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},
-                onCheckAppSetting = { _, _ -> },
+                onCheckAppSetting = {},
                 onDeleteAppSetting = {},
                 onLaunchApp = {},
                 onResetApplyAppSettingsResult = {},

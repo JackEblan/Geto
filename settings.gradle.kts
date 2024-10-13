@@ -52,6 +52,7 @@ include(":core:ui")
 
 include(":feature:apps")
 include(":feature:app-settings")
+include(":feature:home")
 include(":feature:settings")
 
 include(":framework:clipboard-manager")

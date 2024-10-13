@@ -24,6 +24,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
@@ -34,7 +35,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.compose.rememberNavController
-import com.android.geto.core.designsystem.component.GetoBackground
 import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.model.DarkThemeConfig
 import com.android.geto.core.model.ThemeBrand
@@ -53,12 +53,12 @@ class MainActivity : ComponentActivity() {
 
         super.onCreate(savedInstanceState)
 
-        var uiState: MainActivityUiState by mutableStateOf(MainActivityUiState.Loading)
+        var mainActivityUiState: MainActivityUiState by mutableStateOf(MainActivityUiState.Loading)
 
         // Update the uiState
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.uiState.onEach { uiState = it }.collect()
+                viewModel.uiState.onEach { mainActivityUiState = it }.collect()
             }
         }
 
@@ -66,7 +66,7 @@ class MainActivity : ComponentActivity() {
         // evaluated each time the app needs to be redrawn so it should be fast to avoid blocking
         // the UI.
         splashScreen.setKeepOnScreenCondition {
-            when (uiState) {
+            when (mainActivityUiState) {
                 MainActivityUiState.Loading -> true
                 is MainActivityUiState.Success -> false
             }
@@ -78,7 +78,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         setContent {
-            val darkTheme = shouldUseDarkTheme(uiState)
+            val darkTheme = shouldUseDarkTheme(mainActivityUiState)
 
             val navController = rememberNavController()
 
@@ -101,11 +101,12 @@ class MainActivity : ComponentActivity() {
             }
 
             GetoTheme(
+                greenTheme = shouldUseGreenTheme(mainActivityUiState),
+                purpleTheme = shouldUsePurpleTheme(mainActivityUiState),
                 darkTheme = darkTheme,
-                androidTheme = shouldUseAndroidTheme(uiState),
-                disableDynamicTheming = shouldDisableDynamicTheming(uiState),
+                dynamicTheme = shouldUseDynamicTheme(mainActivityUiState),
             ) {
-                GetoBackground {
+                Surface {
                     GetoNavHost(navController = navController)
                 }
             }
@@ -113,35 +114,36 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-/**
- * Returns `true` if the Android theme should be used, as a function of the [uiState].
- */
 @Composable
-private fun shouldUseAndroidTheme(
-    uiState: MainActivityUiState,
-): Boolean = when (uiState) {
+private fun shouldUseGreenTheme(
+    mainActivityUiState: MainActivityUiState,
+): Boolean = when (mainActivityUiState) {
     MainActivityUiState.Loading -> false
-    is MainActivityUiState.Success -> when (uiState.userData.themeBrand) {
-        ThemeBrand.DEFAULT -> false
-        ThemeBrand.ANDROID -> true
+    is MainActivityUiState.Success -> when (mainActivityUiState.userData.themeBrand) {
+        ThemeBrand.GREEN -> true
+        ThemeBrand.PURPLE -> false
     }
 }
 
-/**
- * Returns `true` if the dynamic color is disabled, as a function of the [uiState].
- */
 @Composable
-private fun shouldDisableDynamicTheming(
-    uiState: MainActivityUiState,
-): Boolean = when (uiState) {
+private fun shouldUsePurpleTheme(
+    mainActivityUiState: MainActivityUiState,
+): Boolean = when (mainActivityUiState) {
     MainActivityUiState.Loading -> false
-    is MainActivityUiState.Success -> !uiState.userData.useDynamicColor
+    is MainActivityUiState.Success -> when (mainActivityUiState.userData.themeBrand) {
+        ThemeBrand.GREEN -> false
+        ThemeBrand.PURPLE -> true
+    }
 }
 
-/**
- * Returns `true` if dark theme should be used, as a function of the [uiState] and the
- * current system context.
- */
+@Composable
+private fun shouldUseDynamicTheme(
+    mainActivityUiState: MainActivityUiState,
+): Boolean = when (mainActivityUiState) {
+    MainActivityUiState.Loading -> false
+    is MainActivityUiState.Success -> mainActivityUiState.userData.useDynamicColor
+}
+
 @Composable
 private fun shouldUseDarkTheme(
     uiState: MainActivityUiState,
@@ -154,14 +156,6 @@ private fun shouldUseDarkTheme(
     }
 }
 
-/**
- * The default light scrim, as defined by androidx and the platform:
- * https://cs.android.com/androidx/platform/frameworks/support/+/androidx-main:activity/activity/src/main/java/androidx/activity/EdgeToEdge.kt;l=35-38;drc=27e7d52e8604a080133e8b842db10c89b4482598
- */
 private val lightScrim = android.graphics.Color.argb(0xe6, 0xFF, 0xFF, 0xFF)
 
-/**
- * The default dark scrim, as defined by androidx and the platform:
- * https://cs.android.com/androidx/platform/frameworks/support/+/androidx-main:activity/activity/src/main/java/androidx/activity/EdgeToEdge.kt;l=40-44;drc=27e7d52e8604a080133e8b842db10c89b4482598
- */
 private val darkScrim = android.graphics.Color.argb(0x80, 0x1b, 0x1b, 0x1b)

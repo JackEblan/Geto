@@ -24,6 +24,7 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performScrollTo
 import com.android.geto.core.model.SecureSetting
 import com.android.geto.core.model.SettingType
 import org.junit.Rule
@@ -71,12 +72,12 @@ class AppSettingDialogTest {
             )
         }
 
-        composeTestRule.onNodeWithText("Add").performClick()
+        composeTestRule.onNodeWithText("Add").performScrollTo().performClick()
 
         composeTestRule.onNodeWithTag(
             testTag = "appSettingDialog:labelSupportingText",
             useUnmergedTree = true,
-        ).assertIsDisplayed()
+        ).performScrollTo().assertIsDisplayed()
     }
 
     @Test
@@ -106,12 +107,12 @@ class AppSettingDialogTest {
             )
         }
 
-        composeTestRule.onNodeWithText("Add").performClick()
+        composeTestRule.onNodeWithText("Add").performScrollTo().performClick()
 
         composeTestRule.onNodeWithTag(
             testTag = "appSettingDialog:keySupportingText",
             useUnmergedTree = true,
-        ).assertIsDisplayed()
+        ).performScrollTo().assertIsDisplayed()
     }
 
     @Test
@@ -141,12 +142,12 @@ class AppSettingDialogTest {
             )
         }
 
-        composeTestRule.onNodeWithText("Add").performClick()
+        composeTestRule.onNodeWithText("Add").performScrollTo().performClick()
 
         composeTestRule.onNodeWithTag(
             testTag = "appSettingDialog:settingsKeyNotFoundSupportingText",
             useUnmergedTree = true,
-        ).assertIsDisplayed()
+        ).performScrollTo().assertIsDisplayed()
     }
 
     @Test
@@ -176,12 +177,12 @@ class AppSettingDialogTest {
             )
         }
 
-        composeTestRule.onNodeWithText("Add").performClick()
+        composeTestRule.onNodeWithText("Add").performScrollTo().performClick()
 
         composeTestRule.onNodeWithTag(
             testTag = "appSettingDialog:valueOnLaunchSupportingText",
             useUnmergedTree = true,
-        ).assertIsDisplayed()
+        ).performScrollTo().assertIsDisplayed()
     }
 
     @Test
@@ -211,12 +212,12 @@ class AppSettingDialogTest {
             )
         }
 
-        composeTestRule.onNodeWithText("Add").performClick()
+        composeTestRule.onNodeWithText("Add").performScrollTo().performClick()
 
         composeTestRule.onNodeWithTag(
             testTag = "appSettingDialog:valueOnRevertSupportingText",
             useUnmergedTree = true,
-        ).assertIsDisplayed()
+        ).performScrollTo().assertIsDisplayed()
     }
 
     @Test
@@ -236,7 +237,8 @@ class AppSettingDialogTest {
             )
         }
 
-        composeTestRule.onNodeWithTag("appSettingDialog:keyTextField").performClick()
+        composeTestRule.onNodeWithTag("appSettingDialog:keyTextField").performScrollTo()
+            .performClick()
 
         composeTestRule.onNodeWithTag(
             testTag = "appSettingDialog:exposedDropdownMenuBox",
@@ -260,7 +262,8 @@ class AppSettingDialogTest {
             )
         }
 
-        composeTestRule.onNodeWithTag("appSettingDialog:keyTextField").performClick()
+        composeTestRule.onNodeWithTag("appSettingDialog:keyTextField").performScrollTo()
+            .performClick()
 
         composeTestRule.onNodeWithText("Geto 1").performClick()
 
@@ -302,6 +305,6 @@ class AppSettingDialogTest {
             )
         }
 
-        composeTestRule.onNodeWithText("Add").performClick()
+        composeTestRule.onNodeWithText("Add").performScrollTo().performClick()
     }
 }

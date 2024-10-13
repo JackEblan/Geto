@@ -48,7 +48,6 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
-import com.android.geto.core.designsystem.theme.GetoTheme
 import kotlinx.coroutines.launch
 
 @Composable
@@ -146,26 +145,6 @@ fun GetoOverlayLoadingWheel(
         GetoLoadingWheel(
             contentDescription = contentDescription,
         )
-    }
-}
-
-@ThemePreviews
-@Composable
-private fun GetoLoadingWheelPreview() {
-    GetoTheme {
-        Surface {
-            GetoLoadingWheel(contentDescription = "GetoOverlayLoadingWheel")
-        }
-    }
-}
-
-@ThemePreviews
-@Composable
-private fun GetoOverlayLoadingWheelPreview() {
-    GetoTheme {
-        Surface {
-            GetoOverlayLoadingWheel(contentDescription = "GetoOverlayLoadingWheel")
-        }
     }
 }
 

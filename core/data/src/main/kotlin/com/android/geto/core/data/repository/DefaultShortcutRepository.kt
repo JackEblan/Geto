@@ -17,11 +17,16 @@
  */
 package com.android.geto.core.data.repository
 
-import com.android.geto.core.model.MappedShortcutInfoCompat
+import com.android.geto.core.common.Dispatcher
+import com.android.geto.core.common.GetoDispatchers.Default
+import com.android.geto.core.model.GetoShortcutInfoCompat
 import com.android.geto.framework.shortcutmanager.ShortcutManagerCompatWrapper
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 internal class DefaultShortcutRepository @Inject constructor(
+    @Dispatcher(Default) private val defaultDispatcher: CoroutineDispatcher,
     private val shortcutManagerCompatWrapper: ShortcutManagerCompatWrapper,
 ) : ShortcutRepository {
 
@@ -32,33 +37,34 @@ internal class DefaultShortcutRepository @Inject constructor(
     override fun requestPinShortcut(
         packageName: String,
         appName: String,
-        mappedShortcutInfoCompat: MappedShortcutInfoCompat,
+        getoShortcutInfoCompat: GetoShortcutInfoCompat,
     ): Boolean {
         return shortcutManagerCompatWrapper.requestPinShortcut(
             packageName = packageName,
             appName = appName,
-            mappedShortcutInfoCompat = mappedShortcutInfoCompat,
+            getoShortcutInfoCompat = getoShortcutInfoCompat,
         )
     }
 
     override fun updateShortcuts(
         packageName: String,
         appName: String,
-        mappedShortcutInfoCompats: List<MappedShortcutInfoCompat>,
+        getoShortcutInfoCompats: List<GetoShortcutInfoCompat>,
     ): Boolean {
         return shortcutManagerCompatWrapper.updateShortcuts(
             packageName = packageName,
             appName = appName,
-            mappedShortcutInfoCompats = mappedShortcutInfoCompats,
+            getoShortcutInfoCompats = getoShortcutInfoCompats,
         )
     }
 
-    override fun getPinnedShortcuts(): List<MappedShortcutInfoCompat> {
-        return shortcutManagerCompatWrapper.getShortcuts(shortcutManagerCompatWrapper.flagMatchPinned)
+    override suspend fun getPinnedShortcuts(): List<GetoShortcutInfoCompat> {
+        return shortcutManagerCompatWrapper.getShortcuts()
     }
 
-    override fun getPinnedShortcut(id: String): MappedShortcutInfoCompat? {
-        return shortcutManagerCompatWrapper.getShortcuts(shortcutManagerCompatWrapper.flagMatchPinned)
-            .find { it.id == id }
+    override suspend fun getPinnedShortcut(id: String): GetoShortcutInfoCompat? {
+        return withContext(defaultDispatcher) {
+            shortcutManagerCompatWrapper.getShortcuts().find { it.id == id }
+        }
     }
 }

@@ -79,7 +79,7 @@ fun ShimmerImage(
         painter = if (isError.not() && isLocalInspection.not()) {
             imageLoader
         } else {
-            painterResource(R.drawable.core_designsystem_ic_placeholder_default)
+            painterResource(R.drawable.ic_android_black_24dp)
         },
         contentDescription = null,
     )

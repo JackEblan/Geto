@@ -32,7 +32,7 @@ import com.android.geto.core.domain.RequestPinShortcutUseCase
 import com.android.geto.core.domain.RevertAppSettingsUseCase
 import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.AppSettingsResult
-import com.android.geto.core.model.MappedShortcutInfoCompat
+import com.android.geto.core.model.GetoShortcutInfoCompat
 import com.android.geto.core.model.RequestPinShortcutResult
 import com.android.geto.core.model.SecureSetting
 import com.android.geto.core.model.SettingType
@@ -70,7 +70,11 @@ class AppSettingsViewModel @Inject constructor(
     val secureSettings = _secureSettings.asStateFlow()
 
     private var _applicationIcon = MutableStateFlow<Bitmap?>(null)
-    val applicationIcon = _applicationIcon.onStart { getApplicationIcon() }.stateIn(
+    val applicationIcon = _applicationIcon.onStart {
+        if (_applicationIcon.value == null) {
+            getApplicationIcon()
+        }
+    }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
         initialValue = null,
@@ -84,7 +88,9 @@ class AppSettingsViewModel @Inject constructor(
 
     private val _autoLaunchResult = MutableStateFlow<AppSettingsResult?>(null)
     val autoLaunchResult = _autoLaunchResult.onStart {
-        autoLaunchApp()
+        if (_autoLaunchResult.value == null) {
+            autoLaunchApp()
+        }
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
@@ -103,7 +109,7 @@ class AppSettingsViewModel @Inject constructor(
 
     val appSettingsUiState =
         appSettingsRepository.getAppSettingsByPackageName(packageName = packageName)
-            .map<List<AppSetting>, AppSettingsUiState>(AppSettingsUiState::Success).stateIn(
+            .map(AppSettingsUiState::Success).stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5_000),
                 initialValue = AppSettingsUiState.Loading,
@@ -121,13 +127,9 @@ class AppSettingsViewModel @Inject constructor(
         }
     }
 
-    fun checkAppSetting(checked: Boolean, appSetting: AppSetting) {
+    fun checkAppSetting(appSetting: AppSetting) {
         viewModelScope.launch {
-            val updatedAppSetting = appSetting.copy(enabled = checked)
-
-            appSettingsRepository.upsertAppSetting(
-                updatedAppSetting,
-            )
+            appSettingsRepository.upsertAppSetting(appSetting)
         }
     }
 
@@ -164,13 +166,13 @@ class AppSettingsViewModel @Inject constructor(
         }
     }
 
-    fun requestPinShortcut(mappedShortcutInfoCompat: MappedShortcutInfoCompat) {
+    fun requestPinShortcut(getoShortcutInfoCompat: GetoShortcutInfoCompat) {
         viewModelScope.launch {
             _requestPinShortcutResult.update {
                 requestPinShortcutUseCase(
                     packageName = packageName,
                     appName = appName,
-                    mappedShortcutInfoCompat = mappedShortcutInfoCompat,
+                    getoShortcutInfoCompat = getoShortcutInfoCompat,
                 )
             }
         }

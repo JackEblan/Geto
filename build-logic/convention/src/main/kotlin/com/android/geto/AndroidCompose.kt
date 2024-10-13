@@ -46,12 +46,6 @@ internal fun Project.configureAndroidCompose(
             unitTests {
                 // For Robolectric
                 isIncludeAndroidResources = true
-
-                isReturnDefaultValues = true
-
-                all {
-                    it.systemProperties["robolectric.pixelCopyRenderMode"] = "hardware"
-                }
             }
         }
     }
@@ -63,14 +57,14 @@ internal fun Project.configureAndroidCompose(
         }.map { it.dir(dir) }
 
         project.providers.gradleProperty("enableComposeCompilerMetrics").onlyIfTrue()
-            .relativeToRootProject("compose-metrics").let(metricsDestination::set)
+            .relativeToRootProject("compose-metrics")
+            .let(metricsDestination::set)
 
         project.providers.gradleProperty("enableComposeCompilerReports").onlyIfTrue()
-            .relativeToRootProject("compose-reports").let(reportsDestination::set)
+            .relativeToRootProject("compose-reports")
+            .let(reportsDestination::set)
 
         stabilityConfigurationFile =
             rootProject.layout.projectDirectory.file("compose_compiler_config.conf")
-
-        enableStrongSkippingMode = true
     }
 }

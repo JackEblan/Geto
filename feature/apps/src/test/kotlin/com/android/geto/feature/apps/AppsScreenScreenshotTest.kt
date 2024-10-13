@@ -18,10 +18,10 @@
 package com.android.geto.feature.apps
 
 import androidx.activity.ComponentActivity
+import androidx.compose.material3.Surface
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import com.android.geto.core.designsystem.component.GetoBackground
 import com.android.geto.core.designsystem.theme.GetoTheme
-import com.android.geto.core.model.ApplicationInfo
+import com.android.geto.core.model.GetoApplicationInfo
 import com.android.geto.core.screenshottesting.util.DefaultTestDevices
 import com.android.geto.core.screenshottesting.util.captureScreenForDevice
 import com.android.geto.core.screenshottesting.util.captureScreenForMultiDevice
@@ -43,8 +43,8 @@ class AppsScreenScreenshotTest {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
-    private val mappedApplicationInfos = List(5) { index ->
-        ApplicationInfo(
+    private val mappedGetoApplicationInfos = List(5) { index ->
+        GetoApplicationInfo(
             flags = 0,
             packageName = "com.android.geto$index",
             label = "Geto $index",
@@ -56,9 +56,8 @@ class AppsScreenScreenshotTest {
         composeTestRule.captureScreenForMultiDevice("AppsScreenPopulated") {
             GetoTheme {
                 AppsScreen(
-                    appsUiState = AppsUiState.Success(mappedApplicationInfos),
+                    appsUiState = AppsUiState.Success(mappedGetoApplicationInfos),
                     onItemClick = { _, _ -> },
-                    onSettingsClick = {},
                 )
             }
         }
@@ -71,7 +70,6 @@ class AppsScreenScreenshotTest {
                 AppsScreen(
                     appsUiState = AppsUiState.Loading,
                     onItemClick = { _, _ -> },
-                    onSettingsClick = {},
                 )
             }
         }
@@ -86,13 +84,12 @@ class AppsScreenScreenshotTest {
             darkMode = true,
         ) {
             GetoTheme {
-                GetoBackground {
+                Surface {
                     AppsScreen(
                         appsUiState = AppsUiState.Success(
-                            mappedApplicationInfos,
+                            mappedGetoApplicationInfos,
                         ),
                         onItemClick = { _, _ -> },
-                        onSettingsClick = {},
                     )
                 }
             }
@@ -108,11 +105,10 @@ class AppsScreenScreenshotTest {
             darkMode = true,
         ) {
             GetoTheme {
-                GetoBackground {
+                Surface {
                     AppsScreen(
                         appsUiState = AppsUiState.Loading,
                         onItemClick = { _, _ -> },
-                        onSettingsClick = {},
                     )
                 }
             }

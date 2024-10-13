@@ -29,7 +29,7 @@ class FakeUserDataRepository @Inject constructor() : UserDataRepository {
 
     override val userData: Flow<UserData> = flowOf(
         UserData(
-            themeBrand = ThemeBrand.DEFAULT,
+            themeBrand = ThemeBrand.PURPLE,
             darkThemeConfig = DarkThemeConfig.DARK,
             useDynamicColor = false,
             useAutoLaunch = false,

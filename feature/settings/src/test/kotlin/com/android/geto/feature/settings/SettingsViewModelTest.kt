@@ -74,7 +74,7 @@ class SettingsViewModelTest {
 
     @Test
     fun settingsUiState_isSuccess() = runTest {
-        userDataRepository.setThemeBrand(ThemeBrand.ANDROID)
+        userDataRepository.setThemeBrand(ThemeBrand.GREEN)
 
         userDataRepository.setDarkThemeConfig(DarkThemeConfig.DARK)
 

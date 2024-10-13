@@ -17,18 +17,28 @@
  */
 package com.android.geto.feature.apps.navigation
 
+import androidx.navigation.NavController
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.android.geto.feature.apps.AppsRoute
 
+fun NavController.navigateToApps() {
+    navigate(AppsRouteData) {
+        popUpTo(graph.findStartDestination().id) {
+            saveState = true
+        }
+        launchSingleTop = true
+        restoreState = true
+    }
+}
+
 fun NavGraphBuilder.appsScreen(
     onItemClick: (String, String) -> Unit,
-    onSettingsClick: () -> Unit,
 ) {
     composable<AppsRouteData> {
         AppsRoute(
             onItemClick = onItemClick,
-            onSettingsClick = onSettingsClick,
         )
     }
 }

@@ -17,4 +17,6 @@
   -->
 <resources>
     <string name="app_name">Geto</string>
+    <string name="apps">Apps</string>
+    <string name="settings">Settings</string>
 </resources>

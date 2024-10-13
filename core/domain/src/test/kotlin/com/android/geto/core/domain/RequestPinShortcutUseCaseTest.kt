@@ -17,7 +17,7 @@
  */
 package com.android.geto.core.domain
 
-import com.android.geto.core.model.MappedShortcutInfoCompat
+import com.android.geto.core.model.GetoShortcutInfoCompat
 import com.android.geto.core.model.RequestPinShortcutResult
 import com.android.geto.core.testing.repository.TestShortcutRepository
 import kotlinx.coroutines.test.runTest
@@ -48,7 +48,7 @@ class RequestPinShortcutUseCaseTest {
             actual = requestPinShortcutUseCase(
                 packageName = "com.android.geto",
                 appName = "Geto",
-                mappedShortcutInfoCompat = MappedShortcutInfoCompat(
+                getoShortcutInfoCompat = GetoShortcutInfoCompat(
                     id = "com.android.geto",
                     shortLabel = "shortLabel",
                     longLabel = "longLabel",
@@ -66,7 +66,7 @@ class RequestPinShortcutUseCaseTest {
             actual = requestPinShortcutUseCase(
                 packageName = "com.android.geto",
                 appName = "Geto",
-                mappedShortcutInfoCompat = MappedShortcutInfoCompat(
+                getoShortcutInfoCompat = GetoShortcutInfoCompat(
                     id = "com.android.geto",
                     shortLabel = "shortLabel",
                     longLabel = "longLabel",
@@ -78,7 +78,7 @@ class RequestPinShortcutUseCaseTest {
     @Test
     fun requestPinShortcutUseCase_isUpdateImmutableShortcuts() = runTest {
         val shortcuts = List(2) {
-            MappedShortcutInfoCompat(
+            GetoShortcutInfoCompat(
                 id = "com.android.geto",
                 shortLabel = "Geto",
                 longLabel = "Geto",
@@ -96,7 +96,7 @@ class RequestPinShortcutUseCaseTest {
             actual = requestPinShortcutUseCase(
                 packageName = "com.android.geto",
                 appName = "Geto",
-                mappedShortcutInfoCompat = MappedShortcutInfoCompat(
+                getoShortcutInfoCompat = GetoShortcutInfoCompat(
                     id = "com.android.geto",
                     shortLabel = "shortLabel",
                     longLabel = "longLabel",
@@ -108,7 +108,7 @@ class RequestPinShortcutUseCaseTest {
     @Test
     fun requestPinShortcutUseCase_isUpdateSuccess() = runTest {
         val shortcuts = List(2) {
-            MappedShortcutInfoCompat(
+            GetoShortcutInfoCompat(
                 id = "com.android.geto",
                 shortLabel = "Geto",
                 longLabel = "Geto",
@@ -126,7 +126,7 @@ class RequestPinShortcutUseCaseTest {
             actual = requestPinShortcutUseCase(
                 packageName = "com.android.geto",
                 appName = "Geto",
-                mappedShortcutInfoCompat = MappedShortcutInfoCompat(
+                getoShortcutInfoCompat = GetoShortcutInfoCompat(
                     id = "com.android.geto",
                     shortLabel = "shortLabel",
                     longLabel = "longLabel",
