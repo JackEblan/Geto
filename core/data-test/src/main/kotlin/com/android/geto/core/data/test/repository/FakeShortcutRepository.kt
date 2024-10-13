@@ -43,11 +43,11 @@ class FakeShortcutRepository @Inject constructor() : ShortcutRepository {
         return false
     }
 
-    override fun getPinnedShortcuts(): List<GetoShortcutInfoCompat> {
+    override suspend fun getPinnedShortcuts(): List<GetoShortcutInfoCompat> {
         return emptyList()
     }
 
-    override fun getPinnedShortcut(id: String): GetoShortcutInfoCompat? {
+    override suspend fun getPinnedShortcut(id: String): GetoShortcutInfoCompat? {
         return null
     }
 }
