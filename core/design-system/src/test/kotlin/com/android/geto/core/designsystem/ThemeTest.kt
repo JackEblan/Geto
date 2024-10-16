@@ -213,8 +213,27 @@ class ThemeTest {
         assertEquals(expectedColorScheme.onSurface, actualColorScheme.onSurface)
         assertEquals(expectedColorScheme.surfaceVariant, actualColorScheme.surfaceVariant)
         assertEquals(expectedColorScheme.onSurfaceVariant, actualColorScheme.onSurfaceVariant)
+        assertEquals(expectedColorScheme.outline, actualColorScheme.outline)
+        assertEquals(expectedColorScheme.outlineVariant, actualColorScheme.outlineVariant)
+        assertEquals(expectedColorScheme.scrim, actualColorScheme.scrim)
         assertEquals(expectedColorScheme.inverseSurface, actualColorScheme.inverseSurface)
         assertEquals(expectedColorScheme.inverseOnSurface, actualColorScheme.inverseOnSurface)
-        assertEquals(expectedColorScheme.outline, actualColorScheme.outline)
+        assertEquals(expectedColorScheme.inversePrimary, actualColorScheme.inversePrimary)
+        assertEquals(expectedColorScheme.surfaceDim, actualColorScheme.surfaceDim)
+        assertEquals(expectedColorScheme.surfaceBright, actualColorScheme.surfaceBright)
+        assertEquals(
+            expectedColorScheme.surfaceContainerLowest,
+            expectedColorScheme.surfaceContainerLowest,
+        )
+        assertEquals(expectedColorScheme.surfaceContainerLow, actualColorScheme.surfaceContainerLow)
+        assertEquals(expectedColorScheme.surfaceContainer, actualColorScheme.surfaceContainer)
+        assertEquals(
+            expectedColorScheme.surfaceContainerHigh,
+            actualColorScheme.surfaceContainerHigh,
+        )
+        assertEquals(
+            expectedColorScheme.surfaceContainerHighest,
+            expectedColorScheme.surfaceContainerHighest,
+        )
     }
 }
