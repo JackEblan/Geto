@@ -676,7 +676,7 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun requestPinShortcutResult_isUnSupportedLauncher_whenRequestPinShortcut() = runTest {
+    fun requestPinShortcutResult_isUnsupportedLauncher_whenRequestPinShortcut() = runTest {
         backgroundScope.launch(UnconfinedTestDispatcher()) {
             viewModel.requestPinShortcutResult.collect()
         }
@@ -692,7 +692,7 @@ class AppSettingsViewModelTest {
         )
 
         assertEquals(
-            expected = RequestPinShortcutResult.UnSupportedLauncher,
+            expected = RequestPinShortcutResult.UnsupportedLauncher,
             actual = viewModel.requestPinShortcutResult.value,
         )
     }
