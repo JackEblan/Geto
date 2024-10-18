@@ -18,7 +18,7 @@
 package com.android.geto.core.model
 
 enum class RequestPinShortcutResult {
-    UnSupportedLauncher,
+    UnsupportedLauncher,
     SupportedLauncher,
     UpdateSuccess,
     UpdateFailure,

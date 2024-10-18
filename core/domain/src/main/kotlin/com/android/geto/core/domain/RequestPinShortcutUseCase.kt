@@ -31,7 +31,7 @@ class RequestPinShortcutUseCase @Inject constructor(
         getoShortcutInfoCompat: GetoShortcutInfoCompat,
     ): RequestPinShortcutResult {
         if (!shortcutRepository.isRequestPinShortcutSupported()) {
-            return RequestPinShortcutResult.UnSupportedLauncher
+            return RequestPinShortcutResult.UnsupportedLauncher
         }
 
         val pinnedShortcut = shortcutRepository.getPinnedShortcut(id = getoShortcutInfoCompat.id)
@@ -64,7 +64,7 @@ class RequestPinShortcutUseCase @Inject constructor(
         ) {
             RequestPinShortcutResult.SupportedLauncher
         } else {
-            RequestPinShortcutResult.UnSupportedLauncher
+            RequestPinShortcutResult.UnsupportedLauncher
         }
     }
 
