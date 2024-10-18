@@ -57,7 +57,6 @@ internal class DefaultSecureSettingsRepository @Inject constructor(
     ): List<SecureSetting> {
         return withContext(defaultDispatcher) {
             secureSettingsWrapper.getSecureSettings(settingType).filter { it.name!!.contains(text) }
-                .take(20)
         }
     }
 }
