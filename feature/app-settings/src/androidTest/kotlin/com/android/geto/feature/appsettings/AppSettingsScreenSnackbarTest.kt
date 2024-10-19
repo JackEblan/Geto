@@ -502,7 +502,7 @@ class AppSettingsScreenSnackbarTest {
     }
 
     @Test
-    fun snackbar_isShown_whenRequestPinShortcutResult_isUnSupportedLauncher() {
+    fun snackbar_isShown_whenRequestPinShortcutResult_isUnsupportedLauncher() {
         composeTestRule.setContent {
             AppSettingsScreen(
                 packageName = "com.android.geto",
@@ -515,7 +515,7 @@ class AppSettingsScreenSnackbarTest {
                 appSettingsResult = null,
                 revertAppSettingsResult = null,
                 autoLaunchResult = null,
-                requestPinShortcutResult = RequestPinShortcutResult.UnSupportedLauncher,
+                requestPinShortcutResult = RequestPinShortcutResult.UnsupportedLauncher,
                 setPrimaryClipResult = false,
                 onNavigationIconClick = {},
                 onRevertAppSettings = {},

@@ -35,12 +35,10 @@ class AppsViewModel @Inject constructor(
 ) : ViewModel() {
     private val _appUiState = MutableStateFlow<AppsUiState?>(null)
     val appsUiState = _appUiState.onStart {
-        if (_appUiState.value == null) {
-            queryIntentActivities()
-        }
+        queryIntentActivities()
     }.stateIn(
         scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5_000),
+        started = SharingStarted.Lazily,
         initialValue = null,
     )
 

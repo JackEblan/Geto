@@ -58,11 +58,11 @@ class RequestPinShortcutUseCaseTest {
     }
 
     @Test
-    fun requestPinShortcutUseCase_isUnSupportedLauncher() = runTest {
+    fun requestPinShortcutUseCase_isUnsupportedLauncher() = runTest {
         shortcutRepository.setRequestPinShortcutSupported(false)
 
         assertEquals(
-            expected = RequestPinShortcutResult.UnSupportedLauncher,
+            expected = RequestPinShortcutResult.UnsupportedLauncher,
             actual = requestPinShortcutUseCase(
                 packageName = "com.android.geto",
                 appName = "Geto",

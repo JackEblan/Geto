@@ -370,7 +370,7 @@ private fun AppSettingsLaunchedEffects(
                 message = supportedLauncher,
             )
 
-            RequestPinShortcutResult.UnSupportedLauncher -> snackbarHostState.showSnackbar(
+            RequestPinShortcutResult.UnsupportedLauncher -> snackbarHostState.showSnackbar(
                 message = unsupportedLauncher,
             )
 
