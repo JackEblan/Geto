@@ -71,12 +71,10 @@ class AppSettingsViewModel @Inject constructor(
 
     private var _applicationIcon = MutableStateFlow<Bitmap?>(null)
     val applicationIcon = _applicationIcon.onStart {
-        if (_applicationIcon.value == null) {
-            getApplicationIcon()
-        }
+        getApplicationIcon()
     }.stateIn(
         scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5_000),
+        started = SharingStarted.Lazily,
         initialValue = null,
     )
 
@@ -88,12 +86,10 @@ class AppSettingsViewModel @Inject constructor(
 
     private val _autoLaunchResult = MutableStateFlow<AppSettingsResult?>(null)
     val autoLaunchResult = _autoLaunchResult.onStart {
-        if (_autoLaunchResult.value == null) {
-            autoLaunchApp()
-        }
+        autoLaunchApp()
     }.stateIn(
         scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5_000),
+        started = SharingStarted.Lazily,
         initialValue = null,
     )
 
