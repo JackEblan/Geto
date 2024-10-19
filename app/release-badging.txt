@@ -1,4 +1,4 @@
-package: name='com.android.geto' versionCode='159' versionName='1.15.9' platformBuildVersionName='14' platformBuildVersionCode='34' compileSdkVersion='34' compileSdkVersionCodename='14'
+package: name='com.android.geto' versionCode='160' versionName='1.16.0' platformBuildVersionName='14' platformBuildVersionCode='34' compileSdkVersion='34' compileSdkVersionCodename='14'
 sdkVersion:'21'
 targetSdkVersion:'34'
 uses-permission: name='android.permission.WRITE_SECURE_SETTINGS'
