@@ -72,6 +72,10 @@ class NavigationTest {
     fun appSettingsScreen_isDisplayed_whenGetoApplicationInfoItem_isClicked() {
         composeTestRule.apply {
             onAllNodes(hasTestTag("apps:appItem"))[0].performClick()
+            
+            onNode(hasTestTag("appSettings:topAppBar"),
+                   useUnmergedTree = true,
+                  ).assertTextEquals("Geto 0")
         }
     }
 
