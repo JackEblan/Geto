@@ -64,6 +64,7 @@ class NavigationTest {
     fun settingsScreen_isSelected() {
         composeTestRule.apply {
             onNode(isSelectable() and hasText(settings)).performClick()
+
             onNode(isSelected()).assertTextEquals(settings)
         }
     }
@@ -72,10 +73,8 @@ class NavigationTest {
     fun appSettingsScreen_isDisplayed_whenGetoApplicationInfoItem_isClicked() {
         composeTestRule.apply {
             onAllNodes(hasTestTag("apps:appItem"))[0].performClick()
-            
-            onNode(hasTestTag("appSettings:topAppBar"),
-                   useUnmergedTree = true,
-                  ).assertTextEquals("Geto 0")
+
+            onNodeWithTag("appSettings:topAppBar").assertTextEquals("Geto 0")
         }
     }
 
