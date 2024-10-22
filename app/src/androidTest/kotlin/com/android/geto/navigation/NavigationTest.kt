@@ -18,7 +18,9 @@
 package com.android.geto.navigation
 
 import androidx.annotation.StringRes
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertTextEquals
+import androidx.compose.ui.test.hasParent
 import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.isSelectable
@@ -72,6 +74,8 @@ class NavigationTest {
     fun appSettingsScreen_isDisplayed_whenGetoApplicationInfoItem_isClicked() {
         composeTestRule.apply {
             onAllNodes(hasTestTag("apps:appItem"))[0].performClick()
+
+            onNode(hasText("Geto 0") and hasParent(hasTestTag("appSettings:topAppBar"))).assertIsDisplayed()
         }
     }
 
