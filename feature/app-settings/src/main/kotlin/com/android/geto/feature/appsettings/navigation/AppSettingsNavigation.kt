@@ -17,6 +17,8 @@
  */
 package com.android.geto.feature.appsettings.navigation
 
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.scaleIn
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -35,6 +37,9 @@ fun NavGraphBuilder.appSettingsScreen(onNavigationIconClick: () -> Unit) {
         deepLinks = listOf(
             navDeepLink<AppSettingsRouteData>(basePath = DEEP_LINK_URI),
         ),
+        enterTransition = {
+            fadeIn() + scaleIn(initialScale = 0.8f)
+        },
     ) { backStackEntry ->
         val appSettingsRouteData: AppSettingsRouteData = backStackEntry.toRoute()
 
