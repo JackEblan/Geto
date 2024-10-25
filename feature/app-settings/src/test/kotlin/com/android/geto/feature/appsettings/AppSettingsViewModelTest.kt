@@ -500,7 +500,7 @@ class AppSettingsViewModelTest {
 
         clipboardRepository.setSDKInt(33)
 
-        viewModel.copyPermissionCommand()
+        viewModel.copyPermissionCommand(label = "label", text = "text")
 
         assertEquals(
             expected = false,
@@ -516,7 +516,7 @@ class AppSettingsViewModelTest {
 
         clipboardRepository.setSDKInt(32)
 
-        viewModel.copyPermissionCommand()
+        viewModel.copyPermissionCommand(label = "label", text = "text")
 
         assertTrue(viewModel.setPrimaryClipResult.value)
     }

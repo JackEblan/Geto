@@ -22,7 +22,6 @@ import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.consumeWindowInsets
@@ -122,7 +121,6 @@ internal fun AppSettingsRoute(
         snackbarHostState = snackbarHostState,
         applicationIcon = applicationIcon,
         secureSettings = secureSettings,
-        permissionCommandText = viewModel.permissionCommandText,
         appSettingsResult = applyAppSettingsResult,
         revertAppSettingsResult = revertAppSettingsResult,
         autoLaunchResult = autoLaunchResult,
@@ -156,7 +154,6 @@ internal fun AppSettingsScreen(
     snackbarHostState: SnackbarHostState,
     applicationIcon: Bitmap?,
     secureSettings: List<SecureSetting>,
-    permissionCommandText: String,
     appSettingsResult: AppSettingsResult?,
     revertAppSettingsResult: AppSettingsResult?,
     autoLaunchResult: AppSettingsResult?,
@@ -174,7 +171,7 @@ internal fun AppSettingsScreen(
     onResetSetPrimaryClipResult: () -> Unit,
     onGetSecureSettingsByName: (SettingType, String) -> Unit,
     onAddAppSetting: (AppSetting) -> Unit,
-    onCopyPermissionCommand: () -> Unit,
+    onCopyPermissionCommand: (String, String) -> Unit,
     onAddShortcut: (GetoShortcutInfoCompat) -> Unit,
     onLaunchIntent: () -> Unit,
 ) {
@@ -191,7 +188,6 @@ internal fun AppSettingsScreen(
         shortcutDialogState = shortcutDialogState,
         applicationIcon = applicationIcon,
         secureSettings = secureSettings,
-        permissionCommandText = permissionCommandText,
         appSettingsResult = appSettingsResult,
         revertAppSettingsResult = revertAppSettingsResult,
         autoLaunchResult = autoLaunchResult,
@@ -244,6 +240,7 @@ internal fun AppSettingsScreen(
     ) { innerPadding ->
         Box(
             modifier = modifier
+                .padding(innerPadding)
                 .fillMaxSize()
                 .consumeWindowInsets(innerPadding),
         ) {
@@ -256,7 +253,6 @@ internal fun AppSettingsScreen(
                     if (appSettingsUiState.appSettingList.isNotEmpty()) {
                         SuccessState(
                             appSettingsUiState = appSettingsUiState,
-                            contentPadding = innerPadding,
                             onCheckAppSetting = onCheckAppSetting,
                             onDeleteAppSettingsItem = onDeleteAppSetting,
                         )
@@ -281,7 +277,6 @@ private fun AppSettingsLaunchedEffects(
     shortcutDialogState: ShortcutDialogState,
     applicationIcon: Bitmap?,
     secureSettings: List<SecureSetting>,
-    permissionCommandText: String,
     appSettingsResult: AppSettingsResult?,
     revertAppSettingsResult: AppSettingsResult?,
     autoLaunchResult: AppSettingsResult?,
@@ -308,22 +303,41 @@ private fun AppSettingsLaunchedEffects(
     val unsupportedLauncher = stringResource(id = R.string.unsupported_launcher)
     val copiedToClipboard = stringResource(id = R.string.copied_to_clipboard)
     val invalidValues = stringResource(R.string.settings_has_invalid_values)
+    val command = stringResource(R.string.command)
 
     LaunchedEffect(key1 = appSettingsResult) {
         when (appSettingsResult) {
-            AppSettingsResult.DisabledAppSettings -> snackbarHostState.showSnackbar(message = appSettingsDisabled)
-            AppSettingsResult.EmptyAppSettings -> snackbarHostState.showSnackbar(message = emptyAppSettingsList)
-            AppSettingsResult.Failure -> snackbarHostState.showSnackbar(message = applyFailure)
-            AppSettingsResult.SecurityException -> copyPermissionCommandDialogState.updateShowDialog(
-                true,
-            )
+            AppSettingsResult.DisabledAppSettings -> {
+                snackbarHostState.showSnackbar(message = appSettingsDisabled)
+            }
 
-            AppSettingsResult.Success -> onLaunchIntent()
-            AppSettingsResult.IllegalArgumentException -> snackbarHostState.showSnackbar(
-                message = invalidValues,
-            )
+            AppSettingsResult.EmptyAppSettings -> {
+                snackbarHostState.showSnackbar(message = emptyAppSettingsList)
+            }
 
-            null -> Unit
+            AppSettingsResult.Failure -> {
+                snackbarHostState.showSnackbar(message = applyFailure)
+            }
+
+            AppSettingsResult.SecurityException -> {
+                copyPermissionCommandDialogState.updateShowDialog(
+                    true,
+                )
+            }
+
+            AppSettingsResult.Success -> {
+                onLaunchIntent()
+            }
+
+            AppSettingsResult.IllegalArgumentException -> {
+                snackbarHostState.showSnackbar(
+                    message = invalidValues,
+                )
+            }
+
+            null -> {
+                Unit
+            }
         }
 
         onResetApplyAppSettingsResult()
@@ -331,19 +345,37 @@ private fun AppSettingsLaunchedEffects(
 
     LaunchedEffect(key1 = revertAppSettingsResult) {
         when (revertAppSettingsResult) {
-            AppSettingsResult.DisabledAppSettings -> snackbarHostState.showSnackbar(message = appSettingsDisabled)
-            AppSettingsResult.EmptyAppSettings -> snackbarHostState.showSnackbar(message = emptyAppSettingsList)
-            AppSettingsResult.Failure -> snackbarHostState.showSnackbar(message = revertFailure)
-            AppSettingsResult.SecurityException -> copyPermissionCommandDialogState.updateShowDialog(
-                true,
-            )
+            AppSettingsResult.DisabledAppSettings -> {
+                snackbarHostState.showSnackbar(message = appSettingsDisabled)
+            }
 
-            AppSettingsResult.Success -> snackbarHostState.showSnackbar(message = revertSuccess)
-            AppSettingsResult.IllegalArgumentException -> snackbarHostState.showSnackbar(
-                message = invalidValues,
-            )
+            AppSettingsResult.EmptyAppSettings -> {
+                snackbarHostState.showSnackbar(message = emptyAppSettingsList)
+            }
 
-            null -> Unit
+            AppSettingsResult.Failure -> {
+                snackbarHostState.showSnackbar(message = revertFailure)
+            }
+
+            AppSettingsResult.SecurityException -> {
+                copyPermissionCommandDialogState.updateShowDialog(
+                    true,
+                )
+            }
+
+            AppSettingsResult.Success -> {
+                snackbarHostState.showSnackbar(message = revertSuccess)
+            }
+
+            AppSettingsResult.IllegalArgumentException -> {
+                snackbarHostState.showSnackbar(
+                    message = invalidValues,
+                )
+            }
+
+            null -> {
+                Unit
+            }
         }
 
         onResetRevertAppSettingsResult()
@@ -351,14 +383,27 @@ private fun AppSettingsLaunchedEffects(
 
     LaunchedEffect(key1 = autoLaunchResult) {
         when (autoLaunchResult) {
-            AppSettingsResult.SecurityException -> copyPermissionCommandDialogState.updateShowDialog(
-                true,
-            )
+            AppSettingsResult.SecurityException -> {
+                copyPermissionCommandDialogState.updateShowDialog(
+                    true,
+                )
+            }
 
-            AppSettingsResult.Success -> onLaunchIntent()
-            AppSettingsResult.IllegalArgumentException -> snackbarHostState.showSnackbar(message = invalidValues)
-            AppSettingsResult.EmptyAppSettings, AppSettingsResult.DisabledAppSettings, null -> Unit
-            AppSettingsResult.Failure -> Unit
+            AppSettingsResult.Success -> {
+                onLaunchIntent()
+            }
+
+            AppSettingsResult.IllegalArgumentException -> {
+                snackbarHostState.showSnackbar(message = invalidValues)
+            }
+
+            AppSettingsResult.EmptyAppSettings, AppSettingsResult.DisabledAppSettings, null -> {
+                Unit
+            }
+
+            AppSettingsResult.Failure -> {
+                Unit
+            }
         }
 
         onResetAutoLaunchResult()
@@ -395,7 +440,7 @@ private fun AppSettingsLaunchedEffects(
     LaunchedEffect(key1 = setPrimaryClipResult) {
         if (setPrimaryClipResult) {
             snackbarHostState.showSnackbar(
-                message = String.format(copiedToClipboard, permissionCommandText),
+                message = copiedToClipboard.format(command),
             )
         }
 
@@ -447,7 +492,7 @@ private fun AppSettingsDialogs(
     shortcutDialogState: ShortcutDialogState,
     packageName: String,
     onAddAppSetting: (AppSetting) -> Unit,
-    onCopyPermissionCommand: () -> Unit,
+    onCopyPermissionCommand: (String, String) -> Unit,
     onAddShortcut: (GetoShortcutInfoCompat) -> Unit,
 ) {
     if (appSettingDialogState.showDialog) {
@@ -608,15 +653,11 @@ private fun LoadingState(modifier: Modifier = Modifier) {
 private fun SuccessState(
     modifier: Modifier = Modifier,
     appSettingsUiState: AppSettingsUiState.Success,
-    contentPadding: PaddingValues,
     onCheckAppSetting: (AppSetting) -> Unit,
     onDeleteAppSettingsItem: (AppSetting) -> Unit,
 ) {
     LazyColumn(
-        modifier = modifier
-            .fillMaxSize()
-            .testTag("appSettings:lazyColumn"),
-        contentPadding = contentPadding,
+        modifier = modifier.testTag("appSettings:lazyColumn"),
     ) {
         items(appSettingsUiState.appSettingList, key = { it.id!! }) { appSettings ->
             AppSettingItem(

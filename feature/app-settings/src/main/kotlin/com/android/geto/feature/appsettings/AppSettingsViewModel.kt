@@ -99,10 +99,6 @@ class AppSettingsViewModel @Inject constructor(
     private val _requestPinShortcutResult = MutableStateFlow<RequestPinShortcutResult?>(null)
     val requestPinShortcutResult = _requestPinShortcutResult.asStateFlow()
 
-    private val permissionCommandLabel = "Command"
-
-    val permissionCommandText = "pm grant com.android.geto android.permission.WRITE_SECURE_SETTINGS"
-
     val appSettingsUiState =
         appSettingsRepository.getAppSettingsByPackageName(packageName = packageName)
             .map(AppSettingsUiState::Success).stateIn(
@@ -147,11 +143,11 @@ class AppSettingsViewModel @Inject constructor(
         }
     }
 
-    fun copyPermissionCommand() {
+    fun copyPermissionCommand(label: String, text: String) {
         _setPrimaryClipResult.update {
             clipboardRepository.setPrimaryClip(
-                label = permissionCommandLabel,
-                text = permissionCommandText,
+                label = label,
+                text = text,
             )
         }
     }

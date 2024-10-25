@@ -40,9 +40,12 @@ import com.android.geto.feature.appsettings.R
 internal fun CopyPermissionCommandDialog(
     modifier: Modifier = Modifier,
     copyPermissionCommandDialogState: CopyPermissionCommandDialogState,
-    onCopyClick: () -> Unit,
+    onCopyClick: (String, String) -> Unit,
     contentDescription: String,
 ) {
+    val commandLabel = stringResource(R.string.command_label)
+    val command = stringResource(R.string.command)
+
     DialogContainer(
         modifier = modifier
             .padding(16.dp)
@@ -65,7 +68,8 @@ internal fun CopyPermissionCommandDialog(
                     copyPermissionCommandDialogState.updateShowDialog(false)
                 },
                 onCopyClick = {
-                    onCopyClick()
+                    onCopyClick(commandLabel, command)
+
                     copyPermissionCommandDialogState.updateShowDialog(false)
                 },
             )

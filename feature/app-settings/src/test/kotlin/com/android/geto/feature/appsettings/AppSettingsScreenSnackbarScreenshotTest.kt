@@ -78,7 +78,6 @@ class AppSettingsScreenSnackbarScreenshotTest {
                     snackbarHostState = snackbarHostState,
                     applicationIcon = null,
                     secureSettings = emptyList(),
-                    permissionCommandText = "",
                     appSettingsResult = null,
                     revertAppSettingsResult = null,
                     autoLaunchResult = null,
@@ -96,7 +95,7 @@ class AppSettingsScreenSnackbarScreenshotTest {
                     onResetSetPrimaryClipResult = {},
                     onGetSecureSettingsByName = { _, _ -> },
                     onAddAppSetting = {},
-                    onCopyPermissionCommand = {},
+                    onCopyPermissionCommand = { _, _ -> },
                     onAddShortcut = {},
                     onLaunchIntent = {},
                 )
