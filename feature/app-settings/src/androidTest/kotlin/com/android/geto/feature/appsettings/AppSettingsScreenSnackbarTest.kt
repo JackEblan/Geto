@@ -62,6 +62,8 @@ class AppSettingsScreenSnackbarTest {
 
     private val invalidValues by composeTestRule.stringResource(R.string.settings_has_invalid_values)
 
+    private val command by composeTestRule.stringResource(R.string.command)
+
     @Test
     fun snackbar_isShown_whenApplyAppSettingsResult_isDisabledAppSettings() {
         composeTestRule.setContent {
@@ -653,8 +655,6 @@ class AppSettingsScreenSnackbarTest {
 
     @Test
     fun snackbar_isShown_whenSetPrimaryClipResult_isTrue() {
-        val permissionCommandText = "permission command text"
-
         composeTestRule.setContent {
             AppSettingsScreen(
                 packageName = "com.android.geto",
@@ -690,7 +690,7 @@ class AppSettingsScreenSnackbarTest {
             matcher = hasAnyAncestor(
                 hasTestTag("appSettings:snackbar"),
             ) and hasText(
-                String.format(copiedToClipboard, permissionCommandText),
+                String.format(copiedToClipboard, command),
             ),
         ).assertExists()
     }
