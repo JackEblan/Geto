@@ -15,7 +15,7 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.feature.appsettings.dialog.copypermissioncommand
+package com.android.geto.feature.appsettings.dialog.permission
 
 import androidx.activity.ComponentActivity
 import androidx.compose.material3.Surface
@@ -38,22 +38,22 @@ import kotlin.test.Test
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 @Config(application = HiltTestApplication::class)
 @LooperMode(LooperMode.Mode.PAUSED)
-class CopyPermissionCommandDialogScreenshotTest {
+class PermissionDialogScreenshotTest {
 
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
     @Test
-    fun copyPermissionCommandDialog() {
+    fun permissionDialog() {
         composeTestRule.captureDialogForDevice(
-            fileName = "CopyPermissionCommandDialog",
+            fileName = "PermissionDialog",
             deviceName = "foldable",
             deviceSpec = DefaultTestDevices.FOLDABLE.spec,
         ) {
             GetoTheme {
-                CopyPermissionCommandDialog(
-                    copyPermissionCommandDialogState = rememberCopyPermissionCommandDialogState(),
-                    onCopyClick = {},
+                PermissionDialog(
+                    permissionDialogState = rememberPermissionDialogState(),
+                    onCopyClick = { _, _ -> },
                     contentDescription = "",
                 )
             }
@@ -61,18 +61,18 @@ class CopyPermissionCommandDialogScreenshotTest {
     }
 
     @Test
-    fun copyPermissionCommandDialog_dark() {
+    fun permissionDialog_dark() {
         composeTestRule.captureDialogForDevice(
-            fileName = "CopyPermissionCommandDialog",
+            fileName = "PermissionDialog",
             deviceName = "foldable_dark",
             deviceSpec = DefaultTestDevices.FOLDABLE.spec,
             darkMode = true,
         ) {
             GetoTheme {
                 Surface {
-                    CopyPermissionCommandDialog(
-                        copyPermissionCommandDialogState = rememberCopyPermissionCommandDialogState(),
-                        onCopyClick = {},
+                    PermissionDialog(
+                        permissionDialogState = rememberPermissionDialogState(),
+                        onCopyClick = { _, _ -> },
                         contentDescription = "",
                     )
                 }

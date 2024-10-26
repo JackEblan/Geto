@@ -70,9 +70,9 @@ import com.android.geto.core.model.SettingType
 import com.android.geto.feature.appsettings.dialog.appsetting.AppSettingDialog
 import com.android.geto.feature.appsettings.dialog.appsetting.AppSettingDialogState
 import com.android.geto.feature.appsettings.dialog.appsetting.rememberAppSettingDialogState
-import com.android.geto.feature.appsettings.dialog.copypermissioncommand.CopyPermissionCommandDialog
-import com.android.geto.feature.appsettings.dialog.copypermissioncommand.CopyPermissionCommandDialogState
-import com.android.geto.feature.appsettings.dialog.copypermissioncommand.rememberCopyPermissionCommandDialogState
+import com.android.geto.feature.appsettings.dialog.permission.PermissionDialog
+import com.android.geto.feature.appsettings.dialog.permission.PermissionDialogState
+import com.android.geto.feature.appsettings.dialog.permission.rememberPermissionDialogState
 import com.android.geto.feature.appsettings.dialog.shortcut.ShortcutDialog
 import com.android.geto.feature.appsettings.dialog.shortcut.ShortcutDialogState
 import com.android.geto.feature.appsettings.dialog.shortcut.rememberShortcutDialogState
@@ -175,7 +175,7 @@ internal fun AppSettingsScreen(
     onAddShortcut: (GetoShortcutInfoCompat) -> Unit,
     onLaunchIntent: () -> Unit,
 ) {
-    val copyPermissionCommandDialogState = rememberCopyPermissionCommandDialogState()
+    val permissionDialogState = rememberPermissionDialogState()
 
     val appSettingDialogState = rememberAppSettingDialogState()
 
@@ -183,7 +183,7 @@ internal fun AppSettingsScreen(
 
     AppSettingsLaunchedEffects(
         snackbarHostState = snackbarHostState,
-        copyPermissionCommandDialogState = copyPermissionCommandDialogState,
+        permissionDialogState = permissionDialogState,
         appSettingDialogState = appSettingDialogState,
         shortcutDialogState = shortcutDialogState,
         applicationIcon = applicationIcon,
@@ -203,7 +203,7 @@ internal fun AppSettingsScreen(
     )
 
     AppSettingsDialogs(
-        copyPermissionCommandDialogState = copyPermissionCommandDialogState,
+        permissionDialogState = permissionDialogState,
         appSettingDialogState = appSettingDialogState,
         shortcutDialogState = shortcutDialogState,
         packageName = packageName,
@@ -250,7 +250,7 @@ internal fun AppSettingsScreen(
                 }
 
                 is AppSettingsUiState.Success -> {
-                    if (appSettingsUiState.appSettingList.isNotEmpty()) {
+                    if (appSettingsUiState.appSettings.isNotEmpty()) {
                         SuccessState(
                             appSettingsUiState = appSettingsUiState,
                             onCheckAppSetting = onCheckAppSetting,
@@ -272,7 +272,7 @@ internal fun AppSettingsScreen(
 @Composable
 private fun AppSettingsLaunchedEffects(
     snackbarHostState: SnackbarHostState,
-    copyPermissionCommandDialogState: CopyPermissionCommandDialogState,
+    permissionDialogState: PermissionDialogState,
     appSettingDialogState: AppSettingDialogState,
     shortcutDialogState: ShortcutDialogState,
     applicationIcon: Bitmap?,
@@ -320,7 +320,7 @@ private fun AppSettingsLaunchedEffects(
             }
 
             AppSettingsResult.SecurityException -> {
-                copyPermissionCommandDialogState.updateShowDialog(
+                permissionDialogState.updateShowDialog(
                     true,
                 )
             }
@@ -358,7 +358,7 @@ private fun AppSettingsLaunchedEffects(
             }
 
             AppSettingsResult.SecurityException -> {
-                copyPermissionCommandDialogState.updateShowDialog(
+                permissionDialogState.updateShowDialog(
                     true,
                 )
             }
@@ -384,7 +384,7 @@ private fun AppSettingsLaunchedEffects(
     LaunchedEffect(key1 = autoLaunchResult) {
         when (autoLaunchResult) {
             AppSettingsResult.SecurityException -> {
-                copyPermissionCommandDialogState.updateShowDialog(
+                permissionDialogState.updateShowDialog(
                     true,
                 )
             }
@@ -397,11 +397,7 @@ private fun AppSettingsLaunchedEffects(
                 snackbarHostState.showSnackbar(message = invalidValues)
             }
 
-            AppSettingsResult.EmptyAppSettings, AppSettingsResult.DisabledAppSettings, null -> {
-                Unit
-            }
-
-            AppSettingsResult.Failure -> {
+            AppSettingsResult.Failure, AppSettingsResult.EmptyAppSettings, AppSettingsResult.DisabledAppSettings, null -> {
                 Unit
             }
         }
@@ -487,7 +483,7 @@ private fun AppSettingsLaunchedEffects(
 
 @Composable
 private fun AppSettingsDialogs(
-    copyPermissionCommandDialogState: CopyPermissionCommandDialogState,
+    permissionDialogState: PermissionDialogState,
     appSettingDialogState: AppSettingDialogState,
     shortcutDialogState: ShortcutDialogState,
     packageName: String,
@@ -504,11 +500,11 @@ private fun AppSettingsDialogs(
         )
     }
 
-    if (copyPermissionCommandDialogState.showDialog) {
-        CopyPermissionCommandDialog(
-            copyPermissionCommandDialogState = copyPermissionCommandDialogState,
+    if (permissionDialogState.showDialog) {
+        PermissionDialog(
+            permissionDialogState = permissionDialogState,
             onCopyClick = onCopyPermissionCommand,
-            contentDescription = "Copy Permission Command Dialog",
+            contentDescription = "Permission Dialog",
         )
     }
 
@@ -659,7 +655,7 @@ private fun SuccessState(
     LazyColumn(
         modifier = modifier.testTag("appSettings:lazyColumn"),
     ) {
-        items(appSettingsUiState.appSettingList, key = { it.id!! }) { appSettings ->
+        items(appSettingsUiState.appSettings, key = { it.id!! }) { appSettings ->
             AppSettingItem(
                 modifier = Modifier
                     .fillMaxWidth()

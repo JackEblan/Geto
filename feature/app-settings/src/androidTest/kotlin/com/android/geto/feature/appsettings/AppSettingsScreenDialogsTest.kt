@@ -90,7 +90,7 @@ class AppSettingsScreenDialogsTest {
     }
 
     @Test
-    fun copyPermissionCommandDialog_isDisplayed_whenApplyAppSettingsResult_isSecurityException_thenDismissed() {
+    fun permissionDialog_isDisplayed_whenApplyAppSettingsResult_isSecurityException_thenDismissed() {
         composeTestRule.setContent {
             AppSettingsScreen(
                 packageName = "com.android.geto",
@@ -122,17 +122,17 @@ class AppSettingsScreenDialogsTest {
             )
         }
 
-        composeTestRule.onNodeWithContentDescription("Copy Permission Command Dialog")
+        composeTestRule.onNodeWithContentDescription("Permission Dialog")
             .assertIsDisplayed()
 
         composeTestRule.onNodeWithText("Cancel").performClick()
 
-        composeTestRule.onNodeWithContentDescription("Copy Permission Command Dialog")
+        composeTestRule.onNodeWithContentDescription("Permission Dialog")
             .assertIsNotDisplayed()
     }
 
     @Test
-    fun copyPermissionCommandDialog_isDisplayed_whenRevertAppSettingsResult_isSecurityException_thenDismissed() {
+    fun permissionDialog_isDisplayed_whenRevertAppSettingsResult_isSecurityException_thenDismissed() {
         composeTestRule.setContent {
             AppSettingsScreen(
                 packageName = "com.android.geto",
@@ -164,17 +164,17 @@ class AppSettingsScreenDialogsTest {
             )
         }
 
-        composeTestRule.onNodeWithContentDescription("Copy Permission Command Dialog")
+        composeTestRule.onNodeWithContentDescription("Permission Dialog")
             .assertIsDisplayed()
 
         composeTestRule.onNodeWithText("Cancel").performClick()
 
-        composeTestRule.onNodeWithContentDescription("Copy Permission Command Dialog")
+        composeTestRule.onNodeWithContentDescription("Permission Dialog")
             .assertIsNotDisplayed()
     }
 
     @Test
-    fun copyPermissionCommandDialog_isDisplayed_whenAutoLaunchResult_isSecurityException_thenDismissed() {
+    fun permissionDialog_isDisplayed_whenAutoLaunchResult_isSecurityException_thenDismissed() {
         composeTestRule.setContent {
             AppSettingsScreen(
                 packageName = "com.android.geto",
@@ -206,12 +206,12 @@ class AppSettingsScreenDialogsTest {
             )
         }
 
-        composeTestRule.onNodeWithContentDescription("Copy Permission Command Dialog")
+        composeTestRule.onNodeWithContentDescription("Permission Dialog")
             .assertIsDisplayed()
 
         composeTestRule.onNodeWithText("Cancel").performClick()
 
-        composeTestRule.onNodeWithContentDescription("Copy Permission Command Dialog")
+        composeTestRule.onNodeWithContentDescription("Permission Dialog")
             .assertIsNotDisplayed()
     }
 
