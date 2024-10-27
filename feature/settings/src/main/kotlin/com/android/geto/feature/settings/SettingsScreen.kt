@@ -52,6 +52,11 @@ import com.android.geto.core.designsystem.component.GetoLoadingWheel
 import com.android.geto.core.designsystem.theme.supportsDynamicTheming
 import com.android.geto.core.model.DarkThemeConfig
 import com.android.geto.core.model.ThemeBrand
+import com.android.geto.feature.settings.SettingsEvent.CleanAppSettings
+import com.android.geto.feature.settings.SettingsEvent.UpdateAutoLaunch
+import com.android.geto.feature.settings.SettingsEvent.UpdateDarkThemeConfig
+import com.android.geto.feature.settings.SettingsEvent.UpdateDynamicColor
+import com.android.geto.feature.settings.SettingsEvent.UpdateThemeBrand
 import com.android.geto.feature.settings.dialog.clean.CleanDialog
 import com.android.geto.feature.settings.dialog.dark.DarkDialog
 import com.android.geto.feature.settings.dialog.theme.ThemeDialog
@@ -66,11 +71,7 @@ internal fun SettingsRoute(
     SettingsScreen(
         modifier = modifier,
         settingsUiState = settingsUiState,
-        onUpdateThemeBrand = viewModel::updateThemeBrand,
-        onUpdateDarkThemeConfig = viewModel::updateDarkThemeConfig,
-        onCleanAppSettings = viewModel::cleanAppSettings,
-        onChangeDynamicColorPreference = viewModel::updateDynamicColorPreference,
-        onChangeAutoLaunchPreference = viewModel::updateAutoLaunchPreference,
+        onEvent = viewModel::onEvent,
     )
 }
 
@@ -81,11 +82,7 @@ internal fun SettingsScreen(
     settingsUiState: SettingsUiState,
     scrollState: ScrollState = rememberScrollState(),
     supportDynamicColor: Boolean = supportsDynamicTheming(),
-    onUpdateThemeBrand: (ThemeBrand) -> Unit,
-    onUpdateDarkThemeConfig: (DarkThemeConfig) -> Unit,
-    onCleanAppSettings: () -> Unit,
-    onChangeDynamicColorPreference: (useDynamicColor: Boolean) -> Unit,
-    onChangeAutoLaunchPreference: (useAutoLaunch: Boolean) -> Unit,
+    onEvent: (SettingsEvent) -> Unit,
 ) {
     var showThemeDialog by rememberSaveable { mutableStateOf(false) }
 
@@ -110,9 +107,9 @@ internal fun SettingsScreen(
                     showThemeDialog = showThemeDialog,
                     showDarkDialog = showDarkDialog,
                     showCleanDialog = showCleanDialog,
-                    onUpdateThemeBrand = onUpdateThemeBrand,
-                    onUpdateDarkThemeConfig = onUpdateDarkThemeConfig,
-                    onCleanAppSettings = onCleanAppSettings,
+                    onUpdateThemeBrand = { onEvent(UpdateThemeBrand(it)) },
+                    onUpdateDarkThemeConfig = { onEvent(UpdateDarkThemeConfig(it)) },
+                    onCleanAppSettings = { onEvent(CleanAppSettings) },
                     onThemeDialogDismissRequest = {
                         showThemeDialog = false
                     },
@@ -130,8 +127,8 @@ internal fun SettingsScreen(
                     onShowThemeDialog = { showThemeDialog = true },
                     onShowDarkDialog = { showDarkDialog = true },
                     onShowCleanDialog = { showCleanDialog = true },
-                    onChangeDynamicColorPreference = onChangeDynamicColorPreference,
-                    onChangeAutoLaunchPreference = onChangeAutoLaunchPreference,
+                    onChangeDynamicColorPreference = { onEvent(UpdateDynamicColor(it)) },
+                    onChangeAutoLaunchPreference = { onEvent(UpdateAutoLaunch(it)) },
                 )
             }
         }

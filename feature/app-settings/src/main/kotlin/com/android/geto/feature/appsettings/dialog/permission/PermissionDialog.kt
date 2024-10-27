@@ -15,7 +15,7 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.feature.appsettings.dialog.copypermissioncommand
+package com.android.geto.feature.appsettings.dialog.permission
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -37,18 +37,21 @@ import com.android.geto.core.designsystem.component.DialogContainer
 import com.android.geto.feature.appsettings.R
 
 @Composable
-internal fun CopyPermissionCommandDialog(
+internal fun PermissionDialog(
     modifier: Modifier = Modifier,
-    copyPermissionCommandDialogState: CopyPermissionCommandDialogState,
-    onCopyClick: () -> Unit,
+    permissionDialogState: PermissionDialogState,
+    onCopyClick: (String, String) -> Unit,
     contentDescription: String,
 ) {
+    val commandLabel = stringResource(R.string.command_label)
+    val command = stringResource(R.string.command)
+
     DialogContainer(
         modifier = modifier
             .padding(16.dp)
             .semantics { this.contentDescription = contentDescription },
         onDismissRequest = {
-            copyPermissionCommandDialogState.updateShowDialog(false)
+            permissionDialogState.updateShowDialog(false)
         },
     ) {
         Column(
@@ -56,17 +59,18 @@ internal fun CopyPermissionCommandDialog(
                 .fillMaxWidth()
                 .padding(10.dp),
         ) {
-            CopyPermissionCommandDialogTitle()
+            PermissionDialogTitle()
 
-            CopyPermissionCommandDialogContent()
+            PermissionDialogContent()
 
-            CopyPermissionCommandDialogButtons(
+            PermissionDialogButtons(
                 onCancelClick = {
-                    copyPermissionCommandDialogState.updateShowDialog(false)
+                    permissionDialogState.updateShowDialog(false)
                 },
                 onCopyClick = {
-                    onCopyClick()
-                    copyPermissionCommandDialogState.updateShowDialog(false)
+                    onCopyClick(commandLabel, command)
+
+                    permissionDialogState.updateShowDialog(false)
                 },
             )
         }
@@ -74,7 +78,7 @@ internal fun CopyPermissionCommandDialog(
 }
 
 @Composable
-private fun CopyPermissionCommandDialogTitle(modifier: Modifier = Modifier) {
+private fun PermissionDialogTitle(modifier: Modifier = Modifier) {
     Spacer(modifier = Modifier.height(10.dp))
 
     Text(
@@ -85,7 +89,7 @@ private fun CopyPermissionCommandDialogTitle(modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun CopyPermissionCommandDialogContent(modifier: Modifier = Modifier) {
+private fun PermissionDialogContent(modifier: Modifier = Modifier) {
     Spacer(modifier = Modifier.height(10.dp))
 
     Text(
@@ -96,7 +100,7 @@ private fun CopyPermissionCommandDialogContent(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun CopyPermissionCommandDialogButtons(
+fun PermissionDialogButtons(
     modifier: Modifier = Modifier,
     onCancelClick: () -> Unit,
     onCopyClick: () -> Unit,

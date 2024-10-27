@@ -36,6 +36,21 @@ import com.android.geto.core.model.GetoShortcutInfoCompat
 import com.android.geto.core.model.RequestPinShortcutResult
 import com.android.geto.core.model.SecureSetting
 import com.android.geto.core.model.SettingType
+import com.android.geto.feature.appsettings.AppSettingsEvent.AddAppSetting
+import com.android.geto.feature.appsettings.AppSettingsEvent.ApplyAppSettings
+import com.android.geto.feature.appsettings.AppSettingsEvent.AutoLaunchApp
+import com.android.geto.feature.appsettings.AppSettingsEvent.CheckAppSetting
+import com.android.geto.feature.appsettings.AppSettingsEvent.CopyPermissionCommand
+import com.android.geto.feature.appsettings.AppSettingsEvent.DeleteAppSetting
+import com.android.geto.feature.appsettings.AppSettingsEvent.GetSecureSettingsByName
+import com.android.geto.feature.appsettings.AppSettingsEvent.LaunchIntentForPackage
+import com.android.geto.feature.appsettings.AppSettingsEvent.RequestPinShortcut
+import com.android.geto.feature.appsettings.AppSettingsEvent.ResetApplyAppSettingsResult
+import com.android.geto.feature.appsettings.AppSettingsEvent.ResetAutoLaunchResult
+import com.android.geto.feature.appsettings.AppSettingsEvent.ResetRequestPinShortcutResult
+import com.android.geto.feature.appsettings.AppSettingsEvent.ResetRevertAppSettingsResult
+import com.android.geto.feature.appsettings.AppSettingsEvent.ResetSetPrimaryClipResult
+import com.android.geto.feature.appsettings.AppSettingsEvent.RevertAppSettings
 import com.android.geto.feature.appsettings.navigation.AppSettingsRouteData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -99,10 +114,6 @@ class AppSettingsViewModel @Inject constructor(
     private val _requestPinShortcutResult = MutableStateFlow<RequestPinShortcutResult?>(null)
     val requestPinShortcutResult = _requestPinShortcutResult.asStateFlow()
 
-    private val permissionCommandLabel = "Command"
-
-    val permissionCommandText = "pm grant com.android.geto android.permission.WRITE_SECURE_SETTINGS"
-
     val appSettingsUiState =
         appSettingsRepository.getAppSettingsByPackageName(packageName = packageName)
             .map(AppSettingsUiState::Success).stateIn(
@@ -111,7 +122,77 @@ class AppSettingsViewModel @Inject constructor(
                 initialValue = AppSettingsUiState.Loading,
             )
 
-    fun applyAppSettings() {
+    fun onEvent(event: AppSettingsEvent) {
+        when (event) {
+            is AddAppSetting -> {
+                addAppSetting(appSetting = event.appSetting)
+            }
+
+            ApplyAppSettings -> {
+                applyAppSettings()
+            }
+
+            AutoLaunchApp -> {
+                autoLaunchApp()
+            }
+
+            is CheckAppSetting -> {
+                checkAppSetting(appSetting = event.appSetting)
+            }
+
+            is CopyPermissionCommand -> {
+                copyPermissionCommand(
+                    label = event.label,
+                    text = event.text,
+                )
+            }
+
+            is DeleteAppSetting -> {
+                deleteAppSetting(appSetting = event.appSetting)
+            }
+
+            is GetSecureSettingsByName -> {
+                getSecureSettingsByName(
+                    settingType = event.settingType,
+                    text = event.text,
+                )
+            }
+
+            is RequestPinShortcut -> {
+                requestPinShortcut(getoShortcutInfoCompat = event.getoShortcutInfoCompat)
+            }
+
+            RevertAppSettings -> {
+                revertAppSettings()
+            }
+
+            LaunchIntentForPackage -> {
+                launchIntentForPackage()
+            }
+
+            ResetApplyAppSettingsResult -> {
+                resetApplyAppSettingsResult()
+            }
+
+            ResetAutoLaunchResult -> {
+                resetAutoLaunchResult()
+            }
+
+            ResetRequestPinShortcutResult -> {
+                resetRequestPinShortcutResult()
+            }
+
+            ResetRevertAppSettingsResult -> {
+                resetRevertAppSettingsResult()
+            }
+
+            ResetSetPrimaryClipResult -> {
+                resetSetPrimaryClipResult()
+            }
+        }
+    }
+
+    private fun applyAppSettings() {
         viewModelScope.launch {
             _applyAppSettingsResult.update { applyAppSettingsUseCase(packageName = packageName) }
         }
@@ -123,19 +204,19 @@ class AppSettingsViewModel @Inject constructor(
         }
     }
 
-    fun checkAppSetting(appSetting: AppSetting) {
+    private fun checkAppSetting(appSetting: AppSetting) {
         viewModelScope.launch {
             appSettingsRepository.upsertAppSetting(appSetting)
         }
     }
 
-    fun deleteAppSetting(appSetting: AppSetting) {
+    private fun deleteAppSetting(appSetting: AppSetting) {
         viewModelScope.launch {
             appSettingsRepository.deleteAppSetting(appSetting)
         }
     }
 
-    fun addAppSetting(appSetting: AppSetting) {
+    private fun addAppSetting(appSetting: AppSetting) {
         viewModelScope.launch {
             appSettingsRepository.upsertAppSetting(appSetting)
         }
@@ -147,22 +228,22 @@ class AppSettingsViewModel @Inject constructor(
         }
     }
 
-    fun copyPermissionCommand() {
+    private fun copyPermissionCommand(label: String, text: String) {
         _setPrimaryClipResult.update {
             clipboardRepository.setPrimaryClip(
-                label = permissionCommandLabel,
-                text = permissionCommandText,
+                label = label,
+                text = text,
             )
         }
     }
 
-    fun revertAppSettings() {
+    private fun revertAppSettings() {
         viewModelScope.launch {
             _revertAppSettingsResult.update { revertAppSettingsUseCase(packageName = packageName) }
         }
     }
 
-    fun requestPinShortcut(getoShortcutInfoCompat: GetoShortcutInfoCompat) {
+    private fun requestPinShortcut(getoShortcutInfoCompat: GetoShortcutInfoCompat) {
         viewModelScope.launch {
             _requestPinShortcutResult.update {
                 requestPinShortcutUseCase(
@@ -174,7 +255,7 @@ class AppSettingsViewModel @Inject constructor(
         }
     }
 
-    fun getSecureSettingsByName(settingType: SettingType, text: String) {
+    private fun getSecureSettingsByName(settingType: SettingType, text: String) {
         viewModelScope.launch {
             _secureSettings.update {
                 secureSettingsRepository.getSecureSettingsByName(
@@ -185,27 +266,27 @@ class AppSettingsViewModel @Inject constructor(
         }
     }
 
-    fun launchIntentForPackage() {
+    private fun launchIntentForPackage() {
         packageRepository.launchIntentForPackage(packageName = packageName)
     }
 
-    fun resetApplyAppSettingsResult() {
+    private fun resetApplyAppSettingsResult() {
         _applyAppSettingsResult.update { null }
     }
 
-    fun resetRevertAppSettingsResult() {
+    private fun resetRevertAppSettingsResult() {
         _revertAppSettingsResult.update { null }
     }
 
-    fun resetAutoLaunchResult() {
+    private fun resetAutoLaunchResult() {
         _autoLaunchResult.update { null }
     }
 
-    fun resetRequestPinShortcutResult() {
+    private fun resetRequestPinShortcutResult() {
         _requestPinShortcutResult.update { null }
     }
 
-    fun resetSetPrimaryClipResult() {
+    private fun resetSetPrimaryClipResult() {
         _setPrimaryClipResult.update { false }
     }
 }

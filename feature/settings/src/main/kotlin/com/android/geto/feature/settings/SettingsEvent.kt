@@ -15,12 +15,19 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.feature.appsettings
+package com.android.geto.feature.settings
 
-import com.android.geto.core.model.AppSetting
+import com.android.geto.core.model.DarkThemeConfig
+import com.android.geto.core.model.ThemeBrand
 
-sealed interface AppSettingsUiState {
-    data class Success(val appSettings: List<AppSetting>) : AppSettingsUiState
+sealed interface SettingsEvent {
+    data class UpdateThemeBrand(val themeBrand: ThemeBrand) : SettingsEvent
 
-    data object Loading : AppSettingsUiState
+    data class UpdateDarkThemeConfig(val darkThemeConfig: DarkThemeConfig) : SettingsEvent
+
+    data class UpdateDynamicColor(val useDynamicColor: Boolean) : SettingsEvent
+
+    data class UpdateAutoLaunch(val useAutoLaunch: Boolean) : SettingsEvent
+
+    data object CleanAppSettings : SettingsEvent
 }

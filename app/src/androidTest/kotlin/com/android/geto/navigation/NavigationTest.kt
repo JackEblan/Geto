@@ -66,6 +66,7 @@ class NavigationTest {
     fun settingsScreen_isSelected() {
         composeTestRule.apply {
             onNode(isSelectable() and hasText(settings)).performClick()
+
             onNode(isSelected()).assertTextEquals(settings)
         }
     }

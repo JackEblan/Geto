@@ -20,8 +20,8 @@ package com.android.geto.core.model
 enum class AppSettingsResult {
     Success,
     Failure,
-    SecurityException,
-    IllegalArgumentException,
+    NoPermission,
+    InvalidValues,
     EmptyAppSettings,
     DisabledAppSettings,
 }

@@ -15,7 +15,7 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.feature.appsettings.dialog.copypermissioncommand
+package com.android.geto.feature.appsettings.dialog.permission
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
@@ -26,14 +26,14 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 
 @Composable
-internal fun rememberCopyPermissionCommandDialogState(): CopyPermissionCommandDialogState {
-    return rememberSaveable(saver = CopyPermissionCommandDialogState.Saver) {
-        CopyPermissionCommandDialogState()
+internal fun rememberPermissionDialogState(): PermissionDialogState {
+    return rememberSaveable(saver = PermissionDialogState.Saver) {
+        PermissionDialogState()
     }
 }
 
 @Stable
-internal class CopyPermissionCommandDialogState {
+internal class PermissionDialogState {
     var showDialog by mutableStateOf(false)
         private set
 
@@ -42,14 +42,14 @@ internal class CopyPermissionCommandDialogState {
     }
 
     companion object {
-        val Saver = listSaver<CopyPermissionCommandDialogState, Any>(
+        val Saver = listSaver<PermissionDialogState, Any>(
             save = { state ->
                 listOf(
                     state.showDialog,
                 )
             },
             restore = {
-                CopyPermissionCommandDialogState().apply {
+                PermissionDialogState().apply {
                     showDialog = it[0] as Boolean
                 }
             },

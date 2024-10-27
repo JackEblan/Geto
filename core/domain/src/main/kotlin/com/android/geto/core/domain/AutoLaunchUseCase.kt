@@ -21,6 +21,10 @@ import com.android.geto.core.data.repository.AppSettingsRepository
 import com.android.geto.core.data.repository.SecureSettingsRepository
 import com.android.geto.core.data.repository.UserDataRepository
 import com.android.geto.core.model.AppSettingsResult
+import com.android.geto.core.model.AppSettingsResult.Failure
+import com.android.geto.core.model.AppSettingsResult.InvalidValues
+import com.android.geto.core.model.AppSettingsResult.NoPermission
+import com.android.geto.core.model.AppSettingsResult.Success
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
@@ -34,18 +38,18 @@ class AutoLaunchUseCase @Inject constructor(
 
         val appSettings = appSettingsRepository.getAppSettingsByPackageName(packageName).first()
 
-        if (userData.useAutoLaunch.not() || appSettings.isEmpty() || appSettings.all { it.enabled.not() }) return AppSettingsResult.Failure
+        if (userData.useAutoLaunch.not() || appSettings.isEmpty() || appSettings.all { it.enabled.not() }) return Failure
 
         return try {
             if (secureSettingsRepository.applySecureSettings(appSettings)) {
-                AppSettingsResult.Success
+                Success
             } else {
-                AppSettingsResult.Failure
+                Failure
             }
         } catch (e: SecurityException) {
-            AppSettingsResult.SecurityException
+            NoPermission
         } catch (e: IllegalArgumentException) {
-            AppSettingsResult.IllegalArgumentException
+            InvalidValues
         }
     }
 }

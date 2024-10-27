@@ -20,6 +20,12 @@ package com.android.geto.core.domain
 import com.android.geto.core.data.repository.AppSettingsRepository
 import com.android.geto.core.data.repository.SecureSettingsRepository
 import com.android.geto.core.model.AppSettingsResult
+import com.android.geto.core.model.AppSettingsResult.DisabledAppSettings
+import com.android.geto.core.model.AppSettingsResult.EmptyAppSettings
+import com.android.geto.core.model.AppSettingsResult.Failure
+import com.android.geto.core.model.AppSettingsResult.InvalidValues
+import com.android.geto.core.model.AppSettingsResult.NoPermission
+import com.android.geto.core.model.AppSettingsResult.Success
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
@@ -30,20 +36,20 @@ class RevertAppSettingsUseCase @Inject constructor(
     suspend operator fun invoke(packageName: String): AppSettingsResult {
         val appSettings = appSettingsRepository.getAppSettingsByPackageName(packageName).first()
 
-        if (appSettings.isEmpty()) return AppSettingsResult.EmptyAppSettings
+        if (appSettings.isEmpty()) return EmptyAppSettings
 
-        if (appSettings.all { it.enabled.not() }) return AppSettingsResult.DisabledAppSettings
+        if (appSettings.all { it.enabled.not() }) return DisabledAppSettings
 
         return try {
             if (secureSettingsRepository.revertSecureSettings(appSettings)) {
-                AppSettingsResult.Success
+                Success
             } else {
-                AppSettingsResult.Failure
+                Failure
             }
         } catch (e: SecurityException) {
-            AppSettingsResult.SecurityException
+            NoPermission
         } catch (e: IllegalArgumentException) {
-            AppSettingsResult.IllegalArgumentException
+            InvalidValues
         }
     }
 }

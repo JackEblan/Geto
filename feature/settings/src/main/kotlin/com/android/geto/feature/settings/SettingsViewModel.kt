@@ -43,31 +43,55 @@ class SettingsViewModel @Inject constructor(
             initialValue = SettingsUiState.Loading,
         )
 
-    fun updateThemeBrand(themeBrand: ThemeBrand) {
+    fun onEvent(event: SettingsEvent) {
+        when (event) {
+            SettingsEvent.CleanAppSettings -> {
+                cleanAppSettings()
+            }
+
+            is SettingsEvent.UpdateAutoLaunch -> {
+                updateAutoLaunch(useAutoLaunch = event.useAutoLaunch)
+            }
+
+            is SettingsEvent.UpdateDarkThemeConfig -> {
+                updateDarkThemeConfig(darkThemeConfig = event.darkThemeConfig)
+            }
+
+            is SettingsEvent.UpdateDynamicColor -> {
+                updateDynamicColor(useDynamicColor = event.useDynamicColor)
+            }
+
+            is SettingsEvent.UpdateThemeBrand -> {
+                updateThemeBrand(themeBrand = event.themeBrand)
+            }
+        }
+    }
+
+    private fun updateThemeBrand(themeBrand: ThemeBrand) {
         viewModelScope.launch {
             userDataRepository.setThemeBrand(themeBrand)
         }
     }
 
-    fun updateDarkThemeConfig(darkThemeConfig: DarkThemeConfig) {
+    private fun updateDarkThemeConfig(darkThemeConfig: DarkThemeConfig) {
         viewModelScope.launch {
             userDataRepository.setDarkThemeConfig(darkThemeConfig)
         }
     }
 
-    fun updateDynamicColorPreference(useDynamicColor: Boolean) {
+    private fun updateDynamicColor(useDynamicColor: Boolean) {
         viewModelScope.launch {
             userDataRepository.setDynamicColor(useDynamicColor)
         }
     }
 
-    fun updateAutoLaunchPreference(useAutoLaunch: Boolean) {
+    private fun updateAutoLaunch(useAutoLaunch: Boolean) {
         viewModelScope.launch {
             userDataRepository.setAutoLaunch(useAutoLaunch)
         }
     }
 
-    fun cleanAppSettings() {
+    private fun cleanAppSettings() {
         viewModelScope.launch {
             cleanAppSettingsUseCase()
         }

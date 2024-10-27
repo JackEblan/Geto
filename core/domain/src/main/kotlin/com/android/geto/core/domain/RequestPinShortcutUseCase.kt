@@ -20,6 +20,11 @@ package com.android.geto.core.domain
 import com.android.geto.core.data.repository.ShortcutRepository
 import com.android.geto.core.model.GetoShortcutInfoCompat
 import com.android.geto.core.model.RequestPinShortcutResult
+import com.android.geto.core.model.RequestPinShortcutResult.SupportedLauncher
+import com.android.geto.core.model.RequestPinShortcutResult.UnsupportedLauncher
+import com.android.geto.core.model.RequestPinShortcutResult.UpdateFailure
+import com.android.geto.core.model.RequestPinShortcutResult.UpdateImmutableShortcuts
+import com.android.geto.core.model.RequestPinShortcutResult.UpdateSuccess
 import javax.inject.Inject
 
 class RequestPinShortcutUseCase @Inject constructor(
@@ -31,7 +36,7 @@ class RequestPinShortcutUseCase @Inject constructor(
         getoShortcutInfoCompat: GetoShortcutInfoCompat,
     ): RequestPinShortcutResult {
         if (!shortcutRepository.isRequestPinShortcutSupported()) {
-            return RequestPinShortcutResult.UnsupportedLauncher
+            return UnsupportedLauncher
         }
 
         val pinnedShortcut = shortcutRepository.getPinnedShortcut(id = getoShortcutInfoCompat.id)
@@ -62,9 +67,9 @@ class RequestPinShortcutUseCase @Inject constructor(
                 getoShortcutInfoCompat = getoShortcutInfoCompat,
             )
         ) {
-            RequestPinShortcutResult.SupportedLauncher
+            SupportedLauncher
         } else {
-            RequestPinShortcutResult.UnsupportedLauncher
+            UnsupportedLauncher
         }
     }
 
@@ -80,12 +85,12 @@ class RequestPinShortcutUseCase @Inject constructor(
                     getoShortcutInfoCompats = listOf(getoShortcutInfoCompat),
                 )
             ) {
-                RequestPinShortcutResult.UpdateSuccess
+                UpdateSuccess
             } else {
-                RequestPinShortcutResult.UpdateFailure
+                UpdateFailure
             }
         } catch (e: IllegalArgumentException) {
-            RequestPinShortcutResult.UpdateImmutableShortcuts
+            UpdateImmutableShortcuts
         }
     }
 }

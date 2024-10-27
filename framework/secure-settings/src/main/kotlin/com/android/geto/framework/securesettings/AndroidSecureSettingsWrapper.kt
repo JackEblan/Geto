@@ -25,6 +25,9 @@ import com.android.geto.core.common.Dispatcher
 import com.android.geto.core.common.GetoDispatchers.IO
 import com.android.geto.core.model.SecureSetting
 import com.android.geto.core.model.SettingType
+import com.android.geto.core.model.SettingType.GLOBAL
+import com.android.geto.core.model.SettingType.SECURE
+import com.android.geto.core.model.SettingType.SYSTEM
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
@@ -50,19 +53,19 @@ internal class AndroidSecureSettingsWrapper @Inject constructor(
     ): Boolean {
         return withContext(ioDispatcher) {
             when (settingType) {
-                SettingType.SYSTEM -> Settings.System.putString(
+                SYSTEM -> Settings.System.putString(
                     contentResolver,
                     key,
                     value,
                 )
 
-                SettingType.SECURE -> Settings.Secure.putString(
+                SECURE -> Settings.Secure.putString(
                     contentResolver,
                     key,
                     value,
                 )
 
-                SettingType.GLOBAL -> Settings.Global.putString(
+                GLOBAL -> Settings.Global.putString(
                     contentResolver,
                     key,
                     value,
@@ -74,7 +77,7 @@ internal class AndroidSecureSettingsWrapper @Inject constructor(
     override suspend fun getSecureSettings(settingType: SettingType): List<SecureSetting> {
         return withContext(ioDispatcher) {
             val cursor = when (settingType) {
-                SettingType.SYSTEM -> contentResolver.query(
+                SYSTEM -> contentResolver.query(
                     Settings.System.CONTENT_URI,
                     settingsProjection,
                     null,
@@ -82,7 +85,7 @@ internal class AndroidSecureSettingsWrapper @Inject constructor(
                     null,
                 )
 
-                SettingType.SECURE -> contentResolver.query(
+                SECURE -> contentResolver.query(
                     Settings.Secure.CONTENT_URI,
                     settingsProjection,
                     null,
@@ -90,7 +93,7 @@ internal class AndroidSecureSettingsWrapper @Inject constructor(
                     null,
                 )
 
-                SettingType.GLOBAL -> contentResolver.query(
+                GLOBAL -> contentResolver.query(
                     Settings.Global.CONTENT_URI,
                     settingsProjection,
                     null,
@@ -101,9 +104,12 @@ internal class AndroidSecureSettingsWrapper @Inject constructor(
 
             cursor?.use {
                 generateSequence { if (cursor.moveToNext()) cursor else null }.map {
-                    val idIndex = cursor.getColumnIndex(Settings.NameValueTable._ID).takeIf { it != -1 }
-                    val nameIndex = cursor.getColumnIndex(Settings.NameValueTable.NAME).takeIf { it != -1 }
-                    val valueIndex = cursor.getColumnIndex(Settings.NameValueTable.VALUE).takeIf { it != -1 }
+                    val idIndex =
+                        cursor.getColumnIndex(Settings.NameValueTable._ID).takeIf { it != -1 }
+                    val nameIndex =
+                        cursor.getColumnIndex(Settings.NameValueTable.NAME).takeIf { it != -1 }
+                    val valueIndex =
+                        cursor.getColumnIndex(Settings.NameValueTable.VALUE).takeIf { it != -1 }
 
                     val id = cursor.getLongOrNull(idIndex!!)
                     val name = cursor.getStringOrNull(nameIndex!!)
