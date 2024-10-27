@@ -42,11 +42,7 @@ class SettingsScreenTest {
             SettingsScreen(
                 settingsUiState = SettingsUiState.Loading,
                 supportDynamicColor = false,
-                onUpdateThemeBrand = {},
-                onUpdateDarkThemeConfig = {},
-                onCleanAppSettings = {},
-                onChangeDynamicColorPreference = {},
-                onChangeAutoLaunchPreference = {},
+                onEvent = {},
             )
         }
 
@@ -66,11 +62,7 @@ class SettingsScreenTest {
                     ),
                 ),
                 supportDynamicColor = false,
-                onUpdateThemeBrand = {},
-                onUpdateDarkThemeConfig = {},
-                onCleanAppSettings = {},
-                onChangeDynamicColorPreference = {},
-                onChangeAutoLaunchPreference = {},
+                onEvent = {},
             )
         }
 
@@ -90,11 +82,7 @@ class SettingsScreenTest {
                     ),
                 ),
                 supportDynamicColor = true,
-                onUpdateThemeBrand = {},
-                onUpdateDarkThemeConfig = {},
-                onCleanAppSettings = {},
-                onChangeDynamicColorPreference = {},
-                onChangeAutoLaunchPreference = {},
+                onEvent = {},
             )
         }
 
@@ -114,11 +102,7 @@ class SettingsScreenTest {
                     ),
                 ),
                 supportDynamicColor = true,
-                onUpdateThemeBrand = {},
-                onUpdateDarkThemeConfig = {},
-                onCleanAppSettings = {},
-                onChangeDynamicColorPreference = {},
-                onChangeAutoLaunchPreference = {},
+                onEvent = {},
             )
         }
 
@@ -138,11 +122,7 @@ class SettingsScreenTest {
                     ),
                 ),
                 supportDynamicColor = true,
-                onUpdateThemeBrand = {},
-                onUpdateDarkThemeConfig = {},
-                onCleanAppSettings = {},
-                onChangeDynamicColorPreference = {},
-                onChangeAutoLaunchPreference = {},
+                onEvent = {},
             )
         }
 
@@ -162,11 +142,7 @@ class SettingsScreenTest {
                     ),
                 ),
                 supportDynamicColor = false,
-                onUpdateThemeBrand = {},
-                onUpdateDarkThemeConfig = {},
-                onCleanAppSettings = {},
-                onChangeDynamicColorPreference = {},
-                onChangeAutoLaunchPreference = {},
+                onEvent = {},
             )
         }
 
@@ -186,11 +162,7 @@ class SettingsScreenTest {
                     ),
                 ),
                 supportDynamicColor = false,
-                onUpdateThemeBrand = {},
-                onUpdateDarkThemeConfig = {},
-                onCleanAppSettings = {},
-                onChangeDynamicColorPreference = {},
-                onChangeAutoLaunchPreference = {},
+                onEvent = {},
             )
         }
 
@@ -210,11 +182,7 @@ class SettingsScreenTest {
                     ),
                 ),
                 supportDynamicColor = true,
-                onUpdateThemeBrand = {},
-                onUpdateDarkThemeConfig = {},
-                onCleanAppSettings = {},
-                onChangeDynamicColorPreference = {},
-                onChangeAutoLaunchPreference = {},
+                onEvent = {},
             )
         }
 
@@ -234,11 +202,7 @@ class SettingsScreenTest {
                     ),
                 ),
                 supportDynamicColor = true,
-                onUpdateThemeBrand = {},
-                onUpdateDarkThemeConfig = {},
-                onCleanAppSettings = {},
-                onChangeDynamicColorPreference = {},
-                onChangeAutoLaunchPreference = {},
+                onEvent = {},
             )
         }
 

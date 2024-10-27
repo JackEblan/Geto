@@ -49,11 +49,7 @@ class SettingsScreenDialogsTest {
                     ),
                 ),
                 supportDynamicColor = true,
-                onUpdateThemeBrand = {},
-                onUpdateDarkThemeConfig = {},
-                onCleanAppSettings = {},
-                onChangeDynamicColorPreference = {},
-                onChangeAutoLaunchPreference = {},
+                onEvent = {},
             )
         }
 
@@ -79,11 +75,7 @@ class SettingsScreenDialogsTest {
                     ),
                 ),
                 supportDynamicColor = true,
-                onUpdateThemeBrand = {},
-                onUpdateDarkThemeConfig = {},
-                onCleanAppSettings = {},
-                onChangeDynamicColorPreference = {},
-                onChangeAutoLaunchPreference = {},
+                onEvent = {},
             )
         }
 
@@ -109,11 +101,7 @@ class SettingsScreenDialogsTest {
                     ),
                 ),
                 supportDynamicColor = true,
-                onUpdateThemeBrand = {},
-                onUpdateDarkThemeConfig = {},
-                onCleanAppSettings = {},
-                onChangeDynamicColorPreference = {},
-                onChangeAutoLaunchPreference = {},
+                onEvent = {},
             )
         }
 
@@ -141,11 +129,7 @@ class SettingsScreenDialogsTest {
                     ),
                 ),
                 supportDynamicColor = true,
-                onUpdateThemeBrand = {},
-                onUpdateDarkThemeConfig = {},
-                onCleanAppSettings = {},
-                onChangeDynamicColorPreference = {},
-                onChangeAutoLaunchPreference = {},
+                onEvent = {},
             )
         }
 
@@ -175,11 +159,7 @@ class SettingsScreenDialogsTest {
                     ),
                 ),
                 supportDynamicColor = true,
-                onUpdateThemeBrand = {},
-                onUpdateDarkThemeConfig = {},
-                onCleanAppSettings = {},
-                onChangeDynamicColorPreference = {},
-                onChangeAutoLaunchPreference = {},
+                onEvent = {},
             )
         }
 
@@ -209,11 +189,7 @@ class SettingsScreenDialogsTest {
                     ),
                 ),
                 supportDynamicColor = true,
-                onUpdateThemeBrand = {},
-                onUpdateDarkThemeConfig = {},
-                onCleanAppSettings = {},
-                onChangeDynamicColorPreference = {},
-                onChangeAutoLaunchPreference = {},
+                onEvent = {},
             )
         }
 

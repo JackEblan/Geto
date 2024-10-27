@@ -62,11 +62,7 @@ class SettingsScreenScreenshotTest {
                         ),
                     ),
                     supportDynamicColor = true,
-                    onUpdateThemeBrand = {},
-                    onUpdateDarkThemeConfig = {},
-                    onCleanAppSettings = {},
-                    onChangeDynamicColorPreference = {},
-                    onChangeAutoLaunchPreference = {},
+                    onEvent = {},
                 )
             }
         }
@@ -83,11 +79,7 @@ class SettingsScreenScreenshotTest {
                 SettingsScreen(
                     settingsUiState = SettingsUiState.Loading,
                     supportDynamicColor = true,
-                    onUpdateThemeBrand = {},
-                    onUpdateDarkThemeConfig = {},
-                    onCleanAppSettings = {},
-                    onChangeDynamicColorPreference = {},
-                    onChangeAutoLaunchPreference = {},
+                    onEvent = {},
                 )
             }
         }
@@ -113,11 +105,7 @@ class SettingsScreenScreenshotTest {
                             ),
                         ),
                         supportDynamicColor = true,
-                        onUpdateThemeBrand = {},
-                        onUpdateDarkThemeConfig = {},
-                        onCleanAppSettings = {},
-                        onChangeDynamicColorPreference = {},
-                        onChangeAutoLaunchPreference = {},
+                        onEvent = {},
                     )
                 }
             }
@@ -137,11 +125,7 @@ class SettingsScreenScreenshotTest {
                     SettingsScreen(
                         settingsUiState = SettingsUiState.Loading,
                         supportDynamicColor = true,
-                        onUpdateThemeBrand = {},
-                        onUpdateDarkThemeConfig = {},
-                        onCleanAppSettings = {},
-                        onChangeDynamicColorPreference = {},
-                        onChangeAutoLaunchPreference = {},
+                        onEvent = {},
                     )
                 }
             }

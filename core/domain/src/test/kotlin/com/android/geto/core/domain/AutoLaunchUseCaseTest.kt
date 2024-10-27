@@ -18,7 +18,10 @@
 package com.android.geto.core.domain
 
 import com.android.geto.core.model.AppSetting
-import com.android.geto.core.model.AppSettingsResult
+import com.android.geto.core.model.AppSettingsResult.Failure
+import com.android.geto.core.model.AppSettingsResult.InvalidValues
+import com.android.geto.core.model.AppSettingsResult.NoPermission
+import com.android.geto.core.model.AppSettingsResult.Success
 import com.android.geto.core.model.DarkThemeConfig
 import com.android.geto.core.model.GetoApplicationInfo
 import com.android.geto.core.model.SettingType
@@ -77,7 +80,7 @@ class AutoLaunchUseCaseTest {
         )
 
         assertEquals(
-            expected = AppSettingsResult.Failure,
+            expected = Failure,
             actual = autoLaunchUseCase(packageName = packageName),
         )
     }
@@ -109,7 +112,7 @@ class AutoLaunchUseCaseTest {
         )
 
         assertEquals(
-            expected = AppSettingsResult.Failure,
+            expected = Failure,
             actual = autoLaunchUseCase(packageName = packageName),
         )
     }
@@ -149,13 +152,13 @@ class AutoLaunchUseCaseTest {
         appSettingsRepository.setAppSettings(appSettings)
 
         assertEquals(
-            expected = AppSettingsResult.Success,
+            expected = Success,
             actual = autoLaunchUseCase(packageName = packageName),
         )
     }
 
     @Test
-    fun autoLaunchAppUseCase_isSecurityException() = runTest {
+    fun autoLaunchAppUseCase_isNoPermission() = runTest {
         val appSettings = List(5) { index ->
             AppSetting(
                 id = index,
@@ -183,13 +186,13 @@ class AutoLaunchUseCaseTest {
         appSettingsRepository.setAppSettings(appSettings)
 
         assertEquals(
-            expected = AppSettingsResult.SecurityException,
+            expected = NoPermission,
             actual = autoLaunchUseCase(packageName = packageName),
         )
     }
 
     @Test
-    fun autoLaunchAppUseCase_isIllegalArgumentException() = runTest {
+    fun autoLaunchAppUseCase_isInvalidValues() = runTest {
         val appSettings = List(5) { index ->
             AppSetting(
                 id = index,
@@ -219,7 +222,7 @@ class AutoLaunchUseCaseTest {
         appSettingsRepository.setAppSettings(appSettings)
 
         assertEquals(
-            expected = AppSettingsResult.IllegalArgumentException,
+            expected = InvalidValues,
             actual = autoLaunchUseCase(packageName = packageName),
         )
     }
@@ -253,7 +256,7 @@ class AutoLaunchUseCaseTest {
         appSettingsRepository.setAppSettings(appSettings)
 
         assertEquals(
-            expected = AppSettingsResult.Failure,
+            expected = Failure,
             actual = autoLaunchUseCase(packageName = packageName),
         )
     }

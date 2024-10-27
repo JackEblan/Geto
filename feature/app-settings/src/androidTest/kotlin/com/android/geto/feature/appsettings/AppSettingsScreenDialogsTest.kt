@@ -59,20 +59,7 @@ class AppSettingsScreenDialogsTest {
                 requestPinShortcutResult = null,
                 setPrimaryClipResult = false,
                 onNavigationIconClick = {},
-                onRevertAppSettings = {},
-                onCheckAppSetting = {},
-                onDeleteAppSetting = {},
-                onLaunchApp = {},
-                onResetApplyAppSettingsResult = {},
-                onResetRevertAppSettingsResult = {},
-                onResetAutoLaunchResult = {},
-                onResetRequestPinShortcutResult = {},
-                onResetSetPrimaryClipResult = {},
-                onGetSecureSettingsByName = { _, _ -> },
-                onAddAppSetting = {},
-                onCopyPermissionCommand = { _, _ -> },
-                onAddShortcut = {},
-                onLaunchIntent = {},
+                onEvent = {},
             )
         }
 
@@ -90,7 +77,7 @@ class AppSettingsScreenDialogsTest {
     }
 
     @Test
-    fun permissionDialog_isDisplayed_whenApplyAppSettingsResult_isSecurityException_thenDismissed() {
+    fun permissionDialog_isDisplayed_whenApplyAppSettingsResult_isNoPermission_thenDismissed() {
         composeTestRule.setContent {
             AppSettingsScreen(
                 packageName = "com.android.geto",
@@ -99,40 +86,25 @@ class AppSettingsScreenDialogsTest {
                 snackbarHostState = SnackbarHostState(),
                 applicationIcon = null,
                 secureSettings = emptyList(),
-                appSettingsResult = AppSettingsResult.SecurityException,
+                appSettingsResult = AppSettingsResult.NoPermission,
                 revertAppSettingsResult = null,
                 autoLaunchResult = null,
                 requestPinShortcutResult = null,
                 setPrimaryClipResult = false,
                 onNavigationIconClick = {},
-                onRevertAppSettings = {},
-                onCheckAppSetting = {},
-                onDeleteAppSetting = {},
-                onLaunchApp = {},
-                onResetApplyAppSettingsResult = {},
-                onResetRevertAppSettingsResult = {},
-                onResetAutoLaunchResult = {},
-                onResetRequestPinShortcutResult = {},
-                onResetSetPrimaryClipResult = {},
-                onGetSecureSettingsByName = { _, _ -> },
-                onAddAppSetting = {},
-                onCopyPermissionCommand = { _, _ -> },
-                onAddShortcut = {},
-                onLaunchIntent = {},
+                onEvent = {},
             )
         }
 
-        composeTestRule.onNodeWithContentDescription("Permission Dialog")
-            .assertIsDisplayed()
+        composeTestRule.onNodeWithContentDescription("Permission Dialog").assertIsDisplayed()
 
         composeTestRule.onNodeWithText("Cancel").performClick()
 
-        composeTestRule.onNodeWithContentDescription("Permission Dialog")
-            .assertIsNotDisplayed()
+        composeTestRule.onNodeWithContentDescription("Permission Dialog").assertIsNotDisplayed()
     }
 
     @Test
-    fun permissionDialog_isDisplayed_whenRevertAppSettingsResult_isSecurityException_thenDismissed() {
+    fun permissionDialog_isDisplayed_whenRevertAppSettingsResult_isNoPermission_thenDismissed() {
         composeTestRule.setContent {
             AppSettingsScreen(
                 packageName = "com.android.geto",
@@ -142,39 +114,24 @@ class AppSettingsScreenDialogsTest {
                 applicationIcon = null,
                 secureSettings = emptyList(),
                 appSettingsResult = null,
-                revertAppSettingsResult = AppSettingsResult.SecurityException,
+                revertAppSettingsResult = AppSettingsResult.NoPermission,
                 autoLaunchResult = null,
                 requestPinShortcutResult = null,
                 setPrimaryClipResult = false,
                 onNavigationIconClick = {},
-                onRevertAppSettings = {},
-                onCheckAppSetting = {},
-                onDeleteAppSetting = {},
-                onLaunchApp = {},
-                onResetApplyAppSettingsResult = {},
-                onResetRevertAppSettingsResult = {},
-                onResetAutoLaunchResult = {},
-                onResetRequestPinShortcutResult = {},
-                onResetSetPrimaryClipResult = {},
-                onGetSecureSettingsByName = { _, _ -> },
-                onAddAppSetting = {},
-                onCopyPermissionCommand = { _, _ -> },
-                onAddShortcut = {},
-                onLaunchIntent = {},
+                onEvent = {},
             )
         }
 
-        composeTestRule.onNodeWithContentDescription("Permission Dialog")
-            .assertIsDisplayed()
+        composeTestRule.onNodeWithContentDescription("Permission Dialog").assertIsDisplayed()
 
         composeTestRule.onNodeWithText("Cancel").performClick()
 
-        composeTestRule.onNodeWithContentDescription("Permission Dialog")
-            .assertIsNotDisplayed()
+        composeTestRule.onNodeWithContentDescription("Permission Dialog").assertIsNotDisplayed()
     }
 
     @Test
-    fun permissionDialog_isDisplayed_whenAutoLaunchResult_isSecurityException_thenDismissed() {
+    fun permissionDialog_isDisplayed_whenAutoLaunchResult_isNoPermission_thenDismissed() {
         composeTestRule.setContent {
             AppSettingsScreen(
                 packageName = "com.android.geto",
@@ -185,34 +142,19 @@ class AppSettingsScreenDialogsTest {
                 secureSettings = emptyList(),
                 appSettingsResult = null,
                 revertAppSettingsResult = null,
-                autoLaunchResult = AppSettingsResult.SecurityException,
+                autoLaunchResult = AppSettingsResult.NoPermission,
                 requestPinShortcutResult = null,
                 setPrimaryClipResult = false,
                 onNavigationIconClick = {},
-                onRevertAppSettings = {},
-                onCheckAppSetting = {},
-                onDeleteAppSetting = {},
-                onLaunchApp = {},
-                onResetApplyAppSettingsResult = {},
-                onResetRevertAppSettingsResult = {},
-                onResetAutoLaunchResult = {},
-                onResetRequestPinShortcutResult = {},
-                onResetSetPrimaryClipResult = {},
-                onGetSecureSettingsByName = { _, _ -> },
-                onAddAppSetting = {},
-                onCopyPermissionCommand = { _, _ -> },
-                onAddShortcut = {},
-                onLaunchIntent = {},
+                onEvent = {},
             )
         }
 
-        composeTestRule.onNodeWithContentDescription("Permission Dialog")
-            .assertIsDisplayed()
+        composeTestRule.onNodeWithContentDescription("Permission Dialog").assertIsDisplayed()
 
         composeTestRule.onNodeWithText("Cancel").performClick()
 
-        composeTestRule.onNodeWithContentDescription("Permission Dialog")
-            .assertIsNotDisplayed()
+        composeTestRule.onNodeWithContentDescription("Permission Dialog").assertIsNotDisplayed()
     }
 
     @Test
@@ -231,20 +173,7 @@ class AppSettingsScreenDialogsTest {
                 requestPinShortcutResult = null,
                 setPrimaryClipResult = false,
                 onNavigationIconClick = {},
-                onRevertAppSettings = {},
-                onCheckAppSetting = {},
-                onDeleteAppSetting = {},
-                onLaunchApp = {},
-                onResetApplyAppSettingsResult = {},
-                onResetRevertAppSettingsResult = {},
-                onResetAutoLaunchResult = {},
-                onResetRequestPinShortcutResult = {},
-                onResetSetPrimaryClipResult = {},
-                onGetSecureSettingsByName = { _, _ -> },
-                onAddAppSetting = {},
-                onCopyPermissionCommand = { _, _ -> },
-                onAddShortcut = {},
-                onLaunchIntent = {},
+                onEvent = {},
             )
         }
 
@@ -278,20 +207,7 @@ class AppSettingsScreenDialogsTest {
                 requestPinShortcutResult = null,
                 setPrimaryClipResult = false,
                 onNavigationIconClick = {},
-                onRevertAppSettings = {},
-                onCheckAppSetting = {},
-                onDeleteAppSetting = {},
-                onLaunchApp = {},
-                onResetApplyAppSettingsResult = {},
-                onResetRevertAppSettingsResult = {},
-                onResetAutoLaunchResult = {},
-                onResetRequestPinShortcutResult = {},
-                onResetSetPrimaryClipResult = {},
-                onGetSecureSettingsByName = { _, _ -> },
-                onAddAppSetting = {},
-                onCopyPermissionCommand = { _, _ -> },
-                onAddShortcut = {},
-                onLaunchIntent = {},
+                onEvent = {},
             )
         }
 
@@ -371,20 +287,7 @@ class AppSettingsScreenDialogsTest {
                 requestPinShortcutResult = null,
                 setPrimaryClipResult = false,
                 onNavigationIconClick = {},
-                onRevertAppSettings = {},
-                onCheckAppSetting = {},
-                onDeleteAppSetting = {},
-                onLaunchApp = {},
-                onResetApplyAppSettingsResult = {},
-                onResetRevertAppSettingsResult = {},
-                onResetAutoLaunchResult = {},
-                onResetRequestPinShortcutResult = {},
-                onResetSetPrimaryClipResult = {},
-                onGetSecureSettingsByName = { _, _ -> },
-                onAddAppSetting = {},
-                onCopyPermissionCommand = { _, _ -> },
-                onAddShortcut = {},
-                onLaunchIntent = {},
+                onEvent = {},
             )
         }
 

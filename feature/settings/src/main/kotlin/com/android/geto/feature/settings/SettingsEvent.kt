@@ -15,13 +15,19 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.core.model
+package com.android.geto.feature.settings
 
-enum class AppSettingsResult {
-    Success,
-    Failure,
-    NoPermission,
-    InvalidValues,
-    EmptyAppSettings,
-    DisabledAppSettings,
+import com.android.geto.core.model.DarkThemeConfig
+import com.android.geto.core.model.ThemeBrand
+
+sealed interface SettingsEvent {
+    data class UpdateThemeBrand(val themeBrand: ThemeBrand) : SettingsEvent
+
+    data class UpdateDarkThemeConfig(val darkThemeConfig: DarkThemeConfig) : SettingsEvent
+
+    data class UpdateDynamicColor(val useDynamicColor: Boolean) : SettingsEvent
+
+    data class UpdateAutoLaunch(val useAutoLaunch: Boolean) : SettingsEvent
+
+    data object CleanAppSettings : SettingsEvent
 }

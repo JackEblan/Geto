@@ -84,20 +84,7 @@ class AppSettingsScreenSnackbarScreenshotTest {
                     requestPinShortcutResult = null,
                     setPrimaryClipResult = false,
                     onNavigationIconClick = {},
-                    onRevertAppSettings = {},
-                    onCheckAppSetting = {},
-                    onDeleteAppSetting = {},
-                    onLaunchApp = {},
-                    onResetApplyAppSettingsResult = {},
-                    onResetRevertAppSettingsResult = {},
-                    onResetAutoLaunchResult = {},
-                    onResetRequestPinShortcutResult = {},
-                    onResetSetPrimaryClipResult = {},
-                    onGetSecureSettingsByName = { _, _ -> },
-                    onAddAppSetting = {},
-                    onCopyPermissionCommand = { _, _ -> },
-                    onAddShortcut = {},
-                    onLaunchIntent = {},
+                    onEvent = {},
                 )
             }
         }

@@ -18,7 +18,11 @@
 package com.android.geto.core.domain
 
 import com.android.geto.core.model.AppSetting
-import com.android.geto.core.model.AppSettingsResult
+import com.android.geto.core.model.AppSettingsResult.DisabledAppSettings
+import com.android.geto.core.model.AppSettingsResult.EmptyAppSettings
+import com.android.geto.core.model.AppSettingsResult.InvalidValues
+import com.android.geto.core.model.AppSettingsResult.NoPermission
+import com.android.geto.core.model.AppSettingsResult.Success
 import com.android.geto.core.model.GetoApplicationInfo
 import com.android.geto.core.model.SettingType
 import com.android.geto.core.testing.repository.TestAppSettingsRepository
@@ -59,7 +63,7 @@ class ApplyAppSettingsUseCaseTest {
         appSettingsRepository.setAppSettings(emptyList())
 
         assertEquals(
-            expected = AppSettingsResult.EmptyAppSettings,
+            expected = EmptyAppSettings,
             actual = applyAppSettingsUseCase(packageName = packageName),
         )
     }
@@ -82,7 +86,7 @@ class ApplyAppSettingsUseCaseTest {
         appSettingsRepository.setAppSettings(appSettings)
 
         assertEquals(
-            expected = AppSettingsResult.DisabledAppSettings,
+            expected = DisabledAppSettings,
             actual = applyAppSettingsUseCase(packageName = packageName),
         )
     }
@@ -113,13 +117,13 @@ class ApplyAppSettingsUseCaseTest {
         appSettingsRepository.setAppSettings(appSettings)
 
         assertEquals(
-            expected = AppSettingsResult.Success,
+            expected = Success,
             actual = applyAppSettingsUseCase(packageName = packageName),
         )
     }
 
     @Test
-    fun applyAppSettingsUseCase_isSecurityException() = runTest {
+    fun applyAppSettingsUseCase_isNoPermission() = runTest {
         val appSettings = List(5) { index ->
             AppSetting(
                 id = index,
@@ -138,13 +142,13 @@ class ApplyAppSettingsUseCaseTest {
         appSettingsRepository.setAppSettings(appSettings)
 
         assertEquals(
-            expected = AppSettingsResult.SecurityException,
+            expected = NoPermission,
             actual = applyAppSettingsUseCase(packageName = packageName),
         )
     }
 
     @Test
-    fun applyAppSettingsUseCase_isIllegalArgumentException() = runTest {
+    fun applyAppSettingsUseCase_isInvalidValues() = runTest {
         val appSettings = List(5) { index ->
             AppSetting(
                 id = index,
@@ -165,7 +169,7 @@ class ApplyAppSettingsUseCaseTest {
         appSettingsRepository.setAppSettings(appSettings)
 
         assertEquals(
-            expected = AppSettingsResult.IllegalArgumentException,
+            expected = InvalidValues,
             actual = applyAppSettingsUseCase(packageName = packageName),
         )
     }

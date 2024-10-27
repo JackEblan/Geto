@@ -18,7 +18,10 @@
 package com.android.geto.core.domain
 
 import com.android.geto.core.model.GetoShortcutInfoCompat
-import com.android.geto.core.model.RequestPinShortcutResult
+import com.android.geto.core.model.RequestPinShortcutResult.SupportedLauncher
+import com.android.geto.core.model.RequestPinShortcutResult.UnsupportedLauncher
+import com.android.geto.core.model.RequestPinShortcutResult.UpdateImmutableShortcuts
+import com.android.geto.core.model.RequestPinShortcutResult.UpdateSuccess
 import com.android.geto.core.testing.repository.TestShortcutRepository
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
@@ -44,7 +47,7 @@ class RequestPinShortcutUseCaseTest {
         shortcutRepository.setRequestPinShortcutSupported(true)
 
         assertEquals(
-            expected = RequestPinShortcutResult.SupportedLauncher,
+            expected = SupportedLauncher,
             actual = requestPinShortcutUseCase(
                 packageName = "com.android.geto",
                 appName = "Geto",
@@ -62,7 +65,7 @@ class RequestPinShortcutUseCaseTest {
         shortcutRepository.setRequestPinShortcutSupported(false)
 
         assertEquals(
-            expected = RequestPinShortcutResult.UnsupportedLauncher,
+            expected = UnsupportedLauncher,
             actual = requestPinShortcutUseCase(
                 packageName = "com.android.geto",
                 appName = "Geto",
@@ -92,7 +95,7 @@ class RequestPinShortcutUseCaseTest {
         shortcutRepository.setShortcuts(shortcuts)
 
         assertEquals(
-            expected = RequestPinShortcutResult.UpdateImmutableShortcuts,
+            expected = UpdateImmutableShortcuts,
             actual = requestPinShortcutUseCase(
                 packageName = "com.android.geto",
                 appName = "Geto",
@@ -122,7 +125,7 @@ class RequestPinShortcutUseCaseTest {
         shortcutRepository.setShortcuts(shortcuts)
 
         assertEquals(
-            expected = RequestPinShortcutResult.UpdateSuccess,
+            expected = UpdateSuccess,
             actual = requestPinShortcutUseCase(
                 packageName = "com.android.geto",
                 appName = "Geto",
