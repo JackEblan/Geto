@@ -17,23 +17,19 @@
  */
 package com.android.geto.broadcastreceiver
 
-import com.android.geto.core.data.repository.AppSettingsRepository
-import com.android.geto.core.data.repository.SecureSettingsRepository
+import com.android.geto.core.domain.RevertAppSettingsUseCase
+import com.android.geto.core.model.AppSettingsResult
 import com.android.geto.framework.notificationmanager.NotificationManagerWrapper
-import kotlinx.coroutines.flow.first
 
 internal class BroadcastReceiverController(
-    private val appSettingsRepository: AppSettingsRepository,
-    private val secureSettingsRepository: SecureSettingsRepository,
+    private val revertAppSettingsUseCase: RevertAppSettingsUseCase,
     private val notificationManagerWrapper: NotificationManagerWrapper,
 ) {
-    suspend fun revertSettings(packageName: String, notificationId: Int?) {
-        val appSettings = appSettingsRepository.getAppSettingsByPackageName(packageName).first()
+    suspend fun revertSettings(packageName: String?, notificationId: Int?) {
+        if (packageName == null || notificationId == null) return
 
-        if (appSettings.isEmpty() || appSettings.all { !it.enabled }) return
-
-        if (secureSettingsRepository.revertSecureSettings(appSettings) && notificationId != null) {
-            notificationManagerWrapper.cancel(id = notificationId)
+        if (revertAppSettingsUseCase(packageName = packageName) == AppSettingsResult.Success) {
+            notificationManagerWrapper.cancel(notificationId)
         }
     }
 }

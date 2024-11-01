@@ -17,8 +17,7 @@
  */
 package com.android.geto.broadcastreceiver
 
-import com.android.geto.core.data.repository.AppSettingsRepository
-import com.android.geto.core.data.repository.SecureSettingsRepository
+import com.android.geto.core.domain.RevertAppSettingsUseCase
 import com.android.geto.framework.notificationmanager.NotificationManagerWrapper
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
@@ -27,9 +26,7 @@ import dagger.hilt.components.SingletonComponent
 @EntryPoint
 @InstallIn(SingletonComponent::class)
 interface BroadcastReceiverEntryPoint {
-    fun appSettingsRepository(): AppSettingsRepository
-
-    fun secureSettingsRepository(): SecureSettingsRepository
+    fun revertAppSettingsUseCase(): RevertAppSettingsUseCase
 
     fun notificationManagerWrapper(): NotificationManagerWrapper
 }

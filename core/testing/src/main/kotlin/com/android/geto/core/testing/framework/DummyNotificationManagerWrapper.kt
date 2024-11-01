@@ -28,4 +28,7 @@ class DummyNotificationManagerWrapper : NotificationManagerWrapper {
         contentText: String,
     ) {
     }
+
+    override fun cancel(id: Int) {
+    }
 }

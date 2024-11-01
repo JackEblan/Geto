@@ -28,8 +28,8 @@ android {
 dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(projects.core.common)
+    implementation(projects.core.domain)
     implementation(projects.core.model)
-    implementation(projects.core.data)
 
     implementation(projects.framework.notificationManager)
 }

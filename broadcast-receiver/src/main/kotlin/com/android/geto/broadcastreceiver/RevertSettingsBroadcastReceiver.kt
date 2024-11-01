@@ -42,8 +42,7 @@ internal class RevertSettingsBroadcastReceiver : BroadcastReceiver() {
         val notificationId = intent?.extras?.getInt(EXTRA_NOTIFICATION_ID)
 
         val broadcastReceiverController = BroadcastReceiverController(
-            appSettingsRepository = hiltEntryPoint.appSettingsRepository(),
-            secureSettingsRepository = hiltEntryPoint.secureSettingsRepository(),
+            revertAppSettingsUseCase = hiltEntryPoint.revertAppSettingsUseCase(),
             notificationManagerWrapper = hiltEntryPoint.notificationManagerWrapper(),
         )
 
