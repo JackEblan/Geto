@@ -25,7 +25,7 @@ import dagger.hilt.components.SingletonComponent
 
 @EntryPoint
 @InstallIn(SingletonComponent::class)
-interface BroadcastReceiverEntryPoint {
+internal interface BroadcastReceiverEntryPoint {
     fun revertAppSettingsUseCase(): RevertAppSettingsUseCase
 
     fun notificationManagerWrapper(): NotificationManagerWrapper

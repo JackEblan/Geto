@@ -29,5 +29,5 @@ internal interface NotificationManagerModule {
 
     @Binds
     @Singleton
-    fun packageManagerWrapper(impl: AndroidNotificationManagerWrapper): NotificationManagerWrapper
+    fun notificationManagerWrapper(impl: AndroidNotificationManagerWrapper): NotificationManagerWrapper
 }

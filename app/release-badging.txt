@@ -1,6 +1,7 @@
-package: name='com.android.geto' versionCode='160' versionName='1.16.0' platformBuildVersionName='14' platformBuildVersionCode='34' compileSdkVersion='34' compileSdkVersionCodename='14'
+package: name='com.android.geto' versionCode='161' versionName='1.16.1' platformBuildVersionName='14' platformBuildVersionCode='34' compileSdkVersion='34' compileSdkVersionCodename='14'
 sdkVersion:'21'
 targetSdkVersion:'34'
+uses-permission: name='android.permission.POST_NOTIFICATIONS'
 uses-permission: name='android.permission.WRITE_SECURE_SETTINGS'
 uses-permission: name='com.android.geto.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION'
 application-label:'Geto'
