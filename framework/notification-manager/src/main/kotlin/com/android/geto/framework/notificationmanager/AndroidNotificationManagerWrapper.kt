@@ -15,18 +15,22 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.framework.notificationmanager
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
+import android.app.PendingIntent.FLAG_IMMUTABLE
+import android.app.PendingIntent.FLAG_UPDATE_CURRENT
 import android.content.Context
+import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Build
 import androidx.annotation.RequiresPermission
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.graphics.drawable.toBitmap
+import com.android.geto.framework.notificationmanager.broadcastreceiver.RevertSettingsBroadcastReceiver
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import kotlin.random.Random
@@ -37,20 +41,44 @@ internal class AndroidNotificationManagerWrapper @Inject constructor(@Applicatio
 
     @RequiresPermission("android.permission.POST_NOTIFICATIONS")
     override fun notify(
+        packageName: String,
         icon: Drawable?,
         contentTitle: String,
         contentText: String,
     ) {
         createNotificationChannel()
 
+        val notificationId = Random.nextInt()
+
+        val revertIntent = Intent(context, RevertSettingsBroadcastReceiver::class.java).apply {
+            action = RevertSettingsBroadcastReceiver.ACTION_REVERT_SETTINGS
+            putExtra(RevertSettingsBroadcastReceiver.EXTRA_PACKAGE_NAME, packageName)
+            putExtra(RevertSettingsBroadcastReceiver.EXTRA_NOTIFICATION_ID, notificationId)
+        }
+
+        val revertPendingIntent = PendingIntent.getBroadcast(
+            context,
+            0,
+            revertIntent,
+            FLAG_UPDATE_CURRENT or FLAG_IMMUTABLE,
+        )
+
         val notification = NotificationCompat.Builder(
             context,
             context.getString(R.string.geto_notification_channel_id),
         ).setSmallIcon(R.drawable.baseline_settings_24).setLargeIcon(icon?.toBitmap())
             .setContentTitle(contentTitle).setContentText(contentText)
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT).build()
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT).addAction(
+                R.drawable.baseline_settings_24,
+                context.getString(R.string.revert),
+                revertPendingIntent,
+            ).build()
 
-        NotificationManagerCompat.from(context).notify(Random.nextInt(), notification)
+        NotificationManagerCompat.from(context).notify(notificationId, notification)
+    }
+
+    override fun cancel(id: Int) {
+        NotificationManagerCompat.from(context).cancel(id)
     }
 
     private fun createNotificationChannel() {

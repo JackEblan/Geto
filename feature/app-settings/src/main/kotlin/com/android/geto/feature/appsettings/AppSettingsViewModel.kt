@@ -286,6 +286,7 @@ class AppSettingsViewModel @Inject constructor(
         contentText: String,
     ) {
         notificationManagerWrapper.notify(
+            packageName = packageName,
             icon = icon,
             contentTitle = contentTitle,
             contentText = contentText,

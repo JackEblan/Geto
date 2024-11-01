@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.framework.notificationmanager
 
 import android.graphics.drawable.Drawable
@@ -24,8 +23,11 @@ import androidx.annotation.RequiresPermission
 interface NotificationManagerWrapper {
     @RequiresPermission("android.permission.POST_NOTIFICATIONS")
     fun notify(
+        packageName: String,
         icon: Drawable?,
         contentTitle: String,
         contentText: String,
     )
+
+    fun cancel(id: Int)
 }

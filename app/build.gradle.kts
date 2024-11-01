@@ -70,6 +70,7 @@ dependencies {
     implementation(projects.feature.appSettings)
     implementation(projects.feature.home)
     implementation(projects.feature.settings)
+    implementation(projects.framework.notificationManager)
 
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.activity.compose)

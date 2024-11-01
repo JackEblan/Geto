@@ -17,7 +17,6 @@
  */
 package com.android.geto.framework.packagemanager
 
-import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import com.android.geto.core.model.GetoApplicationInfo
 

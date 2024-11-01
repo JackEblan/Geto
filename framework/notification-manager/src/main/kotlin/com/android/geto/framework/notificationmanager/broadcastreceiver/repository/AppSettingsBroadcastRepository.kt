@@ -15,20 +15,11 @@
  *   limitations under the License.
  *
  */
+package com.android.geto.framework.notificationmanager.broadcastreceiver.repository
 
-plugins {
-    alias(libs.plugins.com.android.geto.library)
-    alias(libs.plugins.com.android.geto.hilt)
-}
+import com.android.geto.core.model.AppSetting
+import kotlinx.coroutines.flow.Flow
 
-android {
-    namespace = "com.android.geto.framework.notificationmanager"
-}
-
-dependencies {
-    implementation(libs.androidx.core.ktx)
-    implementation(projects.core.common)
-    implementation(projects.core.model)
-    implementation(projects.core.database)
-    implementation(projects.framework.secureSettings)
+interface AppSettingsBroadcastRepository {
+    fun getAppSettingsByPackageName(packageName: String): Flow<List<AppSetting>>
 }

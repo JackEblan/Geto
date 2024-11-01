@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.core.testing.framework
 
 import com.android.geto.framework.clipboardmanager.ClipboardManagerWrapper
@@ -27,7 +26,7 @@ class DummyClipboardManagerWrapper : ClipboardManagerWrapper {
         return sdkInt <= 32
     }
 
-    fun setSDKInt(value: Int){
+    fun setSDKInt(value: Int) {
         sdkInt = value
     }
 }

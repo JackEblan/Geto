@@ -15,19 +15,21 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.framework.notificationmanager
+package com.android.geto.framework.notificationmanager.broadcastreceiver
 
-import dagger.Binds
-import dagger.Module
+import com.android.geto.framework.notificationmanager.NotificationManagerWrapper
+import com.android.geto.framework.notificationmanager.broadcastreceiver.repository.AppSettingsBroadcastRepository
+import com.android.geto.framework.notificationmanager.broadcastreceiver.repository.SecureSettingsBroadcastRepository
+import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
 
-@Module
+@EntryPoint
 @InstallIn(SingletonComponent::class)
-internal interface NotificationManagerModule {
+interface BroadcastReceiverEntryPoint {
+    fun appSettingsBroadcastRepository(): AppSettingsBroadcastRepository
 
-    @Binds
-    @Singleton
-    fun packageManagerWrapper(impl: AndroidNotificationManagerWrapper): NotificationManagerWrapper
+    fun secureSettingsBroadcastRepository(): SecureSettingsBroadcastRepository
+
+    fun notificationManagerWrapper(): NotificationManagerWrapper
 }

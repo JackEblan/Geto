@@ -15,8 +15,8 @@
   ~   limitations under the License.
   ~
   -->
-
 <resources>
     <string name="geto_notification_channel">Geto Notification Channel</string>
     <string name="geto_notification_channel_id">Geto Notification Channel ID</string>
+    <string name="revert">Revert</string>
 </resources>

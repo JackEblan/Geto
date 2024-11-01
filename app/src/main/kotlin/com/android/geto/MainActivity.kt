@@ -92,7 +92,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-
     @Composable
     private fun shouldUseGreenTheme(
         state: MainActivityUiState,
