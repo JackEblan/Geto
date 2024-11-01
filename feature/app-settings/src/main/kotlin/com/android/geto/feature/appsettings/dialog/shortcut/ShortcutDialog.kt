@@ -17,7 +17,7 @@
  */
 package com.android.geto.feature.appsettings.dialog.shortcut
 
-import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -113,7 +113,7 @@ private fun ShortcutDialogTitle(modifier: Modifier = Modifier, title: String) {
 @Composable
 private fun ShortcutDialogApplicationIcon(
     modifier: Modifier = Modifier,
-    icon: Bitmap?,
+    icon: Drawable?,
 ) {
     Spacer(modifier = Modifier.height(10.dp))
 

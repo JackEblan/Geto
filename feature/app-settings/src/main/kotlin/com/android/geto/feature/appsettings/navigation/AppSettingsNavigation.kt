@@ -30,7 +30,9 @@ fun NavController.navigateToAppSettings(packageName: String, appName: String) {
     navigate(AppSettingsRouteData(packageName = packageName, appName = appName))
 }
 
-fun NavGraphBuilder.appSettingsScreen(onNavigationIconClick: () -> Unit) {
+fun NavGraphBuilder.appSettingsScreen(
+    onNavigationIconClick: () -> Unit,
+) {
     composable<AppSettingsRouteData>(
         deepLinks = listOf(
             navDeepLink<AppSettingsRouteData>(basePath = DEEP_LINK_URI),

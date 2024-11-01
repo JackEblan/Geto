@@ -34,8 +34,9 @@ import com.android.geto.core.model.GetoShortcutInfoCompat
 import com.android.geto.core.model.RequestPinShortcutResult
 import com.android.geto.core.model.SecureSetting
 import com.android.geto.core.model.SettingType
+import com.android.geto.core.testing.framework.DummyClipboardManagerWrapper
+import com.android.geto.core.testing.framework.DummyNotificationManagerWrapper
 import com.android.geto.core.testing.repository.TestAppSettingsRepository
-import com.android.geto.core.testing.repository.TestClipboardRepository
 import com.android.geto.core.testing.repository.TestPackageRepository
 import com.android.geto.core.testing.repository.TestSecureSettingsRepository
 import com.android.geto.core.testing.repository.TestShortcutRepository
@@ -71,7 +72,9 @@ class AppSettingsViewModelTest {
 
     private lateinit var secureSettingsRepository: TestSecureSettingsRepository
 
-    private lateinit var clipboardRepository: TestClipboardRepository
+    private lateinit var clipboardManagerWrapper: DummyClipboardManagerWrapper
+
+    private lateinit var notificationManagerWrapper: DummyNotificationManagerWrapper
 
     private lateinit var shortcutRepository: TestShortcutRepository
 
@@ -101,7 +104,7 @@ class AppSettingsViewModelTest {
 
         secureSettingsRepository = TestSecureSettingsRepository()
 
-        clipboardRepository = TestClipboardRepository()
+        clipboardManagerWrapper = DummyClipboardManagerWrapper()
 
         shortcutRepository = TestShortcutRepository()
 
@@ -133,16 +136,19 @@ class AppSettingsViewModelTest {
             ),
         )
 
+        notificationManagerWrapper = DummyNotificationManagerWrapper()
+
         viewModel = AppSettingsViewModel(
             savedStateHandle = savedStateHandle,
             appSettingsRepository = appSettingsRepository,
             packageRepository = packageRepository,
-            clipboardRepository = clipboardRepository,
+            clipboardManagerWrapper = clipboardManagerWrapper,
             secureSettingsRepository = secureSettingsRepository,
             applyAppSettingsUseCase = applyAppSettingsUseCase,
             revertAppSettingsUseCase = revertAppSettingsUseCase,
             autoLaunchUseCase = autoLaunchUseCase,
             requestPinShortcutUseCase = requestPinShortcutUseCase,
+            notificationManagerWrapper = notificationManagerWrapper,
         )
     }
 
@@ -502,7 +508,7 @@ class AppSettingsViewModelTest {
             viewModel.revertAppSettingsResult.collect()
         }
 
-        clipboardRepository.setSDKInt(33)
+        clipboardManagerWrapper.setSDKInt(33)
 
         viewModel.onEvent(
             event = AppSettingsEvent.CopyPermissionCommand(
@@ -523,7 +529,7 @@ class AppSettingsViewModelTest {
             viewModel.setPrimaryClipResult.collect()
         }
 
-        clipboardRepository.setSDKInt(32)
+        clipboardManagerWrapper.setSDKInt(32)
 
         viewModel.onEvent(
             event = AppSettingsEvent.CopyPermissionCommand(

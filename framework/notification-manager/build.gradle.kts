@@ -15,13 +15,16 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.core.data.test.repository
 
-import com.android.geto.core.data.repository.ClipboardRepository
-import javax.inject.Inject
+plugins {
+    alias(libs.plugins.com.android.geto.library)
+    alias(libs.plugins.com.android.geto.hilt)
+}
 
-class FakeClipboardRepository @Inject constructor() : ClipboardRepository {
-    override fun setPrimaryClip(label: String, text: String): Boolean {
-        return false
-    }
+android {
+    namespace = "com.android.geto.framework.notificationmanager"
+}
+
+dependencies {
+    implementation(libs.androidx.core.ktx)
 }

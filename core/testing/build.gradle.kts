@@ -39,4 +39,7 @@ dependencies {
 
     implementation(projects.core.common)
     implementation(projects.core.model)
+
+    implementation(projects.framework.clipboardManager)
+    implementation(projects.framework.notificationManager)
 }

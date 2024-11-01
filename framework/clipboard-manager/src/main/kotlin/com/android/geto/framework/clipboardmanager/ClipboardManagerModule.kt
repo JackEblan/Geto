@@ -15,20 +15,19 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.core.testing.repository
+package com.android.geto.framework.clipboardmanager
 
-import com.android.geto.core.data.repository.ClipboardRepository
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
-class TestClipboardRepository : ClipboardRepository {
-    private var _sdkInt = 0
+@Module
+@InstallIn(SingletonComponent::class)
+internal interface ClipboardManagerModule {
 
-    private var _versionCodeForSV2 = 32
-
-    override fun setPrimaryClip(label: String, text: String): Boolean {
-        return _sdkInt <= _versionCodeForSV2
-    }
-
-    fun setSDKInt(value: Int) {
-        _sdkInt = value
-    }
+    @Binds
+    @Singleton
+    fun clipboardManagerWrapper(impl: AndroidClipboardManagerWrapper): ClipboardManagerWrapper
 }

@@ -15,7 +15,8 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.framework.packagemanager
+
+package com.android.geto.framework.notificationmanager
 
 import dagger.Binds
 import dagger.Module
@@ -25,9 +26,9 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-internal interface ClipboardManagerModule {
+internal interface NotificationManagerModule {
 
     @Binds
     @Singleton
-    fun clipboardManagerWrapper(impl: AndroidClipboardManagerWrapper): ClipboardManagerWrapper
+    fun packageManagerWrapper(impl: AndroidNotificationManagerWrapper): NotificationManagerWrapper
 }

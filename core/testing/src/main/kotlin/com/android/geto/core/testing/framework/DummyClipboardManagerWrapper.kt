@@ -15,8 +15,19 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.framework.packagemanager
 
-interface ClipboardManagerWrapper {
-    fun setPrimaryClip(label: String, text: String): Boolean
+package com.android.geto.core.testing.framework
+
+import com.android.geto.framework.clipboardmanager.ClipboardManagerWrapper
+
+class DummyClipboardManagerWrapper : ClipboardManagerWrapper {
+    private var sdkInt = 0
+
+    override fun setPrimaryClip(label: String, text: String): Boolean {
+        return sdkInt <= 32
+    }
+
+    fun setSDKInt(value: Int){
+        sdkInt = value
+    }
 }

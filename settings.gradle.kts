@@ -56,6 +56,7 @@ include(":feature:home")
 include(":feature:settings")
 
 include(":framework:clipboard-manager")
+include(":framework:notification-manager")
 include(":framework:package-manager")
 include(":framework:secure-settings")
 include(":framework:shortcut-manager")

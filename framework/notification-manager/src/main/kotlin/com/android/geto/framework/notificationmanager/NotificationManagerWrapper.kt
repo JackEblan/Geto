@@ -15,15 +15,17 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.core.data.repository
+
+package com.android.geto.framework.notificationmanager
 
 import android.graphics.drawable.Drawable
-import com.android.geto.core.model.GetoApplicationInfo
+import androidx.annotation.RequiresPermission
 
-interface PackageRepository {
-    suspend fun queryIntentActivities(): List<GetoApplicationInfo>
-
-    fun getApplicationIcon(packageName: String): Drawable?
-
-    fun launchIntentForPackage(packageName: String)
+interface NotificationManagerWrapper {
+    @RequiresPermission("android.permission.POST_NOTIFICATIONS")
+    fun notify(
+        icon: Drawable?,
+        contentTitle: String,
+        contentText: String,
+    )
 }

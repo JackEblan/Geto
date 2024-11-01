@@ -15,8 +15,14 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.core.data.repository
 
-interface ClipboardRepository {
-    fun setPrimaryClip(label: String, text: String): Boolean
+package com.android.geto.core.testing.framework
+
+import android.graphics.drawable.Drawable
+import com.android.geto.framework.notificationmanager.NotificationManagerWrapper
+
+class DummyNotificationManagerWrapper : NotificationManagerWrapper {
+    override fun notify(icon: Drawable?, contentTitle: String, contentText: String) {
+
+    }
 }

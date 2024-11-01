@@ -17,11 +17,11 @@
  */
 package com.android.geto.core.model
 
-import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 
 data class GetoShortcutInfoCompat(
     val id: String,
-    val icon: Bitmap? = null,
+    val icon: Drawable? = null,
     val shortLabel: String,
     val longLabel: String,
 )

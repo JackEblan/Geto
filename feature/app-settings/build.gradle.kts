@@ -31,6 +31,9 @@ dependencies {
     implementation(projects.core.data)
     implementation(projects.core.domain)
 
+    implementation(projects.framework.clipboardManager)
+    implementation(projects.framework.notificationManager)
+
     testImplementation(libs.hilt.android.testing)
     testImplementation(libs.robolectric)
     testImplementation(projects.core.testing)

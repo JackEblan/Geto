@@ -15,7 +15,7 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.framework.packagemanager
+package com.android.geto.framework.clipboardmanager
 
 import android.content.ClipData
 import android.content.ClipboardManager

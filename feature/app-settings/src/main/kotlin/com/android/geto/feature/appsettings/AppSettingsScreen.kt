@@ -17,7 +17,12 @@
  */
 package com.android.geto.feature.appsettings
 
-import android.graphics.Bitmap
+import android.Manifest
+import android.content.pm.PackageManager
+import android.graphics.drawable.Drawable
+import android.os.Build
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -54,9 +59,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.android.geto.core.designsystem.component.GetoLoadingWheel
@@ -164,7 +171,7 @@ internal fun AppSettingsScreen(
     appName: String,
     appSettingsUiState: AppSettingsUiState,
     snackbarHostState: SnackbarHostState,
-    applicationIcon: Bitmap?,
+    applicationIcon: Drawable?,
     secureSettings: List<SecureSetting>,
     appSettingsResult: AppSettingsResult?,
     revertAppSettingsResult: AppSettingsResult?,
@@ -206,6 +213,15 @@ internal fun AppSettingsScreen(
             )
         },
         onLaunchIntent = { onEvent(LaunchIntentForPackage) },
+        onPostNotification = { icon, contentTitle, contentText ->
+            onEvent(
+                AppSettingsEvent.PostNotification(
+                    icon = icon,
+                    contentTitle = contentTitle,
+                    contentText = contentText,
+                ),
+            )
+        },
     )
 
     AppSettingsDialogs(
@@ -288,7 +304,7 @@ private fun AppSettingsLaunchedEffects(
     permissionDialogState: PermissionDialogState,
     appSettingDialogState: AppSettingDialogState,
     shortcutDialogState: ShortcutDialogState,
-    applicationIcon: Bitmap?,
+    applicationIcon: Drawable?,
     secureSettings: List<SecureSetting>,
     appSettingsResult: AppSettingsResult?,
     revertAppSettingsResult: AppSettingsResult?,
@@ -302,21 +318,48 @@ private fun AppSettingsLaunchedEffects(
     onResetSetPrimaryClipResult: () -> Unit,
     onGetSecureSettingsByName: (SettingType, String) -> Unit,
     onLaunchIntent: () -> Unit,
+    onPostNotification: (
+        icon: Drawable?,
+        contentTitle: String,
+        contentText: String,
+    ) -> Unit,
 ) {
+    val context = LocalContext.current
+
     val appSettingsDisabled = stringResource(id = R.string.app_settings_disabled)
+
     val emptyAppSettingsList = stringResource(id = R.string.empty_app_settings_list)
+
+    val getoSettings = stringResource(id = R.string.geto_settings)
+
+    val applySuccess = stringResource(id = R.string.apply_success)
+
     val applyFailure = stringResource(id = R.string.apply_failure)
+
     val revertFailure = stringResource(id = R.string.revert_failure)
+
     val revertSuccess = stringResource(id = R.string.revert_success)
+
     val shortcutUpdateImmutableShortcuts =
         stringResource(id = R.string.shortcut_update_immutable_shortcuts)
+
     val shortcutUpdateFailed = stringResource(id = R.string.shortcut_update_failed)
+
     val shortcutUpdateSuccess = stringResource(id = R.string.shortcut_update_success)
+
     val supportedLauncher = stringResource(id = R.string.supported_launcher)
+
     val unsupportedLauncher = stringResource(id = R.string.unsupported_launcher)
+
     val copiedToClipboard = stringResource(id = R.string.copied_to_clipboard)
+
     val invalidValues = stringResource(R.string.settings_has_invalid_values)
+
     val command = stringResource(R.string.command)
+
+    val launcher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission(),
+    ) {}
 
     LaunchedEffect(key1 = appSettingsResult) {
         when (appSettingsResult) {
@@ -339,6 +382,20 @@ private fun AppSettingsLaunchedEffects(
             }
 
             Success -> {
+                if (ContextCompat.checkSelfPermission(
+                        context,
+                        Manifest.permission.POST_NOTIFICATIONS,
+                    ) == PackageManager.PERMISSION_GRANTED
+                ) {
+                    onPostNotification(applicationIcon, getoSettings, applySuccess)
+                } else {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        launcher.launch(
+                            Manifest.permission.POST_NOTIFICATIONS,
+                        )
+                    }
+                }
+
                 onLaunchIntent()
             }
 

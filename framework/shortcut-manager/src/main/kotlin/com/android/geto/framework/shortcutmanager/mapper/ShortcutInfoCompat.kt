@@ -21,6 +21,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.graphics.drawable.IconCompat
+import androidx.core.graphics.drawable.toBitmap
 import androidx.core.net.toUri
 import com.android.geto.core.model.GetoShortcutInfoCompat
 
@@ -46,8 +47,8 @@ internal fun GetoShortcutInfoCompat.asShortcutInfoCompat(
     }
 
     return ShortcutInfoCompat.Builder(context, id).apply {
-        if (icon != null) {
-            setIcon(IconCompat.createWithBitmap(icon!!))
+        icon?.let {
+            setIcon(IconCompat.createWithBitmap(it.toBitmap()))
         }
 
         setShortLabel(shortLabel)
