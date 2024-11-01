@@ -15,22 +15,23 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.framework.notificationmanager.broadcastreceiver
+package com.android.geto.broadcastreceiver
 
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import com.android.geto.framework.notificationmanager.NotificationManagerWrapper.Companion.EXTRA_NOTIFICATION_ID
+import com.android.geto.framework.notificationmanager.NotificationManagerWrapper.Companion.EXTRA_PACKAGE_NAME
 import dagger.hilt.android.EntryPointAccessors
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 
 internal class RevertSettingsBroadcastReceiver : BroadcastReceiver() {
-    override fun onReceive(context: Context?, intent: Intent?) = goAsync {
+    override fun onReceive(context: Context?, intent: Intent?) = launch {
         val appContext = context?.applicationContext ?: throw IllegalStateException()
 
         val hiltEntryPoint =
@@ -38,26 +39,22 @@ internal class RevertSettingsBroadcastReceiver : BroadcastReceiver() {
 
         val packageName = intent?.extras?.getString(EXTRA_PACKAGE_NAME) ?: ""
 
-        val notificationId = intent?.extras?.getInt(EXTRA_NOTIFICATION_ID) ?: -1
+        val notificationId = intent?.extras?.getInt(EXTRA_NOTIFICATION_ID)
 
-        val appSettings = hiltEntryPoint.appSettingsBroadcastRepository()
-            .getAppSettingsByPackageName(packageName = packageName).first()
+        val broadcastReceiverController = BroadcastReceiverController(
+            appSettingsRepository = hiltEntryPoint.appSettingsRepository(),
+            secureSettingsRepository = hiltEntryPoint.secureSettingsRepository(),
+            notificationManagerWrapper = hiltEntryPoint.notificationManagerWrapper(),
+        )
 
-        if (appSettings.isEmpty() || appSettings.all { it.enabled.not() }) return@goAsync
-
-        if (hiltEntryPoint.secureSettingsBroadcastRepository().revertSecureSettings(appSettings)) {
-            hiltEntryPoint.notificationManagerWrapper().cancel(id = notificationId)
-        }
-    }
-
-    companion object {
-        const val ACTION_REVERT_SETTINGS = "ACTION_REVERT_SETTINGS"
-        const val EXTRA_PACKAGE_NAME = "package_name"
-        const val EXTRA_NOTIFICATION_ID = "notification_id"
+        broadcastReceiverController.revertSettings(
+            packageName = packageName,
+            notificationId = notificationId,
+        )
     }
 }
 
-private fun BroadcastReceiver.goAsync(
+private fun BroadcastReceiver.launch(
     context: CoroutineContext = EmptyCoroutineContext,
     block: suspend CoroutineScope.() -> Unit,
 ) {

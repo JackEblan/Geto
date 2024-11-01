@@ -39,14 +39,6 @@
             </intent-filter>
         </activity>
 
-        <receiver
-            android:name=".framework.notificationmanager.broadcastreceiver.RevertSettingsBroadcastReceiver"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="ACTION_REVERT_SETTINGS" />
-            </intent-filter>
-        </receiver>
-
     </application>
 
     <queries>

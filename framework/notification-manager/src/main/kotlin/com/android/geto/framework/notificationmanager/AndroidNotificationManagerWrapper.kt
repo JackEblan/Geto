@@ -22,6 +22,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.PendingIntent.FLAG_IMMUTABLE
 import android.app.PendingIntent.FLAG_UPDATE_CURRENT
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Drawable
@@ -30,10 +31,11 @@ import androidx.annotation.RequiresPermission
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.graphics.drawable.toBitmap
-import com.android.geto.framework.notificationmanager.broadcastreceiver.RevertSettingsBroadcastReceiver
+import com.android.geto.framework.notificationmanager.NotificationManagerWrapper.Companion.ACTION_REVERT_SETTINGS
+import com.android.geto.framework.notificationmanager.NotificationManagerWrapper.Companion.EXTRA_NOTIFICATION_ID
+import com.android.geto.framework.notificationmanager.NotificationManagerWrapper.Companion.EXTRA_PACKAGE_NAME
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
-import kotlin.random.Random
 
 internal class AndroidNotificationManagerWrapper @Inject constructor(@ApplicationContext private val context: Context) :
     NotificationManagerWrapper {
@@ -48,12 +50,18 @@ internal class AndroidNotificationManagerWrapper @Inject constructor(@Applicatio
     ) {
         createNotificationChannel()
 
-        val notificationId = Random.nextInt()
+        val notificationId = packageName.hashCode()
 
-        val revertIntent = Intent(context, RevertSettingsBroadcastReceiver::class.java).apply {
-            action = RevertSettingsBroadcastReceiver.ACTION_REVERT_SETTINGS
-            putExtra(RevertSettingsBroadcastReceiver.EXTRA_PACKAGE_NAME, packageName)
-            putExtra(RevertSettingsBroadcastReceiver.EXTRA_NOTIFICATION_ID, notificationId)
+        val revertIntent = Intent().apply {
+            setComponent(
+                ComponentName(
+                    context.packageName,
+                    "com.android.geto.broadcastreceiver.RevertSettingsBroadcastReceiver",
+                ),
+            )
+            action = ACTION_REVERT_SETTINGS
+            putExtra(EXTRA_PACKAGE_NAME, packageName)
+            putExtra(EXTRA_NOTIFICATION_ID, notificationId)
         }
 
         val revertPendingIntent = PendingIntent.getBroadcast(

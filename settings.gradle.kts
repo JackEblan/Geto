@@ -36,6 +36,7 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 rootProject.name = "Geto"
 include(":app")
 include(":benchmarks")
+include(":broadcast-receiver")
 include(":core:common")
 include(":core:database")
 include(":core:data")

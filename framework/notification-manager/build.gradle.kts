@@ -24,11 +24,3 @@ plugins {
 android {
     namespace = "com.android.geto.framework.notificationmanager"
 }
-
-dependencies {
-    implementation(libs.androidx.core.ktx)
-    implementation(projects.core.common)
-    implementation(projects.core.model)
-    implementation(projects.core.database)
-    implementation(projects.framework.secureSettings)
-}

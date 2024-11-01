@@ -30,4 +30,10 @@ interface NotificationManagerWrapper {
     )
 
     fun cancel(id: Int)
+
+    companion object {
+        const val ACTION_REVERT_SETTINGS = "ACTION_REVERT_SETTINGS"
+        const val EXTRA_PACKAGE_NAME = "package_name"
+        const val EXTRA_NOTIFICATION_ID = "notification_id"
+    }
 }

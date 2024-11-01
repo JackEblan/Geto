@@ -15,11 +15,11 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.framework.notificationmanager.broadcastreceiver
+package com.android.geto.broadcastreceiver
 
+import com.android.geto.core.data.repository.AppSettingsRepository
+import com.android.geto.core.data.repository.SecureSettingsRepository
 import com.android.geto.framework.notificationmanager.NotificationManagerWrapper
-import com.android.geto.framework.notificationmanager.broadcastreceiver.repository.AppSettingsBroadcastRepository
-import com.android.geto.framework.notificationmanager.broadcastreceiver.repository.SecureSettingsBroadcastRepository
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
@@ -27,9 +27,9 @@ import dagger.hilt.components.SingletonComponent
 @EntryPoint
 @InstallIn(SingletonComponent::class)
 interface BroadcastReceiverEntryPoint {
-    fun appSettingsBroadcastRepository(): AppSettingsBroadcastRepository
+    fun appSettingsRepository(): AppSettingsRepository
 
-    fun secureSettingsBroadcastRepository(): SecureSettingsBroadcastRepository
+    fun secureSettingsRepository(): SecureSettingsRepository
 
     fun notificationManagerWrapper(): NotificationManagerWrapper
 }

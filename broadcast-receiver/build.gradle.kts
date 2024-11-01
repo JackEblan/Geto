@@ -15,10 +15,21 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.framework.notificationmanager.broadcastreceiver.repository
 
-import com.android.geto.core.model.AppSetting
+plugins {
+    alias(libs.plugins.com.android.geto.library)
+    alias(libs.plugins.com.android.geto.hilt)
+}
 
-interface SecureSettingsBroadcastRepository {
-    suspend fun revertSecureSettings(appSettings: List<AppSetting>): Boolean
+android {
+    namespace = "com.android.geto.broadcastreceiver"
+}
+
+dependencies {
+    implementation(libs.androidx.core.ktx)
+    implementation(projects.core.common)
+    implementation(projects.core.model)
+    implementation(projects.core.data)
+
+    implementation(projects.framework.notificationManager)
 }
