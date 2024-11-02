@@ -18,6 +18,8 @@
 <resources>
     <string name="app_settings_disabled">Please enable atleast one setting</string>
     <string name="empty_app_settings_list">No settings found</string>
+    <string name="geto_settings">Geto Settings</string>
+    <string name="apply_success">Settings apply success</string>
     <string name="apply_failure">Settings apply failed</string>
     <string name="revert_failure">Settings revert failed</string>
     <string name="revert_success">Settings reverted</string>

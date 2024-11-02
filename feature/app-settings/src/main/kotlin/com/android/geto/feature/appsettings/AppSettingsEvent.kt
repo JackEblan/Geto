@@ -17,6 +17,7 @@
  */
 package com.android.geto.feature.appsettings
 
+import android.graphics.drawable.Drawable
 import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.GetoShortcutInfoCompat
 import com.android.geto.core.model.SettingType
@@ -43,6 +44,12 @@ sealed interface AppSettingsEvent {
         AppSettingsEvent
 
     data object LaunchIntentForPackage : AppSettingsEvent
+
+    data class PostNotification(
+        val icon: Drawable?,
+        val contentTitle: String,
+        val contentText: String,
+    ) : AppSettingsEvent
 
     data object ResetApplyAppSettingsResult : AppSettingsEvent
 

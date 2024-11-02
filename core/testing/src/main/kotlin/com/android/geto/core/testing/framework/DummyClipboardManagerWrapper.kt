@@ -15,25 +15,18 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.framework.packagemanager
+package com.android.geto.core.testing.framework
 
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
-import android.os.Build
-import androidx.core.content.getSystemService
-import dagger.hilt.android.qualifiers.ApplicationContext
-import javax.inject.Inject
+import com.android.geto.framework.clipboardmanager.ClipboardManagerWrapper
 
-internal class AndroidClipboardManagerWrapper @Inject constructor(
-    @ApplicationContext private val context: Context,
-) : ClipboardManagerWrapper {
-
-    private val clipboardManager = context.getSystemService<ClipboardManager>()
+class DummyClipboardManagerWrapper : ClipboardManagerWrapper {
+    private var sdkInt = 0
 
     override fun setPrimaryClip(label: String, text: String): Boolean {
-        clipboardManager?.setPrimaryClip(ClipData.newPlainText(label, text))
+        return sdkInt <= 32
+    }
 
-        return Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2
+    fun setSDKInt(value: Int) {
+        sdkInt = value
     }
 }

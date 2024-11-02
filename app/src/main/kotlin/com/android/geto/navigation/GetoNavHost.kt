@@ -35,7 +35,9 @@ import com.android.geto.navigation.TopLevelDestination.APPS
 import com.android.geto.navigation.TopLevelDestination.SETTINGS
 
 @Composable
-fun GetoNavHost(navController: NavHostController) {
+fun GetoNavHost(
+    navController: NavHostController,
+) {
     val snackbarHostState = remember {
         SnackbarHostState()
     }

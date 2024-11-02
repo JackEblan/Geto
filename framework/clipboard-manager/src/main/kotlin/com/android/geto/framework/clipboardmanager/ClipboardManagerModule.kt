@@ -15,15 +15,19 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.core.data.repository
+package com.android.geto.framework.clipboardmanager
 
-import com.android.geto.framework.packagemanager.ClipboardManagerWrapper
-import javax.inject.Inject
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
-internal class DefaultClipboardRepository @Inject constructor(
-    private val clipboardManagerWrapper: ClipboardManagerWrapper,
-) : ClipboardRepository {
-    override fun setPrimaryClip(label: String, text: String): Boolean {
-        return clipboardManagerWrapper.setPrimaryClip(label = label, text = text)
-    }
+@Module
+@InstallIn(SingletonComponent::class)
+internal interface ClipboardManagerModule {
+
+    @Binds
+    @Singleton
+    fun clipboardManagerWrapper(impl: AndroidClipboardManagerWrapper): ClipboardManagerWrapper
 }

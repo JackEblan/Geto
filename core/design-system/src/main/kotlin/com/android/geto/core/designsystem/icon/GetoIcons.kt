@@ -24,7 +24,6 @@ import androidx.compose.material.icons.filled.AppShortcut
 import androidx.compose.material.icons.filled.Apps
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.outlined.Settings
 
 object GetoIcons {
     val Apps = Icons.Default.Apps

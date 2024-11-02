@@ -17,7 +17,7 @@
  */
 package com.android.geto.core.data.repository
 
-import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import com.android.geto.core.model.GetoApplicationInfo
 import com.android.geto.framework.packagemanager.PackageManagerWrapper
 import javax.inject.Inject
@@ -30,7 +30,7 @@ internal class DefaultPackageRepository @Inject constructor(
         return packageManagerWrapper.queryIntentActivities()
     }
 
-    override fun getApplicationIcon(packageName: String): Bitmap? {
+    override fun getApplicationIcon(packageName: String): Drawable? {
         return packageManagerWrapper.getApplicationIcon(packageName = packageName)
     }
 

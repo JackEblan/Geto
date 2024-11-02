@@ -22,8 +22,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import androidx.core.graphics.drawable.toBitmap
+import android.graphics.drawable.Drawable
 import com.android.geto.core.common.Dispatcher
 import com.android.geto.core.common.GetoDispatchers.Default
 import com.android.geto.core.model.GetoApplicationInfo
@@ -60,9 +59,9 @@ internal class AndroidPackageManagerWrapper @Inject constructor(
         }
     }
 
-    override fun getApplicationIcon(packageName: String): Bitmap? {
+    override fun getApplicationIcon(packageName: String): Drawable? {
         return try {
-            packageManager.getApplicationIcon(packageName).toBitmap()
+            packageManager.getApplicationIcon(packageName)
         } catch (e: PackageManager.NameNotFoundException) {
             null
         }

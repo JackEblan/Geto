@@ -17,7 +17,7 @@
  */
 package com.android.geto.core.data.test.repository
 
-import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import com.android.geto.core.data.repository.PackageRepository
 import com.android.geto.core.model.GetoApplicationInfo
 import javax.inject.Inject
@@ -33,7 +33,7 @@ class FakePackageRepository @Inject constructor() : PackageRepository {
         }
     }
 
-    override fun getApplicationIcon(packageName: String): Bitmap? {
+    override fun getApplicationIcon(packageName: String): Drawable? {
         return null
     }
 

@@ -17,13 +17,12 @@
  */
 package com.android.geto.feature.appsettings
 
-import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.android.geto.core.data.repository.AppSettingsRepository
-import com.android.geto.core.data.repository.ClipboardRepository
 import com.android.geto.core.data.repository.PackageRepository
 import com.android.geto.core.data.repository.SecureSettingsRepository
 import com.android.geto.core.domain.ApplyAppSettingsUseCase
@@ -52,6 +51,8 @@ import com.android.geto.feature.appsettings.AppSettingsEvent.ResetRevertAppSetti
 import com.android.geto.feature.appsettings.AppSettingsEvent.ResetSetPrimaryClipResult
 import com.android.geto.feature.appsettings.AppSettingsEvent.RevertAppSettings
 import com.android.geto.feature.appsettings.navigation.AppSettingsRouteData
+import com.android.geto.framework.clipboardmanager.ClipboardManagerWrapper
+import com.android.geto.framework.notificationmanager.NotificationManagerWrapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -68,12 +69,13 @@ class AppSettingsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val appSettingsRepository: AppSettingsRepository,
     private val packageRepository: PackageRepository,
-    private val clipboardRepository: ClipboardRepository,
+    private val clipboardManagerWrapper: ClipboardManagerWrapper,
     private val secureSettingsRepository: SecureSettingsRepository,
     private val applyAppSettingsUseCase: ApplyAppSettingsUseCase,
     private val revertAppSettingsUseCase: RevertAppSettingsUseCase,
     private val autoLaunchUseCase: AutoLaunchUseCase,
     private val requestPinShortcutUseCase: RequestPinShortcutUseCase,
+    private val notificationManagerWrapper: NotificationManagerWrapper,
 ) : ViewModel() {
     private val appSettingsRouteData = savedStateHandle.toRoute<AppSettingsRouteData>()
 
@@ -84,7 +86,7 @@ class AppSettingsViewModel @Inject constructor(
     private var _secureSettings = MutableStateFlow<List<SecureSetting>>(emptyList())
     val secureSettings = _secureSettings.asStateFlow()
 
-    private var _applicationIcon = MutableStateFlow<Bitmap?>(null)
+    private var _applicationIcon = MutableStateFlow<Drawable?>(null)
     val applicationIcon = _applicationIcon.onStart {
         getApplicationIcon()
     }.stateIn(
@@ -170,6 +172,14 @@ class AppSettingsViewModel @Inject constructor(
                 launchIntentForPackage()
             }
 
+            is AppSettingsEvent.PostNotification -> {
+                postNotification(
+                    icon = event.icon,
+                    contentTitle = event.contentTitle,
+                    contentText = event.contentText,
+                )
+            }
+
             ResetApplyAppSettingsResult -> {
                 resetApplyAppSettingsResult()
             }
@@ -230,7 +240,7 @@ class AppSettingsViewModel @Inject constructor(
 
     private fun copyPermissionCommand(label: String, text: String) {
         _setPrimaryClipResult.update {
-            clipboardRepository.setPrimaryClip(
+            clipboardManagerWrapper.setPrimaryClip(
                 label = label,
                 text = text,
             )
@@ -268,6 +278,19 @@ class AppSettingsViewModel @Inject constructor(
 
     private fun launchIntentForPackage() {
         packageRepository.launchIntentForPackage(packageName = packageName)
+    }
+
+    private fun postNotification(
+        icon: Drawable?,
+        contentTitle: String,
+        contentText: String,
+    ) {
+        notificationManagerWrapper.notify(
+            packageName = packageName,
+            icon = icon,
+            contentTitle = contentTitle,
+            contentText = contentText,
+        )
     }
 
     private fun resetApplyAppSettingsResult() {

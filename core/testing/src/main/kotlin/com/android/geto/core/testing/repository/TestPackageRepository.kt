@@ -17,7 +17,8 @@
  */
 package com.android.geto.core.testing.repository
 
-import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.ShapeDrawable
 import com.android.geto.core.data.repository.PackageRepository
 import com.android.geto.core.model.GetoApplicationInfo
 
@@ -28,13 +29,9 @@ class TestPackageRepository : PackageRepository {
         return getoApplicationInfos.filter { it.flags == 0 }.sortedBy { it.label }
     }
 
-    override fun getApplicationIcon(packageName: String): Bitmap? {
+    override fun getApplicationIcon(packageName: String): Drawable? {
         return if (getoApplicationInfos.any { it.packageName == packageName }) {
-            Bitmap.createBitmap(
-                100,
-                100,
-                Bitmap.Config.ARGB_8888,
-            )
+            ShapeDrawable()
         } else {
             null
         }

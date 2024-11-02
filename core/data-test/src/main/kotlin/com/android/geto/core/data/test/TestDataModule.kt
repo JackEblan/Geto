@@ -19,13 +19,11 @@ package com.android.geto.core.data.test
 
 import com.android.geto.core.data.di.DataModule
 import com.android.geto.core.data.repository.AppSettingsRepository
-import com.android.geto.core.data.repository.ClipboardRepository
 import com.android.geto.core.data.repository.PackageRepository
 import com.android.geto.core.data.repository.SecureSettingsRepository
 import com.android.geto.core.data.repository.ShortcutRepository
 import com.android.geto.core.data.repository.UserDataRepository
 import com.android.geto.core.data.test.repository.FakeAppSettingsRepository
-import com.android.geto.core.data.test.repository.FakeClipboardRepository
 import com.android.geto.core.data.test.repository.FakePackageRepository
 import com.android.geto.core.data.test.repository.FakeSecureSettingsRepository
 import com.android.geto.core.data.test.repository.FakeShortcutRepository
@@ -54,10 +52,6 @@ internal interface TestDataModule {
     @Binds
     @Singleton
     fun packageRepository(impl: FakePackageRepository): PackageRepository
-
-    @Binds
-    @Singleton
-    fun clipboardRepository(impl: FakeClipboardRepository): ClipboardRepository
 
     @Binds
     @Singleton

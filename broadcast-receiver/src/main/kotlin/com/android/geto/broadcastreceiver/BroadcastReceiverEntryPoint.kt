@@ -15,19 +15,18 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.framework.packagemanager
+package com.android.geto.broadcastreceiver
 
-import dagger.Binds
-import dagger.Module
+import com.android.geto.core.domain.RevertAppSettingsUseCase
+import com.android.geto.framework.notificationmanager.NotificationManagerWrapper
+import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
 
-@Module
+@EntryPoint
 @InstallIn(SingletonComponent::class)
-internal interface ClipboardManagerModule {
+internal interface BroadcastReceiverEntryPoint {
+    fun revertAppSettingsUseCase(): RevertAppSettingsUseCase
 
-    @Binds
-    @Singleton
-    fun clipboardManagerWrapper(impl: AndroidClipboardManagerWrapper): ClipboardManagerWrapper
+    fun notificationManagerWrapper(): NotificationManagerWrapper
 }

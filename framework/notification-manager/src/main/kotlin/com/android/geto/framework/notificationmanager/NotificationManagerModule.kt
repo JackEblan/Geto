@@ -15,13 +15,19 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.core.data.test.repository
+package com.android.geto.framework.notificationmanager
 
-import com.android.geto.core.data.repository.ClipboardRepository
-import javax.inject.Inject
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
-class FakeClipboardRepository @Inject constructor() : ClipboardRepository {
-    override fun setPrimaryClip(label: String, text: String): Boolean {
-        return false
-    }
+@Module
+@InstallIn(SingletonComponent::class)
+internal interface NotificationManagerModule {
+
+    @Binds
+    @Singleton
+    fun notificationManagerWrapper(impl: AndroidNotificationManagerWrapper): NotificationManagerWrapper
 }

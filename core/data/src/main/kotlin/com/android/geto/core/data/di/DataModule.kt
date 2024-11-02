@@ -18,9 +18,7 @@
 package com.android.geto.core.data.di
 
 import com.android.geto.core.data.repository.AppSettingsRepository
-import com.android.geto.core.data.repository.ClipboardRepository
 import com.android.geto.core.data.repository.DefaultAppSettingsRepository
-import com.android.geto.core.data.repository.DefaultClipboardRepository
 import com.android.geto.core.data.repository.DefaultPackageRepository
 import com.android.geto.core.data.repository.DefaultSecureSettingsRepository
 import com.android.geto.core.data.repository.DefaultShortcutRepository
@@ -50,10 +48,6 @@ abstract class DataModule {
     @Binds
     @Singleton
     internal abstract fun packageRepository(impl: DefaultPackageRepository): PackageRepository
-
-    @Binds
-    @Singleton
-    internal abstract fun clipboardRepository(impl: DefaultClipboardRepository): ClipboardRepository
 
     @Binds
     @Singleton

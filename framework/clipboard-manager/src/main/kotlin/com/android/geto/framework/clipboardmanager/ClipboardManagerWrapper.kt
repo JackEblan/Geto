@@ -15,8 +15,8 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.core.data.repository
+package com.android.geto.framework.clipboardmanager
 
-interface ClipboardRepository {
+interface ClipboardManagerWrapper {
     fun setPrimaryClip(label: String, text: String): Boolean
 }

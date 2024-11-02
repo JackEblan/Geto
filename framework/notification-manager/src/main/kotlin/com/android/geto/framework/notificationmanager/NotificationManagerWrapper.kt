@@ -15,20 +15,25 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.core.testing.repository
+package com.android.geto.framework.notificationmanager
 
-import com.android.geto.core.data.repository.ClipboardRepository
+import android.graphics.drawable.Drawable
+import androidx.annotation.RequiresPermission
 
-class TestClipboardRepository : ClipboardRepository {
-    private var _sdkInt = 0
+interface NotificationManagerWrapper {
+    @RequiresPermission("android.permission.POST_NOTIFICATIONS")
+    fun notify(
+        packageName: String,
+        icon: Drawable?,
+        contentTitle: String,
+        contentText: String,
+    )
 
-    private var _versionCodeForSV2 = 32
+    fun cancel(id: Int)
 
-    override fun setPrimaryClip(label: String, text: String): Boolean {
-        return _sdkInt <= _versionCodeForSV2
-    }
-
-    fun setSDKInt(value: Int) {
-        _sdkInt = value
+    companion object {
+        const val ACTION_REVERT_SETTINGS = "ACTION_REVERT_SETTINGS"
+        const val EXTRA_PACKAGE_NAME = "package_name"
+        const val EXTRA_NOTIFICATION_ID = "notification_id"
     }
 }
