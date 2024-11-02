@@ -33,21 +33,17 @@ import javax.inject.Inject
 class AppsViewModel @Inject constructor(
     private val packageRepository: PackageRepository,
 ) : ViewModel() {
-    private val _appUiState = MutableStateFlow<AppsUiState?>(null)
+    private val _appUiState = MutableStateFlow<AppsUiState>(AppsUiState.Loading)
     val appsUiState = _appUiState.onStart {
         queryIntentActivities()
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.Lazily,
-        initialValue = null,
+        initialValue = AppsUiState.Loading,
     )
 
     private fun queryIntentActivities() {
         viewModelScope.launch {
-            _appUiState.update {
-                AppsUiState.Loading
-            }
-
             _appUiState.update {
                 AppsUiState.Success(getoApplicationInfos = packageRepository.queryIntentActivities())
             }

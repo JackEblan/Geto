@@ -69,7 +69,7 @@ internal fun AppsRoute(
 @Composable
 internal fun AppsScreen(
     modifier: Modifier = Modifier,
-    appsUiState: AppsUiState?,
+    appsUiState: AppsUiState,
     onItemClick: (String, String) -> Unit,
 ) {
     ReportDrawnWhen {
@@ -85,17 +85,19 @@ internal fun AppsScreen(
             .testTag("apps"),
     ) {
         when (appsUiState) {
-            AppsUiState.Loading -> LoadingState(
-                modifier = Modifier.align(Alignment.Center),
-            )
+            AppsUiState.Loading -> {
+                LoadingState(
+                    modifier = Modifier.align(Alignment.Center),
+                )
+            }
 
-            is AppsUiState.Success -> SuccessState(
-                modifier = modifier,
-                appsUiState = appsUiState,
-                onItemClick = onItemClick,
-            )
-
-            null -> {}
+            is AppsUiState.Success -> {
+                SuccessState(
+                    modifier = modifier,
+                    appsUiState = appsUiState,
+                    onItemClick = onItemClick,
+                )
+            }
         }
     }
 }
