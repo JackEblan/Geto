@@ -22,7 +22,6 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.PendingIntent.FLAG_IMMUTABLE
 import android.app.PendingIntent.FLAG_UPDATE_CURRENT
-import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Drawable
@@ -53,11 +52,9 @@ internal class AndroidNotificationManagerWrapper @Inject constructor(@Applicatio
         val notificationId = packageName.hashCode()
 
         val revertIntent = Intent().apply {
-            setComponent(
-                ComponentName(
-                    context.packageName,
-                    "com.android.geto.broadcastreceiver.RevertSettingsBroadcastReceiver",
-                ),
+            setClassName(
+                context.packageName,
+                "com.android.geto.broadcastreceiver.RevertSettingsBroadcastReceiver",
             )
             action = ACTION_REVERT_SETTINGS
             putExtra(EXTRA_PACKAGE_NAME, packageName)
@@ -82,11 +79,11 @@ internal class AndroidNotificationManagerWrapper @Inject constructor(@Applicatio
                 revertPendingIntent,
             ).build()
 
-        NotificationManagerCompat.from(context).notify(notificationId, notification)
+        notificationManagerCompat.notify(notificationId, notification)
     }
 
     override fun cancel(id: Int) {
-        NotificationManagerCompat.from(context).cancel(id)
+        notificationManagerCompat.cancel(id)
     }
 
     private fun createNotificationChannel() {
