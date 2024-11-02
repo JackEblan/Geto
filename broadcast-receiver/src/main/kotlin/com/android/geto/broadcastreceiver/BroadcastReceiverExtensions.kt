@@ -17,12 +17,25 @@
  */
 package com.android.geto.broadcastreceiver
 
-import dagger.hilt.EntryPoint
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
+import android.content.BroadcastReceiver
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.EmptyCoroutineContext
 
-@EntryPoint
-@InstallIn(SingletonComponent::class)
-internal interface BroadcastReceiverEntryPoint {
-    fun broadcastReceiverController(): BroadcastReceiverController
+fun BroadcastReceiver.broadcastReceiverScope(
+    context: CoroutineContext = EmptyCoroutineContext,
+    block: suspend CoroutineScope.() -> Unit,
+) {
+    val pendingResult = goAsync()
+    @OptIn(DelicateCoroutinesApi::class)
+    GlobalScope.launch(context) {
+        try {
+            block()
+        } finally {
+            pendingResult.finish()
+        }
+    }
 }

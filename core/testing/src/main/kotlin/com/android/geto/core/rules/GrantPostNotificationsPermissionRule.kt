@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.core.rules
 
 import android.Manifest.permission.POST_NOTIFICATIONS
