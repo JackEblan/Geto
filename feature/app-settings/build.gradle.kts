@@ -28,6 +28,8 @@ android {
 }
 
 dependencies {
+    implementation(libs.accompanist.permissions)
+
     implementation(projects.core.data)
     implementation(projects.core.domain)
 

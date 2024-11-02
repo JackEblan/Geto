@@ -17,12 +17,8 @@
  */
 package com.android.geto.feature.appsettings
 
-import android.Manifest
-import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import android.os.Build
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -59,11 +55,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.android.geto.core.designsystem.component.GetoLoadingWheel
@@ -109,6 +103,9 @@ import com.android.geto.feature.appsettings.dialog.shortcut.ShortcutDialog
 import com.android.geto.feature.appsettings.dialog.shortcut.ShortcutDialogState
 import com.android.geto.feature.appsettings.dialog.shortcut.rememberShortcutDialogState
 import com.android.geto.feature.appsettings.navigation.AppSettingsRouteData
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.PermissionStatus
+import com.google.accompanist.permissions.rememberPermissionState
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
@@ -297,7 +294,7 @@ internal fun AppSettingsScreen(
     }
 }
 
-@OptIn(FlowPreview::class)
+@OptIn(FlowPreview::class, ExperimentalPermissionsApi::class)
 @Composable
 private fun AppSettingsLaunchedEffects(
     snackbarHostState: SnackbarHostState,
@@ -324,8 +321,6 @@ private fun AppSettingsLaunchedEffects(
         contentText: String,
     ) -> Unit,
 ) {
-    val context = LocalContext.current
-
     val appSettingsDisabled = stringResource(id = R.string.app_settings_disabled)
 
     val emptyAppSettingsList = stringResource(id = R.string.empty_app_settings_list)
@@ -357,9 +352,12 @@ private fun AppSettingsLaunchedEffects(
 
     val command = stringResource(R.string.command)
 
-    val launcher = rememberLauncherForActivityResult(
-        ActivityResultContracts.RequestPermission(),
-    ) {}
+    val postNotificationsPermissionState =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            rememberPermissionState(android.Manifest.permission.POST_NOTIFICATIONS)
+        } else {
+            null
+        }
 
     LaunchedEffect(key1 = appSettingsResult) {
         when (appSettingsResult) {
@@ -382,20 +380,12 @@ private fun AppSettingsLaunchedEffects(
             }
 
             Success -> {
-                if (ContextCompat.checkSelfPermission(
-                        context,
-                        Manifest.permission.POST_NOTIFICATIONS,
-                    ) == PackageManager.PERMISSION_GRANTED
-                ) {
+                if (postNotificationsPermissionState?.status is PermissionStatus.Granted) {
                     onPostNotification(applicationIcon, getoSettings, applySuccess)
 
                     onLaunchIntent()
                 } else {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                        launcher.launch(
-                            Manifest.permission.POST_NOTIFICATIONS,
-                        )
-                    }
+                    postNotificationsPermissionState?.launchPermissionRequest()
                 }
             }
 
