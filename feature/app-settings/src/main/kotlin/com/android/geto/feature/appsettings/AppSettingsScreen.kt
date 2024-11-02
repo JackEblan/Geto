@@ -388,6 +388,8 @@ private fun AppSettingsLaunchedEffects(
                     ) == PackageManager.PERMISSION_GRANTED
                 ) {
                     onPostNotification(applicationIcon, getoSettings, applySuccess)
+
+                    onLaunchIntent()
                 } else {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                         launcher.launch(
@@ -395,8 +397,6 @@ private fun AppSettingsLaunchedEffects(
                         )
                     }
                 }
-
-                onLaunchIntent()
             }
 
             InvalidValues -> {
