@@ -15,23 +15,17 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.benchmarks.baselineprofile
 
-import androidx.benchmark.macro.junit4.BaselineProfileRule
-import com.android.geto.benchmarks.PACKAGE_NAME
-import com.android.geto.benchmarks.settings.goToSettingsScreen
-import com.android.geto.benchmarks.startActivityAndAllowNotifications
-import org.junit.Rule
-import org.junit.Test
+package com.android.geto.core.rules
 
-class SettingsBaselineProfile {
-    @get:Rule
-    val baselineProfileRule = BaselineProfileRule()
+import android.Manifest.permission.POST_NOTIFICATIONS
+import android.os.Build.VERSION.SDK_INT
+import android.os.Build.VERSION_CODES.TIRAMISU
+import androidx.test.rule.GrantPermissionRule.grant
+import org.junit.rules.TestRule
 
-    @Test
-    fun generate() = baselineProfileRule.collect(PACKAGE_NAME) {
-        startActivityAndAllowNotifications()
-
-        goToSettingsScreen()
-    }
-}
+/**
+ * [TestRule] granting [POST_NOTIFICATIONS] permission if running on [SDK_INT] greater than [TIRAMISU].
+ */
+class GrantPostNotificationsPermissionRule :
+    TestRule by if (SDK_INT >= TIRAMISU) grant(POST_NOTIFICATIONS) else grant()

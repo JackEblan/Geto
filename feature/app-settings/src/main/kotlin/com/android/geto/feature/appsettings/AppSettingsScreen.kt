@@ -18,7 +18,6 @@
 package com.android.geto.feature.appsettings
 
 import android.graphics.drawable.Drawable
-import android.os.Build
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -103,9 +102,6 @@ import com.android.geto.feature.appsettings.dialog.shortcut.ShortcutDialog
 import com.android.geto.feature.appsettings.dialog.shortcut.ShortcutDialogState
 import com.android.geto.feature.appsettings.dialog.shortcut.rememberShortcutDialogState
 import com.android.geto.feature.appsettings.navigation.AppSettingsRouteData
-import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.PermissionStatus
-import com.google.accompanist.permissions.rememberPermissionState
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
@@ -294,7 +290,7 @@ internal fun AppSettingsScreen(
     }
 }
 
-@OptIn(FlowPreview::class, ExperimentalPermissionsApi::class)
+@OptIn(FlowPreview::class)
 @Composable
 private fun AppSettingsLaunchedEffects(
     snackbarHostState: SnackbarHostState,
@@ -352,13 +348,6 @@ private fun AppSettingsLaunchedEffects(
 
     val command = stringResource(R.string.command)
 
-    val postNotificationsPermissionState =
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            rememberPermissionState(android.Manifest.permission.POST_NOTIFICATIONS)
-        } else {
-            null
-        }
-
     LaunchedEffect(key1 = appSettingsResult) {
         when (appSettingsResult) {
             DisabledAppSettings -> {
@@ -380,13 +369,9 @@ private fun AppSettingsLaunchedEffects(
             }
 
             Success -> {
-                if (postNotificationsPermissionState?.status is PermissionStatus.Granted) {
-                    onPostNotification(applicationIcon, getoSettings, applySuccess)
+                onPostNotification(applicationIcon, getoSettings, applySuccess)
 
-                    onLaunchIntent()
-                } else {
-                    postNotificationsPermissionState?.launchPermissionRequest()
-                }
+                onLaunchIntent()
             }
 
             InvalidValues -> {

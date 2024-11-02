@@ -19,4 +19,6 @@
     <string name="app_name">Geto</string>
     <string name="apps">Apps</string>
     <string name="settings">Settings</string>
+    <string name="please_grant_notifications_permission">Please grant notifications permission</string>
+    <string name="allow">Allow</string>
 </resources>

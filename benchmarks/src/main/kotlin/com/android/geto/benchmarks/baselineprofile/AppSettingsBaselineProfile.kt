@@ -20,6 +20,7 @@ package com.android.geto.benchmarks.baselineprofile
 import androidx.benchmark.macro.junit4.BaselineProfileRule
 import com.android.geto.benchmarks.PACKAGE_NAME
 import com.android.geto.benchmarks.appsettings.goToAppSettingsScreen
+import com.android.geto.benchmarks.startActivityAndAllowNotifications
 import org.junit.Rule
 import org.junit.Test
 
@@ -29,7 +30,8 @@ class AppSettingsBaselineProfile {
 
     @Test
     fun generate() = baselineProfileRule.collect(PACKAGE_NAME) {
-        startActivityAndWait()
+        startActivityAndAllowNotifications()
+
         goToAppSettingsScreen()
     }
 }

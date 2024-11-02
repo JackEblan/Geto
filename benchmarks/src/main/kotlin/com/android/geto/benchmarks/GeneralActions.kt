@@ -17,9 +17,38 @@
  */
 package com.android.geto.benchmarks
 
+import android.Manifest
+import android.os.Build
 import androidx.benchmark.macro.MacrobenchmarkScope
 import androidx.test.uiautomator.By
 import androidx.test.uiautomator.Until
+
+/**
+ * Because the app under test is different from the one running the instrumentation test,
+ * the permission has to be granted manually by either:
+ *
+ * - tapping the Allow button
+ *    ```kotlin
+ *    val obj = By.text("Allow")
+ *    val dialog = device.wait(Until.findObject(obj), TIMEOUT)
+ *    dialog?.let {
+ *        it.click()
+ *        device.wait(Until.gone(obj), 5_000)
+ *    }
+ *    ```
+ * - or (preferred) executing the grant command on the target package.
+ */
+fun MacrobenchmarkScope.allowNotifications() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        val command = "pm grant $packageName ${Manifest.permission.POST_NOTIFICATIONS}"
+        device.executeShellCommand(command)
+    }
+}
+
+fun MacrobenchmarkScope.startActivityAndAllowNotifications() {
+    startActivityAndWait()
+    allowNotifications()
+}
 
 fun MacrobenchmarkScope.waitForLoadingWheelToDisappear() {
     device.wait(Until.gone(By.res("loadingWheel")), 5_000)

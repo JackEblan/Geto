@@ -17,6 +17,7 @@
  */
 package com.android.geto.framework.notificationmanager
 
+import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -24,11 +25,13 @@ import android.app.PendingIntent.FLAG_IMMUTABLE
 import android.app.PendingIntent.FLAG_UPDATE_CURRENT
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import android.os.Build
 import androidx.annotation.RequiresPermission
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import com.android.geto.framework.notificationmanager.NotificationManagerWrapper.Companion.ACTION_REVERT_SETTINGS
 import com.android.geto.framework.notificationmanager.NotificationManagerWrapper.Companion.EXTRA_NOTIFICATION_ID
@@ -47,6 +50,10 @@ internal class AndroidNotificationManagerWrapper @Inject constructor(@Applicatio
         contentTitle: String,
         contentText: String,
     ) {
+        if (canPostNotifications().not()) {
+            return
+        }
+
         createNotificationChannel()
 
         val notificationId = packageName.hashCode()
@@ -84,6 +91,17 @@ internal class AndroidNotificationManagerWrapper @Inject constructor(@Applicatio
 
     override fun cancel(id: Int) {
         notificationManagerCompat.cancel(id)
+    }
+
+    private fun canPostNotifications(): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && notificationManagerCompat.areNotificationsEnabled()) {
+            ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.POST_NOTIFICATIONS,
+            ) == PackageManager.PERMISSION_GRANTED
+        } else {
+            notificationManagerCompat.areNotificationsEnabled()
+        }
     }
 
     private fun createNotificationChannel() {
