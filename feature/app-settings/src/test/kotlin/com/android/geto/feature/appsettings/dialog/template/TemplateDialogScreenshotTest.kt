@@ -58,7 +58,7 @@ class TemplateDialogScreenshotTest {
     @Test
     fun templateDialog_loading() {
         composeTestRule.captureDialogForDevice(
-            fileName = "TemplateDialog",
+            fileName = "TemplateDialogLoading",
             deviceName = "foldable",
             deviceSpec = DefaultTestDevices.FOLDABLE.spec,
         ) {
@@ -77,7 +77,7 @@ class TemplateDialogScreenshotTest {
     @Test
     fun templateDialog_populated() {
         composeTestRule.captureDialogForDevice(
-            fileName = "TemplateDialog",
+            fileName = "TemplateDialogPopulated",
             deviceName = "foldable",
             deviceSpec = DefaultTestDevices.FOLDABLE.spec,
         ) {
@@ -96,7 +96,7 @@ class TemplateDialogScreenshotTest {
     @Test
     fun templateDialog_loading_dark() {
         composeTestRule.captureDialogForDevice(
-            fileName = "TemplateDialog",
+            fileName = "TemplateDialogLoading",
             deviceName = "foldable_dark",
             deviceSpec = DefaultTestDevices.FOLDABLE.spec,
             darkMode = true,
@@ -118,7 +118,7 @@ class TemplateDialogScreenshotTest {
     @Test
     fun templateDialog_populated_dark() {
         composeTestRule.captureDialogForDevice(
-            fileName = "TemplateDialog",
+            fileName = "TemplateDialogPopulated",
             deviceName = "foldable_dark",
             deviceSpec = DefaultTestDevices.FOLDABLE.spec,
             darkMode = true,

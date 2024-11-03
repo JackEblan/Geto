@@ -221,11 +221,11 @@ class AppSettingsScreenDialogsTest {
             useUnmergedTree = true,
         ).performClick()
 
-        composeTestRule.onNodeWithContentDescription("Templates Dialog").assertIsDisplayed()
+        composeTestRule.onNodeWithContentDescription("Template Dialog").assertIsDisplayed()
 
         composeTestRule.onNodeWithText("Cancel").performClick()
 
-        composeTestRule.onNodeWithContentDescription("Templates Dialog").assertIsNotDisplayed()
+        composeTestRule.onNodeWithContentDescription("Template Dialog").assertIsNotDisplayed()
     }
 
     @Test
