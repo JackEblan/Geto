@@ -31,7 +31,7 @@ internal class RevertSettingsBroadcastReceiver : BroadcastReceiver() {
         val hiltEntryPoint =
             EntryPointAccessors.fromApplication(appContext, BroadcastReceiverEntryPoint::class.java)
 
-        val packageName = intent?.extras?.getString(EXTRA_PACKAGE_NAME) ?: ""
+        val packageName = intent?.extras?.getString(EXTRA_PACKAGE_NAME)
 
         val notificationId = intent?.extras?.getInt(EXTRA_NOTIFICATION_ID)
 
