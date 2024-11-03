@@ -36,6 +36,7 @@ class ApplyAppSettingsUseCase @Inject constructor(
     suspend operator fun invoke(packageName: String): AppSettingsResult {
         val appSettings =
             appSettingsRepository.getAppSettingsByPackageName(packageName = packageName).first()
+                .distinct()
 
         if (appSettings.isEmpty()) return EmptyAppSettings
 
