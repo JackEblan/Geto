@@ -62,7 +62,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.android.geto.core.designsystem.component.GetoLoadingWheel
 import com.android.geto.core.designsystem.icon.GetoIcons
 import com.android.geto.core.model.AddAppSettingResult
-import com.android.geto.core.model.AddAppSettingResult.*
+import com.android.geto.core.model.AddAppSettingResult.FAILED
+import com.android.geto.core.model.AddAppSettingResult.SUCCESS
 import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.AppSettingsResult
 import com.android.geto.core.model.AppSettingsResult.DisabledAppSettings

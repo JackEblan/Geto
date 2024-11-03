@@ -19,7 +19,8 @@ package com.android.geto.core.domain
 
 import com.android.geto.core.data.repository.AppSettingsRepository
 import com.android.geto.core.model.AddAppSettingResult
-import com.android.geto.core.model.AddAppSettingResult.*
+import com.android.geto.core.model.AddAppSettingResult.FAILED
+import com.android.geto.core.model.AddAppSettingResult.SUCCESS
 import com.android.geto.core.model.AppSetting
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
