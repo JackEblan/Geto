@@ -19,10 +19,12 @@ package com.android.geto.feature.appsettings
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.testing.invoke
+import com.android.geto.core.domain.AddAppSettingUseCase
 import com.android.geto.core.domain.ApplyAppSettingsUseCase
 import com.android.geto.core.domain.AutoLaunchUseCase
 import com.android.geto.core.domain.RequestPinShortcutUseCase
 import com.android.geto.core.domain.RevertAppSettingsUseCase
+import com.android.geto.core.model.AddAppSettingResult
 import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.AppSettingTemplate
 import com.android.geto.core.model.AppSettingsResult.DisabledAppSettings
@@ -91,6 +93,8 @@ class AppSettingsViewModelTest {
 
     private lateinit var autoLaunchUseCase: AutoLaunchUseCase
 
+    private lateinit var addAppSettingUseCase: AddAppSettingUseCase
+
     private lateinit var requestPinShortcutUseCase: RequestPinShortcutUseCase
 
     private lateinit var savedStateHandle: SavedStateHandle
@@ -134,6 +138,10 @@ class AppSettingsViewModelTest {
         requestPinShortcutUseCase =
             RequestPinShortcutUseCase(shortcutRepository = shortcutRepository)
 
+        addAppSettingUseCase = AddAppSettingUseCase(
+            appSettingsRepository = appSettingsRepository,
+        )
+
         savedStateHandle = SavedStateHandle(
             route = AppSettingsRouteData(
                 packageName = packageName,
@@ -155,6 +163,7 @@ class AppSettingsViewModelTest {
             revertAppSettingsUseCase = revertAppSettingsUseCase,
             autoLaunchUseCase = autoLaunchUseCase,
             requestPinShortcutUseCase = requestPinShortcutUseCase,
+            addAppSettingUseCase = addAppSettingUseCase,
             notificationManagerWrapper = notificationManagerWrapper,
             assetManagerWrapper = assetManagerWrapper,
         )
@@ -203,6 +212,11 @@ class AppSettingsViewModelTest {
     @Test
     fun templateDialogUiState_isLoading_whenStarted() {
         assertIs<TemplateDialogUiState.Loading>(viewModel.templateDialogUiState.value)
+    }
+
+    @Test
+    fun addAppSettingResult_isNull_whenStarted() {
+        assertNull(viewModel.addAppSettingsResult.value)
     }
 
     @Test
@@ -893,5 +907,82 @@ class AppSettingsViewModelTest {
         }
 
         assertNull(viewModel.applicationIcon.value)
+    }
+
+    @Test
+    fun addAppSettingResult_isSuccess_whenAddAppSetting() = runTest {
+        backgroundScope.launch(UnconfinedTestDispatcher()) {
+            viewModel.requestPinShortcutResult.collect()
+        }
+
+        val appSettings = List(5) { index ->
+            AppSetting(
+                id = index,
+                enabled = true,
+                settingType = SettingType.SYSTEM,
+                packageName = packageName,
+                label = "Geto",
+                key = "Geto $index",
+                valueOnLaunch = "0",
+                valueOnRevert = "1",
+            )
+        }
+
+        val newAppSetting = AppSetting(
+            id = 6,
+            enabled = true,
+            settingType = SettingType.SYSTEM,
+            packageName = packageName,
+            label = "Geto",
+            key = "Geto",
+            valueOnLaunch = "0",
+            valueOnRevert = "1",
+        )
+
+        appSettingsRepository.setAppSettings(appSettings)
+
+        viewModel.onEvent(
+            event = AppSettingsEvent.AddAppSetting(
+                appSetting = newAppSetting,
+            ),
+        )
+
+        assertEquals(
+            expected = AddAppSettingResult.SUCCESS,
+            actual = viewModel.addAppSettingsResult.value,
+        )
+    }
+
+    @Test
+    fun addAppSettingResult_isFailed_whenAddAppSetting() = runTest {
+        backgroundScope.launch(UnconfinedTestDispatcher()) {
+            viewModel.requestPinShortcutResult.collect()
+        }
+
+        val appSettings = List(5) { index ->
+            AppSetting(
+                id = index,
+                enabled = true,
+                settingType = SettingType.SYSTEM,
+                packageName = packageName,
+                label = "Geto",
+                key = "Geto $index",
+                valueOnLaunch = "0",
+                valueOnRevert = "1",
+            )
+        }
+
+        appSettingsRepository.setAppSettings(appSettings)
+
+        viewModel.onEvent(
+            event = AppSettingsEvent.AddAppSetting(
+                appSetting = appSettings.first(),
+            ),
+        )
+
+        assertEquals(
+            expected = AddAppSettingResult.FAILED,
+            actual = viewModel.addAppSettingsResult.value,
+        )
     }
 }

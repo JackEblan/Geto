@@ -79,6 +79,7 @@ class AppSettingsScreenSnackbarScreenshotTest {
                     snackbarHostState = snackbarHostState,
                     applicationIcon = null,
                     secureSettings = emptyList(),
+                    addAppSettingResult = null,
                     appSettingsResult = null,
                     revertAppSettingsResult = null,
                     autoLaunchResult = null,

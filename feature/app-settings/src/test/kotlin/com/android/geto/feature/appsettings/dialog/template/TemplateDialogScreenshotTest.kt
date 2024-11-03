@@ -68,7 +68,7 @@ class TemplateDialogScreenshotTest {
                     templateDialogUiState = TemplateDialogUiState.Loading,
                     templateDialogState = rememberTemplateDialogState(),
                     contentDescription = "Template Dialog",
-                    onClick = {},
+                    onAddClick = {},
                 )
             }
         }
@@ -87,7 +87,7 @@ class TemplateDialogScreenshotTest {
                     templateDialogUiState = TemplateDialogUiState.Success(appSettingTemplates = appSettingTemplates),
                     templateDialogState = rememberTemplateDialogState(),
                     contentDescription = "Template Dialog",
-                    onClick = {},
+                    onAddClick = {},
                 )
             }
         }
@@ -108,7 +108,7 @@ class TemplateDialogScreenshotTest {
                         templateDialogUiState = TemplateDialogUiState.Loading,
                         templateDialogState = rememberTemplateDialogState(),
                         contentDescription = "Template Dialog",
-                        onClick = {},
+                        onAddClick = {},
                     )
                 }
             }
@@ -130,7 +130,7 @@ class TemplateDialogScreenshotTest {
                         templateDialogUiState = TemplateDialogUiState.Success(appSettingTemplates = appSettingTemplates),
                         templateDialogState = rememberTemplateDialogState(),
                         contentDescription = "Template Dialog",
-                        onClick = {},
+                        onAddClick = {},
                     )
                 }
             }

@@ -60,4 +60,6 @@ sealed interface AppSettingsEvent {
     data object ResetRequestPinShortcutResult : AppSettingsEvent
 
     data object ResetSetPrimaryClipResult : AppSettingsEvent
+
+    data object ResetAddAppSettingResult : AppSettingsEvent
 }

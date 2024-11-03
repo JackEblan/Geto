@@ -61,6 +61,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.android.geto.core.designsystem.component.GetoLoadingWheel
 import com.android.geto.core.designsystem.icon.GetoIcons
+import com.android.geto.core.model.AddAppSettingResult
 import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.AppSettingsResult
 import com.android.geto.core.model.AppSettingsResult.DisabledAppSettings
@@ -85,7 +86,9 @@ import com.android.geto.feature.appsettings.AppSettingsEvent.CopyPermissionComma
 import com.android.geto.feature.appsettings.AppSettingsEvent.DeleteAppSetting
 import com.android.geto.feature.appsettings.AppSettingsEvent.GetSecureSettingsByName
 import com.android.geto.feature.appsettings.AppSettingsEvent.LaunchIntentForPackage
+import com.android.geto.feature.appsettings.AppSettingsEvent.PostNotification
 import com.android.geto.feature.appsettings.AppSettingsEvent.RequestPinShortcut
+import com.android.geto.feature.appsettings.AppSettingsEvent.ResetAddAppSettingResult
 import com.android.geto.feature.appsettings.AppSettingsEvent.ResetApplyAppSettingsResult
 import com.android.geto.feature.appsettings.AppSettingsEvent.ResetAutoLaunchResult
 import com.android.geto.feature.appsettings.AppSettingsEvent.ResetRequestPinShortcutResult
@@ -129,6 +132,8 @@ internal fun AppSettingsRoute(
     val revertAppSettingsResult =
         viewModel.revertAppSettingsResult.collectAsStateWithLifecycle().value
 
+    val addAppSettingResult = viewModel.addAppSettingsResult.collectAsStateWithLifecycle().value
+
     val autoLaunchResult = viewModel.autoLaunchResult.collectAsStateWithLifecycle().value
 
     val applicationIcon = viewModel.applicationIcon.collectAsStateWithLifecycle().value
@@ -152,6 +157,7 @@ internal fun AppSettingsRoute(
         snackbarHostState = snackbarHostState,
         applicationIcon = applicationIcon,
         secureSettings = secureSettings,
+        addAppSettingResult = addAppSettingResult,
         appSettingsResult = applyAppSettingsResult,
         revertAppSettingsResult = revertAppSettingsResult,
         autoLaunchResult = autoLaunchResult,
@@ -173,6 +179,7 @@ internal fun AppSettingsScreen(
     snackbarHostState: SnackbarHostState,
     applicationIcon: Drawable?,
     secureSettings: List<SecureSetting>,
+    addAppSettingResult: AddAppSettingResult?,
     appSettingsResult: AppSettingsResult?,
     revertAppSettingsResult: AppSettingsResult?,
     autoLaunchResult: AppSettingsResult?,
@@ -197,6 +204,7 @@ internal fun AppSettingsScreen(
         shortcutDialogState = shortcutDialogState,
         applicationIcon = applicationIcon,
         secureSettings = secureSettings,
+        addAppSettingResult = addAppSettingResult,
         appSettingsResult = appSettingsResult,
         revertAppSettingsResult = revertAppSettingsResult,
         autoLaunchResult = autoLaunchResult,
@@ -207,6 +215,7 @@ internal fun AppSettingsScreen(
         onResetAutoLaunchResult = { onEvent(ResetAutoLaunchResult) },
         onResetRequestPinShortcutResult = { onEvent(ResetRequestPinShortcutResult) },
         onResetSetPrimaryClipResult = { onEvent(ResetSetPrimaryClipResult) },
+        onResetAddAppSettingResult = { onEvent(ResetAddAppSettingResult) },
         onGetSecureSettingsByName = { settingType, text ->
             onEvent(
                 GetSecureSettingsByName(
@@ -218,7 +227,7 @@ internal fun AppSettingsScreen(
         onLaunchIntent = { onEvent(LaunchIntentForPackage) },
         onPostNotification = { icon, contentTitle, contentText ->
             onEvent(
-                AppSettingsEvent.PostNotification(
+                PostNotification(
                     icon = icon,
                     contentTitle = contentTitle,
                     contentText = contentText,
@@ -314,6 +323,7 @@ private fun AppSettingsLaunchedEffects(
     shortcutDialogState: ShortcutDialogState,
     applicationIcon: Drawable?,
     secureSettings: List<SecureSetting>,
+    addAppSettingResult: AddAppSettingResult?,
     appSettingsResult: AppSettingsResult?,
     revertAppSettingsResult: AppSettingsResult?,
     autoLaunchResult: AppSettingsResult?,
@@ -324,6 +334,7 @@ private fun AppSettingsLaunchedEffects(
     onResetAutoLaunchResult: () -> Unit,
     onResetRequestPinShortcutResult: () -> Unit,
     onResetSetPrimaryClipResult: () -> Unit,
+    onResetAddAppSettingResult: () -> Unit,
     onGetSecureSettingsByName: (SettingType, String) -> Unit,
     onLaunchIntent: () -> Unit,
     onPostNotification: (
@@ -362,6 +373,10 @@ private fun AppSettingsLaunchedEffects(
     val invalidValues = stringResource(R.string.settings_has_invalid_values)
 
     val command = stringResource(R.string.command)
+
+    val appSettingAddSuccess = stringResource(R.string.app_setting_added_successfully)
+
+    val appSettingAddFailed = stringResource(R.string.app_setting_already_exists)
 
     LaunchedEffect(key1 = appSettingsResult) {
         when (appSettingsResult) {
@@ -467,30 +482,60 @@ private fun AppSettingsLaunchedEffects(
 
     LaunchedEffect(key1 = requestPinShortcutResult) {
         when (requestPinShortcutResult) {
-            SupportedLauncher -> snackbarHostState.showSnackbar(
-                message = supportedLauncher,
-            )
+            SupportedLauncher -> {
+                snackbarHostState.showSnackbar(
+                    message = supportedLauncher,
+                )
+            }
 
-            UnsupportedLauncher -> snackbarHostState.showSnackbar(
-                message = unsupportedLauncher,
-            )
+            UnsupportedLauncher -> {
+                snackbarHostState.showSnackbar(
+                    message = unsupportedLauncher,
+                )
+            }
 
-            UpdateFailure -> snackbarHostState.showSnackbar(
-                message = shortcutUpdateFailed,
-            )
+            UpdateFailure -> {
+                snackbarHostState.showSnackbar(
+                    message = shortcutUpdateFailed,
+                )
+            }
 
-            UpdateSuccess -> snackbarHostState.showSnackbar(
-                message = shortcutUpdateSuccess,
-            )
+            UpdateSuccess -> {
+                snackbarHostState.showSnackbar(
+                    message = shortcutUpdateSuccess,
+                )
+            }
 
-            UpdateImmutableShortcuts -> snackbarHostState.showSnackbar(
-                message = shortcutUpdateImmutableShortcuts,
-            )
+            UpdateImmutableShortcuts -> {
+                snackbarHostState.showSnackbar(
+                    message = shortcutUpdateImmutableShortcuts,
+                )
+            }
 
-            null -> Unit
+            null -> {
+                Unit
+            }
         }
 
         onResetRequestPinShortcutResult()
+    }
+
+    LaunchedEffect(key1 = addAppSettingResult) {
+        when (addAppSettingResult) {
+            AddAppSettingResult.SUCCESS -> {
+                snackbarHostState.showSnackbar(message = appSettingAddSuccess)
+            }
+
+            AddAppSettingResult.FAILED -> {
+                snackbarHostState.showSnackbar(message = appSettingAddFailed)
+            }
+
+            null -> {
+                Unit
+            }
+        }
+
+        onResetAddAppSettingResult()
     }
 
     LaunchedEffect(key1 = setPrimaryClipResult) {
@@ -585,7 +630,7 @@ private fun AppSettingsDialogs(
             templateDialogUiState = templateDialogUiState,
             templateDialogState = templateDialogState,
             contentDescription = "Template Dialog",
-            onClick = onAddAppSetting,
+            onAddClick = onAddAppSetting,
         )
     }
 }
@@ -746,12 +791,12 @@ private fun SuccessState(
                     .padding(vertical = 10.dp, horizontal = 5.dp)
                     .animateItem(),
                 appSetting = appSettings,
-                onCheckAppSetting = { check ->
+                onCheckedChange = { check ->
                     onCheckAppSetting(
                         appSettings.copy(enabled = check),
                     )
                 },
-                onDeleteAppSetting = {
+                onDeleteClick = {
                     onDeleteAppSettingsItem(appSettings)
                 },
             )
@@ -763,8 +808,8 @@ private fun SuccessState(
 private fun AppSettingItem(
     modifier: Modifier = Modifier,
     appSetting: AppSetting,
-    onCheckAppSetting: (Boolean) -> Unit,
-    onDeleteAppSetting: () -> Unit,
+    onCheckedChange: (Boolean) -> Unit,
+    onDeleteClick: () -> Unit,
 ) {
     Row(
         modifier = modifier,
@@ -772,7 +817,7 @@ private fun AppSettingItem(
     ) {
         Checkbox(
             checked = appSetting.enabled,
-            onCheckedChange = onCheckAppSetting,
+            onCheckedChange = onCheckedChange,
         )
 
         Column(modifier = Modifier.weight(1f)) {
@@ -796,7 +841,7 @@ private fun AppSettingItem(
             )
         }
 
-        IconButton(onClick = onDeleteAppSetting) {
+        IconButton(onClick = onDeleteClick) {
             Icon(
                 imageVector = Icons.Default.Delete,
                 contentDescription = null,

@@ -201,7 +201,9 @@ private fun ShortcutDialogButtons(
     Spacer(modifier = Modifier.height(10.dp))
 
     Row(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(10.dp),
         horizontalArrangement = Arrangement.End,
     ) {
         TextButton(

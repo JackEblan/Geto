@@ -17,7 +17,6 @@
  */
 package com.android.geto.feature.appsettings.dialog.template
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -27,6 +26,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -39,6 +40,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.android.geto.core.designsystem.component.DialogContainer
 import com.android.geto.core.designsystem.component.GetoLoadingWheel
+import com.android.geto.core.designsystem.icon.GetoIcons
 import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.AppSettingTemplate
 import com.android.geto.feature.appsettings.R
@@ -50,7 +52,7 @@ internal fun TemplateDialog(
     contentDescription: String,
     templateDialogUiState: TemplateDialogUiState,
     templateDialogState: TemplateDialogState,
-    onClick: (AppSetting) -> Unit,
+    onAddClick: (AppSetting) -> Unit,
 ) {
     DialogContainer(
         modifier = modifier
@@ -75,8 +77,8 @@ internal fun TemplateDialog(
                 is TemplateDialogUiState.Success -> {
                     TemplateDialogContent(
                         appSettingTemplates = templateDialogUiState.appSettingTemplates,
-                        onClick = { appSettingTemplate ->
-                            onClick(
+                        onAddClick = { appSettingTemplate ->
+                            onAddClick(
                                 templateDialogState.toAppSetting(
                                     packageName = packageName,
                                     appSettingTemplate = appSettingTemplate,
@@ -113,13 +115,13 @@ private fun TemplateDialogTitle(modifier: Modifier = Modifier) {
 private fun TemplateDialogContent(
     modifier: Modifier = Modifier,
     appSettingTemplates: List<AppSettingTemplate>,
-    onClick: (AppSettingTemplate) -> Unit,
+    onAddClick: (AppSettingTemplate) -> Unit,
 ) {
     LazyColumn(modifier = modifier.fillMaxWidth()) {
         items(appSettingTemplates) { appSettingTemplate ->
             AppSettingTemplateItem(
                 appSettingTemplate = appSettingTemplate,
-                onClick = onClick,
+                onAddClick = onAddClick,
             )
         }
     }
@@ -159,33 +161,38 @@ private fun LoadingState(modifier: Modifier = Modifier) {
 private fun AppSettingTemplateItem(
     modifier: Modifier = Modifier,
     appSettingTemplate: AppSettingTemplate,
-    onClick: (AppSettingTemplate) -> Unit,
+    onAddClick: (AppSettingTemplate) -> Unit,
 ) {
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .clickable {
-                onClick(appSettingTemplate)
-            }
-            .padding(horizontal = 10.dp, vertical = 10.dp),
+    Row(
+        modifier = modifier.padding(10.dp),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
-        Text(
-            text = appSettingTemplate.label,
-            style = MaterialTheme.typography.bodyLarge,
-        )
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = appSettingTemplate.label,
+                style = MaterialTheme.typography.bodyLarge,
+            )
 
-        Spacer(modifier = Modifier.height(5.dp))
+            Spacer(modifier = Modifier.height(5.dp))
 
-        Text(
-            text = appSettingTemplate.settingType.label,
-            style = MaterialTheme.typography.bodySmall,
-        )
+            Text(
+                text = appSettingTemplate.settingType.label,
+                style = MaterialTheme.typography.bodySmall,
+            )
 
-        Spacer(modifier = Modifier.height(5.dp))
+            Spacer(modifier = Modifier.height(5.dp))
 
-        Text(
-            text = appSettingTemplate.key,
-            style = MaterialTheme.typography.bodySmall,
-        )
+            Text(
+                text = appSettingTemplate.key,
+                style = MaterialTheme.typography.bodySmall,
+            )
+        }
+
+        IconButton(onClick = { onAddClick(appSettingTemplate) }) {
+            Icon(
+                imageVector = GetoIcons.Add,
+                contentDescription = null,
+            )
+        }
     }
 }

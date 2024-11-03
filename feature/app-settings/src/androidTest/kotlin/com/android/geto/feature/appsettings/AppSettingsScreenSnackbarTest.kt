@@ -25,6 +25,7 @@ import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import com.android.geto.core.model.AddAppSettingResult
 import com.android.geto.core.model.AppSettingsResult
 import com.android.geto.core.model.RequestPinShortcutResult
 import com.android.geto.feature.appsettings.dialog.template.TemplateDialogUiState
@@ -40,6 +41,10 @@ class AppSettingsScreenSnackbarTest {
         ReadOnlyProperty<Any, String> { _, _ -> activity.getString(id) }
 
     private val appSettingsDisabled by composeTestRule.stringResource(id = R.string.app_settings_disabled)
+
+    private val appSettingsAddedSuccessfully by composeTestRule.stringResource(id = R.string.app_setting_added_successfully)
+
+    private val appSettingsAlreadyExist by composeTestRule.stringResource(id = R.string.app_setting_already_exists)
 
     private val emptyAppSettings by composeTestRule.stringResource(id = R.string.empty_app_settings_list)
 
@@ -75,6 +80,7 @@ class AppSettingsScreenSnackbarTest {
                 snackbarHostState = SnackbarHostState(),
                 applicationIcon = null,
                 secureSettings = emptyList(),
+                addAppSettingResult = null,
                 appSettingsResult = AppSettingsResult.DisabledAppSettings,
                 revertAppSettingsResult = null,
                 autoLaunchResult = null,
@@ -105,6 +111,7 @@ class AppSettingsScreenSnackbarTest {
                 snackbarHostState = SnackbarHostState(),
                 applicationIcon = null,
                 secureSettings = emptyList(),
+                addAppSettingResult = null,
                 appSettingsResult = AppSettingsResult.EmptyAppSettings,
                 revertAppSettingsResult = null,
                 autoLaunchResult = null,
@@ -135,6 +142,7 @@ class AppSettingsScreenSnackbarTest {
                 snackbarHostState = SnackbarHostState(),
                 applicationIcon = null,
                 secureSettings = emptyList(),
+                addAppSettingResult = null,
                 appSettingsResult = AppSettingsResult.Failure,
                 revertAppSettingsResult = null,
                 autoLaunchResult = null,
@@ -165,6 +173,7 @@ class AppSettingsScreenSnackbarTest {
                 snackbarHostState = SnackbarHostState(),
                 applicationIcon = null,
                 secureSettings = emptyList(),
+                addAppSettingResult = null,
                 appSettingsResult = AppSettingsResult.InvalidValues,
                 revertAppSettingsResult = null,
                 autoLaunchResult = null,
@@ -195,6 +204,7 @@ class AppSettingsScreenSnackbarTest {
                 snackbarHostState = SnackbarHostState(),
                 applicationIcon = null,
                 secureSettings = emptyList(),
+                addAppSettingResult = null,
                 appSettingsResult = null,
                 revertAppSettingsResult = AppSettingsResult.DisabledAppSettings,
                 autoLaunchResult = null,
@@ -225,6 +235,7 @@ class AppSettingsScreenSnackbarTest {
                 snackbarHostState = SnackbarHostState(),
                 applicationIcon = null,
                 secureSettings = emptyList(),
+                addAppSettingResult = null,
                 appSettingsResult = null,
                 revertAppSettingsResult = AppSettingsResult.EmptyAppSettings,
                 autoLaunchResult = null,
@@ -255,6 +266,7 @@ class AppSettingsScreenSnackbarTest {
                 snackbarHostState = SnackbarHostState(),
                 applicationIcon = null,
                 secureSettings = emptyList(),
+                addAppSettingResult = null,
                 appSettingsResult = null,
                 revertAppSettingsResult = AppSettingsResult.Failure,
                 autoLaunchResult = null,
@@ -285,6 +297,7 @@ class AppSettingsScreenSnackbarTest {
                 snackbarHostState = SnackbarHostState(),
                 applicationIcon = null,
                 secureSettings = emptyList(),
+                addAppSettingResult = null,
                 appSettingsResult = null,
                 revertAppSettingsResult = AppSettingsResult.Success,
                 autoLaunchResult = null,
@@ -315,6 +328,7 @@ class AppSettingsScreenSnackbarTest {
                 snackbarHostState = SnackbarHostState(),
                 applicationIcon = null,
                 secureSettings = emptyList(),
+                addAppSettingResult = null,
                 appSettingsResult = null,
                 revertAppSettingsResult = AppSettingsResult.InvalidValues,
                 autoLaunchResult = null,
@@ -345,6 +359,7 @@ class AppSettingsScreenSnackbarTest {
                 snackbarHostState = SnackbarHostState(),
                 applicationIcon = null,
                 secureSettings = emptyList(),
+                addAppSettingResult = null,
                 appSettingsResult = null,
                 revertAppSettingsResult = null,
                 autoLaunchResult = null,
@@ -375,6 +390,7 @@ class AppSettingsScreenSnackbarTest {
                 snackbarHostState = SnackbarHostState(),
                 applicationIcon = null,
                 secureSettings = emptyList(),
+                addAppSettingResult = null,
                 appSettingsResult = null,
                 revertAppSettingsResult = null,
                 autoLaunchResult = null,
@@ -405,6 +421,7 @@ class AppSettingsScreenSnackbarTest {
                 snackbarHostState = SnackbarHostState(),
                 applicationIcon = null,
                 secureSettings = emptyList(),
+                addAppSettingResult = null,
                 appSettingsResult = null,
                 revertAppSettingsResult = null,
                 autoLaunchResult = null,
@@ -435,6 +452,7 @@ class AppSettingsScreenSnackbarTest {
                 snackbarHostState = SnackbarHostState(),
                 applicationIcon = null,
                 secureSettings = emptyList(),
+                addAppSettingResult = null,
                 appSettingsResult = null,
                 revertAppSettingsResult = null,
                 autoLaunchResult = null,
@@ -465,6 +483,7 @@ class AppSettingsScreenSnackbarTest {
                 snackbarHostState = SnackbarHostState(),
                 applicationIcon = null,
                 secureSettings = emptyList(),
+                addAppSettingResult = null,
                 appSettingsResult = null,
                 revertAppSettingsResult = null,
                 autoLaunchResult = null,
@@ -495,6 +514,7 @@ class AppSettingsScreenSnackbarTest {
                 snackbarHostState = SnackbarHostState(),
                 applicationIcon = null,
                 secureSettings = emptyList(),
+                addAppSettingResult = null,
                 appSettingsResult = null,
                 revertAppSettingsResult = null,
                 autoLaunchResult = null,
@@ -511,6 +531,68 @@ class AppSettingsScreenSnackbarTest {
                 hasTestTag("appSettings:snackbar"),
             ) and hasText(
                 String.format(copiedToClipboard, command),
+            ),
+        ).assertExists()
+    }
+
+    @Test
+    fun snackbar_isShown_whenAddAppSettingsResult_isSuccess() {
+        composeTestRule.setContent {
+            AppSettingsScreen(
+                packageName = "com.android.geto",
+                appName = "Geto",
+                appSettingsUiState = AppSettingsUiState.Success(emptyList()),
+                snackbarHostState = SnackbarHostState(),
+                applicationIcon = null,
+                secureSettings = emptyList(),
+                addAppSettingResult = AddAppSettingResult.SUCCESS,
+                appSettingsResult = null,
+                revertAppSettingsResult = null,
+                autoLaunchResult = null,
+                requestPinShortcutResult = null,
+                setPrimaryClipResult = false,
+                templateDialogUiState = TemplateDialogUiState.Loading,
+                onNavigationIconClick = {},
+                onEvent = {},
+            )
+        }
+
+        composeTestRule.onNode(
+            matcher = hasAnyAncestor(
+                hasTestTag("appSettings:snackbar"),
+            ) and hasText(
+                appSettingsAddedSuccessfully,
+            ),
+        ).assertExists()
+    }
+
+    @Test
+    fun snackbar_isShown_whenAddAppSettingsResult_isFailed() {
+        composeTestRule.setContent {
+            AppSettingsScreen(
+                packageName = "com.android.geto",
+                appName = "Geto",
+                appSettingsUiState = AppSettingsUiState.Success(emptyList()),
+                snackbarHostState = SnackbarHostState(),
+                applicationIcon = null,
+                secureSettings = emptyList(),
+                addAppSettingResult = AddAppSettingResult.FAILED,
+                appSettingsResult = null,
+                revertAppSettingsResult = null,
+                autoLaunchResult = null,
+                requestPinShortcutResult = null,
+                setPrimaryClipResult = false,
+                templateDialogUiState = TemplateDialogUiState.Loading,
+                onNavigationIconClick = {},
+                onEvent = {},
+            )
+        }
+
+        composeTestRule.onNode(
+            matcher = hasAnyAncestor(
+                hasTestTag("appSettings:snackbar"),
+            ) and hasText(
+                appSettingsAlreadyExist,
             ),
         ).assertExists()
     }

@@ -25,10 +25,12 @@ import androidx.navigation.toRoute
 import com.android.geto.core.data.repository.AppSettingsRepository
 import com.android.geto.core.data.repository.PackageRepository
 import com.android.geto.core.data.repository.SecureSettingsRepository
+import com.android.geto.core.domain.AddAppSettingUseCase
 import com.android.geto.core.domain.ApplyAppSettingsUseCase
 import com.android.geto.core.domain.AutoLaunchUseCase
 import com.android.geto.core.domain.RequestPinShortcutUseCase
 import com.android.geto.core.domain.RevertAppSettingsUseCase
+import com.android.geto.core.model.AddAppSettingResult
 import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.AppSettingsResult
 import com.android.geto.core.model.GetoShortcutInfoCompat
@@ -43,7 +45,9 @@ import com.android.geto.feature.appsettings.AppSettingsEvent.CopyPermissionComma
 import com.android.geto.feature.appsettings.AppSettingsEvent.DeleteAppSetting
 import com.android.geto.feature.appsettings.AppSettingsEvent.GetSecureSettingsByName
 import com.android.geto.feature.appsettings.AppSettingsEvent.LaunchIntentForPackage
+import com.android.geto.feature.appsettings.AppSettingsEvent.PostNotification
 import com.android.geto.feature.appsettings.AppSettingsEvent.RequestPinShortcut
+import com.android.geto.feature.appsettings.AppSettingsEvent.ResetAddAppSettingResult
 import com.android.geto.feature.appsettings.AppSettingsEvent.ResetApplyAppSettingsResult
 import com.android.geto.feature.appsettings.AppSettingsEvent.ResetAutoLaunchResult
 import com.android.geto.feature.appsettings.AppSettingsEvent.ResetRequestPinShortcutResult
@@ -77,6 +81,7 @@ class AppSettingsViewModel @Inject constructor(
     private val revertAppSettingsUseCase: RevertAppSettingsUseCase,
     private val autoLaunchUseCase: AutoLaunchUseCase,
     private val requestPinShortcutUseCase: RequestPinShortcutUseCase,
+    private val addAppSettingUseCase: AddAppSettingUseCase,
     private val notificationManagerWrapper: NotificationManagerWrapper,
     private val assetManagerWrapper: AssetManagerWrapper,
 ) : ViewModel() {
@@ -97,6 +102,9 @@ class AppSettingsViewModel @Inject constructor(
         started = SharingStarted.Lazily,
         initialValue = null,
     )
+
+    private val _addAppSettingsResult = MutableStateFlow<AddAppSettingResult?>(null)
+    val addAppSettingsResult = _addAppSettingsResult.asStateFlow()
 
     private val _applyAppSettingsResult = MutableStateFlow<AppSettingsResult?>(null)
     val applyAppSettingsResult = _applyAppSettingsResult.asStateFlow()
@@ -185,7 +193,7 @@ class AppSettingsViewModel @Inject constructor(
                 launchIntentForPackage()
             }
 
-            is AppSettingsEvent.PostNotification -> {
+            is PostNotification -> {
                 postNotification(
                     icon = event.icon,
                     contentTitle = event.contentTitle,
@@ -211,6 +219,10 @@ class AppSettingsViewModel @Inject constructor(
 
             ResetSetPrimaryClipResult -> {
                 resetSetPrimaryClipResult()
+            }
+
+            ResetAddAppSettingResult -> {
+                resetAddAppSettingResult()
             }
         }
     }
@@ -241,7 +253,9 @@ class AppSettingsViewModel @Inject constructor(
 
     private fun addAppSetting(appSetting: AppSetting) {
         viewModelScope.launch {
-            appSettingsRepository.upsertAppSetting(appSetting)
+            _addAppSettingsResult.update {
+                addAppSettingUseCase(appSetting = appSetting)
+            }
         }
     }
 
@@ -332,5 +346,9 @@ class AppSettingsViewModel @Inject constructor(
 
     private fun resetSetPrimaryClipResult() {
         _setPrimaryClipResult.update { false }
+    }
+
+    private fun resetAddAppSettingResult() {
+        _addAppSettingsResult.update { null }
     }
 }
