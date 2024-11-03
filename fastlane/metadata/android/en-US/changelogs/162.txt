@@ -1,0 +1,2 @@
+What's new
+- Added App Setting Templates
