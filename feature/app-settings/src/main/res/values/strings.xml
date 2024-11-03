@@ -34,6 +34,7 @@
     <string name="copy_permission_command_message">Geto is not allowed to modify your settings database. Please allow WRITE_SECURE_SETTINGS in your terminal and execute it. You can copy the command here.</string>
     <string name="copy">Copy</string>
     <string name="permission_error">Permission Error</string>
+    <string name="templates">Templates</string>
     <string name="add_shortcut">Add Shortcut</string>
     <string name="short_label">Short label</string>
     <string name="long_label">Long label</string>
@@ -54,4 +55,6 @@
     <string name="no_settings_found">No Settings Found!</string>
     <string name="command_label">Command</string>
     <string name="command">pm grant com.android.geto android.permission.WRITE_SECURE_SETTINGS</string>
+    <string name="app_setting_already_exists">App setting already exists</string>
+    <string name="app_setting_added_successfully">App setting added successfully</string>
 </resources>

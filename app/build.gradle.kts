@@ -73,6 +73,7 @@ dependencies {
 
     implementation(projects.broadcastReceiver)
 
+    implementation(libs.accompanist.permissions)
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.core.ktx)

@@ -40,8 +40,8 @@ import com.android.geto.feature.appsettings.R
 internal fun PermissionDialog(
     modifier: Modifier = Modifier,
     permissionDialogState: PermissionDialogState,
-    onCopyClick: (String, String) -> Unit,
     contentDescription: String,
+    onCopyClick: (String, String) -> Unit,
 ) {
     val commandLabel = stringResource(R.string.command_label)
     val command = stringResource(R.string.command)
@@ -55,9 +55,7 @@ internal fun PermissionDialog(
         },
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(10.dp),
+            modifier = Modifier.fillMaxWidth(),
         ) {
             PermissionDialogTitle()
 
@@ -82,7 +80,7 @@ private fun PermissionDialogTitle(modifier: Modifier = Modifier) {
     Spacer(modifier = Modifier.height(10.dp))
 
     Text(
-        modifier = modifier,
+        modifier = modifier.padding(10.dp),
         text = stringResource(id = R.string.permission_error),
         style = MaterialTheme.typography.titleLarge,
     )
@@ -90,10 +88,8 @@ private fun PermissionDialogTitle(modifier: Modifier = Modifier) {
 
 @Composable
 private fun PermissionDialogContent(modifier: Modifier = Modifier) {
-    Spacer(modifier = Modifier.height(10.dp))
-
     Text(
-        modifier = modifier.padding(horizontal = 5.dp),
+        modifier = modifier.padding(10.dp),
         text = stringResource(id = R.string.copy_permission_command_message),
         style = MaterialTheme.typography.bodyLarge,
     )
@@ -105,10 +101,10 @@ fun PermissionDialogButtons(
     onCancelClick: () -> Unit,
     onCopyClick: () -> Unit,
 ) {
-    Spacer(modifier = Modifier.height(10.dp))
-
     Row(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(10.dp),
         horizontalArrangement = Arrangement.End,
     ) {
         TextButton(

@@ -20,8 +20,9 @@ package com.android.geto.broadcastreceiver
 import com.android.geto.core.domain.RevertAppSettingsUseCase
 import com.android.geto.core.model.AppSettingsResult
 import com.android.geto.framework.notificationmanager.NotificationManagerWrapper
+import javax.inject.Inject
 
-internal class BroadcastReceiverController(
+internal class BroadcastReceiverController @Inject constructor(
     private val revertAppSettingsUseCase: RevertAppSettingsUseCase,
     private val notificationManagerWrapper: NotificationManagerWrapper,
 ) {

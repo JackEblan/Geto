@@ -21,10 +21,12 @@ import androidx.benchmark.macro.BaselineProfileMode.Disable
 import androidx.benchmark.macro.BaselineProfileMode.Require
 import androidx.benchmark.macro.CompilationMode
 import androidx.benchmark.macro.StartupMode.COLD
-import androidx.benchmark.macro.StartupTimingMetric
 import androidx.benchmark.macro.junit4.MacrobenchmarkRule
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
+import com.android.geto.benchmarks.BaselineProfileMetrics
 import com.android.geto.benchmarks.PACKAGE_NAME
+import com.android.geto.benchmarks.allowNotifications
+import com.android.geto.benchmarks.startActivityAndAllowNotifications
 import com.android.geto.benchmarks.waitForLoadingWheelToDisappear
 import org.junit.Rule
 import org.junit.Test
@@ -57,17 +59,18 @@ class StartupBenchmark {
 
     private fun startup(compilationMode: CompilationMode) = benchmarkRule.measureRepeated(
         packageName = PACKAGE_NAME,
-        metrics = listOf(StartupTimingMetric()),
+        metrics = BaselineProfileMetrics.allMetrics,
         compilationMode = compilationMode,
         // More iterations result in higher statistical significance.
         iterations = 20,
         startupMode = COLD,
         setupBlock = {
             pressHome()
+            allowNotifications()
         },
     ) {
-        startActivityAndWait()
-        // Waits until the content is ready to capture Time To Full Display
+        startActivityAndAllowNotifications()
+
         waitForLoadingWheelToDisappear()
     }
 }

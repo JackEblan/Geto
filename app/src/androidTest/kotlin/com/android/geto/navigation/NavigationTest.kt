@@ -31,6 +31,7 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.performClick
 import com.android.geto.MainActivity
 import com.android.geto.R
+import com.android.geto.core.rules.GrantPostNotificationsPermissionRule
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Before
@@ -45,6 +46,9 @@ class NavigationTest {
 
     @get:Rule(order = 1)
     val composeTestRule = createAndroidComposeRule<MainActivity>()
+
+    @get:Rule(order = 1)
+    val postNotificationsPermission = GrantPostNotificationsPermissionRule()
 
     private fun AndroidComposeTestRule<*, *>.stringResource(@StringRes resId: Int) =
         ReadOnlyProperty<Any, String> { _, _ -> activity.getString(resId) }

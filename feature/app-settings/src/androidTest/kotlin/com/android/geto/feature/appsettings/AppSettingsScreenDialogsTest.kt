@@ -36,6 +36,7 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.performTextInput
 import com.android.geto.core.model.AppSettingsResult
+import com.android.geto.feature.appsettings.dialog.template.TemplateDialogUiState
 import org.junit.Rule
 import org.junit.Test
 
@@ -53,11 +54,13 @@ class AppSettingsScreenDialogsTest {
                 snackbarHostState = SnackbarHostState(),
                 applicationIcon = null,
                 secureSettings = emptyList(),
+                addAppSettingResult = null,
                 appSettingsResult = null,
                 revertAppSettingsResult = null,
                 autoLaunchResult = null,
                 requestPinShortcutResult = null,
                 setPrimaryClipResult = false,
+                templateDialogUiState = TemplateDialogUiState.Loading,
                 onNavigationIconClick = {},
                 onEvent = {},
             )
@@ -86,11 +89,13 @@ class AppSettingsScreenDialogsTest {
                 snackbarHostState = SnackbarHostState(),
                 applicationIcon = null,
                 secureSettings = emptyList(),
+                addAppSettingResult = null,
                 appSettingsResult = AppSettingsResult.NoPermission,
                 revertAppSettingsResult = null,
                 autoLaunchResult = null,
                 requestPinShortcutResult = null,
                 setPrimaryClipResult = false,
+                templateDialogUiState = TemplateDialogUiState.Loading,
                 onNavigationIconClick = {},
                 onEvent = {},
             )
@@ -113,11 +118,13 @@ class AppSettingsScreenDialogsTest {
                 snackbarHostState = SnackbarHostState(),
                 applicationIcon = null,
                 secureSettings = emptyList(),
+                addAppSettingResult = null,
                 appSettingsResult = null,
                 revertAppSettingsResult = AppSettingsResult.NoPermission,
                 autoLaunchResult = null,
                 requestPinShortcutResult = null,
                 setPrimaryClipResult = false,
+                templateDialogUiState = TemplateDialogUiState.Loading,
                 onNavigationIconClick = {},
                 onEvent = {},
             )
@@ -140,11 +147,13 @@ class AppSettingsScreenDialogsTest {
                 snackbarHostState = SnackbarHostState(),
                 applicationIcon = null,
                 secureSettings = emptyList(),
+                addAppSettingResult = null,
                 appSettingsResult = null,
                 revertAppSettingsResult = null,
                 autoLaunchResult = AppSettingsResult.NoPermission,
                 requestPinShortcutResult = null,
                 setPrimaryClipResult = false,
+                templateDialogUiState = TemplateDialogUiState.Loading,
                 onNavigationIconClick = {},
                 onEvent = {},
             )
@@ -167,11 +176,13 @@ class AppSettingsScreenDialogsTest {
                 snackbarHostState = SnackbarHostState(),
                 applicationIcon = null,
                 secureSettings = emptyList(),
+                addAppSettingResult = null,
                 appSettingsResult = null,
                 revertAppSettingsResult = null,
                 autoLaunchResult = null,
                 requestPinShortcutResult = null,
                 setPrimaryClipResult = false,
+                templateDialogUiState = TemplateDialogUiState.Loading,
                 onNavigationIconClick = {},
                 onEvent = {},
             )
@@ -190,6 +201,36 @@ class AppSettingsScreenDialogsTest {
     }
 
     @Test
+    fun templateDialog_isDisplayed_whenSettingsSuggestIcon_isClicked() {
+        composeTestRule.setContent {
+            AppSettingsScreen(
+                packageName = "com.android.geto",
+                appName = "Geto",
+                appSettingsUiState = AppSettingsUiState.Loading,
+                snackbarHostState = SnackbarHostState(),
+                applicationIcon = null,
+                secureSettings = emptyList(),
+                addAppSettingResult = null,
+                appSettingsResult = null,
+                revertAppSettingsResult = null,
+                autoLaunchResult = null,
+                requestPinShortcutResult = null,
+                setPrimaryClipResult = false,
+                templateDialogUiState = TemplateDialogUiState.Loading,
+                onNavigationIconClick = {},
+                onEvent = {},
+            )
+        }
+
+        composeTestRule.onNodeWithContentDescription(
+            label = "SettingsSuggest icon",
+            useUnmergedTree = true,
+        ).performClick()
+
+        composeTestRule.onNodeWithContentDescription("Template Dialog").assertIsDisplayed()
+    }
+
+    @Test
     fun appSettingDialog_stateRestoration() {
         val restorationTester = StateRestorationTester(composeTestRule)
 
@@ -201,11 +242,13 @@ class AppSettingsScreenDialogsTest {
                 snackbarHostState = SnackbarHostState(),
                 applicationIcon = null,
                 secureSettings = emptyList(),
+                addAppSettingResult = null,
                 appSettingsResult = null,
                 revertAppSettingsResult = null,
                 autoLaunchResult = null,
                 requestPinShortcutResult = null,
                 setPrimaryClipResult = false,
+                templateDialogUiState = TemplateDialogUiState.Loading,
                 onNavigationIconClick = {},
                 onEvent = {},
             )
@@ -281,11 +324,13 @@ class AppSettingsScreenDialogsTest {
                 snackbarHostState = SnackbarHostState(),
                 applicationIcon = null,
                 secureSettings = emptyList(),
+                addAppSettingResult = null,
                 appSettingsResult = null,
                 revertAppSettingsResult = null,
                 autoLaunchResult = null,
                 requestPinShortcutResult = null,
                 setPrimaryClipResult = false,
+                templateDialogUiState = TemplateDialogUiState.Loading,
                 onNavigationIconClick = {},
                 onEvent = {},
             )

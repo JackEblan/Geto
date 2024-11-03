@@ -20,6 +20,7 @@ package com.android.geto.benchmarks.baselineprofile
 import androidx.benchmark.macro.junit4.BaselineProfileRule
 import com.android.geto.benchmarks.PACKAGE_NAME
 import com.android.geto.benchmarks.apps.appsScrollDownUp
+import com.android.geto.benchmarks.startActivityAndAllowNotifications
 import com.android.geto.benchmarks.waitForLoadingWheelToDisappear
 import org.junit.Rule
 import org.junit.Test
@@ -30,8 +31,10 @@ class AppsBaselineProfile {
 
     @Test
     fun generate() = baselineProfileRule.collect(PACKAGE_NAME) {
-        startActivityAndWait()
+        startActivityAndAllowNotifications()
+
         waitForLoadingWheelToDisappear()
+
         appsScrollDownUp()
     }
 }

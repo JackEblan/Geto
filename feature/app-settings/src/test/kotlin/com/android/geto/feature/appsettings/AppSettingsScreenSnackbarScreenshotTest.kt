@@ -25,6 +25,7 @@ import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.SettingType
 import com.android.geto.core.screenshottesting.util.captureSnackbarForMultiDevice
 import com.android.geto.core.testing.util.MainDispatcherRule
+import com.android.geto.feature.appsettings.dialog.template.TemplateDialogUiState
 import dagger.hilt.android.testing.HiltTestApplication
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
@@ -78,11 +79,13 @@ class AppSettingsScreenSnackbarScreenshotTest {
                     snackbarHostState = snackbarHostState,
                     applicationIcon = null,
                     secureSettings = emptyList(),
+                    addAppSettingResult = null,
                     appSettingsResult = null,
                     revertAppSettingsResult = null,
                     autoLaunchResult = null,
                     requestPinShortcutResult = null,
                     setPrimaryClipResult = false,
+                    templateDialogUiState = TemplateDialogUiState.Loading,
                     onNavigationIconClick = {},
                     onEvent = {},
                 )

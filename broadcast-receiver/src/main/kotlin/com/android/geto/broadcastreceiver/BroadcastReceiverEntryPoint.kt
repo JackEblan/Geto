@@ -17,8 +17,6 @@
  */
 package com.android.geto.broadcastreceiver
 
-import com.android.geto.core.domain.RevertAppSettingsUseCase
-import com.android.geto.framework.notificationmanager.NotificationManagerWrapper
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
@@ -26,7 +24,5 @@ import dagger.hilt.components.SingletonComponent
 @EntryPoint
 @InstallIn(SingletonComponent::class)
 internal interface BroadcastReceiverEntryPoint {
-    fun revertAppSettingsUseCase(): RevertAppSettingsUseCase
-
-    fun notificationManagerWrapper(): NotificationManagerWrapper
+    fun broadcastReceiverController(): BroadcastReceiverController
 }

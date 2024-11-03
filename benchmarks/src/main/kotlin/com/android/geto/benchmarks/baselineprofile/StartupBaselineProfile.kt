@@ -19,6 +19,7 @@ package com.android.geto.benchmarks.baselineprofile
 
 import androidx.benchmark.macro.junit4.BaselineProfileRule
 import com.android.geto.benchmarks.PACKAGE_NAME
+import com.android.geto.benchmarks.startActivityAndAllowNotifications
 import org.junit.Rule
 import org.junit.Test
 
@@ -35,7 +36,7 @@ class StartupBaselineProfile {
         PACKAGE_NAME,
         includeInStartupProfile = true,
         profileBlock = {
-            startActivityAndWait()
+            startActivityAndAllowNotifications()
         },
     )
 }

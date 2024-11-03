@@ -27,6 +27,7 @@ import com.android.geto.core.model.SettingType
 import com.android.geto.core.screenshottesting.util.DefaultTestDevices
 import com.android.geto.core.screenshottesting.util.captureScreenForDevice
 import com.android.geto.core.screenshottesting.util.captureScreenForMultiDevice
+import com.android.geto.feature.appsettings.dialog.template.TemplateDialogUiState
 import dagger.hilt.android.testing.HiltTestApplication
 import org.junit.Rule
 import org.junit.runner.RunWith
@@ -69,11 +70,13 @@ class AppSettingsScreenScreenshotTest {
                     snackbarHostState = SnackbarHostState(),
                     applicationIcon = null,
                     secureSettings = emptyList(),
+                    addAppSettingResult = null,
                     appSettingsResult = null,
                     revertAppSettingsResult = null,
                     autoLaunchResult = null,
                     requestPinShortcutResult = null,
                     setPrimaryClipResult = false,
+                    templateDialogUiState = TemplateDialogUiState.Loading,
                     onNavigationIconClick = {},
                     onEvent = {},
                 )
@@ -92,11 +95,13 @@ class AppSettingsScreenScreenshotTest {
                     snackbarHostState = SnackbarHostState(),
                     applicationIcon = null,
                     secureSettings = emptyList(),
+                    addAppSettingResult = null,
                     appSettingsResult = null,
                     revertAppSettingsResult = null,
                     autoLaunchResult = null,
                     requestPinShortcutResult = null,
                     setPrimaryClipResult = false,
+                    templateDialogUiState = TemplateDialogUiState.Loading,
                     onNavigationIconClick = {},
                     onEvent = {},
                 )
@@ -115,11 +120,13 @@ class AppSettingsScreenScreenshotTest {
                     snackbarHostState = SnackbarHostState(),
                     applicationIcon = null,
                     secureSettings = emptyList(),
+                    addAppSettingResult = null,
                     appSettingsResult = null,
                     revertAppSettingsResult = null,
                     autoLaunchResult = null,
                     requestPinShortcutResult = null,
                     setPrimaryClipResult = false,
+                    templateDialogUiState = TemplateDialogUiState.Loading,
                     onNavigationIconClick = {},
                     onEvent = {},
                 )
@@ -144,11 +151,13 @@ class AppSettingsScreenScreenshotTest {
                         snackbarHostState = SnackbarHostState(),
                         applicationIcon = null,
                         secureSettings = emptyList(),
+                        addAppSettingResult = null,
                         appSettingsResult = null,
                         revertAppSettingsResult = null,
                         autoLaunchResult = null,
                         requestPinShortcutResult = null,
                         setPrimaryClipResult = false,
+                        templateDialogUiState = TemplateDialogUiState.Loading,
                         onNavigationIconClick = {},
                         onEvent = {},
                     )
@@ -174,11 +183,13 @@ class AppSettingsScreenScreenshotTest {
                         snackbarHostState = SnackbarHostState(),
                         applicationIcon = null,
                         secureSettings = emptyList(),
+                        addAppSettingResult = null,
                         appSettingsResult = null,
                         revertAppSettingsResult = null,
                         autoLaunchResult = null,
                         requestPinShortcutResult = null,
                         setPrimaryClipResult = false,
+                        templateDialogUiState = TemplateDialogUiState.Loading,
                         onNavigationIconClick = {},
                         onEvent = {},
                     )
@@ -204,11 +215,13 @@ class AppSettingsScreenScreenshotTest {
                         snackbarHostState = SnackbarHostState(),
                         applicationIcon = null,
                         secureSettings = emptyList(),
+                        addAppSettingResult = null,
                         appSettingsResult = null,
                         revertAppSettingsResult = null,
                         autoLaunchResult = null,
                         requestPinShortcutResult = null,
                         setPrimaryClipResult = false,
+                        templateDialogUiState = TemplateDialogUiState.Loading,
                         onNavigationIconClick = {},
                         onEvent = {},
                     )

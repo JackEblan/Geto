@@ -17,11 +17,17 @@
  */
 package com.android.geto.navigation
 
+import android.os.Build
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import com.android.geto.R
 import com.android.geto.feature.apps.navigation.AppsRouteData
 import com.android.geto.feature.apps.navigation.appsScreen
 import com.android.geto.feature.apps.navigation.navigateToApps
@@ -33,6 +39,9 @@ import com.android.geto.feature.settings.navigation.navigateToSettings
 import com.android.geto.feature.settings.navigation.settingsScreen
 import com.android.geto.navigation.TopLevelDestination.APPS
 import com.android.geto.navigation.TopLevelDestination.SETTINGS
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.PermissionStatus
+import com.google.accompanist.permissions.rememberPermissionState
 
 @Composable
 fun GetoNavHost(
@@ -41,6 +50,8 @@ fun GetoNavHost(
     val snackbarHostState = remember {
         SnackbarHostState()
     }
+
+    PostNotificationsPermission(snackbarHostState = snackbarHostState)
 
     NavHost(
         navController = navController,
@@ -64,5 +75,35 @@ fun GetoNavHost(
         )
 
         appSettingsScreen(onNavigationIconClick = navController::navigateUp)
+    }
+}
+
+@Composable
+@OptIn(ExperimentalPermissionsApi::class)
+private fun PostNotificationsPermission(snackbarHostState: SnackbarHostState) {
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) return
+
+    val notificationsPermissionState = rememberPermissionState(
+        android.Manifest.permission.POST_NOTIFICATIONS,
+    )
+
+    val message = stringResource(R.string.please_grant_notifications_permission)
+
+    val actionLabel = stringResource(R.string.allow)
+
+    LaunchedEffect(key1 = notificationsPermissionState) {
+        val status = notificationsPermissionState.status
+
+        if (status is PermissionStatus.Denied && status.shouldShowRationale.not()) {
+            val snackbarResult = snackbarHostState.showSnackbar(
+                message = message,
+                actionLabel = actionLabel,
+                duration = SnackbarDuration.Indefinite,
+            )
+
+            if (snackbarResult == SnackbarResult.ActionPerformed) {
+                notificationsPermissionState.launchPermissionRequest()
+            }
+        }
     }
 }

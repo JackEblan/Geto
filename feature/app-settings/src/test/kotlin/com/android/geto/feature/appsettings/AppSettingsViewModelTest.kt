@@ -19,11 +19,14 @@ package com.android.geto.feature.appsettings
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.testing.invoke
+import com.android.geto.core.domain.AddAppSettingUseCase
 import com.android.geto.core.domain.ApplyAppSettingsUseCase
 import com.android.geto.core.domain.AutoLaunchUseCase
 import com.android.geto.core.domain.RequestPinShortcutUseCase
 import com.android.geto.core.domain.RevertAppSettingsUseCase
+import com.android.geto.core.model.AddAppSettingResult
 import com.android.geto.core.model.AppSetting
+import com.android.geto.core.model.AppSettingTemplate
 import com.android.geto.core.model.AppSettingsResult.DisabledAppSettings
 import com.android.geto.core.model.AppSettingsResult.EmptyAppSettings
 import com.android.geto.core.model.AppSettingsResult.InvalidValues
@@ -36,12 +39,14 @@ import com.android.geto.core.model.SecureSetting
 import com.android.geto.core.model.SettingType
 import com.android.geto.core.testing.framework.DummyClipboardManagerWrapper
 import com.android.geto.core.testing.framework.DummyNotificationManagerWrapper
+import com.android.geto.core.testing.framework.FakeAssetManagerWrapper
 import com.android.geto.core.testing.repository.TestAppSettingsRepository
 import com.android.geto.core.testing.repository.TestPackageRepository
 import com.android.geto.core.testing.repository.TestSecureSettingsRepository
 import com.android.geto.core.testing.repository.TestShortcutRepository
 import com.android.geto.core.testing.repository.TestUserDataRepository
 import com.android.geto.core.testing.util.MainDispatcherRule
+import com.android.geto.feature.appsettings.dialog.template.TemplateDialogUiState
 import com.android.geto.feature.appsettings.navigation.AppSettingsRouteData
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
@@ -76,6 +81,8 @@ class AppSettingsViewModelTest {
 
     private lateinit var notificationManagerWrapper: DummyNotificationManagerWrapper
 
+    private lateinit var assetManagerWrapper: FakeAssetManagerWrapper
+
     private lateinit var shortcutRepository: TestShortcutRepository
 
     private lateinit var userDataRepository: TestUserDataRepository
@@ -85,6 +92,8 @@ class AppSettingsViewModelTest {
     private lateinit var revertAppSettingsUseCase: RevertAppSettingsUseCase
 
     private lateinit var autoLaunchUseCase: AutoLaunchUseCase
+
+    private lateinit var addAppSettingUseCase: AddAppSettingUseCase
 
     private lateinit var requestPinShortcutUseCase: RequestPinShortcutUseCase
 
@@ -129,6 +138,10 @@ class AppSettingsViewModelTest {
         requestPinShortcutUseCase =
             RequestPinShortcutUseCase(shortcutRepository = shortcutRepository)
 
+        addAppSettingUseCase = AddAppSettingUseCase(
+            appSettingsRepository = appSettingsRepository,
+        )
+
         savedStateHandle = SavedStateHandle(
             route = AppSettingsRouteData(
                 packageName = packageName,
@@ -137,6 +150,8 @@ class AppSettingsViewModelTest {
         )
 
         notificationManagerWrapper = DummyNotificationManagerWrapper()
+
+        assetManagerWrapper = FakeAssetManagerWrapper()
 
         viewModel = AppSettingsViewModel(
             savedStateHandle = savedStateHandle,
@@ -148,7 +163,9 @@ class AppSettingsViewModelTest {
             revertAppSettingsUseCase = revertAppSettingsUseCase,
             autoLaunchUseCase = autoLaunchUseCase,
             requestPinShortcutUseCase = requestPinShortcutUseCase,
+            addAppSettingUseCase = addAppSettingUseCase,
             notificationManagerWrapper = notificationManagerWrapper,
+            assetManagerWrapper = assetManagerWrapper,
         )
     }
 
@@ -193,6 +210,16 @@ class AppSettingsViewModelTest {
     }
 
     @Test
+    fun templateDialogUiState_isLoading_whenStarted() {
+        assertIs<TemplateDialogUiState.Loading>(viewModel.templateDialogUiState.value)
+    }
+
+    @Test
+    fun addAppSettingResult_isNull_whenStarted() {
+        assertNull(viewModel.addAppSettingsResult.value)
+    }
+
+    @Test
     fun appSettingsUiState_isSuccess_whenAppSettings_isNotEmpty() = runTest {
         backgroundScope.launch(UnconfinedTestDispatcher()) {
             viewModel.appSettingsUiState.collect()
@@ -214,6 +241,27 @@ class AppSettingsViewModelTest {
         appSettingsRepository.setAppSettings(appSettings)
 
         assertIs<AppSettingsUiState.Success>(viewModel.appSettingsUiState.value)
+    }
+
+    @Test
+    fun templateDialogUiState_isSuccess_whenAppSettingTemplates_isNotEmpty() = runTest {
+        backgroundScope.launch(UnconfinedTestDispatcher()) {
+            val appSettingTemplates = List(5) { index ->
+                AppSettingTemplate(
+                    settingType = SettingType.SYSTEM,
+                    label = "Geto",
+                    key = "Geto $index",
+                    valueOnLaunch = "0",
+                    valueOnRevert = "1",
+                )
+            }
+
+            assetManagerWrapper.setAppSettingTemplates(appSettingTemplates)
+
+            viewModel.templateDialogUiState.collect()
+        }
+
+        assertIs<TemplateDialogUiState.Success>(viewModel.templateDialogUiState.value)
     }
 
     @Test
@@ -859,5 +907,82 @@ class AppSettingsViewModelTest {
         }
 
         assertNull(viewModel.applicationIcon.value)
+    }
+
+    @Test
+    fun addAppSettingResult_isSuccess_whenAddAppSetting() = runTest {
+        backgroundScope.launch(UnconfinedTestDispatcher()) {
+            viewModel.requestPinShortcutResult.collect()
+        }
+
+        val appSettings = List(5) { index ->
+            AppSetting(
+                id = index,
+                enabled = true,
+                settingType = SettingType.SYSTEM,
+                packageName = packageName,
+                label = "Geto",
+                key = "Geto $index",
+                valueOnLaunch = "0",
+                valueOnRevert = "1",
+            )
+        }
+
+        val newAppSetting = AppSetting(
+            id = 6,
+            enabled = true,
+            settingType = SettingType.SYSTEM,
+            packageName = packageName,
+            label = "Geto",
+            key = "Geto",
+            valueOnLaunch = "0",
+            valueOnRevert = "1",
+        )
+
+        appSettingsRepository.setAppSettings(appSettings)
+
+        viewModel.onEvent(
+            event = AppSettingsEvent.AddAppSetting(
+                appSetting = newAppSetting,
+            ),
+        )
+
+        assertEquals(
+            expected = AddAppSettingResult.SUCCESS,
+            actual = viewModel.addAppSettingsResult.value,
+        )
+    }
+
+    @Test
+    fun addAppSettingResult_isFailed_whenAddAppSetting() = runTest {
+        backgroundScope.launch(UnconfinedTestDispatcher()) {
+            viewModel.requestPinShortcutResult.collect()
+        }
+
+        val appSettings = List(5) { index ->
+            AppSetting(
+                id = index,
+                enabled = true,
+                settingType = SettingType.SYSTEM,
+                packageName = packageName,
+                label = "Geto",
+                key = "Geto $index",
+                valueOnLaunch = "0",
+                valueOnRevert = "1",
+            )
+        }
+
+        appSettingsRepository.setAppSettings(appSettings)
+
+        viewModel.onEvent(
+            event = AppSettingsEvent.AddAppSetting(
+                appSetting = appSettings.first(),
+            ),
+        )
+
+        assertEquals(
+            expected = AddAppSettingResult.FAILED,
+            actual = viewModel.addAppSettingsResult.value,
+        )
     }
 }

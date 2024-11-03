@@ -25,10 +25,12 @@ import androidx.navigation.toRoute
 import com.android.geto.core.data.repository.AppSettingsRepository
 import com.android.geto.core.data.repository.PackageRepository
 import com.android.geto.core.data.repository.SecureSettingsRepository
+import com.android.geto.core.domain.AddAppSettingUseCase
 import com.android.geto.core.domain.ApplyAppSettingsUseCase
 import com.android.geto.core.domain.AutoLaunchUseCase
 import com.android.geto.core.domain.RequestPinShortcutUseCase
 import com.android.geto.core.domain.RevertAppSettingsUseCase
+import com.android.geto.core.model.AddAppSettingResult
 import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.AppSettingsResult
 import com.android.geto.core.model.GetoShortcutInfoCompat
@@ -43,14 +45,18 @@ import com.android.geto.feature.appsettings.AppSettingsEvent.CopyPermissionComma
 import com.android.geto.feature.appsettings.AppSettingsEvent.DeleteAppSetting
 import com.android.geto.feature.appsettings.AppSettingsEvent.GetSecureSettingsByName
 import com.android.geto.feature.appsettings.AppSettingsEvent.LaunchIntentForPackage
+import com.android.geto.feature.appsettings.AppSettingsEvent.PostNotification
 import com.android.geto.feature.appsettings.AppSettingsEvent.RequestPinShortcut
+import com.android.geto.feature.appsettings.AppSettingsEvent.ResetAddAppSettingResult
 import com.android.geto.feature.appsettings.AppSettingsEvent.ResetApplyAppSettingsResult
 import com.android.geto.feature.appsettings.AppSettingsEvent.ResetAutoLaunchResult
 import com.android.geto.feature.appsettings.AppSettingsEvent.ResetRequestPinShortcutResult
 import com.android.geto.feature.appsettings.AppSettingsEvent.ResetRevertAppSettingsResult
 import com.android.geto.feature.appsettings.AppSettingsEvent.ResetSetPrimaryClipResult
 import com.android.geto.feature.appsettings.AppSettingsEvent.RevertAppSettings
+import com.android.geto.feature.appsettings.dialog.template.TemplateDialogUiState
 import com.android.geto.feature.appsettings.navigation.AppSettingsRouteData
+import com.android.geto.framework.assetmanager.AssetManagerWrapper
 import com.android.geto.framework.clipboardmanager.ClipboardManagerWrapper
 import com.android.geto.framework.notificationmanager.NotificationManagerWrapper
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -75,7 +81,9 @@ class AppSettingsViewModel @Inject constructor(
     private val revertAppSettingsUseCase: RevertAppSettingsUseCase,
     private val autoLaunchUseCase: AutoLaunchUseCase,
     private val requestPinShortcutUseCase: RequestPinShortcutUseCase,
+    private val addAppSettingUseCase: AddAppSettingUseCase,
     private val notificationManagerWrapper: NotificationManagerWrapper,
+    private val assetManagerWrapper: AssetManagerWrapper,
 ) : ViewModel() {
     private val appSettingsRouteData = savedStateHandle.toRoute<AppSettingsRouteData>()
 
@@ -94,6 +102,9 @@ class AppSettingsViewModel @Inject constructor(
         started = SharingStarted.Lazily,
         initialValue = null,
     )
+
+    private val _addAppSettingsResult = MutableStateFlow<AddAppSettingResult?>(null)
+    val addAppSettingsResult = _addAppSettingsResult.asStateFlow()
 
     private val _applyAppSettingsResult = MutableStateFlow<AppSettingsResult?>(null)
     val applyAppSettingsResult = _applyAppSettingsResult.asStateFlow()
@@ -123,6 +134,16 @@ class AppSettingsViewModel @Inject constructor(
                 started = SharingStarted.WhileSubscribed(5_000),
                 initialValue = AppSettingsUiState.Loading,
             )
+
+    private var _templateDialogUiState =
+        MutableStateFlow<TemplateDialogUiState>(TemplateDialogUiState.Loading)
+    val templateDialogUiState = _templateDialogUiState.onStart {
+        getAppSettingTemplates()
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000),
+        initialValue = TemplateDialogUiState.Loading,
+    )
 
     fun onEvent(event: AppSettingsEvent) {
         when (event) {
@@ -172,7 +193,7 @@ class AppSettingsViewModel @Inject constructor(
                 launchIntentForPackage()
             }
 
-            is AppSettingsEvent.PostNotification -> {
+            is PostNotification -> {
                 postNotification(
                     icon = event.icon,
                     contentTitle = event.contentTitle,
@@ -198,6 +219,10 @@ class AppSettingsViewModel @Inject constructor(
 
             ResetSetPrimaryClipResult -> {
                 resetSetPrimaryClipResult()
+            }
+
+            ResetAddAppSettingResult -> {
+                resetAddAppSettingResult()
             }
         }
     }
@@ -228,7 +253,9 @@ class AppSettingsViewModel @Inject constructor(
 
     private fun addAppSetting(appSetting: AppSetting) {
         viewModelScope.launch {
-            appSettingsRepository.upsertAppSetting(appSetting)
+            _addAppSettingsResult.update {
+                addAppSettingUseCase(appSetting = appSetting)
+            }
         }
     }
 
@@ -293,6 +320,14 @@ class AppSettingsViewModel @Inject constructor(
         )
     }
 
+    private fun getAppSettingTemplates() {
+        viewModelScope.launch {
+            _templateDialogUiState.update {
+                TemplateDialogUiState.Success(appSettingTemplates = assetManagerWrapper.getAppSettingTemplates())
+            }
+        }
+    }
+
     private fun resetApplyAppSettingsResult() {
         _applyAppSettingsResult.update { null }
     }
@@ -311,5 +346,9 @@ class AppSettingsViewModel @Inject constructor(
 
     private fun resetSetPrimaryClipResult() {
         _setPrimaryClipResult.update { false }
+    }
+
+    private fun resetAddAppSettingResult() {
+        _addAppSettingsResult.update { null }
     }
 }

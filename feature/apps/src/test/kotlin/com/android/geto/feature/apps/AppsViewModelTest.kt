@@ -28,7 +28,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertIs
-import kotlin.test.assertNull
 
 class AppsViewModelTest {
     @get:Rule
@@ -46,8 +45,8 @@ class AppsViewModelTest {
     }
 
     @Test
-    fun appsUiState_isNull_whenStarted() {
-        assertNull(viewModel.appsUiState.value)
+    fun appsUiState_isLoading_whenStarted() {
+        assertIs<AppsUiState.Loading>(viewModel.appsUiState.value)
     }
 
     @Test

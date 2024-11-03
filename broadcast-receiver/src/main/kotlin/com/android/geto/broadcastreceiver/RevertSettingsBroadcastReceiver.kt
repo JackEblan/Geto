@@ -23,15 +23,9 @@ import android.content.Intent
 import com.android.geto.framework.notificationmanager.NotificationManagerWrapper.Companion.EXTRA_NOTIFICATION_ID
 import com.android.geto.framework.notificationmanager.NotificationManagerWrapper.Companion.EXTRA_PACKAGE_NAME
 import dagger.hilt.android.EntryPointAccessors
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlin.coroutines.CoroutineContext
-import kotlin.coroutines.EmptyCoroutineContext
 
 internal class RevertSettingsBroadcastReceiver : BroadcastReceiver() {
-    override fun onReceive(context: Context?, intent: Intent?) = launch {
+    override fun onReceive(context: Context?, intent: Intent?) = broadcastReceiverScope {
         val appContext = context?.applicationContext ?: throw IllegalStateException()
 
         val hiltEntryPoint =
@@ -41,29 +35,9 @@ internal class RevertSettingsBroadcastReceiver : BroadcastReceiver() {
 
         val notificationId = intent?.extras?.getInt(EXTRA_NOTIFICATION_ID)
 
-        val broadcastReceiverController = BroadcastReceiverController(
-            revertAppSettingsUseCase = hiltEntryPoint.revertAppSettingsUseCase(),
-            notificationManagerWrapper = hiltEntryPoint.notificationManagerWrapper(),
-        )
-
-        broadcastReceiverController.revertSettings(
+        hiltEntryPoint.broadcastReceiverController().revertSettings(
             packageName = packageName,
             notificationId = notificationId,
         )
-    }
-}
-
-private fun BroadcastReceiver.launch(
-    context: CoroutineContext = EmptyCoroutineContext,
-    block: suspend CoroutineScope.() -> Unit,
-) {
-    val pendingResult = goAsync()
-    @OptIn(DelicateCoroutinesApi::class)
-    GlobalScope.launch(context) {
-        try {
-            block()
-        } finally {
-            pendingResult.finish()
-        }
     }
 }
