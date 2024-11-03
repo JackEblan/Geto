@@ -19,6 +19,7 @@ package com.android.geto.core.domain
 
 import com.android.geto.core.data.repository.AppSettingsRepository
 import com.android.geto.core.model.AddAppSettingResult
+import com.android.geto.core.model.AddAppSettingResult.*
 import com.android.geto.core.model.AppSetting
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
@@ -32,9 +33,9 @@ class AddAppSettingUseCase @Inject constructor(private val appSettingsRepository
         return if (appSetting.key !in appSettings) {
             appSettingsRepository.upsertAppSetting(appSetting = appSetting)
 
-            AddAppSettingResult.SUCCESS
+            SUCCESS
         } else {
-            AddAppSettingResult.FAILED
+            FAILED
         }
     }
 }
