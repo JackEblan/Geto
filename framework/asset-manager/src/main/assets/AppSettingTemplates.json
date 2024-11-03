@@ -1,0 +1,23 @@
+[
+  {
+    "settingType": "GLOBAL",
+    "label": "Hide Developer Options",
+    "key": "development_settings_enabled",
+    "valueOnLaunch": "0",
+    "valueOnRevert": "1"
+  },
+  {
+    "settingType": "GLOBAL",
+    "label": "Hide USB Debugging",
+    "key": "adb_enabled",
+    "valueOnLaunch": "0",
+    "valueOnRevert": "1"
+  },
+  {
+    "settingType": "GLOBAL",
+    "label": "Hide Accessibility Services",
+    "key": "accessibility_enabled",
+    "valueOnLaunch": "0",
+    "valueOnRevert": "1"
+  }
+]

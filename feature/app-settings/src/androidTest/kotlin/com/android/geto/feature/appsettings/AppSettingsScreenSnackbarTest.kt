@@ -27,6 +27,7 @@ import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.android.geto.core.model.AppSettingsResult
 import com.android.geto.core.model.RequestPinShortcutResult
+import com.android.geto.feature.appsettings.dialog.template.TemplateDialogUiState
 import org.junit.Rule
 import org.junit.Test
 import kotlin.properties.ReadOnlyProperty
@@ -79,6 +80,7 @@ class AppSettingsScreenSnackbarTest {
                 autoLaunchResult = null,
                 requestPinShortcutResult = null,
                 setPrimaryClipResult = false,
+                templateDialogUiState = TemplateDialogUiState.Loading,
                 onNavigationIconClick = {},
                 onEvent = {},
             )
@@ -108,6 +110,7 @@ class AppSettingsScreenSnackbarTest {
                 autoLaunchResult = null,
                 requestPinShortcutResult = null,
                 setPrimaryClipResult = false,
+                templateDialogUiState = TemplateDialogUiState.Loading,
                 onNavigationIconClick = {},
                 onEvent = {},
             )
@@ -137,6 +140,7 @@ class AppSettingsScreenSnackbarTest {
                 autoLaunchResult = null,
                 requestPinShortcutResult = null,
                 setPrimaryClipResult = false,
+                templateDialogUiState = TemplateDialogUiState.Loading,
                 onNavigationIconClick = {},
                 onEvent = {},
             )
@@ -166,6 +170,7 @@ class AppSettingsScreenSnackbarTest {
                 autoLaunchResult = null,
                 requestPinShortcutResult = null,
                 setPrimaryClipResult = false,
+                templateDialogUiState = TemplateDialogUiState.Loading,
                 onNavigationIconClick = {},
                 onEvent = {},
             )
@@ -195,6 +200,7 @@ class AppSettingsScreenSnackbarTest {
                 autoLaunchResult = null,
                 requestPinShortcutResult = null,
                 setPrimaryClipResult = false,
+                templateDialogUiState = TemplateDialogUiState.Loading,
                 onNavigationIconClick = {},
                 onEvent = {},
             )
@@ -224,6 +230,7 @@ class AppSettingsScreenSnackbarTest {
                 autoLaunchResult = null,
                 requestPinShortcutResult = null,
                 setPrimaryClipResult = false,
+                templateDialogUiState = TemplateDialogUiState.Loading,
                 onNavigationIconClick = {},
                 onEvent = {},
             )
@@ -253,6 +260,7 @@ class AppSettingsScreenSnackbarTest {
                 autoLaunchResult = null,
                 requestPinShortcutResult = null,
                 setPrimaryClipResult = false,
+                templateDialogUiState = TemplateDialogUiState.Loading,
                 onNavigationIconClick = {},
                 onEvent = {},
             )
@@ -282,6 +290,7 @@ class AppSettingsScreenSnackbarTest {
                 autoLaunchResult = null,
                 requestPinShortcutResult = null,
                 setPrimaryClipResult = false,
+                templateDialogUiState = TemplateDialogUiState.Loading,
                 onNavigationIconClick = {},
                 onEvent = {},
             )
@@ -311,6 +320,7 @@ class AppSettingsScreenSnackbarTest {
                 autoLaunchResult = null,
                 requestPinShortcutResult = null,
                 setPrimaryClipResult = false,
+                templateDialogUiState = TemplateDialogUiState.Loading,
                 onNavigationIconClick = {},
                 onEvent = {},
             )
@@ -340,6 +350,7 @@ class AppSettingsScreenSnackbarTest {
                 autoLaunchResult = null,
                 requestPinShortcutResult = RequestPinShortcutResult.SupportedLauncher,
                 setPrimaryClipResult = false,
+                templateDialogUiState = TemplateDialogUiState.Loading,
                 onNavigationIconClick = {},
                 onEvent = {},
             )
@@ -369,6 +380,7 @@ class AppSettingsScreenSnackbarTest {
                 autoLaunchResult = null,
                 requestPinShortcutResult = RequestPinShortcutResult.UnsupportedLauncher,
                 setPrimaryClipResult = false,
+                templateDialogUiState = TemplateDialogUiState.Loading,
                 onNavigationIconClick = {},
                 onEvent = {},
             )
@@ -398,6 +410,7 @@ class AppSettingsScreenSnackbarTest {
                 autoLaunchResult = null,
                 requestPinShortcutResult = RequestPinShortcutResult.UpdateFailure,
                 setPrimaryClipResult = false,
+                templateDialogUiState = TemplateDialogUiState.Loading,
                 onNavigationIconClick = {},
                 onEvent = {},
             )
@@ -427,6 +440,7 @@ class AppSettingsScreenSnackbarTest {
                 autoLaunchResult = null,
                 requestPinShortcutResult = RequestPinShortcutResult.UpdateSuccess,
                 setPrimaryClipResult = false,
+                templateDialogUiState = TemplateDialogUiState.Loading,
                 onNavigationIconClick = {},
                 onEvent = {},
             )
@@ -456,6 +470,7 @@ class AppSettingsScreenSnackbarTest {
                 autoLaunchResult = null,
                 requestPinShortcutResult = RequestPinShortcutResult.UpdateImmutableShortcuts,
                 setPrimaryClipResult = false,
+                templateDialogUiState = TemplateDialogUiState.Loading,
                 onNavigationIconClick = {},
                 onEvent = {},
             )
@@ -485,6 +500,7 @@ class AppSettingsScreenSnackbarTest {
                 autoLaunchResult = null,
                 requestPinShortcutResult = null,
                 setPrimaryClipResult = true,
+                templateDialogUiState = TemplateDialogUiState.Loading,
                 onNavigationIconClick = {},
                 onEvent = {},
             )

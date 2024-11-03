@@ -18,29 +18,16 @@
 
 plugins {
     alias(libs.plugins.com.android.geto.library)
-    alias(libs.plugins.com.android.geto.libraryCompose)
     alias(libs.plugins.com.android.geto.hilt)
 }
 
 android {
-    namespace = "com.android.geto.core.testing"
+    namespace = "com.android.geto.framework.assetmanager"
 }
 
 dependencies {
-    api(kotlin("test"))
-    api(libs.androidx.compose.ui.test)
-    api(projects.core.data)
-
-    debugApi(libs.androidx.compose.ui.test.manifest)
-
-    implementation(libs.androidx.test.rules)
-    implementation(libs.hilt.android.testing)
-    implementation(libs.kotlinx.coroutines.test)
+    implementation(libs.gson)
 
     implementation(projects.core.common)
     implementation(projects.core.model)
-
-    implementation(projects.framework.assetManager)
-    implementation(projects.framework.clipboardManager)
-    implementation(projects.framework.notificationManager)
 }

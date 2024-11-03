@@ -24,6 +24,7 @@ import androidx.compose.material.icons.filled.AppShortcut
 import androidx.compose.material.icons.filled.Apps
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.SettingsSuggest
 
 object GetoIcons {
     val Apps = Icons.Default.Apps
@@ -32,4 +33,5 @@ object GetoIcons {
     val Back = Icons.AutoMirrored.Filled.ArrowBack
     val Refresh = Icons.Default.Refresh
     val Shortcut = Icons.Default.AppShortcut
+    val SettingsSuggest = Icons.Default.SettingsSuggest
 }

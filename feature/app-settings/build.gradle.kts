@@ -31,6 +31,7 @@ dependencies {
     implementation(projects.core.data)
     implementation(projects.core.domain)
 
+    implementation(projects.framework.assetManager)
     implementation(projects.framework.clipboardManager)
     implementation(projects.framework.notificationManager)
 

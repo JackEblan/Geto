@@ -101,6 +101,10 @@ import com.android.geto.feature.appsettings.dialog.permission.rememberPermission
 import com.android.geto.feature.appsettings.dialog.shortcut.ShortcutDialog
 import com.android.geto.feature.appsettings.dialog.shortcut.ShortcutDialogState
 import com.android.geto.feature.appsettings.dialog.shortcut.rememberShortcutDialogState
+import com.android.geto.feature.appsettings.dialog.template.TemplateDialog
+import com.android.geto.feature.appsettings.dialog.template.TemplateDialogState
+import com.android.geto.feature.appsettings.dialog.template.TemplateDialogUiState
+import com.android.geto.feature.appsettings.dialog.template.rememberTemplateDialogState
 import com.android.geto.feature.appsettings.navigation.AppSettingsRouteData
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collect
@@ -134,6 +138,8 @@ internal fun AppSettingsRoute(
     val requestPinShortcutResult =
         viewModel.requestPinShortcutResult.collectAsStateWithLifecycle().value
 
+    val templateDialogUiState = viewModel.templateDialogUiState.collectAsStateWithLifecycle().value
+
     val snackbarHostState = remember {
         SnackbarHostState()
     }
@@ -151,6 +157,7 @@ internal fun AppSettingsRoute(
         autoLaunchResult = autoLaunchResult,
         requestPinShortcutResult = requestPinShortcutResult,
         setPrimaryClipResult = setPrimaryClipResult,
+        templateDialogUiState = templateDialogUiState,
         onNavigationIconClick = onNavigationIconClick,
         onEvent = viewModel::onEvent,
     )
@@ -171,6 +178,7 @@ internal fun AppSettingsScreen(
     autoLaunchResult: AppSettingsResult?,
     requestPinShortcutResult: RequestPinShortcutResult?,
     setPrimaryClipResult: Boolean,
+    templateDialogUiState: TemplateDialogUiState,
     onNavigationIconClick: () -> Unit,
     onEvent: (AppSettingsEvent) -> Unit,
 ) {
@@ -179,6 +187,8 @@ internal fun AppSettingsScreen(
     val appSettingDialogState = rememberAppSettingDialogState()
 
     val shortcutDialogState = rememberShortcutDialogState()
+
+    val templateDialogState = rememberTemplateDialogState()
 
     AppSettingsLaunchedEffects(
         snackbarHostState = snackbarHostState,
@@ -221,6 +231,8 @@ internal fun AppSettingsScreen(
         permissionDialogState = permissionDialogState,
         appSettingDialogState = appSettingDialogState,
         shortcutDialogState = shortcutDialogState,
+        templateDialogUiState = templateDialogUiState,
+        templateDialogState = templateDialogState,
         packageName = packageName,
         onAddAppSetting = { onEvent(AddAppSetting(it)) },
         onCopyPermissionCommand = { label, text ->
@@ -249,6 +261,9 @@ internal fun AppSettingsScreen(
                 },
                 onShortcutIconClick = {
                     shortcutDialogState.updateShowDialog(true)
+                },
+                onSettingsSuggestIconClick = {
+                    templateDialogState.updateShowDialog(true)
                 },
                 onFloatingActionButtonClick = { onEvent(ApplyAppSettings) },
             )
@@ -531,6 +546,8 @@ private fun AppSettingsDialogs(
     permissionDialogState: PermissionDialogState,
     appSettingDialogState: AppSettingDialogState,
     shortcutDialogState: ShortcutDialogState,
+    templateDialogUiState: TemplateDialogUiState,
+    templateDialogState: TemplateDialogState,
     packageName: String,
     onAddAppSetting: (AppSetting) -> Unit,
     onCopyPermissionCommand: (String, String) -> Unit,
@@ -559,6 +576,16 @@ private fun AppSettingsDialogs(
             packageName = packageName,
             contentDescription = "Add Shortcut Dialog",
             onAddClick = onAddShortcut,
+        )
+    }
+
+    if (templateDialogState.showDialog) {
+        TemplateDialog(
+            packageName = packageName,
+            templateDialogUiState = templateDialogUiState,
+            templateDialogState = templateDialogState,
+            contentDescription = "Template Dialog",
+            onClick = onAddAppSetting,
         )
     }
 }
@@ -591,6 +618,7 @@ private fun AppSettingsBottomAppBar(
     onRefreshIconClick: () -> Unit,
     onSettingsIconClick: () -> Unit,
     onShortcutIconClick: () -> Unit,
+    onSettingsSuggestIconClick: () -> Unit,
     onFloatingActionButtonClick: () -> Unit,
 ) {
     BottomAppBar(
@@ -599,6 +627,7 @@ private fun AppSettingsBottomAppBar(
                 onRefreshIconClick = onRefreshIconClick,
                 onSettingsIconClick = onSettingsIconClick,
                 onShortcutIconClick = onShortcutIconClick,
+                onSettingsSuggestIconClick = onSettingsSuggestIconClick,
             )
         },
         floatingActionButton = {
@@ -628,6 +657,7 @@ private fun AppSettingsBottomAppBarActions(
     onRefreshIconClick: () -> Unit,
     onSettingsIconClick: () -> Unit,
     onShortcutIconClick: () -> Unit,
+    onSettingsSuggestIconClick: () -> Unit,
 ) {
     IconButton(onClick = onRefreshIconClick) {
         Icon(
@@ -649,6 +679,15 @@ private fun AppSettingsBottomAppBarActions(
         Icon(
             GetoIcons.Shortcut,
             contentDescription = "Shortcut icon",
+        )
+    }
+
+    IconButton(
+        onClick = onSettingsSuggestIconClick,
+    ) {
+        Icon(
+            GetoIcons.SettingsSuggest,
+            contentDescription = "SettingsSuggest icon",
         )
     }
 }

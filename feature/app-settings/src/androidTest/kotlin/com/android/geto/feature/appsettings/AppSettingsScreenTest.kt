@@ -25,6 +25,7 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import com.android.geto.core.model.AppSetting
 import com.android.geto.core.model.SettingType
+import com.android.geto.feature.appsettings.dialog.template.TemplateDialogUiState
 import org.junit.Rule
 import org.junit.Test
 
@@ -60,6 +61,7 @@ class AppSettingsScreenTest {
                 autoLaunchResult = null,
                 requestPinShortcutResult = null,
                 setPrimaryClipResult = false,
+                templateDialogUiState = TemplateDialogUiState.Loading,
                 onNavigationIconClick = {},
                 onEvent = {},
             )
@@ -83,6 +85,7 @@ class AppSettingsScreenTest {
                 autoLaunchResult = null,
                 requestPinShortcutResult = null,
                 setPrimaryClipResult = false,
+                templateDialogUiState = TemplateDialogUiState.Loading,
                 onNavigationIconClick = {},
                 onEvent = {},
             )
@@ -106,6 +109,7 @@ class AppSettingsScreenTest {
                 autoLaunchResult = null,
                 requestPinShortcutResult = null,
                 setPrimaryClipResult = false,
+                templateDialogUiState = TemplateDialogUiState.Loading,
                 onNavigationIconClick = {},
                 onEvent = {},
             )

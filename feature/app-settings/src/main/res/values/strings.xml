@@ -34,6 +34,7 @@
     <string name="copy_permission_command_message">Geto is not allowed to modify your settings database. Please allow WRITE_SECURE_SETTINGS in your terminal and execute it. You can copy the command here.</string>
     <string name="copy">Copy</string>
     <string name="permission_error">Permission Error</string>
+    <string name="templates">Templates</string>
     <string name="add_shortcut">Add Shortcut</string>
     <string name="short_label">Short label</string>
     <string name="long_label">Long label</string>

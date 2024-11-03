@@ -117,8 +117,6 @@ private fun AppSettingDialogRadioButtonGroup(
     selected: Int,
     onSelect: (Int) -> Unit,
 ) {
-    Spacer(modifier = Modifier.height(10.dp))
-
     Column(
         modifier = modifier
             .fillMaxWidth()

@@ -60,14 +60,12 @@ internal fun ShortcutDialog(
     DialogContainer(
         modifier = modifier
             .padding(16.dp)
+            .verticalScroll(scrollState)
             .semantics { this.contentDescription = contentDescription },
         onDismissRequest = { shortcutDialogState.updateShowDialog(false) },
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .verticalScroll(scrollState)
-                .padding(10.dp),
+            modifier = Modifier.fillMaxWidth(),
         ) {
             ShortcutDialogTitle(title = stringResource(id = R.string.add_shortcut))
 
@@ -104,7 +102,7 @@ private fun ShortcutDialogTitle(modifier: Modifier = Modifier, title: String) {
     Spacer(modifier = Modifier.height(10.dp))
 
     Text(
-        modifier = modifier,
+        modifier = modifier.padding(10.dp),
         text = title,
         style = MaterialTheme.typography.titleLarge,
     )
@@ -136,7 +134,7 @@ private fun ShortcutDialogTextFields(
     OutlinedTextField(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 5.dp)
+            .padding(horizontal = 10.dp)
             .testTag("shortcutDialog:shortLabelTextField"),
         value = shortcutDialogState.shortLabel,
         onValueChange = shortcutDialogState::updateShortLabel,
@@ -166,7 +164,7 @@ private fun ShortcutDialogTextFields(
     OutlinedTextField(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 5.dp)
+            .padding(horizontal = 10.dp)
             .testTag("shortcutDialog:longLabelTextField"),
         value = shortcutDialogState.longLabel,
         onValueChange = shortcutDialogState::updateLongLabel,

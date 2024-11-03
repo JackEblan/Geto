@@ -56,6 +56,7 @@ include(":feature:app-settings")
 include(":feature:home")
 include(":feature:settings")
 
+include(":framework:asset-manager")
 include(":framework:clipboard-manager")
 include(":framework:notification-manager")
 include(":framework:package-manager")

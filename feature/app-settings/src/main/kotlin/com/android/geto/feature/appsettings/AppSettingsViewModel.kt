@@ -50,7 +50,9 @@ import com.android.geto.feature.appsettings.AppSettingsEvent.ResetRequestPinShor
 import com.android.geto.feature.appsettings.AppSettingsEvent.ResetRevertAppSettingsResult
 import com.android.geto.feature.appsettings.AppSettingsEvent.ResetSetPrimaryClipResult
 import com.android.geto.feature.appsettings.AppSettingsEvent.RevertAppSettings
+import com.android.geto.feature.appsettings.dialog.template.TemplateDialogUiState
 import com.android.geto.feature.appsettings.navigation.AppSettingsRouteData
+import com.android.geto.framework.assetmanager.AssetManagerWrapper
 import com.android.geto.framework.clipboardmanager.ClipboardManagerWrapper
 import com.android.geto.framework.notificationmanager.NotificationManagerWrapper
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -76,6 +78,7 @@ class AppSettingsViewModel @Inject constructor(
     private val autoLaunchUseCase: AutoLaunchUseCase,
     private val requestPinShortcutUseCase: RequestPinShortcutUseCase,
     private val notificationManagerWrapper: NotificationManagerWrapper,
+    private val assetManagerWrapper: AssetManagerWrapper,
 ) : ViewModel() {
     private val appSettingsRouteData = savedStateHandle.toRoute<AppSettingsRouteData>()
 
@@ -123,6 +126,16 @@ class AppSettingsViewModel @Inject constructor(
                 started = SharingStarted.WhileSubscribed(5_000),
                 initialValue = AppSettingsUiState.Loading,
             )
+
+    private var _templateDialogUiState =
+        MutableStateFlow<TemplateDialogUiState>(TemplateDialogUiState.Loading)
+    val templateDialogUiState = _templateDialogUiState.onStart {
+        getAppSettingTemplates()
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000),
+        initialValue = TemplateDialogUiState.Loading,
+    )
 
     fun onEvent(event: AppSettingsEvent) {
         when (event) {
@@ -291,6 +304,14 @@ class AppSettingsViewModel @Inject constructor(
             contentTitle = contentTitle,
             contentText = contentText,
         )
+    }
+
+    private fun getAppSettingTemplates() {
+        viewModelScope.launch {
+            _templateDialogUiState.update {
+                TemplateDialogUiState.Success(appSettingTemplates = assetManagerWrapper.getAppSettingTemplates())
+            }
+        }
     }
 
     private fun resetApplyAppSettingsResult() {
