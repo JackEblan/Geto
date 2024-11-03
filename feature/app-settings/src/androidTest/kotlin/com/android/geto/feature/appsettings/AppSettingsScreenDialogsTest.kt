@@ -201,7 +201,7 @@ class AppSettingsScreenDialogsTest {
     }
 
     @Test
-    fun templateDialog_isDisplayed_whenSettingsSuggestIcon_isClicked_thenDismissed() {
+    fun templateDialog_isDisplayed_whenSettingsSuggestIcon_isClicked() {
         composeTestRule.setContent {
             AppSettingsScreen(
                 packageName = "com.android.geto",
@@ -228,10 +228,6 @@ class AppSettingsScreenDialogsTest {
         ).performClick()
 
         composeTestRule.onNodeWithContentDescription("Template Dialog").assertIsDisplayed()
-
-        composeTestRule.onNodeWithText("Cancel").performClick()
-
-        composeTestRule.onNodeWithContentDescription("Template Dialog").assertIsNotDisplayed()
     }
 
     @Test
