@@ -25,7 +25,7 @@ import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 
-fun BroadcastReceiver.broadcastReceiverScope(
+internal fun BroadcastReceiver.broadcastReceiverScope(
     context: CoroutineContext = EmptyCoroutineContext,
     block: suspend CoroutineScope.() -> Unit,
 ) {
