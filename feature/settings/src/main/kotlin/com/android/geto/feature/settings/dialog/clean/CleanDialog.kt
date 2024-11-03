@@ -51,9 +51,7 @@ internal fun CleanDialog(
         onDismissRequest = onDismissRequest,
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(10.dp),
+            modifier = Modifier.fillMaxWidth(),
         ) {
             CleanDialogTitle()
 
@@ -72,7 +70,7 @@ private fun CleanDialogTitle(modifier: Modifier = Modifier) {
     Spacer(modifier = Modifier.height(10.dp))
 
     Text(
-        modifier = modifier.padding(horizontal = 5.dp),
+        modifier = modifier.padding(10.dp),
         text = stringResource(id = R.string.clean_app_settings),
         style = MaterialTheme.typography.titleLarge,
     )
@@ -80,10 +78,8 @@ private fun CleanDialogTitle(modifier: Modifier = Modifier) {
 
 @Composable
 private fun CleanDialogContent(modifier: Modifier = Modifier) {
-    Spacer(modifier = Modifier.height(10.dp))
-
     Text(
-        modifier = modifier.padding(horizontal = 5.dp),
+        modifier = modifier.padding(10.dp),
         text = stringResource(id = R.string.are_you_sure_you_want_to_clean_app_settings_from_the_uninstalled_applications),
         style = MaterialTheme.typography.bodyLarge,
     )
@@ -95,10 +91,10 @@ private fun CleanDialogButtons(
     onCancelClick: () -> Unit,
     onCleanClick: () -> Unit,
 ) {
-    Spacer(modifier = Modifier.height(10.dp))
-
     Row(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(10.dp),
         horizontalArrangement = Arrangement.End,
     ) {
         TextButton(

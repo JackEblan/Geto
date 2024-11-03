@@ -93,8 +93,6 @@ private fun DarkDialogRadioButtonGroup(
     selected: Int,
     onSelect: (Int) -> Unit,
 ) {
-    Spacer(modifier = Modifier.height(10.dp))
-
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -137,8 +135,6 @@ private fun DarkDialogButtons(
     onCancelClick: () -> Unit,
     onChangeClick: () -> Unit,
 ) {
-    Spacer(modifier = Modifier.height(10.dp))
-
     Row(
         modifier = modifier
             .fillMaxWidth()

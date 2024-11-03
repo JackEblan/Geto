@@ -328,8 +328,6 @@ private fun AppSettingDialogButtons(
     onCancelClick: () -> Unit,
     onAddClick: () -> Unit,
 ) {
-    Spacer(modifier = Modifier.height(10.dp))
-
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -344,7 +342,9 @@ private fun AppSettingDialogButtons(
         }
         TextButton(
             onClick = onAddClick,
-            modifier = Modifier.padding(5.dp).testTag("Test Add"),
+            modifier = Modifier
+                .padding(5.dp)
+                .testTag("Test Add"),
         ) {
             Text(text = stringResource(R.string.add))
         }

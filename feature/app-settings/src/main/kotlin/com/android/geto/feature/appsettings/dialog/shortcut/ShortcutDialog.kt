@@ -198,8 +198,6 @@ private fun ShortcutDialogButtons(
     onPositiveTextButtonClick: () -> Unit,
     onNegativeTextButtonClick: () -> Unit,
 ) {
-    Spacer(modifier = Modifier.height(10.dp))
-
     Row(
         modifier = modifier
             .fillMaxWidth()

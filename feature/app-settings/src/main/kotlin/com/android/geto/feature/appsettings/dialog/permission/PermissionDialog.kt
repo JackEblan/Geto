@@ -88,8 +88,6 @@ private fun PermissionDialogTitle(modifier: Modifier = Modifier) {
 
 @Composable
 private fun PermissionDialogContent(modifier: Modifier = Modifier) {
-    Spacer(modifier = Modifier.height(10.dp))
-
     Text(
         modifier = modifier.padding(10.dp),
         text = stringResource(id = R.string.copy_permission_command_message),
@@ -103,8 +101,6 @@ fun PermissionDialogButtons(
     onCancelClick: () -> Unit,
     onCopyClick: () -> Unit,
 ) {
-    Spacer(modifier = Modifier.height(10.dp))
-
     Row(
         modifier = modifier
             .fillMaxWidth()

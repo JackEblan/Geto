@@ -17,7 +17,6 @@
  */
 package com.android.geto.feature.appsettings.dialog.template
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -30,7 +29,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -90,12 +88,6 @@ internal fun TemplateDialog(
                     )
                 }
             }
-
-            TemplateDialogButtons(
-                onCancelClick = {
-                    templateDialogState.updateShowDialog(false)
-                },
-            )
         }
     }
 }
@@ -123,28 +115,6 @@ private fun TemplateDialogContent(
                 appSettingTemplate = appSettingTemplate,
                 onAddClick = onAddClick,
             )
-        }
-    }
-}
-
-@Composable
-private fun TemplateDialogButtons(
-    modifier: Modifier = Modifier,
-    onCancelClick: () -> Unit,
-) {
-    Spacer(modifier = Modifier.height(10.dp))
-
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(10.dp),
-        horizontalArrangement = Arrangement.End,
-    ) {
-        TextButton(
-            onClick = onCancelClick,
-            modifier = Modifier.padding(5.dp),
-        ) {
-            Text(text = stringResource(id = R.string.cancel))
         }
     }
 }
