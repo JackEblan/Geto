@@ -23,10 +23,6 @@ plugins {
 }
 
 android {
-    defaultConfig {
-        consumerProguardFiles("consumer-proguard-rules.pro")
-    }
-
     namespace = "com.android.geto.core.datastore"
 
     testOptions {
