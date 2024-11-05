@@ -39,7 +39,13 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
             extensions.configure<LibraryExtension> {
                 configureKotlinAndroid(this)
                 testOptions.targetSdk = 34
+                defaultConfig.testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+                testOptions.animationsDisabled = true
                 configureGradleManagedDevices(this)
+
+                defaultConfig {
+                    consumerProguardFiles("consumer-proguard-rules.pro")
+                }
             }
 
             extensions.configure<LibraryAndroidComponentsExtension> {
