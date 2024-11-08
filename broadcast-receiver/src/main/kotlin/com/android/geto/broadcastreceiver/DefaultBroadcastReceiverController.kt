@@ -17,20 +17,28 @@
  */
 package com.android.geto.broadcastreceiver
 
+import com.android.geto.core.common.Dispatcher
+import com.android.geto.core.common.GetoDispatchers
 import com.android.geto.core.domain.RevertAppSettingsUseCase
 import com.android.geto.core.model.AppSettingsResult
 import com.android.geto.framework.notificationmanager.NotificationManagerWrapper
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 internal class DefaultBroadcastReceiverController @Inject constructor(
+    @Dispatcher(GetoDispatchers.IO) private val ioDispatcher: CoroutineDispatcher,
     private val revertAppSettingsUseCase: RevertAppSettingsUseCase,
     private val notificationManagerWrapper: NotificationManagerWrapper,
 ) : BroadcastReceiverController {
-    override suspend fun revertSettings(packageName: String?, notificationId: Int?) {
+    override fun revertSettings(packageName: String?, notificationId: Int?) {
         if (packageName == null || notificationId == null) return
 
-        if (revertAppSettingsUseCase(packageName = packageName) == AppSettingsResult.Success) {
-            notificationManagerWrapper.cancel(notificationId)
+        CoroutineScope(ioDispatcher).launch {
+            if (revertAppSettingsUseCase(packageName = packageName) == AppSettingsResult.Success) {
+                notificationManagerWrapper.cancel(notificationId)
+            }
         }
     }
 }

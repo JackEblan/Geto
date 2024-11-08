@@ -31,7 +31,18 @@ interface NotificationManagerWrapper {
         contentText: String,
     )
 
-    fun startUsageStatsForegroundService(service: Service, id: Int)
+    fun startUsageStatsForegroundService(
+        service: Service,
+        id: Int,
+        contentTitle: String,
+        contentText: String,
+    )
+
+    fun updateUsageStatsForegroundServiceNotification(
+        id: Int,
+        contentTitle: String,
+        contentText: String,
+    )
 
     fun cancel(id: Int)
 

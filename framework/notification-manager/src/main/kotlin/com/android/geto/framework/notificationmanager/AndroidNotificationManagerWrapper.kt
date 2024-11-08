@@ -75,20 +75,46 @@ internal class AndroidNotificationManagerWrapper @Inject constructor(@Applicatio
         notificationManagerCompat.notify(notificationId, notification)
     }
 
-    override fun cancel(id: Int) {
-        notificationManagerCompat.cancel(id)
-    }
-
     @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
-    override fun startUsageStatsForegroundService(service: Service, id: Int) {
+    override fun startUsageStatsForegroundService(
+        service: Service,
+        id: Int,
+        contentTitle: String,
+        contentText: String,
+    ) {
         createNotificationChannel()
 
         ServiceCompat.startForeground(
             service,
             id,
-            getUsageStatsForegroundServiceNotification(),
+            getUsageStatsForegroundServiceNotification(
+                contentTitle = contentTitle,
+                contentText = contentText,
+            ),
             FOREGROUND_SERVICE_TYPE_SPECIAL_USE,
         )
+    }
+
+    @RequiresPermission("android.permission.POST_NOTIFICATIONS")
+    override fun updateUsageStatsForegroundServiceNotification(
+        id: Int,
+        contentTitle: String,
+        contentText: String,
+    ) {
+        if (canPostNotifications().not()) {
+            return
+        }
+
+        val notification = getUsageStatsForegroundServiceNotification(
+            contentTitle = contentTitle,
+            contentText = contentText,
+        )
+
+        notificationManagerCompat.notify(id, notification)
+    }
+
+    override fun cancel(id: Int) {
+        notificationManagerCompat.cancel(id)
     }
 
     private fun createNotificationChannel() {
@@ -158,12 +184,14 @@ internal class AndroidNotificationManagerWrapper @Inject constructor(@Applicatio
             ).build()
     }
 
-    private fun getUsageStatsForegroundServiceNotification(): Notification {
+    private fun getUsageStatsForegroundServiceNotification(
+        contentTitle: String,
+        contentText: String,
+    ): Notification {
         return NotificationCompat.Builder(
             context,
             context.getString(R.string.geto_notification_channel_id),
-        ).setSmallIcon(R.drawable.baseline_settings_24).setContentTitle("Geto Usage Stats")
-            .setContentText("Monitoring your applications.")
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT).build()
+        ).setSmallIcon(R.drawable.baseline_settings_24).setContentTitle(contentTitle)
+            .setContentText(contentText).setPriority(NotificationCompat.PRIORITY_DEFAULT).build()
     }
 }

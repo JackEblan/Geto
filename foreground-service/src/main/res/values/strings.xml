@@ -17,4 +17,7 @@
   -->
 <resources>
     <string name="track_usage_stats">Track Usage Stats</string>
+    <string name="usage_stats_app_settings_applied_successfully">App Settings applied successfully</string>
+    <string name="usage_stats">Usage Stats</string>
+    <string name="service_is_running">Service is running</string>
 </resources>

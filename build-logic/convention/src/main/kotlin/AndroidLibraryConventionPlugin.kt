@@ -42,10 +42,6 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
                 defaultConfig.testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
                 testOptions.animationsDisabled = true
                 configureGradleManagedDevices(this)
-
-                defaultConfig {
-                    consumerProguardFiles("consumer-proguard-rules.pro")
-                }
             }
 
             extensions.configure<LibraryAndroidComponentsExtension> {

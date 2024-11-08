@@ -33,7 +33,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
-class AndroidUsageStatsManagerWrapper @Inject constructor(
+internal class AndroidUsageStatsManagerWrapper @Inject constructor(
     @ApplicationContext private val context: Context,
     @Dispatcher(Default) private val defaultDispatcher: CoroutineDispatcher,
 ) : UsageStatsManagerWrapper {

@@ -18,5 +18,5 @@
 package com.android.geto.broadcastreceiver
 
 interface BroadcastReceiverController {
-    suspend fun revertSettings(packageName: String?, notificationId: Int?)
+    fun revertSettings(packageName: String?, notificationId: Int?)
 }

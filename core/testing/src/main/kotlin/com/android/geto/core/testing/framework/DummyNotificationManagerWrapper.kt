@@ -31,7 +31,19 @@ class DummyNotificationManagerWrapper : NotificationManagerWrapper {
     ) {
     }
 
-    override fun startUsageStatsForegroundService(service: Service, id: Int) {
+    override fun startUsageStatsForegroundService(
+        service: Service,
+        id: Int,
+        contentTitle: String,
+        contentText: String,
+    ) {
+    }
+
+    override fun updateUsageStatsForegroundServiceNotification(
+        id: Int,
+        contentTitle: String,
+        contentText: String,
+    ) {
     }
 
     override fun cancel(id: Int) {

@@ -30,7 +30,7 @@ class RevertSettingsBroadcastReceiver : BroadcastReceiver() {
     @Inject
     lateinit var broadcastReceiverController: BroadcastReceiverController
 
-    override fun onReceive(context: Context?, intent: Intent?) = broadcastReceiverScope {
+    override fun onReceive(context: Context?, intent: Intent?) {
         val packageName = intent?.extras?.getString(EXTRA_PACKAGE_NAME)
 
         val notificationId = intent?.extras?.getInt(EXTRA_NOTIFICATION_ID)
