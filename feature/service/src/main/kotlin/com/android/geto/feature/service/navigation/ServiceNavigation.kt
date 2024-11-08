@@ -15,25 +15,26 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.core.testing.framework
+package com.android.geto.feature.service.navigation
 
-import android.app.Service
-import android.graphics.drawable.Drawable
-import com.android.geto.framework.notificationmanager.NotificationManagerWrapper
+import androidx.navigation.NavController
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.compose.composable
+import com.android.geto.feature.service.ServiceRoute
 
-class DummyNotificationManagerWrapper : NotificationManagerWrapper {
-    override fun notifyRevertSettings(
-        cls: Class<*>,
-        packageName: String,
-        icon: Drawable?,
-        contentTitle: String,
-        contentText: String,
-    ) {
+fun NavController.navigateToService() {
+    navigate(ServiceRouteData) {
+        popUpTo(graph.findStartDestination().id) {
+            saveState = true
+        }
+        launchSingleTop = true
+        restoreState = true
     }
+}
 
-    override fun startUsageStatsForegroundService(service: Service, id: Int) {
-    }
-
-    override fun cancel(id: Int) {
+fun NavGraphBuilder.serviceScreen() {
+    composable<ServiceRouteData> {
+        ServiceRoute()
     }
 }

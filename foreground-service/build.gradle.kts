@@ -15,25 +15,21 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.core.testing.framework
 
-import android.app.Service
-import android.graphics.drawable.Drawable
-import com.android.geto.framework.notificationmanager.NotificationManagerWrapper
+plugins {
+    alias(libs.plugins.com.android.geto.library)
+    alias(libs.plugins.com.android.geto.hilt)
+}
 
-class DummyNotificationManagerWrapper : NotificationManagerWrapper {
-    override fun notifyRevertSettings(
-        cls: Class<*>,
-        packageName: String,
-        icon: Drawable?,
-        contentTitle: String,
-        contentText: String,
-    ) {
-    }
+android {
+    namespace = "com.android.geto.foregroundservice"
+}
 
-    override fun startUsageStatsForegroundService(service: Service, id: Int) {
-    }
+dependencies {
+    implementation(libs.androidx.core.ktx)
+    implementation(projects.core.common)
+    implementation(projects.core.domain)
+    implementation(projects.core.model)
 
-    override fun cancel(id: Int) {
-    }
+    implementation(projects.framework.notificationManager)
 }

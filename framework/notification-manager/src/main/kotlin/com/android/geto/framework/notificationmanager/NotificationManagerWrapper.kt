@@ -17,17 +17,21 @@
  */
 package com.android.geto.framework.notificationmanager
 
+import android.app.Service
 import android.graphics.drawable.Drawable
 import androidx.annotation.RequiresPermission
 
 interface NotificationManagerWrapper {
     @RequiresPermission("android.permission.POST_NOTIFICATIONS")
-    fun notify(
+    fun notifyRevertSettings(
+        cls: Class<*>,
         packageName: String,
         icon: Drawable?,
         contentTitle: String,
         contentText: String,
     )
+
+    fun startUsageStatsForegroundService(service: Service, id: Int)
 
     fun cancel(id: Int)
 

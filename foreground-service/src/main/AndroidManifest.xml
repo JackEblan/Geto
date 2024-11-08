@@ -15,11 +15,19 @@
   ~   limitations under the License.
   ~
   -->
-<resources>
-    <string name="app_name">Geto</string>
-    <string name="apps">Apps</string>
-    <string name="settings">Settings</string>
-    <string name="please_grant_notifications_permission">Please grant notifications permission</string>
-    <string name="allow">Allow</string>
-    <string name="service">Service</string>
-</resources>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+
+    <application>
+        <service
+            android:name=".UsageStatsService"
+            android:exported="false"
+            android:foregroundServiceType="specialUse">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="@string/track_usage_stats" />
+        </service>
+    </application>
+</manifest>

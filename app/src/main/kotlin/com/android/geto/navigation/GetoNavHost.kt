@@ -35,9 +35,12 @@ import com.android.geto.feature.appsettings.navigation.appSettingsScreen
 import com.android.geto.feature.appsettings.navigation.navigateToAppSettings
 import com.android.geto.feature.home.navigation.HomeRouteData
 import com.android.geto.feature.home.navigation.homeScreen
+import com.android.geto.feature.service.navigation.navigateToService
+import com.android.geto.feature.service.navigation.serviceScreen
 import com.android.geto.feature.settings.navigation.navigateToSettings
 import com.android.geto.feature.settings.navigation.settingsScreen
 import com.android.geto.navigation.TopLevelDestination.APPS
+import com.android.geto.navigation.TopLevelDestination.SERVICE
 import com.android.geto.navigation.TopLevelDestination.SETTINGS
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus
@@ -64,11 +67,14 @@ fun GetoNavHost(
             onItemClick = { homeNavHostController, homeDestination ->
                 when (homeDestination) {
                     APPS -> homeNavHostController.navigateToApps()
+                    SERVICE -> homeNavHostController.navigateToService()
                     SETTINGS -> homeNavHostController.navigateToSettings()
                 }
             },
             builder = {
                 appsScreen(onItemClick = navController::navigateToAppSettings)
+
+                serviceScreen()
 
                 settingsScreen()
             },

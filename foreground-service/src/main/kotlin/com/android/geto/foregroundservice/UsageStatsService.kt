@@ -15,25 +15,30 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.core.testing.framework
+package com.android.geto.foregroundservice
 
 import android.app.Service
-import android.graphics.drawable.Drawable
+import android.content.Intent
+import android.os.Build
+import android.os.IBinder
+import androidx.annotation.RequiresApi
 import com.android.geto.framework.notificationmanager.NotificationManagerWrapper
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-class DummyNotificationManagerWrapper : NotificationManagerWrapper {
-    override fun notifyRevertSettings(
-        cls: Class<*>,
-        packageName: String,
-        icon: Drawable?,
-        contentTitle: String,
-        contentText: String,
-    ) {
+@AndroidEntryPoint
+class UsageStatsService : Service() {
+    @Inject
+    lateinit var notificationManagerWrapper: NotificationManagerWrapper
+
+    override fun onBind(intent: Intent?): IBinder? {
+        return null
     }
 
-    override fun startUsageStatsForegroundService(service: Service, id: Int) {
-    }
+    @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        notificationManagerWrapper.startUsageStatsForegroundService(service = this, id = 1)
 
-    override fun cancel(id: Int) {
+        return START_STICKY_COMPATIBILITY
     }
 }

@@ -54,6 +54,7 @@ include(":core:ui")
 include(":feature:apps")
 include(":feature:app-settings")
 include(":feature:home")
+include(":feature:service")
 include(":feature:settings")
 
 include(":framework:asset-manager")
@@ -62,5 +63,8 @@ include(":framework:notification-manager")
 include(":framework:package-manager")
 include(":framework:secure-settings")
 include(":framework:shortcut-manager")
+include(":framework:usage-stats-manager")
+
+include(":foreground-service")
 
 include(":lint")

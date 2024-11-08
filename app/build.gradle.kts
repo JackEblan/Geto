@@ -69,6 +69,7 @@ dependencies {
     implementation(projects.feature.apps)
     implementation(projects.feature.appSettings)
     implementation(projects.feature.home)
+    implementation(projects.feature.service)
     implementation(projects.feature.settings)
 
     implementation(projects.broadcastReceiver)

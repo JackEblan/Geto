@@ -15,14 +15,24 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.broadcastreceiver
+package com.android.geto.feature.service
 
-import dagger.hilt.EntryPoint
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 
-@EntryPoint
-@InstallIn(SingletonComponent::class)
-internal interface BroadcastReceiverEntryPoint {
-    fun broadcastReceiverController(): BroadcastReceiverController
+@Composable
+internal fun ServiceRoute(
+    modifier: Modifier = Modifier,
+    viewModel: ServiceViewModel = hiltViewModel(),
+) {
+    Button(
+        onClick = {
+            viewModel.onEvent(ServiceEvent.StartForegroundService)
+        },
+    ) {
+        Text(text = "Start")
+    }
 }

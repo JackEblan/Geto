@@ -17,20 +17,6 @@
  */
 package com.android.geto.broadcastreceiver
 
-import com.android.geto.core.domain.RevertAppSettingsUseCase
-import com.android.geto.core.model.AppSettingsResult
-import com.android.geto.framework.notificationmanager.NotificationManagerWrapper
-import javax.inject.Inject
-
-internal class BroadcastReceiverController @Inject constructor(
-    private val revertAppSettingsUseCase: RevertAppSettingsUseCase,
-    private val notificationManagerWrapper: NotificationManagerWrapper,
-) {
-    suspend fun revertSettings(packageName: String?, notificationId: Int?) {
-        if (packageName == null || notificationId == null) return
-
-        if (revertAppSettingsUseCase(packageName = packageName) == AppSettingsResult.Success) {
-            notificationManagerWrapper.cancel(notificationId)
-        }
-    }
+interface BroadcastReceiverController {
+    suspend fun revertSettings(packageName: String?, notificationId: Int?)
 }

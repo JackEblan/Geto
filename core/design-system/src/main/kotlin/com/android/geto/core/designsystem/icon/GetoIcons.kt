@@ -24,6 +24,7 @@ import androidx.compose.material.icons.filled.Android
 import androidx.compose.material.icons.filled.AppShortcut
 import androidx.compose.material.icons.filled.Apps
 import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.RemoveRedEye
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.SettingsSuggest
 
@@ -36,4 +37,5 @@ object GetoIcons {
     val Shortcut = Icons.Default.AppShortcut
     val SettingsSuggest = Icons.Default.SettingsSuggest
     val Add = Icons.Default.Add
+    val RemoveRedEye = Icons.Default.RemoveRedEye
 }

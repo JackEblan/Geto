@@ -15,25 +15,19 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.core.testing.framework
+package com.android.geto.foregroundservice
 
-import android.app.Service
-import android.graphics.drawable.Drawable
-import com.android.geto.framework.notificationmanager.NotificationManagerWrapper
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
-class DummyNotificationManagerWrapper : NotificationManagerWrapper {
-    override fun notifyRevertSettings(
-        cls: Class<*>,
-        packageName: String,
-        icon: Drawable?,
-        contentTitle: String,
-        contentText: String,
-    ) {
-    }
+@Module
+@InstallIn(SingletonComponent::class)
+internal interface ForegroundServiceModule {
 
-    override fun startUsageStatsForegroundService(service: Service, id: Int) {
-    }
-
-    override fun cancel(id: Int) {
-    }
+    @Binds
+    @Singleton
+    fun foregroundServiceManager(impl: AndroidForegroundServiceManager): ForegroundServiceManager
 }

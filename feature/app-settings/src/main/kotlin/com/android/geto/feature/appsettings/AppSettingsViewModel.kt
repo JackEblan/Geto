@@ -22,6 +22,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
+import com.android.geto.broadcastreceiver.RevertSettingsBroadcastReceiver
 import com.android.geto.core.data.repository.AppSettingsRepository
 import com.android.geto.core.data.repository.PackageRepository
 import com.android.geto.core.data.repository.SecureSettingsRepository
@@ -312,7 +313,8 @@ class AppSettingsViewModel @Inject constructor(
         contentTitle: String,
         contentText: String,
     ) {
-        notificationManagerWrapper.notify(
+        notificationManagerWrapper.notifyRevertSettings(
+            cls = RevertSettingsBroadcastReceiver::class.java,
             packageName = packageName,
             icon = icon,
             contentTitle = contentTitle,

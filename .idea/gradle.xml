@@ -45,7 +45,9 @@
             <option value="$PROJECT_DIR$/feature/app-settings" />
             <option value="$PROJECT_DIR$/feature/apps" />
             <option value="$PROJECT_DIR$/feature/home" />
+            <option value="$PROJECT_DIR$/feature/service" />
             <option value="$PROJECT_DIR$/feature/settings" />
+            <option value="$PROJECT_DIR$/foreground-service" />
             <option value="$PROJECT_DIR$/framework" />
             <option value="$PROJECT_DIR$/framework/asset-manager" />
             <option value="$PROJECT_DIR$/framework/clipboard-manager" />
@@ -53,6 +55,7 @@
             <option value="$PROJECT_DIR$/framework/package-manager" />
             <option value="$PROJECT_DIR$/framework/secure-settings" />
             <option value="$PROJECT_DIR$/framework/shortcut-manager" />
+            <option value="$PROJECT_DIR$/framework/usage-stats-manager" />
             <option value="$PROJECT_DIR$/lint" />
           </set>
         </option>

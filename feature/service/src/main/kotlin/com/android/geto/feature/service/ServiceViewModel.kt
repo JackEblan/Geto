@@ -15,25 +15,22 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.core.testing.framework
+package com.android.geto.feature.service
 
-import android.app.Service
-import android.graphics.drawable.Drawable
-import com.android.geto.framework.notificationmanager.NotificationManagerWrapper
+import androidx.lifecycle.ViewModel
+import com.android.geto.foregroundservice.ForegroundServiceManager
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class DummyNotificationManagerWrapper : NotificationManagerWrapper {
-    override fun notifyRevertSettings(
-        cls: Class<*>,
-        packageName: String,
-        icon: Drawable?,
-        contentTitle: String,
-        contentText: String,
-    ) {
-    }
+@HiltViewModel
+class ServiceViewModel @Inject constructor(private val foregroundServiceManager: ForegroundServiceManager) :
+    ViewModel() {
 
-    override fun startUsageStatsForegroundService(service: Service, id: Int) {
-    }
-
-    override fun cancel(id: Int) {
+    fun onEvent(event: ServiceEvent) {
+        when (event) {
+            ServiceEvent.StartForegroundService -> {
+                foregroundServiceManager.startForegroundService()
+            }
+        }
     }
 }

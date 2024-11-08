@@ -15,25 +15,11 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.core.testing.framework
+package com.android.geto.core.model
 
-import android.app.Service
-import android.graphics.drawable.Drawable
-import com.android.geto.framework.notificationmanager.NotificationManagerWrapper
+data class GetoUsageEvent(val packageName: String, val getoLifeCycle: GetoLifeCycle)
 
-class DummyNotificationManagerWrapper : NotificationManagerWrapper {
-    override fun notifyRevertSettings(
-        cls: Class<*>,
-        packageName: String,
-        icon: Drawable?,
-        contentTitle: String,
-        contentText: String,
-    ) {
-    }
-
-    override fun startUsageStatsForegroundService(service: Service, id: Int) {
-    }
-
-    override fun cancel(id: Int) {
-    }
+enum class GetoLifeCycle {
+    ACTIVITY_RESUMED,
+    ACTIVITY_PAUSED,
 }

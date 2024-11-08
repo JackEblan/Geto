@@ -15,11 +15,11 @@
   ~   limitations under the License.
   ~
   -->
-<resources>
-    <string name="app_name">Geto</string>
-    <string name="apps">Apps</string>
-    <string name="settings">Settings</string>
-    <string name="please_grant_notifications_permission">Please grant notifications permission</string>
-    <string name="allow">Allow</string>
-    <string name="service">Service</string>
-</resources>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission
+        android:name="android.permission.PACKAGE_USAGE_STATS"
+        tools:ignore="ProtectedPermissions" />
+
+</manifest>

@@ -24,18 +24,14 @@ plugins {
 }
 
 android {
-    namespace = "com.android.geto.feature.appsettings"
+    namespace = "com.android.geto.feature.service"
 }
 
 dependencies {
     implementation(projects.core.data)
     implementation(projects.core.domain)
 
-    implementation(projects.broadcastReceiver)
-
-    implementation(projects.framework.assetManager)
-    implementation(projects.framework.clipboardManager)
-    implementation(projects.framework.notificationManager)
+    implementation(projects.foregroundService)
 
     testImplementation(libs.hilt.android.testing)
     testImplementation(libs.robolectric)

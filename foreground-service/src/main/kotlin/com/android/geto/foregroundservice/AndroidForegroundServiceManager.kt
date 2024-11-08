@@ -15,25 +15,19 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.core.testing.framework
+package com.android.geto.foregroundservice
 
-import android.app.Service
-import android.graphics.drawable.Drawable
-import com.android.geto.framework.notificationmanager.NotificationManagerWrapper
+import android.content.Context
+import android.content.Intent
+import androidx.core.content.ContextCompat
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
 
-class DummyNotificationManagerWrapper : NotificationManagerWrapper {
-    override fun notifyRevertSettings(
-        cls: Class<*>,
-        packageName: String,
-        icon: Drawable?,
-        contentTitle: String,
-        contentText: String,
-    ) {
-    }
+class AndroidForegroundServiceManager @Inject constructor(@ApplicationContext private val context: Context) :
+    ForegroundServiceManager {
+    override fun startForegroundService() {
+        val intent = Intent(context, UsageStatsService::class.java)
 
-    override fun startUsageStatsForegroundService(service: Service, id: Int) {
-    }
-
-    override fun cancel(id: Int) {
+        ContextCompat.startForegroundService(context, intent)
     }
 }

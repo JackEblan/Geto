@@ -24,3 +24,7 @@ plugins {
 android {
     namespace = "com.android.geto.framework.notificationmanager"
 }
+
+dependencies {
+    implementation(libs.androidx.core.ktx)
+}
