@@ -21,4 +21,6 @@ interface ForegroundServiceManager {
     fun startForegroundService()
 
     fun stopForegroundService()
+
+    fun isActive(): Boolean
 }

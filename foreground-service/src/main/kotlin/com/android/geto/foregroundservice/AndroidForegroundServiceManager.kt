@@ -17,8 +17,11 @@
  */
 package com.android.geto.foregroundservice
 
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.ServiceConnection
+import android.os.IBinder
 import androidx.core.content.ContextCompat
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
@@ -27,11 +30,35 @@ class AndroidForegroundServiceManager @Inject constructor(@ApplicationContext pr
     ForegroundServiceManager {
     private val usageStatsServiceIntent = Intent(context, UsageStatsService::class.java)
 
+    private lateinit var mService: UsageStatsService
+
+    private var mBound: Boolean = false
+
+    private val connection = object : ServiceConnection {
+        override fun onServiceConnected(className: ComponentName, service: IBinder) {
+            val binder = service as UsageStatsService.UsageStatsBinder
+            mService = binder.getService()
+            mBound = true
+        }
+
+        override fun onServiceDisconnected(arg0: ComponentName) {
+            mBound = false
+        }
+    }
+
     override fun startForegroundService() {
         ContextCompat.startForegroundService(context, usageStatsServiceIntent)
+
+        context.bindService(usageStatsServiceIntent, connection, Context.BIND_AUTO_CREATE)
     }
 
     override fun stopForegroundService() {
+        context.unbindService(connection)
+
         context.stopService(usageStatsServiceIntent)
+    }
+
+    override fun isActive(): Boolean {
+        return mBound && mService.isActive()
     }
 }

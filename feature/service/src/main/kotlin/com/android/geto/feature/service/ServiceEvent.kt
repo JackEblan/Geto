@@ -18,7 +18,7 @@
 package com.android.geto.feature.service
 
 sealed interface ServiceEvent {
-    data class UpdateUsageStatsService(val useUsageStatsService: Boolean) : ServiceEvent
+    data object UpdateUsageStatsForegroundService : ServiceEvent
 
     data object RequestPermission : ServiceEvent
 }

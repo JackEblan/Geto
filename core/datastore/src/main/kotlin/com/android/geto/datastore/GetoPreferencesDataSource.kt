@@ -54,7 +54,6 @@ class GetoPreferencesDataSource @Inject constructor(
             },
             useDynamicColor = it.useDynamicColor,
             useAutoLaunch = it.useAutoLaunch,
-            useUsageStatsService = it.useUsageStatsService,
         )
     }
 
@@ -90,12 +89,6 @@ class GetoPreferencesDataSource @Inject constructor(
     suspend fun setAutoLaunch(useAutoLaunch: Boolean) {
         userPreferences.updateData {
             it.copy { this.useAutoLaunch = useAutoLaunch }
-        }
-    }
-
-    suspend fun setUsageStatsService(useUsageStatsService: Boolean) {
-        userPreferences.updateData {
-            it.copy { this.useUsageStatsService = useUsageStatsService }
         }
     }
 }

@@ -45,8 +45,4 @@ internal class DefaultUserDataRepository @Inject constructor(
     override suspend fun setAutoLaunch(useAutoLaunch: Boolean) {
         getoPreferencesDataSource.setAutoLaunch(useAutoLaunch = useAutoLaunch)
     }
-
-    override suspend fun setUsageStatsService(useUsageStatsService: Boolean) {
-        getoPreferencesDataSource.setUsageStatsService(useUsageStatsService = useUsageStatsService)
-    }
 }

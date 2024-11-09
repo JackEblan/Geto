@@ -22,5 +22,4 @@ data class UserData(
     val darkThemeConfig: DarkThemeConfig,
     val useDynamicColor: Boolean,
     val useAutoLaunch: Boolean,
-    val useUsageStatsService: Boolean,
 )

@@ -16,21 +16,9 @@
  *
  */
 
-syntax = "proto3";
+package com.android.geto.feature.service
 
-import "com/android/geto/core/datastore/proto/dark_theme_config.proto";
-import "com/android/geto/core/datastore/proto/theme_brand.proto";
-
-option java_package = "com.android.geto.core.datastore.proto";
-option java_multiple_files = true;
-
-message UserPreferences {
-
-  ThemeBrandProto theme_brand = 16;
-  DarkThemeConfigProto dark_theme_config = 17;
-
-  bool use_dynamic_color = 19;
-
-  bool use_auto_launch = 20;
-}
-
+data class ServiceState(
+    val isUsageStatsActive: Boolean = false,
+    val isUsageStatsPermissionGranted: Boolean = false,
+)

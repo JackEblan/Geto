@@ -18,42 +18,31 @@
 package com.android.geto.feature.service
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.android.geto.core.data.repository.UserDataRepository
 import com.android.geto.foregroundservice.ForegroundServiceManager
 import com.android.geto.framework.usagestatsmanager.UsageStatsManagerWrapper
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
 class ServiceViewModel @Inject constructor(
     private val foregroundServiceManager: ForegroundServiceManager,
     private val usageStatsManagerWrapper: UsageStatsManagerWrapper,
-    private val userDataRepository: UserDataRepository,
 ) : ViewModel() {
-    val isUsageStatsPermissionGranted get() = usageStatsManagerWrapper.isUsageStatsPermissionGranted()
-
-    val serviceUiState = userDataRepository.userData.onEach { userData ->
-        if (userData.useUsageStatsService && usageStatsManagerWrapper.isUsageStatsPermissionGranted()) {
-            foregroundServiceManager.startForegroundService()
-        } else {
-            foregroundServiceManager.stopForegroundService()
-        }
-    }.map(ServiceUiState::Success).stateIn(
-        scope = viewModelScope,
-        started = WhileSubscribed(5_000),
-        initialValue = ServiceUiState.Loading,
+    private val _serviceState = MutableStateFlow(
+        ServiceState(
+            isUsageStatsActive = foregroundServiceManager.isActive(),
+            isUsageStatsPermissionGranted = usageStatsManagerWrapper.isUsageStatsPermissionGranted(),
+        ),
     )
+    val serviceState = _serviceState.asStateFlow()
 
     fun onEvent(event: ServiceEvent) {
         when (event) {
-            is ServiceEvent.UpdateUsageStatsService -> {
-                updateUsageStatsService(useUsageStatsService = event.useUsageStatsService)
+            ServiceEvent.UpdateUsageStatsForegroundService -> {
+                updateUsageForegroundService()
             }
 
             ServiceEvent.RequestPermission -> {
@@ -62,9 +51,18 @@ class ServiceViewModel @Inject constructor(
         }
     }
 
-    private fun updateUsageStatsService(useUsageStatsService: Boolean) {
-        viewModelScope.launch {
-            userDataRepository.setUsageStatsService(useUsageStatsService = useUsageStatsService)
+    private fun updateUsageForegroundService() {
+        _serviceState.update { currentState ->
+            currentState.copy(
+                isUsageStatsActive = foregroundServiceManager.isActive().not(),
+                isUsageStatsPermissionGranted = usageStatsManagerWrapper.isUsageStatsPermissionGranted(),
+            )
+        }
+
+        if (foregroundServiceManager.isActive()) {
+            foregroundServiceManager.stopForegroundService()
+        } else {
+            foregroundServiceManager.startForegroundService()
         }
     }
 }

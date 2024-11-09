@@ -20,6 +20,7 @@ package com.android.geto.foregroundservice
 import android.app.Service
 import android.content.Intent
 import android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE
+import android.os.Binder
 import android.os.Build
 import android.os.IBinder
 import androidx.annotation.RequiresApi
@@ -54,12 +55,18 @@ class UsageStatsService : Service() {
 
     private val notificationId = 1
 
-    override fun onBind(intent: Intent?): IBinder? {
-        return null
+    private val usageStatsBinder = UsageStatsBinder()
+
+    private var isActive = false
+
+    override fun onBind(intent: Intent?): IBinder {
+        return usageStatsBinder
     }
 
     @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        isActive = true
+
         ServiceCompat.startForeground(
             this,
             notificationId,
@@ -106,6 +113,17 @@ class UsageStatsService : Service() {
     override fun onDestroy() {
         super.onDestroy()
 
+        isActive = false
+
         serviceScope.cancel()
+    }
+
+    fun isActive(): Boolean {
+        println(isActive)
+        return isActive
+    }
+
+    inner class UsageStatsBinder : Binder() {
+        fun getService(): UsageStatsService = this@UsageStatsService
     }
 }
