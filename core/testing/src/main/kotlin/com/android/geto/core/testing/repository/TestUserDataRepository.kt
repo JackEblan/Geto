@@ -31,6 +31,7 @@ val emptyUserData = UserData(
     darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
     useDynamicColor = false,
     useAutoLaunch = false,
+    useUsageStatsService = false,
 )
 
 class TestUserDataRepository : UserDataRepository {
@@ -61,6 +62,12 @@ class TestUserDataRepository : UserDataRepository {
     override suspend fun setAutoLaunch(useAutoLaunch: Boolean) {
         currentUserData.let { current ->
             _userData.tryEmit(current.copy(useAutoLaunch = useAutoLaunch))
+        }
+    }
+
+    override suspend fun setUsageStatsService(useUsageStatsService: Boolean) {
+        currentUserData.let { current ->
+            _userData.tryEmit(current.copy(useUsageStatsService = useUsageStatsService))
         }
     }
 

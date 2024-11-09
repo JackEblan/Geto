@@ -27,7 +27,6 @@ import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -43,7 +42,6 @@ import kotlin.math.sin
 @Composable
 fun AnimatedWavyCircle(
     modifier: Modifier = Modifier,
-    enabled: Boolean,
     color: Color,
     onClick: () -> Unit,
 ) {
@@ -62,7 +60,6 @@ fun AnimatedWavyCircle(
         label = "",
     )
 
-
     val scale by infiniteTransition.animateFloat(
         initialValue = 1f,
         targetValue = 1.2f,
@@ -74,23 +71,21 @@ fun AnimatedWavyCircle(
     )
 
     Canvas(
-        modifier = modifier
-            .fillMaxSize()
-            .pointerInput(Unit) {
-                detectTapGestures(
-                    onTap = { offset ->
-                        val radius = minOf(size.width, size.height) / 3
-                        val centerX = size.width / 2
-                        val centerY = size.height / 2
-                        val distanceFromCenter =
-                            (offset.x - centerX).pow(2) + (offset.y - centerY).pow(2)
+        modifier = modifier.pointerInput(Unit) {
+            detectTapGestures(
+                onTap = { offset ->
+                    val radius = minOf(size.width, size.height) / 3
+                    val centerX = size.width / 2
+                    val centerY = size.height / 2
+                    val distanceFromCenter =
+                        (offset.x - centerX).pow(2) + (offset.y - centerY).pow(2)
 
-                        if (distanceFromCenter <= radius * radius) {
-                            onClick()
-                        }
-                    },
-                )
-            },
+                    if (distanceFromCenter <= radius * radius) {
+                        onClick()
+                    }
+                },
+            )
+        },
     ) {
         val radius = size.minDimension / 3 * scale
         val centerX = size.width / 2

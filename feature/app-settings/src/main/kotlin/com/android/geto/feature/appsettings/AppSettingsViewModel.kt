@@ -313,12 +313,17 @@ class AppSettingsViewModel @Inject constructor(
         contentTitle: String,
         contentText: String,
     ) {
-        notificationManagerWrapper.notifyRevertSettings(
-            cls = RevertSettingsBroadcastReceiver::class.java,
-            packageName = packageName,
-            icon = icon,
-            contentTitle = contentTitle,
-            contentText = contentText,
+        val notificationId = packageName.hashCode()
+
+        notificationManagerWrapper.notify(
+            notificationId = notificationId,
+            notification = notificationManagerWrapper.getRevertNotification(
+                cls = RevertSettingsBroadcastReceiver::class.java,
+                packageName = packageName,
+                icon = icon,
+                contentTitle = contentTitle,
+                contentText = contentText,
+            ),
         )
     }
 

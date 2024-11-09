@@ -17,22 +17,32 @@
  */
 package com.android.geto.feature.service
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.android.geto.core.designsystem.component.AnimatedWavyCircle
+import com.android.geto.core.designsystem.component.GetoLoadingWheel
 
 @Composable
 internal fun ServiceRoute(
     modifier: Modifier = Modifier,
     viewModel: ServiceViewModel = hiltViewModel(),
 ) {
-    val isUsageStatsRunning = false
+    val serviceUiState = viewModel.serviceUiState.collectAsStateWithLifecycle().value
 
     ServiceScreen(
         modifier = modifier,
-        isUsageStatsRunning = isUsageStatsRunning,
+        serviceUiState = serviceUiState,
         isUsageStatsPermissionGranted = viewModel.isUsageStatsPermissionGranted,
         onEvent = viewModel::onEvent,
     )
@@ -41,7 +51,7 @@ internal fun ServiceRoute(
 @Composable
 internal fun ServiceScreen(
     modifier: Modifier = Modifier,
-    isUsageStatsRunning: Boolean,
+    serviceUiState: ServiceUiState,
     isUsageStatsPermissionGranted: Boolean,
     onEvent: (ServiceEvent) -> Unit,
 ) {
@@ -49,18 +59,53 @@ internal fun ServiceScreen(
 
     val animatedColor = MaterialTheme.colorScheme.inversePrimary
 
-    AnimatedWavyCircle(
-        modifier = modifier,
-        enabled = isUsageStatsRunning,
-        color = if (isUsageStatsRunning) animatedColor else stoppedColor,
-        onClick = {
-            if (isUsageStatsRunning && isUsageStatsPermissionGranted) {
-                onEvent(ServiceEvent.StopForegroundService)
-            } else if (isUsageStatsPermissionGranted.not()) {
-                onEvent(ServiceEvent.RequestPermission)
-            } else {
-                onEvent(ServiceEvent.StartForegroundService)
+    var animatedWavyCircleEnabled by remember {
+        mutableStateOf(false)
+    }
+
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .testTag("service"),
+    ) {
+        when (serviceUiState) {
+            ServiceUiState.Loading -> {
+                LoadingState(
+                    modifier = Modifier.align(Alignment.Center),
+                )
             }
-        },
+
+            is ServiceUiState.Success -> {
+                val useUsageStatsService = serviceUiState.userData.useUsageStatsService
+
+                animatedWavyCircleEnabled = useUsageStatsService
+
+                AnimatedWavyCircle(
+                    modifier = Modifier.fillMaxSize(),
+                    color = if (useUsageStatsService) animatedColor else stoppedColor,
+                    onClick = {
+                        if (isUsageStatsPermissionGranted) {
+                            onEvent(
+                                ServiceEvent.UpdateUsageStatsService(
+                                    useUsageStatsService = animatedWavyCircleEnabled.not(),
+                                ),
+                            )
+                        } else {
+                            onEvent(
+                                ServiceEvent.RequestPermission,
+                            )
+                        }
+                    },
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun LoadingState(modifier: Modifier = Modifier) {
+    GetoLoadingWheel(
+        modifier = modifier,
+        contentDescription = "GetoLoadingWheel",
     )
 }

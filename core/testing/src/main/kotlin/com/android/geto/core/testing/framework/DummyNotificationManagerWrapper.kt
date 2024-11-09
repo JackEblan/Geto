@@ -17,33 +17,29 @@
  */
 package com.android.geto.core.testing.framework
 
-import android.app.Service
+import android.app.Notification
 import android.graphics.drawable.Drawable
 import com.android.geto.framework.notificationmanager.NotificationManagerWrapper
 
 class DummyNotificationManagerWrapper : NotificationManagerWrapper {
-    override fun notifyRevertSettings(
+    override fun notify(notificationId: Int, notification: Notification) {
+    }
+
+    override fun getUsageStatsForegroundServiceNotification(
+        contentTitle: String,
+        contentText: String,
+    ): Notification {
+        return Notification()
+    }
+
+    override fun getRevertNotification(
         cls: Class<*>,
         packageName: String,
         icon: Drawable?,
         contentTitle: String,
         contentText: String,
-    ) {
-    }
-
-    override fun startUsageStatsForegroundService(
-        service: Service,
-        id: Int,
-        contentTitle: String,
-        contentText: String,
-    ) {
-    }
-
-    override fun updateUsageStatsForegroundServiceNotification(
-        id: Int,
-        contentTitle: String,
-        contentText: String,
-    ) {
+    ): Notification {
+        return Notification()
     }
 
     override fun cancel(id: Int) {

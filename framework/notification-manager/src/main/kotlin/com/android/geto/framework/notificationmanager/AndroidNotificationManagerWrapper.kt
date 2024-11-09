@@ -24,18 +24,14 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.PendingIntent.FLAG_IMMUTABLE
 import android.app.PendingIntent.FLAG_UPDATE_CURRENT
-import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE
 import android.graphics.drawable.Drawable
 import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.core.app.ServiceCompat
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import com.android.geto.framework.notificationmanager.NotificationManagerWrapper.Companion.ACTION_REVERT_SETTINGS
@@ -49,72 +45,65 @@ internal class AndroidNotificationManagerWrapper @Inject constructor(@Applicatio
     private val notificationManagerCompat = NotificationManagerCompat.from(context)
 
     @RequiresPermission("android.permission.POST_NOTIFICATIONS")
-    override fun notifyRevertSettings(
+    override fun notify(notificationId: Int, notification: Notification) {
+        if (canPostNotifications().not()) {
+            return
+        }
+
+        notificationManagerCompat.notify(notificationId, notification)
+    }
+
+    override fun cancel(id: Int) {
+        notificationManagerCompat.cancel(id)
+    }
+
+    override fun getRevertNotification(
         cls: Class<*>,
         packageName: String,
         icon: Drawable?,
         contentTitle: String,
         contentText: String,
-    ) {
-        if (canPostNotifications().not()) {
-            return
-        }
-
+    ): Notification {
         createNotificationChannel()
 
         val notificationId = packageName.hashCode()
 
-        val notification = getRevertNotification(
-            cls = cls,
-            packageName = packageName,
-            icon = icon,
-            contentTitle = contentTitle,
-            contentText = contentText,
-        )
-
-        notificationManagerCompat.notify(notificationId, notification)
-    }
-
-    @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
-    override fun startUsageStatsForegroundService(
-        service: Service,
-        id: Int,
-        contentTitle: String,
-        contentText: String,
-    ) {
-        createNotificationChannel()
-
-        ServiceCompat.startForeground(
-            service,
-            id,
-            getUsageStatsForegroundServiceNotification(
-                contentTitle = contentTitle,
-                contentText = contentText,
-            ),
-            FOREGROUND_SERVICE_TYPE_SPECIAL_USE,
-        )
-    }
-
-    @RequiresPermission("android.permission.POST_NOTIFICATIONS")
-    override fun updateUsageStatsForegroundServiceNotification(
-        id: Int,
-        contentTitle: String,
-        contentText: String,
-    ) {
-        if (canPostNotifications().not()) {
-            return
+        val revertIntent = Intent(context, cls).apply {
+            action = ACTION_REVERT_SETTINGS
+            putExtra(EXTRA_PACKAGE_NAME, packageName)
+            putExtra(EXTRA_NOTIFICATION_ID, notificationId)
         }
 
-        val notification = getUsageStatsForegroundServiceNotification(
-            contentTitle = contentTitle,
-            contentText = contentText,
+        val revertPendingIntent = PendingIntent.getBroadcast(
+            context,
+            0,
+            revertIntent,
+            FLAG_UPDATE_CURRENT or FLAG_IMMUTABLE,
         )
 
-        notificationManagerCompat.notify(id, notification)
+        return NotificationCompat.Builder(
+            context,
+            context.getString(R.string.geto_notification_channel_id),
+        ).setSmallIcon(R.drawable.baseline_settings_24).setLargeIcon(icon?.toBitmap())
+            .setContentTitle(contentTitle).setContentText(contentText)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT).addAction(
+                R.drawable.baseline_settings_24,
+                context.getString(R.string.revert),
+                revertPendingIntent,
+            ).build()
     }
 
-    override fun cancel(id: Int) {
-        notificationManagerCompat.cancel(id)
+    override fun getUsageStatsForegroundServiceNotification(
+        contentTitle: String,
+        contentText: String,
+    ): Notification {
+        createNotificationChannel()
+
+        return NotificationCompat.Builder(
+            context,
+            context.getString(R.string.geto_notification_channel_id),
+        ).setSmallIcon(R.drawable.baseline_settings_24).setContentTitle(contentTitle)
+            .setContentText(contentText).setPriority(NotificationCompat.PRIORITY_DEFAULT).build()
     }
 
     private fun createNotificationChannel() {
@@ -148,50 +137,5 @@ internal class AndroidNotificationManagerWrapper @Inject constructor(@Applicatio
         } else {
             notificationManagerCompat.areNotificationsEnabled()
         }
-    }
-
-    private fun getRevertNotification(
-        cls: Class<*>,
-        packageName: String,
-        icon: Drawable?,
-        contentTitle: String,
-        contentText: String,
-    ): Notification {
-        val notificationId = packageName.hashCode()
-
-        val revertIntent = Intent(context, cls).apply {
-            action = ACTION_REVERT_SETTINGS
-            putExtra(EXTRA_PACKAGE_NAME, packageName)
-            putExtra(EXTRA_NOTIFICATION_ID, notificationId)
-        }
-
-        val revertPendingIntent = PendingIntent.getBroadcast(
-            context,
-            0,
-            revertIntent,
-            FLAG_UPDATE_CURRENT or FLAG_IMMUTABLE,
-        )
-
-        return NotificationCompat.Builder(
-            context,
-            context.getString(R.string.geto_notification_channel_id),
-        ).setSmallIcon(R.drawable.baseline_settings_24).setLargeIcon(icon?.toBitmap())
-            .setContentTitle(contentTitle).setContentText(contentText)
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT).addAction(
-                R.drawable.baseline_settings_24,
-                context.getString(R.string.revert),
-                revertPendingIntent,
-            ).build()
-    }
-
-    private fun getUsageStatsForegroundServiceNotification(
-        contentTitle: String,
-        contentText: String,
-    ): Notification {
-        return NotificationCompat.Builder(
-            context,
-            context.getString(R.string.geto_notification_channel_id),
-        ).setSmallIcon(R.drawable.baseline_settings_24).setContentTitle(contentTitle)
-            .setContentText(contentText).setPriority(NotificationCompat.PRIORITY_DEFAULT).build()
     }
 }

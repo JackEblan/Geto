@@ -19,9 +19,11 @@ package com.android.geto.foregroundservice
 
 import android.app.Service
 import android.content.Intent
+import android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE
 import android.os.Build
 import android.os.IBinder
 import androidx.annotation.RequiresApi
+import androidx.core.app.ServiceCompat
 import com.android.geto.core.domain.ForegroundServiceAppSettingsUseCase
 import com.android.geto.core.model.ForegroundServiceAppSettingsResult
 import com.android.geto.core.model.ForegroundServiceAppSettingsResult.DisabledAppSettings
@@ -58,11 +60,14 @@ class UsageStatsService : Service() {
 
     @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        notificationManagerWrapper.startUsageStatsForegroundService(
-            service = this,
-            id = notificationId,
-            contentTitle = getString(R.string.usage_stats),
-            contentText = getString(R.string.service_is_running),
+        ServiceCompat.startForeground(
+            this,
+            notificationId,
+            notificationManagerWrapper.getUsageStatsForegroundServiceNotification(
+                contentTitle = getString(R.string.usage_stats),
+                contentText = getString(R.string.service_is_running),
+            ),
+            FOREGROUND_SERVICE_TYPE_SPECIAL_USE,
         )
 
         serviceScope.launch {
@@ -77,18 +82,22 @@ class UsageStatsService : Service() {
     private fun updateUsageStatsForegroundServiceNotification(result: ForegroundServiceAppSettingsResult) {
         when (result) {
             is Success -> {
-                notificationManagerWrapper.updateUsageStatsForegroundServiceNotification(
-                    id = notificationId,
-                    contentTitle = result.packageName,
-                    contentText = getString(R.string.usage_stats_app_settings_applied_successfully),
+                notificationManagerWrapper.notify(
+                    notificationId = notificationId,
+                    notification = notificationManagerWrapper.getUsageStatsForegroundServiceNotification(
+                        contentTitle = result.packageName,
+                        contentText = getString(R.string.usage_stats_app_settings_applied_successfully),
+                    ),
                 )
             }
 
             Failure, NoPermission, InvalidValues, EmptyAppSettings, DisabledAppSettings -> {
-                notificationManagerWrapper.updateUsageStatsForegroundServiceNotification(
-                    id = notificationId,
-                    contentTitle = getString(R.string.usage_stats),
-                    contentText = getString(R.string.service_is_running),
+                notificationManagerWrapper.notify(
+                    notificationId = notificationId,
+                    notification = notificationManagerWrapper.getUsageStatsForegroundServiceNotification(
+                        contentTitle = getString(R.string.usage_stats),
+                        contentText = getString(R.string.service_is_running),
+                    ),
                 )
             }
         }

@@ -25,7 +25,6 @@ import com.android.geto.core.model.DarkThemeConfig
 import com.android.geto.core.model.ThemeBrand
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -36,12 +35,11 @@ class SettingsViewModel @Inject constructor(
     private val userDataRepository: UserDataRepository,
     private val cleanAppSettingsUseCase: CleanAppSettingsUseCase,
 ) : ViewModel() {
-    val settingsUiState: StateFlow<SettingsUiState> =
-        userDataRepository.userData.map(SettingsUiState::Success).stateIn(
-            scope = viewModelScope,
-            started = WhileSubscribed(5_000),
-            initialValue = SettingsUiState.Loading,
-        )
+    val settingsUiState = userDataRepository.userData.map(SettingsUiState::Success).stateIn(
+        scope = viewModelScope,
+        started = WhileSubscribed(5_000),
+        initialValue = SettingsUiState.Loading,
+    )
 
     fun onEvent(event: SettingsEvent) {
         when (event) {

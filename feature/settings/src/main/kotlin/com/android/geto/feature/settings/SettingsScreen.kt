@@ -97,9 +97,11 @@ internal fun SettingsScreen(
             .testTag("settings"),
     ) {
         when (settingsUiState) {
-            SettingsUiState.Loading -> LoadingState(
-                modifier = Modifier.align(Alignment.Center),
-            )
+            SettingsUiState.Loading -> {
+                LoadingState(
+                    modifier = Modifier.align(Alignment.Center),
+                )
+            }
 
             is SettingsUiState.Success -> {
                 SettingsScreenDialogs(

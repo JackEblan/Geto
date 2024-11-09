@@ -38,7 +38,7 @@ class GetoPreferencesDataSource @Inject constructor(
                 ThemeBrandProto.THEME_BRAND_UNSPECIFIED,
                 ThemeBrandProto.UNRECOGNIZED,
                 ThemeBrandProto.THEME_BRAND_GREEN,
-                -> ThemeBrand.GREEN
+                    -> ThemeBrand.GREEN
 
                 ThemeBrandProto.THEME_BRAND_PURPLE -> ThemeBrand.PURPLE
             },
@@ -47,13 +47,14 @@ class GetoPreferencesDataSource @Inject constructor(
                 DarkThemeConfigProto.DARK_THEME_CONFIG_UNSPECIFIED,
                 DarkThemeConfigProto.UNRECOGNIZED,
                 DarkThemeConfigProto.DARK_THEME_CONFIG_FOLLOW_SYSTEM,
-                -> DarkThemeConfig.FOLLOW_SYSTEM
+                    -> DarkThemeConfig.FOLLOW_SYSTEM
 
                 DarkThemeConfigProto.DARK_THEME_CONFIG_LIGHT -> DarkThemeConfig.LIGHT
                 DarkThemeConfigProto.DARK_THEME_CONFIG_DARK -> DarkThemeConfig.DARK
             },
             useDynamicColor = it.useDynamicColor,
             useAutoLaunch = it.useAutoLaunch,
+            useUsageStatsService = it.useUsageStatsService,
         )
     }
 
@@ -89,6 +90,12 @@ class GetoPreferencesDataSource @Inject constructor(
     suspend fun setAutoLaunch(useAutoLaunch: Boolean) {
         userPreferences.updateData {
             it.copy { this.useAutoLaunch = useAutoLaunch }
+        }
+    }
+
+    suspend fun setUsageStatsService(useUsageStatsService: Boolean) {
+        userPreferences.updateData {
+            it.copy { this.useUsageStatsService = useUsageStatsService }
         }
     }
 }

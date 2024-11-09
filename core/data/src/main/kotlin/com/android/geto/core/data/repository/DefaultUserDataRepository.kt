@@ -31,18 +31,22 @@ internal class DefaultUserDataRepository @Inject constructor(
     override val userData: Flow<UserData> = getoPreferencesDataSource.userData
 
     override suspend fun setThemeBrand(themeBrand: ThemeBrand) {
-        getoPreferencesDataSource.setThemeBrand(themeBrand)
+        getoPreferencesDataSource.setThemeBrand(themeBrand = themeBrand)
     }
 
     override suspend fun setDarkThemeConfig(darkThemeConfig: DarkThemeConfig) {
-        getoPreferencesDataSource.setDarkThemeConfig(darkThemeConfig)
+        getoPreferencesDataSource.setDarkThemeConfig(darkThemeConfig = darkThemeConfig)
     }
 
     override suspend fun setDynamicColor(useDynamicColor: Boolean) {
-        getoPreferencesDataSource.setDynamicColor(useDynamicColor)
+        getoPreferencesDataSource.setDynamicColor(useDynamicColor = useDynamicColor)
     }
 
     override suspend fun setAutoLaunch(useAutoLaunch: Boolean) {
-        getoPreferencesDataSource.setAutoLaunch(useAutoLaunch)
+        getoPreferencesDataSource.setAutoLaunch(useAutoLaunch = useAutoLaunch)
+    }
+
+    override suspend fun setUsageStatsService(useUsageStatsService: Boolean) {
+        getoPreferencesDataSource.setUsageStatsService(useUsageStatsService = useUsageStatsService)
     }
 }

@@ -33,4 +33,6 @@ interface UserDataRepository {
     suspend fun setDynamicColor(useDynamicColor: Boolean)
 
     suspend fun setAutoLaunch(useAutoLaunch: Boolean)
+
+    suspend fun setUsageStatsService(useUsageStatsService: Boolean)
 }
