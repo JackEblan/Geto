@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.feature.service
 
 import com.android.geto.core.model.UserData

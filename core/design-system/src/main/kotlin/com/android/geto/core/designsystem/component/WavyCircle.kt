@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.core.designsystem.component
 
 import androidx.compose.animation.core.EaseInOut
@@ -113,4 +112,3 @@ fun AnimatedWavyCircle(
         }
     }
 }
-
