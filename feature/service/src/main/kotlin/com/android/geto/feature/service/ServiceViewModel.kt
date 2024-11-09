@@ -19,17 +19,29 @@ package com.android.geto.feature.service
 
 import androidx.lifecycle.ViewModel
 import com.android.geto.foregroundservice.ForegroundServiceManager
+import com.android.geto.framework.usagestatsmanager.UsageStatsManagerWrapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class ServiceViewModel @Inject constructor(private val foregroundServiceManager: ForegroundServiceManager) :
-    ViewModel() {
+class ServiceViewModel @Inject constructor(
+    private val foregroundServiceManager: ForegroundServiceManager,
+    private val usageStatsManagerWrapper: UsageStatsManagerWrapper,
+) : ViewModel() {
+    val isUsageStatsPermissionGranted get() = usageStatsManagerWrapper.isUsageStatsPermissionGranted()
 
     fun onEvent(event: ServiceEvent) {
         when (event) {
             ServiceEvent.StartForegroundService -> {
                 foregroundServiceManager.startForegroundService()
+            }
+
+            ServiceEvent.StopForegroundService -> {
+                foregroundServiceManager.stopForegroundService()
+            }
+
+            ServiceEvent.RequestPermission -> {
+                usageStatsManagerWrapper.requestUsageStatsPermission()
             }
         }
     }

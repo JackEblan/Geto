@@ -17,9 +17,14 @@
  */
 package com.android.geto.framework.usagestatsmanager
 
+import android.app.AppOpsManager
 import android.app.usage.UsageEvents
 import android.app.usage.UsageStatsManager
 import android.content.Context
+import android.content.Intent
+import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
+import android.os.Build
+import android.provider.Settings
 import androidx.core.content.getSystemService
 import com.android.geto.core.common.Dispatcher
 import com.android.geto.core.common.GetoDispatchers.Default
@@ -38,6 +43,8 @@ internal class AndroidUsageStatsManagerWrapper @Inject constructor(
     @Dispatcher(Default) private val defaultDispatcher: CoroutineDispatcher,
 ) : UsageStatsManagerWrapper {
     private val usageStatsManager = context.getSystemService<UsageStatsManager>()
+
+    private val appOpsManager = context.getSystemService<AppOpsManager>()
 
     override fun queryEvents(): Flow<GetoUsageEvent> = flow {
         val interval = 1000L
@@ -76,4 +83,32 @@ internal class AndroidUsageStatsManagerWrapper @Inject constructor(
             delay(interval)
         }
     }.flowOn(defaultDispatcher)
+
+    override fun isUsageStatsPermissionGranted(): Boolean {
+        val mode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            appOpsManager?.unsafeCheckOpNoThrow(
+                AppOpsManager.OPSTR_GET_USAGE_STATS,
+                android.os.Process.myUid(),
+                context.packageName,
+            )
+        } else {
+            appOpsManager?.checkOpNoThrow(
+                AppOpsManager.OPSTR_GET_USAGE_STATS,
+                android.os.Process.myUid(),
+                context.packageName,
+            )
+        }
+
+        return mode == AppOpsManager.MODE_ALLOWED
+    }
+
+    override fun requestUsageStatsPermission() {
+        val intent = Intent().apply {
+            action = Settings.ACTION_USAGE_ACCESS_SETTINGS
+
+            flags = FLAG_ACTIVITY_NEW_TASK
+        }
+
+        context.startActivity(intent)
+    }
 }

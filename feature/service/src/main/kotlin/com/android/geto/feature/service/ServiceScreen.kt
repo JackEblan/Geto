@@ -17,22 +17,50 @@
  */
 package com.android.geto.feature.service
 
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.android.geto.core.designsystem.component.AnimatedWavyCircle
 
 @Composable
 internal fun ServiceRoute(
     modifier: Modifier = Modifier,
     viewModel: ServiceViewModel = hiltViewModel(),
 ) {
-    Button(
+    val isUsageStatsRunning = false
+
+    ServiceScreen(
+        modifier = modifier,
+        isUsageStatsRunning = isUsageStatsRunning,
+        isUsageStatsPermissionGranted = viewModel.isUsageStatsPermissionGranted,
+        onEvent = viewModel::onEvent,
+    )
+}
+
+@Composable
+internal fun ServiceScreen(
+    modifier: Modifier = Modifier,
+    isUsageStatsRunning: Boolean,
+    isUsageStatsPermissionGranted: Boolean,
+    onEvent: (ServiceEvent) -> Unit,
+) {
+    val stoppedColor = MaterialTheme.colorScheme.error
+
+    val animatedColor = MaterialTheme.colorScheme.inversePrimary
+
+    AnimatedWavyCircle(
+        modifier = modifier,
+        enabled = isUsageStatsRunning,
+        color = if (isUsageStatsRunning) animatedColor else stoppedColor,
         onClick = {
-            viewModel.onEvent(ServiceEvent.StartForegroundService)
+            if (isUsageStatsRunning && isUsageStatsPermissionGranted) {
+                onEvent(ServiceEvent.StopForegroundService)
+            } else if (isUsageStatsPermissionGranted.not()) {
+                onEvent(ServiceEvent.RequestPermission)
+            } else {
+                onEvent(ServiceEvent.StartForegroundService)
+            }
         },
-    ) {
-        Text(text = "Start")
-    }
+    )
 }

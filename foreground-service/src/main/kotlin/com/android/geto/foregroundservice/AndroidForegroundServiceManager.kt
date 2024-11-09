@@ -25,9 +25,13 @@ import javax.inject.Inject
 
 class AndroidForegroundServiceManager @Inject constructor(@ApplicationContext private val context: Context) :
     ForegroundServiceManager {
-    override fun startForegroundService() {
-        val intent = Intent(context, UsageStatsService::class.java)
+    private val usageStatsServiceIntent = Intent(context, UsageStatsService::class.java)
 
-        ContextCompat.startForegroundService(context, intent)
+    override fun startForegroundService() {
+        ContextCompat.startForegroundService(context, usageStatsServiceIntent)
+    }
+
+    override fun stopForegroundService() {
+        context.stopService(usageStatsServiceIntent)
     }
 }

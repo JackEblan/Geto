@@ -31,6 +31,7 @@ dependencies {
     implementation(projects.core.data)
     implementation(projects.core.domain)
 
+    implementation(projects.framework.usageStatsManager)
     implementation(projects.foregroundService)
 
     testImplementation(libs.hilt.android.testing)

@@ -22,4 +22,8 @@ import kotlinx.coroutines.flow.Flow
 
 interface UsageStatsManagerWrapper {
     fun queryEvents(): Flow<GetoUsageEvent>
+
+    fun isUsageStatsPermissionGranted(): Boolean
+
+    fun requestUsageStatsPermission()
 }

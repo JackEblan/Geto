@@ -19,4 +19,8 @@ package com.android.geto.feature.service
 
 sealed interface ServiceEvent {
     data object StartForegroundService : ServiceEvent
+
+    data object StopForegroundService : ServiceEvent
+
+    data object RequestPermission : ServiceEvent
 }

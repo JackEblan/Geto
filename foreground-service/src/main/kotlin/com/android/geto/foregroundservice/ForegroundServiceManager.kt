@@ -19,4 +19,6 @@ package com.android.geto.foregroundservice
 
 interface ForegroundServiceManager {
     fun startForegroundService()
+
+    fun stopForegroundService()
 }
