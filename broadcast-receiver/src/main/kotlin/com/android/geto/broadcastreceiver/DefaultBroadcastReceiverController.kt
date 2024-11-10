@@ -18,7 +18,7 @@
 package com.android.geto.broadcastreceiver
 
 import com.android.geto.core.common.Dispatcher
-import com.android.geto.core.common.GetoDispatchers
+import com.android.geto.core.common.GetoDispatchers.IO
 import com.android.geto.core.domain.RevertAppSettingsUseCase
 import com.android.geto.core.model.AppSettingsResult
 import com.android.geto.framework.notificationmanager.NotificationManagerWrapper
@@ -28,7 +28,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 internal class DefaultBroadcastReceiverController @Inject constructor(
-    @Dispatcher(GetoDispatchers.IO) private val ioDispatcher: CoroutineDispatcher,
+    @Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher,
     private val revertAppSettingsUseCase: RevertAppSettingsUseCase,
     private val notificationManagerWrapper: NotificationManagerWrapper,
 ) : BroadcastReceiverController {

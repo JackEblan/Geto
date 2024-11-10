@@ -115,7 +115,6 @@ class UsageStatsService : Service() {
     }
 
     fun isActive(): Boolean {
-        println(isActive)
         return isActive
     }
 

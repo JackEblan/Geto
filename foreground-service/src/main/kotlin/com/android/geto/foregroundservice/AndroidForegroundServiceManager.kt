@@ -30,14 +30,16 @@ class AndroidForegroundServiceManager @Inject constructor(@ApplicationContext pr
     ForegroundServiceManager {
     private val usageStatsServiceIntent = Intent(context, UsageStatsService::class.java)
 
-    private lateinit var mService: UsageStatsService
+    private lateinit var usageStatsService: UsageStatsService
 
     private var mBound: Boolean = false
 
     private val connection = object : ServiceConnection {
         override fun onServiceConnected(className: ComponentName, service: IBinder) {
             val binder = service as UsageStatsService.UsageStatsBinder
-            mService = binder.getService()
+
+            usageStatsService = binder.getService()
+
             mBound = true
         }
 
@@ -59,6 +61,6 @@ class AndroidForegroundServiceManager @Inject constructor(@ApplicationContext pr
     }
 
     override fun isActive(): Boolean {
-        return mBound && mService.isActive()
+        return mBound && usageStatsService.isActive()
     }
 }
