@@ -84,6 +84,7 @@ internal class AndroidUsageStatsManagerWrapper @Inject constructor(
         }
     }.flowOn(defaultDispatcher)
 
+    @Suppress("DEPRECATION")
     override fun isUsageStatsPermissionGranted(): Boolean {
         val mode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             appOpsManager?.unsafeCheckOpNoThrow(
