@@ -18,24 +18,23 @@
 package com.android.geto.feature.service
 
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.android.geto.core.designsystem.component.AnimatedWavyCircle
+import com.android.geto.core.designsystem.component.WavyCircle
 
 @Composable
 internal fun ServiceRoute(
     modifier: Modifier = Modifier,
     viewModel: ServiceViewModel = hiltViewModel(),
 ) {
-    val serviceState by viewModel.serviceState.collectAsStateWithLifecycle()
+    val isUsageStatsActive by viewModel.isUsageStatsActive.collectAsStateWithLifecycle()
 
     ServiceScreen(
         modifier = modifier,
-        serviceState = serviceState,
+        isUsageStatsActive = isUsageStatsActive,
         onEvent = viewModel::onEvent,
     )
 }
@@ -43,16 +42,12 @@ internal fun ServiceRoute(
 @Composable
 internal fun ServiceScreen(
     modifier: Modifier = Modifier,
-    serviceState: ServiceState,
+    isUsageStatsActive: Boolean,
     onEvent: (ServiceEvent) -> Unit,
 ) {
-    val inActiveColor = MaterialTheme.colorScheme.error
-
-    val activeColor = MaterialTheme.colorScheme.inversePrimary
-
-    AnimatedWavyCircle(
+    WavyCircle(
         modifier = modifier.fillMaxSize(),
-        color = if (serviceState.isUsageStatsActive) activeColor else inActiveColor,
+        active = isUsageStatsActive,
         onClick = {
             onEvent(ServiceEvent.UpdateUsageStatsForegroundService)
         },

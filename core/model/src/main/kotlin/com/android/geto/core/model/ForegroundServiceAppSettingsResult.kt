@@ -20,15 +20,7 @@ package com.android.geto.core.model
 sealed interface ForegroundServiceAppSettingsResult {
     data class Success(val packageName: String) : ForegroundServiceAppSettingsResult
 
-    data object Failure : ForegroundServiceAppSettingsResult
-
-    data object NoPermission : ForegroundServiceAppSettingsResult
-
-    data object InvalidValues : ForegroundServiceAppSettingsResult
-
-    data object EmptyAppSettings : ForegroundServiceAppSettingsResult
-
-    data object DisabledAppSettings : ForegroundServiceAppSettingsResult
+    data object Ignore : ForegroundServiceAppSettingsResult
 }
 
 fun toForegroundServiceAppSettingsResult(
@@ -42,24 +34,13 @@ fun toForegroundServiceAppSettingsResult(
             )
         }
 
-        AppSettingsResult.Failure -> {
-            ForegroundServiceAppSettingsResult.Failure
-        }
-
-        AppSettingsResult.NoPermission -> {
-            ForegroundServiceAppSettingsResult.NoPermission
-        }
-
-        AppSettingsResult.InvalidValues -> {
-            ForegroundServiceAppSettingsResult.InvalidValues
-        }
-
-        AppSettingsResult.EmptyAppSettings -> {
-            ForegroundServiceAppSettingsResult.EmptyAppSettings
-        }
-
-        AppSettingsResult.DisabledAppSettings -> {
-            ForegroundServiceAppSettingsResult.DisabledAppSettings
+        AppSettingsResult.Failure,
+        AppSettingsResult.NoPermission,
+        AppSettingsResult.InvalidValues,
+        AppSettingsResult.EmptyAppSettings,
+        AppSettingsResult.DisabledAppSettings,
+        -> {
+            ForegroundServiceAppSettingsResult.Ignore
         }
     }
 }

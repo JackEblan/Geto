@@ -27,11 +27,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.ServiceCompat
 import com.android.geto.core.domain.ForegroundServiceAppSettingsUseCase
 import com.android.geto.core.model.ForegroundServiceAppSettingsResult
-import com.android.geto.core.model.ForegroundServiceAppSettingsResult.DisabledAppSettings
-import com.android.geto.core.model.ForegroundServiceAppSettingsResult.EmptyAppSettings
-import com.android.geto.core.model.ForegroundServiceAppSettingsResult.Failure
-import com.android.geto.core.model.ForegroundServiceAppSettingsResult.InvalidValues
-import com.android.geto.core.model.ForegroundServiceAppSettingsResult.NoPermission
+import com.android.geto.core.model.ForegroundServiceAppSettingsResult.Ignore
 import com.android.geto.core.model.ForegroundServiceAppSettingsResult.Success
 import com.android.geto.framework.notificationmanager.NotificationManagerWrapper
 import dagger.hilt.android.AndroidEntryPoint
@@ -98,7 +94,7 @@ class UsageStatsService : Service() {
                 )
             }
 
-            Failure, NoPermission, InvalidValues, EmptyAppSettings, DisabledAppSettings -> {
+            Ignore -> {
                 notificationManagerWrapper.notify(
                     notificationId = notificationId,
                     notification = notificationManagerWrapper.getUsageStatsForegroundServiceNotification(

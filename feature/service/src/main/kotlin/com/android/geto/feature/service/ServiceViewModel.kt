@@ -31,32 +31,25 @@ class ServiceViewModel @Inject constructor(
     private val foregroundServiceManager: ForegroundServiceManager,
     private val usageStatsManagerWrapper: UsageStatsManagerWrapper,
 ) : ViewModel() {
-    private val _serviceState = MutableStateFlow(
-        ServiceState(
-            isUsageStatsActive = foregroundServiceManager.isActive(),
-            isUsageStatsPermissionGranted = usageStatsManagerWrapper.isUsageStatsPermissionGranted(),
-        ),
-    )
-    val serviceState = _serviceState.asStateFlow()
+    private val _isUsageStatsActive = MutableStateFlow(foregroundServiceManager.isActive())
+    val isUsageStatsActive = _isUsageStatsActive.asStateFlow()
 
     fun onEvent(event: ServiceEvent) {
         when (event) {
             ServiceEvent.UpdateUsageStatsForegroundService -> {
                 updateUsageForegroundService()
             }
-
-            ServiceEvent.RequestPermission -> {
-                usageStatsManagerWrapper.requestUsageStatsPermission()
-            }
         }
     }
 
     private fun updateUsageForegroundService() {
-        _serviceState.update { currentState ->
-            currentState.copy(
-                isUsageStatsActive = foregroundServiceManager.isActive().not(),
-                isUsageStatsPermissionGranted = usageStatsManagerWrapper.isUsageStatsPermissionGranted(),
-            )
+        if (usageStatsManagerWrapper.isUsageStatsPermissionGranted().not()) {
+            usageStatsManagerWrapper.requestUsageStatsPermission()
+            return
+        }
+
+        _isUsageStatsActive.update {
+            foregroundServiceManager.isActive().not()
         }
 
         if (foregroundServiceManager.isActive()) {

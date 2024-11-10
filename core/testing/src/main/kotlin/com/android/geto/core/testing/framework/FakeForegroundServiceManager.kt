@@ -15,9 +15,26 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.feature.service
+package com.android.geto.core.testing.framework
 
-data class ServiceState(
-    val isUsageStatsActive: Boolean = false,
-    val isUsageStatsPermissionGranted: Boolean = false,
-)
+import com.android.geto.foregroundservice.ForegroundServiceManager
+
+class FakeForegroundServiceManager : ForegroundServiceManager {
+    private var _isActive = false
+
+    override fun startForegroundService() {
+        _isActive = true
+    }
+
+    override fun stopForegroundService() {
+        _isActive = false
+    }
+
+    override fun isActive(): Boolean {
+        return _isActive
+    }
+
+    fun setActive(value: Boolean) {
+        _isActive = value
+    }
+}

@@ -18,6 +18,8 @@
 package com.android.geto.datastore
 
 import com.android.geto.core.datastore.test.testUserPreferencesDataStore
+import com.android.geto.core.model.DarkThemeConfig
+import com.android.geto.core.model.ThemeBrand
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -26,6 +28,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
 import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
@@ -46,14 +49,80 @@ class GetoPreferencesDataSourceTest {
     }
 
     @Test
+    fun themeBrand_isGreen() = testScope.runTest {
+        subject.setThemeBrand(themeBrand = ThemeBrand.GREEN)
+
+        assertEquals(
+            expected = ThemeBrand.GREEN,
+            actual = subject.userData.first().themeBrand,
+        )
+    }
+
+    @Test
+    fun themeBrand_isPurple() = testScope.runTest {
+        subject.setThemeBrand(themeBrand = ThemeBrand.PURPLE)
+
+        assertEquals(
+            expected = ThemeBrand.PURPLE,
+            actual = subject.userData.first().themeBrand,
+        )
+    }
+
+    @Test
+    fun useDynamicColor_isTrue() = testScope.runTest {
+        subject.setDynamicColor(useDynamicColor = true)
+
+        assertTrue(subject.userData.first().useDynamicColor)
+    }
+
+    @Test
     fun useDynamicColor_isFalse() = testScope.runTest {
+        subject.setDynamicColor(useDynamicColor = false)
+
         assertFalse(subject.userData.first().useDynamicColor)
     }
 
     @Test
-    fun useDynamicColor_isTrue_whenSetDynamicColor() = testScope.runTest {
-        subject.setDynamicColor(true)
+    fun darkThemeConfig_isFollowSystem() = testScope.runTest {
+        subject.setDarkThemeConfig(darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM)
 
-        assertTrue(subject.userData.first().useDynamicColor)
+        assertEquals(
+            expected = DarkThemeConfig.FOLLOW_SYSTEM,
+            actual = subject.userData.first().darkThemeConfig,
+        )
+    }
+
+    @Test
+    fun darkThemeConfig_isLight() = testScope.runTest {
+        subject.setDarkThemeConfig(darkThemeConfig = DarkThemeConfig.LIGHT)
+
+        assertEquals(
+            expected = DarkThemeConfig.LIGHT,
+            actual = subject.userData.first().darkThemeConfig,
+        )
+    }
+
+    @Test
+    fun darkThemeConfig_isDark() = testScope.runTest {
+        subject.setDarkThemeConfig(darkThemeConfig = DarkThemeConfig.DARK)
+
+        assertEquals(
+            expected = DarkThemeConfig.DARK,
+            actual = subject.userData.first().darkThemeConfig,
+        )
+    }
+
+    @Test
+    fun useAutoLaunch_isTrue() = testScope.runTest {
+        subject.setAutoLaunch(useAutoLaunch = true)
+
+        assertTrue(subject.userData.first().useAutoLaunch)
+    }
+
+    @Test
+    fun useAutoLaunch_isFalse() = testScope.runTest {
+        subject.setAutoLaunch(useAutoLaunch = false)
+
+        assertFalse(subject.userData.first().useAutoLaunch)
     }
 }

@@ -26,6 +26,7 @@ import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -39,9 +40,10 @@ import kotlin.math.pow
 import kotlin.math.sin
 
 @Composable
-fun AnimatedWavyCircle(
+fun WavyCircle(
     modifier: Modifier = Modifier,
-    color: Color,
+    active: Boolean,
+    colors: WavyCircleColors = WavyCircleDefaults.colors(),
     onClick: () -> Unit,
 ) {
     val infiniteTransition = rememberInfiniteTransition(label = "infiniteTransition")
@@ -106,9 +108,24 @@ fun AnimatedWavyCircle(
         rotate(rotation) {
             drawPath(
                 path = path,
-                color = color,
+                color = if (active) colors.activeColor else colors.inActiveColor,
                 style = Fill,
             )
         }
     }
 }
+
+object WavyCircleDefaults {
+    @Composable
+    fun colors(
+        activeColor: Color = MaterialTheme.colorScheme.inversePrimary,
+        inActiveColor: Color = MaterialTheme.colorScheme.error,
+    ): WavyCircleColors {
+        return WavyCircleColors(activeColor = activeColor, inActiveColor = inActiveColor)
+    }
+}
+
+class WavyCircleColors internal constructor(
+    val activeColor: Color,
+    val inActiveColor: Color,
+)

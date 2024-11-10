@@ -19,6 +19,4 @@ package com.android.geto.feature.service
 
 sealed interface ServiceEvent {
     data object UpdateUsageStatsForegroundService : ServiceEvent
-
-    data object RequestPermission : ServiceEvent
 }

@@ -40,7 +40,10 @@ dependencies {
     implementation(projects.core.common)
     implementation(projects.core.model)
 
+    implementation(projects.foregroundService)
+
     implementation(projects.framework.assetManager)
     implementation(projects.framework.clipboardManager)
     implementation(projects.framework.notificationManager)
+    implementation(projects.framework.usageStatsManager)
 }
