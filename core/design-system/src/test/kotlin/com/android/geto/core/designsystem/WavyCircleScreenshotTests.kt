@@ -18,7 +18,9 @@
 package com.android.geto.core.designsystem
 
 import androidx.activity.ComponentActivity
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onRoot
 import com.android.geto.core.designsystem.component.WavyCircle
@@ -49,6 +51,7 @@ class WavyCircleScreenshotTests {
         composeTestRule.captureScreenMultiTheme("WavyCircle") {
             Surface {
                 WavyCircle(
+                    modifier = Modifier.fillMaxSize(),
                     active = true,
                     onClick = {},
                 )
@@ -58,9 +61,10 @@ class WavyCircleScreenshotTests {
 
     @Test
     fun wavyCircle_inActive_multipleThemes() {
-        composeTestRule.captureScreenMultiTheme("WavyCircle") {
+        composeTestRule.captureScreenMultiTheme("WavyCircle", "InActive") {
             Surface {
                 WavyCircle(
+                    modifier = Modifier.fillMaxSize(),
                     active = false,
                     onClick = {},
                 )
@@ -74,6 +78,7 @@ class WavyCircleScreenshotTests {
         composeTestRule.setContent {
             GetoTheme {
                 WavyCircle(
+                    modifier = Modifier.fillMaxSize(),
                     active = true,
                     onClick = {},
                 )
