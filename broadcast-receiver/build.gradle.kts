@@ -23,6 +23,10 @@ plugins {
 
 android {
     namespace = "com.android.geto.broadcastreceiver"
+
+    defaultConfig {
+        consumerProguardFiles("consumer-proguard-rules.pro")
+    }
 }
 
 dependencies {

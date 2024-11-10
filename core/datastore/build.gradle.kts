@@ -25,6 +25,10 @@ plugins {
 android {
     namespace = "com.android.geto.core.datastore"
 
+    defaultConfig {
+        consumerProguardFiles("consumer-proguard-rules.pro")
+    }
+
     testOptions {
         unitTests {
             isReturnDefaultValues = true

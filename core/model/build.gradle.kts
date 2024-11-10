@@ -22,4 +22,8 @@ plugins {
 
 android {
     namespace = "com.android.geto.core.model"
+
+    defaultConfig {
+        consumerProguardFiles("consumer-proguard-rules.pro")
+    }
 }

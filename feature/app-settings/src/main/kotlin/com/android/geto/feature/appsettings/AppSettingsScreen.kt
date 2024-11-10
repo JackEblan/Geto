@@ -50,6 +50,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
@@ -124,28 +125,25 @@ internal fun AppSettingsRoute(
     appSettingsRouteData: AppSettingsRouteData,
     onNavigationIconClick: () -> Unit,
 ) {
-    val appSettingsUiState = viewModel.appSettingsUiState.collectAsStateWithLifecycle().value
+    val appSettingsUiState by viewModel.appSettingsUiState.collectAsStateWithLifecycle()
 
-    val secureSettings = viewModel.secureSettings.collectAsStateWithLifecycle().value
+    val secureSettings by viewModel.secureSettings.collectAsStateWithLifecycle()
 
-    val applyAppSettingsResult =
-        viewModel.applyAppSettingsResult.collectAsStateWithLifecycle().value
+    val applyAppSettingsResult by viewModel.applyAppSettingsResult.collectAsStateWithLifecycle()
 
-    val revertAppSettingsResult =
-        viewModel.revertAppSettingsResult.collectAsStateWithLifecycle().value
+    val revertAppSettingsResult by viewModel.revertAppSettingsResult.collectAsStateWithLifecycle()
 
-    val addAppSettingResult = viewModel.addAppSettingsResult.collectAsStateWithLifecycle().value
+    val addAppSettingResult by viewModel.addAppSettingsResult.collectAsStateWithLifecycle()
 
-    val autoLaunchResult = viewModel.autoLaunchResult.collectAsStateWithLifecycle().value
+    val autoLaunchResult by viewModel.autoLaunchResult.collectAsStateWithLifecycle()
 
-    val applicationIcon = viewModel.applicationIcon.collectAsStateWithLifecycle().value
+    val applicationIcon by viewModel.applicationIcon.collectAsStateWithLifecycle()
 
-    val setPrimaryClipResult = viewModel.setPrimaryClipResult.collectAsStateWithLifecycle().value
+    val setPrimaryClipResult by viewModel.setPrimaryClipResult.collectAsStateWithLifecycle()
 
-    val requestPinShortcutResult =
-        viewModel.requestPinShortcutResult.collectAsStateWithLifecycle().value
+    val requestPinShortcutResult by viewModel.requestPinShortcutResult.collectAsStateWithLifecycle()
 
-    val templateDialogUiState = viewModel.templateDialogUiState.collectAsStateWithLifecycle().value
+    val templateDialogUiState by viewModel.templateDialogUiState.collectAsStateWithLifecycle()
 
     val snackbarHostState = remember {
         SnackbarHostState()

@@ -1,0 +1,229 @@
+<changelist name="Uncommitted_changes_before_Update_at_10_11_2024_1_52_PM_[Changes]" date="1731217933634" recycled="false" toDelete="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_11_2024_1_52_PM_[Changes]/shelved.patch" />
+  <option name="DESCRIPTION" value="Uncommitted changes before Update at 10/11/2024 1:52 PM [Changes]" />
+  <binary>
+    <option name="BEFORE_PATH" value="feature/app-settings/src/test/screenshots/AppSettingsScreenPopulated_tablet.png" />
+    <option name="AFTER_PATH" value="feature/app-settings/src/test/screenshots/AppSettingsScreenPopulated_tablet.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_11_2024_1_52_PM_[Changes]/AppSettingsScreenPopulated_tablet.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="feature/app-settings/src/test/screenshots/ShortcutDialogFilledTextFields_foldable.png" />
+    <option name="AFTER_PATH" value="feature/app-settings/src/test/screenshots/ShortcutDialogFilledTextFields_foldable.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_11_2024_1_52_PM_[Changes]/ShortcutDialogFilledTextFields_foldable.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="feature/settings/src/test/screenshots/ThemeDialog_foldable_dark.png" />
+    <option name="AFTER_PATH" value="feature/settings/src/test/screenshots/ThemeDialog_foldable_dark.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_11_2024_1_52_PM_[Changes]/ThemeDialog_foldable_dark.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="feature/settings/src/test/screenshots/SettingsScreenPopulated_foldable.png" />
+    <option name="AFTER_PATH" value="feature/settings/src/test/screenshots/SettingsScreenPopulated_foldable.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_11_2024_1_52_PM_[Changes]/SettingsScreenPopulated_foldable.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="feature/app-settings/src/test/screenshots/AppSettingsScreenLoading_phone.png" />
+    <option name="AFTER_PATH" value="feature/app-settings/src/test/screenshots/AppSettingsScreenLoading_phone.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_11_2024_1_52_PM_[Changes]/AppSettingsScreenLoading_phone.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="feature/app-settings/src/test/screenshots/TemplateDialogLoading_foldable_dark.png" />
+    <option name="AFTER_PATH" value="feature/app-settings/src/test/screenshots/TemplateDialogLoading_foldable_dark.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_11_2024_1_52_PM_[Changes]/TemplateDialogLoading_foldable_dark.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="feature/app-settings/src/test/screenshots/TemplateDialogPopulated_foldable_dark.png" />
+    <option name="AFTER_PATH" value="feature/app-settings/src/test/screenshots/TemplateDialogPopulated_foldable_dark.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_11_2024_1_52_PM_[Changes]/TemplateDialogPopulated_foldable_dark.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="feature/app-settings/src/test/screenshots/AppSettingsScreenLoading_phone_dark.png" />
+    <option name="AFTER_PATH" value="feature/app-settings/src/test/screenshots/AppSettingsScreenLoading_phone_dark.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_11_2024_1_52_PM_[Changes]/AppSettingsScreenLoading_phone_dark.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="feature/app-settings/src/test/screenshots/AppSettingsScreenEmpty_foldable.png" />
+    <option name="AFTER_PATH" value="feature/app-settings/src/test/screenshots/AppSettingsScreenEmpty_foldable.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_11_2024_1_52_PM_[Changes]/AppSettingsScreenEmpty_foldable.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="feature/settings/src/test/screenshots/CleanDialog_foldable.png" />
+    <option name="AFTER_PATH" value="feature/settings/src/test/screenshots/CleanDialog_foldable.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_11_2024_1_52_PM_[Changes]/CleanDialog_foldable.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="feature/app-settings/src/test/screenshots/ShortcutDialogFilledTextFields_foldable_dark.png" />
+    <option name="AFTER_PATH" value="feature/app-settings/src/test/screenshots/ShortcutDialogFilledTextFields_foldable_dark.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_11_2024_1_52_PM_[Changes]/ShortcutDialogFilledTextFields_foldable_dark.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="feature/app-settings/src/test/screenshots/AppSettingsScreenPopulated_foldable.png" />
+    <option name="AFTER_PATH" value="feature/app-settings/src/test/screenshots/AppSettingsScreenPopulated_foldable.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_11_2024_1_52_PM_[Changes]/AppSettingsScreenPopulated_foldable.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="feature/settings/src/test/screenshots/CleanDialog_foldable_dark.png" />
+    <option name="AFTER_PATH" value="feature/settings/src/test/screenshots/CleanDialog_foldable_dark.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_11_2024_1_52_PM_[Changes]/CleanDialog_foldable_dark.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="feature/app-settings/src/test/screenshots/AppSettingsScreenPopulated_phone.png" />
+    <option name="AFTER_PATH" value="feature/app-settings/src/test/screenshots/AppSettingsScreenPopulated_phone.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_11_2024_1_52_PM_[Changes]/AppSettingsScreenPopulated_phone.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="feature/app-settings/src/test/screenshots/AppSettingsScreenSnackbar_foldable.png" />
+    <option name="AFTER_PATH" value="feature/app-settings/src/test/screenshots/AppSettingsScreenSnackbar_foldable.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_11_2024_1_52_PM_[Changes]/AppSettingsScreenSnackbar_foldable.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="feature/app-settings/src/test/screenshots/ShortcutDialogErrorTextFields_foldable_dark.png" />
+    <option name="AFTER_PATH" value="feature/app-settings/src/test/screenshots/ShortcutDialogErrorTextFields_foldable_dark.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_11_2024_1_52_PM_[Changes]/ShortcutDialogErrorTextFields_foldable_dark.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="feature/app-settings/src/test/screenshots/AppSettingsScreenEmpty_phone.png" />
+    <option name="AFTER_PATH" value="feature/app-settings/src/test/screenshots/AppSettingsScreenEmpty_phone.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_11_2024_1_52_PM_[Changes]/AppSettingsScreenEmpty_phone.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="feature/app-settings/src/test/screenshots/PermissionDialog_foldable_dark.png" />
+    <option name="AFTER_PATH" value="feature/app-settings/src/test/screenshots/PermissionDialog_foldable_dark.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_11_2024_1_52_PM_[Changes]/PermissionDialog_foldable_dark.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="feature/app-settings/src/test/screenshots/TemplateDialogLoading_foldable.png" />
+    <option name="AFTER_PATH" value="feature/app-settings/src/test/screenshots/TemplateDialogLoading_foldable.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_11_2024_1_52_PM_[Changes]/TemplateDialogLoading_foldable.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="feature/settings/src/test/screenshots/DarkDialog_foldable.png" />
+    <option name="AFTER_PATH" value="feature/settings/src/test/screenshots/DarkDialog_foldable.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_11_2024_1_52_PM_[Changes]/DarkDialog_foldable.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="feature/app-settings/src/test/screenshots/AppSettingsScreenSnackbar_phone.png" />
+    <option name="AFTER_PATH" value="feature/app-settings/src/test/screenshots/AppSettingsScreenSnackbar_phone.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_11_2024_1_52_PM_[Changes]/AppSettingsScreenSnackbar_phone.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="feature/app-settings/src/test/screenshots/AppSettingsScreenLoading_foldable.png" />
+    <option name="AFTER_PATH" value="feature/app-settings/src/test/screenshots/AppSettingsScreenLoading_foldable.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_11_2024_1_52_PM_[Changes]/AppSettingsScreenLoading_foldable.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="feature/settings/src/test/screenshots/DarkDialog_foldable_dark.png" />
+    <option name="AFTER_PATH" value="feature/settings/src/test/screenshots/DarkDialog_foldable_dark.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_11_2024_1_52_PM_[Changes]/DarkDialog_foldable_dark.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="feature/app-settings/src/test/screenshots/AppSettingDialogEmpty_foldable.png" />
+    <option name="AFTER_PATH" value="feature/app-settings/src/test/screenshots/AppSettingDialogEmpty_foldable.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_11_2024_1_52_PM_[Changes]/AppSettingDialogEmpty_foldable.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="feature/app-settings/src/test/screenshots/AppSettingsScreenLoading_tablet.png" />
+    <option name="AFTER_PATH" value="feature/app-settings/src/test/screenshots/AppSettingsScreenLoading_tablet.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_11_2024_1_52_PM_[Changes]/AppSettingsScreenLoading_tablet.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="feature/app-settings/src/test/screenshots/AppSettingDialogFilledTextFields_foldable.png" />
+    <option name="AFTER_PATH" value="feature/app-settings/src/test/screenshots/AppSettingDialogFilledTextFields_foldable.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_11_2024_1_52_PM_[Changes]/AppSettingDialogFilledTextFields_foldable.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="feature/app-settings/src/test/screenshots/AppSettingDialogFilledTextFields_foldable_dark.png" />
+    <option name="AFTER_PATH" value="feature/app-settings/src/test/screenshots/AppSettingDialogFilledTextFields_foldable_dark.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_11_2024_1_52_PM_[Changes]/AppSettingDialogFilledTextFields_foldable_dark.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="feature/app-settings/src/test/screenshots/AppSettingsScreenPopulated_phone_dark.png" />
+    <option name="AFTER_PATH" value="feature/app-settings/src/test/screenshots/AppSettingsScreenPopulated_phone_dark.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_11_2024_1_52_PM_[Changes]/AppSettingsScreenPopulated_phone_dark.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="feature/app-settings/src/test/screenshots/ShortcutDialogErrorTextFields_foldable.png" />
+    <option name="AFTER_PATH" value="feature/app-settings/src/test/screenshots/ShortcutDialogErrorTextFields_foldable.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_11_2024_1_52_PM_[Changes]/ShortcutDialogErrorTextFields_foldable.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="feature/settings/src/test/screenshots/SettingsScreenPopulated_foldable_dark.png" />
+    <option name="AFTER_PATH" value="feature/settings/src/test/screenshots/SettingsScreenPopulated_foldable_dark.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_11_2024_1_52_PM_[Changes]/SettingsScreenPopulated_foldable_dark.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="feature/app-settings/src/test/screenshots/AppSettingDialogEmpty_foldable_dark.png" />
+    <option name="AFTER_PATH" value="feature/app-settings/src/test/screenshots/AppSettingDialogEmpty_foldable_dark.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_11_2024_1_52_PM_[Changes]/AppSettingDialogEmpty_foldable_dark.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="feature/app-settings/src/test/screenshots/AppSettingDialogErrorTextFields_foldable.png" />
+    <option name="AFTER_PATH" value="feature/app-settings/src/test/screenshots/AppSettingDialogErrorTextFields_foldable.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_11_2024_1_52_PM_[Changes]/AppSettingDialogErrorTextFields_foldable.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="feature/apps/src/test/screenshots/AppsScreenPopulated_foldable.png" />
+    <option name="AFTER_PATH" value="feature/apps/src/test/screenshots/AppsScreenPopulated_foldable.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_11_2024_1_52_PM_[Changes]/AppsScreenPopulated_foldable.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="feature/apps/src/test/screenshots/AppsScreenPopulated_phone_dark.png" />
+    <option name="AFTER_PATH" value="feature/apps/src/test/screenshots/AppsScreenPopulated_phone_dark.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_11_2024_1_52_PM_[Changes]/AppsScreenPopulated_phone_dark.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="feature/apps/src/test/screenshots/AppsScreenPopulated_phone.png" />
+    <option name="AFTER_PATH" value="feature/apps/src/test/screenshots/AppsScreenPopulated_phone.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_11_2024_1_52_PM_[Changes]/AppsScreenPopulated_phone.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="feature/app-settings/src/test/screenshots/AppSettingsScreenEmpty_phone_dark.png" />
+    <option name="AFTER_PATH" value="feature/app-settings/src/test/screenshots/AppSettingsScreenEmpty_phone_dark.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_11_2024_1_52_PM_[Changes]/AppSettingsScreenEmpty_phone_dark.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="feature/app-settings/src/test/screenshots/PermissionDialog_foldable.png" />
+    <option name="AFTER_PATH" value="feature/app-settings/src/test/screenshots/PermissionDialog_foldable.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_11_2024_1_52_PM_[Changes]/PermissionDialog_foldable.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="feature/app-settings/src/test/screenshots/ShortcutDialogEmpty_foldable_dark.png" />
+    <option name="AFTER_PATH" value="feature/app-settings/src/test/screenshots/ShortcutDialogEmpty_foldable_dark.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_11_2024_1_52_PM_[Changes]/ShortcutDialogEmpty_foldable_dark.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="feature/app-settings/src/test/screenshots/ShortcutDialogEmpty_foldable.png" />
+    <option name="AFTER_PATH" value="feature/app-settings/src/test/screenshots/ShortcutDialogEmpty_foldable.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_11_2024_1_52_PM_[Changes]/ShortcutDialogEmpty_foldable.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="feature/settings/src/test/screenshots/ThemeDialog_foldable.png" />
+    <option name="AFTER_PATH" value="feature/settings/src/test/screenshots/ThemeDialog_foldable.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_11_2024_1_52_PM_[Changes]/ThemeDialog_foldable.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="feature/app-settings/src/test/screenshots/AppSettingsScreenEmpty_tablet.png" />
+    <option name="AFTER_PATH" value="feature/app-settings/src/test/screenshots/AppSettingsScreenEmpty_tablet.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_11_2024_1_52_PM_[Changes]/AppSettingsScreenEmpty_tablet.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="feature/app-settings/src/test/screenshots/AppSettingDialogErrorTextFields_foldable_dark.png" />
+    <option name="AFTER_PATH" value="feature/app-settings/src/test/screenshots/AppSettingDialogErrorTextFields_foldable_dark.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_11_2024_1_52_PM_[Changes]/AppSettingDialogErrorTextFields_foldable_dark.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="feature/app-settings/src/test/screenshots/AppSettingsScreenSnackbar_tablet.png" />
+    <option name="AFTER_PATH" value="feature/app-settings/src/test/screenshots/AppSettingsScreenSnackbar_tablet.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_11_2024_1_52_PM_[Changes]/AppSettingsScreenSnackbar_tablet.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="feature/apps/src/test/screenshots/AppsScreenPopulated_tablet.png" />
+    <option name="AFTER_PATH" value="feature/apps/src/test/screenshots/AppsScreenPopulated_tablet.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_11_2024_1_52_PM_[Changes]/AppsScreenPopulated_tablet.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="feature/app-settings/src/test/screenshots/TemplateDialogPopulated_foldable.png" />
+    <option name="AFTER_PATH" value="feature/app-settings/src/test/screenshots/TemplateDialogPopulated_foldable.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_10_11_2024_1_52_PM_[Changes]/TemplateDialogPopulated_foldable.png" />
+  </binary>
+</changelist>

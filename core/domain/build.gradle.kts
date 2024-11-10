@@ -30,6 +30,8 @@ dependencies {
     implementation(projects.core.data)
     implementation(projects.core.model)
 
+    implementation(projects.framework.usageStatsManager)
+
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(projects.core.testing)
 }

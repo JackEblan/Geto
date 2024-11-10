@@ -22,20 +22,20 @@ import android.content.Context
 import android.content.Intent
 import com.android.geto.framework.notificationmanager.NotificationManagerWrapper.Companion.EXTRA_NOTIFICATION_ID
 import com.android.geto.framework.notificationmanager.NotificationManagerWrapper.Companion.EXTRA_PACKAGE_NAME
-import dagger.hilt.android.EntryPointAccessors
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-internal class RevertSettingsBroadcastReceiver : BroadcastReceiver() {
-    override fun onReceive(context: Context?, intent: Intent?) = broadcastReceiverScope {
-        val appContext = context?.applicationContext ?: throw IllegalStateException()
+@AndroidEntryPoint
+class RevertSettingsBroadcastReceiver : BroadcastReceiver() {
+    @Inject
+    lateinit var broadcastReceiverController: BroadcastReceiverController
 
-        val hiltEntryPoint =
-            EntryPointAccessors.fromApplication(appContext, BroadcastReceiverEntryPoint::class.java)
-
+    override fun onReceive(context: Context?, intent: Intent?) {
         val packageName = intent?.extras?.getString(EXTRA_PACKAGE_NAME)
 
         val notificationId = intent?.extras?.getInt(EXTRA_NOTIFICATION_ID)
 
-        hiltEntryPoint.broadcastReceiverController().revertSettings(
+        broadcastReceiverController.revertSettings(
             packageName = packageName,
             notificationId = notificationId,
         )

@@ -36,6 +36,7 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -55,7 +56,7 @@ internal fun AppsRoute(
     viewModel: AppsViewModel = hiltViewModel(),
     onItemClick: (String, String) -> Unit,
 ) {
-    val appListUiState = viewModel.appsUiState.collectAsStateWithLifecycle().value
+    val appListUiState by viewModel.appsUiState.collectAsStateWithLifecycle()
 
     AppsScreen(
         modifier = modifier,

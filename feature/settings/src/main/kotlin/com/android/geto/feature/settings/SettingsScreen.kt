@@ -66,7 +66,7 @@ internal fun SettingsRoute(
     modifier: Modifier = Modifier,
     viewModel: SettingsViewModel = hiltViewModel(),
 ) {
-    val settingsUiState = viewModel.settingsUiState.collectAsStateWithLifecycle().value
+    val settingsUiState by viewModel.settingsUiState.collectAsStateWithLifecycle()
 
     SettingsScreen(
         modifier = modifier,
@@ -97,9 +97,11 @@ internal fun SettingsScreen(
             .testTag("settings"),
     ) {
         when (settingsUiState) {
-            SettingsUiState.Loading -> LoadingState(
-                modifier = Modifier.align(Alignment.Center),
-            )
+            SettingsUiState.Loading -> {
+                LoadingState(
+                    modifier = Modifier.align(Alignment.Center),
+                )
+            }
 
             is SettingsUiState.Success -> {
                 SettingsScreenDialogs(
@@ -230,25 +232,25 @@ private fun SuccessState(
             .testTag("settings:success"),
     ) {
         ThemeSetting(
-            settingsUiState = settingsUiState,
+            title = settingsUiState.userData.themeBrand.title,
             onThemeDialog = onShowThemeDialog,
         )
 
         DynamicSetting(
-            settingsUiState = settingsUiState,
+            useDynamicColor = settingsUiState.userData.useDynamicColor,
             supportDynamicColor = supportDynamicColor,
             onChangeDynamicColorPreference = onChangeDynamicColorPreference,
         )
 
         DarkSetting(
-            settingsUiState = settingsUiState,
+            title = settingsUiState.userData.darkThemeConfig.title,
             onDarkDialog = onShowDarkDialog,
         )
 
         SettingHorizontalDivider(categoryTitle = stringResource(R.string.application))
 
         AutoLaunchSetting(
-            settingsUiState = settingsUiState,
+            useAutoLaunch = settingsUiState.userData.useAutoLaunch,
             onChangeAutoLaunchPreference = onChangeAutoLaunchPreference,
         )
 
@@ -259,7 +261,7 @@ private fun SuccessState(
 @Composable
 private fun ThemeSetting(
     modifier: Modifier = Modifier,
-    settingsUiState: SettingsUiState.Success,
+    title: String,
     onThemeDialog: () -> Unit,
 ) {
     Column(
@@ -274,7 +276,7 @@ private fun ThemeSetting(
         Spacer(modifier = Modifier.height(8.dp))
 
         Text(
-            text = settingsUiState.userData.themeBrand.title,
+            text = title,
             style = MaterialTheme.typography.bodySmall,
         )
     }
@@ -283,7 +285,7 @@ private fun ThemeSetting(
 @Composable
 private fun DynamicSetting(
     modifier: Modifier = Modifier,
-    settingsUiState: SettingsUiState.Success,
+    useDynamicColor: Boolean,
     supportDynamicColor: Boolean = supportsDynamicTheming(),
     onChangeDynamicColorPreference: (Boolean) -> Unit,
 ) {
@@ -313,7 +315,7 @@ private fun DynamicSetting(
 
             Switch(
                 modifier = Modifier.testTag("settings:dynamicSwitch"),
-                checked = settingsUiState.userData.useDynamicColor,
+                checked = useDynamicColor,
                 onCheckedChange = onChangeDynamicColorPreference,
             )
         }
@@ -323,7 +325,7 @@ private fun DynamicSetting(
 @Composable
 private fun DarkSetting(
     modifier: Modifier = Modifier,
-    settingsUiState: SettingsUiState.Success,
+    title: String,
     onDarkDialog: () -> Unit,
 ) {
     Spacer(modifier = Modifier.height(8.dp))
@@ -343,7 +345,7 @@ private fun DarkSetting(
         Spacer(modifier = Modifier.height(8.dp))
 
         Text(
-            text = settingsUiState.userData.darkThemeConfig.title,
+            text = title,
             style = MaterialTheme.typography.bodySmall,
         )
     }
@@ -374,7 +376,7 @@ private fun SettingHorizontalDivider(modifier: Modifier = Modifier, categoryTitl
 @Composable
 private fun AutoLaunchSetting(
     modifier: Modifier = Modifier,
-    settingsUiState: SettingsUiState.Success,
+    useAutoLaunch: Boolean,
     onChangeAutoLaunchPreference: (useAutoLaunch: Boolean) -> Unit,
 ) {
     Spacer(modifier = Modifier.height(8.dp))
@@ -402,7 +404,7 @@ private fun AutoLaunchSetting(
 
         Switch(
             modifier = Modifier.testTag("settings:autoLaunchSwitch"),
-            checked = settingsUiState.userData.useAutoLaunch,
+            checked = useAutoLaunch,
             onCheckedChange = onChangeAutoLaunchPreference,
         )
     }

@@ -18,6 +18,7 @@
 package com.android.geto.framework.notificationmanager
 
 import android.Manifest
+import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -44,25 +45,30 @@ internal class AndroidNotificationManagerWrapper @Inject constructor(@Applicatio
     private val notificationManagerCompat = NotificationManagerCompat.from(context)
 
     @RequiresPermission("android.permission.POST_NOTIFICATIONS")
-    override fun notify(
-        packageName: String,
-        icon: Drawable?,
-        contentTitle: String,
-        contentText: String,
-    ) {
+    override fun notify(notificationId: Int, notification: Notification) {
         if (canPostNotifications().not()) {
             return
         }
 
+        notificationManagerCompat.notify(notificationId, notification)
+    }
+
+    override fun cancel(id: Int) {
+        notificationManagerCompat.cancel(id)
+    }
+
+    override fun getRevertNotification(
+        cls: Class<*>,
+        packageName: String,
+        icon: Drawable?,
+        contentTitle: String,
+        contentText: String,
+    ): Notification {
         createNotificationChannel()
 
         val notificationId = packageName.hashCode()
 
-        val revertIntent = Intent().apply {
-            setClassName(
-                context.packageName,
-                "com.android.geto.broadcastreceiver.RevertSettingsBroadcastReceiver",
-            )
+        val revertIntent = Intent(context, cls).apply {
             action = ACTION_REVERT_SETTINGS
             putExtra(EXTRA_PACKAGE_NAME, packageName)
             putExtra(EXTRA_NOTIFICATION_ID, notificationId)
@@ -75,7 +81,7 @@ internal class AndroidNotificationManagerWrapper @Inject constructor(@Applicatio
             FLAG_UPDATE_CURRENT or FLAG_IMMUTABLE,
         )
 
-        val notification = NotificationCompat.Builder(
+        return NotificationCompat.Builder(
             context,
             context.getString(R.string.geto_notification_channel_id),
         ).setSmallIcon(R.drawable.baseline_settings_24).setLargeIcon(icon?.toBitmap())
@@ -85,23 +91,19 @@ internal class AndroidNotificationManagerWrapper @Inject constructor(@Applicatio
                 context.getString(R.string.revert),
                 revertPendingIntent,
             ).build()
-
-        notificationManagerCompat.notify(notificationId, notification)
     }
 
-    override fun cancel(id: Int) {
-        notificationManagerCompat.cancel(id)
-    }
+    override fun getUsageStatsForegroundServiceNotification(
+        contentTitle: String,
+        contentText: String,
+    ): Notification {
+        createNotificationChannel()
 
-    private fun canPostNotifications(): Boolean {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && notificationManagerCompat.areNotificationsEnabled()) {
-            ContextCompat.checkSelfPermission(
-                context,
-                Manifest.permission.POST_NOTIFICATIONS,
-            ) == PackageManager.PERMISSION_GRANTED
-        } else {
-            notificationManagerCompat.areNotificationsEnabled()
-        }
+        return NotificationCompat.Builder(
+            context,
+            context.getString(R.string.geto_notification_channel_id),
+        ).setSmallIcon(R.drawable.baseline_settings_24).setContentTitle(contentTitle)
+            .setContentText(contentText).setPriority(NotificationCompat.PRIORITY_DEFAULT).build()
     }
 
     private fun createNotificationChannel() {
@@ -123,6 +125,17 @@ internal class AndroidNotificationManagerWrapper @Inject constructor(@Applicatio
             }
 
             notificationManagerCompat.createNotificationChannel(channel)
+        }
+    }
+
+    private fun canPostNotifications(): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && notificationManagerCompat.areNotificationsEnabled()) {
+            ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.POST_NOTIFICATIONS,
+            ) == PackageManager.PERMISSION_GRANTED
+        } else {
+            notificationManagerCompat.areNotificationsEnabled()
         }
     }
 }
