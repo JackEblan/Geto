@@ -19,6 +19,7 @@ package com.android.geto.feature.appsettings
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.testing.invoke
+import com.android.geto.core.domain.broadcastreceiver.RevertSettingsBroadcastReceiver
 import com.android.geto.core.domain.model.AddAppSettingResult
 import com.android.geto.core.domain.model.AppSetting
 import com.android.geto.core.domain.model.AppSettingTemplate
@@ -37,6 +38,7 @@ import com.android.geto.core.domain.usecase.ApplyAppSettingsUseCase
 import com.android.geto.core.domain.usecase.AutoLaunchUseCase
 import com.android.geto.core.domain.usecase.RequestPinShortcutUseCase
 import com.android.geto.core.domain.usecase.RevertAppSettingsUseCase
+import com.android.geto.core.testing.broadcastreceiver.DummyRevertSettingsBroadcastReceiver
 import com.android.geto.core.testing.framework.DummyClipboardManagerWrapper
 import com.android.geto.core.testing.framework.DummyNotificationManagerWrapper
 import com.android.geto.core.testing.framework.FakeAssetManagerWrapper
@@ -97,6 +99,8 @@ class AppSettingsViewModelTest {
 
     private lateinit var requestPinShortcutUseCase: RequestPinShortcutUseCase
 
+    private lateinit var revertSettingsBroadcastReceiver: RevertSettingsBroadcastReceiver
+
     private lateinit var savedStateHandle: SavedStateHandle
 
     private lateinit var viewModel: AppSettingsViewModel
@@ -153,6 +157,8 @@ class AppSettingsViewModelTest {
 
         assetManagerWrapper = FakeAssetManagerWrapper()
 
+        revertSettingsBroadcastReceiver = DummyRevertSettingsBroadcastReceiver()
+
         viewModel = AppSettingsViewModel(
             savedStateHandle = savedStateHandle,
             appSettingsRepository = appSettingsRepository,
@@ -166,6 +172,7 @@ class AppSettingsViewModelTest {
             addAppSettingUseCase = addAppSettingUseCase,
             notificationManagerWrapper = notificationManagerWrapper,
             assetManagerWrapper = assetManagerWrapper,
+            revertSettingsBroadcastReceiver = revertSettingsBroadcastReceiver,
         )
     }
 

@@ -15,13 +15,9 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.core.domain.broadcastreceiver
 
-interface RevertSettingsBroadcastReceiver {
+package com.android.geto.core.testing.broadcastreceiver
 
-    companion object {
-        const val ACTION_REVERT_SETTINGS = "ACTION_REVERT_SETTINGS"
-        const val EXTRA_PACKAGE_NAME = "package_name"
-        const val EXTRA_NOTIFICATION_ID = "notification_id"
-    }
-}
+import com.android.geto.core.domain.broadcastreceiver.RevertSettingsBroadcastReceiver
+
+class DummyRevertSettingsBroadcastReceiver: RevertSettingsBroadcastReceiver {}

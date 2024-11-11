@@ -20,6 +20,7 @@ package com.android.geto.core.domain.framework
 import android.app.Notification
 import android.graphics.drawable.Drawable
 import androidx.annotation.RequiresPermission
+import com.android.geto.core.domain.broadcastreceiver.RevertSettingsBroadcastReceiver
 
 interface NotificationManagerWrapper {
     @RequiresPermission("android.permission.POST_NOTIFICATIONS")
@@ -31,7 +32,7 @@ interface NotificationManagerWrapper {
     ): Notification
 
     fun getRevertNotification(
-        cls: Class<*>,
+        revertSettingsBroadcastReceiver: RevertSettingsBroadcastReceiver,
         packageName: String,
         icon: Drawable?,
         contentTitle: String,
@@ -39,10 +40,4 @@ interface NotificationManagerWrapper {
     ): Notification
 
     fun cancel(id: Int)
-
-    companion object {
-        const val ACTION_REVERT_SETTINGS = "ACTION_REVERT_SETTINGS"
-        const val EXTRA_PACKAGE_NAME = "package_name"
-        const val EXTRA_NOTIFICATION_ID = "notification_id"
-    }
 }

@@ -34,10 +34,11 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
+import com.android.geto.core.domain.broadcastreceiver.RevertSettingsBroadcastReceiver
+import com.android.geto.core.domain.broadcastreceiver.RevertSettingsBroadcastReceiver.Companion.ACTION_REVERT_SETTINGS
+import com.android.geto.core.domain.broadcastreceiver.RevertSettingsBroadcastReceiver.Companion.EXTRA_NOTIFICATION_ID
+import com.android.geto.core.domain.broadcastreceiver.RevertSettingsBroadcastReceiver.Companion.EXTRA_PACKAGE_NAME
 import com.android.geto.core.domain.framework.NotificationManagerWrapper
-import com.android.geto.core.domain.framework.NotificationManagerWrapper.Companion.ACTION_REVERT_SETTINGS
-import com.android.geto.core.domain.framework.NotificationManagerWrapper.Companion.EXTRA_NOTIFICATION_ID
-import com.android.geto.core.domain.framework.NotificationManagerWrapper.Companion.EXTRA_PACKAGE_NAME
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
@@ -59,7 +60,7 @@ internal class AndroidNotificationManagerWrapper @Inject constructor(@Applicatio
     }
 
     override fun getRevertNotification(
-        cls: Class<*>,
+        revertSettingsBroadcastReceiver: RevertSettingsBroadcastReceiver,
         packageName: String,
         icon: Drawable?,
         contentTitle: String,
@@ -69,7 +70,7 @@ internal class AndroidNotificationManagerWrapper @Inject constructor(@Applicatio
 
         val notificationId = packageName.hashCode()
 
-        val revertIntent = Intent(context, cls).apply {
+        val revertIntent = Intent(context, revertSettingsBroadcastReceiver::class.java).apply {
             action = ACTION_REVERT_SETTINGS
             putExtra(EXTRA_PACKAGE_NAME, packageName)
             putExtra(EXTRA_NOTIFICATION_ID, notificationId)

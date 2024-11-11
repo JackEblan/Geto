@@ -319,7 +319,7 @@ class AppSettingsViewModel @Inject constructor(
         notificationManagerWrapper.notify(
             notificationId = notificationId,
             notification = notificationManagerWrapper.getRevertNotification(
-                cls = revertSettingsBroadcastReceiver::class.java,
+                revertSettingsBroadcastReceiver = revertSettingsBroadcastReceiver,
                 packageName = packageName,
                 icon = icon,
                 contentTitle = contentTitle,

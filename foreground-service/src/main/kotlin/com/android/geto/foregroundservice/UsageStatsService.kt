@@ -53,18 +53,12 @@ class UsageStatsService : Service() {
 
     private val usageStatsBinder = UsageStatsBinder()
 
-    private var _isActive = false
-
-    val isActive get() = _isActive
-
     override fun onBind(intent: Intent?): IBinder {
         return usageStatsBinder
     }
 
     @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        _isActive = true
-
         ServiceCompat.startForeground(
             this,
             notificationId,
@@ -110,8 +104,6 @@ class UsageStatsService : Service() {
 
     override fun onDestroy() {
         super.onDestroy()
-
-        _isActive = false
 
         serviceScope.cancel()
     }
