@@ -28,7 +28,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class DefaultRevertSettingsBroadcastReceiver @Inject constructor() : BroadcastReceiver(),
+class DefaultRevertSettingsBroadcastReceiver @Inject constructor() :
+    BroadcastReceiver(),
     RevertSettingsBroadcastReceiver {
     @Inject
     lateinit var broadcastReceiverController: BroadcastReceiverController
