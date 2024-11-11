@@ -15,7 +15,7 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.feature.appsettings.dialog.permission
+package com.android.geto.feature.appsettings.dialog.writesecuresettingspermission
 
 import androidx.activity.ComponentActivity
 import androidx.compose.material3.Surface
@@ -38,7 +38,7 @@ import kotlin.test.Test
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 @Config(application = HiltTestApplication::class)
 @LooperMode(LooperMode.Mode.PAUSED)
-class PermissionDialogScreenshotTest {
+class WriteSecureSettingsPermissionDialogScreenshotTest {
 
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
@@ -46,15 +46,15 @@ class PermissionDialogScreenshotTest {
     @Test
     fun permissionDialog() {
         composeTestRule.captureDialogForDevice(
-            fileName = "PermissionDialog",
+            fileName = "WriteSecureSettingsPermissionDialog",
             deviceName = "foldable",
             deviceSpec = DefaultTestDevices.FOLDABLE.spec,
         ) {
             GetoTheme {
-                PermissionDialog(
-                    permissionDialogState = rememberPermissionDialogState(),
-                    onCopyClick = { _, _ -> },
+                WriteSecureSettingsPermissionDialog(
                     contentDescription = "",
+                    onCopyClick = { _, _ -> },
+                    onDismissRequest = {},
                 )
             }
         }
@@ -63,17 +63,17 @@ class PermissionDialogScreenshotTest {
     @Test
     fun permissionDialog_dark() {
         composeTestRule.captureDialogForDevice(
-            fileName = "PermissionDialog",
+            fileName = "WriteSecureSettingsPermissionDialog",
             deviceName = "foldable_dark",
             deviceSpec = DefaultTestDevices.FOLDABLE.spec,
             darkMode = true,
         ) {
             GetoTheme {
                 Surface {
-                    PermissionDialog(
-                        permissionDialogState = rememberPermissionDialogState(),
-                        onCopyClick = { _, _ -> },
+                    WriteSecureSettingsPermissionDialog(
                         contentDescription = "",
+                        onCopyClick = { _, _ -> },
+                        onDismissRequest = {},
                     )
                 }
             }

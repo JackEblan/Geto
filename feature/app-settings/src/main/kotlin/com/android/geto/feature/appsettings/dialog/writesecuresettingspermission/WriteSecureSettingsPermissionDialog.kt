@@ -15,7 +15,7 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.feature.appsettings.dialog.permission
+package com.android.geto.feature.appsettings.dialog.writesecuresettingspermission
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -37,11 +37,11 @@ import com.android.geto.core.designsystem.component.DialogContainer
 import com.android.geto.feature.appsettings.R
 
 @Composable
-internal fun PermissionDialog(
+internal fun WriteSecureSettingsPermissionDialog(
     modifier: Modifier = Modifier,
-    permissionDialogState: PermissionDialogState,
     contentDescription: String,
     onCopyClick: (String, String) -> Unit,
+    onDismissRequest: () -> Unit,
 ) {
     val commandLabel = stringResource(R.string.command_label)
     val command = stringResource(R.string.command)
@@ -50,9 +50,7 @@ internal fun PermissionDialog(
         modifier = modifier
             .padding(16.dp)
             .semantics { this.contentDescription = contentDescription },
-        onDismissRequest = {
-            permissionDialogState.updateShowDialog(false)
-        },
+        onDismissRequest = onDismissRequest,
     ) {
         Column(
             modifier = Modifier.fillMaxWidth(),
@@ -62,13 +60,11 @@ internal fun PermissionDialog(
             PermissionDialogContent()
 
             PermissionDialogButtons(
-                onCancelClick = {
-                    permissionDialogState.updateShowDialog(false)
-                },
+                onCancelClick = onDismissRequest,
                 onCopyClick = {
                     onCopyClick(commandLabel, command)
 
-                    permissionDialogState.updateShowDialog(false)
+                    onDismissRequest()
                 },
             )
         }

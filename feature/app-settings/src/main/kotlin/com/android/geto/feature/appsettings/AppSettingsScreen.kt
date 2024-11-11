@@ -51,7 +51,10 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -101,9 +104,6 @@ import com.android.geto.feature.appsettings.AppSettingsEvent.RevertAppSettings
 import com.android.geto.feature.appsettings.dialog.appsetting.AppSettingDialog
 import com.android.geto.feature.appsettings.dialog.appsetting.AppSettingDialogState
 import com.android.geto.feature.appsettings.dialog.appsetting.rememberAppSettingDialogState
-import com.android.geto.feature.appsettings.dialog.permission.PermissionDialog
-import com.android.geto.feature.appsettings.dialog.permission.PermissionDialogState
-import com.android.geto.feature.appsettings.dialog.permission.rememberPermissionDialogState
 import com.android.geto.feature.appsettings.dialog.shortcut.ShortcutDialog
 import com.android.geto.feature.appsettings.dialog.shortcut.ShortcutDialogState
 import com.android.geto.feature.appsettings.dialog.shortcut.rememberShortcutDialogState
@@ -111,6 +111,7 @@ import com.android.geto.feature.appsettings.dialog.template.TemplateDialog
 import com.android.geto.feature.appsettings.dialog.template.TemplateDialogState
 import com.android.geto.feature.appsettings.dialog.template.TemplateDialogUiState
 import com.android.geto.feature.appsettings.dialog.template.rememberTemplateDialogState
+import com.android.geto.feature.appsettings.dialog.writesecuresettingspermission.WriteSecureSettingsPermissionDialog
 import com.android.geto.feature.appsettings.navigation.AppSettingsRouteData
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collect
@@ -189,7 +190,7 @@ internal fun AppSettingsScreen(
     onNavigationIconClick: () -> Unit,
     onEvent: (AppSettingsEvent) -> Unit,
 ) {
-    val permissionDialogState = rememberPermissionDialogState()
+    var showPermissionDialog by rememberSaveable { mutableStateOf(false) }
 
     val appSettingDialogState = rememberAppSettingDialogState()
 
@@ -199,7 +200,6 @@ internal fun AppSettingsScreen(
 
     AppSettingsLaunchedEffects(
         snackbarHostState = snackbarHostState,
-        permissionDialogState = permissionDialogState,
         appSettingDialogState = appSettingDialogState,
         shortcutDialogState = shortcutDialogState,
         applicationIcon = applicationIcon,
@@ -210,6 +210,9 @@ internal fun AppSettingsScreen(
         autoLaunchResult = autoLaunchResult,
         requestPinShortcutResult = requestPinShortcutResult,
         setPrimaryClipResult = setPrimaryClipResult,
+        onShowPermissionDialog = {
+            showPermissionDialog = true
+        },
         onResetApplyAppSettingsResult = { onEvent(ResetApplyAppSettingsResult) },
         onResetRevertAppSettingsResult = { onEvent(ResetRevertAppSettingsResult) },
         onResetAutoLaunchResult = { onEvent(ResetAutoLaunchResult) },
@@ -237,7 +240,7 @@ internal fun AppSettingsScreen(
     )
 
     AppSettingsDialogs(
-        permissionDialogState = permissionDialogState,
+        showPermissionDialog = showPermissionDialog,
         appSettingDialogState = appSettingDialogState,
         shortcutDialogState = shortcutDialogState,
         templateDialogUiState = templateDialogUiState,
@@ -253,6 +256,9 @@ internal fun AppSettingsScreen(
             )
         },
         onAddShortcut = { onEvent(RequestPinShortcut(it)) },
+        onPermissionDialogDismissRequest = {
+            showPermissionDialog = false
+        },
     )
 
     Scaffold(
@@ -318,7 +324,6 @@ internal fun AppSettingsScreen(
 @Composable
 private fun AppSettingsLaunchedEffects(
     snackbarHostState: SnackbarHostState,
-    permissionDialogState: PermissionDialogState,
     appSettingDialogState: AppSettingDialogState,
     shortcutDialogState: ShortcutDialogState,
     applicationIcon: Drawable?,
@@ -329,6 +334,7 @@ private fun AppSettingsLaunchedEffects(
     autoLaunchResult: AppSettingsResult?,
     requestPinShortcutResult: RequestPinShortcutResult?,
     setPrimaryClipResult: Boolean,
+    onShowPermissionDialog: () -> Unit,
     onResetApplyAppSettingsResult: () -> Unit,
     onResetRevertAppSettingsResult: () -> Unit,
     onResetAutoLaunchResult: () -> Unit,
@@ -393,9 +399,7 @@ private fun AppSettingsLaunchedEffects(
             }
 
             NoPermission -> {
-                permissionDialogState.updateShowDialog(
-                    true,
-                )
+                onShowPermissionDialog()
             }
 
             Success -> {
@@ -433,9 +437,7 @@ private fun AppSettingsLaunchedEffects(
             }
 
             NoPermission -> {
-                permissionDialogState.updateShowDialog(
-                    true,
-                )
+                onShowPermissionDialog()
             }
 
             Success -> {
@@ -459,9 +461,7 @@ private fun AppSettingsLaunchedEffects(
     LaunchedEffect(key1 = autoLaunchResult) {
         when (autoLaunchResult) {
             NoPermission -> {
-                permissionDialogState.updateShowDialog(
-                    true,
-                )
+                onShowPermissionDialog()
             }
 
             Success -> {
@@ -588,7 +588,7 @@ private fun AppSettingsLaunchedEffects(
 
 @Composable
 private fun AppSettingsDialogs(
-    permissionDialogState: PermissionDialogState,
+    showPermissionDialog: Boolean,
     appSettingDialogState: AppSettingDialogState,
     shortcutDialogState: ShortcutDialogState,
     templateDialogUiState: TemplateDialogUiState,
@@ -597,6 +597,7 @@ private fun AppSettingsDialogs(
     onAddAppSetting: (AppSetting) -> Unit,
     onCopyPermissionCommand: (String, String) -> Unit,
     onAddShortcut: (GetoShortcutInfoCompat) -> Unit,
+    onPermissionDialogDismissRequest: () -> Unit,
 ) {
     if (appSettingDialogState.showDialog) {
         AppSettingDialog(
@@ -607,11 +608,11 @@ private fun AppSettingsDialogs(
         )
     }
 
-    if (permissionDialogState.showDialog) {
-        PermissionDialog(
-            permissionDialogState = permissionDialogState,
+    if (showPermissionDialog) {
+        WriteSecureSettingsPermissionDialog(
             onCopyClick = onCopyPermissionCommand,
-            contentDescription = "Permission Dialog",
+            contentDescription = "Write Secure Settings Permission Dialog",
+            onDismissRequest = onPermissionDialogDismissRequest,
         )
     }
 
