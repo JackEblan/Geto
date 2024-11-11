@@ -17,8 +17,10 @@
  */
 package com.android.geto.core.domain.foregroundservice
 
+import kotlinx.coroutines.flow.Flow
+
 interface UsageStatsForegroundServiceManager {
-    val isActive: Boolean
+    val isActive: Flow<Boolean>
 
     fun startForegroundService()
 

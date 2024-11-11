@@ -19,25 +19,22 @@ package com.android.geto.core.domain.usecase
 
 import com.android.geto.core.domain.foregroundservice.UsageStatsForegroundServiceManager
 import com.android.geto.core.domain.framework.UsageStatsManagerWrapper
-import com.android.geto.core.domain.model.UpdateUsageStatsForegroundServiceResult
 import javax.inject.Inject
 
 class UpdateUsageStatsForegroundServiceUseCase @Inject constructor(
     private val usageStatsForegroundServiceManager: UsageStatsForegroundServiceManager,
     private val usageStatsManagerWrapper: UsageStatsManagerWrapper,
 ) {
-    operator fun invoke(): UpdateUsageStatsForegroundServiceResult {
+    operator fun invoke(isActive: Boolean) {
         if (usageStatsManagerWrapper.isUsageStatsPermissionGranted().not()) {
             usageStatsManagerWrapper.requestUsageStatsPermission()
-            return UpdateUsageStatsForegroundServiceResult.RequestPermission
+            return
         }
 
-        return if (usageStatsForegroundServiceManager.isActive) {
+        return if (isActive) {
             usageStatsForegroundServiceManager.stopForegroundService()
-            UpdateUsageStatsForegroundServiceResult.Stop
         } else {
             usageStatsForegroundServiceManager.startForegroundService()
-            UpdateUsageStatsForegroundServiceResult.Start
         }
     }
 }

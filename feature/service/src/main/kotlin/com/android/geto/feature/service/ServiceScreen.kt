@@ -24,18 +24,17 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.android.geto.core.designsystem.component.WavyCircle
-import com.android.geto.core.domain.model.UpdateUsageStatsForegroundServiceResult
 
 @Composable
 internal fun ServiceRoute(
     modifier: Modifier = Modifier,
     viewModel: ServiceViewModel = hiltViewModel(),
 ) {
-    val updateUsageStatsForegroundServiceResult by viewModel.updateUsageStatsForegroundServiceResult.collectAsStateWithLifecycle()
+    val usageStatsForegroundServiceActive by viewModel.usageStatsForegroundServiceActive.collectAsStateWithLifecycle()
 
     ServiceScreen(
         modifier = modifier,
-        updateUsageStatsForegroundServiceResult = updateUsageStatsForegroundServiceResult,
+        usageStatsForegroundServiceActive = usageStatsForegroundServiceActive,
         onEvent = viewModel::onEvent,
     )
 }
@@ -43,12 +42,12 @@ internal fun ServiceRoute(
 @Composable
 internal fun ServiceScreen(
     modifier: Modifier = Modifier,
-    updateUsageStatsForegroundServiceResult: UpdateUsageStatsForegroundServiceResult,
+    usageStatsForegroundServiceActive: Boolean,
     onEvent: (ServiceEvent) -> Unit,
 ) {
     WavyCircle(
         modifier = modifier.fillMaxSize(),
-        active = updateUsageStatsForegroundServiceResult == UpdateUsageStatsForegroundServiceResult.Start,
+        active = usageStatsForegroundServiceActive,
         onClick = {
             onEvent(ServiceEvent.UpdateUsageStatsForegroundService)
         },

@@ -18,28 +18,32 @@
 package com.android.geto.feature.service
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.android.geto.core.domain.foregroundservice.UsageStatsForegroundServiceManager
 import com.android.geto.core.domain.usecase.UpdateUsageStatsForegroundServiceUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class ServiceViewModel @Inject constructor(
+    usageStatsForegroundServiceManager: UsageStatsForegroundServiceManager,
     private val updateUsageStatsForegroundServiceUseCase: UpdateUsageStatsForegroundServiceUseCase,
 ) : ViewModel() {
-    private val _updateUsageStatsForegroundServiceResult =
-        MutableStateFlow(updateUsageStatsForegroundServiceUseCase())
 
-    val updateUsageStatsForegroundServiceResult =
-        _updateUsageStatsForegroundServiceResult.asStateFlow()
+    val usageStatsForegroundServiceActive = usageStatsForegroundServiceManager.isActive.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000),
+        initialValue = false,
+    )
 
     fun onEvent(event: ServiceEvent) {
         when (event) {
-            ServiceEvent.UpdateUsageStatsForegroundService -> {
-                _updateUsageStatsForegroundServiceResult.update {
-                    updateUsageStatsForegroundServiceUseCase()
+            is ServiceEvent.UpdateUsageStatsForegroundService -> {
+                viewModelScope.launch {
+                    updateUsageStatsForegroundServiceUseCase(isActive = usageStatsForegroundServiceActive.value)
                 }
             }
         }

@@ -18,21 +18,21 @@
 package com.android.geto.core.testing.framework
 
 import com.android.geto.core.domain.foregroundservice.UsageStatsForegroundServiceManager
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 
 class FakeUsageStatsForegroundServiceManager : UsageStatsForegroundServiceManager {
-    private var _isActive = false
+    private val _isActive =
+        MutableSharedFlow<Boolean>(replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
 
-    override val isActive get() = _isActive
+    override val isActive = _isActive.asSharedFlow()
 
     override fun startForegroundService() {
-        _isActive = true
+        _isActive.tryEmit(true)
     }
 
     override fun stopForegroundService() {
-        _isActive = false
-    }
-
-    fun setActive(value: Boolean) {
-        _isActive = value
+        _isActive.tryEmit(false)
     }
 }

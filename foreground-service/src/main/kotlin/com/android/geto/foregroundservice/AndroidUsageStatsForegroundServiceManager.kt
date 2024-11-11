@@ -25,6 +25,9 @@ import android.os.IBinder
 import androidx.core.content.ContextCompat
 import com.android.geto.core.domain.foregroundservice.UsageStatsForegroundServiceManager
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import javax.inject.Inject
 
 class AndroidUsageStatsForegroundServiceManager @Inject constructor(@ApplicationContext private val context: Context) :
@@ -33,9 +36,10 @@ class AndroidUsageStatsForegroundServiceManager @Inject constructor(@Application
 
     private lateinit var usageStatsService: UsageStatsService
 
-    private var mBound: Boolean = false
+    private val _isActive =
+        MutableSharedFlow<Boolean>(replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
 
-    override val isActive get() = mBound && usageStatsService.isActive
+    override val isActive = _isActive.asSharedFlow()
 
     private val connection = object : ServiceConnection {
         override fun onServiceConnected(className: ComponentName, service: IBinder) {
@@ -43,11 +47,11 @@ class AndroidUsageStatsForegroundServiceManager @Inject constructor(@Application
 
             usageStatsService = binder.getService()
 
-            mBound = true
+            _isActive.tryEmit(true)
         }
 
         override fun onServiceDisconnected(arg0: ComponentName) {
-            mBound = false
+            _isActive.tryEmit(false)
         }
     }
 
@@ -60,6 +64,6 @@ class AndroidUsageStatsForegroundServiceManager @Inject constructor(@Application
     override fun stopForegroundService() {
         context.unbindService(connection)
 
-        context.stopService(usageStatsServiceIntent)
+        _isActive.tryEmit(context.stopService(usageStatsServiceIntent).not())
     }
 }

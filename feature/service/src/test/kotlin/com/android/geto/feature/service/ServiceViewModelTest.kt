@@ -17,7 +17,6 @@
  */
 package com.android.geto.feature.service
 
-import com.android.geto.core.domain.model.UpdateUsageStatsForegroundServiceResult
 import com.android.geto.core.domain.usecase.UpdateUsageStatsForegroundServiceUseCase
 import com.android.geto.core.testing.framework.FakeUsageStatsForegroundServiceManager
 import com.android.geto.core.testing.framework.FakeUsageStatsManagerWrapper
@@ -29,7 +28,8 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 class ServiceViewModelTest {
     @get:Rule
@@ -55,59 +55,36 @@ class ServiceViewModelTest {
         )
 
         viewModel = ServiceViewModel(
+            usageStatsForegroundServiceManager = usageStatsForegroundServiceManager,
             updateUsageStatsForegroundServiceUseCase = updateUsageStatsForegroundServiceUseCase,
-        )
-    }
-
-    @Test
-    fun updateUsageStatsForegroundService_requestPermission() = runTest {
-        backgroundScope.launch(UnconfinedTestDispatcher()) {
-            viewModel.updateUsageStatsForegroundServiceResult.collect()
-        }
-
-        usageStatsManagerWrapper.setUsageStatsPermissionGranted(false)
-
-        viewModel.onEvent(event = ServiceEvent.UpdateUsageStatsForegroundService)
-
-        assertEquals(
-            expected = UpdateUsageStatsForegroundServiceResult.RequestPermission,
-            actual = viewModel.updateUsageStatsForegroundServiceResult.value,
         )
     }
 
     @Test
     fun foregroundService_start() = runTest {
         backgroundScope.launch(UnconfinedTestDispatcher()) {
-            viewModel.updateUsageStatsForegroundServiceResult.collect()
+            viewModel.usageStatsForegroundServiceActive.collect()
         }
-
-        usageStatsForegroundServiceManager.setActive(false)
 
         usageStatsManagerWrapper.setUsageStatsPermissionGranted(true)
 
         viewModel.onEvent(event = ServiceEvent.UpdateUsageStatsForegroundService)
 
-        assertEquals(
-            expected = UpdateUsageStatsForegroundServiceResult.Start,
-            actual = viewModel.updateUsageStatsForegroundServiceResult.value,
-        )
+        assertTrue(viewModel.usageStatsForegroundServiceActive.value)
     }
 
     @Test
     fun foregroundService_stop() = runTest {
         backgroundScope.launch(UnconfinedTestDispatcher()) {
-            viewModel.updateUsageStatsForegroundServiceResult.collect()
+            viewModel.usageStatsForegroundServiceActive.collect()
         }
 
-        usageStatsForegroundServiceManager.setActive(true)
+        usageStatsForegroundServiceManager.startForegroundService()
 
         usageStatsManagerWrapper.setUsageStatsPermissionGranted(true)
 
         viewModel.onEvent(event = ServiceEvent.UpdateUsageStatsForegroundService)
 
-        assertEquals(
-            expected = UpdateUsageStatsForegroundServiceResult.Stop,
-            actual = viewModel.updateUsageStatsForegroundServiceResult.value,
-        )
+        assertFalse(viewModel.usageStatsForegroundServiceActive.value)
     }
 }
