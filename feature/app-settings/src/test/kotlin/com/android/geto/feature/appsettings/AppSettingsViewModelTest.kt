@@ -558,7 +558,7 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun setPrimaryClipResult_isFalse_whenCopyPermissionCommand() = runTest {
+    fun setPrimaryClipResult_isFalse_whenCopyCommand() = runTest {
         backgroundScope.launch(UnconfinedTestDispatcher()) {
             viewModel.revertAppSettingsResult.collect()
         }
@@ -566,7 +566,7 @@ class AppSettingsViewModelTest {
         clipboardManagerWrapper.setSDKInt(33)
 
         viewModel.onEvent(
-            event = AppSettingsEvent.CopyPermissionCommand(
+            event = AppSettingsEvent.CopyCommand(
                 label = "label",
                 text = "text",
             ),
@@ -579,7 +579,7 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun setPrimaryClipResult_isTrue_whenCopyPermissionCommand() = runTest {
+    fun setPrimaryClipResult_isTrue_whenCopyCommand() = runTest {
         backgroundScope.launch(UnconfinedTestDispatcher()) {
             viewModel.setPrimaryClipResult.collect()
         }
@@ -587,7 +587,7 @@ class AppSettingsViewModelTest {
         clipboardManagerWrapper.setSDKInt(32)
 
         viewModel.onEvent(
-            event = AppSettingsEvent.CopyPermissionCommand(
+            event = AppSettingsEvent.CopyCommand(
                 label = "label",
                 text = "text",
             ),

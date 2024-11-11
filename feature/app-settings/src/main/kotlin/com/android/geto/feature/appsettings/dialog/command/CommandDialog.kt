@@ -15,7 +15,7 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.feature.appsettings.dialog.writesecuresettingspermission
+package com.android.geto.feature.appsettings.dialog.command
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -37,7 +37,7 @@ import com.android.geto.core.designsystem.component.DialogContainer
 import com.android.geto.feature.appsettings.R
 
 @Composable
-internal fun WriteSecureSettingsPermissionDialog(
+internal fun CommandDialog(
     modifier: Modifier = Modifier,
     contentDescription: String,
     onCopyClick: (String, String) -> Unit,
@@ -55,11 +55,11 @@ internal fun WriteSecureSettingsPermissionDialog(
         Column(
             modifier = Modifier.fillMaxWidth(),
         ) {
-            PermissionDialogTitle()
+            CommandDialogTitle()
 
-            PermissionDialogContent()
+            CommandDialogContent()
 
-            PermissionDialogButtons(
+            CommandDialogButtons(
                 onCancelClick = onDismissRequest,
                 onCopyClick = {
                     onCopyClick(commandLabel, command)
@@ -72,7 +72,7 @@ internal fun WriteSecureSettingsPermissionDialog(
 }
 
 @Composable
-private fun PermissionDialogTitle(modifier: Modifier = Modifier) {
+private fun CommandDialogTitle(modifier: Modifier = Modifier) {
     Spacer(modifier = Modifier.height(10.dp))
 
     Text(
@@ -83,7 +83,7 @@ private fun PermissionDialogTitle(modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun PermissionDialogContent(modifier: Modifier = Modifier) {
+private fun CommandDialogContent(modifier: Modifier = Modifier) {
     Text(
         modifier = modifier.padding(10.dp),
         text = stringResource(id = R.string.copy_permission_command_message),
@@ -92,7 +92,7 @@ private fun PermissionDialogContent(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun PermissionDialogButtons(
+fun CommandDialogButtons(
     modifier: Modifier = Modifier,
     onCancelClick: () -> Unit,
     onCopyClick: () -> Unit,

@@ -22,14 +22,13 @@ import android.content.Context
 import android.content.Intent
 import com.android.geto.core.domain.broadcastreceiver.BroadcastReceiverController
 import com.android.geto.core.domain.broadcastreceiver.RevertSettingsBroadcastReceiver
-import com.android.geto.core.domain.framework.NotificationManagerWrapper.Companion.EXTRA_NOTIFICATION_ID
-import com.android.geto.core.domain.framework.NotificationManagerWrapper.Companion.EXTRA_PACKAGE_NAME
+import com.android.geto.core.domain.broadcastreceiver.RevertSettingsBroadcastReceiver.Companion.EXTRA_NOTIFICATION_ID
+import com.android.geto.core.domain.broadcastreceiver.RevertSettingsBroadcastReceiver.Companion.EXTRA_PACKAGE_NAME
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class DefaultRevertSettingsBroadcastReceiver @Inject constructor() :
-    BroadcastReceiver(),
+class DefaultRevertSettingsBroadcastReceiver @Inject constructor() : BroadcastReceiver(),
     RevertSettingsBroadcastReceiver {
     @Inject
     lateinit var broadcastReceiverController: BroadcastReceiverController

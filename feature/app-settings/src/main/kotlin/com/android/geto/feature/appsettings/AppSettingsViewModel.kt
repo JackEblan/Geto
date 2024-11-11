@@ -45,7 +45,7 @@ import com.android.geto.feature.appsettings.AppSettingsEvent.AddAppSetting
 import com.android.geto.feature.appsettings.AppSettingsEvent.ApplyAppSettings
 import com.android.geto.feature.appsettings.AppSettingsEvent.AutoLaunchApp
 import com.android.geto.feature.appsettings.AppSettingsEvent.CheckAppSetting
-import com.android.geto.feature.appsettings.AppSettingsEvent.CopyPermissionCommand
+import com.android.geto.feature.appsettings.AppSettingsEvent.CopyCommand
 import com.android.geto.feature.appsettings.AppSettingsEvent.DeleteAppSetting
 import com.android.geto.feature.appsettings.AppSettingsEvent.GetSecureSettingsByName
 import com.android.geto.feature.appsettings.AppSettingsEvent.LaunchIntentForPackage
@@ -165,8 +165,8 @@ class AppSettingsViewModel @Inject constructor(
                 checkAppSetting(appSetting = event.appSetting)
             }
 
-            is CopyPermissionCommand -> {
-                copyPermissionCommand(
+            is CopyCommand -> {
+                copyCommand(
                     label = event.label,
                     text = event.text,
                 )
@@ -267,7 +267,7 @@ class AppSettingsViewModel @Inject constructor(
         }
     }
 
-    private fun copyPermissionCommand(label: String, text: String) {
+    private fun copyCommand(label: String, text: String) {
         _setPrimaryClipResult.update {
             clipboardManagerWrapper.setPrimaryClip(
                 label = label,

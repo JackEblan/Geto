@@ -80,7 +80,7 @@ class AppSettingsScreenDialogsTest {
     }
 
     @Test
-    fun writeSecureSettingsPermissionDialog_isDisplayed_whenApplyAppSettingsResult_isNoPermission_thenDismissed() {
+    fun commandDialog_isDisplayed_whenApplyAppSettingsResult_isNoPermission_thenDismissed() {
         composeTestRule.setContent {
             AppSettingsScreen(
                 packageName = "com.android.geto",
@@ -101,17 +101,15 @@ class AppSettingsScreenDialogsTest {
             )
         }
 
-        composeTestRule.onNodeWithContentDescription("Write Secure Settings Permission Dialog")
-            .assertIsDisplayed()
+        composeTestRule.onNodeWithContentDescription("Command Dialog").assertIsDisplayed()
 
         composeTestRule.onNodeWithText("Cancel").performClick()
 
-        composeTestRule.onNodeWithContentDescription("Write Secure Settings Permission Dialog")
-            .assertIsNotDisplayed()
+        composeTestRule.onNodeWithContentDescription("Command Dialog").assertIsNotDisplayed()
     }
 
     @Test
-    fun writeSecureSettingsPermissionDialog_isDisplayed_whenRevertAppSettingsResult_isNoPermission_thenDismissed() {
+    fun commandDialog_isDisplayed_whenRevertAppSettingsResult_isNoPermission_thenDismissed() {
         composeTestRule.setContent {
             AppSettingsScreen(
                 packageName = "com.android.geto",
@@ -132,17 +130,15 @@ class AppSettingsScreenDialogsTest {
             )
         }
 
-        composeTestRule.onNodeWithContentDescription("Write Secure Settings Permission Dialog")
-            .assertIsDisplayed()
+        composeTestRule.onNodeWithContentDescription("Command Dialog").assertIsDisplayed()
 
         composeTestRule.onNodeWithText("Cancel").performClick()
 
-        composeTestRule.onNodeWithContentDescription("Write Secure Settings Permission Dialog")
-            .assertIsNotDisplayed()
+        composeTestRule.onNodeWithContentDescription("Command Dialog").assertIsNotDisplayed()
     }
 
     @Test
-    fun writeSecureSettingsPermissionDialog_isDisplayed_whenAutoLaunchResult_isNoPermission_thenDismissed() {
+    fun commandDialog_isDisplayed_whenAutoLaunchResult_isNoPermission_thenDismissed() {
         composeTestRule.setContent {
             AppSettingsScreen(
                 packageName = "com.android.geto",
@@ -163,13 +159,11 @@ class AppSettingsScreenDialogsTest {
             )
         }
 
-        composeTestRule.onNodeWithContentDescription("Write Secure Settings Permission Dialog")
-            .assertIsDisplayed()
+        composeTestRule.onNodeWithContentDescription("Command Dialog").assertIsDisplayed()
 
         composeTestRule.onNodeWithText("Cancel").performClick()
 
-        composeTestRule.onNodeWithContentDescription("Write Secure Settings Permission Dialog")
-            .assertIsNotDisplayed()
+        composeTestRule.onNodeWithContentDescription("Command Dialog").assertIsNotDisplayed()
     }
 
     @Test

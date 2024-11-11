@@ -88,7 +88,7 @@ import com.android.geto.core.domain.model.SettingType
 import com.android.geto.feature.appsettings.AppSettingsEvent.AddAppSetting
 import com.android.geto.feature.appsettings.AppSettingsEvent.ApplyAppSettings
 import com.android.geto.feature.appsettings.AppSettingsEvent.CheckAppSetting
-import com.android.geto.feature.appsettings.AppSettingsEvent.CopyPermissionCommand
+import com.android.geto.feature.appsettings.AppSettingsEvent.CopyCommand
 import com.android.geto.feature.appsettings.AppSettingsEvent.DeleteAppSetting
 import com.android.geto.feature.appsettings.AppSettingsEvent.GetSecureSettingsByName
 import com.android.geto.feature.appsettings.AppSettingsEvent.LaunchIntentForPackage
@@ -104,6 +104,7 @@ import com.android.geto.feature.appsettings.AppSettingsEvent.RevertAppSettings
 import com.android.geto.feature.appsettings.dialog.appsetting.AppSettingDialog
 import com.android.geto.feature.appsettings.dialog.appsetting.AppSettingDialogState
 import com.android.geto.feature.appsettings.dialog.appsetting.rememberAppSettingDialogState
+import com.android.geto.feature.appsettings.dialog.command.CommandDialog
 import com.android.geto.feature.appsettings.dialog.shortcut.ShortcutDialog
 import com.android.geto.feature.appsettings.dialog.shortcut.ShortcutDialogState
 import com.android.geto.feature.appsettings.dialog.shortcut.rememberShortcutDialogState
@@ -111,7 +112,6 @@ import com.android.geto.feature.appsettings.dialog.template.TemplateDialog
 import com.android.geto.feature.appsettings.dialog.template.TemplateDialogState
 import com.android.geto.feature.appsettings.dialog.template.TemplateDialogUiState
 import com.android.geto.feature.appsettings.dialog.template.rememberTemplateDialogState
-import com.android.geto.feature.appsettings.dialog.writesecuresettingspermission.WriteSecureSettingsPermissionDialog
 import com.android.geto.feature.appsettings.navigation.AppSettingsRouteData
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collect
@@ -247,9 +247,9 @@ internal fun AppSettingsScreen(
         templateDialogState = templateDialogState,
         packageName = packageName,
         onAddAppSetting = { onEvent(AddAppSetting(it)) },
-        onCopyPermissionCommand = { label, text ->
+        onCopyCommand = { label, text ->
             onEvent(
-                CopyPermissionCommand(
+                CopyCommand(
                     label = label,
                     text = text,
                 ),
@@ -595,7 +595,7 @@ private fun AppSettingsDialogs(
     templateDialogState: TemplateDialogState,
     packageName: String,
     onAddAppSetting: (AppSetting) -> Unit,
-    onCopyPermissionCommand: (String, String) -> Unit,
+    onCopyCommand: (String, String) -> Unit,
     onAddShortcut: (GetoShortcutInfoCompat) -> Unit,
     onPermissionDialogDismissRequest: () -> Unit,
 ) {
@@ -609,9 +609,9 @@ private fun AppSettingsDialogs(
     }
 
     if (showPermissionDialog) {
-        WriteSecureSettingsPermissionDialog(
-            onCopyClick = onCopyPermissionCommand,
-            contentDescription = "Write Secure Settings Permission Dialog",
+        CommandDialog(
+            onCopyClick = onCopyCommand,
+            contentDescription = "Command Dialog",
             onDismissRequest = onPermissionDialogDismissRequest,
         )
     }

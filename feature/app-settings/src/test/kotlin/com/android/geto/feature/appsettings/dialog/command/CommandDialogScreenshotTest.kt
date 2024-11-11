@@ -15,7 +15,7 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.feature.appsettings.dialog.writesecuresettingspermission
+package com.android.geto.feature.appsettings.dialog.command
 
 import androidx.activity.ComponentActivity
 import androidx.compose.material3.Surface
@@ -38,7 +38,7 @@ import kotlin.test.Test
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 @Config(application = HiltTestApplication::class)
 @LooperMode(LooperMode.Mode.PAUSED)
-class WriteSecureSettingsPermissionDialogScreenshotTest {
+class CommandDialogScreenshotTest {
 
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
@@ -46,12 +46,12 @@ class WriteSecureSettingsPermissionDialogScreenshotTest {
     @Test
     fun permissionDialog() {
         composeTestRule.captureDialogForDevice(
-            fileName = "WriteSecureSettingsPermissionDialog",
+            fileName = "CommandDialog",
             deviceName = "foldable",
             deviceSpec = DefaultTestDevices.FOLDABLE.spec,
         ) {
             GetoTheme {
-                WriteSecureSettingsPermissionDialog(
+                CommandDialog(
                     contentDescription = "",
                     onCopyClick = { _, _ -> },
                     onDismissRequest = {},
@@ -63,14 +63,14 @@ class WriteSecureSettingsPermissionDialogScreenshotTest {
     @Test
     fun permissionDialog_dark() {
         composeTestRule.captureDialogForDevice(
-            fileName = "WriteSecureSettingsPermissionDialog",
+            fileName = "CommandDialog",
             deviceName = "foldable_dark",
             deviceSpec = DefaultTestDevices.FOLDABLE.spec,
             darkMode = true,
         ) {
             GetoTheme {
                 Surface {
-                    WriteSecureSettingsPermissionDialog(
+                    CommandDialog(
                         contentDescription = "",
                         onCopyClick = { _, _ -> },
                         onDismissRequest = {},

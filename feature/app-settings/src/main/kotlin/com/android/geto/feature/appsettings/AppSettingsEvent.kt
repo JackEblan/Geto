@@ -33,7 +33,7 @@ sealed interface AppSettingsEvent {
 
     data class AddAppSetting(val appSetting: AppSetting) : AppSettingsEvent
 
-    data class CopyPermissionCommand(val label: String, val text: String) : AppSettingsEvent
+    data class CopyCommand(val label: String, val text: String) : AppSettingsEvent
 
     data object RevertAppSettings : AppSettingsEvent
 

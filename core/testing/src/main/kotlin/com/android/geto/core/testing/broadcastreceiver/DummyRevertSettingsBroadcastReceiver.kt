@@ -15,9 +15,8 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.core.testing.broadcastreceiver
 
 import com.android.geto.core.domain.broadcastreceiver.RevertSettingsBroadcastReceiver
 
-class DummyRevertSettingsBroadcastReceiver: RevertSettingsBroadcastReceiver {}
+class DummyRevertSettingsBroadcastReceiver : RevertSettingsBroadcastReceiver
