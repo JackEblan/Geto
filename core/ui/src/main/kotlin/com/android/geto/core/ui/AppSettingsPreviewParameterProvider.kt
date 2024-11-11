@@ -18,8 +18,8 @@
 package com.android.geto.core.ui
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import com.android.geto.core.model.AppSetting
-import com.android.geto.core.model.SettingType
+import com.android.geto.core.domain.model.AppSetting
+import com.android.geto.core.domain.model.SettingType
 import com.android.geto.core.ui.AppSettingsPreviewParameterData.appSettings
 
 class AppSettingsPreviewParameterProvider : PreviewParameterProvider<List<AppSetting>> {

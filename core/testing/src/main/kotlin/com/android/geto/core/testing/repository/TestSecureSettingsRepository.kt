@@ -17,10 +17,10 @@
  */
 package com.android.geto.core.testing.repository
 
-import com.android.geto.core.data.repository.SecureSettingsRepository
-import com.android.geto.core.model.AppSetting
-import com.android.geto.core.model.SecureSetting
-import com.android.geto.core.model.SettingType
+import com.android.geto.core.domain.model.AppSetting
+import com.android.geto.core.domain.model.SecureSetting
+import com.android.geto.core.domain.model.SettingType
+import com.android.geto.core.domain.repository.SecureSettingsRepository
 
 class TestSecureSettingsRepository : SecureSettingsRepository {
     private var writeSecureSettings = false

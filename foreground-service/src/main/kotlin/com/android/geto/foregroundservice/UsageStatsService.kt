@@ -25,11 +25,11 @@ import android.os.Build
 import android.os.IBinder
 import androidx.annotation.RequiresApi
 import androidx.core.app.ServiceCompat
-import com.android.geto.core.domain.ForegroundServiceAppSettingsUseCase
-import com.android.geto.core.model.ForegroundServiceAppSettingsResult
-import com.android.geto.core.model.ForegroundServiceAppSettingsResult.Ignore
-import com.android.geto.core.model.ForegroundServiceAppSettingsResult.Success
-import com.android.geto.framework.notificationmanager.NotificationManagerWrapper
+import com.android.geto.core.domain.framework.NotificationManagerWrapper
+import com.android.geto.core.domain.model.ForegroundServiceAppSettingsResult
+import com.android.geto.core.domain.model.ForegroundServiceAppSettingsResult.Ignore
+import com.android.geto.core.domain.model.ForegroundServiceAppSettingsResult.Success
+import com.android.geto.core.domain.usecase.ForegroundServiceAppSettingsUseCase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -53,7 +53,9 @@ class UsageStatsService : Service() {
 
     private val usageStatsBinder = UsageStatsBinder()
 
-    private var isActive = false
+    private var _isActive = false
+
+    val isActive get() = _isActive
 
     override fun onBind(intent: Intent?): IBinder {
         return usageStatsBinder
@@ -61,7 +63,7 @@ class UsageStatsService : Service() {
 
     @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        isActive = true
+        _isActive = true
 
         ServiceCompat.startForeground(
             this,
@@ -109,13 +111,9 @@ class UsageStatsService : Service() {
     override fun onDestroy() {
         super.onDestroy()
 
-        isActive = false
+        _isActive = false
 
         serviceScope.cancel()
-    }
-
-    fun isActive(): Boolean {
-        return isActive
     }
 
     inner class UsageStatsBinder : Binder() {

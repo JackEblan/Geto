@@ -17,8 +17,8 @@
  */
 package com.android.geto.core.testing.framework
 
-import com.android.geto.core.model.AppSettingTemplate
-import com.android.geto.framework.assetmanager.AssetManagerWrapper
+import com.android.geto.core.domain.framework.AssetManagerWrapper
+import com.android.geto.core.domain.model.AppSettingTemplate
 
 class FakeAssetManagerWrapper : AssetManagerWrapper {
     private var appSettingTemplates = emptyList<AppSettingTemplate>()

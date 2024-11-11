@@ -17,7 +17,7 @@
  */
 package com.android.geto.feature.appsettings.dialog.template
 
-import com.android.geto.core.model.AppSettingTemplate
+import com.android.geto.core.domain.model.AppSettingTemplate
 
 sealed interface TemplateDialogUiState {
     data class Success(val appSettingTemplates: List<AppSettingTemplate>) : TemplateDialogUiState

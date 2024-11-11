@@ -24,3 +24,7 @@ plugins {
 android {
     namespace = "com.android.geto.framework.clipboardmanager"
 }
+
+dependencies {
+    implementation(projects.core.domain)
+}

@@ -21,6 +21,7 @@ import androidx.activity.ComponentActivity
 import androidx.compose.material3.Surface
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.android.geto.core.designsystem.theme.GetoTheme
+import com.android.geto.core.domain.model.UpdateUsageStatsForegroundServiceResult
 import com.android.geto.core.screenshottesting.util.DefaultTestDevices
 import com.android.geto.core.screenshottesting.util.captureScreenForDevice
 import com.android.geto.core.screenshottesting.util.captureScreenForMultiDevice
@@ -47,7 +48,7 @@ class ServiceScreenScreenshotTest {
         composeTestRule.captureScreenForMultiDevice("ServiceScreenInActive") {
             GetoTheme {
                 ServiceScreen(
-                    isUsageStatsActive = false,
+                    updateUsageStatsForegroundServiceResult = UpdateUsageStatsForegroundServiceResult.Stop,
                     onEvent = {},
                 )
             }
@@ -59,7 +60,7 @@ class ServiceScreenScreenshotTest {
         composeTestRule.captureScreenForMultiDevice("ServiceScreenActive") {
             GetoTheme {
                 ServiceScreen(
-                    isUsageStatsActive = true,
+                    updateUsageStatsForegroundServiceResult = UpdateUsageStatsForegroundServiceResult.Start,
                     onEvent = {},
                 )
             }
@@ -77,7 +78,7 @@ class ServiceScreenScreenshotTest {
             GetoTheme {
                 Surface {
                     ServiceScreen(
-                        isUsageStatsActive = false,
+                        updateUsageStatsForegroundServiceResult = UpdateUsageStatsForegroundServiceResult.Stop,
                         onEvent = {},
                     )
                 }
@@ -96,7 +97,7 @@ class ServiceScreenScreenshotTest {
             GetoTheme {
                 Surface {
                     ServiceScreen(
-                        isUsageStatsActive = true,
+                        updateUsageStatsForegroundServiceResult = UpdateUsageStatsForegroundServiceResult.Start,
                         onEvent = {},
                     )
                 }

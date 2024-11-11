@@ -19,7 +19,7 @@
 
     <application>
         <receiver
-            android:name=".RevertSettingsBroadcastReceiver"
+            android:name=".DefaultRevertSettingsBroadcastReceiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="ACTION_REVERT_SETTINGS" />

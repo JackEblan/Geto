@@ -17,9 +17,9 @@
  */
 package com.android.geto.feature.settings
 
-import com.android.geto.core.domain.CleanAppSettingsUseCase
-import com.android.geto.core.model.DarkThemeConfig
-import com.android.geto.core.model.ThemeBrand
+import com.android.geto.core.domain.model.DarkThemeConfig
+import com.android.geto.core.domain.model.ThemeBrand
+import com.android.geto.core.domain.usecase.CleanAppSettingsUseCase
 import com.android.geto.core.testing.repository.TestAppSettingsRepository
 import com.android.geto.core.testing.repository.TestPackageRepository
 import com.android.geto.core.testing.repository.TestUserDataRepository

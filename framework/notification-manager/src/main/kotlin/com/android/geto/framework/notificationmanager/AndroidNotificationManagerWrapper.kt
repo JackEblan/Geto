@@ -34,9 +34,10 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
-import com.android.geto.framework.notificationmanager.NotificationManagerWrapper.Companion.ACTION_REVERT_SETTINGS
-import com.android.geto.framework.notificationmanager.NotificationManagerWrapper.Companion.EXTRA_NOTIFICATION_ID
-import com.android.geto.framework.notificationmanager.NotificationManagerWrapper.Companion.EXTRA_PACKAGE_NAME
+import com.android.geto.core.domain.framework.NotificationManagerWrapper
+import com.android.geto.core.domain.framework.NotificationManagerWrapper.Companion.ACTION_REVERT_SETTINGS
+import com.android.geto.core.domain.framework.NotificationManagerWrapper.Companion.EXTRA_NOTIFICATION_ID
+import com.android.geto.core.domain.framework.NotificationManagerWrapper.Companion.EXTRA_PACKAGE_NAME
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 

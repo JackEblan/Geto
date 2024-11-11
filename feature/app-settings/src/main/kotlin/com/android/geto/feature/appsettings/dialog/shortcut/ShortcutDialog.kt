@@ -45,7 +45,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.android.geto.core.designsystem.component.DialogContainer
 import com.android.geto.core.designsystem.component.ShimmerImage
-import com.android.geto.core.model.GetoShortcutInfoCompat
+import com.android.geto.core.domain.model.GetoShortcutInfoCompat
 import com.android.geto.feature.appsettings.R
 
 @Composable

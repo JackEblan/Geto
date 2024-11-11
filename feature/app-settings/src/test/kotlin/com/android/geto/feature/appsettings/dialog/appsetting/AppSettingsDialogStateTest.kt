@@ -17,8 +17,8 @@
  */
 package com.android.geto.feature.appsettings.dialog.appsetting
 
-import com.android.geto.core.model.SecureSetting
-import com.android.geto.core.model.SettingType
+import com.android.geto.core.domain.model.SecureSetting
+import com.android.geto.core.domain.model.SettingType
 import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertFalse

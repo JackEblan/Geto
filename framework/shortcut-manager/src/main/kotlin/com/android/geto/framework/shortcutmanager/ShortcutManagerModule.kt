@@ -17,6 +17,7 @@
  */
 package com.android.geto.framework.shortcutmanager
 
+import com.android.geto.core.domain.framework.ShortcutManagerCompatWrapper
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

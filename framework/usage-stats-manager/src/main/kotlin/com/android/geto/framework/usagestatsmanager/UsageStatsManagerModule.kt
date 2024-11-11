@@ -17,6 +17,7 @@
  */
 package com.android.geto.framework.usagestatsmanager
 
+import com.android.geto.core.domain.framework.UsageStatsManagerWrapper
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

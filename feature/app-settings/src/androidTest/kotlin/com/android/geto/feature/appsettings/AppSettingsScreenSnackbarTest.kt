@@ -25,9 +25,9 @@ import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import com.android.geto.core.model.AddAppSettingResult
-import com.android.geto.core.model.AppSettingsResult
-import com.android.geto.core.model.RequestPinShortcutResult
+import com.android.geto.core.domain.model.AddAppSettingResult
+import com.android.geto.core.domain.model.AppSettingsResult
+import com.android.geto.core.domain.model.RequestPinShortcutResult
 import com.android.geto.feature.appsettings.dialog.template.TemplateDialogUiState
 import org.junit.Rule
 import org.junit.Test

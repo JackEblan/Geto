@@ -17,8 +17,8 @@
  */
 package com.android.geto.core.testing.repository
 
-import com.android.geto.core.data.repository.ShortcutRepository
-import com.android.geto.core.model.GetoShortcutInfoCompat
+import com.android.geto.core.domain.model.GetoShortcutInfoCompat
+import com.android.geto.core.domain.repository.ShortcutRepository
 
 class TestShortcutRepository : ShortcutRepository {
 

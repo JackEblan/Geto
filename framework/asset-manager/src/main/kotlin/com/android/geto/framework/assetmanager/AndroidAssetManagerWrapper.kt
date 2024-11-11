@@ -20,7 +20,8 @@ package com.android.geto.framework.assetmanager
 import android.content.Context
 import com.android.geto.core.common.Dispatcher
 import com.android.geto.core.common.GetoDispatchers.IO
-import com.android.geto.core.model.AppSettingTemplate
+import com.android.geto.core.domain.framework.AssetManagerWrapper
+import com.android.geto.core.domain.model.AppSettingTemplate
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -35,12 +36,12 @@ internal class AndroidAssetManagerWrapper @Inject constructor(
 ) : AssetManagerWrapper {
     private val appSettingsType = object : TypeToken<List<AppSettingTemplate>>() {}.type
 
-    private val appSettingTemplates = "AppSettingTemplates.json"
+    private val appSettingTemplatesJson = "AppSettingTemplates.json"
 
     override suspend fun getAppSettingTemplates(): List<AppSettingTemplate> {
         val jsonString = withContext(ioDispatcher) {
             try {
-                context.assets.open(appSettingTemplates).bufferedReader().use { it.readText() }
+                context.assets.open(appSettingTemplatesJson).bufferedReader().use { it.readText() }
             } catch (ex: IOException) {
                 null
             }

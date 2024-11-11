@@ -50,8 +50,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.android.geto.core.designsystem.component.GetoLoadingWheel
 import com.android.geto.core.designsystem.theme.supportsDynamicTheming
-import com.android.geto.core.model.DarkThemeConfig
-import com.android.geto.core.model.ThemeBrand
+import com.android.geto.core.domain.model.DarkThemeConfig
+import com.android.geto.core.domain.model.ThemeBrand
 import com.android.geto.feature.settings.SettingsEvent.CleanAppSettings
 import com.android.geto.feature.settings.SettingsEvent.UpdateAutoLaunch
 import com.android.geto.feature.settings.SettingsEvent.UpdateDarkThemeConfig

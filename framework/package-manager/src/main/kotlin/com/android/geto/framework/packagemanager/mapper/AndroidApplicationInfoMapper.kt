@@ -20,7 +20,7 @@ package com.android.geto.framework.packagemanager.mapper
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import androidx.core.graphics.drawable.toBitmap
-import com.android.geto.core.model.GetoApplicationInfo
+import com.android.geto.core.domain.model.GetoApplicationInfo
 
 internal fun ApplicationInfo.toApplicationInfo(packageManager: PackageManager): GetoApplicationInfo {
     return GetoApplicationInfo(

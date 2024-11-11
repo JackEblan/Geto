@@ -36,12 +36,7 @@ dependencies {
     implementation(projects.core.common)
     implementation(projects.core.database)
     implementation(projects.core.datastore)
-    implementation(projects.core.model)
-
-    implementation(projects.framework.clipboardManager)
-    implementation(projects.framework.packageManager)
-    implementation(projects.framework.secureSettings)
-    implementation(projects.framework.shortcutManager)
+    implementation(projects.core.domain)
 
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(projects.core.datastoreTest)

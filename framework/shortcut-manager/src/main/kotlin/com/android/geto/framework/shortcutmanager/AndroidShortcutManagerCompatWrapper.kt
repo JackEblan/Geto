@@ -21,7 +21,8 @@ import android.content.Context
 import androidx.core.content.pm.ShortcutManagerCompat
 import com.android.geto.core.common.Dispatcher
 import com.android.geto.core.common.GetoDispatchers.Default
-import com.android.geto.core.model.GetoShortcutInfoCompat
+import com.android.geto.core.domain.framework.ShortcutManagerCompatWrapper
+import com.android.geto.core.domain.model.GetoShortcutInfoCompat
 import com.android.geto.framework.shortcutmanager.mapper.asGetoShortcutInfoCompat
 import com.android.geto.framework.shortcutmanager.mapper.asShortcutInfoCompat
 import dagger.hilt.android.qualifiers.ApplicationContext

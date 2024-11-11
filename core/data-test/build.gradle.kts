@@ -28,7 +28,7 @@ android {
 
 dependencies {
     implementation(projects.core.data)
-    implementation(projects.core.model)
+    implementation(projects.core.domain)
 
     implementation(libs.hilt.android.testing)
 }

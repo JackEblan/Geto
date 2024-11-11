@@ -18,8 +18,7 @@
 package com.android.geto.feature.service
 
 import androidx.lifecycle.ViewModel
-import com.android.geto.foregroundservice.ForegroundServiceManager
-import com.android.geto.framework.usagestatsmanager.UsageStatsManagerWrapper
+import com.android.geto.core.domain.usecase.UpdateUsageStatsForegroundServiceUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -28,34 +27,21 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ServiceViewModel @Inject constructor(
-    private val foregroundServiceManager: ForegroundServiceManager,
-    private val usageStatsManagerWrapper: UsageStatsManagerWrapper,
+    private val updateUsageStatsForegroundServiceUseCase: UpdateUsageStatsForegroundServiceUseCase,
 ) : ViewModel() {
-    private val _isUsageStatsActive = MutableStateFlow(foregroundServiceManager.isActive())
-    val isUsageStatsActive = _isUsageStatsActive.asStateFlow()
+    private val _updateUsageStatsForegroundServiceResult =
+        MutableStateFlow(updateUsageStatsForegroundServiceUseCase())
+
+    val updateUsageStatsForegroundServiceResult =
+        _updateUsageStatsForegroundServiceResult.asStateFlow()
 
     fun onEvent(event: ServiceEvent) {
         when (event) {
             ServiceEvent.UpdateUsageStatsForegroundService -> {
-                updateUsageForegroundService()
+                _updateUsageStatsForegroundServiceResult.update {
+                    updateUsageStatsForegroundServiceUseCase()
+                }
             }
-        }
-    }
-
-    private fun updateUsageForegroundService() {
-        if (usageStatsManagerWrapper.isUsageStatsPermissionGranted().not()) {
-            usageStatsManagerWrapper.requestUsageStatsPermission()
-            return
-        }
-
-        _isUsageStatsActive.update {
-            foregroundServiceManager.isActive().not()
-        }
-
-        if (foregroundServiceManager.isActive()) {
-            foregroundServiceManager.stopForegroundService()
-        } else {
-            foregroundServiceManager.startForegroundService()
         }
     }
 }

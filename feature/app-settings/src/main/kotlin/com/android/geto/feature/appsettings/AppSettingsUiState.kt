@@ -17,7 +17,7 @@
  */
 package com.android.geto.feature.appsettings
 
-import com.android.geto.core.model.AppSetting
+import com.android.geto.core.domain.model.AppSetting
 
 sealed interface AppSettingsUiState {
     data class Success(val appSettings: List<AppSetting>) : AppSettingsUiState

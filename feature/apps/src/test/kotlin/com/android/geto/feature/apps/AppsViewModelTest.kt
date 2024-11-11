@@ -17,7 +17,7 @@
  */
 package com.android.geto.feature.apps
 
-import com.android.geto.core.model.GetoApplicationInfo
+import com.android.geto.core.domain.model.GetoApplicationInfo
 import com.android.geto.core.testing.repository.TestPackageRepository
 import com.android.geto.core.testing.util.MainDispatcherRule
 import kotlinx.coroutines.flow.collect

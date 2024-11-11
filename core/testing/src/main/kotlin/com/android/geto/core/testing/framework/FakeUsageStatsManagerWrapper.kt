@@ -17,8 +17,8 @@
  */
 package com.android.geto.core.testing.framework
 
-import com.android.geto.core.model.GetoUsageEvent
-import com.android.geto.framework.usagestatsmanager.UsageStatsManagerWrapper
+import com.android.geto.core.domain.framework.UsageStatsManagerWrapper
+import com.android.geto.core.domain.model.GetoUsageEvent
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow

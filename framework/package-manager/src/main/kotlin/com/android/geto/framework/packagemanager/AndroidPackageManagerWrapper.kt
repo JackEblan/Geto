@@ -25,7 +25,8 @@ import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import com.android.geto.core.common.Dispatcher
 import com.android.geto.core.common.GetoDispatchers.Default
-import com.android.geto.core.model.GetoApplicationInfo
+import com.android.geto.core.domain.framework.PackageManagerWrapper
+import com.android.geto.core.domain.model.GetoApplicationInfo
 import com.android.geto.framework.packagemanager.mapper.toApplicationInfo
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
