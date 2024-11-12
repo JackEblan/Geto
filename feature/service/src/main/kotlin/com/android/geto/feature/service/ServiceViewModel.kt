@@ -41,7 +41,7 @@ class ServiceViewModel @Inject constructor(
 
     fun onEvent(event: ServiceEvent) {
         when (event) {
-            is ServiceEvent.UpdateUsageStatsForegroundService -> {
+            ServiceEvent.UpdateUsageStatsForegroundService -> {
                 viewModelScope.launch {
                     updateUsageStatsForegroundServiceUseCase(isActive = usageStatsForegroundServiceActive.value)
                 }
