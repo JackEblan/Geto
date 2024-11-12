@@ -17,15 +17,16 @@
  */
 package com.android.geto.core.data.test.repository
 
-import com.android.geto.core.data.repository.UserDataRepository
-import com.android.geto.core.model.DarkThemeConfig
-import com.android.geto.core.model.ThemeBrand
-import com.android.geto.core.model.UserData
+import com.android.geto.core.domain.model.DarkThemeConfig
+import com.android.geto.core.domain.model.ThemeBrand
+import com.android.geto.core.domain.model.UserData
+import com.android.geto.core.domain.repository.UserDataRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
-class FakeUserDataRepository @Inject constructor() : UserDataRepository {
+class FakeUserDataRepository @Inject constructor() :
+    UserDataRepository {
 
     override val userData: Flow<UserData> = flowOf(
         UserData(

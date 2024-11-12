@@ -17,16 +17,16 @@
  */
 package com.android.geto.core.data.repository
 
-import com.android.geto.core.model.DarkThemeConfig
-import com.android.geto.core.model.ThemeBrand
-import com.android.geto.core.model.UserData
+import com.android.geto.core.domain.model.DarkThemeConfig
+import com.android.geto.core.domain.model.ThemeBrand
+import com.android.geto.core.domain.model.UserData
 import com.android.geto.datastore.GetoPreferencesDataSource
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 internal class DefaultUserDataRepository @Inject constructor(
     private val getoPreferencesDataSource: GetoPreferencesDataSource,
-) : UserDataRepository {
+) : com.android.geto.core.domain.repository.UserDataRepository {
 
     override val userData: Flow<UserData> = getoPreferencesDataSource.userData
 

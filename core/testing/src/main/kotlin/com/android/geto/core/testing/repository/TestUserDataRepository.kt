@@ -17,10 +17,10 @@
  */
 package com.android.geto.core.testing.repository
 
-import com.android.geto.core.data.repository.UserDataRepository
-import com.android.geto.core.model.DarkThemeConfig
-import com.android.geto.core.model.ThemeBrand
-import com.android.geto.core.model.UserData
+import com.android.geto.core.domain.model.DarkThemeConfig
+import com.android.geto.core.domain.model.ThemeBrand
+import com.android.geto.core.domain.model.UserData
+import com.android.geto.core.domain.repository.UserDataRepository
 import kotlinx.coroutines.channels.BufferOverflow.DROP_OLDEST
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow

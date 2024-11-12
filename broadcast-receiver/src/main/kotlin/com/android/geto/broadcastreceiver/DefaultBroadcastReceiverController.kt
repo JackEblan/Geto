@@ -19,9 +19,10 @@ package com.android.geto.broadcastreceiver
 
 import com.android.geto.core.common.Dispatcher
 import com.android.geto.core.common.GetoDispatchers.IO
-import com.android.geto.core.domain.RevertAppSettingsUseCase
-import com.android.geto.core.model.AppSettingsResult
-import com.android.geto.framework.notificationmanager.NotificationManagerWrapper
+import com.android.geto.core.domain.broadcastreceiver.BroadcastReceiverController
+import com.android.geto.core.domain.framework.NotificationManagerWrapper
+import com.android.geto.core.domain.model.AppSettingsResult
+import com.android.geto.core.domain.usecase.RevertAppSettingsUseCase
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch

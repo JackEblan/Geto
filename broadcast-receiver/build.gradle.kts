@@ -23,17 +23,10 @@ plugins {
 
 android {
     namespace = "com.android.geto.broadcastreceiver"
-
-    defaultConfig {
-        consumerProguardFiles("consumer-proguard-rules.pro")
-    }
 }
 
 dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(projects.core.common)
     implementation(projects.core.domain)
-    implementation(projects.core.model)
-
-    implementation(projects.framework.notificationManager)
 }

@@ -17,7 +17,7 @@
  */
 package com.android.geto
 
-import com.android.geto.core.model.UserData
+import com.android.geto.core.domain.model.UserData
 
 sealed interface MainActivityUiState {
     data object Loading : MainActivityUiState

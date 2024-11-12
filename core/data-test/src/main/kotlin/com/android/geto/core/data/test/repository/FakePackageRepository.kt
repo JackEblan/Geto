@@ -18,11 +18,12 @@
 package com.android.geto.core.data.test.repository
 
 import android.graphics.drawable.Drawable
-import com.android.geto.core.data.repository.PackageRepository
-import com.android.geto.core.model.GetoApplicationInfo
+import com.android.geto.core.domain.model.GetoApplicationInfo
+import com.android.geto.core.domain.repository.PackageRepository
 import javax.inject.Inject
 
-class FakePackageRepository @Inject constructor() : PackageRepository {
+class FakePackageRepository @Inject constructor() :
+    PackageRepository {
     override suspend fun queryIntentActivities(): List<GetoApplicationInfo> {
         return List(20) { index ->
             GetoApplicationInfo(

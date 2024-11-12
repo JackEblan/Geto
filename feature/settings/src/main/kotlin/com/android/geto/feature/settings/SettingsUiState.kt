@@ -17,7 +17,7 @@
  */
 package com.android.geto.feature.settings
 
-import com.android.geto.core.model.UserData
+import com.android.geto.core.domain.model.UserData
 
 sealed interface SettingsUiState {
     data object Loading : SettingsUiState

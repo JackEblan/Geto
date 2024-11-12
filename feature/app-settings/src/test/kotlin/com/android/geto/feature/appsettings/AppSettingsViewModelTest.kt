@@ -19,24 +19,26 @@ package com.android.geto.feature.appsettings
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.testing.invoke
-import com.android.geto.core.domain.AddAppSettingUseCase
-import com.android.geto.core.domain.ApplyAppSettingsUseCase
-import com.android.geto.core.domain.AutoLaunchUseCase
-import com.android.geto.core.domain.RequestPinShortcutUseCase
-import com.android.geto.core.domain.RevertAppSettingsUseCase
-import com.android.geto.core.model.AddAppSettingResult
-import com.android.geto.core.model.AppSetting
-import com.android.geto.core.model.AppSettingTemplate
-import com.android.geto.core.model.AppSettingsResult.DisabledAppSettings
-import com.android.geto.core.model.AppSettingsResult.EmptyAppSettings
-import com.android.geto.core.model.AppSettingsResult.InvalidValues
-import com.android.geto.core.model.AppSettingsResult.NoPermission
-import com.android.geto.core.model.AppSettingsResult.Success
-import com.android.geto.core.model.GetoApplicationInfo
-import com.android.geto.core.model.GetoShortcutInfoCompat
-import com.android.geto.core.model.RequestPinShortcutResult
-import com.android.geto.core.model.SecureSetting
-import com.android.geto.core.model.SettingType
+import com.android.geto.core.domain.broadcastreceiver.RevertSettingsBroadcastReceiver
+import com.android.geto.core.domain.model.AddAppSettingResult
+import com.android.geto.core.domain.model.AppSetting
+import com.android.geto.core.domain.model.AppSettingTemplate
+import com.android.geto.core.domain.model.AppSettingsResult.DisabledAppSettings
+import com.android.geto.core.domain.model.AppSettingsResult.EmptyAppSettings
+import com.android.geto.core.domain.model.AppSettingsResult.InvalidValues
+import com.android.geto.core.domain.model.AppSettingsResult.NoPermission
+import com.android.geto.core.domain.model.AppSettingsResult.Success
+import com.android.geto.core.domain.model.GetoApplicationInfo
+import com.android.geto.core.domain.model.GetoShortcutInfoCompat
+import com.android.geto.core.domain.model.RequestPinShortcutResult
+import com.android.geto.core.domain.model.SecureSetting
+import com.android.geto.core.domain.model.SettingType
+import com.android.geto.core.domain.usecase.AddAppSettingUseCase
+import com.android.geto.core.domain.usecase.ApplyAppSettingsUseCase
+import com.android.geto.core.domain.usecase.AutoLaunchUseCase
+import com.android.geto.core.domain.usecase.RequestPinShortcutUseCase
+import com.android.geto.core.domain.usecase.RevertAppSettingsUseCase
+import com.android.geto.core.testing.broadcastreceiver.DummyRevertSettingsBroadcastReceiver
 import com.android.geto.core.testing.framework.DummyClipboardManagerWrapper
 import com.android.geto.core.testing.framework.DummyNotificationManagerWrapper
 import com.android.geto.core.testing.framework.FakeAssetManagerWrapper
@@ -97,6 +99,8 @@ class AppSettingsViewModelTest {
 
     private lateinit var requestPinShortcutUseCase: RequestPinShortcutUseCase
 
+    private lateinit var revertSettingsBroadcastReceiver: RevertSettingsBroadcastReceiver
+
     private lateinit var savedStateHandle: SavedStateHandle
 
     private lateinit var viewModel: AppSettingsViewModel
@@ -153,6 +157,8 @@ class AppSettingsViewModelTest {
 
         assetManagerWrapper = FakeAssetManagerWrapper()
 
+        revertSettingsBroadcastReceiver = DummyRevertSettingsBroadcastReceiver()
+
         viewModel = AppSettingsViewModel(
             savedStateHandle = savedStateHandle,
             appSettingsRepository = appSettingsRepository,
@@ -166,6 +172,7 @@ class AppSettingsViewModelTest {
             addAppSettingUseCase = addAppSettingUseCase,
             notificationManagerWrapper = notificationManagerWrapper,
             assetManagerWrapper = assetManagerWrapper,
+            revertSettingsBroadcastReceiver = revertSettingsBroadcastReceiver,
         )
     }
 
@@ -551,7 +558,7 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun setPrimaryClipResult_isFalse_whenCopyPermissionCommand() = runTest {
+    fun setPrimaryClipResult_isFalse_whenCopyCommand() = runTest {
         backgroundScope.launch(UnconfinedTestDispatcher()) {
             viewModel.revertAppSettingsResult.collect()
         }
@@ -559,7 +566,7 @@ class AppSettingsViewModelTest {
         clipboardManagerWrapper.setSDKInt(33)
 
         viewModel.onEvent(
-            event = AppSettingsEvent.CopyPermissionCommand(
+            event = AppSettingsEvent.CopyCommand(
                 label = "label",
                 text = "text",
             ),
@@ -572,7 +579,7 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun setPrimaryClipResult_isTrue_whenCopyPermissionCommand() = runTest {
+    fun setPrimaryClipResult_isTrue_whenCopyCommand() = runTest {
         backgroundScope.launch(UnconfinedTestDispatcher()) {
             viewModel.setPrimaryClipResult.collect()
         }
@@ -580,7 +587,7 @@ class AppSettingsViewModelTest {
         clipboardManagerWrapper.setSDKInt(32)
 
         viewModel.onEvent(
-            event = AppSettingsEvent.CopyPermissionCommand(
+            event = AppSettingsEvent.CopyCommand(
                 label = "label",
                 text = "text",
             ),

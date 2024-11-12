@@ -51,7 +51,10 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -62,30 +65,30 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.android.geto.core.designsystem.component.GetoLoadingWheel
 import com.android.geto.core.designsystem.icon.GetoIcons
-import com.android.geto.core.model.AddAppSettingResult
-import com.android.geto.core.model.AddAppSettingResult.FAILED
-import com.android.geto.core.model.AddAppSettingResult.SUCCESS
-import com.android.geto.core.model.AppSetting
-import com.android.geto.core.model.AppSettingsResult
-import com.android.geto.core.model.AppSettingsResult.DisabledAppSettings
-import com.android.geto.core.model.AppSettingsResult.EmptyAppSettings
-import com.android.geto.core.model.AppSettingsResult.Failure
-import com.android.geto.core.model.AppSettingsResult.InvalidValues
-import com.android.geto.core.model.AppSettingsResult.NoPermission
-import com.android.geto.core.model.AppSettingsResult.Success
-import com.android.geto.core.model.GetoShortcutInfoCompat
-import com.android.geto.core.model.RequestPinShortcutResult
-import com.android.geto.core.model.RequestPinShortcutResult.SupportedLauncher
-import com.android.geto.core.model.RequestPinShortcutResult.UnsupportedLauncher
-import com.android.geto.core.model.RequestPinShortcutResult.UpdateFailure
-import com.android.geto.core.model.RequestPinShortcutResult.UpdateImmutableShortcuts
-import com.android.geto.core.model.RequestPinShortcutResult.UpdateSuccess
-import com.android.geto.core.model.SecureSetting
-import com.android.geto.core.model.SettingType
+import com.android.geto.core.domain.model.AddAppSettingResult
+import com.android.geto.core.domain.model.AddAppSettingResult.FAILED
+import com.android.geto.core.domain.model.AddAppSettingResult.SUCCESS
+import com.android.geto.core.domain.model.AppSetting
+import com.android.geto.core.domain.model.AppSettingsResult
+import com.android.geto.core.domain.model.AppSettingsResult.DisabledAppSettings
+import com.android.geto.core.domain.model.AppSettingsResult.EmptyAppSettings
+import com.android.geto.core.domain.model.AppSettingsResult.Failure
+import com.android.geto.core.domain.model.AppSettingsResult.InvalidValues
+import com.android.geto.core.domain.model.AppSettingsResult.NoPermission
+import com.android.geto.core.domain.model.AppSettingsResult.Success
+import com.android.geto.core.domain.model.GetoShortcutInfoCompat
+import com.android.geto.core.domain.model.RequestPinShortcutResult
+import com.android.geto.core.domain.model.RequestPinShortcutResult.SupportedLauncher
+import com.android.geto.core.domain.model.RequestPinShortcutResult.UnsupportedLauncher
+import com.android.geto.core.domain.model.RequestPinShortcutResult.UpdateFailure
+import com.android.geto.core.domain.model.RequestPinShortcutResult.UpdateImmutableShortcuts
+import com.android.geto.core.domain.model.RequestPinShortcutResult.UpdateSuccess
+import com.android.geto.core.domain.model.SecureSetting
+import com.android.geto.core.domain.model.SettingType
 import com.android.geto.feature.appsettings.AppSettingsEvent.AddAppSetting
 import com.android.geto.feature.appsettings.AppSettingsEvent.ApplyAppSettings
 import com.android.geto.feature.appsettings.AppSettingsEvent.CheckAppSetting
-import com.android.geto.feature.appsettings.AppSettingsEvent.CopyPermissionCommand
+import com.android.geto.feature.appsettings.AppSettingsEvent.CopyCommand
 import com.android.geto.feature.appsettings.AppSettingsEvent.DeleteAppSetting
 import com.android.geto.feature.appsettings.AppSettingsEvent.GetSecureSettingsByName
 import com.android.geto.feature.appsettings.AppSettingsEvent.LaunchIntentForPackage
@@ -101,9 +104,7 @@ import com.android.geto.feature.appsettings.AppSettingsEvent.RevertAppSettings
 import com.android.geto.feature.appsettings.dialog.appsetting.AppSettingDialog
 import com.android.geto.feature.appsettings.dialog.appsetting.AppSettingDialogState
 import com.android.geto.feature.appsettings.dialog.appsetting.rememberAppSettingDialogState
-import com.android.geto.feature.appsettings.dialog.permission.PermissionDialog
-import com.android.geto.feature.appsettings.dialog.permission.PermissionDialogState
-import com.android.geto.feature.appsettings.dialog.permission.rememberPermissionDialogState
+import com.android.geto.feature.appsettings.dialog.command.CommandDialog
 import com.android.geto.feature.appsettings.dialog.shortcut.ShortcutDialog
 import com.android.geto.feature.appsettings.dialog.shortcut.ShortcutDialogState
 import com.android.geto.feature.appsettings.dialog.shortcut.rememberShortcutDialogState
@@ -189,7 +190,7 @@ internal fun AppSettingsScreen(
     onNavigationIconClick: () -> Unit,
     onEvent: (AppSettingsEvent) -> Unit,
 ) {
-    val permissionDialogState = rememberPermissionDialogState()
+    var showPermissionDialog by rememberSaveable { mutableStateOf(false) }
 
     val appSettingDialogState = rememberAppSettingDialogState()
 
@@ -199,7 +200,6 @@ internal fun AppSettingsScreen(
 
     AppSettingsLaunchedEffects(
         snackbarHostState = snackbarHostState,
-        permissionDialogState = permissionDialogState,
         appSettingDialogState = appSettingDialogState,
         shortcutDialogState = shortcutDialogState,
         applicationIcon = applicationIcon,
@@ -210,6 +210,9 @@ internal fun AppSettingsScreen(
         autoLaunchResult = autoLaunchResult,
         requestPinShortcutResult = requestPinShortcutResult,
         setPrimaryClipResult = setPrimaryClipResult,
+        onShowPermissionDialog = {
+            showPermissionDialog = true
+        },
         onResetApplyAppSettingsResult = { onEvent(ResetApplyAppSettingsResult) },
         onResetRevertAppSettingsResult = { onEvent(ResetRevertAppSettingsResult) },
         onResetAutoLaunchResult = { onEvent(ResetAutoLaunchResult) },
@@ -237,22 +240,25 @@ internal fun AppSettingsScreen(
     )
 
     AppSettingsDialogs(
-        permissionDialogState = permissionDialogState,
+        showPermissionDialog = showPermissionDialog,
         appSettingDialogState = appSettingDialogState,
         shortcutDialogState = shortcutDialogState,
         templateDialogUiState = templateDialogUiState,
         templateDialogState = templateDialogState,
         packageName = packageName,
         onAddAppSetting = { onEvent(AddAppSetting(it)) },
-        onCopyPermissionCommand = { label, text ->
+        onCopyCommand = { label, text ->
             onEvent(
-                CopyPermissionCommand(
+                CopyCommand(
                     label = label,
                     text = text,
                 ),
             )
         },
         onAddShortcut = { onEvent(RequestPinShortcut(it)) },
+        onPermissionDialogDismissRequest = {
+            showPermissionDialog = false
+        },
     )
 
     Scaffold(
@@ -318,7 +324,6 @@ internal fun AppSettingsScreen(
 @Composable
 private fun AppSettingsLaunchedEffects(
     snackbarHostState: SnackbarHostState,
-    permissionDialogState: PermissionDialogState,
     appSettingDialogState: AppSettingDialogState,
     shortcutDialogState: ShortcutDialogState,
     applicationIcon: Drawable?,
@@ -329,6 +334,7 @@ private fun AppSettingsLaunchedEffects(
     autoLaunchResult: AppSettingsResult?,
     requestPinShortcutResult: RequestPinShortcutResult?,
     setPrimaryClipResult: Boolean,
+    onShowPermissionDialog: () -> Unit,
     onResetApplyAppSettingsResult: () -> Unit,
     onResetRevertAppSettingsResult: () -> Unit,
     onResetAutoLaunchResult: () -> Unit,
@@ -393,9 +399,7 @@ private fun AppSettingsLaunchedEffects(
             }
 
             NoPermission -> {
-                permissionDialogState.updateShowDialog(
-                    true,
-                )
+                onShowPermissionDialog()
             }
 
             Success -> {
@@ -433,9 +437,7 @@ private fun AppSettingsLaunchedEffects(
             }
 
             NoPermission -> {
-                permissionDialogState.updateShowDialog(
-                    true,
-                )
+                onShowPermissionDialog()
             }
 
             Success -> {
@@ -459,9 +461,7 @@ private fun AppSettingsLaunchedEffects(
     LaunchedEffect(key1 = autoLaunchResult) {
         when (autoLaunchResult) {
             NoPermission -> {
-                permissionDialogState.updateShowDialog(
-                    true,
-                )
+                onShowPermissionDialog()
             }
 
             Success -> {
@@ -588,15 +588,16 @@ private fun AppSettingsLaunchedEffects(
 
 @Composable
 private fun AppSettingsDialogs(
-    permissionDialogState: PermissionDialogState,
+    showPermissionDialog: Boolean,
     appSettingDialogState: AppSettingDialogState,
     shortcutDialogState: ShortcutDialogState,
     templateDialogUiState: TemplateDialogUiState,
     templateDialogState: TemplateDialogState,
     packageName: String,
     onAddAppSetting: (AppSetting) -> Unit,
-    onCopyPermissionCommand: (String, String) -> Unit,
+    onCopyCommand: (String, String) -> Unit,
     onAddShortcut: (GetoShortcutInfoCompat) -> Unit,
+    onPermissionDialogDismissRequest: () -> Unit,
 ) {
     if (appSettingDialogState.showDialog) {
         AppSettingDialog(
@@ -607,11 +608,11 @@ private fun AppSettingsDialogs(
         )
     }
 
-    if (permissionDialogState.showDialog) {
-        PermissionDialog(
-            permissionDialogState = permissionDialogState,
-            onCopyClick = onCopyPermissionCommand,
-            contentDescription = "Permission Dialog",
+    if (showPermissionDialog) {
+        CommandDialog(
+            onCopyClick = onCopyCommand,
+            contentDescription = "Command Dialog",
+            onDismissRequest = onPermissionDialogDismissRequest,
         )
     }
 

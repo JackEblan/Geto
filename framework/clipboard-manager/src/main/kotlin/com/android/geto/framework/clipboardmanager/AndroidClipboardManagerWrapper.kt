@@ -27,7 +27,7 @@ import javax.inject.Inject
 
 internal class AndroidClipboardManagerWrapper @Inject constructor(
     @ApplicationContext private val context: Context,
-) : ClipboardManagerWrapper {
+) : com.android.geto.core.domain.framework.ClipboardManagerWrapper {
 
     private val clipboardManager = context.getSystemService<ClipboardManager>()
 

@@ -17,7 +17,8 @@
  */
 package com.android.geto.feature.service
 
-import com.android.geto.core.testing.framework.FakeForegroundServiceManager
+import com.android.geto.core.domain.usecase.UpdateUsageStatsForegroundServiceUseCase
+import com.android.geto.core.testing.framework.FakeUsageStatsForegroundServiceManager
 import com.android.geto.core.testing.framework.FakeUsageStatsManagerWrapper
 import com.android.geto.core.testing.util.MainDispatcherRule
 import kotlinx.coroutines.flow.collect
@@ -34,64 +35,56 @@ class ServiceViewModelTest {
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
-    private lateinit var foregroundServiceManager: FakeForegroundServiceManager
+    private lateinit var usageStatsForegroundServiceManager: FakeUsageStatsForegroundServiceManager
 
     private lateinit var usageStatsManagerWrapper: FakeUsageStatsManagerWrapper
+
+    private lateinit var updateUsageStatsForegroundServiceUseCase: UpdateUsageStatsForegroundServiceUseCase
 
     private lateinit var viewModel: ServiceViewModel
 
     @Before
     fun setup() {
-        foregroundServiceManager = FakeForegroundServiceManager()
+        usageStatsForegroundServiceManager = FakeUsageStatsForegroundServiceManager()
 
         usageStatsManagerWrapper = FakeUsageStatsManagerWrapper()
 
-        viewModel = ServiceViewModel(
-            foregroundServiceManager = foregroundServiceManager,
+        updateUsageStatsForegroundServiceUseCase = UpdateUsageStatsForegroundServiceUseCase(
+            usageStatsForegroundServiceManager = usageStatsForegroundServiceManager,
             usageStatsManagerWrapper = usageStatsManagerWrapper,
+        )
+
+        viewModel = ServiceViewModel(
+            usageStatsForegroundServiceManager = usageStatsForegroundServiceManager,
+            updateUsageStatsForegroundServiceUseCase = updateUsageStatsForegroundServiceUseCase,
         )
     }
 
     @Test
-    fun foregroundService_inActive_noPermission() = runTest {
+    fun foregroundService_start() = runTest {
         backgroundScope.launch(UnconfinedTestDispatcher()) {
-            viewModel.isUsageStatsActive.collect()
+            viewModel.usageStatsForegroundServiceActive.collect()
         }
-
-        usageStatsManagerWrapper.setUsageStatsPermissionGranted(false)
-
-        viewModel.onEvent(event = ServiceEvent.UpdateUsageStatsForegroundService)
-
-        assertFalse(viewModel.isUsageStatsActive.value)
-    }
-
-    @Test
-    fun foregroundService_fromActive_to_inActive() = runTest {
-        backgroundScope.launch(UnconfinedTestDispatcher()) {
-            viewModel.isUsageStatsActive.collect()
-        }
-
-        foregroundServiceManager.setActive(true)
 
         usageStatsManagerWrapper.setUsageStatsPermissionGranted(true)
 
         viewModel.onEvent(event = ServiceEvent.UpdateUsageStatsForegroundService)
 
-        assertFalse(viewModel.isUsageStatsActive.value)
+        assertTrue(viewModel.usageStatsForegroundServiceActive.value)
     }
 
     @Test
-    fun foregroundService_fromInActive_to_active() = runTest {
+    fun foregroundService_stop() = runTest {
         backgroundScope.launch(UnconfinedTestDispatcher()) {
-            viewModel.isUsageStatsActive.collect()
+            viewModel.usageStatsForegroundServiceActive.collect()
         }
 
-        foregroundServiceManager.setActive(false)
+        usageStatsForegroundServiceManager.startForegroundService()
 
         usageStatsManagerWrapper.setUsageStatsPermissionGranted(true)
 
         viewModel.onEvent(event = ServiceEvent.UpdateUsageStatsForegroundService)
 
-        assertTrue(viewModel.isUsageStatsActive.value)
+        assertFalse(viewModel.usageStatsForegroundServiceActive.value)
     }
 }

@@ -26,9 +26,9 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
-import com.android.geto.core.model.DarkThemeConfig
-import com.android.geto.core.model.ThemeBrand
-import com.android.geto.core.model.UserData
+import com.android.geto.core.domain.model.DarkThemeConfig
+import com.android.geto.core.domain.model.ThemeBrand
+import com.android.geto.core.domain.model.UserData
 import org.junit.Rule
 import org.junit.Test
 

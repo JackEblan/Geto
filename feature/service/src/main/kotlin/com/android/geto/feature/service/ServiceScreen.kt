@@ -30,11 +30,11 @@ internal fun ServiceRoute(
     modifier: Modifier = Modifier,
     viewModel: ServiceViewModel = hiltViewModel(),
 ) {
-    val isUsageStatsActive by viewModel.isUsageStatsActive.collectAsStateWithLifecycle()
+    val usageStatsForegroundServiceActive by viewModel.usageStatsForegroundServiceActive.collectAsStateWithLifecycle()
 
     ServiceScreen(
         modifier = modifier,
-        isUsageStatsActive = isUsageStatsActive,
+        usageStatsForegroundServiceActive = usageStatsForegroundServiceActive,
         onEvent = viewModel::onEvent,
     )
 }
@@ -42,12 +42,12 @@ internal fun ServiceRoute(
 @Composable
 internal fun ServiceScreen(
     modifier: Modifier = Modifier,
-    isUsageStatsActive: Boolean,
+    usageStatsForegroundServiceActive: Boolean,
     onEvent: (ServiceEvent) -> Unit,
 ) {
     WavyCircle(
         modifier = modifier.fillMaxSize(),
-        active = isUsageStatsActive,
+        active = usageStatsForegroundServiceActive,
         onClick = {
             onEvent(ServiceEvent.UpdateUsageStatsForegroundService)
         },

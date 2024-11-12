@@ -21,7 +21,7 @@ import com.android.geto.core.database.dao.AppSettingsDao
 import com.android.geto.core.database.model.AppSettingEntity
 import com.android.geto.core.database.model.asEntity
 import com.android.geto.core.database.model.asExternalModel
-import com.android.geto.core.model.AppSetting
+import com.android.geto.core.domain.model.AppSetting
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
@@ -29,7 +29,7 @@ import javax.inject.Inject
 
 internal class DefaultAppSettingsRepository @Inject constructor(
     private val appSettingsDao: AppSettingsDao,
-) : AppSettingsRepository {
+) : com.android.geto.core.domain.repository.AppSettingsRepository {
 
     override val appSettings: Flow<List<AppSetting>> =
         appSettingsDao.getAppSettingEntities().distinctUntilChanged().map { entities ->

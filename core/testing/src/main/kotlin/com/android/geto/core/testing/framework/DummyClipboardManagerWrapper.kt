@@ -17,7 +17,7 @@
  */
 package com.android.geto.core.testing.framework
 
-import com.android.geto.framework.clipboardmanager.ClipboardManagerWrapper
+import com.android.geto.core.domain.framework.ClipboardManagerWrapper
 
 class DummyClipboardManagerWrapper : ClipboardManagerWrapper {
     private var sdkInt = 0

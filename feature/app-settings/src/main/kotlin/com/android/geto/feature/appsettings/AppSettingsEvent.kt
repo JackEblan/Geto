@@ -18,9 +18,9 @@
 package com.android.geto.feature.appsettings
 
 import android.graphics.drawable.Drawable
-import com.android.geto.core.model.AppSetting
-import com.android.geto.core.model.GetoShortcutInfoCompat
-import com.android.geto.core.model.SettingType
+import com.android.geto.core.domain.model.AppSetting
+import com.android.geto.core.domain.model.GetoShortcutInfoCompat
+import com.android.geto.core.domain.model.SettingType
 
 sealed interface AppSettingsEvent {
     data object ApplyAppSettings : AppSettingsEvent
@@ -33,7 +33,7 @@ sealed interface AppSettingsEvent {
 
     data class AddAppSetting(val appSetting: AppSetting) : AppSettingsEvent
 
-    data class CopyPermissionCommand(val label: String, val text: String) : AppSettingsEvent
+    data class CopyCommand(val label: String, val text: String) : AppSettingsEvent
 
     data object RevertAppSettings : AppSettingsEvent
 

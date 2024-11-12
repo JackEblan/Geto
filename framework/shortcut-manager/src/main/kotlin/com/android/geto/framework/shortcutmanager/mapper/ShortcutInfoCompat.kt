@@ -23,7 +23,7 @@ import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.graphics.drawable.IconCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.net.toUri
-import com.android.geto.core.model.GetoShortcutInfoCompat
+import com.android.geto.core.domain.model.GetoShortcutInfoCompat
 
 internal fun ShortcutInfoCompat.asGetoShortcutInfoCompat(): GetoShortcutInfoCompat {
     return GetoShortcutInfoCompat(

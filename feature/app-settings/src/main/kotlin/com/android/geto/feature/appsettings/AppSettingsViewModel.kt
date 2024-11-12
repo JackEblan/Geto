@@ -22,27 +22,30 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
-import com.android.geto.broadcastreceiver.RevertSettingsBroadcastReceiver
-import com.android.geto.core.data.repository.AppSettingsRepository
-import com.android.geto.core.data.repository.PackageRepository
-import com.android.geto.core.data.repository.SecureSettingsRepository
-import com.android.geto.core.domain.AddAppSettingUseCase
-import com.android.geto.core.domain.ApplyAppSettingsUseCase
-import com.android.geto.core.domain.AutoLaunchUseCase
-import com.android.geto.core.domain.RequestPinShortcutUseCase
-import com.android.geto.core.domain.RevertAppSettingsUseCase
-import com.android.geto.core.model.AddAppSettingResult
-import com.android.geto.core.model.AppSetting
-import com.android.geto.core.model.AppSettingsResult
-import com.android.geto.core.model.GetoShortcutInfoCompat
-import com.android.geto.core.model.RequestPinShortcutResult
-import com.android.geto.core.model.SecureSetting
-import com.android.geto.core.model.SettingType
+import com.android.geto.core.domain.broadcastreceiver.RevertSettingsBroadcastReceiver
+import com.android.geto.core.domain.framework.AssetManagerWrapper
+import com.android.geto.core.domain.framework.ClipboardManagerWrapper
+import com.android.geto.core.domain.framework.NotificationManagerWrapper
+import com.android.geto.core.domain.model.AddAppSettingResult
+import com.android.geto.core.domain.model.AppSetting
+import com.android.geto.core.domain.model.AppSettingsResult
+import com.android.geto.core.domain.model.GetoShortcutInfoCompat
+import com.android.geto.core.domain.model.RequestPinShortcutResult
+import com.android.geto.core.domain.model.SecureSetting
+import com.android.geto.core.domain.model.SettingType
+import com.android.geto.core.domain.repository.AppSettingsRepository
+import com.android.geto.core.domain.repository.PackageRepository
+import com.android.geto.core.domain.repository.SecureSettingsRepository
+import com.android.geto.core.domain.usecase.AddAppSettingUseCase
+import com.android.geto.core.domain.usecase.ApplyAppSettingsUseCase
+import com.android.geto.core.domain.usecase.AutoLaunchUseCase
+import com.android.geto.core.domain.usecase.RequestPinShortcutUseCase
+import com.android.geto.core.domain.usecase.RevertAppSettingsUseCase
 import com.android.geto.feature.appsettings.AppSettingsEvent.AddAppSetting
 import com.android.geto.feature.appsettings.AppSettingsEvent.ApplyAppSettings
 import com.android.geto.feature.appsettings.AppSettingsEvent.AutoLaunchApp
 import com.android.geto.feature.appsettings.AppSettingsEvent.CheckAppSetting
-import com.android.geto.feature.appsettings.AppSettingsEvent.CopyPermissionCommand
+import com.android.geto.feature.appsettings.AppSettingsEvent.CopyCommand
 import com.android.geto.feature.appsettings.AppSettingsEvent.DeleteAppSetting
 import com.android.geto.feature.appsettings.AppSettingsEvent.GetSecureSettingsByName
 import com.android.geto.feature.appsettings.AppSettingsEvent.LaunchIntentForPackage
@@ -57,9 +60,6 @@ import com.android.geto.feature.appsettings.AppSettingsEvent.ResetSetPrimaryClip
 import com.android.geto.feature.appsettings.AppSettingsEvent.RevertAppSettings
 import com.android.geto.feature.appsettings.dialog.template.TemplateDialogUiState
 import com.android.geto.feature.appsettings.navigation.AppSettingsRouteData
-import com.android.geto.framework.assetmanager.AssetManagerWrapper
-import com.android.geto.framework.clipboardmanager.ClipboardManagerWrapper
-import com.android.geto.framework.notificationmanager.NotificationManagerWrapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -85,6 +85,7 @@ class AppSettingsViewModel @Inject constructor(
     private val addAppSettingUseCase: AddAppSettingUseCase,
     private val notificationManagerWrapper: NotificationManagerWrapper,
     private val assetManagerWrapper: AssetManagerWrapper,
+    private val revertSettingsBroadcastReceiver: RevertSettingsBroadcastReceiver,
 ) : ViewModel() {
     private val appSettingsRouteData = savedStateHandle.toRoute<AppSettingsRouteData>()
 
@@ -164,8 +165,8 @@ class AppSettingsViewModel @Inject constructor(
                 checkAppSetting(appSetting = event.appSetting)
             }
 
-            is CopyPermissionCommand -> {
-                copyPermissionCommand(
+            is CopyCommand -> {
+                copyCommand(
                     label = event.label,
                     text = event.text,
                 )
@@ -266,7 +267,7 @@ class AppSettingsViewModel @Inject constructor(
         }
     }
 
-    private fun copyPermissionCommand(label: String, text: String) {
+    private fun copyCommand(label: String, text: String) {
         _setPrimaryClipResult.update {
             clipboardManagerWrapper.setPrimaryClip(
                 label = label,
@@ -318,7 +319,7 @@ class AppSettingsViewModel @Inject constructor(
         notificationManagerWrapper.notify(
             notificationId = notificationId,
             notification = notificationManagerWrapper.getRevertNotification(
-                cls = RevertSettingsBroadcastReceiver::class.java,
+                revertSettingsBroadcastReceiver = revertSettingsBroadcastReceiver,
                 packageName = packageName,
                 icon = icon,
                 contentTitle = contentTitle,

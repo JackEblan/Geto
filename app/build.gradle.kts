@@ -64,7 +64,7 @@ android {
 dependencies {
     implementation(projects.core.data)
     implementation(projects.core.designSystem)
-    implementation(projects.core.model)
+    implementation(projects.core.domain)
 
     implementation(projects.feature.apps)
     implementation(projects.feature.appSettings)
@@ -73,6 +73,14 @@ dependencies {
     implementation(projects.feature.settings)
 
     implementation(projects.broadcastReceiver)
+    implementation(projects.foregroundService)
+    implementation(projects.framework.assetManager)
+    implementation(projects.framework.clipboardManager)
+    implementation(projects.framework.notificationManager)
+    implementation(projects.framework.packageManager)
+    implementation(projects.framework.secureSettings)
+    implementation(projects.framework.shortcutManager)
+    implementation(projects.framework.usageStatsManager)
 
     implementation(libs.accompanist.permissions)
     implementation(libs.androidx.activity.ktx)

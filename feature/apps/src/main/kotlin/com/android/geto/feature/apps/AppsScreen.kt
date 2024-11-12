@@ -48,7 +48,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.android.geto.core.designsystem.component.GetoLoadingWheel
 import com.android.geto.core.designsystem.component.ShimmerImage
-import com.android.geto.core.model.GetoApplicationInfo
+import com.android.geto.core.domain.model.GetoApplicationInfo
 
 @Composable
 internal fun AppsRoute(

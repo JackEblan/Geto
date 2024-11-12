@@ -29,14 +29,7 @@ android {
 
 dependencies {
     implementation(projects.core.common)
-    implementation(projects.core.data)
     implementation(projects.core.domain)
-
-    implementation(projects.broadcastReceiver)
-
-    implementation(projects.framework.assetManager)
-    implementation(projects.framework.clipboardManager)
-    implementation(projects.framework.notificationManager)
 
     testImplementation(libs.hilt.android.testing)
     testImplementation(libs.robolectric)

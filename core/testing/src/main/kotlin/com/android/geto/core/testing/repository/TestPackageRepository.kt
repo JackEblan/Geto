@@ -19,8 +19,8 @@ package com.android.geto.core.testing.repository
 
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.ShapeDrawable
-import com.android.geto.core.data.repository.PackageRepository
-import com.android.geto.core.model.GetoApplicationInfo
+import com.android.geto.core.domain.model.GetoApplicationInfo
+import com.android.geto.core.domain.repository.PackageRepository
 
 class TestPackageRepository : PackageRepository {
     private var getoApplicationInfos = listOf<GetoApplicationInfo>()

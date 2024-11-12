@@ -18,7 +18,7 @@
 package com.android.geto.core.ui
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import com.android.geto.core.model.GetoApplicationInfo
+import com.android.geto.core.domain.model.GetoApplicationInfo
 import com.android.geto.core.ui.MappedApplicationInfoPreviewParameterData.mappedGetoApplicationInfos
 
 class ApplicationInfoPreviewParameterProvider :

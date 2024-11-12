@@ -22,7 +22,7 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import com.android.geto.core.database.AppDatabase
 import com.android.geto.core.database.model.AppSettingEntity
-import com.android.geto.core.model.SettingType
+import com.android.geto.core.domain.model.SettingType
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.After

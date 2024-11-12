@@ -17,6 +17,7 @@
  */
 package com.android.geto.framework.assetmanager
 
+import com.android.geto.core.domain.framework.AssetManagerWrapper
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

@@ -17,15 +17,16 @@
  */
 package com.android.geto.core.data.test.repository
 
-import com.android.geto.core.data.repository.AppSettingsRepository
-import com.android.geto.core.model.AppSetting
-import com.android.geto.core.model.SettingType
+import com.android.geto.core.domain.model.AppSetting
+import com.android.geto.core.domain.model.SettingType
+import com.android.geto.core.domain.repository.AppSettingsRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
-class FakeAppSettingsRepository @Inject constructor() : AppSettingsRepository {
+class FakeAppSettingsRepository @Inject constructor() :
+    AppSettingsRepository {
     override val appSettings: Flow<List<AppSetting>> = emptyFlow()
 
     override suspend fun upsertAppSetting(appSetting: AppSetting) {}

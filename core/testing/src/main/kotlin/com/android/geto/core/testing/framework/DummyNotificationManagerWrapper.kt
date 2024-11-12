@@ -19,7 +19,8 @@ package com.android.geto.core.testing.framework
 
 import android.app.Notification
 import android.graphics.drawable.Drawable
-import com.android.geto.framework.notificationmanager.NotificationManagerWrapper
+import com.android.geto.core.domain.broadcastreceiver.RevertSettingsBroadcastReceiver
+import com.android.geto.core.domain.framework.NotificationManagerWrapper
 
 class DummyNotificationManagerWrapper : NotificationManagerWrapper {
     override fun notify(notificationId: Int, notification: Notification) {
@@ -33,7 +34,7 @@ class DummyNotificationManagerWrapper : NotificationManagerWrapper {
     }
 
     override fun getRevertNotification(
-        cls: Class<*>,
+        revertSettingsBroadcastReceiver: RevertSettingsBroadcastReceiver,
         packageName: String,
         icon: Drawable?,
         contentTitle: String,

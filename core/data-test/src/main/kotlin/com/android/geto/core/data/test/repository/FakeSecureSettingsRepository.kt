@@ -17,13 +17,14 @@
  */
 package com.android.geto.core.data.test.repository
 
-import com.android.geto.core.data.repository.SecureSettingsRepository
-import com.android.geto.core.model.AppSetting
-import com.android.geto.core.model.SecureSetting
-import com.android.geto.core.model.SettingType
+import com.android.geto.core.domain.model.AppSetting
+import com.android.geto.core.domain.model.SecureSetting
+import com.android.geto.core.domain.model.SettingType
+import com.android.geto.core.domain.repository.SecureSettingsRepository
 import javax.inject.Inject
 
-class FakeSecureSettingsRepository @Inject constructor() : SecureSettingsRepository {
+class FakeSecureSettingsRepository @Inject constructor() :
+    SecureSettingsRepository {
     override suspend fun applySecureSettings(appSettings: List<AppSetting>): Boolean {
         return true
     }

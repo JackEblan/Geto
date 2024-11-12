@@ -29,7 +29,6 @@ android {
 dependencies {
     api(kotlin("test"))
     api(libs.androidx.compose.ui.test)
-    api(projects.core.data)
 
     debugApi(libs.androidx.compose.ui.test.manifest)
 
@@ -38,12 +37,16 @@ dependencies {
     implementation(libs.kotlinx.coroutines.test)
 
     implementation(projects.core.common)
-    implementation(projects.core.model)
+    implementation(projects.core.data)
+    implementation(projects.core.domain)
 
+    implementation(projects.broadcastReceiver)
     implementation(projects.foregroundService)
-
     implementation(projects.framework.assetManager)
     implementation(projects.framework.clipboardManager)
     implementation(projects.framework.notificationManager)
+    implementation(projects.framework.packageManager)
+    implementation(projects.framework.secureSettings)
+    implementation(projects.framework.shortcutManager)
     implementation(projects.framework.usageStatsManager)
 }

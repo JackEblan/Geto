@@ -47,7 +47,7 @@ class ServiceScreenScreenshotTest {
         composeTestRule.captureScreenForMultiDevice("ServiceScreenInActive") {
             GetoTheme {
                 ServiceScreen(
-                    isUsageStatsActive = false,
+                    usageStatsForegroundServiceActive = false,
                     onEvent = {},
                 )
             }
@@ -59,7 +59,7 @@ class ServiceScreenScreenshotTest {
         composeTestRule.captureScreenForMultiDevice("ServiceScreenActive") {
             GetoTheme {
                 ServiceScreen(
-                    isUsageStatsActive = true,
+                    usageStatsForegroundServiceActive = true,
                     onEvent = {},
                 )
             }
@@ -77,7 +77,7 @@ class ServiceScreenScreenshotTest {
             GetoTheme {
                 Surface {
                     ServiceScreen(
-                        isUsageStatsActive = false,
+                        usageStatsForegroundServiceActive = false,
                         onEvent = {},
                     )
                 }
@@ -96,7 +96,7 @@ class ServiceScreenScreenshotTest {
             GetoTheme {
                 Surface {
                     ServiceScreen(
-                        isUsageStatsActive = true,
+                        usageStatsForegroundServiceActive = true,
                         onEvent = {},
                     )
                 }

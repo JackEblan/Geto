@@ -24,8 +24,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import com.android.geto.core.model.AppSetting
-import com.android.geto.core.model.AppSettingTemplate
+import com.android.geto.core.domain.model.AppSetting
+import com.android.geto.core.domain.model.AppSettingTemplate
 
 @Composable
 internal fun rememberTemplateDialogState(): TemplateDialogState {

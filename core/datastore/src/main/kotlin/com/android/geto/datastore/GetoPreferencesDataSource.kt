@@ -22,9 +22,9 @@ import com.android.geto.core.datastore.proto.DarkThemeConfigProto
 import com.android.geto.core.datastore.proto.ThemeBrandProto
 import com.android.geto.core.datastore.proto.UserPreferences
 import com.android.geto.core.datastore.proto.copy
-import com.android.geto.core.model.DarkThemeConfig
-import com.android.geto.core.model.ThemeBrand
-import com.android.geto.core.model.UserData
+import com.android.geto.core.domain.model.DarkThemeConfig
+import com.android.geto.core.domain.model.ThemeBrand
+import com.android.geto.core.domain.model.UserData
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 

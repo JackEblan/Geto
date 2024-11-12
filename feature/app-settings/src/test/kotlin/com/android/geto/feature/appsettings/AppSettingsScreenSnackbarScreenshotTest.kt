@@ -21,8 +21,8 @@ import androidx.activity.ComponentActivity
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.android.geto.core.designsystem.theme.GetoTheme
-import com.android.geto.core.model.AppSetting
-import com.android.geto.core.model.SettingType
+import com.android.geto.core.domain.model.AppSetting
+import com.android.geto.core.domain.model.SettingType
 import com.android.geto.core.screenshottesting.util.captureSnackbarForMultiDevice
 import com.android.geto.core.testing.util.MainDispatcherRule
 import com.android.geto.feature.appsettings.dialog.template.TemplateDialogUiState

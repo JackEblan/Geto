@@ -19,10 +19,10 @@ package com.android.geto.core.data.repository
 
 import com.android.geto.core.common.Dispatcher
 import com.android.geto.core.common.GetoDispatchers.Default
-import com.android.geto.core.model.AppSetting
-import com.android.geto.core.model.SecureSetting
-import com.android.geto.core.model.SettingType
-import com.android.geto.framework.securesettings.SecureSettingsWrapper
+import com.android.geto.core.domain.framework.SecureSettingsWrapper
+import com.android.geto.core.domain.model.AppSetting
+import com.android.geto.core.domain.model.SecureSetting
+import com.android.geto.core.domain.model.SettingType
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -30,7 +30,7 @@ import javax.inject.Inject
 internal class DefaultSecureSettingsRepository @Inject constructor(
     @Dispatcher(Default) private val defaultDispatcher: CoroutineDispatcher,
     private val secureSettingsWrapper: SecureSettingsWrapper,
-) : SecureSettingsRepository {
+) : com.android.geto.core.domain.repository.SecureSettingsRepository {
     override suspend fun applySecureSettings(appSettings: List<AppSetting>): Boolean {
         return appSettings.all { appSetting ->
             secureSettingsWrapper.canWriteSecureSettings(

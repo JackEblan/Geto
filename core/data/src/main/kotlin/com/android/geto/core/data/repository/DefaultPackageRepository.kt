@@ -18,13 +18,13 @@
 package com.android.geto.core.data.repository
 
 import android.graphics.drawable.Drawable
-import com.android.geto.core.model.GetoApplicationInfo
-import com.android.geto.framework.packagemanager.PackageManagerWrapper
+import com.android.geto.core.domain.framework.PackageManagerWrapper
+import com.android.geto.core.domain.model.GetoApplicationInfo
 import javax.inject.Inject
 
 internal class DefaultPackageRepository @Inject constructor(
     private val packageManagerWrapper: PackageManagerWrapper,
-) : PackageRepository {
+) : com.android.geto.core.domain.repository.PackageRepository {
 
     override suspend fun queryIntentActivities(): List<GetoApplicationInfo> {
         return packageManagerWrapper.queryIntentActivities()

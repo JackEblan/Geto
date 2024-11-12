@@ -18,44 +18,34 @@
 package com.android.geto.feature.service
 
 import androidx.lifecycle.ViewModel
-import com.android.geto.foregroundservice.ForegroundServiceManager
-import com.android.geto.framework.usagestatsmanager.UsageStatsManagerWrapper
+import androidx.lifecycle.viewModelScope
+import com.android.geto.core.domain.foregroundservice.UsageStatsForegroundServiceManager
+import com.android.geto.core.domain.usecase.UpdateUsageStatsForegroundServiceUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class ServiceViewModel @Inject constructor(
-    private val foregroundServiceManager: ForegroundServiceManager,
-    private val usageStatsManagerWrapper: UsageStatsManagerWrapper,
+    usageStatsForegroundServiceManager: UsageStatsForegroundServiceManager,
+    private val updateUsageStatsForegroundServiceUseCase: UpdateUsageStatsForegroundServiceUseCase,
 ) : ViewModel() {
-    private val _isUsageStatsActive = MutableStateFlow(foregroundServiceManager.isActive())
-    val isUsageStatsActive = _isUsageStatsActive.asStateFlow()
+
+    val usageStatsForegroundServiceActive = usageStatsForegroundServiceManager.isActive.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000),
+        initialValue = false,
+    )
 
     fun onEvent(event: ServiceEvent) {
         when (event) {
-            ServiceEvent.UpdateUsageStatsForegroundService -> {
-                updateUsageForegroundService()
+            is ServiceEvent.UpdateUsageStatsForegroundService -> {
+                viewModelScope.launch {
+                    updateUsageStatsForegroundServiceUseCase(isActive = usageStatsForegroundServiceActive.value)
+                }
             }
-        }
-    }
-
-    private fun updateUsageForegroundService() {
-        if (usageStatsManagerWrapper.isUsageStatsPermissionGranted().not()) {
-            usageStatsManagerWrapper.requestUsageStatsPermission()
-            return
-        }
-
-        _isUsageStatsActive.update {
-            foregroundServiceManager.isActive().not()
-        }
-
-        if (foregroundServiceManager.isActive()) {
-            foregroundServiceManager.stopForegroundService()
-        } else {
-            foregroundServiceManager.startForegroundService()
         }
     }
 }

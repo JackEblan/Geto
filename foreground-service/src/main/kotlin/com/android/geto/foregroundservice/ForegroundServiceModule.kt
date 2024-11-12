@@ -17,6 +17,7 @@
  */
 package com.android.geto.foregroundservice
 
+import com.android.geto.core.domain.foregroundservice.UsageStatsForegroundServiceManager
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -29,5 +30,5 @@ internal interface ForegroundServiceModule {
 
     @Binds
     @Singleton
-    fun foregroundServiceManager(impl: AndroidForegroundServiceManager): ForegroundServiceManager
+    fun usageStatsForegroundServiceManager(impl: AndroidUsageStatsForegroundServiceManager): UsageStatsForegroundServiceManager
 }

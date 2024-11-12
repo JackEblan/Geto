@@ -35,7 +35,7 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.performTextInput
-import com.android.geto.core.model.AppSettingsResult
+import com.android.geto.core.domain.model.AppSettingsResult
 import com.android.geto.feature.appsettings.dialog.template.TemplateDialogUiState
 import org.junit.Rule
 import org.junit.Test
@@ -80,7 +80,7 @@ class AppSettingsScreenDialogsTest {
     }
 
     @Test
-    fun permissionDialog_isDisplayed_whenApplyAppSettingsResult_isNoPermission_thenDismissed() {
+    fun commandDialog_isDisplayed_whenApplyAppSettingsResult_isNoPermission_thenDismissed() {
         composeTestRule.setContent {
             AppSettingsScreen(
                 packageName = "com.android.geto",
@@ -101,15 +101,15 @@ class AppSettingsScreenDialogsTest {
             )
         }
 
-        composeTestRule.onNodeWithContentDescription("Permission Dialog").assertIsDisplayed()
+        composeTestRule.onNodeWithContentDescription("Command Dialog").assertIsDisplayed()
 
         composeTestRule.onNodeWithText("Cancel").performClick()
 
-        composeTestRule.onNodeWithContentDescription("Permission Dialog").assertIsNotDisplayed()
+        composeTestRule.onNodeWithContentDescription("Command Dialog").assertIsNotDisplayed()
     }
 
     @Test
-    fun permissionDialog_isDisplayed_whenRevertAppSettingsResult_isNoPermission_thenDismissed() {
+    fun commandDialog_isDisplayed_whenRevertAppSettingsResult_isNoPermission_thenDismissed() {
         composeTestRule.setContent {
             AppSettingsScreen(
                 packageName = "com.android.geto",
@@ -130,15 +130,15 @@ class AppSettingsScreenDialogsTest {
             )
         }
 
-        composeTestRule.onNodeWithContentDescription("Permission Dialog").assertIsDisplayed()
+        composeTestRule.onNodeWithContentDescription("Command Dialog").assertIsDisplayed()
 
         composeTestRule.onNodeWithText("Cancel").performClick()
 
-        composeTestRule.onNodeWithContentDescription("Permission Dialog").assertIsNotDisplayed()
+        composeTestRule.onNodeWithContentDescription("Command Dialog").assertIsNotDisplayed()
     }
 
     @Test
-    fun permissionDialog_isDisplayed_whenAutoLaunchResult_isNoPermission_thenDismissed() {
+    fun commandDialog_isDisplayed_whenAutoLaunchResult_isNoPermission_thenDismissed() {
         composeTestRule.setContent {
             AppSettingsScreen(
                 packageName = "com.android.geto",
@@ -159,11 +159,11 @@ class AppSettingsScreenDialogsTest {
             )
         }
 
-        composeTestRule.onNodeWithContentDescription("Permission Dialog").assertIsDisplayed()
+        composeTestRule.onNodeWithContentDescription("Command Dialog").assertIsDisplayed()
 
         composeTestRule.onNodeWithText("Cancel").performClick()
 
-        composeTestRule.onNodeWithContentDescription("Permission Dialog").assertIsNotDisplayed()
+        composeTestRule.onNodeWithContentDescription("Command Dialog").assertIsNotDisplayed()
     }
 
     @Test
