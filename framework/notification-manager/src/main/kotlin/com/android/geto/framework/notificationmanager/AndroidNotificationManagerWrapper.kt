@@ -38,6 +38,8 @@ import com.android.geto.core.domain.broadcastreceiver.RevertSettingsBroadcastRec
 import com.android.geto.core.domain.broadcastreceiver.RevertSettingsBroadcastReceiver.Companion.ACTION_REVERT_SETTINGS
 import com.android.geto.core.domain.broadcastreceiver.RevertSettingsBroadcastReceiver.Companion.EXTRA_NOTIFICATION_ID
 import com.android.geto.core.domain.broadcastreceiver.RevertSettingsBroadcastReceiver.Companion.EXTRA_PACKAGE_NAME
+import com.android.geto.core.domain.broadcastreceiver.StopUsageStatsForegroundServiceBroadcastReceiver
+import com.android.geto.core.domain.broadcastreceiver.StopUsageStatsForegroundServiceBroadcastReceiver.Companion.ACTION_STOP_USAGE_STATS_FOREGROUND_SERVICE
 import com.android.geto.core.domain.framework.NotificationManagerWrapper
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
@@ -96,16 +98,33 @@ internal class AndroidNotificationManagerWrapper @Inject constructor(@Applicatio
     }
 
     override fun getUsageStatsForegroundServiceNotification(
+        stopUsageStatsForegroundServiceBroadcastReceiver: StopUsageStatsForegroundServiceBroadcastReceiver,
         contentTitle: String,
         contentText: String,
     ): Notification {
         createNotificationChannel()
 
+        val stopIntent =
+            Intent(context, stopUsageStatsForegroundServiceBroadcastReceiver::class.java).apply {
+                action = ACTION_STOP_USAGE_STATS_FOREGROUND_SERVICE
+            }
+
+        val stopPendingIntent = PendingIntent.getBroadcast(
+            context,
+            0,
+            stopIntent,
+            FLAG_UPDATE_CURRENT or FLAG_IMMUTABLE,
+        )
+
         return NotificationCompat.Builder(
             context,
             context.getString(R.string.geto_notification_channel_id),
         ).setSmallIcon(R.drawable.baseline_settings_24).setContentTitle(contentTitle)
-            .setContentText(contentText).setPriority(NotificationCompat.PRIORITY_DEFAULT).build()
+            .setContentText(contentText).setPriority(NotificationCompat.PRIORITY_DEFAULT).addAction(
+                R.drawable.baseline_settings_24,
+                context.getString(R.string.stop),
+                stopPendingIntent,
+            ).build()
     }
 
     private fun createNotificationChannel() {

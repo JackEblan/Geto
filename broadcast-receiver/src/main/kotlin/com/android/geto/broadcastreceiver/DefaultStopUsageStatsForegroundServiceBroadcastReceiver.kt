@@ -17,28 +17,21 @@
  */
 package com.android.geto.broadcastreceiver
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
 import com.android.geto.core.domain.broadcastreceiver.BroadcastReceiverController
-import com.android.geto.core.domain.broadcastreceiver.RevertSettingsBroadcastReceiver
 import com.android.geto.core.domain.broadcastreceiver.StopUsageStatsForegroundServiceBroadcastReceiver
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-@Module
-@InstallIn(SingletonComponent::class)
-internal interface BroadcastReceiverModule {
+@AndroidEntryPoint
+class DefaultStopUsageStatsForegroundServiceBroadcastReceiver @Inject constructor() :
+    BroadcastReceiver(), StopUsageStatsForegroundServiceBroadcastReceiver {
+    @Inject
+    lateinit var broadcastReceiverController: BroadcastReceiverController
 
-    @Binds
-    @Singleton
-    fun broadcastReceiverController(impl: DefaultBroadcastReceiverController): BroadcastReceiverController
-
-    @Binds
-    @Singleton
-    fun revertSettingsBroadcastReceiver(impl: DefaultRevertSettingsBroadcastReceiver): RevertSettingsBroadcastReceiver
-
-    @Binds
-    @Singleton
-    fun stopUsageStatsForegroundServiceBroadcastReceiver(impl: DefaultStopUsageStatsForegroundServiceBroadcastReceiver): StopUsageStatsForegroundServiceBroadcastReceiver
+    override fun onReceive(context: Context?, intent: Intent?) {
+        broadcastReceiverController.stopForegroundService()
+    }
 }

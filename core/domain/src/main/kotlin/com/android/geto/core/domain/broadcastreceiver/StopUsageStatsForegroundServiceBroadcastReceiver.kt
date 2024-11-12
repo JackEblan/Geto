@@ -17,8 +17,9 @@
  */
 package com.android.geto.core.domain.broadcastreceiver
 
-interface BroadcastReceiverController {
-    fun revertSettings(packageName: String?, notificationId: Int?)
-
-    fun stopForegroundService()
+interface StopUsageStatsForegroundServiceBroadcastReceiver {
+    companion object {
+        const val ACTION_STOP_USAGE_STATS_FOREGROUND_SERVICE =
+            "ACTION_STOP_USAGE_STATS_FOREGROUND_SERVICE"
+    }
 }

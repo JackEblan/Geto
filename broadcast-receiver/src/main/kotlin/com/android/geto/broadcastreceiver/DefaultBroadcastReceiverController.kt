@@ -20,6 +20,7 @@ package com.android.geto.broadcastreceiver
 import com.android.geto.core.common.Dispatcher
 import com.android.geto.core.common.GetoDispatchers.IO
 import com.android.geto.core.domain.broadcastreceiver.BroadcastReceiverController
+import com.android.geto.core.domain.foregroundservice.UsageStatsForegroundServiceManager
 import com.android.geto.core.domain.framework.NotificationManagerWrapper
 import com.android.geto.core.domain.model.AppSettingsResult
 import com.android.geto.core.domain.usecase.RevertAppSettingsUseCase
@@ -32,6 +33,7 @@ internal class DefaultBroadcastReceiverController @Inject constructor(
     @Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher,
     private val revertAppSettingsUseCase: RevertAppSettingsUseCase,
     private val notificationManagerWrapper: NotificationManagerWrapper,
+    private val usageStatsForegroundServiceManager: UsageStatsForegroundServiceManager,
 ) : BroadcastReceiverController {
     override fun revertSettings(packageName: String?, notificationId: Int?) {
         if (packageName == null || notificationId == null) return
@@ -41,5 +43,9 @@ internal class DefaultBroadcastReceiverController @Inject constructor(
                 notificationManagerWrapper.cancel(notificationId)
             }
         }
+    }
+
+    override fun stopForegroundService() {
+        usageStatsForegroundServiceManager.stopForegroundService()
     }
 }
