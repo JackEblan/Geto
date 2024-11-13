@@ -23,7 +23,6 @@ import android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE
 import android.os.Binder
 import android.os.Build
 import android.os.IBinder
-import androidx.annotation.RequiresApi
 import androidx.core.app.ServiceCompat
 import com.android.geto.core.domain.broadcastreceiver.StopUsageStatsForegroundServiceBroadcastReceiver
 import com.android.geto.core.domain.framework.NotificationManagerWrapper
@@ -61,18 +60,8 @@ class UsageStatsService : Service() {
         return usageStatsBinder
     }
 
-    @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        ServiceCompat.startForeground(
-            this,
-            notificationId,
-            notificationManagerWrapper.getUsageStatsForegroundServiceNotification(
-                stopUsageStatsForegroundServiceBroadcastReceiver = stopUsageStatsForegroundServiceBroadcastReceiver,
-                contentTitle = getString(R.string.usage_stats_service),
-                contentText = getString(R.string.usage_stats_service_message),
-            ),
-            FOREGROUND_SERVICE_TYPE_SPECIAL_USE,
-        )
+        startUsageStatsForeground()
 
         serviceScope.launch {
             foregroundServiceAppSettingsUseCase().collectLatest { result ->
@@ -81,6 +70,30 @@ class UsageStatsService : Service() {
         }
 
         return START_STICKY_COMPATIBILITY
+    }
+
+    private fun startUsageStatsForeground() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            ServiceCompat.startForeground(
+                this,
+                notificationId,
+                notificationManagerWrapper.getUsageStatsForegroundServiceNotification(
+                    stopUsageStatsForegroundServiceBroadcastReceiver = stopUsageStatsForegroundServiceBroadcastReceiver,
+                    contentTitle = getString(R.string.usage_stats_service),
+                    contentText = getString(R.string.usage_stats_service_message),
+                ),
+                FOREGROUND_SERVICE_TYPE_SPECIAL_USE,
+            )
+        } else {
+            startForeground(
+                notificationId,
+                notificationManagerWrapper.getUsageStatsForegroundServiceNotification(
+                    stopUsageStatsForegroundServiceBroadcastReceiver = stopUsageStatsForegroundServiceBroadcastReceiver,
+                    contentTitle = getString(R.string.usage_stats_service),
+                    contentText = getString(R.string.usage_stats_service_message),
+                ),
+            )
+        }
     }
 
     private fun updateUsageStatsForegroundServiceNotification(result: ForegroundServiceAppSettingsResult) {
