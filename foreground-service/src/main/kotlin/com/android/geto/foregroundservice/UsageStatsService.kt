@@ -23,7 +23,6 @@ import android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE
 import android.os.Binder
 import android.os.Build
 import android.os.IBinder
-import androidx.core.app.ServiceCompat
 import com.android.geto.core.domain.broadcastreceiver.StopUsageStatsForegroundServiceBroadcastReceiver
 import com.android.geto.core.domain.framework.NotificationManagerWrapper
 import com.android.geto.core.domain.model.ForegroundServiceAppSettingsResult
@@ -74,8 +73,7 @@ class UsageStatsService : Service() {
 
     private fun startUsageStatsForeground() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-            ServiceCompat.startForeground(
-                this,
+            startForeground(
                 notificationId,
                 notificationManagerWrapper.getUsageStatsForegroundServiceNotification(
                     stopUsageStatsForegroundServiceBroadcastReceiver = stopUsageStatsForegroundServiceBroadcastReceiver,
