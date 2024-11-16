@@ -24,6 +24,10 @@ plugins {
 
 android {
     namespace = "com.android.geto.core.domain"
+
+    defaultConfig {
+        consumerProguardFiles("consumer-proguard-rules.pro")
+    }
 }
 
 dependencies {

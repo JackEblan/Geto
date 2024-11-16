@@ -21,19 +21,12 @@ import androidx.activity.compose.ReportDrawnWhen
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ListItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -123,7 +116,7 @@ private fun SuccessState(
             .fillMaxSize()
             .testTag("apps:lazyVerticalGrid"),
     ) {
-        items(appsUiState.getoApplicationInfos) { mappedApplicationInfo ->
+        items(items = appsUiState.getoApplicationInfos) { mappedApplicationInfo ->
             AppItem(
                 getoApplicationInfo = mappedApplicationInfo,
                 onItemClick = onItemClick,
@@ -138,38 +131,30 @@ private fun AppItem(
     getoApplicationInfo: GetoApplicationInfo,
     onItemClick: (String, String) -> Unit,
 ) {
-    Row(
+    ListItem(
         modifier = modifier
-            .fillMaxWidth()
             .testTag("apps:appItem")
             .clickable {
                 onItemClick(
                     getoApplicationInfo.packageName,
                     getoApplicationInfo.label,
                 )
-            }
-            .padding(10.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        ShimmerImage(
-            modifier = Modifier.size(50.dp),
-            model = getoApplicationInfo.icon,
-        )
-
-        Spacer(modifier = Modifier.width(10.dp))
-
-        Column(modifier = Modifier.weight(1f)) {
+            },
+        headlineContent = {
             Text(
                 text = getoApplicationInfo.label,
-                style = MaterialTheme.typography.bodyLarge,
             )
-
-            Spacer(modifier = Modifier.height(5.dp))
-
+        },
+        supportingContent = {
             Text(
                 text = getoApplicationInfo.packageName,
-                style = MaterialTheme.typography.bodySmall,
             )
-        }
-    }
+        },
+        leadingContent = {
+            ShimmerImage(
+                modifier = Modifier.size(50.dp),
+                model = getoApplicationInfo.icon,
+            )
+        },
+    )
 }

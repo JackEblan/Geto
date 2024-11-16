@@ -22,15 +22,14 @@ import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
@@ -42,6 +41,7 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -785,12 +785,8 @@ private fun SuccessState(
     LazyColumn(
         modifier = modifier.testTag("appSettings:lazyColumn"),
     ) {
-        items(appSettingsUiState.appSettings, key = { it.id!! }) { appSettings ->
+        items(items = appSettingsUiState.appSettings, key = { it.id!! }) { appSettings ->
             AppSettingItem(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 10.dp, horizontal = 5.dp)
-                    .animateItem(),
                 appSetting = appSettings,
                 onCheckedChange = { check ->
                     onCheckAppSetting(
@@ -806,47 +802,42 @@ private fun SuccessState(
 }
 
 @Composable
-private fun AppSettingItem(
+private fun LazyItemScope.AppSettingItem(
     modifier: Modifier = Modifier,
     appSetting: AppSetting,
     onCheckedChange: (Boolean) -> Unit,
     onDeleteClick: () -> Unit,
 ) {
-    Row(
-        modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Checkbox(
-            checked = appSetting.enabled,
-            onCheckedChange = onCheckedChange,
-        )
-
-        Column(modifier = Modifier.weight(1f)) {
+    ListItem(
+        modifier = modifier.animateItem(),
+        headlineContent = {
             Text(
                 text = appSetting.label,
-                style = MaterialTheme.typography.bodyLarge,
             )
-
-            Spacer(modifier = Modifier.height(5.dp))
-
-            Text(
-                text = appSetting.settingType.label,
-                style = MaterialTheme.typography.bodySmall,
-            )
-
-            Spacer(modifier = Modifier.height(5.dp))
-
+        },
+        overlineContent = {
             Text(
                 text = appSetting.key,
-                style = MaterialTheme.typography.bodySmall,
             )
-        }
-
-        IconButton(onClick = onDeleteClick) {
-            Icon(
-                imageVector = Icons.Default.Delete,
-                contentDescription = null,
+        },
+        supportingContent = {
+            Text(
+                text = appSetting.settingType.label,
             )
-        }
-    }
+        },
+        leadingContent = {
+            Checkbox(
+                checked = appSetting.enabled,
+                onCheckedChange = onCheckedChange,
+            )
+        },
+        trailingContent = {
+            IconButton(onClick = onDeleteClick) {
+                Icon(
+                    imageVector = Icons.Default.Delete,
+                    contentDescription = null,
+                )
+            }
+        },
+    )
 }
