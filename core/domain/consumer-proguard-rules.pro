@@ -1,0 +1,1 @@
+-keep class com.android.geto.core.domain.model.** { *; }
