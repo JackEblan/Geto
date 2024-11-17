@@ -27,7 +27,7 @@ with `android.permission.WRITE_SECURE_SETTINGS` in order for it to modify your S
 
 > [!IMPORTANT]  
 > We moved the instructions on how to use this application into
-> our [Wiki](https://github.com/JackEblan/Geto/wiki) page!
+> our [Wiki](https://github.com/JackEblan/Geto/wiki) and [Youtube](https://youtu.be/CJrJyHpVVRM?si=ACrEC0hcPed53RAj)
 
 # Screenshots
 
