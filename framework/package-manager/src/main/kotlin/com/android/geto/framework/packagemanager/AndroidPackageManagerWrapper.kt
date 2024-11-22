@@ -25,6 +25,7 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
+import android.os.Build
 import androidx.core.graphics.drawable.toBitmap
 import com.android.geto.core.common.Dispatcher
 import com.android.geto.core.common.GetoDispatchers.Default
@@ -49,7 +50,11 @@ internal class AndroidPackageManagerWrapper @Inject constructor(
             addCategory(Intent.CATEGORY_LAUNCHER)
         }
 
-        val flags = 0
+        val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            PackageManager.MATCH_ALL
+        } else {
+            PackageManager.MATCH_DEFAULT_ONLY
+        }
 
         return withContext(defaultDispatcher) {
             val intentActivities =
@@ -58,7 +63,7 @@ internal class AndroidPackageManagerWrapper @Inject constructor(
                 }
 
             intentActivities.filter { applicationInfo ->
-                (applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM) == flags
+                (applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM) == 0
             }.sortedBy { applicationInfo -> applicationInfo.label }
         }
     }
