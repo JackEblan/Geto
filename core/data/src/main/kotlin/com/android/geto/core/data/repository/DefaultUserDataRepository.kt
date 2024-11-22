@@ -24,7 +24,7 @@ import com.android.geto.datastore.GetoPreferencesDataSource
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-internal class DefaultUserDataRepository @Inject constructor(
+class DefaultUserDataRepository @Inject constructor(
     private val getoPreferencesDataSource: GetoPreferencesDataSource,
 ) : com.android.geto.core.domain.repository.UserDataRepository {
 

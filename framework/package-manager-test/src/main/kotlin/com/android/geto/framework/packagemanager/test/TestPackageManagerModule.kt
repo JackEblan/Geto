@@ -31,6 +31,7 @@ import javax.inject.Singleton
     replaces = [PackageManagerModule::class],
 )
 internal interface TestPackageManagerModule {
+
     @Binds
     @Singleton
     fun packageManagerWrapper(impl: FakePackageManagerWrapper): PackageManagerWrapper

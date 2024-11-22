@@ -54,6 +54,7 @@ class NavigationTest {
         ReadOnlyProperty<Any, String> { _, _ -> activity.getString(resId) }
 
     private val apps by composeTestRule.stringResource(R.string.apps)
+    private val service by composeTestRule.stringResource(R.string.service)
     private val settings by composeTestRule.stringResource(R.string.settings)
 
     @Before
@@ -63,6 +64,15 @@ class NavigationTest {
     fun appsScreen_isSelected() {
         composeTestRule.apply {
             onNode(isSelected()).assertTextEquals(apps)
+        }
+    }
+
+    @Test
+    fun serviceScreen_isSelected() {
+        composeTestRule.apply {
+            onNode(isSelectable() and hasText(service)).performClick()
+
+            onNode(isSelected()).assertTextEquals(service)
         }
     }
 

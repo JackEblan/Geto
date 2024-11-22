@@ -25,8 +25,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
-class FakeUserDataRepository @Inject constructor() :
-    UserDataRepository {
+class FakeUserDataRepository @Inject constructor() : UserDataRepository {
 
     override val userData: Flow<UserData> = flowOf(
         UserData(

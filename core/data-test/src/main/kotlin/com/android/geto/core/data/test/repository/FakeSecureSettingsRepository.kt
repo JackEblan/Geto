@@ -23,8 +23,7 @@ import com.android.geto.core.domain.model.SettingType
 import com.android.geto.core.domain.repository.SecureSettingsRepository
 import javax.inject.Inject
 
-class FakeSecureSettingsRepository @Inject constructor() :
-    SecureSettingsRepository {
+class FakeSecureSettingsRepository @Inject constructor() : SecureSettingsRepository {
     override suspend fun applySecureSettings(appSettings: List<AppSetting>): Boolean {
         return true
     }

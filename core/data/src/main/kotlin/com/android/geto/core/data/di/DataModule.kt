@@ -33,21 +33,21 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class DataModule {
+interface DataModule {
 
     @Binds
     @Singleton
-    internal abstract fun appSettingsRepository(impl: DefaultAppSettingsRepository): AppSettingsRepository
+    fun appSettingsRepository(impl: DefaultAppSettingsRepository): AppSettingsRepository
 
     @Binds
     @Singleton
-    internal abstract fun secureSettingsRepository(impl: DefaultSecureSettingsRepository): SecureSettingsRepository
+    fun secureSettingsRepository(impl: DefaultSecureSettingsRepository): SecureSettingsRepository
 
     @Binds
     @Singleton
-    internal abstract fun shortcutRepository(impl: DefaultShortcutRepository): ShortcutRepository
+    fun shortcutRepository(impl: DefaultShortcutRepository): ShortcutRepository
 
     @Binds
     @Singleton
-    internal abstract fun userDataRepository(impl: DefaultUserDataRepository): UserDataRepository
+    fun userDataRepository(impl: DefaultUserDataRepository): UserDataRepository
 }
