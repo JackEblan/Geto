@@ -102,7 +102,7 @@ class AndroidPackageManagerWrapper @Inject constructor(
         val stream = ByteArrayOutputStream()
 
         withContext(ioDispatcher) {
-            toBitmap().compress(Bitmap.CompressFormat.JPEG, 50, stream)
+            toBitmap().compress(Bitmap.CompressFormat.PNG, 30, stream)
         }
 
         return stream.toByteArray()
