@@ -133,7 +133,11 @@ class AutoLaunchUseCaseTest {
         }
 
         val getoApplicationInfos = List(5) { index ->
-            GetoApplicationInfo(flags = 0, packageName = packageName, label = "Geto $index")
+            GetoApplicationInfo(
+                flags = 0,
+                icon = ByteArray(0),
+                packageName = packageName, label = "Geto $index",
+            )
         }
 
         packageRepository.setApplicationInfos(getoApplicationInfos)

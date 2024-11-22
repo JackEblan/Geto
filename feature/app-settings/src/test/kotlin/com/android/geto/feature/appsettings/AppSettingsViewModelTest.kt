@@ -770,7 +770,7 @@ class AppSettingsViewModelTest {
             event = AppSettingsEvent.RequestPinShortcut(
                 getoShortcutInfoCompat = GetoShortcutInfoCompat(
                     id = "0",
-                    icon = 0,
+                    icon = ByteArray(0),
                     shortLabel = "shortLabel",
                     longLabel = "longLabel",
                 ),
@@ -795,7 +795,7 @@ class AppSettingsViewModelTest {
             event = AppSettingsEvent.RequestPinShortcut(
                 getoShortcutInfoCompat = GetoShortcutInfoCompat(
                     id = "0",
-                    icon = 0,
+                    icon = ByteArray(0),
                     shortLabel = "shortLabel",
                     longLabel = "longLabel",
                 ),
@@ -817,7 +817,7 @@ class AppSettingsViewModelTest {
         val shortcuts = List(2) {
             GetoShortcutInfoCompat(
                 id = "com.android.geto",
-                icon = 0,
+                icon = ByteArray(0),
                 shortLabel = "Geto",
                 longLabel = "Geto",
             )
@@ -833,7 +833,7 @@ class AppSettingsViewModelTest {
             event = AppSettingsEvent.RequestPinShortcut(
                 getoShortcutInfoCompat = GetoShortcutInfoCompat(
                     id = "com.android.geto",
-                    icon = 0,
+                    icon = ByteArray(0),
                     shortLabel = "shortLabel",
                     longLabel = "longLabel",
                 ),
@@ -855,7 +855,7 @@ class AppSettingsViewModelTest {
         val shortcuts = List(2) {
             GetoShortcutInfoCompat(
                 id = "com.android.geto",
-                icon = 0,
+                icon = ByteArray(0),
                 shortLabel = "Geto",
                 longLabel = "Geto",
             )
@@ -871,7 +871,7 @@ class AppSettingsViewModelTest {
             event = AppSettingsEvent.RequestPinShortcut(
                 getoShortcutInfoCompat = GetoShortcutInfoCompat(
                     id = "com.android.geto",
-                    icon = 0,
+                    icon = ByteArray(0),
                     shortLabel = "shortLabel",
                     longLabel = "longLabel",
                 ),
@@ -890,6 +890,7 @@ class AppSettingsViewModelTest {
             val getoApplicationInfos = List(1) { _ ->
                 GetoApplicationInfo(
                     flags = 0,
+                    icon = ByteArray(0),
                     packageName = packageName,
                     label = appName,
                 )
@@ -909,6 +910,7 @@ class AppSettingsViewModelTest {
             val getoApplicationInfos = List(1) { _ ->
                 GetoApplicationInfo(
                     flags = 0,
+                    icon = ByteArray(0),
                     packageName = "",
                     label = appName,
                 )
