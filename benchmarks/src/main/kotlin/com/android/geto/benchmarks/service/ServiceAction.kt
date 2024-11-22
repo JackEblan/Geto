@@ -28,6 +28,6 @@ fun MacrobenchmarkScope.goToServiceScreen() {
 }
 
 private fun MacrobenchmarkScope.clickServiceIcon() {
-    val settingsIcon = device.findObject(By.desc("Service icon"))
-    settingsIcon.click()
+    val serviceIcon = device.findObject(By.desc("Service icon"))
+    serviceIcon.click()
 }
