@@ -40,7 +40,7 @@ class SettingsViewModelTest {
 
     private lateinit var userDataRepository: TestUserDataRepository
 
-    private lateinit var packageRepository: FakePackageManagerWrapper
+    private lateinit var packageManagerWrapper: FakePackageManagerWrapper
 
     private lateinit var appSettingsRepository: TestAppSettingsRepository
 
@@ -52,12 +52,12 @@ class SettingsViewModelTest {
     fun setUp() {
         userDataRepository = TestUserDataRepository()
 
-        packageRepository = FakePackageManagerWrapper()
+        packageManagerWrapper = FakePackageManagerWrapper()
 
         appSettingsRepository = TestAppSettingsRepository()
 
         cleanAppSettingsUseCase = CleanAppSettingsUseCase(
-            packageRepository = packageRepository,
+            packageManagerWrapper = packageManagerWrapper,
             appSettingsRepository = appSettingsRepository,
         )
 
