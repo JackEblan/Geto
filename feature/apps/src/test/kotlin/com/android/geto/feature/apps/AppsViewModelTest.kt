@@ -58,6 +58,7 @@ class AppsViewModelTest {
         val getoApplicationInfos = List(2) { index ->
             GetoApplicationInfo(
                 flags = 0,
+                icon = ByteArray(0),
                 packageName = "com.android.geto$index",
                 label = "Geto $index",
             )
@@ -77,6 +78,7 @@ class AppsViewModelTest {
         val getoApplicationInfos = List(2) { index ->
             GetoApplicationInfo(
                 flags = 0,
+                icon = ByteArray(0),
                 packageName = "com.android.geto$index",
                 label = "Geto $index",
             )

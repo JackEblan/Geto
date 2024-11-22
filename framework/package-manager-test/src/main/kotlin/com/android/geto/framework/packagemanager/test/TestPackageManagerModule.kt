@@ -15,20 +15,23 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.framework.packagemanager
+package com.android.geto.framework.packagemanager.test
 
 import com.android.geto.core.domain.framework.PackageManagerWrapper
+import com.android.geto.framework.packagemanager.PackageManagerModule
 import dagger.Binds
 import dagger.Module
-import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dagger.hilt.testing.TestInstallIn
 import javax.inject.Singleton
 
 @Module
-@InstallIn(SingletonComponent::class)
-interface PackageManagerModule {
-
+@TestInstallIn(
+    components = [SingletonComponent::class],
+    replaces = [PackageManagerModule::class],
+)
+internal interface TestPackageManagerModule {
     @Binds
     @Singleton
-    fun packageManagerWrapper(impl: AndroidPackageManagerWrapper): PackageManagerWrapper
+    fun packageManagerWrapper(impl: FakePackageManagerWrapper): PackageManagerWrapper
 }

@@ -15,20 +15,20 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.framework.packagemanager
 
-import com.android.geto.core.domain.framework.PackageManagerWrapper
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
+plugins {
+    alias(libs.plugins.com.android.geto.library)
+    alias(libs.plugins.com.android.geto.libraryJacoco)
+    alias(libs.plugins.com.android.geto.hilt)
+}
 
-@Module
-@InstallIn(SingletonComponent::class)
-interface PackageManagerModule {
+android {
+    namespace = "com.android.geto.framework.packagemanager.test"
+}
 
-    @Binds
-    @Singleton
-    fun packageManagerWrapper(impl: AndroidPackageManagerWrapper): PackageManagerWrapper
+dependencies {
+    implementation(projects.framework.packageManager)
+    implementation(projects.core.domain)
+
+    implementation(libs.hilt.android.testing)
 }

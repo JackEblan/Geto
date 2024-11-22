@@ -64,6 +64,8 @@ include(":framework:secure-settings")
 include(":framework:shortcut-manager")
 include(":framework:usage-stats-manager")
 
+include(":framework:package-manager-test")
+
 include(":foreground-service")
 
 include(":lint")

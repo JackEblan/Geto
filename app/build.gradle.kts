@@ -101,6 +101,7 @@ dependencies {
     androidTestImplementation(libs.androidx.test.espresso.core)
     androidTestImplementation(libs.hilt.android.testing)
     androidTestImplementation(projects.core.dataTest)
+    androidTestImplementation(projects.framework.packageManagerTest)
     androidTestImplementation(projects.core.testing)
 
     baselineProfile(projects.benchmarks)
