@@ -15,20 +15,23 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.framework.packagemanager
+package com.android.geto.benchmarks.baselineprofile
 
-import com.android.geto.core.domain.framework.PackageManagerWrapper
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
+import androidx.benchmark.macro.junit4.BaselineProfileRule
+import com.android.geto.benchmarks.PACKAGE_NAME
+import com.android.geto.benchmarks.service.goToServiceScreen
+import com.android.geto.benchmarks.startActivityAndAllowNotifications
+import org.junit.Rule
+import org.junit.Test
 
-@Module
-@InstallIn(SingletonComponent::class)
-interface PackageManagerModule {
+class ServiceBaselineProfile {
+    @get:Rule
+    val baselineProfileRule = BaselineProfileRule()
 
-    @Binds
-    @Singleton
-    fun packageManagerWrapper(impl: AndroidPackageManagerWrapper): PackageManagerWrapper
+    @Test
+    fun generate() = baselineProfileRule.collect(PACKAGE_NAME) {
+        startActivityAndAllowNotifications()
+
+        goToServiceScreen()
+    }
 }

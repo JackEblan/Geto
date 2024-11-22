@@ -18,7 +18,7 @@
         </compositeConfiguration>
         <option name="testRunner" value="CHOOSE_PER_TEST" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleJvm" value="jbr-17 (2)" />
+        <option name="gradleJvm" value="#JAVA_HOME" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
@@ -52,6 +52,7 @@
             <option value="$PROJECT_DIR$/framework/clipboard-manager" />
             <option value="$PROJECT_DIR$/framework/notification-manager" />
             <option value="$PROJECT_DIR$/framework/package-manager" />
+            <option value="$PROJECT_DIR$/framework/package-manager-test" />
             <option value="$PROJECT_DIR$/framework/secure-settings" />
             <option value="$PROJECT_DIR$/framework/shortcut-manager" />
             <option value="$PROJECT_DIR$/framework/usage-stats-manager" />

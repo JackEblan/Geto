@@ -42,8 +42,8 @@ import com.android.geto.core.testing.broadcastreceiver.DummyRevertSettingsBroadc
 import com.android.geto.core.testing.framework.DummyClipboardManagerWrapper
 import com.android.geto.core.testing.framework.DummyNotificationManagerWrapper
 import com.android.geto.core.testing.framework.FakeAssetManagerWrapper
+import com.android.geto.core.testing.framework.FakePackageManagerWrapper
 import com.android.geto.core.testing.repository.TestAppSettingsRepository
-import com.android.geto.core.testing.repository.TestPackageRepository
 import com.android.geto.core.testing.repository.TestSecureSettingsRepository
 import com.android.geto.core.testing.repository.TestShortcutRepository
 import com.android.geto.core.testing.repository.TestUserDataRepository
@@ -73,7 +73,7 @@ class AppSettingsViewModelTest {
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
-    private lateinit var packageRepository: TestPackageRepository
+    private lateinit var packageManagerWrapper: FakePackageManagerWrapper
 
     private lateinit var appSettingsRepository: TestAppSettingsRepository
 
@@ -111,7 +111,7 @@ class AppSettingsViewModelTest {
 
     @Before
     fun setup() {
-        packageRepository = TestPackageRepository()
+        packageManagerWrapper = FakePackageManagerWrapper()
 
         appSettingsRepository = TestAppSettingsRepository()
 
@@ -162,7 +162,7 @@ class AppSettingsViewModelTest {
         viewModel = AppSettingsViewModel(
             savedStateHandle = savedStateHandle,
             appSettingsRepository = appSettingsRepository,
-            packageRepository = packageRepository,
+            packageManagerWrapper = packageManagerWrapper,
             clipboardManagerWrapper = clipboardManagerWrapper,
             secureSettingsRepository = secureSettingsRepository,
             applyAppSettingsUseCase = applyAppSettingsUseCase,
@@ -770,6 +770,7 @@ class AppSettingsViewModelTest {
             event = AppSettingsEvent.RequestPinShortcut(
                 getoShortcutInfoCompat = GetoShortcutInfoCompat(
                     id = "0",
+                    icon = ByteArray(0),
                     shortLabel = "shortLabel",
                     longLabel = "longLabel",
                 ),
@@ -794,6 +795,7 @@ class AppSettingsViewModelTest {
             event = AppSettingsEvent.RequestPinShortcut(
                 getoShortcutInfoCompat = GetoShortcutInfoCompat(
                     id = "0",
+                    icon = ByteArray(0),
                     shortLabel = "shortLabel",
                     longLabel = "longLabel",
                 ),
@@ -815,6 +817,7 @@ class AppSettingsViewModelTest {
         val shortcuts = List(2) {
             GetoShortcutInfoCompat(
                 id = "com.android.geto",
+                icon = ByteArray(0),
                 shortLabel = "Geto",
                 longLabel = "Geto",
             )
@@ -830,6 +833,7 @@ class AppSettingsViewModelTest {
             event = AppSettingsEvent.RequestPinShortcut(
                 getoShortcutInfoCompat = GetoShortcutInfoCompat(
                     id = "com.android.geto",
+                    icon = ByteArray(0),
                     shortLabel = "shortLabel",
                     longLabel = "longLabel",
                 ),
@@ -851,6 +855,7 @@ class AppSettingsViewModelTest {
         val shortcuts = List(2) {
             GetoShortcutInfoCompat(
                 id = "com.android.geto",
+                icon = ByteArray(0),
                 shortLabel = "Geto",
                 longLabel = "Geto",
             )
@@ -866,6 +871,7 @@ class AppSettingsViewModelTest {
             event = AppSettingsEvent.RequestPinShortcut(
                 getoShortcutInfoCompat = GetoShortcutInfoCompat(
                     id = "com.android.geto",
+                    icon = ByteArray(0),
                     shortLabel = "shortLabel",
                     longLabel = "longLabel",
                 ),
@@ -884,12 +890,13 @@ class AppSettingsViewModelTest {
             val getoApplicationInfos = List(1) { _ ->
                 GetoApplicationInfo(
                     flags = 0,
+                    icon = ByteArray(0),
                     packageName = packageName,
                     label = appName,
                 )
             }
 
-            packageRepository.setApplicationInfos(getoApplicationInfos)
+            packageManagerWrapper.setApplicationInfos(getoApplicationInfos)
 
             viewModel.applicationIcon.collect()
         }
@@ -903,12 +910,13 @@ class AppSettingsViewModelTest {
             val getoApplicationInfos = List(1) { _ ->
                 GetoApplicationInfo(
                     flags = 0,
+                    icon = ByteArray(0),
                     packageName = "",
                     label = appName,
                 )
             }
 
-            packageRepository.setApplicationInfos(getoApplicationInfos)
+            packageManagerWrapper.setApplicationInfos(getoApplicationInfos)
 
             viewModel.applicationIcon.collect()
         }

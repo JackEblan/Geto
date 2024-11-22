@@ -53,6 +53,7 @@ class RequestPinShortcutUseCaseTest {
                 appName = "Geto",
                 getoShortcutInfoCompat = GetoShortcutInfoCompat(
                     id = "com.android.geto",
+                    icon = ByteArray(0),
                     shortLabel = "shortLabel",
                     longLabel = "longLabel",
                 ),
@@ -71,6 +72,7 @@ class RequestPinShortcutUseCaseTest {
                 appName = "Geto",
                 getoShortcutInfoCompat = GetoShortcutInfoCompat(
                     id = "com.android.geto",
+                    icon = ByteArray(0),
                     shortLabel = "shortLabel",
                     longLabel = "longLabel",
                 ),
@@ -83,6 +85,7 @@ class RequestPinShortcutUseCaseTest {
         val shortcuts = List(2) {
             GetoShortcutInfoCompat(
                 id = "com.android.geto",
+                icon = ByteArray(0),
                 shortLabel = "Geto",
                 longLabel = "Geto",
             )
@@ -101,6 +104,7 @@ class RequestPinShortcutUseCaseTest {
                 appName = "Geto",
                 getoShortcutInfoCompat = GetoShortcutInfoCompat(
                     id = "com.android.geto",
+                    icon = ByteArray(0),
                     shortLabel = "shortLabel",
                     longLabel = "longLabel",
                 ),
@@ -113,6 +117,7 @@ class RequestPinShortcutUseCaseTest {
         val shortcuts = List(2) {
             GetoShortcutInfoCompat(
                 id = "com.android.geto",
+                icon = ByteArray(0),
                 shortLabel = "Geto",
                 longLabel = "Geto",
             )
@@ -131,6 +136,7 @@ class RequestPinShortcutUseCaseTest {
                 appName = "Geto",
                 getoShortcutInfoCompat = GetoShortcutInfoCompat(
                     id = "com.android.geto",
+                    icon = ByteArray(0),
                     shortLabel = "shortLabel",
                     longLabel = "longLabel",
                 ),

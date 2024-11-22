@@ -25,8 +25,8 @@ import com.android.geto.core.domain.model.AppSettingsResult.NoPermission
 import com.android.geto.core.domain.model.AppSettingsResult.Success
 import com.android.geto.core.domain.model.GetoApplicationInfo
 import com.android.geto.core.domain.model.SettingType
+import com.android.geto.core.testing.framework.FakePackageManagerWrapper
 import com.android.geto.core.testing.repository.TestAppSettingsRepository
-import com.android.geto.core.testing.repository.TestPackageRepository
 import com.android.geto.core.testing.repository.TestSecureSettingsRepository
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
@@ -36,7 +36,7 @@ import kotlin.test.assertEquals
 class ApplyAppSettingsUseCaseTest {
     private lateinit var applyAppSettingsUseCase: ApplyAppSettingsUseCase
 
-    private lateinit var packageRepository: TestPackageRepository
+    private lateinit var packageRepository: FakePackageManagerWrapper
 
     private lateinit var appSettingsRepository: TestAppSettingsRepository
 
@@ -46,7 +46,7 @@ class ApplyAppSettingsUseCaseTest {
 
     @Before
     fun setup() {
-        packageRepository = TestPackageRepository()
+        packageRepository = FakePackageManagerWrapper()
 
         appSettingsRepository = TestAppSettingsRepository()
 
@@ -107,7 +107,12 @@ class ApplyAppSettingsUseCaseTest {
         }
 
         val getoApplicationInfos = List(5) { index ->
-            GetoApplicationInfo(flags = 0, packageName = packageName, label = "Geto $index")
+            GetoApplicationInfo(
+                flags = 0,
+                icon = ByteArray(0),
+                packageName = packageName,
+                label = "Geto $index",
+            )
         }
 
         packageRepository.setApplicationInfos(getoApplicationInfos)

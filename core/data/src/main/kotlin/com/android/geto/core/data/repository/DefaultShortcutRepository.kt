@@ -21,14 +21,15 @@ import com.android.geto.core.common.Dispatcher
 import com.android.geto.core.common.GetoDispatchers.Default
 import com.android.geto.core.domain.framework.ShortcutManagerCompatWrapper
 import com.android.geto.core.domain.model.GetoShortcutInfoCompat
+import com.android.geto.core.domain.repository.ShortcutRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-internal class DefaultShortcutRepository @Inject constructor(
+class DefaultShortcutRepository @Inject constructor(
     @Dispatcher(Default) private val defaultDispatcher: CoroutineDispatcher,
     private val shortcutManagerCompatWrapper: ShortcutManagerCompatWrapper,
-) : com.android.geto.core.domain.repository.ShortcutRepository {
+) : ShortcutRepository {
 
     override fun isRequestPinShortcutSupported(): Boolean {
         return shortcutManagerCompatWrapper.isRequestPinShortcutSupported()

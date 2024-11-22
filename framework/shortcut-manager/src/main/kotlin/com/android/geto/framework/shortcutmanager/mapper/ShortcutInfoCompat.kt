@@ -17,17 +17,19 @@
  */
 package com.android.geto.framework.shortcutmanager.mapper
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.graphics.drawable.IconCompat
-import androidx.core.graphics.drawable.toBitmap
 import androidx.core.net.toUri
 import com.android.geto.core.domain.model.GetoShortcutInfoCompat
 
+@SuppressLint("RestrictedApi")
 internal fun ShortcutInfoCompat.asGetoShortcutInfoCompat(): GetoShortcutInfoCompat {
     return GetoShortcutInfoCompat(
         id = id,
+        icon = icon.mData,
         shortLabel = shortLabel.toString(),
         longLabel = longLabel.toString(),
     )
@@ -48,7 +50,7 @@ internal fun GetoShortcutInfoCompat.asShortcutInfoCompat(
 
     return ShortcutInfoCompat.Builder(context, id).apply {
         icon?.let {
-            setIcon(IconCompat.createWithBitmap(it.toBitmap()))
+            setIcon(IconCompat.createWithData(it, 0, it.size))
         }
 
         setShortLabel(shortLabel)

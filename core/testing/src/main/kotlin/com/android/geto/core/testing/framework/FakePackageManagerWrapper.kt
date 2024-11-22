@@ -15,29 +15,26 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.core.data.test.repository
+package com.android.geto.core.testing.framework
 
-import android.graphics.drawable.Drawable
+import com.android.geto.core.domain.framework.PackageManagerWrapper
 import com.android.geto.core.domain.model.GetoApplicationInfo
-import com.android.geto.core.domain.repository.PackageRepository
-import javax.inject.Inject
 
-class FakePackageRepository @Inject constructor() :
-    PackageRepository {
+class FakePackageManagerWrapper : PackageManagerWrapper {
+    private var getoApplicationInfos = listOf<GetoApplicationInfo>()
+
     override suspend fun queryIntentActivities(): List<GetoApplicationInfo> {
-        return List(20) { index ->
-            GetoApplicationInfo(
-                flags = 0,
-                packageName = "com.android.geto$index",
-                label = "Geto $index",
-            )
-        }
+        return getoApplicationInfos.filter { it.flags == 0 }.sortedBy { it.label }
     }
 
-    override fun getApplicationIcon(packageName: String): Drawable? {
-        return null
+    override suspend fun getApplicationIcon(packageName: String): ByteArray? {
+        return getoApplicationInfos.find { it.packageName == packageName }?.icon
     }
 
     override fun launchIntentForPackage(packageName: String) {
+    }
+
+    fun setApplicationInfos(value: List<GetoApplicationInfo>) {
+        getoApplicationInfos = value
     }
 }

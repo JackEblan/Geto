@@ -17,7 +17,6 @@
  */
 package com.android.geto.feature.appsettings.dialog.shortcut
 
-import android.graphics.drawable.Drawable
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
@@ -39,7 +38,7 @@ internal class ShortcutDialogState {
     var showDialog by mutableStateOf(false)
         private set
 
-    var icon by mutableStateOf<Drawable?>(null)
+    var icon by mutableStateOf<ByteArray?>(null)
         private set
 
     var shortLabel by mutableStateOf("")
@@ -62,7 +61,7 @@ internal class ShortcutDialogState {
         showDialog = value
     }
 
-    fun updateIcon(value: Drawable?) {
+    fun updateIcon(value: ByteArray?) {
         icon = value
     }
 

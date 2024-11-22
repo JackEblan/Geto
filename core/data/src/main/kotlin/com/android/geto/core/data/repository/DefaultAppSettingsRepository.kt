@@ -22,17 +22,17 @@ import com.android.geto.core.database.model.AppSettingEntity
 import com.android.geto.core.database.model.asEntity
 import com.android.geto.core.database.model.asExternalModel
 import com.android.geto.core.domain.model.AppSetting
+import com.android.geto.core.domain.repository.AppSettingsRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-internal class DefaultAppSettingsRepository @Inject constructor(
+class DefaultAppSettingsRepository @Inject constructor(
     private val appSettingsDao: AppSettingsDao,
-) : com.android.geto.core.domain.repository.AppSettingsRepository {
+) : AppSettingsRepository {
 
     override val appSettings: Flow<List<AppSetting>> =
-        appSettingsDao.getAppSettingEntities().distinctUntilChanged().map { entities ->
+        appSettingsDao.getAppSettingEntities().map { entities ->
             entities.map(AppSettingEntity::asExternalModel)
         }
 
@@ -45,10 +45,9 @@ internal class DefaultAppSettingsRepository @Inject constructor(
     }
 
     override fun getAppSettingsByPackageName(packageName: String): Flow<List<AppSetting>> {
-        return appSettingsDao.getAppSettingEntitiesByPackageName(packageName).distinctUntilChanged()
-            .map { entities ->
-                entities.map(AppSettingEntity::asExternalModel)
-            }
+        return appSettingsDao.getAppSettingEntitiesByPackageName(packageName).map { entities ->
+            entities.map(AppSettingEntity::asExternalModel)
+        }
     }
 
     override suspend fun deleteAppSettingsByPackageName(packageNames: List<String>) {

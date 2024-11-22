@@ -27,8 +27,8 @@ import com.android.geto.core.domain.model.GetoApplicationInfo
 import com.android.geto.core.domain.model.SettingType
 import com.android.geto.core.domain.model.ThemeBrand
 import com.android.geto.core.domain.model.UserData
+import com.android.geto.core.testing.framework.FakePackageManagerWrapper
 import com.android.geto.core.testing.repository.TestAppSettingsRepository
-import com.android.geto.core.testing.repository.TestPackageRepository
 import com.android.geto.core.testing.repository.TestSecureSettingsRepository
 import com.android.geto.core.testing.repository.TestUserDataRepository
 import kotlinx.coroutines.test.runTest
@@ -39,7 +39,7 @@ import kotlin.test.assertEquals
 class AutoLaunchUseCaseTest {
     private lateinit var autoLaunchUseCase: AutoLaunchUseCase
 
-    private lateinit var packageRepository: TestPackageRepository
+    private lateinit var packageRepository: FakePackageManagerWrapper
 
     private lateinit var appSettingsRepository: TestAppSettingsRepository
 
@@ -51,7 +51,7 @@ class AutoLaunchUseCaseTest {
 
     @Before
     fun setup() {
-        packageRepository = TestPackageRepository()
+        packageRepository = FakePackageManagerWrapper()
 
         appSettingsRepository = TestAppSettingsRepository()
 
@@ -133,7 +133,12 @@ class AutoLaunchUseCaseTest {
         }
 
         val getoApplicationInfos = List(5) { index ->
-            GetoApplicationInfo(flags = 0, packageName = packageName, label = "Geto $index")
+            GetoApplicationInfo(
+                flags = 0,
+                icon = ByteArray(0),
+                packageName = packageName,
+                label = "Geto $index",
+            )
         }
 
         packageRepository.setApplicationInfos(getoApplicationInfos)

@@ -17,32 +17,28 @@
  */
 package com.android.geto.core.testing.framework
 
-import android.app.Notification
-import android.graphics.drawable.Drawable
 import com.android.geto.core.domain.broadcastreceiver.RevertSettingsBroadcastReceiver
-import com.android.geto.core.domain.broadcastreceiver.StopUsageStatsForegroundServiceBroadcastReceiver
 import com.android.geto.core.domain.framework.NotificationManagerWrapper
 
 class DummyNotificationManagerWrapper : NotificationManagerWrapper {
-    override fun notify(notificationId: Int, notification: Notification) {
-    }
-
-    override fun getRevertNotification(
+    override fun notifyRevertNotification(
+        notificationId: Int,
         revertSettingsBroadcastReceiver: RevertSettingsBroadcastReceiver,
         packageName: String,
-        icon: Drawable?,
+        icon: ByteArray?,
         contentTitle: String,
         contentText: String,
-    ): Notification {
-        return Notification()
+    ) {
     }
 
-    override fun getUsageStatsForegroundServiceNotification(
-        stopUsageStatsForegroundServiceBroadcastReceiver: StopUsageStatsForegroundServiceBroadcastReceiver,
+    override fun updatetUsageStatsForegroundServiceNotification(
+        notificationId: Int,
         contentTitle: String,
         contentText: String,
-    ): Notification {
-        return Notification()
+    ) {
+    }
+
+    override fun createNotificationChannel() {
     }
 
     override fun cancel(id: Int) {

@@ -15,15 +15,20 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.core.domain.repository
 
-import android.graphics.drawable.Drawable
-import com.android.geto.core.domain.model.GetoApplicationInfo
+plugins {
+    alias(libs.plugins.com.android.geto.library)
+    alias(libs.plugins.com.android.geto.libraryJacoco)
+    alias(libs.plugins.com.android.geto.hilt)
+}
 
-interface PackageRepository {
-    suspend fun queryIntentActivities(): List<GetoApplicationInfo>
+android {
+    namespace = "com.android.geto.framework.packagemanager.test"
+}
 
-    fun getApplicationIcon(packageName: String): Drawable?
+dependencies {
+    implementation(projects.framework.packageManager)
+    implementation(projects.core.domain)
 
-    fun launchIntentForPackage(packageName: String)
+    implementation(libs.hilt.android.testing)
 }

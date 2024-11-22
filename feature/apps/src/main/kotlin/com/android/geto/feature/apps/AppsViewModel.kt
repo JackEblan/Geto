@@ -19,7 +19,7 @@ package com.android.geto.feature.apps
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.android.geto.core.domain.repository.PackageRepository
+import com.android.geto.core.domain.framework.PackageManagerWrapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -31,7 +31,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AppsViewModel @Inject constructor(
-    private val packageRepository: PackageRepository,
+    private val packageManagerWrapper: PackageManagerWrapper,
 ) : ViewModel() {
     private val _appUiState = MutableStateFlow<AppsUiState>(AppsUiState.Loading)
     val appsUiState = _appUiState.onStart {
@@ -45,7 +45,7 @@ class AppsViewModel @Inject constructor(
     private fun queryIntentActivities() {
         viewModelScope.launch {
             _appUiState.update {
-                AppsUiState.Success(getoApplicationInfos = packageRepository.queryIntentActivities())
+                AppsUiState.Success(getoApplicationInfos = packageManagerWrapper.queryIntentActivities())
             }
         }
     }

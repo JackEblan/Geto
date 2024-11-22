@@ -15,18 +15,19 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.framework.packagemanager.mapper
+package com.android.geto.benchmarks.service
 
-import android.content.pm.ApplicationInfo
-import android.content.pm.PackageManager
-import androidx.core.graphics.drawable.toBitmap
-import com.android.geto.core.domain.model.GetoApplicationInfo
+import androidx.benchmark.macro.MacrobenchmarkScope
+import androidx.test.uiautomator.By
+import com.android.geto.benchmarks.waitForLoadingWheelToDisappear
 
-internal fun ApplicationInfo.toApplicationInfo(packageManager: PackageManager): GetoApplicationInfo {
-    return GetoApplicationInfo(
-        flags = flags,
-        icon = loadIcon(packageManager).toBitmap(),
-        packageName = packageName,
-        label = loadLabel(packageManager).toString(),
-    )
+fun MacrobenchmarkScope.goToServiceScreen() {
+    waitForLoadingWheelToDisappear()
+    clickServiceIcon()
+    device.waitForIdle()
+}
+
+private fun MacrobenchmarkScope.clickServiceIcon() {
+    val settingsIcon = device.findObject(By.desc("Service icon"))
+    settingsIcon.click()
 }

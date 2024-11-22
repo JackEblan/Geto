@@ -17,7 +17,6 @@
  */
 package com.android.geto.feature.appsettings
 
-import android.graphics.drawable.Drawable
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -26,6 +25,7 @@ import com.android.geto.core.domain.broadcastreceiver.RevertSettingsBroadcastRec
 import com.android.geto.core.domain.framework.AssetManagerWrapper
 import com.android.geto.core.domain.framework.ClipboardManagerWrapper
 import com.android.geto.core.domain.framework.NotificationManagerWrapper
+import com.android.geto.core.domain.framework.PackageManagerWrapper
 import com.android.geto.core.domain.model.AddAppSettingResult
 import com.android.geto.core.domain.model.AppSetting
 import com.android.geto.core.domain.model.AppSettingsResult
@@ -34,7 +34,6 @@ import com.android.geto.core.domain.model.RequestPinShortcutResult
 import com.android.geto.core.domain.model.SecureSetting
 import com.android.geto.core.domain.model.SettingType
 import com.android.geto.core.domain.repository.AppSettingsRepository
-import com.android.geto.core.domain.repository.PackageRepository
 import com.android.geto.core.domain.repository.SecureSettingsRepository
 import com.android.geto.core.domain.usecase.AddAppSettingUseCase
 import com.android.geto.core.domain.usecase.ApplyAppSettingsUseCase
@@ -75,7 +74,7 @@ import javax.inject.Inject
 class AppSettingsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val appSettingsRepository: AppSettingsRepository,
-    private val packageRepository: PackageRepository,
+    private val packageManagerWrapper: PackageManagerWrapper,
     private val clipboardManagerWrapper: ClipboardManagerWrapper,
     private val secureSettingsRepository: SecureSettingsRepository,
     private val applyAppSettingsUseCase: ApplyAppSettingsUseCase,
@@ -96,7 +95,7 @@ class AppSettingsViewModel @Inject constructor(
     private var _secureSettings = MutableStateFlow<List<SecureSetting>>(emptyList())
     val secureSettings = _secureSettings.asStateFlow()
 
-    private var _applicationIcon = MutableStateFlow<Drawable?>(null)
+    private var _applicationIcon = MutableStateFlow<ByteArray?>(null)
     val applicationIcon = _applicationIcon.onStart {
         getApplicationIcon()
     }.stateIn(
@@ -263,7 +262,7 @@ class AppSettingsViewModel @Inject constructor(
 
     private fun getApplicationIcon() {
         viewModelScope.launch {
-            _applicationIcon.update { packageRepository.getApplicationIcon(packageName = packageName) }
+            _applicationIcon.update { packageManagerWrapper.getApplicationIcon(packageName = packageName) }
         }
     }
 
@@ -306,25 +305,23 @@ class AppSettingsViewModel @Inject constructor(
     }
 
     private fun launchIntentForPackage() {
-        packageRepository.launchIntentForPackage(packageName = packageName)
+        packageManagerWrapper.launchIntentForPackage(packageName = packageName)
     }
 
     private fun postNotification(
-        icon: Drawable?,
+        icon: ByteArray?,
         contentTitle: String,
         contentText: String,
     ) {
         val notificationId = packageName.hashCode()
 
-        notificationManagerWrapper.notify(
+        notificationManagerWrapper.notifyRevertNotification(
             notificationId = notificationId,
-            notification = notificationManagerWrapper.getRevertNotification(
-                revertSettingsBroadcastReceiver = revertSettingsBroadcastReceiver,
-                packageName = packageName,
-                icon = icon,
-                contentTitle = contentTitle,
-                contentText = contentText,
-            ),
+            revertSettingsBroadcastReceiver = revertSettingsBroadcastReceiver,
+            packageName = packageName,
+            icon = icon,
+            contentTitle = contentTitle,
+            contentText = contentText,
         )
     }
 
