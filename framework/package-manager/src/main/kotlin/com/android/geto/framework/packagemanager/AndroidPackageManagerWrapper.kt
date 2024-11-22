@@ -21,16 +21,19 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
+import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
+import androidx.core.graphics.drawable.toBitmap
 import com.android.geto.core.common.Dispatcher
 import com.android.geto.core.common.GetoDispatchers.Default
 import com.android.geto.core.domain.framework.PackageManagerWrapper
 import com.android.geto.core.domain.model.GetoApplicationInfo
-import com.android.geto.framework.packagemanager.mapper.toApplicationInfo
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
+import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 
 internal class AndroidPackageManagerWrapper @Inject constructor(
@@ -51,18 +54,18 @@ internal class AndroidPackageManagerWrapper @Inject constructor(
         return withContext(defaultDispatcher) {
             val intentActivities =
                 packageManager.queryIntentActivities(intent, flags).map { resolveInfo ->
-                    resolveInfo.activityInfo.applicationInfo.toApplicationInfo(packageManager = packageManager)
+                    resolveInfo.activityInfo.applicationInfo.toApplicationInfo()
                 }
 
             intentActivities.filter { applicationInfo ->
-                (applicationInfo.flags and android.content.pm.ApplicationInfo.FLAG_SYSTEM) == flags
+                (applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM) == flags
             }.sortedBy { applicationInfo -> applicationInfo.label }
         }
     }
 
-    override fun getApplicationIcon(packageName: String): Drawable? {
+    override suspend fun getApplicationIcon(packageName: String): ByteArray? {
         return try {
-            packageManager.getApplicationIcon(packageName)
+            packageManager.getApplicationIcon(packageName).toByteArray()
         } catch (e: PackageManager.NameNotFoundException) {
             null
         }
@@ -77,5 +80,32 @@ internal class AndroidPackageManagerWrapper @Inject constructor(
             context.startActivity(intent)
         } catch (_: ActivityNotFoundException) {
         }
+    }
+
+    private suspend fun ApplicationInfo.toApplicationInfo(): GetoApplicationInfo {
+        val stream = ByteArrayOutputStream()
+
+        val bitmap = loadIcon(packageManager).toBitmap()
+
+        withContext(defaultDispatcher) {
+            bitmap.compress(Bitmap.CompressFormat.PNG, 90, stream)
+        }
+
+        return GetoApplicationInfo(
+            flags = flags,
+            icon = stream.toByteArray(),
+            packageName = packageName,
+            label = loadLabel(packageManager).toString(),
+        )
+    }
+
+    private suspend fun Drawable.toByteArray(): ByteArray {
+        val stream = ByteArrayOutputStream()
+
+        withContext(defaultDispatcher) {
+            toBitmap().compress(Bitmap.CompressFormat.PNG, 90, stream)
+        }
+
+        return stream.toByteArray()
     }
 }

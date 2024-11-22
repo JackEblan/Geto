@@ -20,4 +20,5 @@
     <string name="usage_stats_app_settings_applied_successfully">App Settings applied successfully</string>
     <string name="usage_stats_service">Usage Stats Service</string>
     <string name="usage_stats_service_message">Automatically apply or revert settings when you open or close a specific application</string>
+    <string name="stop">Stop</string>
 </resources>

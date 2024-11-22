@@ -15,15 +15,26 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.core.domain.repository
+package com.android.geto.core.testing.framework
 
-import android.graphics.drawable.Drawable
+import com.android.geto.core.domain.framework.PackageManagerWrapper
 import com.android.geto.core.domain.model.GetoApplicationInfo
 
-interface PackageRepository {
-    suspend fun queryIntentActivities(): List<GetoApplicationInfo>
+class FakePackageManagerWrapper : PackageManagerWrapper {
+    private var getoApplicationInfos = listOf<GetoApplicationInfo>()
 
-    fun getApplicationIcon(packageName: String): Drawable?
+    override suspend fun queryIntentActivities(): List<GetoApplicationInfo> {
+        return getoApplicationInfos.filter { it.flags == 0 }.sortedBy { it.label }
+    }
 
-    fun launchIntentForPackage(packageName: String)
+    override fun getApplicationIcon(packageName: String): Int {
+        return 0
+    }
+
+    override fun launchIntentForPackage(packageName: String) {
+    }
+
+    fun setApplicationInfos(value: List<GetoApplicationInfo>) {
+        getoApplicationInfos = value
+    }
 }

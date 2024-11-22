@@ -17,13 +17,19 @@
  */
 package com.android.geto.foregroundservice
 
+import android.app.Notification
+import android.app.PendingIntent
+import android.app.PendingIntent.FLAG_IMMUTABLE
+import android.app.PendingIntent.FLAG_UPDATE_CURRENT
 import android.app.Service
 import android.content.Intent
 import android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE
 import android.os.Binder
 import android.os.Build
 import android.os.IBinder
+import androidx.core.app.NotificationCompat
 import com.android.geto.core.domain.broadcastreceiver.StopUsageStatsForegroundServiceBroadcastReceiver
+import com.android.geto.core.domain.broadcastreceiver.StopUsageStatsForegroundServiceBroadcastReceiver.Companion.ACTION_STOP_USAGE_STATS_FOREGROUND_SERVICE
 import com.android.geto.core.domain.framework.NotificationManagerWrapper
 import com.android.geto.core.domain.model.ForegroundServiceAppSettingsResult
 import com.android.geto.core.domain.model.ForegroundServiceAppSettingsResult.Ignore
@@ -37,6 +43,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import com.android.geto.core.common.R as commonR
 
 @AndroidEntryPoint
 class UsageStatsService : Service() {
@@ -75,8 +82,7 @@ class UsageStatsService : Service() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
             startForeground(
                 notificationId,
-                notificationManagerWrapper.getUsageStatsForegroundServiceNotification(
-                    stopUsageStatsForegroundServiceBroadcastReceiver = stopUsageStatsForegroundServiceBroadcastReceiver,
+                getUsageStatsForegroundServiceNotification(
                     contentTitle = getString(R.string.usage_stats_service),
                     contentText = getString(R.string.usage_stats_service_message),
                 ),
@@ -85,8 +91,7 @@ class UsageStatsService : Service() {
         } else {
             startForeground(
                 notificationId,
-                notificationManagerWrapper.getUsageStatsForegroundServiceNotification(
-                    stopUsageStatsForegroundServiceBroadcastReceiver = stopUsageStatsForegroundServiceBroadcastReceiver,
+                getUsageStatsForegroundServiceNotification(
                     contentTitle = getString(R.string.usage_stats_service),
                     contentText = getString(R.string.usage_stats_service_message),
                 ),
@@ -97,24 +102,18 @@ class UsageStatsService : Service() {
     private fun updateUsageStatsForegroundServiceNotification(result: ForegroundServiceAppSettingsResult) {
         when (result) {
             is Success -> {
-                notificationManagerWrapper.notify(
+                notificationManagerWrapper.updatetUsageStatsForegroundServiceNotification(
                     notificationId = notificationId,
-                    notification = notificationManagerWrapper.getUsageStatsForegroundServiceNotification(
-                        stopUsageStatsForegroundServiceBroadcastReceiver = stopUsageStatsForegroundServiceBroadcastReceiver,
-                        contentTitle = result.packageName,
-                        contentText = getString(R.string.usage_stats_app_settings_applied_successfully),
-                    ),
+                    contentTitle = result.packageName,
+                    contentText = getString(R.string.usage_stats_app_settings_applied_successfully),
                 )
             }
 
             Ignore -> {
-                notificationManagerWrapper.notify(
+                notificationManagerWrapper.updatetUsageStatsForegroundServiceNotification(
                     notificationId = notificationId,
-                    notification = notificationManagerWrapper.getUsageStatsForegroundServiceNotification(
-                        stopUsageStatsForegroundServiceBroadcastReceiver = stopUsageStatsForegroundServiceBroadcastReceiver,
-                        contentTitle = getString(R.string.usage_stats_service),
-                        contentText = getString(R.string.usage_stats_service_message),
-                    ),
+                    contentTitle = getString(R.string.usage_stats_service),
+                    contentText = getString(R.string.usage_stats_service_message),
                 )
             }
         }
@@ -124,6 +123,35 @@ class UsageStatsService : Service() {
         super.onDestroy()
 
         serviceScope.cancel()
+    }
+
+    private fun getUsageStatsForegroundServiceNotification(
+        contentTitle: String,
+        contentText: String,
+    ): Notification {
+        notificationManagerWrapper.createNotificationChannel()
+
+        val stopIntent =
+            Intent(this, stopUsageStatsForegroundServiceBroadcastReceiver::class.java).apply {
+                action = ACTION_STOP_USAGE_STATS_FOREGROUND_SERVICE
+            }
+
+        val stopPendingIntent = PendingIntent.getBroadcast(
+            this,
+            0,
+            stopIntent,
+            FLAG_UPDATE_CURRENT or FLAG_IMMUTABLE,
+        )
+
+        return NotificationCompat.Builder(
+            this,
+            getString(commonR.string.geto_notification_channel_id),
+        ).setSmallIcon(R.drawable.baseline_apps_24).setContentTitle(contentTitle)
+            .setContentText(contentText).setPriority(NotificationCompat.PRIORITY_DEFAULT).addAction(
+                R.drawable.baseline_apps_24,
+                getString(R.string.stop),
+                stopPendingIntent,
+            ).build()
     }
 
     inner class UsageStatsBinder : Binder() {

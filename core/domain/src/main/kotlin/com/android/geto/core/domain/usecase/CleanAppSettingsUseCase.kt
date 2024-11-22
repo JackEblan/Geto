@@ -17,18 +17,18 @@
  */
 package com.android.geto.core.domain.usecase
 
+import com.android.geto.core.domain.framework.PackageManagerWrapper
 import com.android.geto.core.domain.repository.AppSettingsRepository
-import com.android.geto.core.domain.repository.PackageRepository
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 class CleanAppSettingsUseCase @Inject constructor(
-    private val packageRepository: PackageRepository,
+    private val packageManagerWrapper: PackageManagerWrapper,
     private val appSettingsRepository: AppSettingsRepository,
 ) {
     suspend operator fun invoke() {
         val packageNamesFromQueryIntentActivities =
-            packageRepository.queryIntentActivities().map { it.packageName }
+            packageManagerWrapper.queryIntentActivities().map { it.packageName }
 
         val packageNamesFromAppSettings =
             appSettingsRepository.appSettings.first().map { it.packageName }

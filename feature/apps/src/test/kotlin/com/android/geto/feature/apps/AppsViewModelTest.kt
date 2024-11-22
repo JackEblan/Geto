@@ -18,7 +18,7 @@
 package com.android.geto.feature.apps
 
 import com.android.geto.core.domain.model.GetoApplicationInfo
-import com.android.geto.core.testing.repository.TestPackageRepository
+import com.android.geto.core.testing.framework.FakePackageManagerWrapper
 import com.android.geto.core.testing.util.MainDispatcherRule
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -33,15 +33,15 @@ class AppsViewModelTest {
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
-    private lateinit var packageRepository: TestPackageRepository
+    private lateinit var packageManagerWrapper: FakePackageManagerWrapper
 
     private lateinit var viewModel: AppsViewModel
 
     @Before
     fun setup() {
-        packageRepository = TestPackageRepository()
+        packageManagerWrapper = FakePackageManagerWrapper()
 
-        viewModel = AppsViewModel(packageRepository)
+        viewModel = AppsViewModel(packageManagerWrapper = packageManagerWrapper)
     }
 
     @Test
@@ -63,7 +63,7 @@ class AppsViewModelTest {
             )
         }
 
-        packageRepository.setApplicationInfos(getoApplicationInfos)
+        packageManagerWrapper.setApplicationInfos(getoApplicationInfos)
 
         assertIs<AppsUiState.Success>(viewModel.appsUiState.value)
     }
@@ -82,7 +82,7 @@ class AppsViewModelTest {
             )
         }
 
-        packageRepository.setApplicationInfos(getoApplicationInfos)
+        packageManagerWrapper.setApplicationInfos(getoApplicationInfos)
 
         assertIs<AppsUiState.Success>(viewModel.appsUiState.value)
     }

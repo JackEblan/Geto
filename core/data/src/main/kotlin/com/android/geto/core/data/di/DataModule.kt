@@ -18,12 +18,10 @@
 package com.android.geto.core.data.di
 
 import com.android.geto.core.data.repository.DefaultAppSettingsRepository
-import com.android.geto.core.data.repository.DefaultPackageRepository
 import com.android.geto.core.data.repository.DefaultSecureSettingsRepository
 import com.android.geto.core.data.repository.DefaultShortcutRepository
 import com.android.geto.core.data.repository.DefaultUserDataRepository
 import com.android.geto.core.domain.repository.AppSettingsRepository
-import com.android.geto.core.domain.repository.PackageRepository
 import com.android.geto.core.domain.repository.SecureSettingsRepository
 import com.android.geto.core.domain.repository.ShortcutRepository
 import com.android.geto.core.domain.repository.UserDataRepository
@@ -44,10 +42,6 @@ abstract class DataModule {
     @Binds
     @Singleton
     internal abstract fun secureSettingsRepository(impl: DefaultSecureSettingsRepository): SecureSettingsRepository
-
-    @Binds
-    @Singleton
-    internal abstract fun packageRepository(impl: DefaultPackageRepository): PackageRepository
 
     @Binds
     @Singleton

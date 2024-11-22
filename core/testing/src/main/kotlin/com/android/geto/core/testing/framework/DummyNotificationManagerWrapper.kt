@@ -24,17 +24,14 @@ import com.android.geto.core.domain.broadcastreceiver.StopUsageStatsForegroundSe
 import com.android.geto.core.domain.framework.NotificationManagerWrapper
 
 class DummyNotificationManagerWrapper : NotificationManagerWrapper {
-    override fun notify(notificationId: Int, notification: Notification) {
-    }
-
-    override fun getRevertNotification(
+    override fun notifyRevertNotification(
+        notificationId: Int,
         revertSettingsBroadcastReceiver: RevertSettingsBroadcastReceiver,
         packageName: String,
         icon: Drawable?,
         contentTitle: String,
         contentText: String,
-    ): Notification {
-        return Notification()
+    ) {
     }
 
     override fun getUsageStatsForegroundServiceNotification(

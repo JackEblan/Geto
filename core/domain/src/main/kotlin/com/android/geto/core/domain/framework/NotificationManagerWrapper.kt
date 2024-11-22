@@ -17,29 +17,24 @@
  */
 package com.android.geto.core.domain.framework
 
-import android.app.Notification
-import android.graphics.drawable.Drawable
-import androidx.annotation.RequiresPermission
 import com.android.geto.core.domain.broadcastreceiver.RevertSettingsBroadcastReceiver
-import com.android.geto.core.domain.broadcastreceiver.StopUsageStatsForegroundServiceBroadcastReceiver
 
 interface NotificationManagerWrapper {
-    @RequiresPermission("android.permission.POST_NOTIFICATIONS")
-    fun notify(notificationId: Int, notification: Notification)
-
-    fun getRevertNotification(
-        revertSettingsBroadcastReceiver: RevertSettingsBroadcastReceiver,
+    fun notifyRevertNotification(
+        notificationId: Int, revertSettingsBroadcastReceiver: RevertSettingsBroadcastReceiver,
         packageName: String,
-        icon: Drawable?,
+        icon: ByteArray?,
         contentTitle: String,
         contentText: String,
-    ): Notification
+    )
 
-    fun getUsageStatsForegroundServiceNotification(
-        stopUsageStatsForegroundServiceBroadcastReceiver: StopUsageStatsForegroundServiceBroadcastReceiver,
+    fun updatetUsageStatsForegroundServiceNotification(
+        notificationId: Int,
         contentTitle: String,
         contentText: String,
-    ): Notification
+    )
+
+    fun createNotificationChannel()
 
     fun cancel(id: Int)
 }

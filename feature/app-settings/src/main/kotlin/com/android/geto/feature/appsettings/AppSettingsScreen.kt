@@ -17,7 +17,6 @@
  */
 package com.android.geto.feature.appsettings
 
-import android.graphics.drawable.Drawable
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -178,7 +177,7 @@ internal fun AppSettingsScreen(
     appName: String,
     appSettingsUiState: AppSettingsUiState,
     snackbarHostState: SnackbarHostState,
-    applicationIcon: Drawable?,
+    applicationIcon: ByteArray?,
     secureSettings: List<SecureSetting>,
     addAppSettingResult: AddAppSettingResult?,
     appSettingsResult: AppSettingsResult?,
@@ -326,7 +325,7 @@ private fun AppSettingsLaunchedEffects(
     snackbarHostState: SnackbarHostState,
     appSettingDialogState: AppSettingDialogState,
     shortcutDialogState: ShortcutDialogState,
-    applicationIcon: Drawable?,
+    applicationIcon: ByteArray?,
     secureSettings: List<SecureSetting>,
     addAppSettingResult: AddAppSettingResult?,
     appSettingsResult: AppSettingsResult?,
@@ -344,7 +343,7 @@ private fun AppSettingsLaunchedEffects(
     onGetSecureSettingsByName: (SettingType, String) -> Unit,
     onLaunchIntent: () -> Unit,
     onPostNotification: (
-        icon: Drawable?,
+        icon: ByteArray?,
         contentTitle: String,
         contentText: String,
     ) -> Unit,

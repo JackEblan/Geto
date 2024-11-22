@@ -21,7 +21,7 @@ import com.android.geto.core.domain.model.DarkThemeConfig
 import com.android.geto.core.domain.model.ThemeBrand
 import com.android.geto.core.domain.usecase.CleanAppSettingsUseCase
 import com.android.geto.core.testing.repository.TestAppSettingsRepository
-import com.android.geto.core.testing.repository.TestPackageRepository
+import com.android.geto.core.testing.framework.FakePackageManagerWrapper
 import com.android.geto.core.testing.repository.TestUserDataRepository
 import com.android.geto.core.testing.util.MainDispatcherRule
 import kotlinx.coroutines.flow.collect
@@ -40,7 +40,7 @@ class SettingsViewModelTest {
 
     private lateinit var userDataRepository: TestUserDataRepository
 
-    private lateinit var packageRepository: TestPackageRepository
+    private lateinit var packageRepository: FakePackageManagerWrapper
 
     private lateinit var appSettingsRepository: TestAppSettingsRepository
 
@@ -52,7 +52,7 @@ class SettingsViewModelTest {
     fun setUp() {
         userDataRepository = TestUserDataRepository()
 
-        packageRepository = TestPackageRepository()
+        packageRepository = FakePackageManagerWrapper()
 
         appSettingsRepository = TestAppSettingsRepository()
 

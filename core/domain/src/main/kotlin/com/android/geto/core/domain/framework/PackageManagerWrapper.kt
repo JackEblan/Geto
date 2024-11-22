@@ -17,13 +17,12 @@
  */
 package com.android.geto.core.domain.framework
 
-import android.graphics.drawable.Drawable
 import com.android.geto.core.domain.model.GetoApplicationInfo
 
 interface PackageManagerWrapper {
     suspend fun queryIntentActivities(): List<GetoApplicationInfo>
 
-    fun getApplicationIcon(packageName: String): Drawable?
+    suspend fun getApplicationIcon(packageName: String): ByteArray?
 
     fun launchIntentForPackage(packageName: String)
 }
