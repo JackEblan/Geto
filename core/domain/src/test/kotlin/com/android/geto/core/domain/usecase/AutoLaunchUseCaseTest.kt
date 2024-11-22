@@ -27,8 +27,8 @@ import com.android.geto.core.domain.model.GetoApplicationInfo
 import com.android.geto.core.domain.model.SettingType
 import com.android.geto.core.domain.model.ThemeBrand
 import com.android.geto.core.domain.model.UserData
-import com.android.geto.core.testing.repository.TestAppSettingsRepository
 import com.android.geto.core.testing.framework.FakePackageManagerWrapper
+import com.android.geto.core.testing.repository.TestAppSettingsRepository
 import com.android.geto.core.testing.repository.TestSecureSettingsRepository
 import com.android.geto.core.testing.repository.TestUserDataRepository
 import kotlinx.coroutines.test.runTest

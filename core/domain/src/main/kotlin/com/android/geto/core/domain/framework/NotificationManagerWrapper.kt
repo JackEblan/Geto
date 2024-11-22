@@ -21,7 +21,8 @@ import com.android.geto.core.domain.broadcastreceiver.RevertSettingsBroadcastRec
 
 interface NotificationManagerWrapper {
     fun notifyRevertNotification(
-        notificationId: Int, revertSettingsBroadcastReceiver: RevertSettingsBroadcastReceiver,
+        notificationId: Int,
+        revertSettingsBroadcastReceiver: RevertSettingsBroadcastReceiver,
         packageName: String,
         icon: ByteArray?,
         contentTitle: String,

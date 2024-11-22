@@ -58,7 +58,9 @@ sealed interface AppSettingsEvent {
             if (icon != null) {
                 if (other.icon == null) return false
                 if (!icon.contentEquals(other.icon)) return false
-            } else if (other.icon != null) return false
+            } else if (other.icon != null) {
+                return false
+            }
             if (contentTitle != other.contentTitle) return false
             if (contentText != other.contentText) return false
 

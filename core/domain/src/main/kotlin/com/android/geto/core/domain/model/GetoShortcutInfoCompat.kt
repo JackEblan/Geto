@@ -33,7 +33,9 @@ data class GetoShortcutInfoCompat(
         if (icon != null) {
             if (other.icon == null) return false
             if (!icon.contentEquals(other.icon)) return false
-        } else if (other.icon != null) return false
+        } else if (other.icon != null) {
+            return false
+        }
         if (shortLabel != other.shortLabel) return false
         if (longLabel != other.longLabel) return false
 

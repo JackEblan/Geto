@@ -49,7 +49,8 @@ internal class AndroidNotificationManagerWrapper @Inject constructor(@Applicatio
 
     @RequiresPermission("android.permission.POST_NOTIFICATIONS")
     override fun notifyRevertNotification(
-        notificationId: Int, revertSettingsBroadcastReceiver: RevertSettingsBroadcastReceiver,
+        notificationId: Int,
+        revertSettingsBroadcastReceiver: RevertSettingsBroadcastReceiver,
         packageName: String,
         icon: ByteArray?,
         contentTitle: String,
