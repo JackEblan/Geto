@@ -29,6 +29,7 @@ import android.os.Build
 import androidx.core.graphics.drawable.toBitmap
 import com.android.geto.core.common.Dispatcher
 import com.android.geto.core.common.GetoDispatchers.Default
+import com.android.geto.core.common.GetoDispatchers.IO
 import com.android.geto.core.domain.framework.PackageManagerWrapper
 import com.android.geto.core.domain.model.GetoApplicationInfo
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -39,6 +40,7 @@ import javax.inject.Inject
 
 class AndroidPackageManagerWrapper @Inject constructor(
     @Dispatcher(Default) private val defaultDispatcher: CoroutineDispatcher,
+    @Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher,
     @ApplicationContext private val context: Context,
 ) : PackageManagerWrapper {
 
@@ -59,7 +61,7 @@ class AndroidPackageManagerWrapper @Inject constructor(
         return withContext(defaultDispatcher) {
             val intentActivities =
                 packageManager.queryIntentActivities(intent, flags).map { resolveInfo ->
-                    resolveInfo.activityInfo.applicationInfo.toApplicationInfo()
+                    resolveInfo.activityInfo.applicationInfo.toGetoApplicationInfo()
                 }
 
             intentActivities.filter { applicationInfo ->
@@ -87,18 +89,10 @@ class AndroidPackageManagerWrapper @Inject constructor(
         }
     }
 
-    private suspend fun ApplicationInfo.toApplicationInfo(): GetoApplicationInfo {
-        val stream = ByteArrayOutputStream()
-
-        val bitmap = loadIcon(packageManager).toBitmap()
-
-        withContext(defaultDispatcher) {
-            bitmap.compress(Bitmap.CompressFormat.PNG, 90, stream)
-        }
-
+    private suspend fun ApplicationInfo.toGetoApplicationInfo(): GetoApplicationInfo {
         return GetoApplicationInfo(
             flags = flags,
-            icon = stream.toByteArray(),
+            icon = loadIcon(packageManager).toByteArray(),
             packageName = packageName,
             label = loadLabel(packageManager).toString(),
         )
@@ -107,8 +101,8 @@ class AndroidPackageManagerWrapper @Inject constructor(
     private suspend fun Drawable.toByteArray(): ByteArray {
         val stream = ByteArrayOutputStream()
 
-        withContext(defaultDispatcher) {
-            toBitmap().compress(Bitmap.CompressFormat.PNG, 90, stream)
+        withContext(ioDispatcher) {
+            toBitmap().compress(Bitmap.CompressFormat.JPEG, 50, stream)
         }
 
         return stream.toByteArray()
