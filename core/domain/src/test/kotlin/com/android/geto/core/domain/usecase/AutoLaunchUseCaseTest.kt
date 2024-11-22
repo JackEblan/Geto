@@ -136,7 +136,8 @@ class AutoLaunchUseCaseTest {
             GetoApplicationInfo(
                 flags = 0,
                 icon = ByteArray(0),
-                packageName = packageName, label = "Geto $index",
+                packageName = packageName,
+                label = "Geto $index",
             )
         }
 

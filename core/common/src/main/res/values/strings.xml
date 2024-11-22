@@ -15,4 +15,6 @@
   ~   limitations under the License.
   ~
   -->
-<resources></resources>
+<resources>
+    <string name="geto_notification_channel_id">Geto Notification Channel ID</string>
+</resources>
