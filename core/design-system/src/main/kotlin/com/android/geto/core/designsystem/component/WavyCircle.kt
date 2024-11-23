@@ -33,7 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.Fill
-import androidx.compose.ui.graphics.drawscope.rotate
+import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.input.pointer.pointerInput
 import kotlin.math.cos
 import kotlin.math.pow
@@ -88,7 +88,7 @@ fun WavyCircle(
             )
         },
     ) {
-        val radius = size.minDimension / 3 * scale
+        val radius = size.minDimension / 3
         val centerX = size.width / 2
         val centerY = size.height / 2
         val waveFrequency = 12
@@ -105,7 +105,12 @@ fun WavyCircle(
             close()
         }
 
-        rotate(rotation) {
+        withTransform(
+            {
+                scale(scaleX = scale, scaleY = scale)
+                rotate(degrees = rotation)
+            },
+        ) {
             drawPath(
                 path = path,
                 color = if (active) colors.activeColor else colors.inActiveColor,
