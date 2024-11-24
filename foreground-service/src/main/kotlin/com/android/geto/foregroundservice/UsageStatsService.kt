@@ -78,6 +78,12 @@ class UsageStatsService : Service() {
         return START_STICKY_COMPATIBILITY
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+
+        serviceScope.cancel()
+    }
+
     private fun startUsageStatsForeground() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
             startForeground(
@@ -117,12 +123,6 @@ class UsageStatsService : Service() {
                 )
             }
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-
-        serviceScope.cancel()
     }
 
     private fun getUsageStatsForegroundServiceNotification(

@@ -20,5 +20,5 @@ package com.android.geto.core.domain.broadcastreceiver
 interface BroadcastReceiverController {
     fun revertSettings(packageName: String?, notificationId: Int?)
 
-    fun stopForegroundService()
+    fun updateForegroundService()
 }

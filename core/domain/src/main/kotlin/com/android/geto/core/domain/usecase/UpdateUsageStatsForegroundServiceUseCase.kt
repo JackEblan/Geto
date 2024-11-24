@@ -25,16 +25,11 @@ class UpdateUsageStatsForegroundServiceUseCase @Inject constructor(
     private val usageStatsForegroundServiceManager: UsageStatsForegroundServiceManager,
     private val usageStatsManagerWrapper: UsageStatsManagerWrapper,
 ) {
-    operator fun invoke(isActive: Boolean) {
-        if (usageStatsManagerWrapper.isUsageStatsPermissionGranted().not()) {
-            usageStatsManagerWrapper.requestUsageStatsPermission()
-            return
-        }
-
-        return if (isActive) {
-            usageStatsForegroundServiceManager.stopForegroundService()
+    operator fun invoke() {
+        if (usageStatsManagerWrapper.isUsageStatsPermissionGranted()) {
+            usageStatsForegroundServiceManager.updateForegroundService()
         } else {
-            usageStatsForegroundServiceManager.startForegroundService()
+            usageStatsManagerWrapper.requestUsageStatsPermission()
         }
     }
 }

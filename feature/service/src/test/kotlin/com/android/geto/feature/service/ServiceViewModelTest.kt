@@ -79,7 +79,9 @@ class ServiceViewModelTest {
             viewModel.usageStatsForegroundServiceActive.collect()
         }
 
-        usageStatsForegroundServiceManager.startForegroundService()
+        usageStatsForegroundServiceManager.setBound(true)
+
+        usageStatsForegroundServiceManager.updateForegroundService()
 
         usageStatsManagerWrapper.setUsageStatsPermissionGranted(true)
 

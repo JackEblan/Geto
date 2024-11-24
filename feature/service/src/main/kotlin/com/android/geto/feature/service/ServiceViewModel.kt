@@ -32,7 +32,6 @@ class ServiceViewModel @Inject constructor(
     usageStatsForegroundServiceManager: UsageStatsForegroundServiceManager,
     private val updateUsageStatsForegroundServiceUseCase: UpdateUsageStatsForegroundServiceUseCase,
 ) : ViewModel() {
-
     val usageStatsForegroundServiceActive = usageStatsForegroundServiceManager.isActive.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
@@ -43,7 +42,7 @@ class ServiceViewModel @Inject constructor(
         when (event) {
             ServiceEvent.UpdateUsageStatsForegroundService -> {
                 viewModelScope.launch {
-                    updateUsageStatsForegroundServiceUseCase(isActive = usageStatsForegroundServiceActive.value)
+                    updateUsageStatsForegroundServiceUseCase()
                 }
             }
         }

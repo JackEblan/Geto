@@ -28,11 +28,13 @@ class FakeUsageStatsForegroundServiceManager : UsageStatsForegroundServiceManage
 
     override val isActive = _isActive.asSharedFlow()
 
-    override fun startForegroundService() {
-        _isActive.tryEmit(true)
+    private var _isBound = false
+
+    override fun updateForegroundService() {
+        _isActive.tryEmit(_isBound.not())
     }
 
-    override fun stopForegroundService() {
-        _isActive.tryEmit(false)
+    fun setBound(value: Boolean) {
+        _isBound = value
     }
 }

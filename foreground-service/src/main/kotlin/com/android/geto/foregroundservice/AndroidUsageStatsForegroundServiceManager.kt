@@ -41,28 +41,42 @@ class AndroidUsageStatsForegroundServiceManager @Inject constructor(@Application
 
     override val isActive = _isActive.asSharedFlow()
 
+    private var _isBound = false
+
     private val connection = object : ServiceConnection {
         override fun onServiceConnected(className: ComponentName, service: IBinder) {
             val binder = service as UsageStatsService.UsageStatsBinder
 
             usageStatsService = binder.getService()
 
+            _isBound = true
+
             _isActive.tryEmit(true)
         }
 
         override fun onServiceDisconnected(arg0: ComponentName) {
-            _isActive.tryEmit(false)
+            _isBound = false
         }
     }
 
-    override fun startForegroundService() {
+    override fun updateForegroundService() {
+        if (_isBound) {
+            stopForegroundService()
+        } else {
+            startForegroundService()
+        }
+    }
+
+    private fun startForegroundService() {
         ContextCompat.startForegroundService(context, usageStatsServiceIntent)
 
         context.bindService(usageStatsServiceIntent, connection, Context.BIND_AUTO_CREATE)
     }
 
-    override fun stopForegroundService() {
+    private fun stopForegroundService() {
         context.unbindService(connection)
+
+        _isBound = false
 
         _isActive.tryEmit(context.stopService(usageStatsServiceIntent).not())
     }

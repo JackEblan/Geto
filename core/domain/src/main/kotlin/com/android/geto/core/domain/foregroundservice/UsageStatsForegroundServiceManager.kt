@@ -22,7 +22,5 @@ import kotlinx.coroutines.flow.Flow
 interface UsageStatsForegroundServiceManager {
     val isActive: Flow<Boolean>
 
-    fun startForegroundService()
-
-    fun stopForegroundService()
+    fun updateForegroundService()
 }

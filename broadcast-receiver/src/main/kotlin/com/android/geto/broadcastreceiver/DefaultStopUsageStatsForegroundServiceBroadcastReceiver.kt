@@ -32,6 +32,6 @@ class DefaultStopUsageStatsForegroundServiceBroadcastReceiver @Inject constructo
     lateinit var broadcastReceiverController: BroadcastReceiverController
 
     override fun onReceive(context: Context?, intent: Intent?) {
-        broadcastReceiverController.stopForegroundService()
+        broadcastReceiverController.updateForegroundService()
     }
 }
