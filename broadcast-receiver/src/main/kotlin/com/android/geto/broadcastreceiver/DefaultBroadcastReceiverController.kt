@@ -45,7 +45,7 @@ internal class DefaultBroadcastReceiverController @Inject constructor(
         }
     }
 
-    override fun stopForegroundService() {
-        usageStatsForegroundServiceManager.stopForegroundService()
+    override fun updateForegroundService() {
+        usageStatsForegroundServiceManager.updateForegroundService()
     }
 }
