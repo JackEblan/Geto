@@ -23,6 +23,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onRoot
+import com.android.geto.core.designsystem.component.AnimatedWavyCircle
 import com.android.geto.core.designsystem.component.WavyCircle
 import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.screenshottesting.util.DefaultRoborazziOptions
@@ -73,11 +74,11 @@ class WavyCircleScreenshotTests {
     }
 
     @Test
-    fun wavyCircle_animation() {
+    fun animatedWavyCircle_animation() {
         composeTestRule.mainClock.autoAdvance = false
         composeTestRule.setContent {
             GetoTheme {
-                WavyCircle(
+                AnimatedWavyCircle(
                     modifier = Modifier.fillMaxSize(),
                     active = true,
                     onClick = {},
@@ -88,7 +89,7 @@ class WavyCircleScreenshotTests {
         listOf(0L, 250L, 500L).forEach { deltaTime ->
             composeTestRule.mainClock.advanceTimeBy(deltaTime)
             composeTestRule.onRoot().captureRoboImage(
-                "src/test/screenshots/WavyCircle/WavyCircle_animation_$deltaTime.png",
+                "src/test/screenshots/WavyCircle/AnimatedWavyCircle_animation_$deltaTime.png",
                 roborazziOptions = DefaultRoborazziOptions,
             )
         }

@@ -35,6 +35,8 @@ import com.android.geto.feature.appsettings.navigation.appSettingsScreen
 import com.android.geto.feature.appsettings.navigation.navigateToAppSettings
 import com.android.geto.feature.home.navigation.HomeRouteData
 import com.android.geto.feature.home.navigation.homeScreen
+import com.android.geto.feature.permission.navigation.navigateToPermission
+import com.android.geto.feature.permission.navigation.permissionScreen
 import com.android.geto.feature.service.navigation.navigateToService
 import com.android.geto.feature.service.navigation.serviceScreen
 import com.android.geto.feature.settings.navigation.navigateToSettings
@@ -80,7 +82,12 @@ fun GetoNavHost(
             },
         )
 
-        appSettingsScreen(onNavigationIconClick = navController::navigateUp)
+        appSettingsScreen(
+            onNavigationIconClick = navController::navigateUp,
+            onPermission = navController::navigateToPermission,
+        )
+
+        permissionScreen()
     }
 }
 

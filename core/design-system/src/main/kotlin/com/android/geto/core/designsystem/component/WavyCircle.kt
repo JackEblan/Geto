@@ -46,6 +46,55 @@ fun WavyCircle(
     colors: WavyCircleColors = WavyCircleDefaults.colors(),
     onClick: () -> Unit,
 ) {
+    Canvas(
+        modifier = modifier.pointerInput(Unit) {
+            detectTapGestures(
+                onTap = { offset ->
+                    val radius = minOf(size.width, size.height) / 3
+                    val centerX = size.width / 2
+                    val centerY = size.height / 2
+                    val distanceFromCenter =
+                        (offset.x - centerX).pow(2) + (offset.y - centerY).pow(2)
+
+                    if (distanceFromCenter <= radius * radius) {
+                        onClick()
+                    }
+                },
+            )
+        },
+    ) {
+        val radius = size.minDimension / 3
+        val centerX = size.width / 2
+        val centerY = size.height / 2
+        val waveFrequency = 12
+        val waveAmplitude = 20f
+
+        val path = Path().apply {
+            for (i in 0..360 step 1) {
+                val angleRad = Math.toRadians(i.toDouble())
+                val wave = waveAmplitude * sin(waveFrequency * angleRad)
+                val x = centerX + (radius + wave) * cos(angleRad).toFloat()
+                val y = centerY + (radius + wave) * sin(angleRad).toFloat()
+                if (i == 0) moveTo(x.toFloat(), y.toFloat()) else lineTo(x.toFloat(), y.toFloat())
+            }
+            close()
+        }
+
+        drawPath(
+            path = path,
+            color = if (active) colors.activeColor else colors.inActiveColor,
+            style = Fill,
+        )
+    }
+}
+
+@Composable
+fun AnimatedWavyCircle(
+    modifier: Modifier = Modifier,
+    active: Boolean,
+    colors: WavyCircleColors = WavyCircleDefaults.colors(),
+    onClick: () -> Unit,
+) {
     val infiniteTransition = rememberInfiniteTransition(label = "infiniteTransition")
 
     val rotation by infiniteTransition.animateFloat(

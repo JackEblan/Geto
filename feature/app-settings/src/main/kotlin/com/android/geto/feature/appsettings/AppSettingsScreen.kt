@@ -124,6 +124,7 @@ internal fun AppSettingsRoute(
     viewModel: AppSettingsViewModel = hiltViewModel(),
     appSettingsRouteData: AppSettingsRouteData,
     onNavigationIconClick: () -> Unit,
+    onPermission: () -> Unit,
 ) {
     val appSettingsUiState by viewModel.appSettingsUiState.collectAsStateWithLifecycle()
 
@@ -165,6 +166,7 @@ internal fun AppSettingsRoute(
         setPrimaryClipResult = setPrimaryClipResult,
         templateDialogUiState = templateDialogUiState,
         onNavigationIconClick = onNavigationIconClick,
+        onPermission = onPermission,
         onEvent = viewModel::onEvent,
     )
 }
@@ -187,6 +189,7 @@ internal fun AppSettingsScreen(
     setPrimaryClipResult: Boolean,
     templateDialogUiState: TemplateDialogUiState,
     onNavigationIconClick: () -> Unit,
+    onPermission: () -> Unit,
     onEvent: (AppSettingsEvent) -> Unit,
 ) {
     var showPermissionDialog by rememberSaveable { mutableStateOf(false) }
@@ -209,9 +212,7 @@ internal fun AppSettingsScreen(
         autoLaunchResult = autoLaunchResult,
         requestPinShortcutResult = requestPinShortcutResult,
         setPrimaryClipResult = setPrimaryClipResult,
-        onShowPermissionDialog = {
-            showPermissionDialog = true
-        },
+        onShowPermissionDialog = onPermission,
         onResetApplyAppSettingsResult = { onEvent(ResetApplyAppSettingsResult) },
         onResetRevertAppSettingsResult = { onEvent(ResetRevertAppSettingsResult) },
         onResetAutoLaunchResult = { onEvent(ResetAutoLaunchResult) },

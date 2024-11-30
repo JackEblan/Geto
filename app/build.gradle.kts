@@ -69,6 +69,7 @@ dependencies {
     implementation(projects.feature.apps)
     implementation(projects.feature.appSettings)
     implementation(projects.feature.home)
+    implementation(projects.feature.permission)
     implementation(projects.feature.service)
     implementation(projects.feature.settings)
 
@@ -79,6 +80,7 @@ dependencies {
     implementation(projects.framework.notificationManager)
     implementation(projects.framework.packageManager)
     implementation(projects.framework.secureSettings)
+    implementation(projects.framework.shizuku)
     implementation(projects.framework.shortcutManager)
     implementation(projects.framework.usageStatsManager)
 

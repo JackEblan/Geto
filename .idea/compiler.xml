@@ -25,6 +25,7 @@
       <module name="Geto.feature.shortcut" target="17" />
       <module name="Geto.framework.broadcast-receiver" target="21" />
       <module name="Geto.framework.build-version" target="17" />
+      <module name="Geto.shizuku.package-manager" target="21" />
       <module name="Geto.ui-test-hilt-manifest" target="17" />
       <module name="Geto.ui-test-hilt-manifest.main" target="17" />
       <module name="Geto.ui-test-hilt-manifest.test" target="17" />

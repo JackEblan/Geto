@@ -32,6 +32,7 @@ fun NavController.navigateToAppSettings(packageName: String, appName: String) {
 
 fun NavGraphBuilder.appSettingsScreen(
     onNavigationIconClick: () -> Unit,
+    onPermission: () -> Unit,
 ) {
     composable<AppSettingsRouteData>(
         deepLinks = listOf(
@@ -43,6 +44,7 @@ fun NavGraphBuilder.appSettingsScreen(
         AppSettingsRoute(
             appSettingsRouteData = appSettingsRouteData,
             onNavigationIconClick = onNavigationIconClick,
+            onPermission = onPermission,
         )
     }
 }
