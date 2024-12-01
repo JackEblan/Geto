@@ -16,17 +16,12 @@
  *
  */
 
-package com.android.geto.core.domain.framework
+package com.android.geto.core.domain.model
 
-import com.android.geto.core.domain.model.ShizukuStatus
-import kotlinx.coroutines.flow.Flow
+data class ShizukuResult(
+    val shizukuStatus: ShizukuStatus,
+)
 
-interface ShizukuWrapper {
-    val shizukuStatus: Flow<ShizukuStatus>
-
-    fun onCreate()
-
-    fun onDestroy()
-
-    fun checkShizukuPermission()
+enum class ShizukuStatus {
+    UnBound, Bound, Granted, Denied, UpgradeShizuku, CanWriteSecureSettings, RemoteException, AliveBinder, DeadBinder, Loading,
 }

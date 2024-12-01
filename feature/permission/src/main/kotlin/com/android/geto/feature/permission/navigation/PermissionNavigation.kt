@@ -33,8 +33,8 @@ fun NavController.navigateToPermission() {
     }
 }
 
-fun NavGraphBuilder.permissionScreen() {
+fun NavGraphBuilder.permissionScreen(onNavigationIconClick: () -> Unit) {
     composable<PermissionRouteData> {
-        PermissionRoute()
+        PermissionRoute(onNavigationIconClick = onNavigationIconClick)
     }
 }

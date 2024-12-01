@@ -16,17 +16,12 @@
  *
  */
 
-package com.android.geto.core.domain.framework
+package com.android.geto.feature.permission
 
-import com.android.geto.core.domain.model.ShizukuStatus
-import kotlinx.coroutines.flow.Flow
+sealed interface PermissionEvent {
+    data object CheckShizukuPermission : PermissionEvent
 
-interface ShizukuWrapper {
-    val shizukuStatus: Flow<ShizukuStatus>
+    data object OnCreate : PermissionEvent
 
-    fun onCreate()
-
-    fun onDestroy()
-
-    fun checkShizukuPermission()
+    data object OnDestroy : PermissionEvent
 }

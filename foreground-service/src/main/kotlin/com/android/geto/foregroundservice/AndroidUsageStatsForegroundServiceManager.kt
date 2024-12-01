@@ -34,7 +34,7 @@ class AndroidUsageStatsForegroundServiceManager @Inject constructor(@Application
     UsageStatsForegroundServiceManager {
     private val usageStatsServiceIntent = Intent(context, UsageStatsService::class.java)
 
-    private lateinit var usageStatsService: UsageStatsService
+    private var usageStatsService: UsageStatsService? = null
 
     private val _isActive =
         MutableSharedFlow<Boolean>(replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
@@ -55,6 +55,8 @@ class AndroidUsageStatsForegroundServiceManager @Inject constructor(@Application
         }
 
         override fun onServiceDisconnected(arg0: ComponentName) {
+            usageStatsService = null
+
             _isBound = false
         }
     }

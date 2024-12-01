@@ -87,7 +87,7 @@ fun GetoNavHost(
             onPermission = navController::navigateToPermission,
         )
 
-        permissionScreen()
+        permissionScreen(onNavigationIconClick = navController::navigateUp)
     }
 }
 
