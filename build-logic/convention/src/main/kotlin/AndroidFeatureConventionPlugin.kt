@@ -57,6 +57,11 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                     "androidTestImplementation",
                     libs.findLibrary("androidx.lifecycle.runtime.testing").get(),
                 )
+                add(
+                    "androidTestImplementation",
+                    libs.findLibrary("androidx.test.core").get(),
+                )
+
                 add("testImplementation", libs.findLibrary("androidx-navigation-testing").get())
             }
         }
