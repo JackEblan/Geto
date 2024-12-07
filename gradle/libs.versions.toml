@@ -32,12 +32,10 @@ hidden-api-bypass = "4.3"
 kotlin = "2.0.0"
 kotlinxCoroutines = "1.8.1"
 kotlinxSerializationJson = "1.6.3"
-kapt = "2.0.0"
 ksp = "2.0.0-1.0.21"
 moduleGraph = "2.5.0"
 protobuf = "4.26.1"
 protobufPlugin = "0.9.4"
-refine = "4.4.0"
 room = "2.6.1"
 robolectric = "4.12.2"
 roborazzi = "1.15.0"
@@ -106,9 +104,6 @@ lint-checks = { group = "com.android.tools.lint", name = "lint-checks", version.
 lint-tests = { group = "com.android.tools.lint", name = "lint-tests", version.ref = "androidTools" }
 protobuf-kotlin-lite = { group = "com.google.protobuf", name = "protobuf-kotlin-lite", version.ref = "protobuf" }
 protobuf-protoc = { group = "com.google.protobuf", name = "protoc", version.ref = "protobuf" }
-refine-annotation = { group = "dev.rikka.tools.refine", name = "annotation", version.ref = "refine" }
-refine-annotationProcessor = { group = "dev.rikka.tools.refine", name = "annotation-processor", version.ref = "refine" }
-refine-runtime = { group = "dev.rikka.tools.refine", name = "runtime", version.ref = "refine" }
 robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
 roborazzi = { group = "io.github.takahirom.roborazzi", name = "roborazzi", version.ref = "roborazzi" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
@@ -135,14 +130,12 @@ baselineprofile = { id = "androidx.baselineprofile", version.ref = "androidxMacr
 compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 dependencyGuard = { id = "com.dropbox.dependency-guard", version.ref = "dependencyGuard" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kapt" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 module-graph = { id = "com.jraska.module.graph.assertion", version.ref = "moduleGraph" }
 protobuf = { id = "com.google.protobuf", version.ref = "protobufPlugin" }
-refine = { id = "dev.rikka.tools.refine", version.ref = "refine" }
 roborazzi = { id = "io.github.takahirom.roborazzi", version.ref = "roborazzi" }
 room = { id = "androidx.room", version.ref = "room" }
 

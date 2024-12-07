@@ -20,12 +20,14 @@ plugins {
     alias(libs.plugins.com.android.geto.library)
     alias(libs.plugins.com.android.geto.libraryJacoco)
     alias(libs.plugins.com.android.geto.hilt)
-    alias(libs.plugins.kapt)
-    alias(libs.plugins.refine)
 }
 
 android {
     namespace = "com.android.geto.framework.shizuku"
+
+    defaultConfig {
+        consumerProguardFiles("consumer-proguard-rules.pro")
+    }
 
     buildFeatures {
         aidl = true
@@ -35,8 +37,6 @@ android {
 }
 
 dependencies {
-    implementation(libs.hidden.api.bypass)
-    implementation(libs.refine.runtime)
     implementation(libs.shizuku.api)
     implementation(libs.shizuku.provider)
 

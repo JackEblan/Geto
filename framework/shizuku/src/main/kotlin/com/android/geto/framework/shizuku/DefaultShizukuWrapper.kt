@@ -60,7 +60,7 @@ class DefaultShizukuWrapper @Inject constructor(@ApplicationContext private val 
             context.packageName,
             UserService::class.java.getName(),
         ),
-    ).processNameSuffix("user_service").debuggable(BuildConfig.DEBUG)
+    ).daemon(false).processNameSuffix("user_service").debuggable(BuildConfig.DEBUG)
 
     private val _shizukuStatus =
         MutableSharedFlow<ShizukuStatus>(replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
