@@ -26,8 +26,7 @@ once the Developer Options is modified. So basically, you have to grant this app
 with `android.permission.WRITE_SECURE_SETTINGS` in order for it to modify your Settings values.
 
 > [!IMPORTANT]  
-> We moved the instructions on how to use this application into
-> our [Wiki](https://github.com/JackEblan/Geto/wiki) or watch the tutorial on [YouTube](https://youtu.be/CJrJyHpVVRM?si=ACrEC0hcPed53RAj)
+> Watch the tutorial on [YouTube](https://youtu.be/CJrJyHpVVRM?si=ACrEC0hcPed53RAj)
 
 # Screenshots
 
