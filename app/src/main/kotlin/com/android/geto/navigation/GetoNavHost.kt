@@ -39,6 +39,8 @@ import com.android.geto.feature.service.navigation.navigateToService
 import com.android.geto.feature.service.navigation.serviceScreen
 import com.android.geto.feature.settings.navigation.navigateToSettings
 import com.android.geto.feature.settings.navigation.settingsScreen
+import com.android.geto.feature.shizuku.navigation.navigateToShizuku
+import com.android.geto.feature.shizuku.navigation.shizukuScreen
 import com.android.geto.navigation.TopLevelDestination.APPS
 import com.android.geto.navigation.TopLevelDestination.SERVICE
 import com.android.geto.navigation.TopLevelDestination.SETTINGS
@@ -80,7 +82,12 @@ fun GetoNavHost(
             },
         )
 
-        appSettingsScreen(onNavigationIconClick = navController::navigateUp)
+        appSettingsScreen(
+            onNavigationIconClick = navController::navigateUp,
+            onShizuku = navController::navigateToShizuku,
+        )
+
+        shizukuScreen(onNavigationIconClick = navController::navigateUp)
     }
 }
 

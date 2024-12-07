@@ -78,6 +78,7 @@ class AppSettingsScreenScreenshotTest {
                     setPrimaryClipResult = false,
                     templateDialogUiState = TemplateDialogUiState.Loading,
                     onNavigationIconClick = {},
+                    onShizuku = {},
                     onEvent = {},
                 )
             }
@@ -103,6 +104,7 @@ class AppSettingsScreenScreenshotTest {
                     setPrimaryClipResult = false,
                     templateDialogUiState = TemplateDialogUiState.Loading,
                     onNavigationIconClick = {},
+                    onShizuku = {},
                     onEvent = {},
                 )
             }
@@ -128,6 +130,7 @@ class AppSettingsScreenScreenshotTest {
                     setPrimaryClipResult = false,
                     templateDialogUiState = TemplateDialogUiState.Loading,
                     onNavigationIconClick = {},
+                    onShizuku = {},
                     onEvent = {},
                 )
             }
@@ -159,6 +162,7 @@ class AppSettingsScreenScreenshotTest {
                         setPrimaryClipResult = false,
                         templateDialogUiState = TemplateDialogUiState.Loading,
                         onNavigationIconClick = {},
+                        onShizuku = {},
                         onEvent = {},
                     )
                 }
@@ -191,6 +195,7 @@ class AppSettingsScreenScreenshotTest {
                         setPrimaryClipResult = false,
                         templateDialogUiState = TemplateDialogUiState.Loading,
                         onNavigationIconClick = {},
+                        onShizuku = {},
                         onEvent = {},
                     )
                 }
@@ -223,6 +228,7 @@ class AppSettingsScreenScreenshotTest {
                         setPrimaryClipResult = false,
                         templateDialogUiState = TemplateDialogUiState.Loading,
                         onNavigationIconClick = {},
+                        onShizuku = {},
                         onEvent = {},
                     )
                 }

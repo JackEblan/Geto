@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~
+  ~   Copyright 2023 Einstein Blanco
+  ~
+  ~   Licensed under the GNU General Public License v3.0 (the "License");
+  ~   you may not use this file except in compliance with the License.
+  ~   You may obtain a copy of the License at
+  ~
+  ~       https://www.gnu.org/licenses/gpl-3.0
+  ~
+  ~   Unless required by applicable law or agreed to in writing, software
+  ~   distributed under the License is distributed on an "AS IS" BASIS,
+  ~   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~   See the License for the specific language governing permissions and
+  ~   limitations under the License.
+  ~
+  -->
+<resources>
+    <string name="shizuku_service_is_unbound">Shizuku Service is unbound</string>
+    <string name="shizuku_is_bound">Shizuku is bound</string>
+    <string name="shizuku_permission_granted_connecting_to_user_service">Shizuku permission granted, connecting to user service</string>
+    <string name="shizuku_alive_binder">Shizuku alive binder</string>
+    <string name="shizuku_permission_denied">Shizuku permission denied</string>
+    <string name="please_upgrade_shizuku_version">Please upgrade Shizuku version</string>
+    <string name="write_secure_settings_granted">Write Secure Settings granted</string>
+    <string name="something_went_wrong_with_the_request">Something went wrong with the request</string>
+    <string name="please_check_if_shizuku_is_properly_running">Please check if Shizuku is properly running</string>
+    <string name="shizuku_dead_binder">Shizuku dead binder</string>
+</resources>

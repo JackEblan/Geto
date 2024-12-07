@@ -88,6 +88,7 @@ class AppSettingsScreenSnackbarTest {
                 setPrimaryClipResult = false,
                 templateDialogUiState = TemplateDialogUiState.Loading,
                 onNavigationIconClick = {},
+                onShizuku = {},
                 onEvent = {},
             )
         }
@@ -119,6 +120,7 @@ class AppSettingsScreenSnackbarTest {
                 setPrimaryClipResult = false,
                 templateDialogUiState = TemplateDialogUiState.Loading,
                 onNavigationIconClick = {},
+                onShizuku = {},
                 onEvent = {},
             )
         }
@@ -150,6 +152,7 @@ class AppSettingsScreenSnackbarTest {
                 setPrimaryClipResult = false,
                 templateDialogUiState = TemplateDialogUiState.Loading,
                 onNavigationIconClick = {},
+                onShizuku = {},
                 onEvent = {},
             )
         }
@@ -181,6 +184,7 @@ class AppSettingsScreenSnackbarTest {
                 setPrimaryClipResult = false,
                 templateDialogUiState = TemplateDialogUiState.Loading,
                 onNavigationIconClick = {},
+                onShizuku = {},
                 onEvent = {},
             )
         }
@@ -212,6 +216,7 @@ class AppSettingsScreenSnackbarTest {
                 setPrimaryClipResult = false,
                 templateDialogUiState = TemplateDialogUiState.Loading,
                 onNavigationIconClick = {},
+                onShizuku = {},
                 onEvent = {},
             )
         }
@@ -243,6 +248,7 @@ class AppSettingsScreenSnackbarTest {
                 setPrimaryClipResult = false,
                 templateDialogUiState = TemplateDialogUiState.Loading,
                 onNavigationIconClick = {},
+                onShizuku = {},
                 onEvent = {},
             )
         }
@@ -274,6 +280,7 @@ class AppSettingsScreenSnackbarTest {
                 setPrimaryClipResult = false,
                 templateDialogUiState = TemplateDialogUiState.Loading,
                 onNavigationIconClick = {},
+                onShizuku = {},
                 onEvent = {},
             )
         }
@@ -305,6 +312,7 @@ class AppSettingsScreenSnackbarTest {
                 setPrimaryClipResult = false,
                 templateDialogUiState = TemplateDialogUiState.Loading,
                 onNavigationIconClick = {},
+                onShizuku = {},
                 onEvent = {},
             )
         }
@@ -336,6 +344,7 @@ class AppSettingsScreenSnackbarTest {
                 setPrimaryClipResult = false,
                 templateDialogUiState = TemplateDialogUiState.Loading,
                 onNavigationIconClick = {},
+                onShizuku = {},
                 onEvent = {},
             )
         }
@@ -367,6 +376,7 @@ class AppSettingsScreenSnackbarTest {
                 setPrimaryClipResult = false,
                 templateDialogUiState = TemplateDialogUiState.Loading,
                 onNavigationIconClick = {},
+                onShizuku = {},
                 onEvent = {},
             )
         }
@@ -398,6 +408,7 @@ class AppSettingsScreenSnackbarTest {
                 setPrimaryClipResult = false,
                 templateDialogUiState = TemplateDialogUiState.Loading,
                 onNavigationIconClick = {},
+                onShizuku = {},
                 onEvent = {},
             )
         }
@@ -429,6 +440,7 @@ class AppSettingsScreenSnackbarTest {
                 setPrimaryClipResult = false,
                 templateDialogUiState = TemplateDialogUiState.Loading,
                 onNavigationIconClick = {},
+                onShizuku = {},
                 onEvent = {},
             )
         }
@@ -460,6 +472,7 @@ class AppSettingsScreenSnackbarTest {
                 setPrimaryClipResult = false,
                 templateDialogUiState = TemplateDialogUiState.Loading,
                 onNavigationIconClick = {},
+                onShizuku = {},
                 onEvent = {},
             )
         }
@@ -491,6 +504,7 @@ class AppSettingsScreenSnackbarTest {
                 setPrimaryClipResult = false,
                 templateDialogUiState = TemplateDialogUiState.Loading,
                 onNavigationIconClick = {},
+                onShizuku = {},
                 onEvent = {},
             )
         }
@@ -522,6 +536,7 @@ class AppSettingsScreenSnackbarTest {
                 setPrimaryClipResult = true,
                 templateDialogUiState = TemplateDialogUiState.Loading,
                 onNavigationIconClick = {},
+                onShizuku = {},
                 onEvent = {},
             )
         }
@@ -553,6 +568,7 @@ class AppSettingsScreenSnackbarTest {
                 setPrimaryClipResult = false,
                 templateDialogUiState = TemplateDialogUiState.Loading,
                 onNavigationIconClick = {},
+                onShizuku = {},
                 onEvent = {},
             )
         }
@@ -584,6 +600,7 @@ class AppSettingsScreenSnackbarTest {
                 setPrimaryClipResult = false,
                 templateDialogUiState = TemplateDialogUiState.Loading,
                 onNavigationIconClick = {},
+                onShizuku = {},
                 onEvent = {},
             )
         }

@@ -23,7 +23,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.android.geto.core.designsystem.component.WavyCircle
+import com.android.geto.core.designsystem.component.AnimatedWavyCircle
 
 @Composable
 internal fun ServiceRoute(
@@ -45,7 +45,7 @@ internal fun ServiceScreen(
     usageStatsForegroundServiceActive: Boolean,
     onEvent: (ServiceEvent) -> Unit,
 ) {
-    WavyCircle(
+    AnimatedWavyCircle(
         modifier = modifier.fillMaxSize(),
         active = usageStatsForegroundServiceActive,
         onClick = {

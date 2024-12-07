@@ -20,11 +20,13 @@
       <module name="Geto.core.shortcut-manager" target="17" />
       <module name="Geto.core.shortcutmanager-test" target="17" />
       <module name="Geto.feature.applist" target="17" />
+      <module name="Geto.feature.permission" target="21" />
       <module name="Geto.feature.securesettingslist" target="17" />
       <module name="Geto.feature.settings.test" target="17" />
       <module name="Geto.feature.shortcut" target="17" />
       <module name="Geto.framework.broadcast-receiver" target="21" />
       <module name="Geto.framework.build-version" target="17" />
+      <module name="Geto.shizuku.package-manager" target="21" />
       <module name="Geto.ui-test-hilt-manifest" target="17" />
       <module name="Geto.ui-test-hilt-manifest.main" target="17" />
       <module name="Geto.ui-test-hilt-manifest.test" target="17" />
