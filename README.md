@@ -47,4 +47,3 @@ with `android.permission.WRITE_SECURE_SETTINGS` in order for it to modify your S
 
 **Geto** is licensed under the GNU General Public License v3.0. See the [license](LICENSE) for more
 information.
-</div>
