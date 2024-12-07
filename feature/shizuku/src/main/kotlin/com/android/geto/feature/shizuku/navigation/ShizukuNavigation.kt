@@ -18,19 +18,12 @@
 package com.android.geto.feature.shizuku.navigation
 
 import androidx.navigation.NavController
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.android.geto.feature.shizuku.ShizukuRoute
 
 fun NavController.navigateToShizuku() {
-    navigate(ShizukuRouteData) {
-        popUpTo(graph.findStartDestination().id) {
-            saveState = true
-        }
-        launchSingleTop = true
-        restoreState = true
-    }
+    navigate(ShizukuRouteData)
 }
 
 fun NavGraphBuilder.shizukuScreen(onNavigationIconClick: () -> Unit) {
