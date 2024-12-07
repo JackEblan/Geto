@@ -15,11 +15,12 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.feature.permission.navigation
+package com.android.geto.feature.shizuku
 
-import androidx.annotation.Keep
-import kotlinx.serialization.Serializable
+sealed interface ShizukuEvent {
+    data object CheckShizukuShizuku : ShizukuEvent
 
-@Keep
-@Serializable
-data object PermissionRouteData
+    data object OnCreate : ShizukuEvent
+
+    data object OnDestroy : ShizukuEvent
+}

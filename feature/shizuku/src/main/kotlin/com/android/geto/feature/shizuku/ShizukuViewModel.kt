@@ -15,39 +15,37 @@
  *   limitations under the License.
  *
  */
-
-package com.android.geto.feature.permission
+package com.android.geto.feature.shizuku
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.android.geto.core.domain.framework.ShizukuWrapper
-import com.android.geto.core.domain.model.ShizukuStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 @HiltViewModel
-class PermissionViewModel @Inject constructor(private val shizukuWrapper: ShizukuWrapper) :
+class ShizukuViewModel @Inject constructor(private val shizukuWrapper: ShizukuWrapper) :
     ViewModel() {
 
     val shizukuStatus = shizukuWrapper.shizukuStatus.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = ShizukuStatus.UnBound,
+        initialValue = null,
     )
 
-    fun onEvent(event: PermissionEvent) {
+    fun onEvent(event: ShizukuEvent) {
         when (event) {
-            PermissionEvent.CheckShizukuPermission -> {
+            ShizukuEvent.CheckShizukuShizuku -> {
                 shizukuWrapper.checkShizukuPermission()
             }
 
-            PermissionEvent.OnCreate -> {
+            ShizukuEvent.OnCreate -> {
                 shizukuWrapper.onCreate()
             }
 
-            PermissionEvent.OnDestroy -> {
+            ShizukuEvent.OnDestroy -> {
                 shizukuWrapper.onDestroy()
             }
         }

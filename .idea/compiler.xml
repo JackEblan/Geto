@@ -20,6 +20,7 @@
       <module name="Geto.core.shortcut-manager" target="17" />
       <module name="Geto.core.shortcutmanager-test" target="17" />
       <module name="Geto.feature.applist" target="17" />
+      <module name="Geto.feature.permission" target="21" />
       <module name="Geto.feature.securesettingslist" target="17" />
       <module name="Geto.feature.settings.test" target="17" />
       <module name="Geto.feature.shortcut" target="17" />

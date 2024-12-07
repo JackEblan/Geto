@@ -69,9 +69,9 @@ dependencies {
     implementation(projects.feature.apps)
     implementation(projects.feature.appSettings)
     implementation(projects.feature.home)
-    implementation(projects.feature.permission)
     implementation(projects.feature.service)
     implementation(projects.feature.settings)
+    implementation(projects.feature.shizuku)
 
     implementation(projects.broadcastReceiver)
     implementation(projects.foregroundService)

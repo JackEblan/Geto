@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.framework.shizuku
 
 import android.content.pm.IPackageManager
@@ -23,14 +22,15 @@ import rikka.shizuku.SystemServiceHelper
 import kotlin.system.exitProcess
 
 class UserService : IUserService.Stub() {
-
     override fun destroy() {
         exitProcess(1)
     }
 
-    override fun grantRuntimePermission(packageName: String?, permissionName: String?, userId: Int) {
-        println("Finally connected")
-
+    override fun grantRuntimePermission(
+        packageName: String?,
+        permissionName: String?,
+        userId: Int,
+    ) {
         IPackageManager.Stub.asInterface(
             SystemServiceHelper.getSystemService("package"),
         ).grantRuntimePermission(packageName, permissionName, userId)

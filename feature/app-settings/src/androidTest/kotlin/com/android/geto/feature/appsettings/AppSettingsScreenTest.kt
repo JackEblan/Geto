@@ -64,6 +64,7 @@ class AppSettingsScreenTest {
                 setPrimaryClipResult = false,
                 templateDialogUiState = TemplateDialogUiState.Loading,
                 onNavigationIconClick = {},
+                onShizuku = {},
                 onEvent = {},
             )
         }
@@ -89,6 +90,7 @@ class AppSettingsScreenTest {
                 setPrimaryClipResult = false,
                 templateDialogUiState = TemplateDialogUiState.Loading,
                 onNavigationIconClick = {},
+                onShizuku = {},
                 onEvent = {},
             )
         }
@@ -114,6 +116,7 @@ class AppSettingsScreenTest {
                 setPrimaryClipResult = false,
                 templateDialogUiState = TemplateDialogUiState.Loading,
                 onNavigationIconClick = {},
+                onShizuku = {},
                 onEvent = {},
             )
         }

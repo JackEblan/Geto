@@ -15,8 +15,7 @@
  *   limitations under the License.
  *
  */
-
-package com.android.geto.feature.permission
+package com.android.geto.feature.shizuku
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.consumeWindowInsets
@@ -26,6 +25,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
@@ -34,12 +34,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -50,9 +48,9 @@ import com.android.geto.core.designsystem.icon.GetoIcons
 import com.android.geto.core.domain.model.ShizukuStatus
 
 @Composable
-internal fun PermissionRoute(
+internal fun ShizukuRoute(
     modifier: Modifier = Modifier,
-    viewModel: PermissionViewModel = hiltViewModel(),
+    viewModel: ShizukuViewModel = hiltViewModel(),
     onNavigationIconClick: () -> Unit,
 ) {
     val shizukuStatus by viewModel.shizukuStatus.collectAsStateWithLifecycle()
@@ -61,7 +59,7 @@ internal fun PermissionRoute(
         SnackbarHostState()
     }
 
-    PermissionScreen(
+    ShizukuScreen(
         modifier = modifier,
         snackbarHostState = snackbarHostState,
         shizukuStatus = shizukuStatus,
@@ -71,23 +69,42 @@ internal fun PermissionRoute(
 }
 
 @Composable
-internal fun PermissionScreen(
+internal fun ShizukuScreen(
     modifier: Modifier = Modifier,
     snackbarHostState: SnackbarHostState,
-    shizukuStatus: ShizukuStatus,
-    onEvent: (PermissionEvent) -> Unit,
+    shizukuStatus: ShizukuStatus?,
+    onEvent: (ShizukuEvent) -> Unit,
     onNavigationIconClick: () -> Unit,
 ) {
-    var isBound by rememberSaveable { mutableStateOf(false) }
-
     val lifecycleOwner = LocalLifecycleOwner.current
+
+    val shizukuServiceRunning = stringResource(R.string.shizuku_service_is_unbound)
+
+    val shizukuBound = stringResource(R.string.shizuku_is_bound)
+
+    val shizukuGranted =
+        stringResource(R.string.shizuku_permission_granted_connecting_to_user_service)
+
+    val shizukuAliveBinder = stringResource(R.string.shizuku_alive_binder)
+
+    val shizukuDenied = stringResource(R.string.shizuku_permission_denied)
+
+    val shizukuUpgrade = stringResource(R.string.please_upgrade_shizuku_version)
+
+    val writeSecureSettingsGranted = stringResource(R.string.write_secure_settings_granted)
+
+    val remoteException = stringResource(R.string.something_went_wrong_with_the_request)
+
+    val shizukuError = stringResource(R.string.please_check_if_shizuku_is_properly_running)
+
+    val shizukuDeadBinder = stringResource(R.string.shizuku_dead_binder)
 
     DisposableEffect(key1 = lifecycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
             if (event == Lifecycle.Event.ON_CREATE) {
-                onEvent(PermissionEvent.OnCreate)
+                onEvent(ShizukuEvent.OnCreate)
             } else if (event == Lifecycle.Event.ON_DESTROY) {
-                onEvent(PermissionEvent.OnDestroy)
+                onEvent(ShizukuEvent.OnDestroy)
             }
         }
 
@@ -101,59 +118,91 @@ internal fun PermissionScreen(
     LaunchedEffect(key1 = shizukuStatus) {
         when (shizukuStatus) {
             ShizukuStatus.UnBound -> {
-                isBound = false
+                snackbarHostState.showSnackbar(
+                    message = shizukuServiceRunning,
+                    duration = SnackbarDuration.Indefinite,
+                )
             }
 
             ShizukuStatus.Bound -> {
+                snackbarHostState.showSnackbar(
+                    message = shizukuBound,
+                    duration = SnackbarDuration.Indefinite,
+                )
             }
 
             ShizukuStatus.Granted -> {
-                snackbarHostState.showSnackbar(message = "Shizuku Permission Granted")
-            }
-
-            ShizukuStatus.Denied -> {
-                snackbarHostState.showSnackbar(message = "Shizuku Permission Denied")
-            }
-
-            ShizukuStatus.UpgradeShizuku -> {
-                snackbarHostState.showSnackbar(message = "Please upgrade Shizuku version")
-            }
-
-            ShizukuStatus.CanWriteSecureSettings -> {
-                isBound = true
-
-                snackbarHostState.showSnackbar(message = "Write Secure Settings granted")
-            }
-
-            ShizukuStatus.RemoteException -> {
-                snackbarHostState.showSnackbar(message = "Something went wrong")
-            }
-
-            ShizukuStatus.DeadBinder -> {
-                snackbarHostState.showSnackbar(message = "Shizuku Service not running")
+                snackbarHostState.showSnackbar(
+                    message = shizukuGranted,
+                    duration = SnackbarDuration.Indefinite,
+                )
             }
 
             ShizukuStatus.AliveBinder -> {
-                snackbarHostState.showSnackbar(message = "Shizuku Service running")
+                snackbarHostState.showSnackbar(
+                    message = shizukuAliveBinder,
+                    duration = SnackbarDuration.Indefinite,
+                )
             }
 
-            ShizukuStatus.Loading -> {
-                snackbarHostState.showSnackbar(message = "Connecting to Shizuku")
+            ShizukuStatus.Denied -> {
+                snackbarHostState.showSnackbar(
+                    message = shizukuDenied,
+                    duration = SnackbarDuration.Indefinite,
+                )
+            }
+
+            ShizukuStatus.UpgradeShizuku -> {
+                snackbarHostState.showSnackbar(
+                    message = shizukuUpgrade,
+                    duration = SnackbarDuration.Indefinite,
+                )
+            }
+
+            ShizukuStatus.CanWriteSecureSettings -> {
+                snackbarHostState.showSnackbar(
+                    message = writeSecureSettingsGranted,
+                    duration = SnackbarDuration.Indefinite,
+                )
+            }
+
+            ShizukuStatus.RemoteException -> {
+                snackbarHostState.showSnackbar(
+                    message = remoteException,
+                    duration = SnackbarDuration.Indefinite,
+                )
+            }
+
+            ShizukuStatus.Error -> {
+                snackbarHostState.showSnackbar(
+                    message = shizukuError,
+                    duration = SnackbarDuration.Indefinite,
+                )
+            }
+
+            ShizukuStatus.DeadBinder -> {
+                snackbarHostState.showSnackbar(
+                    message = shizukuDeadBinder,
+                    duration = SnackbarDuration.Indefinite,
+                )
+            }
+
+            null -> {
             }
         }
     }
 
     Scaffold(
         topBar = {
-            AppSettingsTopAppBar(
-                title = "Permission",
+            ShizukuTopAppBar(
+                title = "Shizuku",
                 onNavigationIconClick = onNavigationIconClick,
             )
         },
         snackbarHost = {
             SnackbarHost(
                 hostState = snackbarHostState,
-                modifier = Modifier.testTag("appSettings:snackbar"),
+                modifier = Modifier.testTag("shizuku:snackbar"),
             )
         },
     ) { innerPadding ->
@@ -165,9 +214,9 @@ internal fun PermissionScreen(
         ) {
             AnimatedWavyCircle(
                 modifier = modifier.fillMaxSize(),
-                active = isBound,
+                active = shizukuStatus == ShizukuStatus.CanWriteSecureSettings,
                 onClick = {
-                    onEvent(PermissionEvent.CheckShizukuPermission)
+                    onEvent(ShizukuEvent.CheckShizukuShizuku)
                 },
             )
         }
@@ -176,7 +225,7 @@ internal fun PermissionScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun AppSettingsTopAppBar(
+private fun ShizukuTopAppBar(
     modifier: Modifier = Modifier,
     title: String,
     onNavigationIconClick: () -> Unit,
@@ -185,7 +234,7 @@ private fun AppSettingsTopAppBar(
         title = {
             Text(text = title, maxLines = 1)
         },
-        modifier = modifier.testTag("permission:topAppBar"),
+        modifier = modifier.testTag("shizuku:topAppBar"),
         navigationIcon = {
             IconButton(onClick = onNavigationIconClick) {
                 Icon(

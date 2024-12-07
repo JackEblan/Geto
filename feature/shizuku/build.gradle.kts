@@ -24,7 +24,7 @@ plugins {
 }
 
 android {
-    namespace = "com.android.geto.feature.permission"
+    namespace = "com.android.geto.feature.shizuku"
 }
 
 dependencies {

@@ -124,7 +124,7 @@ internal fun AppSettingsRoute(
     viewModel: AppSettingsViewModel = hiltViewModel(),
     appSettingsRouteData: AppSettingsRouteData,
     onNavigationIconClick: () -> Unit,
-    onPermission: () -> Unit,
+    onShizuku: () -> Unit,
 ) {
     val appSettingsUiState by viewModel.appSettingsUiState.collectAsStateWithLifecycle()
 
@@ -166,7 +166,7 @@ internal fun AppSettingsRoute(
         setPrimaryClipResult = setPrimaryClipResult,
         templateDialogUiState = templateDialogUiState,
         onNavigationIconClick = onNavigationIconClick,
-        onPermission = onPermission,
+        onShizuku = onShizuku,
         onEvent = viewModel::onEvent,
     )
 }
@@ -189,7 +189,7 @@ internal fun AppSettingsScreen(
     setPrimaryClipResult: Boolean,
     templateDialogUiState: TemplateDialogUiState,
     onNavigationIconClick: () -> Unit,
-    onPermission: () -> Unit,
+    onShizuku: () -> Unit,
     onEvent: (AppSettingsEvent) -> Unit,
 ) {
     var showPermissionDialog by rememberSaveable { mutableStateOf(false) }
@@ -212,7 +212,7 @@ internal fun AppSettingsScreen(
         autoLaunchResult = autoLaunchResult,
         requestPinShortcutResult = requestPinShortcutResult,
         setPrimaryClipResult = setPrimaryClipResult,
-        onShowPermissionDialog = onPermission,
+        onShizuku = onShizuku,
         onResetApplyAppSettingsResult = { onEvent(ResetApplyAppSettingsResult) },
         onResetRevertAppSettingsResult = { onEvent(ResetRevertAppSettingsResult) },
         onResetAutoLaunchResult = { onEvent(ResetAutoLaunchResult) },
@@ -334,7 +334,7 @@ private fun AppSettingsLaunchedEffects(
     autoLaunchResult: AppSettingsResult?,
     requestPinShortcutResult: RequestPinShortcutResult?,
     setPrimaryClipResult: Boolean,
-    onShowPermissionDialog: () -> Unit,
+    onShizuku: () -> Unit,
     onResetApplyAppSettingsResult: () -> Unit,
     onResetRevertAppSettingsResult: () -> Unit,
     onResetAutoLaunchResult: () -> Unit,
@@ -399,7 +399,7 @@ private fun AppSettingsLaunchedEffects(
             }
 
             NoPermission -> {
-                onShowPermissionDialog()
+                onShizuku()
             }
 
             Success -> {
@@ -437,7 +437,7 @@ private fun AppSettingsLaunchedEffects(
             }
 
             NoPermission -> {
-                onShowPermissionDialog()
+                onShizuku()
             }
 
             Success -> {
@@ -461,7 +461,7 @@ private fun AppSettingsLaunchedEffects(
     LaunchedEffect(key1 = autoLaunchResult) {
         when (autoLaunchResult) {
             NoPermission -> {
-                onShowPermissionDialog()
+                onShizuku()
             }
 
             Success -> {

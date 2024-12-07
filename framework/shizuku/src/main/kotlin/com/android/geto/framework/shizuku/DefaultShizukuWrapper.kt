@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.framework.shizuku
 
 import android.Manifest
@@ -35,7 +34,6 @@ import rikka.shizuku.Shizuku
 import rikka.shizuku.Shizuku.OnRequestPermissionResultListener
 import javax.inject.Inject
 
-
 class DefaultShizukuWrapper @Inject constructor(@ApplicationContext private val context: Context) :
     ShizukuWrapper {
     private val requestPermissionResult = 1
@@ -46,6 +44,8 @@ class DefaultShizukuWrapper @Inject constructor(@ApplicationContext private val 
                 _shizukuStatus.tryEmit(
                     ShizukuStatus.Granted,
                 )
+
+                updateUserService()
             } else {
                 _shizukuStatus.tryEmit(
                     ShizukuStatus.Denied,
@@ -65,41 +65,35 @@ class DefaultShizukuWrapper @Inject constructor(@ApplicationContext private val 
     private val _shizukuStatus =
         MutableSharedFlow<ShizukuStatus>(replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
 
+    private var _bound = false
+
     override val shizukuStatus = _shizukuStatus.asSharedFlow()
-
-    private var _isBinderAlive = false
-
-    private var _isBound = false
 
     private val connection = object : ServiceConnection {
         override fun onServiceConnected(componentName: ComponentName, binder: IBinder?) {
+            _bound = true
+
             if (binder != null && binder.pingBinder()) {
                 userService = IUserService.Stub.asInterface(binder)
-
-                _isBound = true
 
                 grantRuntimePermission()
             }
         }
 
         override fun onServiceDisconnected(componentName: ComponentName) {
-            userService = null
+            _bound = false
 
-            _isBound = false
+            userService = null
         }
     }
 
     private val onBinderReceivedListener = Shizuku.OnBinderReceivedListener {
-        _isBinderAlive = true
-
         _shizukuStatus.tryEmit(
             ShizukuStatus.AliveBinder,
         )
     }
 
     private val onBinderDeadListener = Shizuku.OnBinderDeadListener {
-        _isBinderAlive = false
-
         _shizukuStatus.tryEmit(
             ShizukuStatus.DeadBinder,
         )
@@ -122,34 +116,27 @@ class DefaultShizukuWrapper @Inject constructor(@ApplicationContext private val 
     }
 
     override fun checkShizukuPermission() {
-        if (_isBinderAlive.not()) {
+        try {
+            if (Shizuku.isPreV11()) {
+                _shizukuStatus.tryEmit(
+                    ShizukuStatus.Denied,
+                )
+            } else if (Shizuku.shouldShowRequestPermissionRationale()) {
+                _shizukuStatus.tryEmit(
+                    ShizukuStatus.Denied,
+                )
+            } else {
+                Shizuku.requestPermission(requestPermissionResult)
+            }
+        } catch (e: Throwable) {
             _shizukuStatus.tryEmit(
-                ShizukuStatus.DeadBinder,
+                ShizukuStatus.Error,
             )
-            return
-        }
-
-        if (Shizuku.isPreV11()) {
-            _shizukuStatus.tryEmit(
-                ShizukuStatus.Denied,
-            )
-        } else if (Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED) {
-            _shizukuStatus.tryEmit(
-                ShizukuStatus.Loading,
-            )
-
-            updateUserService()
-        } else if (Shizuku.shouldShowRequestPermissionRationale()) {
-            _shizukuStatus.tryEmit(
-                ShizukuStatus.Denied,
-            )
-        } else {
-            Shizuku.requestPermission(requestPermissionResult)
         }
     }
 
     private fun updateUserService() {
-        if (_isBound) {
+        if (_bound) {
             unbindUserService()
         } else {
             bindUserService()
@@ -168,8 +155,6 @@ class DefaultShizukuWrapper @Inject constructor(@ApplicationContext private val 
 
     private fun unbindUserService() {
         Shizuku.unbindUserService(serviceArgs, connection, true)
-
-        _isBound = false
 
         _shizukuStatus.tryEmit(
             ShizukuStatus.UnBound,

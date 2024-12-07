@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.framework.shizuku
 
 import com.android.geto.core.domain.framework.ShizukuWrapper

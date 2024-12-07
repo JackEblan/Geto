@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.core.domain.model
 
 data class ShizukuResult(
@@ -23,5 +22,14 @@ data class ShizukuResult(
 )
 
 enum class ShizukuStatus {
-    UnBound, Bound, Granted, Denied, UpgradeShizuku, CanWriteSecureSettings, RemoteException, AliveBinder, DeadBinder, Loading,
+    UnBound,
+    Bound,
+    Granted,
+    Denied,
+    UpgradeShizuku,
+    CanWriteSecureSettings,
+    RemoteException,
+    AliveBinder,
+    DeadBinder,
+    Error,
 }

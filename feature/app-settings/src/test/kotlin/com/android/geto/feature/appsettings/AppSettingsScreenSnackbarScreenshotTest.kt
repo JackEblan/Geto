@@ -87,6 +87,7 @@ class AppSettingsScreenSnackbarScreenshotTest {
                     setPrimaryClipResult = false,
                     templateDialogUiState = TemplateDialogUiState.Loading,
                     onNavigationIconClick = {},
+                    onShizuku = {},
                     onEvent = {},
                 )
             }

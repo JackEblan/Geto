@@ -15,16 +15,16 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.feature.permission.navigation
+package com.android.geto.feature.shizuku.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.android.geto.feature.permission.PermissionRoute
+import com.android.geto.feature.shizuku.ShizukuRoute
 
-fun NavController.navigateToPermission() {
-    navigate(PermissionRouteData) {
+fun NavController.navigateToShizuku() {
+    navigate(ShizukuRouteData) {
         popUpTo(graph.findStartDestination().id) {
             saveState = true
         }
@@ -33,8 +33,8 @@ fun NavController.navigateToPermission() {
     }
 }
 
-fun NavGraphBuilder.permissionScreen(onNavigationIconClick: () -> Unit) {
-    composable<PermissionRouteData> {
-        PermissionRoute(onNavigationIconClick = onNavigationIconClick)
+fun NavGraphBuilder.shizukuScreen(onNavigationIconClick: () -> Unit) {
+    composable<ShizukuRouteData> {
+        ShizukuRoute(onNavigationIconClick = onNavigationIconClick)
     }
 }
