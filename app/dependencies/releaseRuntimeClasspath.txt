@@ -132,7 +132,6 @@ dev.rikka.shizuku:aidl:13.1.5
 dev.rikka.shizuku:api:13.1.5
 dev.rikka.shizuku:provider:13.1.5
 dev.rikka.shizuku:shared:13.1.5
-dev.rikka.tools.refine:runtime:4.4.0
 io.coil-kt:coil-base:2.6.0
 io.coil-kt:coil-compose-base:2.6.0
 io.coil-kt:coil-compose:2.6.0
@@ -154,4 +153,3 @@ org.jetbrains.kotlinx:kotlinx-serialization-core:1.6.3
 org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.6.3
 org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3
 org.jetbrains:annotations:23.0.0
-org.lsposed.hiddenapibypass:hiddenapibypass:4.3
