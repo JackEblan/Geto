@@ -50,10 +50,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -87,7 +84,6 @@ import com.android.geto.core.domain.model.SettingType
 import com.android.geto.feature.appsettings.AppSettingsEvent.AddAppSetting
 import com.android.geto.feature.appsettings.AppSettingsEvent.ApplyAppSettings
 import com.android.geto.feature.appsettings.AppSettingsEvent.CheckAppSetting
-import com.android.geto.feature.appsettings.AppSettingsEvent.CopyCommand
 import com.android.geto.feature.appsettings.AppSettingsEvent.DeleteAppSetting
 import com.android.geto.feature.appsettings.AppSettingsEvent.GetSecureSettingsByName
 import com.android.geto.feature.appsettings.AppSettingsEvent.LaunchIntentForPackage
@@ -103,7 +99,6 @@ import com.android.geto.feature.appsettings.AppSettingsEvent.RevertAppSettings
 import com.android.geto.feature.appsettings.dialog.appsetting.AppSettingDialog
 import com.android.geto.feature.appsettings.dialog.appsetting.AppSettingDialogState
 import com.android.geto.feature.appsettings.dialog.appsetting.rememberAppSettingDialogState
-import com.android.geto.feature.appsettings.dialog.command.CommandDialog
 import com.android.geto.feature.appsettings.dialog.shortcut.ShortcutDialog
 import com.android.geto.feature.appsettings.dialog.shortcut.ShortcutDialogState
 import com.android.geto.feature.appsettings.dialog.shortcut.rememberShortcutDialogState
@@ -192,8 +187,6 @@ internal fun AppSettingsScreen(
     onShizuku: () -> Unit,
     onEvent: (AppSettingsEvent) -> Unit,
 ) {
-    var showPermissionDialog by rememberSaveable { mutableStateOf(false) }
-
     val appSettingDialogState = rememberAppSettingDialogState()
 
     val shortcutDialogState = rememberShortcutDialogState()
@@ -240,25 +233,13 @@ internal fun AppSettingsScreen(
     )
 
     AppSettingsDialogs(
-        showPermissionDialog = showPermissionDialog,
         appSettingDialogState = appSettingDialogState,
         shortcutDialogState = shortcutDialogState,
         templateDialogUiState = templateDialogUiState,
         templateDialogState = templateDialogState,
         packageName = packageName,
         onAddAppSetting = { onEvent(AddAppSetting(it)) },
-        onCopyCommand = { label, text ->
-            onEvent(
-                CopyCommand(
-                    label = label,
-                    text = text,
-                ),
-            )
-        },
         onAddShortcut = { onEvent(RequestPinShortcut(it)) },
-        onPermissionDialogDismissRequest = {
-            showPermissionDialog = false
-        },
     )
 
     Scaffold(
@@ -588,16 +569,13 @@ private fun AppSettingsLaunchedEffects(
 
 @Composable
 private fun AppSettingsDialogs(
-    showPermissionDialog: Boolean,
     appSettingDialogState: AppSettingDialogState,
     shortcutDialogState: ShortcutDialogState,
     templateDialogUiState: TemplateDialogUiState,
     templateDialogState: TemplateDialogState,
     packageName: String,
     onAddAppSetting: (AppSetting) -> Unit,
-    onCopyCommand: (String, String) -> Unit,
     onAddShortcut: (GetoShortcutInfoCompat) -> Unit,
-    onPermissionDialogDismissRequest: () -> Unit,
 ) {
     if (appSettingDialogState.showDialog) {
         AppSettingDialog(
@@ -605,14 +583,6 @@ private fun AppSettingsDialogs(
             packageName = packageName,
             onAddClick = onAddAppSetting,
             contentDescription = "Add App Settings Dialog",
-        )
-    }
-
-    if (showPermissionDialog) {
-        CommandDialog(
-            onCopyClick = onCopyCommand,
-            contentDescription = "Command Dialog",
-            onDismissRequest = onPermissionDialogDismissRequest,
         )
     }
 
