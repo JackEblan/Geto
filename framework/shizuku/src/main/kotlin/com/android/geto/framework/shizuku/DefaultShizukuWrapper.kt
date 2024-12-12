@@ -34,7 +34,7 @@ import rikka.shizuku.Shizuku
 import rikka.shizuku.Shizuku.OnRequestPermissionResultListener
 import javax.inject.Inject
 
-class DefaultShizukuWrapper @Inject constructor(@ApplicationContext private val context: Context) :
+internal class DefaultShizukuWrapper @Inject constructor(@ApplicationContext private val context: Context) :
     ShizukuWrapper {
     private val requestPermissionResult = 1
 

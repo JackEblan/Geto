@@ -21,7 +21,7 @@ import android.content.pm.IPackageManager
 import rikka.shizuku.SystemServiceHelper
 import kotlin.system.exitProcess
 
-class UserService : IUserService.Stub() {
+internal class UserService : IUserService.Stub() {
     override fun destroy() {
         exitProcess(1)
     }
