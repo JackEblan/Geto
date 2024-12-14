@@ -163,10 +163,14 @@ internal class DefaultShizukuWrapper @Inject constructor(@ApplicationContext pri
 
     private fun grantRuntimePermission() {
         try {
+            val isRoot = Shizuku.getUid() == 0
+
+            val userId = if (isRoot) android.os.Process.myUserHandle().hashCode() else 0
+
             userService?.grantRuntimePermission(
                 context.packageName,
                 Manifest.permission.WRITE_SECURE_SETTINGS,
-                0,
+                userId,
             )
 
             _shizukuStatus.tryEmit(
