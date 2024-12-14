@@ -1,7 +1,9 @@
--keep class com.android.geto.framework.shizuku.** { *; }
+-keepclassmembers class com.android.geto.framework.shizuku.UserService {
+    public <init>(...);
+}
 
--keep class rikka.shizuku.** { *; }
-
-# Don't remove these rules or else you will get Security exception User does not exists.
--dontobfuscate
--dontoptimize
+# Need to keep AIDL files as it is
+-keep class android.content.pm.IPackageManager { *; }
+-keep class android.content.pm.IPackageManager$Default { *; }
+-keep class android.content.pm.IPackageManager$Stub { *; }
+-keep class android.content.pm.IPackageManager$Stub$Proxy { *; }
