@@ -4,7 +4,7 @@
 
 # Geto
 
-Apply custom settings to your apps
+Apply device settings to your apps
 
 ![GitHub Release](https://img.shields.io/github/v/release/JackEblan/Geto?style=for-the-badge)
 ![GitHub License](https://img.shields.io/github/license/JackEblan/Geto?style=for-the-badge)
