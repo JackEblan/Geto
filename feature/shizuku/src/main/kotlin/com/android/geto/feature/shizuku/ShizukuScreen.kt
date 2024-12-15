@@ -195,7 +195,7 @@ internal fun ShizukuScreen(
     Scaffold(
         topBar = {
             ShizukuTopAppBar(
-                title = "Shizuku",
+                title = stringResource(R.string.shizuku),
                 onNavigationIconClick = onNavigationIconClick,
             )
         },
@@ -216,7 +216,7 @@ internal fun ShizukuScreen(
                 modifier = modifier.fillMaxSize(),
                 active = shizukuStatus == ShizukuStatus.CanWriteSecureSettings,
                 onClick = {
-                    onEvent(ShizukuEvent.CheckShizukuShizuku)
+                    onEvent(ShizukuEvent.CheckShizukuPermission)
                 },
             )
         }

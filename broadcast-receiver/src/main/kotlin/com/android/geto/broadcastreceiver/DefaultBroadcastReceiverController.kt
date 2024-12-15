@@ -17,20 +17,18 @@
  */
 package com.android.geto.broadcastreceiver
 
-import com.android.geto.core.common.Dispatcher
-import com.android.geto.core.common.GetoDispatchers.IO
+import com.android.geto.core.common.di.ApplicationScope
 import com.android.geto.core.domain.broadcastreceiver.BroadcastReceiverController
 import com.android.geto.core.domain.foregroundservice.UsageStatsForegroundServiceManager
 import com.android.geto.core.domain.framework.NotificationManagerWrapper
 import com.android.geto.core.domain.model.AppSettingsResult
 import com.android.geto.core.domain.usecase.RevertAppSettingsUseCase
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 internal class DefaultBroadcastReceiverController @Inject constructor(
-    @Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher,
+    @ApplicationScope private val appScope: CoroutineScope,
     private val revertAppSettingsUseCase: RevertAppSettingsUseCase,
     private val notificationManagerWrapper: NotificationManagerWrapper,
     private val usageStatsForegroundServiceManager: UsageStatsForegroundServiceManager,
@@ -38,7 +36,7 @@ internal class DefaultBroadcastReceiverController @Inject constructor(
     override fun revertSettings(packageName: String?, notificationId: Int?) {
         if (packageName == null || notificationId == null) return
 
-        CoroutineScope(ioDispatcher).launch {
+        appScope.launch {
             if (revertAppSettingsUseCase(packageName = packageName) == AppSettingsResult.Success) {
                 notificationManagerWrapper.cancel(notificationId)
             }

@@ -26,4 +26,5 @@
     <string name="something_went_wrong_with_the_request">Something went wrong with the request</string>
     <string name="please_check_if_shizuku_is_properly_running">Please check if Shizuku is properly running</string>
     <string name="shizuku_dead_binder">Shizuku dead binder</string>
+    <string name="shizuku">Shizuku</string>
 </resources>
