@@ -37,7 +37,7 @@ class ShizukuViewModel @Inject constructor(private val shizukuWrapper: ShizukuWr
 
     fun onEvent(event: ShizukuEvent) {
         when (event) {
-            ShizukuEvent.CheckShizukuShizuku -> {
+            ShizukuEvent.CheckShizukuPermission -> {
                 shizukuWrapper.checkShizukuPermission()
             }
 

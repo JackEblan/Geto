@@ -80,6 +80,8 @@ class AndroidUsageStatsForegroundServiceManager @Inject constructor(@Application
 
         _isBound = false
 
-        _isActive.tryEmit(context.stopService(usageStatsServiceIntent).not())
+        context.stopService(usageStatsServiceIntent)
+
+        _isActive.tryEmit(false)
     }
 }
