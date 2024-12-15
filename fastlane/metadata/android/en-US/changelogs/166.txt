@@ -1,0 +1,3 @@
+What's new
+- Improved performance and stability
+- Decreased APK size by 30%
