@@ -1,4 +1,4 @@
-package: name='com.android.geto' versionCode='165' versionName='1.16.5' platformBuildVersionName='14' platformBuildVersionCode='34' compileSdkVersion='34' compileSdkVersionCodename='14'
+package: name='com.android.geto' versionCode='166' versionName='1.16.6' platformBuildVersionName='14' platformBuildVersionCode='34' compileSdkVersion='34' compileSdkVersionCodename='14'
 sdkVersion:'24'
 targetSdkVersion:'34'
 uses-permission: name='android.permission.POST_NOTIFICATIONS'
