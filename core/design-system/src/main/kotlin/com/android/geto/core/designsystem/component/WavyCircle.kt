@@ -67,7 +67,7 @@ fun WavyCircle(
         val centerX = size.width / 2
         val centerY = size.height / 2
         val waveFrequency = 12
-        val waveAmplitude = 20f
+        val waveAmplitude = radius * 0.10f
 
         val path = Path().apply {
             for (i in 0..360 step 1) {
@@ -141,7 +141,7 @@ fun AnimatedWavyCircle(
         val centerX = size.width / 2
         val centerY = size.height / 2
         val waveFrequency = 12
-        val waveAmplitude = 20f
+        val waveAmplitude = radius * 0.05f
 
         val path = Path().apply {
             for (i in 0..360 step 1) {
