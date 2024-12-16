@@ -72,7 +72,7 @@ class ForegroundServiceAppSettingsUseCaseTest {
     }
 
     @Test
-    fun foregroundServiceAppSettingsUseCase_isSuccess() = runTest {
+    fun foregroundServiceAppSettingsUseCase_isSuccess_whenActivityResumed() = runTest {
         val appSettings = List(5) { index ->
             AppSetting(
                 id = index,
@@ -103,7 +103,7 @@ class ForegroundServiceAppSettingsUseCaseTest {
     }
 
     @Test
-    fun foregroundServiceAppSettingsUseCase_isIgnore() = runTest {
+    fun foregroundServiceAppSettingsUseCase_isIgnore_whenActivityResumed() = runTest {
         appSettingsRepository.setAppSettings(emptyList())
 
         secureSettingsRepository.setWriteSecureSettings(false)
@@ -112,6 +112,25 @@ class ForegroundServiceAppSettingsUseCaseTest {
             GetoUsageEvent(
                 packageName = packageName,
                 getoLifeCycle = GetoLifeCycle.ACTIVITY_RESUMED,
+            ),
+        )
+
+        assertEquals(
+            expected = ForegroundServiceAppSettingsResult.Ignore,
+            actual = foregroundServiceAppSettingsUseCase().first(),
+        )
+    }
+
+    @Test
+    fun foregroundServiceAppSettingsUseCase_isIgnore_whenActivityPaused() = runTest {
+        appSettingsRepository.setAppSettings(emptyList())
+
+        secureSettingsRepository.setWriteSecureSettings(false)
+
+        usageStatsManagerWrapper.setGetoUsageEvent(
+            GetoUsageEvent(
+                packageName = packageName,
+                getoLifeCycle = GetoLifeCycle.ACTIVITY_PAUSED,
             ),
         )
 
