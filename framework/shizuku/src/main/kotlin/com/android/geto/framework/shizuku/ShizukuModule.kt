@@ -30,5 +30,5 @@ internal interface ShizukuModule {
 
     @Binds
     @Singleton
-    fun secureSettingsWrapper(impl: DefaultShizukuWrapper): ShizukuWrapper
+    fun shizukuWrapper(impl: DefaultShizukuWrapper): ShizukuWrapper
 }

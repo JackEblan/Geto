@@ -15,7 +15,7 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.framework.packagemanager.test
+package com.android.geto.framework.test
 
 import com.android.geto.core.domain.framework.PackageManagerWrapper
 import com.android.geto.core.domain.model.GetoApplicationInfo

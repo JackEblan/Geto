@@ -66,7 +66,7 @@ include(":framework:shizuku")
 include(":framework:shortcut-manager")
 include(":framework:usage-stats-manager")
 
-include(":framework:package-manager-test")
+include(":framework:framework-test")
 
 include(":foreground-service")
 
