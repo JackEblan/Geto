@@ -34,5 +34,5 @@ internal interface TestFrameworkModule {
 
     @Binds
     @Singleton
-    fun bind(impl: FakePackageManagerWrapper): PackageManagerWrapper
+    fun packageManagerWrapper(impl: FakePackageManagerWrapper): PackageManagerWrapper
 }
