@@ -15,7 +15,7 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.framework.packagemanager.test
+package com.android.geto.framework.test
 
 import com.android.geto.core.domain.framework.PackageManagerWrapper
 import com.android.geto.framework.packagemanager.PackageManagerModule
@@ -30,9 +30,9 @@ import javax.inject.Singleton
     components = [SingletonComponent::class],
     replaces = [PackageManagerModule::class],
 )
-internal interface TestPackageManagerModule {
+internal interface TestFrameworkModule {
 
     @Binds
     @Singleton
-    fun packageManagerWrapper(impl: FakePackageManagerWrapper): PackageManagerWrapper
+    fun bind(impl: FakePackageManagerWrapper): PackageManagerWrapper
 }
