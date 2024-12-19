@@ -54,10 +54,9 @@ internal class AndroidUsageStatsManagerWrapper @Inject constructor(
             val end = System.currentTimeMillis()
             val start = end - interval
             val events = usageStatsManager?.queryEvents(start, end)
+            val event = UsageEvents.Event()
 
             while (events?.hasNextEvent() == true) {
-                val event = UsageEvents.Event()
-
                 events.getNextEvent(event)
 
                 when (event.eventType) {
