@@ -37,6 +37,7 @@ dependencies {
     implementation(libs.kotlinx.coroutines.test)
 
     implementation(projects.core.common)
+    implementation(projects.core.data)
     implementation(projects.core.domain)
 
     implementation(projects.broadcastReceiver)
