@@ -23,11 +23,18 @@ plugins {
 }
 
 android {
-    namespace = "com.android.geto.framework.packagemanager.test"
+    namespace = "com.android.geto.framework.test"
 }
 
 dependencies {
+    implementation(projects.framework.assetManager)
+    implementation(projects.framework.clipboardManager)
+    implementation(projects.framework.notificationManager)
     implementation(projects.framework.packageManager)
+    implementation(projects.framework.secureSettings)
+    implementation(projects.framework.shizuku)
+    implementation(projects.framework.shortcutManager)
+    implementation(projects.framework.usageStatsManager)
     implementation(projects.core.domain)
 
     implementation(libs.hilt.android.testing)

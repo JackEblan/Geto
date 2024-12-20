@@ -18,6 +18,7 @@
 package com.android.geto.navigation
 
 import androidx.annotation.StringRes
+import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.hasParent
@@ -27,6 +28,7 @@ import androidx.compose.ui.test.isSelectable
 import androidx.compose.ui.test.isSelected
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onFirst
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.performClick
 import com.android.geto.MainActivity
@@ -88,16 +90,23 @@ class NavigationTest {
     @Test
     fun appSettingsScreen_isDisplayed_whenGetoApplicationInfoItem_isClicked() {
         composeTestRule.apply {
-            onAllNodes(hasTestTag("apps:appItem"))[0].performClick()
+            val appItemSemanticInteraction = onAllNodes(hasTestTag("apps:appItem")).onFirst()
 
-            onNode(hasText("Geto 0") and hasParent(hasTestTag("appSettings:topAppBar"))).assertIsDisplayed()
+            val appItemText = onAllNodes(hasTestTag("apps:appItem")).onFirst()
+                .fetchSemanticsNode().config[SemanticsProperties.Text].first()
+
+            appItemSemanticInteraction.performClick()
+
+            onNode(hasText(appItemText.text) and hasParent(hasTestTag("appSettings:topAppBar"))).assertIsDisplayed()
         }
     }
 
     @Test
     fun appsScreen_isDisplayed_whenNavigateUp_fromAppSettingsScreen() {
         composeTestRule.apply {
-            onAllNodes(hasTestTag("apps:appItem"))[0].performClick()
+            val appItemSemanticInteraction = onAllNodes(hasTestTag("apps:appItem")).onFirst()
+
+            appItemSemanticInteraction.performClick()
 
             onNodeWithContentDescription(
                 label = "Navigation icon",

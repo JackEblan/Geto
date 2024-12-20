@@ -17,6 +17,7 @@
  */
 package com.android.geto.framework.clipboardmanager
 
+import com.android.geto.core.domain.framework.ClipboardManagerWrapper
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -29,5 +30,5 @@ internal interface ClipboardManagerModule {
 
     @Binds
     @Singleton
-    fun clipboardManagerWrapper(impl: AndroidClipboardManagerWrapper): com.android.geto.core.domain.framework.ClipboardManagerWrapper
+    fun clipboardManagerWrapper(impl: AndroidClipboardManagerWrapper): ClipboardManagerWrapper
 }
