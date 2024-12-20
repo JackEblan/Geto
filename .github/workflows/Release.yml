@@ -44,6 +44,7 @@ jobs:
         with:
           validate-wrappers: true
           gradle-home-cache-cleanup: true
+          cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
