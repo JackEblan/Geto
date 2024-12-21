@@ -25,7 +25,6 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
-import android.os.Build
 import androidx.core.graphics.drawable.toBitmap
 import com.android.geto.core.common.Dispatcher
 import com.android.geto.core.common.GetoDispatchers.Default
@@ -52,17 +51,12 @@ class AndroidPackageManagerWrapper @Inject constructor(
             addCategory(Intent.CATEGORY_LAUNCHER)
         }
 
-        val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            PackageManager.MATCH_ALL
-        } else {
-            PackageManager.MATCH_DEFAULT_ONLY
-        }
-
         return withContext(defaultDispatcher) {
             val intentActivities =
-                packageManager.queryIntentActivities(intent, flags).map { resolveInfo ->
-                    resolveInfo.activityInfo.applicationInfo.toGetoApplicationInfo()
-                }
+                packageManager.queryIntentActivities(intent, PackageManager.MATCH_ALL)
+                    .map { resolveInfo ->
+                        resolveInfo.activityInfo.applicationInfo.toGetoApplicationInfo()
+                    }
 
             intentActivities.filter { applicationInfo ->
                 (applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM) == 0

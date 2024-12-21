@@ -168,12 +168,14 @@ internal class AndroidNotificationManagerWrapper @Inject constructor(@Applicatio
         ).apply {
             setSmallIcon(R.drawable.baseline_settings_24)
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && icon != null) {
-                setLargeIcon(Icon.createWithData(icon, 0, icon.size))
+            icon?.let {
+                setLargeIcon(Icon.createWithData(icon, 0, it.size))
             }
 
-            setContentTitle(contentTitle).setContentText(contentText)
-            setPriority(NotificationCompat.PRIORITY_DEFAULT).addAction(
+            setContentTitle(contentTitle)
+            setContentText(contentText)
+            setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            addAction(
                 R.drawable.baseline_settings_24,
                 context.getString(R.string.revert),
                 revertPendingIntent,

@@ -22,12 +22,13 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.os.Build
 import androidx.core.content.getSystemService
+import com.android.geto.core.domain.framework.ClipboardManagerWrapper
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 internal class AndroidClipboardManagerWrapper @Inject constructor(
     @ApplicationContext private val context: Context,
-) : com.android.geto.core.domain.framework.ClipboardManagerWrapper {
+) : ClipboardManagerWrapper {
 
     private val clipboardManager = context.getSystemService<ClipboardManager>()
 
