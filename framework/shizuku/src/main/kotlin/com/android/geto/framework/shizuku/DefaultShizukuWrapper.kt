@@ -113,6 +113,10 @@ internal class DefaultShizukuWrapper @Inject constructor(@ApplicationContext pri
         Shizuku.removeBinderReceivedListener(onBinderReceivedListener)
 
         Shizuku.removeBinderDeadListener(onBinderDeadListener)
+
+        if (_bound) {
+            unbindUserService()
+        }
     }
 
     override fun checkShizukuPermission() {
@@ -163,14 +167,9 @@ internal class DefaultShizukuWrapper @Inject constructor(@ApplicationContext pri
 
     private fun grantRuntimePermission() {
         try {
-            val isRoot = Shizuku.getUid() == 0
-
-            val userId = if (isRoot) android.os.Process.myUserHandle().hashCode() else 0
-
             userService?.grantRuntimePermission(
                 context.packageName,
                 Manifest.permission.WRITE_SECURE_SETTINGS,
-                userId,
             )
 
             _shizukuStatus.tryEmit(
