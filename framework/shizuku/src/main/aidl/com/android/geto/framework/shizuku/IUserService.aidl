@@ -21,5 +21,5 @@ package com.android.geto.framework.shizuku;
 interface IUserService {
     void destroy() = 16777114;
 
-    void grantRuntimePermission(String packageName, String permissionName, int userId) = 1; //You can specify your own method IDs in the AIDL. Check out the documentation for more details on this.
+    void grantRuntimePermission(String packageName, String permissionName) = 1; //You can specify your own method IDs in the AIDL. Check out the documentation for more details on this.
 }

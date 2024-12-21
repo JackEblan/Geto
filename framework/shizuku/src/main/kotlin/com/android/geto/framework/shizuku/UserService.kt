@@ -17,11 +17,20 @@
  */
 package com.android.geto.framework.shizuku
 
+import android.app.IActivityManager
 import android.content.pm.IPackageManager
 import rikka.shizuku.SystemServiceHelper
 import kotlin.system.exitProcess
 
 internal class UserService : IUserService.Stub() {
+    private val packageManager = IPackageManager.Stub.asInterface(
+        SystemServiceHelper.getSystemService("package"),
+    )
+
+    private val activityManager = IActivityManager.Stub.asInterface(
+        SystemServiceHelper.getSystemService("activity"),
+    )
+
     override fun destroy() {
         exitProcess(1)
     }
@@ -29,10 +38,11 @@ internal class UserService : IUserService.Stub() {
     override fun grantRuntimePermission(
         packageName: String?,
         permissionName: String?,
-        userId: Int,
     ) {
-        IPackageManager.Stub.asInterface(
-            SystemServiceHelper.getSystemService("package"),
-        ).grantRuntimePermission(packageName, permissionName, userId)
+        packageManager.grantRuntimePermission(
+            packageName,
+            permissionName,
+            activityManager.currentUserId,
+        )
     }
 }
