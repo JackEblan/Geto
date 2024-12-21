@@ -41,11 +41,11 @@ class ShizukuViewModel @Inject constructor(private val shizukuWrapper: ShizukuWr
                 shizukuWrapper.checkShizukuPermission()
             }
 
-            ShizukuEvent.onCreate -> {
+            ShizukuEvent.OnCreate -> {
                 shizukuWrapper.onCreate()
             }
 
-            ShizukuEvent.onDestroy -> {
+            ShizukuEvent.OnDestroy -> {
                 shizukuWrapper.onDestroy()
             }
         }

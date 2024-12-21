@@ -20,7 +20,7 @@ package com.android.geto.feature.shizuku
 sealed interface ShizukuEvent {
     data object CheckShizukuPermission : ShizukuEvent
 
-    data object onCreate : ShizukuEvent
+    data object OnCreate : ShizukuEvent
 
-    data object onDestroy : ShizukuEvent
+    data object OnDestroy : ShizukuEvent
 }
