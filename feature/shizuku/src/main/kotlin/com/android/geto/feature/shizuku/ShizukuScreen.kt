@@ -102,9 +102,9 @@ internal fun ShizukuScreen(
     DisposableEffect(key1 = lifecycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
             if (event == Lifecycle.Event.ON_CREATE) {
-                onEvent(ShizukuEvent.OnCreate)
+                onEvent(ShizukuEvent.onCreate)
             } else if (event == Lifecycle.Event.ON_DESTROY) {
-                onEvent(ShizukuEvent.OnDestroy)
+                onEvent(ShizukuEvent.onDestroy)
             }
         }
 

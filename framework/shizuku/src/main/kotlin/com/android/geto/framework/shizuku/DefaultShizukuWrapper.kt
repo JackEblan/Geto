@@ -45,7 +45,7 @@ internal class DefaultShizukuWrapper @Inject constructor(@ApplicationContext pri
                     ShizukuStatus.Granted,
                 )
 
-                updateUserService()
+                bindUserService()
             } else {
                 _shizukuStatus.tryEmit(
                     ShizukuStatus.Denied,
@@ -65,24 +65,20 @@ internal class DefaultShizukuWrapper @Inject constructor(@ApplicationContext pri
     private val _shizukuStatus =
         MutableSharedFlow<ShizukuStatus>(replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
 
-    private var _bound = false
-
     override val shizukuStatus = _shizukuStatus.asSharedFlow()
 
     private val connection = object : ServiceConnection {
         override fun onServiceConnected(componentName: ComponentName, binder: IBinder?) {
-            _bound = true
-
             if (binder != null && binder.pingBinder()) {
                 userService = IUserService.Stub.asInterface(binder)
 
-                grantRuntimePermission()
+                _shizukuStatus.tryEmit(
+                    ShizukuStatus.Bound,
+                )
             }
         }
 
         override fun onServiceDisconnected(componentName: ComponentName) {
-            _bound = false
-
             userService = null
         }
     }
@@ -113,10 +109,6 @@ internal class DefaultShizukuWrapper @Inject constructor(@ApplicationContext pri
         Shizuku.removeBinderReceivedListener(onBinderReceivedListener)
 
         Shizuku.removeBinderDeadListener(onBinderDeadListener)
-
-        if (_bound) {
-            unbindUserService()
-        }
     }
 
     override fun checkShizukuPermission() {
@@ -125,6 +117,8 @@ internal class DefaultShizukuWrapper @Inject constructor(@ApplicationContext pri
                 _shizukuStatus.tryEmit(
                     ShizukuStatus.Denied,
                 )
+            } else if (Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED) {
+                grantRuntimePermission()
             } else if (Shizuku.shouldShowRequestPermissionRationale()) {
                 _shizukuStatus.tryEmit(
                     ShizukuStatus.Denied,
@@ -136,14 +130,6 @@ internal class DefaultShizukuWrapper @Inject constructor(@ApplicationContext pri
             _shizukuStatus.tryEmit(
                 ShizukuStatus.Error,
             )
-        }
-    }
-
-    private fun updateUserService() {
-        if (_bound) {
-            unbindUserService()
-        } else {
-            bindUserService()
         }
     }
 
@@ -159,10 +145,6 @@ internal class DefaultShizukuWrapper @Inject constructor(@ApplicationContext pri
 
     private fun unbindUserService() {
         Shizuku.unbindUserService(serviceArgs, connection, true)
-
-        _shizukuStatus.tryEmit(
-            ShizukuStatus.UnBound,
-        )
     }
 
     private fun grantRuntimePermission() {
@@ -179,6 +161,8 @@ internal class DefaultShizukuWrapper @Inject constructor(@ApplicationContext pri
             _shizukuStatus.tryEmit(
                 ShizukuStatus.RemoteException,
             )
+        } finally {
+            unbindUserService()
         }
     }
 }
