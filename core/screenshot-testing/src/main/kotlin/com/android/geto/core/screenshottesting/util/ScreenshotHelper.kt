@@ -134,15 +134,15 @@ fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.c
         }
     }
 
-    swrMultiThemes.forEach { (swrGreenTheme, swrPurpleTheme, swrDarkTheme, swrDynamicTheme, swrDescription) ->
-        description = swrDescription
-        greenTheme = swrGreenTheme
-        purpleTheme = swrPurpleTheme
-        darkTheme = swrDarkTheme
-        dynamicTheme = swrDynamicTheme
+    getoMultiThemes.forEach { (getoGreenTheme, getoPurpleTheme, getoDarkTheme, getoDynamicTheme, getoDescription) ->
+        description = getoDescription
+        greenTheme = getoGreenTheme
+        purpleTheme = getoPurpleTheme
+        darkTheme = getoDarkTheme
+        dynamicTheme = getoDynamicTheme
 
         onRoot().captureRoboImage(
-            filePath = "src/test/screenshots/" + "$name/${overrideFileName ?: name}" + swrDescription + ".png",
+            filePath = "src/test/screenshots/" + "$name/${overrideFileName ?: name}" + getoDescription + ".png",
             roborazziOptions = roborazziOptions,
         )
     }
@@ -162,7 +162,7 @@ internal fun extractSpecs(deviceSpec: String): TestDeviceSpecs {
 
 data class TestDeviceSpecs(val width: Int, val height: Int, val dpi: Int)
 
-private data class SwrMultiTheme(
+private data class GetoMultiTheme(
     val greenTheme: Boolean,
     val purpleTheme: Boolean,
     val darkTheme: Boolean,
@@ -170,43 +170,43 @@ private data class SwrMultiTheme(
     val description: String,
 )
 
-private val swrMultiThemes = listOf(
-    SwrMultiTheme(
+private val getoMultiThemes = listOf(
+    GetoMultiTheme(
         greenTheme = true,
         purpleTheme = false,
         darkTheme = false,
         dynamicTheme = false,
         description = "GreenTheme",
     ),
-    SwrMultiTheme(
+    GetoMultiTheme(
         greenTheme = false,
         purpleTheme = true,
         darkTheme = false,
         dynamicTheme = false,
         description = "PurpleTheme",
     ),
-    SwrMultiTheme(
+    GetoMultiTheme(
         greenTheme = true,
         purpleTheme = false,
         darkTheme = true,
         dynamicTheme = false,
         description = "GreenDarkTheme",
     ),
-    SwrMultiTheme(
+    GetoMultiTheme(
         greenTheme = false,
         purpleTheme = true,
         darkTheme = true,
         dynamicTheme = false,
         description = "PurpleDarkTheme",
     ),
-    SwrMultiTheme(
+    GetoMultiTheme(
         greenTheme = false,
         purpleTheme = false,
         darkTheme = false,
         dynamicTheme = true,
         description = "DynamicTheme",
     ),
-    SwrMultiTheme(
+    GetoMultiTheme(
         greenTheme = false,
         purpleTheme = false,
         darkTheme = true,
