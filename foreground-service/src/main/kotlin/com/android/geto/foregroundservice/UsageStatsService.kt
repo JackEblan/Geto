@@ -28,6 +28,7 @@ import android.os.Binder
 import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
+import com.android.geto.core.common.di.ApplicationScope
 import com.android.geto.core.domain.broadcastreceiver.StopUsageStatsForegroundServiceBroadcastReceiver
 import com.android.geto.core.domain.broadcastreceiver.StopUsageStatsForegroundServiceBroadcastReceiver.Companion.ACTION_STOP_USAGE_STATS_FOREGROUND_SERVICE
 import com.android.geto.core.domain.framework.NotificationManagerWrapper
@@ -37,8 +38,6 @@ import com.android.geto.core.domain.model.ForegroundServiceAppSettingsResult.Suc
 import com.android.geto.core.domain.usecase.ForegroundServiceAppSettingsUseCase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -56,7 +55,9 @@ class UsageStatsService : Service() {
     @Inject
     lateinit var stopUsageStatsForegroundServiceBroadcastReceiver: StopUsageStatsForegroundServiceBroadcastReceiver
 
-    private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
+    @Inject
+    @ApplicationScope
+    lateinit var appScope: CoroutineScope
 
     private val notificationId = 1
 
@@ -69,7 +70,7 @@ class UsageStatsService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         startUsageStatsForeground()
 
-        serviceScope.launch {
+        appScope.launch {
             foregroundServiceAppSettingsUseCase().collectLatest { result ->
                 updateUsageStatsForegroundServiceNotification(result = result)
             }
@@ -81,7 +82,7 @@ class UsageStatsService : Service() {
     override fun onDestroy() {
         super.onDestroy()
 
-        serviceScope.cancel()
+        appScope.cancel()
     }
 
     private fun startUsageStatsForeground() {
