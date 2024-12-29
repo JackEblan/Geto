@@ -20,28 +20,51 @@ package com.android.geto.broadcastreceiver
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.android.geto.core.domain.broadcastreceiver.BroadcastReceiverController
+import com.android.geto.core.common.di.ApplicationScope
 import com.android.geto.core.domain.broadcastreceiver.RevertSettingsBroadcastReceiver
 import com.android.geto.core.domain.broadcastreceiver.RevertSettingsBroadcastReceiver.Companion.EXTRA_NOTIFICATION_ID
 import com.android.geto.core.domain.broadcastreceiver.RevertSettingsBroadcastReceiver.Companion.EXTRA_PACKAGE_NAME
+import com.android.geto.core.domain.framework.NotificationManagerWrapper
+import com.android.geto.core.domain.model.AppSettingsResult
+import com.android.geto.core.domain.usecase.RevertAppSettingsUseCase
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class DefaultRevertSettingsBroadcastReceiver @Inject constructor() :
     BroadcastReceiver(),
     RevertSettingsBroadcastReceiver {
+
     @Inject
-    lateinit var broadcastReceiverController: BroadcastReceiverController
+    @ApplicationScope
+    lateinit var appScope: CoroutineScope
+
+    @Inject
+    lateinit var revertAppSettingsUseCase: RevertAppSettingsUseCase
+
+    @Inject
+    lateinit var notificationManagerWrapper: NotificationManagerWrapper
 
     override fun onReceive(context: Context?, intent: Intent?) {
         val packageName = intent?.extras?.getString(EXTRA_PACKAGE_NAME)
 
         val notificationId = intent?.extras?.getInt(EXTRA_NOTIFICATION_ID)
 
-        broadcastReceiverController.revertSettings(
+        revertSettings(
             packageName = packageName,
             notificationId = notificationId,
         )
+    }
+
+    private fun revertSettings(packageName: String?, notificationId: Int?) {
+        if (packageName == null || notificationId == null) return
+
+        appScope.launch {
+            if (revertAppSettingsUseCase(packageName = packageName) == AppSettingsResult.Success) {
+                notificationManagerWrapper.cancel(notificationId)
+            }
+        }
     }
 }

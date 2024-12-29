@@ -17,7 +17,6 @@
  */
 package com.android.geto.broadcastreceiver
 
-import com.android.geto.core.domain.broadcastreceiver.BroadcastReceiverController
 import com.android.geto.core.domain.broadcastreceiver.RevertSettingsBroadcastReceiver
 import com.android.geto.core.domain.broadcastreceiver.StopUsageStatsForegroundServiceBroadcastReceiver
 import dagger.Binds
@@ -29,10 +28,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 internal interface BroadcastReceiverModule {
-
-    @Binds
-    @Singleton
-    fun broadcastReceiverController(impl: DefaultBroadcastReceiverController): BroadcastReceiverController
 
     @Binds
     @Singleton

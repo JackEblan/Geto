@@ -36,7 +36,7 @@ class FakeAppSettingsRepository @Inject constructor() : AppSettingsRepository {
         val appSettings = List(5) { index ->
             AppSetting(
                 id = index,
-                enabled = false,
+                enabled = true,
                 settingType = SettingType.SECURE,
                 packageName = "com.android.geto",
                 label = "Geto",

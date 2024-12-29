@@ -31,7 +31,7 @@ class DummyNotificationManagerWrapper : NotificationManagerWrapper {
     ) {
     }
 
-    override fun updatetUsageStatsForegroundServiceNotification(
+    override fun updateUsageStatsForegroundServiceNotification(
         notificationId: Int,
         contentTitle: String,
         contentText: String,

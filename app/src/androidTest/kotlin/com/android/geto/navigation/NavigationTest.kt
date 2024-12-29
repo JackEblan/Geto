@@ -30,6 +30,7 @@ import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onFirst
 import androidx.compose.ui.test.onNodeWithContentDescription
+import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import com.android.geto.MainActivity
 import com.android.geto.R
@@ -40,6 +41,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import kotlin.properties.ReadOnlyProperty
+import com.android.geto.feature.shizuku.R as shizukuR
 
 @HiltAndroidTest
 class NavigationTest {
@@ -58,6 +60,7 @@ class NavigationTest {
     private val apps by composeTestRule.stringResource(R.string.apps)
     private val service by composeTestRule.stringResource(R.string.service)
     private val settings by composeTestRule.stringResource(R.string.settings)
+    private val shizuku by composeTestRule.stringResource(shizukuR.string.shizuku)
 
     @Before
     fun setup() = hiltRule.inject()
@@ -114,6 +117,19 @@ class NavigationTest {
             ).performClick()
 
             onNode(isSelected()).assertTextEquals(apps)
+        }
+    }
+
+    @Test
+    fun shizukuScreen_isDisplayed() {
+        composeTestRule.apply {
+            val appItemSemanticInteraction = onAllNodes(hasTestTag("apps:appItem")).onFirst()
+
+            appItemSemanticInteraction.performClick()
+
+            onNodeWithContentDescription(label = "Launch icon").performClick()
+
+            onNodeWithText(shizuku).assertIsDisplayed()
         }
     }
 }

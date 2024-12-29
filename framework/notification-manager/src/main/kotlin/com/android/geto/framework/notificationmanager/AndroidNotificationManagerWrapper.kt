@@ -73,7 +73,7 @@ internal class AndroidNotificationManagerWrapper @Inject constructor(@Applicatio
     }
 
     @RequiresPermission("android.permission.POST_NOTIFICATIONS")
-    override fun updatetUsageStatsForegroundServiceNotification(
+    override fun updateUsageStatsForegroundServiceNotification(
         notificationId: Int,
         contentTitle: String,
         contentText: String,

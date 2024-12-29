@@ -25,11 +25,11 @@ import javax.inject.Inject
 
 class FakeSecureSettingsRepository @Inject constructor() : SecureSettingsRepository {
     override suspend fun applySecureSettings(appSettings: List<AppSetting>): Boolean {
-        return true
+        throw SecurityException()
     }
 
     override suspend fun revertSecureSettings(appSettings: List<AppSetting>): Boolean {
-        return true
+        throw SecurityException()
     }
 
     override suspend fun getSecureSettingsByName(
