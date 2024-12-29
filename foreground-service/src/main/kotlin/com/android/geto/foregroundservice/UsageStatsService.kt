@@ -109,7 +109,7 @@ class UsageStatsService : Service() {
     private fun updateUsageStatsForegroundServiceNotification(result: ForegroundServiceAppSettingsResult) {
         when (result) {
             is Success -> {
-                notificationManagerWrapper.updatetUsageStatsForegroundServiceNotification(
+                notificationManagerWrapper.updateUsageStatsForegroundServiceNotification(
                     notificationId = notificationId,
                     contentTitle = result.packageName,
                     contentText = getString(R.string.usage_stats_app_settings_applied_successfully),
@@ -117,7 +117,7 @@ class UsageStatsService : Service() {
             }
 
             Ignore -> {
-                notificationManagerWrapper.updatetUsageStatsForegroundServiceNotification(
+                notificationManagerWrapper.updateUsageStatsForegroundServiceNotification(
                     notificationId = notificationId,
                     contentTitle = getString(R.string.usage_stats_service),
                     contentText = getString(R.string.usage_stats_service_message),

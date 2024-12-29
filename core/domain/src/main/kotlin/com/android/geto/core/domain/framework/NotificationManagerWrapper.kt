@@ -29,7 +29,7 @@ interface NotificationManagerWrapper {
         contentText: String,
     )
 
-    fun updatetUsageStatsForegroundServiceNotification(
+    fun updateUsageStatsForegroundServiceNotification(
         notificationId: Int,
         contentTitle: String,
         contentText: String,

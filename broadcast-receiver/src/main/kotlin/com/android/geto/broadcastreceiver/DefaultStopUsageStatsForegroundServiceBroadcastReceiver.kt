@@ -20,8 +20,8 @@ package com.android.geto.broadcastreceiver
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.android.geto.core.domain.broadcastreceiver.BroadcastReceiverController
 import com.android.geto.core.domain.broadcastreceiver.StopUsageStatsForegroundServiceBroadcastReceiver
+import com.android.geto.core.domain.foregroundservice.UsageStatsForegroundServiceManager
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -29,9 +29,9 @@ import javax.inject.Inject
 class DefaultStopUsageStatsForegroundServiceBroadcastReceiver @Inject constructor() :
     BroadcastReceiver(), StopUsageStatsForegroundServiceBroadcastReceiver {
     @Inject
-    lateinit var broadcastReceiverController: BroadcastReceiverController
+    lateinit var usageStatsForegroundServiceManager: UsageStatsForegroundServiceManager
 
     override fun onReceive(context: Context?, intent: Intent?) {
-        broadcastReceiverController.updateForegroundService()
+        usageStatsForegroundServiceManager.updateForegroundService()
     }
 }
