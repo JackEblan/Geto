@@ -19,15 +19,12 @@ package com.android.geto.core.designsystem
 
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onRoot
 import com.android.geto.core.designsystem.component.AnimatedWavyCircle
-import com.android.geto.core.designsystem.component.WavyCircle
 import com.android.geto.core.designsystem.theme.GetoTheme
 import com.android.geto.core.screenshottesting.util.DefaultRoborazziOptions
-import com.android.geto.core.screenshottesting.util.captureScreenMultiTheme
 import com.github.takahirom.roborazzi.captureRoboImage
 import dagger.hilt.android.testing.HiltTestApplication
 import org.junit.Rule
@@ -46,32 +43,6 @@ class WavyCircleScreenshotTests {
 
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
-
-    @Test
-    fun wavyCircle_active_multipleThemes() {
-        composeTestRule.captureScreenMultiTheme("WavyCircle") {
-            Surface {
-                WavyCircle(
-                    modifier = Modifier.fillMaxSize(),
-                    active = true,
-                    onClick = {},
-                )
-            }
-        }
-    }
-
-    @Test
-    fun wavyCircle_inActive_multipleThemes() {
-        composeTestRule.captureScreenMultiTheme("WavyCircle", "InActive") {
-            Surface {
-                WavyCircle(
-                    modifier = Modifier.fillMaxSize(),
-                    active = false,
-                    onClick = {},
-                )
-            }
-        }
-    }
 
     @Test
     fun animatedWavyCircle_animation() {

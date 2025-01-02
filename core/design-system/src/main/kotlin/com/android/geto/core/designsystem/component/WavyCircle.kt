@@ -35,58 +35,10 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.input.pointer.pointerInput
+import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.pow
 import kotlin.math.sin
-
-@Composable
-fun WavyCircle(
-    modifier: Modifier = Modifier,
-    active: Boolean,
-    colors: WavyCircleColors = WavyCircleDefaults.colors(),
-    onClick: () -> Unit,
-) {
-    Canvas(
-        modifier = modifier.pointerInput(Unit) {
-            detectTapGestures(
-                onTap = { offset ->
-                    val radius = minOf(size.width, size.height) / 3
-                    val centerX = size.width / 2
-                    val centerY = size.height / 2
-                    val distanceFromCenter =
-                        (offset.x - centerX).pow(2) + (offset.y - centerY).pow(2)
-
-                    if (distanceFromCenter <= radius * radius) {
-                        onClick()
-                    }
-                },
-            )
-        },
-    ) {
-        val radius = size.minDimension / 3
-        val centerX = size.width / 2
-        val centerY = size.height / 2
-        val waveFrequency = 12
-        val waveAmplitude = radius * 0.10f
-
-        val path = Path().apply {
-            for (i in 0..360 step 1) {
-                val angleRad = Math.toRadians(i.toDouble())
-                val wave = waveAmplitude * sin(waveFrequency * angleRad)
-                val x = centerX + (radius + wave) * cos(angleRad).toFloat()
-                val y = centerY + (radius + wave) * sin(angleRad).toFloat()
-                if (i == 0) moveTo(x.toFloat(), y.toFloat()) else lineTo(x.toFloat(), y.toFloat())
-            }
-            close()
-        }
-
-        drawPath(
-            path = path,
-            color = if (active) colors.activeColor else colors.inActiveColor,
-            style = Fill,
-        )
-    }
-}
 
 @Composable
 fun AnimatedWavyCircle(
@@ -144,12 +96,14 @@ fun AnimatedWavyCircle(
         val waveAmplitude = radius * 0.05f
 
         val path = Path().apply {
+            moveTo(centerX + radius, centerY)
+
             for (i in 0..360 step 1) {
-                val angleRad = Math.toRadians(i.toDouble())
+                val angleRad = i * (PI / 180)
                 val wave = waveAmplitude * sin(waveFrequency * angleRad)
-                val x = centerX + (radius + wave) * cos(angleRad).toFloat()
-                val y = centerY + (radius + wave) * sin(angleRad).toFloat()
-                if (i == 0) moveTo(x.toFloat(), y.toFloat()) else lineTo(x.toFloat(), y.toFloat())
+                val x = centerX + (radius + wave) * cos(angleRad)
+                val y = centerY + (radius + wave) * sin(angleRad)
+                lineTo(x.toFloat(), y.toFloat())
             }
             close()
         }
