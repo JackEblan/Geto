@@ -32,10 +32,11 @@ dependencies {
 
     testImplementation(libs.hilt.android.testing)
     testImplementation(libs.robolectric)
-    testImplementation(projects.core.testing)
+    testImplementation(testFixtures(projects.core.common))
+    testImplementation(testFixtures(projects.core.domain))
     testImplementation(projects.core.screenshotTesting)
     testImplementation(libs.roborazzi)
 
-    androidTestImplementation(projects.core.testing)
+    androidTestImplementation(testFixtures(projects.core.common))
     androidTestImplementation(libs.bundles.androidx.compose.ui.test)
 }

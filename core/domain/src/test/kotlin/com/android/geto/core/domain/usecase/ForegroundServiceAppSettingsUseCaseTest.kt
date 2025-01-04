@@ -22,9 +22,9 @@ import com.android.geto.core.domain.model.ForegroundServiceAppSettingsResult
 import com.android.geto.core.domain.model.GetoLifeCycle
 import com.android.geto.core.domain.model.GetoUsageEvent
 import com.android.geto.core.domain.model.SettingType
-import com.android.geto.core.testing.framework.FakeUsageStatsManagerWrapper
-import com.android.geto.core.testing.repository.TestAppSettingsRepository
-import com.android.geto.core.testing.repository.TestSecureSettingsRepository
+import com.android.geto.core.domain.framework.FakeUsageStatsManagerWrapper
+import com.android.geto.core.domain.repository.TestAppSettingsRepository
+import com.android.geto.core.domain.repository.TestSecureSettingsRepository
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Before

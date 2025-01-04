@@ -18,8 +18,8 @@
 package com.android.geto.feature.apps
 
 import com.android.geto.core.domain.model.GetoApplicationInfo
-import com.android.geto.core.testing.framework.FakePackageManagerWrapper
-import com.android.geto.core.testing.util.MainDispatcherRule
+import com.android.geto.core.domain.framework.FakePackageManagerWrapper
+import com.android.geto.core.common.MainDispatcherRule
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher

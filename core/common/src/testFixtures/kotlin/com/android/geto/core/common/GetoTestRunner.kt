@@ -15,24 +15,17 @@
  *   limitations under the License.
  *
  */
+package com.android.geto.core.common
 
-plugins {
-    alias(libs.plugins.com.android.geto.library)
-    alias(libs.plugins.com.android.geto.libraryJacoco)
-    alias(libs.plugins.com.android.geto.hilt)
-}
+import android.app.Application
+import android.content.Context
+import androidx.test.runner.AndroidJUnitRunner
+import dagger.hilt.android.testing.HiltTestApplication
 
-android {
-    namespace = "com.android.geto.core.common"
-
-    testFixtures {
-        enable = true
-    }
-}
-
-dependencies {
-    testFixturesApi(kotlin("test"))
-    testFixturesApi(libs.androidx.test.rules)
-    testFixturesApi(libs.hilt.android.testing)
-    testFixturesApi(libs.kotlinx.coroutines.test)
+/**
+ * A custom runner to set up the instrumented application class for tests.
+ */
+class GetoTestRunner : AndroidJUnitRunner() {
+    override fun newApplication(cl: ClassLoader, name: String, context: Context): Application =
+        super.newApplication(cl, HiltTestApplication::class.java.name, context)
 }

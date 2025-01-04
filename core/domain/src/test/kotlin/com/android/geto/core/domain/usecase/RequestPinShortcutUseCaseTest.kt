@@ -22,7 +22,7 @@ import com.android.geto.core.domain.model.RequestPinShortcutResult.SupportedLaun
 import com.android.geto.core.domain.model.RequestPinShortcutResult.UnsupportedLauncher
 import com.android.geto.core.domain.model.RequestPinShortcutResult.UpdateImmutableShortcuts
 import com.android.geto.core.domain.model.RequestPinShortcutResult.UpdateSuccess
-import com.android.geto.core.testing.repository.TestShortcutRepository
+import com.android.geto.core.domain.repository.TestShortcutRepository
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test

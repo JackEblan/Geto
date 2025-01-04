@@ -25,9 +25,9 @@ import com.android.geto.core.domain.model.AppSettingsResult.NoPermission
 import com.android.geto.core.domain.model.AppSettingsResult.Success
 import com.android.geto.core.domain.model.GetoApplicationInfo
 import com.android.geto.core.domain.model.SettingType
-import com.android.geto.core.testing.framework.FakePackageManagerWrapper
-import com.android.geto.core.testing.repository.TestAppSettingsRepository
-import com.android.geto.core.testing.repository.TestSecureSettingsRepository
+import com.android.geto.core.domain.framework.FakePackageManagerWrapper
+import com.android.geto.core.domain.repository.TestAppSettingsRepository
+import com.android.geto.core.domain.repository.TestSecureSettingsRepository
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test

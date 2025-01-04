@@ -101,10 +101,9 @@ dependencies {
     androidTestImplementation(libs.accompanist.testharness)
     androidTestImplementation(libs.androidx.navigation.testing)
     androidTestImplementation(libs.androidx.test.espresso.core)
-    androidTestImplementation(libs.hilt.android.testing)
     androidTestImplementation(projects.core.dataTest)
     androidTestImplementation(projects.framework.frameworkTest)
-    androidTestImplementation(projects.core.testing)
+    androidTestImplementation(testFixtures(projects.core.common))
 
     baselineProfile(projects.benchmarks)
 }

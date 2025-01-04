@@ -15,24 +15,16 @@
  *   limitations under the License.
  *
  */
+package com.android.geto.core.domain.framework
 
-plugins {
-    alias(libs.plugins.com.android.geto.library)
-    alias(libs.plugins.com.android.geto.libraryJacoco)
-    alias(libs.plugins.com.android.geto.hilt)
-}
+class DummyClipboardManagerWrapper : ClipboardManagerWrapper {
+    private var sdkInt = 0
 
-android {
-    namespace = "com.android.geto.core.common"
-
-    testFixtures {
-        enable = true
+    override fun setPrimaryClip(label: String, text: String): Boolean {
+        return sdkInt <= 32
     }
-}
 
-dependencies {
-    testFixturesApi(kotlin("test"))
-    testFixturesApi(libs.androidx.test.rules)
-    testFixturesApi(libs.hilt.android.testing)
-    testFixturesApi(libs.kotlinx.coroutines.test)
+    fun setSDKInt(value: Int) {
+        sdkInt = value
+    }
 }

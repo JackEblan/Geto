@@ -39,5 +39,4 @@ dependencies {
     implementation(projects.core.domain)
 
     androidTestImplementation(libs.room.testing)
-    androidTestImplementation(projects.core.testing)
 }

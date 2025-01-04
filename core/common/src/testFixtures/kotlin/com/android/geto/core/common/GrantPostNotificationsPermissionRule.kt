@@ -15,24 +15,16 @@
  *   limitations under the License.
  *
  */
+package com.android.geto.core.common
 
-plugins {
-    alias(libs.plugins.com.android.geto.library)
-    alias(libs.plugins.com.android.geto.libraryJacoco)
-    alias(libs.plugins.com.android.geto.hilt)
-}
+import android.Manifest.permission.POST_NOTIFICATIONS
+import android.os.Build.VERSION.SDK_INT
+import android.os.Build.VERSION_CODES.TIRAMISU
+import androidx.test.rule.GrantPermissionRule.grant
+import org.junit.rules.TestRule
 
-android {
-    namespace = "com.android.geto.core.common"
-
-    testFixtures {
-        enable = true
-    }
-}
-
-dependencies {
-    testFixturesApi(kotlin("test"))
-    testFixturesApi(libs.androidx.test.rules)
-    testFixturesApi(libs.hilt.android.testing)
-    testFixturesApi(libs.kotlinx.coroutines.test)
-}
+/**
+ * [TestRule] granting [POST_NOTIFICATIONS] permission if running on [SDK_INT] greater than [TIRAMISU].
+ */
+class GrantPostNotificationsPermissionRule :
+    TestRule by if (SDK_INT >= TIRAMISU) grant(POST_NOTIFICATIONS) else grant()

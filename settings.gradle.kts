@@ -47,8 +47,6 @@ include(":core:datastore-test")
 include(":core:design-system")
 include(":core:domain")
 include(":core:screenshot-testing")
-include(":core:testing")
-include(":core:ui")
 
 include(":feature:apps")
 include(":feature:app-settings")

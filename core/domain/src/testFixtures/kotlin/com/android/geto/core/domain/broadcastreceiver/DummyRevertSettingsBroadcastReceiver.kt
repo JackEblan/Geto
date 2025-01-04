@@ -15,24 +15,6 @@
  *   limitations under the License.
  *
  */
+package com.android.geto.core.domain.broadcastreceiver
 
-plugins {
-    alias(libs.plugins.com.android.geto.library)
-    alias(libs.plugins.com.android.geto.libraryJacoco)
-    alias(libs.plugins.com.android.geto.hilt)
-}
-
-android {
-    namespace = "com.android.geto.core.common"
-
-    testFixtures {
-        enable = true
-    }
-}
-
-dependencies {
-    testFixturesApi(kotlin("test"))
-    testFixturesApi(libs.androidx.test.rules)
-    testFixturesApi(libs.hilt.android.testing)
-    testFixturesApi(libs.kotlinx.coroutines.test)
-}
+class DummyRevertSettingsBroadcastReceiver : RevertSettingsBroadcastReceiver

@@ -48,7 +48,7 @@ dependencies {
     testImplementation(libs.robolectric)
     testImplementation(libs.roborazzi)
     testImplementation(projects.core.screenshotTesting)
-    testImplementation(projects.core.testing)
+    testImplementation(testFixtures(projects.core.common))
 
     androidTestImplementation(libs.bundles.androidx.compose.ui.test)
 }

@@ -15,24 +15,18 @@
  *   limitations under the License.
  *
  */
+package com.android.geto.core.domain.framework
 
-plugins {
-    alias(libs.plugins.com.android.geto.library)
-    alias(libs.plugins.com.android.geto.libraryJacoco)
-    alias(libs.plugins.com.android.geto.hilt)
-}
+import com.android.geto.core.domain.model.AppSettingTemplate
 
-android {
-    namespace = "com.android.geto.core.common"
+class FakeAssetManagerWrapper : AssetManagerWrapper {
+    private var appSettingTemplates = emptyList<AppSettingTemplate>()
 
-    testFixtures {
-        enable = true
+    override suspend fun getAppSettingTemplates(): List<AppSettingTemplate> {
+        return appSettingTemplates
     }
-}
 
-dependencies {
-    testFixturesApi(kotlin("test"))
-    testFixturesApi(libs.androidx.test.rules)
-    testFixturesApi(libs.hilt.android.testing)
-    testFixturesApi(libs.kotlinx.coroutines.test)
+    fun setAppSettingTemplates(value: List<AppSettingTemplate>) {
+        appSettingTemplates = value
+    }
 }

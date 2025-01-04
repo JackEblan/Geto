@@ -28,9 +28,15 @@ android {
     defaultConfig {
         consumerProguardFiles("consumer-proguard-rules.pro")
     }
+
+    testFixtures {
+        enable = true
+    }
 }
 
 dependencies {
+    testImplementation(kotlin("test"))
     testImplementation(libs.kotlinx.coroutines.test)
-    testImplementation(projects.core.testing)
+
+    testFixturesImplementation(libs.kotlinx.coroutines.core)
 }

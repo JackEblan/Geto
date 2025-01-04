@@ -20,7 +20,7 @@ package com.android.geto.core.domain.usecase
 import com.android.geto.core.domain.model.AddAppSettingResult
 import com.android.geto.core.domain.model.AppSetting
 import com.android.geto.core.domain.model.SettingType
-import com.android.geto.core.testing.repository.TestAppSettingsRepository
+import com.android.geto.core.domain.repository.TestAppSettingsRepository
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test

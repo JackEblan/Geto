@@ -17,13 +17,13 @@
  */
 package com.android.geto.feature.settings
 
+import com.android.geto.core.common.MainDispatcherRule
 import com.android.geto.core.domain.model.DarkThemeConfig
 import com.android.geto.core.domain.model.ThemeBrand
 import com.android.geto.core.domain.usecase.CleanAppSettingsUseCase
-import com.android.geto.core.testing.framework.FakePackageManagerWrapper
-import com.android.geto.core.testing.repository.TestAppSettingsRepository
-import com.android.geto.core.testing.repository.TestUserDataRepository
-import com.android.geto.core.testing.util.MainDispatcherRule
+import com.android.geto.core.domain.framework.FakePackageManagerWrapper
+import com.android.geto.core.domain.repository.TestAppSettingsRepository
+import com.android.geto.core.domain.repository.TestUserDataRepository
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
