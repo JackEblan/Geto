@@ -41,7 +41,7 @@ import com.android.geto.core.domain.broadcastreceiver.RevertSettingsBroadcastRec
 import com.android.geto.core.domain.framework.NotificationManagerWrapper
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
-import com.android.geto.core.common.R as commonR
+import com.android.geto.common.R as commonR
 
 internal class AndroidNotificationManagerWrapper @Inject constructor(@ApplicationContext private val context: Context) :
     NotificationManagerWrapper {

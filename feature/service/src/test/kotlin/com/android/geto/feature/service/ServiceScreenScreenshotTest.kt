@@ -20,10 +20,10 @@ package com.android.geto.feature.service
 import androidx.activity.ComponentActivity
 import androidx.compose.material3.Surface
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import com.android.geto.core.designsystem.theme.GetoTheme
-import com.android.geto.core.screenshottesting.util.DefaultTestDevices
-import com.android.geto.core.screenshottesting.util.captureScreenForDevice
-import com.android.geto.core.screenshottesting.util.captureScreenForMultiDevice
+import com.android.geto.designsystem.theme.GetoTheme
+import com.android.geto.roborazzi.DefaultTestDevices
+import com.android.geto.roborazzi.captureScreenForDevice
+import com.android.geto.roborazzi.captureScreenForMultiDevice
 import dagger.hilt.android.testing.HiltTestApplication
 import org.junit.Rule
 import org.junit.runner.RunWith

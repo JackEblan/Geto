@@ -19,7 +19,7 @@ package com.android.geto.navigation
 
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.android.geto.R
-import com.android.geto.core.designsystem.icon.GetoIcons
+import com.android.geto.designsystem.icon.GetoIcons
 import com.android.geto.feature.apps.navigation.AppsRouteData
 import com.android.geto.feature.home.navigation.HomeDestination
 import com.android.geto.feature.service.navigation.ServiceRouteData

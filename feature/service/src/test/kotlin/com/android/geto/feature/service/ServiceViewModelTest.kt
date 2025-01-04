@@ -17,7 +17,7 @@
  */
 package com.android.geto.feature.service
 
-import com.android.geto.core.common.MainDispatcherRule
+import com.android.geto.common.MainDispatcherRule
 import com.android.geto.core.domain.usecase.UpdateUsageStatsForegroundServiceUseCase
 import com.android.geto.core.domain.framework.FakeUsageStatsForegroundServiceManager
 import com.android.geto.core.domain.framework.FakeUsageStatsManagerWrapper

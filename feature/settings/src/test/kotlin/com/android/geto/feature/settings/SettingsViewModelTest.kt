@@ -17,7 +17,7 @@
  */
 package com.android.geto.feature.settings
 
-import com.android.geto.core.common.MainDispatcherRule
+import com.android.geto.common.MainDispatcherRule
 import com.android.geto.core.domain.model.DarkThemeConfig
 import com.android.geto.core.domain.model.ThemeBrand
 import com.android.geto.core.domain.usecase.CleanAppSettingsUseCase

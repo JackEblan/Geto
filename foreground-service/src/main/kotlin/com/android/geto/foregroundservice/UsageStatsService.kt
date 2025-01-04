@@ -28,7 +28,7 @@ import android.os.Binder
 import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
-import com.android.geto.core.common.di.ApplicationScope
+import com.android.geto.common.di.ApplicationScope
 import com.android.geto.core.domain.broadcastreceiver.StopUsageStatsForegroundServiceBroadcastReceiver
 import com.android.geto.core.domain.broadcastreceiver.StopUsageStatsForegroundServiceBroadcastReceiver.Companion.ACTION_STOP_USAGE_STATS_FOREGROUND_SERVICE
 import com.android.geto.core.domain.framework.NotificationManagerWrapper
@@ -42,7 +42,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import com.android.geto.core.common.R as commonR
+import com.android.geto.common.R as commonR
 
 @AndroidEntryPoint
 class UsageStatsService : Service() {

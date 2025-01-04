@@ -21,8 +21,8 @@ import android.content.Context
 import android.provider.Settings
 import androidx.core.database.getLongOrNull
 import androidx.core.database.getStringOrNull
-import com.android.geto.core.common.Dispatcher
-import com.android.geto.core.common.GetoDispatchers.IO
+import com.android.geto.common.Dispatcher
+import com.android.geto.common.GetoDispatchers.IO
 import com.android.geto.core.domain.framework.SecureSettingsWrapper
 import com.android.geto.core.domain.model.SecureSetting
 import com.android.geto.core.domain.model.SettingType

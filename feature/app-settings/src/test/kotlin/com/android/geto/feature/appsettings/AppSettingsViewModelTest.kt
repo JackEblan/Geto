@@ -47,7 +47,7 @@ import com.android.geto.core.domain.repository.TestAppSettingsRepository
 import com.android.geto.core.domain.repository.TestSecureSettingsRepository
 import com.android.geto.core.domain.repository.TestShortcutRepository
 import com.android.geto.core.domain.repository.TestUserDataRepository
-import com.android.geto.core.common.MainDispatcherRule
+import com.android.geto.common.MainDispatcherRule
 import com.android.geto.feature.appsettings.dialog.template.TemplateDialogUiState
 import com.android.geto.feature.appsettings.navigation.AppSettingsRouteData
 import kotlinx.coroutines.ExperimentalCoroutinesApi

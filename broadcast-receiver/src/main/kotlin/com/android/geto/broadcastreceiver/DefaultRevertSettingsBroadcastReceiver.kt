@@ -20,7 +20,7 @@ package com.android.geto.broadcastreceiver
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.android.geto.core.common.di.ApplicationScope
+import com.android.geto.common.di.ApplicationScope
 import com.android.geto.core.domain.broadcastreceiver.RevertSettingsBroadcastReceiver
 import com.android.geto.core.domain.broadcastreceiver.RevertSettingsBroadcastReceiver.Companion.EXTRA_NOTIFICATION_ID
 import com.android.geto.core.domain.broadcastreceiver.RevertSettingsBroadcastReceiver.Companion.EXTRA_PACKAGE_NAME
