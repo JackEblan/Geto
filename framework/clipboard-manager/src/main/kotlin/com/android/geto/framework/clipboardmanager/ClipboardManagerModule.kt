@@ -17,7 +17,7 @@
  */
 package com.android.geto.framework.clipboardmanager
 
-import com.android.geto.core.domain.framework.ClipboardManagerWrapper
+import com.android.geto.domain.framework.ClipboardManagerWrapper
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

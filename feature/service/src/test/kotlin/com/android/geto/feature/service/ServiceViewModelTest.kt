@@ -18,9 +18,9 @@
 package com.android.geto.feature.service
 
 import com.android.geto.common.MainDispatcherRule
-import com.android.geto.core.domain.framework.FakeUsageStatsForegroundServiceManager
-import com.android.geto.core.domain.framework.FakeUsageStatsManagerWrapper
-import com.android.geto.core.domain.usecase.UpdateUsageStatsForegroundServiceUseCase
+import com.android.geto.domain.framework.FakeUsageStatsForegroundServiceManager
+import com.android.geto.domain.framework.FakeUsageStatsManagerWrapper
+import com.android.geto.domain.usecase.UpdateUsageStatsForegroundServiceUseCase
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher

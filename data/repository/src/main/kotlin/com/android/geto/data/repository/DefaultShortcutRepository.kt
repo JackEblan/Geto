@@ -19,9 +19,9 @@ package com.android.geto.data.repository
 
 import com.android.geto.common.Dispatcher
 import com.android.geto.common.GetoDispatchers.Default
-import com.android.geto.core.domain.framework.ShortcutManagerCompatWrapper
-import com.android.geto.core.domain.model.GetoShortcutInfoCompat
-import com.android.geto.core.domain.repository.ShortcutRepository
+import com.android.geto.domain.framework.ShortcutManagerCompatWrapper
+import com.android.geto.domain.model.GetoShortcutInfoCompat
+import com.android.geto.domain.repository.ShortcutRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

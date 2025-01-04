@@ -25,9 +25,9 @@ import androidx.compose.ui.test.assertIsOn
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
-import com.android.geto.core.domain.model.DarkThemeConfig
-import com.android.geto.core.domain.model.ThemeBrand
-import com.android.geto.core.domain.model.UserData
+import com.android.geto.domain.model.DarkThemeConfig
+import com.android.geto.domain.model.ThemeBrand
+import com.android.geto.domain.model.UserData
 import org.junit.Rule
 import kotlin.test.Test
 

@@ -29,8 +29,8 @@ import androidx.core.graphics.drawable.toBitmap
 import com.android.geto.common.Dispatcher
 import com.android.geto.common.GetoDispatchers.Default
 import com.android.geto.common.GetoDispatchers.IO
-import com.android.geto.core.domain.framework.PackageManagerWrapper
-import com.android.geto.core.domain.model.GetoApplicationInfo
+import com.android.geto.domain.framework.PackageManagerWrapper
+import com.android.geto.domain.model.GetoApplicationInfo
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext

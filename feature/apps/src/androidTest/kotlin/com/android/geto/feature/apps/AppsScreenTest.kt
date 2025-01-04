@@ -22,7 +22,7 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
-import com.android.geto.core.domain.model.GetoApplicationInfo
+import com.android.geto.domain.model.GetoApplicationInfo
 import org.junit.Rule
 import kotlin.test.Test
 

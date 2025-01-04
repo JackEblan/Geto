@@ -22,8 +22,8 @@ import androidx.datastore.core.DataStoreFactory
 import androidx.datastore.dataStoreFile
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.android.geto.core.domain.model.DarkThemeConfig
-import com.android.geto.core.domain.model.ThemeBrand
+import com.android.geto.domain.model.DarkThemeConfig
+import com.android.geto.domain.model.ThemeBrand
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher

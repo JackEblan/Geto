@@ -17,8 +17,8 @@
  */
 package com.android.geto.data.repository.test
 
-import com.android.geto.core.domain.model.GetoShortcutInfoCompat
-import com.android.geto.core.domain.repository.ShortcutRepository
+import com.android.geto.domain.model.GetoShortcutInfoCompat
+import com.android.geto.domain.repository.ShortcutRepository
 import javax.inject.Inject
 
 class FakeShortcutRepository @Inject constructor() : ShortcutRepository {

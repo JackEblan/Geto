@@ -17,8 +17,8 @@
  */
 package com.android.geto.feature.settings
 
-import com.android.geto.core.domain.model.DarkThemeConfig
-import com.android.geto.core.domain.model.ThemeBrand
+import com.android.geto.domain.model.DarkThemeConfig
+import com.android.geto.domain.model.ThemeBrand
 
 sealed interface SettingsEvent {
     data class UpdateThemeBrand(val themeBrand: ThemeBrand) : SettingsEvent

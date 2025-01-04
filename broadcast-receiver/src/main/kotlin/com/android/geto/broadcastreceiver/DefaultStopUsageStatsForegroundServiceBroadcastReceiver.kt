@@ -20,8 +20,8 @@ package com.android.geto.broadcastreceiver
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.android.geto.core.domain.broadcastreceiver.StopUsageStatsForegroundServiceBroadcastReceiver
-import com.android.geto.core.domain.foregroundservice.UsageStatsForegroundServiceManager
+import com.android.geto.domain.broadcastreceiver.StopUsageStatsForegroundServiceBroadcastReceiver
+import com.android.geto.domain.foregroundservice.UsageStatsForegroundServiceManager
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

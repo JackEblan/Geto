@@ -17,7 +17,7 @@
  */
 package com.android.geto.framework.notificationmanager
 
-import com.android.geto.core.domain.framework.NotificationManagerWrapper
+import com.android.geto.domain.framework.NotificationManagerWrapper
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

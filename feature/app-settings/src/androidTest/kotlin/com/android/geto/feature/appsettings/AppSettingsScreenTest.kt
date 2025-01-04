@@ -23,8 +23,8 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
-import com.android.geto.core.domain.model.AppSetting
-import com.android.geto.core.domain.model.SettingType
+import com.android.geto.domain.model.AppSetting
+import com.android.geto.domain.model.SettingType
 import com.android.geto.feature.appsettings.dialog.template.TemplateDialogUiState
 import org.junit.Rule
 import kotlin.test.Test

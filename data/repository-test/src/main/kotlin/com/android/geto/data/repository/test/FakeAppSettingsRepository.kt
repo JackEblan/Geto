@@ -17,9 +17,9 @@
  */
 package com.android.geto.data.repository.test
 
-import com.android.geto.core.domain.model.AppSetting
-import com.android.geto.core.domain.model.SettingType
-import com.android.geto.core.domain.repository.AppSettingsRepository
+import com.android.geto.domain.model.AppSetting
+import com.android.geto.domain.model.SettingType
+import com.android.geto.domain.repository.AppSettingsRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf

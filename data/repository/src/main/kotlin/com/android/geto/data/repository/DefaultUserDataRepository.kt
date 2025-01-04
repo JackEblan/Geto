@@ -17,11 +17,11 @@
  */
 package com.android.geto.data.repository
 
-import com.android.geto.core.domain.model.DarkThemeConfig
-import com.android.geto.core.domain.model.ThemeBrand
-import com.android.geto.core.domain.model.UserData
-import com.android.geto.core.domain.repository.UserDataRepository
 import com.android.geto.data.datastore.UserPreferencesDataSource
+import com.android.geto.domain.model.DarkThemeConfig
+import com.android.geto.domain.model.ThemeBrand
+import com.android.geto.domain.model.UserData
+import com.android.geto.domain.repository.UserDataRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

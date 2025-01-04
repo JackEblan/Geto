@@ -28,9 +28,9 @@ import android.provider.Settings
 import androidx.core.content.getSystemService
 import com.android.geto.common.Dispatcher
 import com.android.geto.common.GetoDispatchers.Default
-import com.android.geto.core.domain.framework.UsageStatsManagerWrapper
-import com.android.geto.core.domain.model.GetoLifeCycle
-import com.android.geto.core.domain.model.GetoUsageEvent
+import com.android.geto.domain.framework.UsageStatsManagerWrapper
+import com.android.geto.domain.model.GetoLifeCycle
+import com.android.geto.domain.model.GetoUsageEvent
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.delay

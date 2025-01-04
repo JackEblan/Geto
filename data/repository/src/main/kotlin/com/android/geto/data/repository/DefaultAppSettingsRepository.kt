@@ -17,12 +17,12 @@
  */
 package com.android.geto.data.repository
 
-import com.android.geto.core.domain.model.AppSetting
-import com.android.geto.core.domain.repository.AppSettingsRepository
 import com.android.geto.data.room.dao.AppSettingsDao
 import com.android.geto.data.room.model.AppSettingEntity
 import com.android.geto.data.room.model.asEntity
 import com.android.geto.data.room.model.asExternalModel
+import com.android.geto.domain.model.AppSetting
+import com.android.geto.domain.repository.AppSettingsRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject

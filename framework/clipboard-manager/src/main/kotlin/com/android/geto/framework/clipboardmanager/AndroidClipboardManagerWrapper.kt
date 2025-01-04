@@ -22,7 +22,7 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.os.Build
 import androidx.core.content.getSystemService
-import com.android.geto.core.domain.framework.ClipboardManagerWrapper
+import com.android.geto.domain.framework.ClipboardManagerWrapper
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 

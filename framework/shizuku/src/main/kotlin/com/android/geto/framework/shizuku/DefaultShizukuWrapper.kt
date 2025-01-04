@@ -24,8 +24,8 @@ import android.content.ServiceConnection
 import android.content.pm.PackageManager
 import android.os.IBinder
 import android.os.RemoteException
-import com.android.geto.core.domain.framework.ShizukuWrapper
-import com.android.geto.core.domain.model.ShizukuStatus
+import com.android.geto.domain.framework.ShizukuWrapper
+import com.android.geto.domain.model.ShizukuStatus
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow

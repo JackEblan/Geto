@@ -19,8 +19,8 @@ package com.android.geto.data.room.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.android.geto.core.domain.model.AppSetting
-import com.android.geto.core.domain.model.SettingType
+import com.android.geto.domain.model.AppSetting
+import com.android.geto.domain.model.SettingType
 
 @Entity
 data class AppSettingEntity(

@@ -17,14 +17,14 @@
  */
 package com.android.geto.data.repository.di
 
-import com.android.geto.core.domain.repository.AppSettingsRepository
-import com.android.geto.core.domain.repository.SecureSettingsRepository
-import com.android.geto.core.domain.repository.ShortcutRepository
-import com.android.geto.core.domain.repository.UserDataRepository
 import com.android.geto.data.repository.DefaultAppSettingsRepository
 import com.android.geto.data.repository.DefaultSecureSettingsRepository
 import com.android.geto.data.repository.DefaultShortcutRepository
 import com.android.geto.data.repository.DefaultUserDataRepository
+import com.android.geto.domain.repository.AppSettingsRepository
+import com.android.geto.domain.repository.SecureSettingsRepository
+import com.android.geto.domain.repository.ShortcutRepository
+import com.android.geto.domain.repository.UserDataRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

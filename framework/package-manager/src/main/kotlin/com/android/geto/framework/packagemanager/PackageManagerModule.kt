@@ -17,7 +17,7 @@
  */
 package com.android.geto.framework.packagemanager
 
-import com.android.geto.core.domain.framework.PackageManagerWrapper
+import com.android.geto.domain.framework.PackageManagerWrapper
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

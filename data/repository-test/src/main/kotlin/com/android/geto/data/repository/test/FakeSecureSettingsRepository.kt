@@ -17,10 +17,10 @@
  */
 package com.android.geto.data.repository.test
 
-import com.android.geto.core.domain.model.AppSetting
-import com.android.geto.core.domain.model.SecureSetting
-import com.android.geto.core.domain.model.SettingType
-import com.android.geto.core.domain.repository.SecureSettingsRepository
+import com.android.geto.domain.model.AppSetting
+import com.android.geto.domain.model.SecureSetting
+import com.android.geto.domain.model.SettingType
+import com.android.geto.domain.repository.SecureSettingsRepository
 import javax.inject.Inject
 
 class FakeSecureSettingsRepository @Inject constructor() : SecureSettingsRepository {

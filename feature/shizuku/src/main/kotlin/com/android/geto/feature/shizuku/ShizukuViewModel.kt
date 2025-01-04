@@ -19,7 +19,7 @@ package com.android.geto.feature.shizuku
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.android.geto.core.domain.framework.ShizukuWrapper
+import com.android.geto.domain.framework.ShizukuWrapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn

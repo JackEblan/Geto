@@ -17,8 +17,8 @@
  */
 package com.android.geto.framework.test
 
-import com.android.geto.core.domain.framework.PackageManagerWrapper
-import com.android.geto.core.domain.model.GetoApplicationInfo
+import com.android.geto.domain.framework.PackageManagerWrapper
+import com.android.geto.domain.model.GetoApplicationInfo
 import javax.inject.Inject
 
 class FakePackageManagerWrapper @Inject constructor() : PackageManagerWrapper {

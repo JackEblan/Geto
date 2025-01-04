@@ -43,9 +43,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.android.geto.core.domain.model.ShizukuStatus
 import com.android.geto.designsystem.component.AnimatedWavyCircle
 import com.android.geto.designsystem.icon.GetoIcons
+import com.android.geto.domain.model.ShizukuStatus
 
 @Composable
 internal fun ShizukuRoute(

@@ -19,11 +19,11 @@ package com.android.geto.data.repository
 
 import com.android.geto.common.Dispatcher
 import com.android.geto.common.GetoDispatchers.Default
-import com.android.geto.core.domain.framework.SecureSettingsWrapper
-import com.android.geto.core.domain.model.AppSetting
-import com.android.geto.core.domain.model.SecureSetting
-import com.android.geto.core.domain.model.SettingType
-import com.android.geto.core.domain.repository.SecureSettingsRepository
+import com.android.geto.domain.framework.SecureSettingsWrapper
+import com.android.geto.domain.model.AppSetting
+import com.android.geto.domain.model.SecureSetting
+import com.android.geto.domain.model.SettingType
+import com.android.geto.domain.repository.SecureSettingsRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

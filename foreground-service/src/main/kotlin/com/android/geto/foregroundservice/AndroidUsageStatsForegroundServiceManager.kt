@@ -23,7 +23,7 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.os.IBinder
 import androidx.core.content.ContextCompat
-import com.android.geto.core.domain.foregroundservice.UsageStatsForegroundServiceManager
+import com.android.geto.domain.foregroundservice.UsageStatsForegroundServiceManager
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow

@@ -17,9 +17,9 @@
  */
 package com.android.geto.feature.appsettings
 
-import com.android.geto.core.domain.model.AppSetting
-import com.android.geto.core.domain.model.GetoShortcutInfoCompat
-import com.android.geto.core.domain.model.SettingType
+import com.android.geto.domain.model.AppSetting
+import com.android.geto.domain.model.GetoShortcutInfoCompat
+import com.android.geto.domain.model.SettingType
 
 sealed interface AppSettingsEvent {
     data object ApplyAppSettings : AppSettingsEvent

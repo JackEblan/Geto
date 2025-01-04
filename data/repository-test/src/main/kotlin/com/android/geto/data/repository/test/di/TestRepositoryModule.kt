@@ -17,15 +17,15 @@
  */
 package com.android.geto.data.repository.test.di
 
-import com.android.geto.core.domain.repository.AppSettingsRepository
-import com.android.geto.core.domain.repository.SecureSettingsRepository
-import com.android.geto.core.domain.repository.ShortcutRepository
-import com.android.geto.core.domain.repository.UserDataRepository
 import com.android.geto.data.repository.di.RepositoryModule
 import com.android.geto.data.repository.test.FakeAppSettingsRepository
 import com.android.geto.data.repository.test.FakeSecureSettingsRepository
 import com.android.geto.data.repository.test.FakeShortcutRepository
 import com.android.geto.data.repository.test.FakeUserDataRepository
+import com.android.geto.domain.repository.AppSettingsRepository
+import com.android.geto.domain.repository.SecureSettingsRepository
+import com.android.geto.domain.repository.ShortcutRepository
+import com.android.geto.domain.repository.UserDataRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.components.SingletonComponent

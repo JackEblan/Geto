@@ -20,9 +20,9 @@ package com.android.geto.feature.appsettings.dialog.template
 import androidx.activity.ComponentActivity
 import androidx.compose.material3.Surface
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import com.android.geto.core.domain.model.AppSettingTemplate
-import com.android.geto.core.domain.model.SettingType
 import com.android.geto.designsystem.theme.GetoTheme
+import com.android.geto.domain.model.AppSettingTemplate
+import com.android.geto.domain.model.SettingType
 import com.android.geto.roborazzi.DefaultTestDevices
 import com.android.geto.roborazzi.captureDialogForDevice
 import org.junit.Rule

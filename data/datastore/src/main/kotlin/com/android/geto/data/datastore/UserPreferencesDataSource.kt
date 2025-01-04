@@ -18,13 +18,13 @@
 package com.android.geto.data.datastore
 
 import androidx.datastore.core.DataStore
-import com.android.geto.core.domain.model.DarkThemeConfig
-import com.android.geto.core.domain.model.ThemeBrand
-import com.android.geto.core.domain.model.UserData
 import com.android.geto.data.datastore.proto.DarkThemeConfigProto
 import com.android.geto.data.datastore.proto.ThemeBrandProto
 import com.android.geto.data.datastore.proto.UserPreferences
 import com.android.geto.data.datastore.proto.copy
+import com.android.geto.domain.model.DarkThemeConfig
+import com.android.geto.domain.model.ThemeBrand
+import com.android.geto.domain.model.UserData
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
