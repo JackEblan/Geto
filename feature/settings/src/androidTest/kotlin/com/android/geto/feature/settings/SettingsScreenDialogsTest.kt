@@ -30,7 +30,7 @@ import com.android.geto.core.domain.model.DarkThemeConfig
 import com.android.geto.core.domain.model.ThemeBrand
 import com.android.geto.core.domain.model.UserData
 import org.junit.Rule
-import org.junit.Test
+import kotlin.test.Test
 
 class SettingsScreenDialogsTest {
     @get:Rule

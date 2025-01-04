@@ -19,8 +19,8 @@ package com.android.geto.feature.appsettings.dialog.appsetting
 
 import com.android.geto.core.domain.model.SecureSetting
 import com.android.geto.core.domain.model.SettingType
-import org.junit.Before
-import org.junit.Test
+import kotlin.test.BeforeTest
+import kotlin.test.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
@@ -31,7 +31,7 @@ class AppSettingsDialogStateTest {
 
     private val packageName = "com.android.geto"
 
-    @Before
+    @BeforeTest
     fun setup() {
         appSettingDialogState = AppSettingDialogState()
     }

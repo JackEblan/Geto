@@ -21,29 +21,29 @@ import com.android.geto.core.domain.model.DarkThemeConfig
 import com.android.geto.core.domain.model.ThemeBrand
 import com.android.geto.core.domain.model.UserData
 import com.android.geto.core.domain.repository.UserDataRepository
-import com.android.geto.data.datastore.GetoPreferencesDataSource
+import com.android.geto.data.datastore.UserPreferencesDataSource
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class DefaultUserDataRepository @Inject constructor(
-    private val getoPreferencesDataSource: GetoPreferencesDataSource,
+    private val userPreferencesDataSource: UserPreferencesDataSource,
 ) : UserDataRepository {
 
-    override val userData: Flow<UserData> = getoPreferencesDataSource.userData
+    override val userData: Flow<UserData> = userPreferencesDataSource.userData
 
     override suspend fun setThemeBrand(themeBrand: ThemeBrand) {
-        getoPreferencesDataSource.setThemeBrand(themeBrand = themeBrand)
+        userPreferencesDataSource.setThemeBrand(themeBrand = themeBrand)
     }
 
     override suspend fun setDarkThemeConfig(darkThemeConfig: DarkThemeConfig) {
-        getoPreferencesDataSource.setDarkThemeConfig(darkThemeConfig = darkThemeConfig)
+        userPreferencesDataSource.setDarkThemeConfig(darkThemeConfig = darkThemeConfig)
     }
 
     override suspend fun setDynamicColor(useDynamicColor: Boolean) {
-        getoPreferencesDataSource.setDynamicColor(useDynamicColor = useDynamicColor)
+        userPreferencesDataSource.setDynamicColor(useDynamicColor = useDynamicColor)
     }
 
     override suspend fun setAutoLaunch(useAutoLaunch: Boolean) {
-        getoPreferencesDataSource.setAutoLaunch(useAutoLaunch = useAutoLaunch)
+        userPreferencesDataSource.setAutoLaunch(useAutoLaunch = useAutoLaunch)
     }
 }

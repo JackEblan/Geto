@@ -31,6 +31,8 @@
       <module name="Geto.core.shortcutmanager-test" target="17" />
       <module name="Geto.core.testing" target="21" />
       <module name="Geto.core.ui" target="21" />
+      <module name="Geto.data.datastore-proto" target="21" />
+      <module name="Geto.data.datastore-test" target="21" />
       <module name="Geto.feature.applist" target="17" />
       <module name="Geto.feature.permission" target="21" />
       <module name="Geto.feature.securesettingslist" target="17" />

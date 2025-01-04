@@ -24,7 +24,7 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import com.android.geto.core.domain.model.GetoApplicationInfo
 import org.junit.Rule
-import org.junit.Test
+import kotlin.test.Test
 
 class AppsScreenTest {
     @get:Rule

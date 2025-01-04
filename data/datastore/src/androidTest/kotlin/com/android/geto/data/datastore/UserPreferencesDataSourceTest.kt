@@ -17,35 +17,45 @@
  */
 package com.android.geto.data.datastore
 
+import android.content.Context
+import androidx.datastore.core.DataStoreFactory
+import androidx.datastore.dataStoreFile
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.android.geto.core.domain.model.DarkThemeConfig
 import com.android.geto.core.domain.model.ThemeBrand
-import com.android.geto.data.datastore.test.testUserPreferencesDataStore
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
-import org.junit.Before
-import org.junit.Rule
-import org.junit.rules.TemporaryFolder
+import org.junit.runner.RunWith
+import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-class GetoPreferencesDataSourceTest {
+@RunWith(AndroidJUnit4::class)
+class UserPreferencesDataSourceTest {
 
     private val testScope = TestScope(UnconfinedTestDispatcher())
 
-    private lateinit var subject: GetoPreferencesDataSource
+    private val userPreferencesSerializer = UserPreferencesSerializer()
 
-    @get:Rule
-    val tmpFolder: TemporaryFolder = TemporaryFolder.builder().assureDeletion().build()
+    private val context = ApplicationProvider.getApplicationContext<Context>()
 
-    @Before
+    private val dataStore = DataStoreFactory.create(
+        serializer = userPreferencesSerializer,
+        scope = testScope.backgroundScope,
+    ) {
+        context.dataStoreFile("user_preferences.pb")
+    }
+
+    private lateinit var subject: UserPreferencesDataSource
+
+    @BeforeTest
     fun setup() {
-        subject = GetoPreferencesDataSource(
-            tmpFolder.testUserPreferencesDataStore(testScope.backgroundScope),
-        )
+        subject = UserPreferencesDataSource(dataStore)
     }
 
     @Test

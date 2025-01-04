@@ -31,12 +31,14 @@ dependencies {
     implementation(projects.common)
     implementation(projects.domain)
 
+    testImplementation(kotlin("test"))
     testImplementation(libs.bundles.androidx.compose.ui.test)
     testImplementation(libs.robolectric)
     testImplementation(testFixtures(projects.common))
     testImplementation(testFixtures(projects.domain))
     testImplementation(projects.roborazzi)
 
+    androidTestImplementation(kotlin("test"))
     androidTestImplementation(testFixtures(projects.common))
     androidTestImplementation(libs.bundles.androidx.compose.ui.test)
 }

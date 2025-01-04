@@ -28,7 +28,7 @@ import com.android.geto.data.datastore.proto.copy
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class GetoPreferencesDataSource @Inject constructor(
+class UserPreferencesDataSource @Inject constructor(
     private val userPreferences: DataStore<UserPreferences>,
 ) {
     val userData = userPreferences.data.map {

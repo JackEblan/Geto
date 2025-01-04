@@ -24,8 +24,8 @@ import com.android.geto.core.domain.model.RequestPinShortcutResult.UpdateImmutab
 import com.android.geto.core.domain.model.RequestPinShortcutResult.UpdateSuccess
 import com.android.geto.core.domain.repository.TestShortcutRepository
 import kotlinx.coroutines.test.runTest
-import org.junit.Before
-import org.junit.Test
+import kotlin.test.BeforeTest
+import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class RequestPinShortcutUseCaseTest {
@@ -33,7 +33,7 @@ class RequestPinShortcutUseCaseTest {
 
     private lateinit var shortcutRepository: TestShortcutRepository
 
-    @Before
+    @BeforeTest
     fun setUp() {
         shortcutRepository = TestShortcutRepository()
 

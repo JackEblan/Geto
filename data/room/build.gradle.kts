@@ -38,6 +38,7 @@ android {
 dependencies {
     implementation(projects.domain)
 
+    androidTestImplementation(kotlin("test"))
     androidTestImplementation(libs.room.testing)
     androidTestImplementation(testFixtures(projects.common))
 }

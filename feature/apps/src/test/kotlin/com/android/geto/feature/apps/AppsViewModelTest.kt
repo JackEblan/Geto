@@ -24,9 +24,9 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
-import org.junit.Before
 import org.junit.Rule
-import org.junit.Test
+import kotlin.test.BeforeTest
+import kotlin.test.Test
 import kotlin.test.assertIs
 
 class AppsViewModelTest {
@@ -37,7 +37,7 @@ class AppsViewModelTest {
 
     private lateinit var viewModel: AppsViewModel
 
-    @Before
+    @BeforeTest
     fun setup() {
         packageManagerWrapper = FakePackageManagerWrapper()
 

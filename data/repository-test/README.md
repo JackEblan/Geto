@@ -1,3 +1,3 @@
 # :core:data-test module
 ## Dependency graph
-![Dependency graph](../../docs/images/graphs/dep_graph_core_data_test.svg)
+![Dependency graph](../../docs/images/graphs/dep_graph_data_repository_test.svg)

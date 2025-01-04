@@ -32,9 +32,9 @@ import com.android.geto.designsystem.theme.GetoTheme
 import com.android.geto.designsystem.theme.LightGreenColorScheme
 import com.android.geto.designsystem.theme.LightPurpleColorScheme
 import org.junit.Rule
-import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
+import kotlin.test.Test
 import kotlin.test.assertEquals
 
 /**

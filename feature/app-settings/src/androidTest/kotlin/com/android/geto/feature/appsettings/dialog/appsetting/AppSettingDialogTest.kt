@@ -28,7 +28,7 @@ import androidx.compose.ui.test.performScrollTo
 import com.android.geto.core.domain.model.SecureSetting
 import com.android.geto.core.domain.model.SettingType
 import org.junit.Rule
-import org.junit.Test
+import kotlin.test.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 

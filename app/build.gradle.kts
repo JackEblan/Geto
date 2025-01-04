@@ -98,6 +98,7 @@ dependencies {
 
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 
+    androidTestImplementation(kotlin("test"))
     androidTestImplementation(libs.accompanist.testharness)
     androidTestImplementation(libs.androidx.compose.ui.test)
     androidTestImplementation(libs.androidx.navigation.testing)

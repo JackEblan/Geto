@@ -37,10 +37,10 @@ import com.android.geto.R
 import com.android.geto.common.GrantPostNotificationsPermissionRule
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import org.junit.Before
 import org.junit.Rule
-import org.junit.Test
 import kotlin.properties.ReadOnlyProperty
+import kotlin.test.BeforeTest
+import kotlin.test.Test
 import com.android.geto.feature.shizuku.R as shizukuR
 
 @HiltAndroidTest
@@ -62,7 +62,7 @@ class NavigationTest {
     private val settings by composeTestRule.stringResource(R.string.settings)
     private val shizuku by composeTestRule.stringResource(shizukuR.string.shizuku)
 
-    @Before
+    @BeforeTest
     fun setup() = hiltRule.inject()
 
     @Test

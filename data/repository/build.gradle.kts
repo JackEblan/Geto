@@ -24,12 +24,6 @@ plugins {
 
 android {
     namespace = "com.android.geto.data.repository"
-    testOptions {
-        unitTests {
-            isIncludeAndroidResources = true
-            isReturnDefaultValues = true
-        }
-    }
 }
 
 dependencies {

@@ -32,8 +32,8 @@ import com.android.geto.core.domain.repository.TestAppSettingsRepository
 import com.android.geto.core.domain.repository.TestSecureSettingsRepository
 import com.android.geto.core.domain.repository.TestUserDataRepository
 import kotlinx.coroutines.test.runTest
-import org.junit.Before
-import org.junit.Test
+import kotlin.test.BeforeTest
+import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class AutoLaunchUseCaseTest {
@@ -49,7 +49,7 @@ class AutoLaunchUseCaseTest {
 
     private val packageName = "com.android.geto"
 
-    @Before
+    @BeforeTest
     fun setup() {
         packageRepository = FakePackageManagerWrapper()
 

@@ -42,13 +42,14 @@ dependencies {
     api(libs.androidx.compose.ui.util)
     api(libs.coil.kt.compose)
 
+    testImplementation(kotlin("test"))
     testImplementation(libs.androidx.compose.ui.test)
     testImplementation(libs.androidx.compose.ui.test.manifest)
     testImplementation(libs.accompanist.testharness)
-    testImplementation(libs.hilt.android.testing)
     testImplementation(libs.robolectric)
     testImplementation(projects.roborazzi)
     testImplementation(testFixtures(projects.common))
 
+    androidTestImplementation(kotlin("test"))
     androidTestImplementation(libs.bundles.androidx.compose.ui.test)
 }

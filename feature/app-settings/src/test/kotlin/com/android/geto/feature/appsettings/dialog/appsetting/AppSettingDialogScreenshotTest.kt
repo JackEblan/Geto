@@ -23,12 +23,12 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.android.geto.designsystem.theme.GetoTheme
 import com.android.geto.roborazzi.DefaultTestDevices
 import com.android.geto.roborazzi.captureDialogForDevice
-import org.junit.Before
 import org.junit.Rule
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.GraphicsMode
 import org.robolectric.annotation.LooperMode
+import kotlin.test.BeforeTest
 import kotlin.test.Test
 
 @RunWith(RobolectricTestRunner::class)
@@ -41,7 +41,7 @@ class AppSettingDialogScreenshotTest {
 
     private lateinit var appSettingDialogState: AppSettingDialogState
 
-    @Before
+    @BeforeTest
     fun setup() {
         appSettingDialogState = AppSettingDialogState()
     }

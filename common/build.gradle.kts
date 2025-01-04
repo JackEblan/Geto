@@ -31,7 +31,6 @@ android {
 }
 
 dependencies {
-    testFixturesApi(kotlin("test"))
     testFixturesApi(libs.androidx.test.rules)
     testFixturesApi(libs.hilt.android.testing)
     testFixturesApi(libs.kotlinx.coroutines.test)

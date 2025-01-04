@@ -37,7 +37,7 @@ import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.performTextInput
 import com.android.geto.feature.appsettings.dialog.template.TemplateDialogUiState
 import org.junit.Rule
-import org.junit.Test
+import kotlin.test.Test
 
 class AppSettingsScreenDialogsTest {
     @get:Rule

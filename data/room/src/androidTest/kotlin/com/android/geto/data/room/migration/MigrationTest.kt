@@ -22,8 +22,8 @@ import androidx.room.testing.MigrationTestHelper
 import androidx.test.platform.app.InstrumentationRegistry
 import com.android.geto.data.room.AppDatabase
 import org.junit.Rule
-import org.junit.Test
 import java.io.IOException
+import kotlin.test.Test
 
 class MigrationTest {
     private val testDb = "migration-test"

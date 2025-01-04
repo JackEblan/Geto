@@ -30,8 +30,8 @@ import com.android.geto.core.domain.model.AppSettingsResult
 import com.android.geto.core.domain.model.RequestPinShortcutResult
 import com.android.geto.feature.appsettings.dialog.template.TemplateDialogUiState
 import org.junit.Rule
-import org.junit.Test
 import kotlin.properties.ReadOnlyProperty
+import kotlin.test.Test
 
 class AppSettingsScreenSnackbarTest {
     @get:Rule

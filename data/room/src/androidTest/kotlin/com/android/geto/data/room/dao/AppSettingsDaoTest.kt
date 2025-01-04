@@ -25,30 +25,28 @@ import com.android.geto.data.room.AppDatabase
 import com.android.geto.data.room.model.AppSettingEntity
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
-import org.junit.After
-import org.junit.Before
-import org.junit.Test
+import kotlin.test.AfterTest
+import kotlin.test.BeforeTest
+import kotlin.test.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class AppSettingsDaoTest {
     private lateinit var appSettingsDao: AppSettingsDao
 
-    private lateinit var db: AppDatabase
+    private val context = ApplicationProvider.getApplicationContext<Context>()
 
-    @Before
+    private val db = Room.inMemoryDatabaseBuilder(
+        context,
+        AppDatabase::class.java,
+    ).build()
+
+    @BeforeTest
     fun setup() {
-        val context = ApplicationProvider.getApplicationContext<Context>()
-
-        db = Room.inMemoryDatabaseBuilder(
-            context,
-            AppDatabase::class.java,
-        ).build()
-
         appSettingsDao = db.appSettingsDao()
     }
 
-    @After
+    @AfterTest
     fun tearDown() {
         db.close()
     }

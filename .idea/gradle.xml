@@ -30,8 +30,6 @@
             <option value="$PROJECT_DIR$/common" />
             <option value="$PROJECT_DIR$/data" />
             <option value="$PROJECT_DIR$/data/datastore" />
-            <option value="$PROJECT_DIR$/data/datastore-proto" />
-            <option value="$PROJECT_DIR$/data/datastore-test" />
             <option value="$PROJECT_DIR$/data/repository" />
             <option value="$PROJECT_DIR$/data/repository-test" />
             <option value="$PROJECT_DIR$/data/room" />

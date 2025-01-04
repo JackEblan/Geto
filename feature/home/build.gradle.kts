@@ -30,12 +30,14 @@ android {
 dependencies {
     implementation(libs.androidx.compose.material3.adaptive.navigation.suite)
 
+    testImplementation(kotlin("test"))
     testImplementation(libs.bundles.androidx.compose.ui.test)
     testImplementation(libs.robolectric)
     testImplementation(testFixtures(projects.common))
     testImplementation(testFixtures(projects.domain))
     testImplementation(projects.roborazzi)
 
+    androidTestImplementation(kotlin("test"))
     androidTestImplementation(libs.androidx.navigation.testing)
     androidTestImplementation(libs.bundles.androidx.compose.ui.test)
     androidTestImplementation(testFixtures(projects.common))

@@ -17,6 +17,7 @@
  */
 
 plugins {
+    alias(libs.plugins.protobuf)
     alias(libs.plugins.com.android.geto.library)
     alias(libs.plugins.com.android.geto.libraryJacoco)
     alias(libs.plugins.com.android.geto.hilt)
@@ -28,21 +29,38 @@ android {
     defaultConfig {
         consumerProguardFiles("consumer-proguard-rules.pro")
     }
+}
 
-    testOptions {
-        unitTests {
-            isReturnDefaultValues = true
+// Setup protobuf configuration, generating lite Java and Kotlin classes
+protobuf {
+    protoc {
+        artifact = libs.protobuf.protoc.get().toString()
+    }
+    generateProtoTasks {
+        all().forEach { task ->
+            task.builtins {
+                register("java") {
+                    option("lite")
+                }
+                register("kotlin") {
+                    option("lite")
+                }
+            }
         }
     }
 }
 
 dependencies {
-    api(libs.androidx.dataStore.core)
-    api(projects.data.datastoreProto)
+    implementation(libs.androidx.dataStore.core)
+    implementation(libs.protobuf.kotlin.lite)
 
     implementation(projects.common)
     implementation(projects.domain)
 
-    testImplementation(projects.data.datastoreTest)
-    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(kotlin("test"))
+    testImplementation(testFixtures(projects.common))
+
+    androidTestImplementation(kotlin("test"))
+    androidTestImplementation(libs.androidx.test.ext)
+    androidTestImplementation(testFixtures(projects.common))
 }
