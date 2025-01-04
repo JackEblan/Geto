@@ -34,6 +34,7 @@ dependencies {
     testImplementation(libs.robolectric)
     testImplementation(testFixtures(projects.common))
     testImplementation(testFixtures(projects.domain))
+    testImplementation(projects.roborazzi)
 
     androidTestImplementation(testFixtures(projects.common))
     androidTestImplementation(libs.bundles.androidx.compose.ui.test)
