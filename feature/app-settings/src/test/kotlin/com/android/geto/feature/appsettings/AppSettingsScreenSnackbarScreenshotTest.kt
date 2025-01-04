@@ -20,12 +20,12 @@ package com.android.geto.feature.appsettings
 import androidx.activity.ComponentActivity
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import com.android.geto.designsystem.theme.GetoTheme
+import com.android.geto.common.MainDispatcherRule
 import com.android.geto.core.domain.model.AppSetting
 import com.android.geto.core.domain.model.SettingType
-import com.android.geto.roborazzi.captureSnackbarForMultiDevice
-import com.android.geto.common.MainDispatcherRule
+import com.android.geto.designsystem.theme.GetoTheme
 import com.android.geto.feature.appsettings.dialog.template.TemplateDialogUiState
+import com.android.geto.roborazzi.captureSnackbarForMultiDevice
 import dagger.hilt.android.testing.HiltTestApplication
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule

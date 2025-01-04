@@ -20,8 +20,8 @@ package com.android.geto.feature.apps
 import androidx.activity.ComponentActivity
 import androidx.compose.material3.Surface
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import com.android.geto.designsystem.theme.GetoTheme
 import com.android.geto.core.domain.model.GetoApplicationInfo
+import com.android.geto.designsystem.theme.GetoTheme
 import com.android.geto.roborazzi.DefaultTestDevices
 import com.android.geto.roborazzi.captureScreenForDevice
 import com.android.geto.roborazzi.captureScreenForMultiDevice

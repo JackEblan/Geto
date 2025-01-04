@@ -36,11 +36,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
+import com.android.geto.core.domain.model.AppSetting
+import com.android.geto.core.domain.model.AppSettingTemplate
 import com.android.geto.designsystem.component.DialogContainer
 import com.android.geto.designsystem.component.GetoLoadingWheel
 import com.android.geto.designsystem.icon.GetoIcons
-import com.android.geto.core.domain.model.AppSetting
-import com.android.geto.core.domain.model.AppSettingTemplate
 import com.android.geto.feature.appsettings.R
 
 @Composable

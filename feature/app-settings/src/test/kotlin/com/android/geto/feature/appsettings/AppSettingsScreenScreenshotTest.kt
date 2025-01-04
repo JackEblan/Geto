@@ -21,13 +21,13 @@ import androidx.activity.ComponentActivity
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import com.android.geto.designsystem.theme.GetoTheme
 import com.android.geto.core.domain.model.AppSetting
 import com.android.geto.core.domain.model.SettingType
+import com.android.geto.designsystem.theme.GetoTheme
+import com.android.geto.feature.appsettings.dialog.template.TemplateDialogUiState
 import com.android.geto.roborazzi.DefaultTestDevices
 import com.android.geto.roborazzi.captureScreenForDevice
 import com.android.geto.roborazzi.captureScreenForMultiDevice
-import com.android.geto.feature.appsettings.dialog.template.TemplateDialogUiState
 import dagger.hilt.android.testing.HiltTestApplication
 import org.junit.Rule
 import org.junit.runner.RunWith

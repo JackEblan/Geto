@@ -111,113 +111,113 @@
 <path fill="none" stroke="black" d="M888.43,-145.98C849.84,-135.35 797.82,-121.01 756.57,-109.64"/>
 <polygon fill="black" stroke="black" points="757.55,-106.28 746.98,-107 755.69,-113.03 757.55,-106.28"/>
 </g>
-<!-- :core:domain -->
+<!-- :domain -->
 <g id="node10" class="node">
-<title>:core:domain</title>
-<ellipse fill="none" stroke="black" cx="942.92" cy="-18" rx="58.55" ry="18"/>
-<text text-anchor="middle" x="942.92" y="-12.57" font-family="Times New Roman,serif" font-size="14.00">:core:domain</text>
+<title>:domain</title>
+<ellipse fill="none" stroke="black" cx="942.92" cy="-18" rx="40.09" ry="18"/>
+<text text-anchor="middle" x="942.92" y="-12.57" font-family="Times New Roman,serif" font-size="14.00">:domain</text>
 </g>
-<!-- :framework:framework&#45;test&#45;&gt;:core:domain -->
+<!-- :framework:framework&#45;test&#45;&gt;:domain -->
 <g id="edge9" class="edge">
-<title>:framework:framework&#45;test&#45;&gt;:core:domain</title>
-<path fill="none" stroke="black" d="M832.75,-159.95C657.32,-157.11 330.53,-146.65 294.92,-108 284.07,-96.23 284.07,-83.77 294.92,-72 333.48,-30.15 713.39,-21.35 872.94,-19.49"/>
-<polygon fill="black" stroke="black" points="872.56,-23 882.52,-19.39 872.48,-16 872.56,-23"/>
+<title>:framework:framework&#45;test&#45;&gt;:domain</title>
+<path fill="none" stroke="black" d="M832.75,-159.95C657.32,-157.11 330.53,-146.65 294.92,-108 284.07,-96.23 284.07,-83.77 294.92,-72 335.04,-28.46 744.69,-20.69 891.18,-19.3"/>
+<polygon fill="black" stroke="black" points="891.01,-22.8 900.97,-19.22 890.94,-15.8 891.01,-22.8"/>
 </g>
-<!-- :framework:asset&#45;manager&#45;&gt;:core:domain -->
+<!-- :framework:asset&#45;manager&#45;&gt;:domain -->
 <g id="edge11" class="edge">
-<title>:framework:asset&#45;manager&#45;&gt;:core:domain</title>
+<title>:framework:asset&#45;manager&#45;&gt;:domain</title>
 <path fill="none" stroke="black" d="M942.92,-71.7C942.92,-64.41 942.92,-55.73 942.92,-47.54"/>
 <polygon fill="black" stroke="black" points="946.42,-47.62 942.92,-37.62 939.42,-47.62 946.42,-47.62"/>
 </g>
-<!-- :core:common -->
+<!-- :common -->
 <g id="node11" class="node">
-<title>:core:common</title>
-<ellipse fill="none" stroke="black" cx="1197.92" cy="-18" rx="64.04" ry="18"/>
-<text text-anchor="middle" x="1197.92" y="-12.57" font-family="Times New Roman,serif" font-size="14.00">:core:common</text>
+<title>:common</title>
+<ellipse fill="none" stroke="black" cx="1197.92" cy="-18" rx="45.57" ry="18"/>
+<text text-anchor="middle" x="1197.92" y="-12.57" font-family="Times New Roman,serif" font-size="14.00">:common</text>
 </g>
-<!-- :framework:asset&#45;manager&#45;&gt;:core:common -->
+<!-- :framework:asset&#45;manager&#45;&gt;:common -->
 <g id="edge10" class="edge">
-<title>:framework:asset&#45;manager&#45;&gt;:core:common</title>
-<path fill="none" stroke="red" stroke-width="2" d="M997.31,-74.07C1040.1,-62.32 1099.48,-46.02 1142.53,-34.21"/>
-<polygon fill="red" stroke="red" stroke-width="2" points="1141.74,-38.05 1150.45,-32.03 1139.88,-31.3 1141.74,-38.05"/>
+<title>:framework:asset&#45;manager&#45;&gt;:common</title>
+<path fill="none" stroke="red" stroke-width="2" d="M997.31,-74.07C1042.79,-61.58 1107.01,-43.95 1150.44,-32.03"/>
+<polygon fill="red" stroke="red" stroke-width="2" points="1149.65,-35.88 1158.37,-29.86 1147.8,-29.13 1149.65,-35.88"/>
 </g>
-<!-- :framework:clipboard&#45;manager&#45;&gt;:core:domain -->
+<!-- :framework:clipboard&#45;manager&#45;&gt;:domain -->
 <g id="edge12" class="edge">
-<title>:framework:clipboard&#45;manager&#45;&gt;:core:domain</title>
-<path fill="none" stroke="black" d="M214.04,-77.31C229.98,-75.41 246.43,-73.56 261.92,-72 485.67,-49.52 751.61,-31.26 874.46,-23.31"/>
-<polygon fill="black" stroke="black" points="874.63,-26.8 884.38,-22.67 874.18,-19.82 874.63,-26.8"/>
+<title>:framework:clipboard&#45;manager&#45;&gt;:domain</title>
+<path fill="none" stroke="black" d="M214.04,-77.31C229.98,-75.41 246.43,-73.56 261.92,-72 496.96,-48.39 778.55,-29.43 891.93,-22.18"/>
+<polygon fill="black" stroke="black" points="892.06,-25.68 901.82,-21.55 891.62,-18.7 892.06,-25.68"/>
 </g>
-<!-- :framework:notification&#45;manager&#45;&gt;:core:domain -->
+<!-- :framework:notification&#45;manager&#45;&gt;:domain -->
 <g id="edge14" class="edge">
-<title>:framework:notification&#45;manager&#45;&gt;:core:domain</title>
-<path fill="none" stroke="black" d="M1141.01,-73.38C1097.75,-61.5 1038.67,-45.29 996.31,-33.66"/>
-<polygon fill="black" stroke="black" points="997.41,-30.33 986.84,-31.06 995.56,-37.08 997.41,-30.33"/>
+<title>:framework:notification&#45;manager&#45;&gt;:domain</title>
+<path fill="none" stroke="black" d="M1141.01,-73.38C1094.66,-60.65 1030.13,-42.94 987.48,-31.23"/>
+<polygon fill="black" stroke="black" points="988.62,-27.92 978.05,-28.65 986.77,-34.67 988.62,-27.92"/>
 </g>
-<!-- :framework:notification&#45;manager&#45;&gt;:core:common -->
+<!-- :framework:notification&#45;manager&#45;&gt;:common -->
 <g id="edge13" class="edge">
-<title>:framework:notification&#45;manager&#45;&gt;:core:common</title>
+<title>:framework:notification&#45;manager&#45;&gt;:common</title>
 <path fill="none" stroke="black" d="M1197.92,-71.7C1197.92,-64.41 1197.92,-55.73 1197.92,-47.54"/>
 <polygon fill="black" stroke="black" points="1201.42,-47.62 1197.92,-37.62 1194.42,-47.62 1201.42,-47.62"/>
 </g>
-<!-- :framework:package&#45;manager&#45;&gt;:core:domain -->
+<!-- :framework:package&#45;manager&#45;&gt;:domain -->
 <g id="edge16" class="edge">
-<title>:framework:package&#45;manager&#45;&gt;:core:domain</title>
-<path fill="none" stroke="black" d="M1378.13,-77.36C1273.49,-63.33 1100.09,-40.08 1006.89,-27.58"/>
-<polygon fill="black" stroke="black" points="1007.53,-24.13 997.15,-26.27 1006.6,-31.07 1007.53,-24.13"/>
+<title>:framework:package&#45;manager&#45;&gt;:domain</title>
+<path fill="none" stroke="black" d="M1378.13,-77.36C1267.85,-62.57 1081.18,-37.54 992.52,-25.65"/>
+<polygon fill="black" stroke="black" points="993.07,-22.19 982.69,-24.33 992.14,-29.13 993.07,-22.19"/>
 </g>
-<!-- :framework:package&#45;manager&#45;&gt;:core:common -->
+<!-- :framework:package&#45;manager&#45;&gt;:common -->
 <g id="edge15" class="edge">
-<title>:framework:package&#45;manager&#45;&gt;:core:common</title>
-<path fill="none" stroke="black" d="M1407.31,-73.9C1362.09,-62.04 1299.46,-45.62 1254.5,-33.84"/>
-<polygon fill="black" stroke="black" points="1255.5,-30.48 1244.94,-31.33 1253.72,-37.25 1255.5,-30.48"/>
+<title>:framework:package&#45;manager&#45;&gt;:common</title>
+<path fill="none" stroke="black" d="M1407.31,-73.9C1359.26,-61.3 1291.57,-43.55 1246.29,-31.68"/>
+<polygon fill="black" stroke="black" points="1247.31,-28.33 1236.75,-29.18 1245.54,-35.1 1247.31,-28.33"/>
 </g>
-<!-- :framework:secure&#45;settings&#45;&gt;:core:domain -->
+<!-- :framework:secure&#45;settings&#45;&gt;:domain -->
 <g id="edge18" class="edge">
-<title>:framework:secure&#45;settings&#45;&gt;:core:domain</title>
-<path fill="none" stroke="black" d="M1632.94,-77.02C1619.61,-75.19 1605.88,-73.43 1592.92,-72 1385.56,-49.11 1332.78,-53.7 1124.92,-36 1086.71,-32.75 1044.02,-28.78 1009.59,-25.49"/>
-<polygon fill="black" stroke="black" points="1010.05,-22.02 999.76,-24.55 1009.38,-28.99 1010.05,-22.02"/>
+<title>:framework:secure&#45;settings&#45;&gt;:domain</title>
+<path fill="none" stroke="black" d="M1632.93,-77.05C1619.6,-75.22 1605.88,-73.45 1592.92,-72 1393.52,-49.68 1342.88,-52.5 1142.92,-36 1092.03,-31.8 1033.87,-26.84 993.43,-23.36"/>
+<polygon fill="black" stroke="black" points="993.77,-19.88 983.51,-22.51 993.17,-26.85 993.77,-19.88"/>
 </g>
-<!-- :framework:secure&#45;settings&#45;&gt;:core:common -->
+<!-- :framework:secure&#45;settings&#45;&gt;:common -->
 <g id="edge17" class="edge">
-<title>:framework:secure&#45;settings&#45;&gt;:core:common</title>
-<path fill="none" stroke="black" d="M1630.95,-77.37C1618.23,-75.55 1605.22,-73.71 1592.92,-72 1478.45,-56.07 1345.19,-38.37 1266.4,-27.98"/>
-<polygon fill="black" stroke="black" points="1267.05,-24.54 1256.68,-26.7 1266.14,-31.48 1267.05,-24.54"/>
+<title>:framework:secure&#45;settings&#45;&gt;:common</title>
+<path fill="none" stroke="black" d="M1630.95,-77.37C1618.23,-75.55 1605.22,-73.71 1592.92,-72 1471.18,-55.06 1328.21,-36.11 1252.08,-26.1"/>
+<polygon fill="black" stroke="black" points="1252.77,-22.66 1242.4,-24.83 1251.86,-29.6 1252.77,-22.66"/>
 </g>
-<!-- :framework:shizuku&#45;&gt;:core:domain -->
+<!-- :framework:shizuku&#45;&gt;:domain -->
 <g id="edge20" class="edge">
-<title>:framework:shizuku&#45;&gt;:core:domain</title>
-<path fill="none" stroke="black" d="M1862.2,-76.96C1851.18,-75.04 1839.73,-73.27 1828.92,-72 1517.76,-35.46 1437.4,-58.57 1124.92,-36 1086.53,-33.23 1043.66,-29.27 1009.18,-25.86"/>
-<polygon fill="black" stroke="black" points="1009.62,-22.39 999.33,-24.88 1008.93,-29.36 1009.62,-22.39"/>
+<title>:framework:shizuku&#45;&gt;:domain</title>
+<path fill="none" stroke="black" d="M1862.2,-76.97C1851.18,-75.05 1839.72,-73.28 1828.92,-72 1525.72,-36.19 1447.51,-56.93 1142.92,-36 1091.97,-32.5 1033.82,-27.44 993.4,-23.75"/>
+<polygon fill="black" stroke="black" points="993.76,-20.26 983.49,-22.84 993.12,-27.24 993.76,-20.26"/>
 </g>
-<!-- :framework:shizuku&#45;&gt;:core:common -->
+<!-- :framework:shizuku&#45;&gt;:common -->
 <g id="edge19" class="edge">
-<title>:framework:shizuku&#45;&gt;:core:common</title>
-<path fill="none" stroke="black" d="M1861.67,-77.16C1850.8,-75.24 1839.54,-73.42 1828.92,-72 1628.3,-45.11 1389.86,-29.48 1271.78,-22.83"/>
-<polygon fill="black" stroke="black" points="1272.08,-19.34 1261.9,-22.28 1271.69,-26.33 1272.08,-19.34"/>
+<title>:framework:shizuku&#45;&gt;:common</title>
+<path fill="none" stroke="black" d="M1861.67,-77.16C1850.8,-75.24 1839.54,-73.42 1828.92,-72 1617.92,-43.72 1365.08,-27.9 1254.43,-21.87"/>
+<polygon fill="black" stroke="black" points="1254.91,-18.39 1244.74,-21.35 1254.54,-25.38 1254.91,-18.39"/>
 </g>
-<!-- :framework:shortcut&#45;manager&#45;&gt;:core:domain -->
+<!-- :framework:shortcut&#45;manager&#45;&gt;:domain -->
 <g id="edge22" class="edge">
-<title>:framework:shortcut&#45;manager&#45;&gt;:core:domain</title>
-<path fill="none" stroke="black" d="M509.66,-77.32C613.82,-63.3 786.07,-40.11 878.9,-27.62"/>
-<polygon fill="black" stroke="black" points="879.15,-31.12 888.59,-26.31 878.21,-24.18 879.15,-31.12"/>
+<title>:framework:shortcut&#45;manager&#45;&gt;:domain</title>
+<path fill="none" stroke="black" d="M509.66,-77.32C619.59,-62.53 805.35,-37.52 893.56,-25.64"/>
+<polygon fill="black" stroke="black" points="893.89,-29.13 903.34,-24.33 892.96,-22.19 893.89,-29.13"/>
 </g>
-<!-- :framework:shortcut&#45;manager&#45;&gt;:core:common -->
+<!-- :framework:shortcut&#45;manager&#45;&gt;:common -->
 <g id="edge21" class="edge">
-<title>:framework:shortcut&#45;manager&#45;&gt;:core:common</title>
-<path fill="none" stroke="black" d="M507.87,-77.06C522.22,-75.23 536.98,-73.47 550.92,-72 754.86,-50.49 806.58,-53.28 1010.92,-36 1049.17,-32.76 1091.8,-28.91 1126.68,-25.69"/>
-<polygon fill="black" stroke="black" points="1126.58,-29.21 1136.21,-24.81 1125.93,-22.24 1126.58,-29.21"/>
+<title>:framework:shortcut&#45;manager&#45;&gt;:common</title>
+<path fill="none" stroke="black" d="M508.22,-77.06C522.46,-75.24 537.1,-73.48 550.92,-72 746.45,-51.05 795.92,-52.09 991.92,-36 1042.92,-31.81 1101.01,-27.02 1142.48,-23.59"/>
+<polygon fill="black" stroke="black" points="1142.53,-27.1 1152.21,-22.78 1141.95,-20.12 1142.53,-27.1"/>
 </g>
-<!-- :framework:usage&#45;stats&#45;manager&#45;&gt;:core:domain -->
+<!-- :framework:usage&#45;stats&#45;manager&#45;&gt;:domain -->
 <g id="edge24" class="edge">
-<title>:framework:usage&#45;stats&#45;manager&#45;&gt;:core:domain</title>
-<path fill="none" stroke="black" d="M745.6,-73.38C788.55,-61.54 847.17,-45.39 889.34,-33.77"/>
-<polygon fill="black" stroke="black" points="890.05,-37.2 898.77,-31.17 888.19,-30.45 890.05,-37.2"/>
+<title>:framework:usage&#45;stats&#45;manager&#45;&gt;:domain</title>
+<path fill="none" stroke="black" d="M745.6,-73.38C791.77,-60.65 856.05,-42.94 898.53,-31.23"/>
+<polygon fill="black" stroke="black" points="899.2,-34.68 907.91,-28.65 897.34,-27.93 899.2,-34.68"/>
 </g>
-<!-- :framework:usage&#45;stats&#45;manager&#45;&gt;:core:common -->
+<!-- :framework:usage&#45;stats&#45;manager&#45;&gt;:common -->
 <g id="edge23" class="edge">
-<title>:framework:usage&#45;stats&#45;manager&#45;&gt;:core:common</title>
-<path fill="none" stroke="black" d="M778.74,-76.65C879.19,-62.83 1039.61,-40.77 1130.09,-28.33"/>
-<polygon fill="black" stroke="black" points="1130.37,-31.82 1139.8,-26.99 1129.42,-24.89 1130.37,-31.82"/>
+<title>:framework:usage&#45;stats&#45;manager&#45;&gt;:common</title>
+<path fill="none" stroke="black" d="M778.74,-76.65C884.58,-62.09 1057.01,-38.38 1144.04,-26.41"/>
+<polygon fill="black" stroke="black" points="1144.3,-29.91 1153.73,-25.08 1143.35,-22.97 1144.3,-29.91"/>
 </g>
 </g>
 </svg>

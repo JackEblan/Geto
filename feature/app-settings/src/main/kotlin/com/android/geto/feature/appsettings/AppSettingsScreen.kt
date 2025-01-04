@@ -59,8 +59,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.android.geto.designsystem.component.GetoLoadingWheel
-import com.android.geto.designsystem.icon.GetoIcons
 import com.android.geto.core.domain.model.AddAppSettingResult
 import com.android.geto.core.domain.model.AddAppSettingResult.FAILED
 import com.android.geto.core.domain.model.AddAppSettingResult.SUCCESS
@@ -81,6 +79,8 @@ import com.android.geto.core.domain.model.RequestPinShortcutResult.UpdateImmutab
 import com.android.geto.core.domain.model.RequestPinShortcutResult.UpdateSuccess
 import com.android.geto.core.domain.model.SecureSetting
 import com.android.geto.core.domain.model.SettingType
+import com.android.geto.designsystem.component.GetoLoadingWheel
+import com.android.geto.designsystem.icon.GetoIcons
 import com.android.geto.feature.appsettings.AppSettingsEvent.AddAppSetting
 import com.android.geto.feature.appsettings.AppSettingsEvent.ApplyAppSettings
 import com.android.geto.feature.appsettings.AppSettingsEvent.CheckAppSetting

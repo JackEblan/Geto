@@ -50,9 +50,9 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
-import com.android.geto.designsystem.component.DialogContainer
 import com.android.geto.core.domain.model.AppSetting
 import com.android.geto.core.domain.model.SettingType
+import com.android.geto.designsystem.component.DialogContainer
 import com.android.geto.feature.appsettings.R
 
 @Composable
