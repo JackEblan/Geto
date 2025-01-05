@@ -39,9 +39,9 @@ import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.android.geto.core.designsystem.component.GetoLoadingWheel
-import com.android.geto.core.designsystem.component.ShimmerImage
-import com.android.geto.core.domain.model.GetoApplicationInfo
+import com.android.geto.designsystem.component.GetoLoadingWheel
+import com.android.geto.designsystem.component.ShimmerImage
+import com.android.geto.domain.model.GetoApplicationInfo
 
 @Composable
 internal fun AppsRoute(

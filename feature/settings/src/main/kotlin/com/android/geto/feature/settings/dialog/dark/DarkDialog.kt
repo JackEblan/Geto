@@ -38,8 +38,8 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
-import com.android.geto.core.designsystem.component.DialogContainer
-import com.android.geto.core.domain.model.DarkThemeConfig
+import com.android.geto.designsystem.component.DialogContainer
+import com.android.geto.domain.model.DarkThemeConfig
 import com.android.geto.feature.settings.R
 
 @Composable

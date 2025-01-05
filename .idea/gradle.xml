@@ -27,19 +27,14 @@
             <option value="$PROJECT_DIR$/broadcast-receiver" />
             <option value="$PROJECT_DIR$/build-logic" />
             <option value="$PROJECT_DIR$/build-logic/convention" />
-            <option value="$PROJECT_DIR$/core" />
-            <option value="$PROJECT_DIR$/core/common" />
-            <option value="$PROJECT_DIR$/core/data" />
-            <option value="$PROJECT_DIR$/core/data-test" />
-            <option value="$PROJECT_DIR$/core/database" />
-            <option value="$PROJECT_DIR$/core/datastore" />
-            <option value="$PROJECT_DIR$/core/datastore-proto" />
-            <option value="$PROJECT_DIR$/core/datastore-test" />
-            <option value="$PROJECT_DIR$/core/design-system" />
-            <option value="$PROJECT_DIR$/core/domain" />
-            <option value="$PROJECT_DIR$/core/screenshot-testing" />
-            <option value="$PROJECT_DIR$/core/testing" />
-            <option value="$PROJECT_DIR$/core/ui" />
+            <option value="$PROJECT_DIR$/common" />
+            <option value="$PROJECT_DIR$/data" />
+            <option value="$PROJECT_DIR$/data/datastore" />
+            <option value="$PROJECT_DIR$/data/repository" />
+            <option value="$PROJECT_DIR$/data/repository-test" />
+            <option value="$PROJECT_DIR$/data/room" />
+            <option value="$PROJECT_DIR$/design-system" />
+            <option value="$PROJECT_DIR$/domain" />
             <option value="$PROJECT_DIR$/feature" />
             <option value="$PROJECT_DIR$/feature/app-settings" />
             <option value="$PROJECT_DIR$/feature/apps" />
@@ -59,6 +54,7 @@
             <option value="$PROJECT_DIR$/framework/shortcut-manager" />
             <option value="$PROJECT_DIR$/framework/usage-stats-manager" />
             <option value="$PROJECT_DIR$/lint" />
+            <option value="$PROJECT_DIR$/roborazzi" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />

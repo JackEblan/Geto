@@ -36,7 +36,7 @@ android {
         versionName = "1.16.7"
 
         // Custom test runner to set up Hilt dependency graph
-        testInstrumentationRunner = "com.android.geto.core.testing.GetoTestRunner"
+        testInstrumentationRunner = "com.android.geto.common.GetoTestRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -62,9 +62,9 @@ android {
 }
 
 dependencies {
-    implementation(projects.core.data)
-    implementation(projects.core.designSystem)
-    implementation(projects.core.domain)
+    implementation(projects.data.repository)
+    implementation(projects.designSystem)
+    implementation(projects.domain)
 
     implementation(projects.feature.apps)
     implementation(projects.feature.appSettings)
@@ -98,13 +98,14 @@ dependencies {
 
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 
+    androidTestImplementation(kotlin("test"))
     androidTestImplementation(libs.accompanist.testharness)
+    androidTestImplementation(libs.androidx.compose.ui.test)
     androidTestImplementation(libs.androidx.navigation.testing)
     androidTestImplementation(libs.androidx.test.espresso.core)
-    androidTestImplementation(libs.hilt.android.testing)
-    androidTestImplementation(projects.core.dataTest)
+    androidTestImplementation(projects.data.repositoryTest)
     androidTestImplementation(projects.framework.frameworkTest)
-    androidTestImplementation(projects.core.testing)
+    androidTestImplementation(testFixtures(projects.common))
 
     baselineProfile(projects.benchmarks)
 }

@@ -18,10 +18,10 @@
 package com.android.geto.framework.assetmanager
 
 import android.content.Context
-import com.android.geto.core.common.Dispatcher
-import com.android.geto.core.common.GetoDispatchers.IO
-import com.android.geto.core.domain.framework.AssetManagerWrapper
-import com.android.geto.core.domain.model.AppSettingTemplate
+import com.android.geto.common.Dispatcher
+import com.android.geto.common.GetoDispatchers.IO
+import com.android.geto.domain.framework.AssetManagerWrapper
+import com.android.geto.domain.model.AppSettingTemplate
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import dagger.hilt.android.qualifiers.ApplicationContext

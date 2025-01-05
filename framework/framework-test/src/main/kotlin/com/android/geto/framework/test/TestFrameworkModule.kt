@@ -17,7 +17,7 @@
  */
 package com.android.geto.framework.test
 
-import com.android.geto.core.domain.framework.PackageManagerWrapper
+import com.android.geto.domain.framework.PackageManagerWrapper
 import com.android.geto.framework.packagemanager.PackageManagerModule
 import dagger.Binds
 import dagger.Module

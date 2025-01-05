@@ -19,35 +19,35 @@ package com.android.geto.feature.appsettings
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.testing.invoke
-import com.android.geto.core.domain.broadcastreceiver.RevertSettingsBroadcastReceiver
-import com.android.geto.core.domain.model.AddAppSettingResult
-import com.android.geto.core.domain.model.AppSetting
-import com.android.geto.core.domain.model.AppSettingTemplate
-import com.android.geto.core.domain.model.AppSettingsResult.DisabledAppSettings
-import com.android.geto.core.domain.model.AppSettingsResult.EmptyAppSettings
-import com.android.geto.core.domain.model.AppSettingsResult.InvalidValues
-import com.android.geto.core.domain.model.AppSettingsResult.NoPermission
-import com.android.geto.core.domain.model.AppSettingsResult.Success
-import com.android.geto.core.domain.model.GetoApplicationInfo
-import com.android.geto.core.domain.model.GetoShortcutInfoCompat
-import com.android.geto.core.domain.model.RequestPinShortcutResult
-import com.android.geto.core.domain.model.SecureSetting
-import com.android.geto.core.domain.model.SettingType
-import com.android.geto.core.domain.usecase.AddAppSettingUseCase
-import com.android.geto.core.domain.usecase.ApplyAppSettingsUseCase
-import com.android.geto.core.domain.usecase.AutoLaunchUseCase
-import com.android.geto.core.domain.usecase.RequestPinShortcutUseCase
-import com.android.geto.core.domain.usecase.RevertAppSettingsUseCase
-import com.android.geto.core.testing.broadcastreceiver.DummyRevertSettingsBroadcastReceiver
-import com.android.geto.core.testing.framework.DummyClipboardManagerWrapper
-import com.android.geto.core.testing.framework.DummyNotificationManagerWrapper
-import com.android.geto.core.testing.framework.FakeAssetManagerWrapper
-import com.android.geto.core.testing.framework.FakePackageManagerWrapper
-import com.android.geto.core.testing.repository.TestAppSettingsRepository
-import com.android.geto.core.testing.repository.TestSecureSettingsRepository
-import com.android.geto.core.testing.repository.TestShortcutRepository
-import com.android.geto.core.testing.repository.TestUserDataRepository
-import com.android.geto.core.testing.util.MainDispatcherRule
+import com.android.geto.common.MainDispatcherRule
+import com.android.geto.domain.broadcastreceiver.DummyRevertSettingsBroadcastReceiver
+import com.android.geto.domain.broadcastreceiver.RevertSettingsBroadcastReceiver
+import com.android.geto.domain.framework.DummyClipboardManagerWrapper
+import com.android.geto.domain.framework.DummyNotificationManagerWrapper
+import com.android.geto.domain.framework.FakeAssetManagerWrapper
+import com.android.geto.domain.framework.FakePackageManagerWrapper
+import com.android.geto.domain.model.AddAppSettingResult
+import com.android.geto.domain.model.AppSetting
+import com.android.geto.domain.model.AppSettingTemplate
+import com.android.geto.domain.model.AppSettingsResult.DisabledAppSettings
+import com.android.geto.domain.model.AppSettingsResult.EmptyAppSettings
+import com.android.geto.domain.model.AppSettingsResult.InvalidValues
+import com.android.geto.domain.model.AppSettingsResult.NoPermission
+import com.android.geto.domain.model.AppSettingsResult.Success
+import com.android.geto.domain.model.GetoApplicationInfo
+import com.android.geto.domain.model.GetoShortcutInfoCompat
+import com.android.geto.domain.model.RequestPinShortcutResult
+import com.android.geto.domain.model.SecureSetting
+import com.android.geto.domain.model.SettingType
+import com.android.geto.domain.repository.TestAppSettingsRepository
+import com.android.geto.domain.repository.TestSecureSettingsRepository
+import com.android.geto.domain.repository.TestShortcutRepository
+import com.android.geto.domain.repository.TestUserDataRepository
+import com.android.geto.domain.usecase.AddAppSettingUseCase
+import com.android.geto.domain.usecase.ApplyAppSettingsUseCase
+import com.android.geto.domain.usecase.AutoLaunchUseCase
+import com.android.geto.domain.usecase.RequestPinShortcutUseCase
+import com.android.geto.domain.usecase.RevertAppSettingsUseCase
 import com.android.geto.feature.appsettings.dialog.template.TemplateDialogUiState
 import com.android.geto.feature.appsettings.navigation.AppSettingsRouteData
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -55,11 +55,11 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
-import org.junit.Before
 import org.junit.Rule
-import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
+import kotlin.test.BeforeTest
+import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertIs
@@ -109,7 +109,7 @@ class AppSettingsViewModelTest {
 
     private val appName = "Geto"
 
-    @Before
+    @BeforeTest
     fun setup() {
         packageManagerWrapper = FakePackageManagerWrapper()
 

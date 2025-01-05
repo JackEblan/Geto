@@ -20,24 +20,19 @@ package com.android.geto.feature.appsettings.dialog.appsetting
 import androidx.activity.ComponentActivity
 import androidx.compose.material3.Surface
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import com.android.geto.core.designsystem.theme.GetoTheme
-import com.android.geto.core.screenshottesting.util.DefaultTestDevices
-import com.android.geto.core.screenshottesting.util.captureDialogForDevice
-import dagger.hilt.android.testing.HiltAndroidTest
-import dagger.hilt.android.testing.HiltTestApplication
-import org.junit.Before
+import com.android.geto.designsystem.theme.GetoTheme
+import com.android.geto.roborazzi.DefaultTestDevices
+import com.android.geto.roborazzi.captureDialogForDevice
 import org.junit.Rule
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
-import org.robolectric.annotation.Config
 import org.robolectric.annotation.GraphicsMode
 import org.robolectric.annotation.LooperMode
+import kotlin.test.BeforeTest
 import kotlin.test.Test
 
-@HiltAndroidTest
 @RunWith(RobolectricTestRunner::class)
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
-@Config(application = HiltTestApplication::class)
 @LooperMode(LooperMode.Mode.PAUSED)
 class AppSettingDialogScreenshotTest {
 
@@ -46,7 +41,7 @@ class AppSettingDialogScreenshotTest {
 
     private lateinit var appSettingDialogState: AppSettingDialogState
 
-    @Before
+    @BeforeTest
     fun setup() {
         appSettingDialogState = AppSettingDialogState()
     }

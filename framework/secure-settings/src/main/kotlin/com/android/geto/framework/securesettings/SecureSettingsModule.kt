@@ -17,7 +17,7 @@
  */
 package com.android.geto.framework.securesettings
 
-import com.android.geto.core.domain.framework.SecureSettingsWrapper
+import com.android.geto.domain.framework.SecureSettingsWrapper
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

@@ -17,8 +17,8 @@
  */
 package com.android.geto.broadcastreceiver
 
-import com.android.geto.core.domain.broadcastreceiver.RevertSettingsBroadcastReceiver
-import com.android.geto.core.domain.broadcastreceiver.StopUsageStatsForegroundServiceBroadcastReceiver
+import com.android.geto.domain.broadcastreceiver.RevertSettingsBroadcastReceiver
+import com.android.geto.domain.broadcastreceiver.StopUsageStatsForegroundServiceBroadcastReceiver
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

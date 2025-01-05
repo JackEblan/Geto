@@ -35,7 +35,7 @@ dependencies {
     implementation(projects.framework.shizuku)
     implementation(projects.framework.shortcutManager)
     implementation(projects.framework.usageStatsManager)
-    implementation(projects.core.domain)
+    implementation(projects.domain)
 
     implementation(libs.hilt.android.testing)
 }

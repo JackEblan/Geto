@@ -17,7 +17,7 @@
  */
 package com.android.geto.feature.apps
 
-import com.android.geto.core.domain.model.GetoApplicationInfo
+import com.android.geto.domain.model.GetoApplicationInfo
 
 sealed interface AppsUiState {
     data class Success(val getoApplicationInfos: List<GetoApplicationInfo>) : AppsUiState

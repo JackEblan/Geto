@@ -7,18 +7,32 @@
       <module name="Geto.core.build-version" target="17" />
       <module name="Geto.core.clipboard-manager" target="17" />
       <module name="Geto.core.clipboardmanager-test" target="17" />
+      <module name="Geto.core.common" target="21" />
+      <module name="Geto.core.data" target="21" />
+      <module name="Geto.core.data-test" target="21" />
+      <module name="Geto.core.database" target="21" />
+      <module name="Geto.core.datastore" target="21" />
+      <module name="Geto.core.datastore-proto" target="21" />
       <module name="Geto.core.datastore-proto.test" target="17" />
+      <module name="Geto.core.datastore-test" target="21" />
       <module name="Geto.core.datastore-test.test" target="17" />
       <module name="Geto.core.datastore.test" target="17" />
+      <module name="Geto.core.design-system" target="21" />
+      <module name="Geto.core.domain" target="21" />
       <module name="Geto.core.domani" target="17" />
       <module name="Geto.core.package-manager" target="17" />
       <module name="Geto.core.packagemanager-test" target="17" />
       <module name="Geto.core.pendingintent" target="17" />
+      <module name="Geto.core.screenshot-testing" target="21" />
       <module name="Geto.core.screenshot-testing.test" target="17" />
       <module name="Geto.core.secure-settings" target="17" />
       <module name="Geto.core.securesettings-test" target="17" />
       <module name="Geto.core.shortcut-manager" target="17" />
       <module name="Geto.core.shortcutmanager-test" target="17" />
+      <module name="Geto.core.testing" target="21" />
+      <module name="Geto.core.ui" target="21" />
+      <module name="Geto.data.datastore-proto" target="21" />
+      <module name="Geto.data.datastore-test" target="21" />
       <module name="Geto.feature.applist" target="17" />
       <module name="Geto.feature.permission" target="21" />
       <module name="Geto.feature.securesettingslist" target="17" />
@@ -27,6 +41,7 @@
       <module name="Geto.framework.broadcast-receiver" target="21" />
       <module name="Geto.framework.build-version" target="17" />
       <module name="Geto.framework.package-manager-test" target="21" />
+      <module name="Geto.screenshot-testing" target="21" />
       <module name="Geto.shizuku.package-manager" target="21" />
       <module name="Geto.ui-test-hilt-manifest" target="17" />
       <module name="Geto.ui-test-hilt-manifest.main" target="17" />

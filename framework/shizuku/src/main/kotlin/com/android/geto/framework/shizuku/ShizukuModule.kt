@@ -17,7 +17,7 @@
  */
 package com.android.geto.framework.shizuku
 
-import com.android.geto.core.domain.framework.ShizukuWrapper
+import com.android.geto.domain.framework.ShizukuWrapper
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

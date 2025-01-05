@@ -24,7 +24,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import com.android.geto.core.domain.model.GetoShortcutInfoCompat
+import com.android.geto.domain.model.GetoShortcutInfoCompat
 
 @Composable
 internal fun rememberShortcutDialogState(): ShortcutDialogState {

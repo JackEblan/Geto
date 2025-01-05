@@ -20,13 +20,13 @@ package com.android.geto.broadcastreceiver
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.android.geto.core.common.di.ApplicationScope
-import com.android.geto.core.domain.broadcastreceiver.RevertSettingsBroadcastReceiver
-import com.android.geto.core.domain.broadcastreceiver.RevertSettingsBroadcastReceiver.Companion.EXTRA_NOTIFICATION_ID
-import com.android.geto.core.domain.broadcastreceiver.RevertSettingsBroadcastReceiver.Companion.EXTRA_PACKAGE_NAME
-import com.android.geto.core.domain.framework.NotificationManagerWrapper
-import com.android.geto.core.domain.model.AppSettingsResult
-import com.android.geto.core.domain.usecase.RevertAppSettingsUseCase
+import com.android.geto.common.di.ApplicationScope
+import com.android.geto.domain.broadcastreceiver.RevertSettingsBroadcastReceiver
+import com.android.geto.domain.broadcastreceiver.RevertSettingsBroadcastReceiver.Companion.EXTRA_NOTIFICATION_ID
+import com.android.geto.domain.broadcastreceiver.RevertSettingsBroadcastReceiver.Companion.EXTRA_PACKAGE_NAME
+import com.android.geto.domain.framework.NotificationManagerWrapper
+import com.android.geto.domain.model.AppSettingsResult
+import com.android.geto.domain.usecase.RevertAppSettingsUseCase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -34,8 +34,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class DefaultRevertSettingsBroadcastReceiver @Inject constructor() :
-    BroadcastReceiver(),
-    RevertSettingsBroadcastReceiver {
+    BroadcastReceiver(), RevertSettingsBroadcastReceiver {
 
     @Inject
     @ApplicationScope

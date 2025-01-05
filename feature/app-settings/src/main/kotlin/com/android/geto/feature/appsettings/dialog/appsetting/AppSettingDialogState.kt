@@ -25,9 +25,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import com.android.geto.core.domain.model.AppSetting
-import com.android.geto.core.domain.model.SecureSetting
-import com.android.geto.core.domain.model.SettingType
+import com.android.geto.domain.model.AppSetting
+import com.android.geto.domain.model.SecureSetting
+import com.android.geto.domain.model.SettingType
 
 @Composable
 internal fun rememberAppSettingDialogState(): AppSettingDialogState {

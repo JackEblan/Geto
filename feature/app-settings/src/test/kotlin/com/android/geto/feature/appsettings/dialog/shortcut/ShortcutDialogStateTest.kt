@@ -17,8 +17,8 @@
  */
 package com.android.geto.feature.appsettings.dialog.shortcut
 
-import org.junit.Before
-import org.junit.Test
+import kotlin.test.BeforeTest
+import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
@@ -29,7 +29,7 @@ class ShortcutDialogStateTest {
 
     private val packageName = "com.android.geto"
 
-    @Before
+    @BeforeTest
     fun setup() {
         shortcutDialogState = ShortcutDialogState()
     }

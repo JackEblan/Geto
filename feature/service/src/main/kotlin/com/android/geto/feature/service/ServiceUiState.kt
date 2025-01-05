@@ -17,7 +17,7 @@
  */
 package com.android.geto.feature.service
 
-import com.android.geto.core.domain.model.UserData
+import com.android.geto.domain.model.UserData
 
 sealed interface ServiceUiState {
     data object Loading : ServiceUiState

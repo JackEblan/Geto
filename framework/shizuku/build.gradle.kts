@@ -40,6 +40,6 @@ dependencies {
     implementation(libs.shizuku.api)
     implementation(libs.shizuku.provider)
 
-    implementation(projects.core.common)
-    implementation(projects.core.domain)
+    implementation(projects.common)
+    implementation(projects.domain)
 }

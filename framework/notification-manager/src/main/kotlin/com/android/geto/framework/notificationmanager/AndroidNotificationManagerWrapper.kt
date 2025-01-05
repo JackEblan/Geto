@@ -34,14 +34,14 @@ import androidx.annotation.RequiresPermission
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
-import com.android.geto.core.domain.broadcastreceiver.RevertSettingsBroadcastReceiver
-import com.android.geto.core.domain.broadcastreceiver.RevertSettingsBroadcastReceiver.Companion.ACTION_REVERT_SETTINGS
-import com.android.geto.core.domain.broadcastreceiver.RevertSettingsBroadcastReceiver.Companion.EXTRA_NOTIFICATION_ID
-import com.android.geto.core.domain.broadcastreceiver.RevertSettingsBroadcastReceiver.Companion.EXTRA_PACKAGE_NAME
-import com.android.geto.core.domain.framework.NotificationManagerWrapper
+import com.android.geto.domain.broadcastreceiver.RevertSettingsBroadcastReceiver
+import com.android.geto.domain.broadcastreceiver.RevertSettingsBroadcastReceiver.Companion.ACTION_REVERT_SETTINGS
+import com.android.geto.domain.broadcastreceiver.RevertSettingsBroadcastReceiver.Companion.EXTRA_NOTIFICATION_ID
+import com.android.geto.domain.broadcastreceiver.RevertSettingsBroadcastReceiver.Companion.EXTRA_PACKAGE_NAME
+import com.android.geto.domain.framework.NotificationManagerWrapper
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
-import com.android.geto.core.common.R as commonR
+import com.android.geto.common.R as commonR
 
 internal class AndroidNotificationManagerWrapper @Inject constructor(@ApplicationContext private val context: Context) :
     NotificationManagerWrapper {

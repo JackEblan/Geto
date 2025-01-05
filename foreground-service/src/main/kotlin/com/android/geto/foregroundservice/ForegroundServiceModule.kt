@@ -17,7 +17,7 @@
  */
 package com.android.geto.foregroundservice
 
-import com.android.geto.core.domain.foregroundservice.UsageStatsForegroundServiceManager
+import com.android.geto.domain.foregroundservice.UsageStatsForegroundServiceManager
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

@@ -19,8 +19,8 @@ package com.android.geto.feature.service
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.android.geto.core.domain.foregroundservice.UsageStatsForegroundServiceManager
-import com.android.geto.core.domain.usecase.UpdateUsageStatsForegroundServiceUseCase
+import com.android.geto.domain.foregroundservice.UsageStatsForegroundServiceManager
+import com.android.geto.domain.usecase.UpdateUsageStatsForegroundServiceUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
