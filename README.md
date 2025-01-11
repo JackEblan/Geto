@@ -42,6 +42,9 @@ with `android.permission.WRITE_SECURE_SETTINGS` in order for it to modify your S
 [<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/8.jpg" width=19% alt="6">](fastlane/metadata/android/en-US/images/phoneScreenshots/8.jpg)
 </div>
 
+# Architecture 
+Most of the code in this project is based on [Now In Android](https://github.com/android/nowinandroid), but it follows [Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html) instead.
+
 # License
 
 **Geto** is licensed under the GNU General Public License v3.0. See the [license](LICENSE) for more
