@@ -19,18 +19,14 @@ package com.android.geto.designsystem.theme
 
 import android.os.Build
 import androidx.annotation.ChecksSdkIntAtLeast
-import androidx.annotation.VisibleForTesting
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.dynamicDarkColorScheme
-import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.ui.platform.LocalContext
+import com.android.geto.domain.model.DarkThemeConfig
+import com.android.geto.domain.model.ThemeBrand
 
-@VisibleForTesting
 val LightGreenColorScheme = lightColorScheme(
     primary = Green.primaryLight,
     onPrimary = Green.onPrimaryLight,
@@ -69,7 +65,6 @@ val LightGreenColorScheme = lightColorScheme(
     surfaceContainerHighest = Green.surfaceContainerHighestLight,
 )
 
-@VisibleForTesting
 val DarkGreenColorScheme = darkColorScheme(
     primary = Green.primaryDark,
     onPrimary = Green.onPrimaryDark,
@@ -108,7 +103,6 @@ val DarkGreenColorScheme = darkColorScheme(
     surfaceContainerHighest = Green.surfaceContainerHighestDark,
 )
 
-@VisibleForTesting
 val LightPurpleColorScheme = lightColorScheme(
     primary = Purple.primaryLight,
     onPrimary = Purple.onPrimaryLight,
@@ -147,7 +141,6 @@ val LightPurpleColorScheme = lightColorScheme(
     surfaceContainerHighest = Purple.surfaceContainerHighestLight,
 )
 
-@VisibleForTesting
 val DarkPurpleColorScheme = darkColorScheme(
     primary = Purple.primaryDark,
     onPrimary = Purple.onPrimaryDark,
@@ -188,28 +181,20 @@ val DarkPurpleColorScheme = darkColorScheme(
 
 @Composable
 fun GetoTheme(
-    greenTheme: Boolean = false,
-    purpleTheme: Boolean = false,
-    darkTheme: Boolean = isSystemInDarkTheme(),
-    dynamicTheme: Boolean = false,
+    themeBrand: ThemeBrand,
+    darkThemeConfig: DarkThemeConfig,
+    dynamicTheme: Boolean,
     content: @Composable () -> Unit,
 ) {
-    val colorScheme = when {
-        supportsDynamicTheming() && dynamicTheme -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
-
-        greenTheme -> if (darkTheme) DarkGreenColorScheme else LightGreenColorScheme
-
-        purpleTheme -> if (darkTheme) DarkPurpleColorScheme else LightPurpleColorScheme
-
-        else -> if (darkTheme) DarkGreenColorScheme else LightGreenColorScheme
+    val themeProvider = when {
+        supportsDynamicTheming() && dynamicTheme -> ThemeProvider.Dynamic
+        themeBrand == ThemeBrand.PURPLE -> ThemeProvider.Purple
+        else -> ThemeProvider.Green
     }
 
     CompositionLocalProvider {
         MaterialTheme(
-            colorScheme = colorScheme,
+            colorScheme = themeProvider.getColorScheme(darkThemeConfig = darkThemeConfig),
             content = content,
         )
     }

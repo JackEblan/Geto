@@ -17,7 +17,6 @@
  */
 package com.android.geto
 
-import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -28,67 +27,66 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.core.util.Consumer
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.compose.rememberNavController
 import com.android.geto.designsystem.theme.GetoTheme
+import com.android.geto.domain.model.DarkThemeConfig
+import com.android.geto.domain.model.ThemeBrand
 import com.android.geto.navigation.GetoNavHost
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.conflate
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val viewModel: MainActivityViewModel by viewModels()
 
+    private data class ThemeSettings(
+        val themeBrand: ThemeBrand,
+        val darkThemeConfig: DarkThemeConfig,
+        val dynamicTheme: Boolean,
+    )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
+
+        enableEdgeToEdge()
 
         super.onCreate(savedInstanceState)
 
         var themeSettings by mutableStateOf(
             ThemeSettings(
-                darkTheme = false,
-                greenTheme = true,
-                purpleTheme = false,
+                themeBrand = ThemeBrand.GREEN,
+                darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
                 dynamicTheme = false,
             ),
         )
 
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                combine(
-                    isSystemInDarkTheme(),
-                    viewModel.uiState,
-                ) { systemDark, uiState ->
-                    ThemeSettings(
-                        darkTheme = uiState.shouldUseDarkTheme(systemDark),
-                        greenTheme = uiState.shouldUseGreenTheme,
-                        purpleTheme = uiState.shouldUsePurpleTheme,
-                        dynamicTheme = uiState.shouldUseDynamicTheme,
-                    )
-                }.distinctUntilChanged().collect { newThemeSettings ->
-                    enableEdgeToEdge()
-                    themeSettings = newThemeSettings
+                viewModel.uiState.collect { uiState ->
+                    themeSettings = when (uiState) {
+                        MainActivityUiState.Loading -> themeSettings
+
+                        is MainActivityUiState.Success -> ThemeSettings(
+                            themeBrand = uiState.userData.themeBrand,
+                            darkThemeConfig = uiState.userData.darkThemeConfig,
+                            dynamicTheme = uiState.userData.useDynamicColor,
+                        )
+                    }
                 }
             }
         }
 
-        splashScreen.setKeepOnScreenCondition { viewModel.uiState.value.shouldKeepSplashScreen() }
+        splashScreen.setKeepOnScreenCondition { viewModel.uiState.value == MainActivityUiState.Loading }
 
         setContent {
             val navController = rememberNavController()
 
             GetoTheme(
-                greenTheme = themeSettings.greenTheme,
-                purpleTheme = themeSettings.purpleTheme,
-                darkTheme = themeSettings.darkTheme,
+                themeBrand = themeSettings.themeBrand,
+                darkThemeConfig = themeSettings.darkThemeConfig,
                 dynamicTheme = themeSettings.dynamicTheme,
             ) {
                 Surface {
@@ -98,22 +96,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-private val Configuration.isSystemInDarkTheme
-    get() = (uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
-
-private fun ComponentActivity.isSystemInDarkTheme() = callbackFlow {
-    channel.trySend(resources.configuration.isSystemInDarkTheme)
-    val listener = Consumer<Configuration> {
-        channel.trySend(it.isSystemInDarkTheme)
-    }
-    addOnConfigurationChangedListener(listener)
-    awaitClose { removeOnConfigurationChangedListener(listener) }
-}.distinctUntilChanged().conflate()
-
-data class ThemeSettings(
-    val greenTheme: Boolean,
-    val purpleTheme: Boolean,
-    val darkTheme: Boolean,
-    val dynamicTheme: Boolean,
-)
