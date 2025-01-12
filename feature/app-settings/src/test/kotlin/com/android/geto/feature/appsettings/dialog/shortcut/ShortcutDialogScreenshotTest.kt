@@ -21,6 +21,8 @@ import androidx.activity.ComponentActivity
 import androidx.compose.material3.Surface
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.android.geto.designsystem.theme.GetoTheme
+import com.android.geto.domain.model.DarkThemeConfig
+import com.android.geto.domain.model.ThemeBrand
 import com.android.geto.roborazzi.DefaultTestDevices
 import com.android.geto.roborazzi.captureDialogForDevice
 import org.junit.Rule
@@ -52,7 +54,11 @@ class ShortcutDialogScreenshotTest {
             deviceName = "foldable",
             deviceSpec = DefaultTestDevices.FOLDABLE.spec,
         ) {
-            GetoTheme {
+            GetoTheme(
+                themeBrand = ThemeBrand.GREEN,
+                darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+                dynamicTheme = false,
+            ) {
                 ShortcutDialog(
                     shortcutDialogState = shortcutDialogState,
                     packageName = "",
@@ -74,7 +80,11 @@ class ShortcutDialogScreenshotTest {
             deviceName = "foldable",
             deviceSpec = DefaultTestDevices.FOLDABLE.spec,
         ) {
-            GetoTheme {
+            GetoTheme(
+                themeBrand = ThemeBrand.GREEN,
+                darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+                dynamicTheme = false,
+            ) {
                 ShortcutDialog(
                     shortcutDialogState = shortcutDialogState,
                     packageName = "",
@@ -94,7 +104,11 @@ class ShortcutDialogScreenshotTest {
             deviceName = "foldable",
             deviceSpec = DefaultTestDevices.FOLDABLE.spec,
         ) {
-            GetoTheme {
+            GetoTheme(
+                themeBrand = ThemeBrand.GREEN,
+                darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+                dynamicTheme = false,
+            ) {
                 ShortcutDialog(
                     shortcutDialogState = shortcutDialogState,
                     packageName = "",
@@ -113,7 +127,11 @@ class ShortcutDialogScreenshotTest {
             deviceSpec = DefaultTestDevices.FOLDABLE.spec,
             darkMode = true,
         ) {
-            GetoTheme {
+            GetoTheme(
+                themeBrand = ThemeBrand.GREEN,
+                darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+                dynamicTheme = false,
+            ) {
                 Surface {
                     ShortcutDialog(
                         shortcutDialogState = shortcutDialogState,
@@ -138,7 +156,11 @@ class ShortcutDialogScreenshotTest {
             deviceSpec = DefaultTestDevices.FOLDABLE.spec,
             darkMode = true,
         ) {
-            GetoTheme {
+            GetoTheme(
+                themeBrand = ThemeBrand.GREEN,
+                darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+                dynamicTheme = false,
+            ) {
                 Surface {
                     ShortcutDialog(
                         shortcutDialogState = shortcutDialogState,
@@ -161,7 +183,11 @@ class ShortcutDialogScreenshotTest {
             deviceSpec = DefaultTestDevices.FOLDABLE.spec,
             darkMode = true,
         ) {
-            GetoTheme {
+            GetoTheme(
+                themeBrand = ThemeBrand.GREEN,
+                darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+                dynamicTheme = false,
+            ) {
                 Surface {
                     ShortcutDialog(
                         shortcutDialogState = shortcutDialogState,

@@ -1,1 +1,1 @@
--keep class com.android.geto.core.domain.model.** { *; }
+-keep class com.android.geto.domain.model.** { *; }

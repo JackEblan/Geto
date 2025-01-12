@@ -22,7 +22,9 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.android.geto.designsystem.theme.GetoTheme
 import com.android.geto.domain.model.AppSettingTemplate
+import com.android.geto.domain.model.DarkThemeConfig
 import com.android.geto.domain.model.SettingType
+import com.android.geto.domain.model.ThemeBrand
 import com.android.geto.roborazzi.DefaultTestDevices
 import com.android.geto.roborazzi.captureDialogForDevice
 import org.junit.Rule
@@ -57,7 +59,11 @@ class TemplateDialogScreenshotTest {
             deviceName = "foldable",
             deviceSpec = DefaultTestDevices.FOLDABLE.spec,
         ) {
-            GetoTheme {
+            GetoTheme(
+                themeBrand = ThemeBrand.GREEN,
+                darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+                dynamicTheme = false,
+            ) {
                 TemplateDialog(
                     packageName = "com.android.geto",
                     templateDialogUiState = TemplateDialogUiState.Loading,
@@ -76,7 +82,11 @@ class TemplateDialogScreenshotTest {
             deviceName = "foldable",
             deviceSpec = DefaultTestDevices.FOLDABLE.spec,
         ) {
-            GetoTheme {
+            GetoTheme(
+                themeBrand = ThemeBrand.GREEN,
+                darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+                dynamicTheme = false,
+            ) {
                 TemplateDialog(
                     packageName = "com.android.geto",
                     templateDialogUiState = TemplateDialogUiState.Success(appSettingTemplates = appSettingTemplates),
@@ -96,7 +106,11 @@ class TemplateDialogScreenshotTest {
             deviceSpec = DefaultTestDevices.FOLDABLE.spec,
             darkMode = true,
         ) {
-            GetoTheme {
+            GetoTheme(
+                themeBrand = ThemeBrand.GREEN,
+                darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+                dynamicTheme = false,
+            ) {
                 Surface {
                     TemplateDialog(
                         packageName = "com.android.geto",
@@ -118,7 +132,11 @@ class TemplateDialogScreenshotTest {
             deviceSpec = DefaultTestDevices.FOLDABLE.spec,
             darkMode = true,
         ) {
-            GetoTheme {
+            GetoTheme(
+                themeBrand = ThemeBrand.GREEN,
+                darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+                dynamicTheme = false,
+            ) {
                 Surface {
                     TemplateDialog(
                         packageName = "com.android.geto",

@@ -21,7 +21,9 @@ import androidx.activity.ComponentActivity
 import androidx.compose.material3.Surface
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.android.geto.designsystem.theme.GetoTheme
+import com.android.geto.domain.model.DarkThemeConfig
 import com.android.geto.domain.model.GetoApplicationInfo
+import com.android.geto.domain.model.ThemeBrand
 import com.android.geto.roborazzi.DefaultTestDevices
 import com.android.geto.roborazzi.captureScreenForDevice
 import com.android.geto.roborazzi.captureScreenForMultiDevice
@@ -55,7 +57,11 @@ class AppsScreenScreenshotTest {
     @Test
     fun appsScreen_populated() {
         composeTestRule.captureScreenForMultiDevice("AppsScreenPopulated") {
-            GetoTheme {
+            GetoTheme(
+                themeBrand = ThemeBrand.GREEN,
+                darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+                dynamicTheme = false,
+            ) {
                 AppsScreen(
                     appsUiState = AppsUiState.Success(mappedGetoApplicationInfos),
                     onItemClick = { _, _ -> },
@@ -67,7 +73,11 @@ class AppsScreenScreenshotTest {
     @Test
     fun appsScreen_loading() {
         composeTestRule.captureScreenForMultiDevice("AppsScreenLoading") {
-            GetoTheme {
+            GetoTheme(
+                themeBrand = ThemeBrand.GREEN,
+                darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+                dynamicTheme = false,
+            ) {
                 AppsScreen(
                     appsUiState = AppsUiState.Loading,
                     onItemClick = { _, _ -> },
@@ -84,7 +94,11 @@ class AppsScreenScreenshotTest {
             fileName = "AppsScreenPopulated",
             darkMode = true,
         ) {
-            GetoTheme {
+            GetoTheme(
+                themeBrand = ThemeBrand.GREEN,
+                darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+                dynamicTheme = false,
+            ) {
                 Surface {
                     AppsScreen(
                         appsUiState = AppsUiState.Success(
@@ -105,7 +119,11 @@ class AppsScreenScreenshotTest {
             fileName = "AppsScreenLoading",
             darkMode = true,
         ) {
-            GetoTheme {
+            GetoTheme(
+                themeBrand = ThemeBrand.GREEN,
+                darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+                dynamicTheme = false,
+            ) {
                 Surface {
                     AppsScreen(
                         appsUiState = AppsUiState.Loading,

@@ -31,6 +31,8 @@ import com.android.geto.designsystem.theme.DarkPurpleColorScheme
 import com.android.geto.designsystem.theme.GetoTheme
 import com.android.geto.designsystem.theme.LightGreenColorScheme
 import com.android.geto.designsystem.theme.LightPurpleColorScheme
+import com.android.geto.domain.model.DarkThemeConfig
+import com.android.geto.domain.model.ThemeBrand
 import org.junit.Rule
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -50,12 +52,11 @@ class ThemeTest {
     val composeTestRule = createComposeRule()
 
     @Test
-    fun greenThemeFalse_purpleThemeFalse_darkThemeFalse_dynamicThemeFalse() {
+    fun greenTheme_light() {
         composeTestRule.setContent {
             GetoTheme(
-                greenTheme = false,
-                purpleTheme = false,
-                darkTheme = false,
+                themeBrand = ThemeBrand.GREEN,
+                darkThemeConfig = DarkThemeConfig.LIGHT,
                 dynamicTheme = false,
             ) {
                 val colorScheme = LightGreenColorScheme
@@ -65,27 +66,25 @@ class ThemeTest {
     }
 
     @Test
-    fun greenThemeTrue_purpleThemeFalse_darkThemeFalse_dynamicThemeFalse() {
+    fun greenTheme_dark() {
         composeTestRule.setContent {
             GetoTheme(
-                greenTheme = true,
-                purpleTheme = false,
-                darkTheme = false,
+                themeBrand = ThemeBrand.GREEN,
+                darkThemeConfig = DarkThemeConfig.DARK,
                 dynamicTheme = false,
             ) {
-                val colorScheme = LightGreenColorScheme
+                val colorScheme = DarkGreenColorScheme
                 assertColorSchemesEqual(colorScheme, MaterialTheme.colorScheme)
             }
         }
     }
 
     @Test
-    fun greenThemeFalse_purpleThemeTrue_darkThemeFalse_dynamicThemeFalse() {
+    fun purpleTheme_light() {
         composeTestRule.setContent {
             GetoTheme(
-                greenTheme = false,
-                purpleTheme = true,
-                darkTheme = false,
+                themeBrand = ThemeBrand.PURPLE,
+                darkThemeConfig = DarkThemeConfig.LIGHT,
                 dynamicTheme = false,
             ) {
                 val colorScheme = LightPurpleColorScheme
@@ -95,57 +94,11 @@ class ThemeTest {
     }
 
     @Test
-    fun greenThemeFalse_purpleThemeFalse_darkThemeFalse_dynamicThemeTrue() {
+    fun purpleTheme_dark() {
         composeTestRule.setContent {
             GetoTheme(
-                greenTheme = false,
-                purpleTheme = false,
-                darkTheme = false,
-                dynamicTheme = true,
-            ) {
-                val colorScheme = dynamicLightColorSchemeWithFallback()
-                assertColorSchemesEqual(colorScheme, MaterialTheme.colorScheme)
-            }
-        }
-    }
-
-    @Test
-    fun greenThemeFalse_purpleThemeFalse_darkThemeTrue_dynamicThemeFalse() {
-        composeTestRule.setContent {
-            GetoTheme(
-                greenTheme = false,
-                purpleTheme = false,
-                darkTheme = true,
-                dynamicTheme = false,
-            ) {
-                val colorScheme = DarkGreenColorScheme
-                assertColorSchemesEqual(colorScheme, MaterialTheme.colorScheme)
-            }
-        }
-    }
-
-    @Test
-    fun greenThemeTrue_purpleThemeFalse_darkThemeTrue_dynamicThemeFalse() {
-        composeTestRule.setContent {
-            GetoTheme(
-                greenTheme = true,
-                purpleTheme = false,
-                darkTheme = true,
-                dynamicTheme = false,
-            ) {
-                val colorScheme = DarkGreenColorScheme
-                assertColorSchemesEqual(colorScheme, MaterialTheme.colorScheme)
-            }
-        }
-    }
-
-    @Test
-    fun greenThemeFalse_purpleThemeTrue_darkThemeTrue_dynamicThemeFalse() {
-        composeTestRule.setContent {
-            GetoTheme(
-                greenTheme = false,
-                purpleTheme = true,
-                darkTheme = true,
+                themeBrand = ThemeBrand.PURPLE,
+                darkThemeConfig = DarkThemeConfig.DARK,
                 dynamicTheme = false,
             ) {
                 val colorScheme = DarkPurpleColorScheme
@@ -155,12 +108,25 @@ class ThemeTest {
     }
 
     @Test
-    fun greenThemeFalse_purpleThemeFalse_darkThemeTrue_dynamicThemeTrue() {
+    fun dynamicTheme_light() {
         composeTestRule.setContent {
             GetoTheme(
-                greenTheme = false,
-                purpleTheme = false,
-                darkTheme = true,
+                themeBrand = ThemeBrand.GREEN,
+                darkThemeConfig = DarkThemeConfig.LIGHT,
+                dynamicTheme = true,
+            ) {
+                val colorScheme = dynamicLightColorSchemeWithFallback()
+                assertColorSchemesEqual(colorScheme, MaterialTheme.colorScheme)
+            }
+        }
+    }
+
+    @Test
+    fun dynamicTheme_dark() {
+        composeTestRule.setContent {
+            GetoTheme(
+                themeBrand = ThemeBrand.GREEN,
+                darkThemeConfig = DarkThemeConfig.DARK,
                 dynamicTheme = true,
             ) {
                 val colorScheme = dynamicDarkColorSchemeWithFallback()
@@ -181,9 +147,6 @@ class ThemeTest {
         else -> DarkGreenColorScheme
     }
 
-    /**
-     * Workaround for the fact that the SocialWorkReviewer design system specify all color scheme values.
-     */
     private fun assertColorSchemesEqual(
         expectedColorScheme: ColorScheme,
         actualColorScheme: ColorScheme,
