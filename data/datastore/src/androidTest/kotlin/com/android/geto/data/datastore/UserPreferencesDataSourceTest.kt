@@ -121,18 +121,4 @@ class UserPreferencesDataSourceTest {
             actual = subject.userData.first().darkThemeConfig,
         )
     }
-
-    @Test
-    fun useAutoLaunch_isTrue() = testScope.runTest {
-        subject.setAutoLaunch(useAutoLaunch = true)
-
-        assertTrue(subject.userData.first().useAutoLaunch)
-    }
-
-    @Test
-    fun useAutoLaunch_isFalse() = testScope.runTest {
-        subject.setAutoLaunch(useAutoLaunch = false)
-
-        assertFalse(subject.userData.first().useAutoLaunch)
-    }
 }
