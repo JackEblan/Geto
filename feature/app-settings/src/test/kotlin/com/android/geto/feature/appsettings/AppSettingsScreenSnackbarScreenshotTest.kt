@@ -82,7 +82,6 @@ class AppSettingsScreenSnackbarScreenshotTest {
                     addAppSettingResult = null,
                     appSettingsResult = null,
                     revertAppSettingsResult = null,
-                    autoLaunchResult = null,
                     requestPinShortcutResult = null,
                     setPrimaryClipResult = false,
                     templateDialogUiState = TemplateDialogUiState.Loading,

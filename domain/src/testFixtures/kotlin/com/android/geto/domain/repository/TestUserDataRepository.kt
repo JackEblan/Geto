@@ -29,7 +29,6 @@ val emptyUserData = UserData(
     themeBrand = ThemeBrand.PURPLE,
     darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
     useDynamicColor = false,
-    useAutoLaunch = false,
 )
 
 class TestUserDataRepository : UserDataRepository {
@@ -54,12 +53,6 @@ class TestUserDataRepository : UserDataRepository {
     override suspend fun setDynamicColor(useDynamicColor: Boolean) {
         currentUserData.let { current ->
             _userData.tryEmit(current.copy(useDynamicColor = useDynamicColor))
-        }
-    }
-
-    override suspend fun setAutoLaunch(useAutoLaunch: Boolean) {
-        currentUserData.let { current ->
-            _userData.tryEmit(current.copy(useAutoLaunch = useAutoLaunch))
         }
     }
 

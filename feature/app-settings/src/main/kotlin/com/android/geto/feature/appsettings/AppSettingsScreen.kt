@@ -91,7 +91,6 @@ import com.android.geto.feature.appsettings.AppSettingsEvent.PostNotification
 import com.android.geto.feature.appsettings.AppSettingsEvent.RequestPinShortcut
 import com.android.geto.feature.appsettings.AppSettingsEvent.ResetAddAppSettingResult
 import com.android.geto.feature.appsettings.AppSettingsEvent.ResetApplyAppSettingsResult
-import com.android.geto.feature.appsettings.AppSettingsEvent.ResetAutoLaunchResult
 import com.android.geto.feature.appsettings.AppSettingsEvent.ResetRequestPinShortcutResult
 import com.android.geto.feature.appsettings.AppSettingsEvent.ResetRevertAppSettingsResult
 import com.android.geto.feature.appsettings.AppSettingsEvent.ResetSetPrimaryClipResult
@@ -131,8 +130,6 @@ internal fun AppSettingsRoute(
 
     val addAppSettingResult by viewModel.addAppSettingsResult.collectAsStateWithLifecycle()
 
-    val autoLaunchResult by viewModel.autoLaunchResult.collectAsStateWithLifecycle()
-
     val applicationIcon by viewModel.applicationIcon.collectAsStateWithLifecycle()
 
     val setPrimaryClipResult by viewModel.setPrimaryClipResult.collectAsStateWithLifecycle()
@@ -156,7 +153,6 @@ internal fun AppSettingsRoute(
         addAppSettingResult = addAppSettingResult,
         appSettingsResult = applyAppSettingsResult,
         revertAppSettingsResult = revertAppSettingsResult,
-        autoLaunchResult = autoLaunchResult,
         requestPinShortcutResult = requestPinShortcutResult,
         setPrimaryClipResult = setPrimaryClipResult,
         templateDialogUiState = templateDialogUiState,
@@ -179,7 +175,6 @@ internal fun AppSettingsScreen(
     addAppSettingResult: AddAppSettingResult?,
     appSettingsResult: AppSettingsResult?,
     revertAppSettingsResult: AppSettingsResult?,
-    autoLaunchResult: AppSettingsResult?,
     requestPinShortcutResult: RequestPinShortcutResult?,
     setPrimaryClipResult: Boolean,
     templateDialogUiState: TemplateDialogUiState,
@@ -202,13 +197,11 @@ internal fun AppSettingsScreen(
         addAppSettingResult = addAppSettingResult,
         appSettingsResult = appSettingsResult,
         revertAppSettingsResult = revertAppSettingsResult,
-        autoLaunchResult = autoLaunchResult,
         requestPinShortcutResult = requestPinShortcutResult,
         setPrimaryClipResult = setPrimaryClipResult,
         onShizuku = onShizuku,
         onResetApplyAppSettingsResult = { onEvent(ResetApplyAppSettingsResult) },
         onResetRevertAppSettingsResult = { onEvent(ResetRevertAppSettingsResult) },
-        onResetAutoLaunchResult = { onEvent(ResetAutoLaunchResult) },
         onResetRequestPinShortcutResult = { onEvent(ResetRequestPinShortcutResult) },
         onResetSetPrimaryClipResult = { onEvent(ResetSetPrimaryClipResult) },
         onResetAddAppSettingResult = { onEvent(ResetAddAppSettingResult) },
@@ -312,13 +305,11 @@ private fun AppSettingsLaunchedEffects(
     addAppSettingResult: AddAppSettingResult?,
     appSettingsResult: AppSettingsResult?,
     revertAppSettingsResult: AppSettingsResult?,
-    autoLaunchResult: AppSettingsResult?,
     requestPinShortcutResult: RequestPinShortcutResult?,
     setPrimaryClipResult: Boolean,
     onShizuku: () -> Unit,
     onResetApplyAppSettingsResult: () -> Unit,
     onResetRevertAppSettingsResult: () -> Unit,
-    onResetAutoLaunchResult: () -> Unit,
     onResetRequestPinShortcutResult: () -> Unit,
     onResetSetPrimaryClipResult: () -> Unit,
     onResetAddAppSettingResult: () -> Unit,
@@ -437,28 +428,6 @@ private fun AppSettingsLaunchedEffects(
         }
 
         onResetRevertAppSettingsResult()
-    }
-
-    LaunchedEffect(key1 = autoLaunchResult) {
-        when (autoLaunchResult) {
-            NoPermission -> {
-                onShizuku()
-            }
-
-            Success -> {
-                onLaunchIntent()
-            }
-
-            InvalidValues -> {
-                snackbarHostState.showSnackbar(message = invalidValues)
-            }
-
-            Failure, EmptyAppSettings, DisabledAppSettings, null -> {
-                Unit
-            }
-        }
-
-        onResetAutoLaunchResult()
     }
 
     LaunchedEffect(key1 = requestPinShortcutResult) {

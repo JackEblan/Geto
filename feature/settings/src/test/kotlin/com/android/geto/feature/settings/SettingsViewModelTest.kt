@@ -23,7 +23,6 @@ import com.android.geto.domain.model.DarkThemeConfig
 import com.android.geto.domain.model.ThemeBrand
 import com.android.geto.domain.repository.TestAppSettingsRepository
 import com.android.geto.domain.repository.TestUserDataRepository
-import com.android.geto.domain.usecase.CleanAppSettingsUseCase
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -44,8 +43,6 @@ class SettingsViewModelTest {
 
     private lateinit var appSettingsRepository: TestAppSettingsRepository
 
-    private lateinit var cleanAppSettingsUseCase: CleanAppSettingsUseCase
-
     private lateinit var viewModel: SettingsViewModel
 
     @Before
@@ -56,14 +53,8 @@ class SettingsViewModelTest {
 
         appSettingsRepository = TestAppSettingsRepository()
 
-        cleanAppSettingsUseCase = CleanAppSettingsUseCase(
-            packageManagerWrapper = packageManagerWrapper,
-            appSettingsRepository = appSettingsRepository,
-        )
-
         viewModel = SettingsViewModel(
             userDataRepository = userDataRepository,
-            cleanAppSettingsUseCase = cleanAppSettingsUseCase,
         )
     }
 

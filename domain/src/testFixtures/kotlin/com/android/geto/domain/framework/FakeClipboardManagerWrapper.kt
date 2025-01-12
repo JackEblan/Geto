@@ -17,7 +17,7 @@
  */
 package com.android.geto.domain.framework
 
-class DummyClipboardManagerWrapper : ClipboardManagerWrapper {
+class FakeClipboardManagerWrapper : ClipboardManagerWrapper {
     private var sdkInt = 0
 
     override fun setPrimaryClip(label: String, text: String): Boolean {
