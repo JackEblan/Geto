@@ -23,7 +23,6 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onRoot
 import com.android.geto.designsystem.component.GetoLoadingWheel
 import com.android.geto.designsystem.component.GetoOverlayLoadingWheel
-import com.android.geto.designsystem.theme.GetoTheme
 import com.android.geto.roborazzi.DefaultRoborazziOptions
 import com.android.geto.roborazzi.captureScreenMultiTheme
 import com.github.takahirom.roborazzi.captureRoboImage
@@ -67,7 +66,7 @@ class LoadingWheelScreenshotTests {
     fun getoLoadingWheel_animation() {
         composeTestRule.mainClock.autoAdvance = false
         composeTestRule.setContent {
-            GetoTheme {
+            Surface {
                 GetoLoadingWheel(contentDescription = "")
             }
         }

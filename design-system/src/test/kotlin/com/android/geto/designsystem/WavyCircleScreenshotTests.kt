@@ -19,11 +19,11 @@ package com.android.geto.designsystem
 
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onRoot
 import com.android.geto.designsystem.component.AnimatedWavyCircle
-import com.android.geto.designsystem.theme.GetoTheme
 import com.android.geto.roborazzi.DefaultRoborazziOptions
 import com.github.takahirom.roborazzi.captureRoboImage
 import dagger.hilt.android.testing.HiltTestApplication
@@ -48,7 +48,7 @@ class WavyCircleScreenshotTests {
     fun animatedWavyCircle_animation() {
         composeTestRule.mainClock.autoAdvance = false
         composeTestRule.setContent {
-            GetoTheme {
+            Surface {
                 AnimatedWavyCircle(
                     modifier = Modifier.fillMaxSize(),
                     active = true,

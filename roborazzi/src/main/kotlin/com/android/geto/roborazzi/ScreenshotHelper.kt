@@ -30,6 +30,8 @@ import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.compose.ui.test.onRoot
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.android.geto.designsystem.theme.GetoTheme
+import com.android.geto.domain.model.DarkThemeConfig
+import com.android.geto.domain.model.ThemeBrand
 import com.github.takahirom.roborazzi.ExperimentalRoborazziApi
 import com.github.takahirom.roborazzi.RoborazziOptions
 import com.github.takahirom.roborazzi.RoborazziOptions.CompareOptions
@@ -109,11 +111,9 @@ fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.c
 ) {
     var description by mutableStateOf("")
 
-    var greenTheme by mutableStateOf(false)
+    var themeBrand by mutableStateOf(ThemeBrand.GREEN)
 
-    var purpleTheme by mutableStateOf(false)
-
-    var darkTheme by mutableStateOf(false)
+    var darkThemeConfig by mutableStateOf(DarkThemeConfig.FOLLOW_SYSTEM)
 
     var dynamicTheme by mutableStateOf(false)
 
@@ -122,23 +122,21 @@ fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.c
             LocalInspectionMode provides true,
         ) {
             GetoTheme(
-                greenTheme = greenTheme,
-                purpleTheme = purpleTheme,
-                darkTheme = darkTheme,
-                dynamicTheme = dynamicTheme,
+                themeBrand = themeBrand,
+                darkThemeConfig = darkThemeConfig,
+                dynamicTheme = false,
             ) {
-                key(greenTheme, purpleTheme, darkTheme, dynamicTheme) {
+                key(themeBrand, darkThemeConfig, dynamicTheme) {
                     content(description)
                 }
             }
         }
     }
 
-    getoMultiThemes.forEach { (getoGreenTheme, getoPurpleTheme, getoDarkTheme, getoDynamicTheme, getoDescription) ->
+    getoMultiThemes.forEach { (getoThemeBrand, getoDarkThemeConfig, getoDynamicTheme, getoDescription) ->
         description = getoDescription
-        greenTheme = getoGreenTheme
-        purpleTheme = getoPurpleTheme
-        darkTheme = getoDarkTheme
+        themeBrand = getoThemeBrand
+        darkThemeConfig = getoDarkThemeConfig
         dynamicTheme = getoDynamicTheme
 
         onRoot().captureRoboImage(
@@ -163,53 +161,46 @@ internal fun extractSpecs(deviceSpec: String): TestDeviceSpecs {
 data class TestDeviceSpecs(val width: Int, val height: Int, val dpi: Int)
 
 private data class GetoMultiTheme(
-    val greenTheme: Boolean,
-    val purpleTheme: Boolean,
-    val darkTheme: Boolean,
+    val themeBrand: ThemeBrand,
+    val darkThemeConfig: DarkThemeConfig,
     val dynamicTheme: Boolean,
     val description: String,
 )
 
 private val getoMultiThemes = listOf(
     GetoMultiTheme(
-        greenTheme = true,
-        purpleTheme = false,
-        darkTheme = false,
+        themeBrand = ThemeBrand.GREEN,
+        darkThemeConfig = DarkThemeConfig.LIGHT,
         dynamicTheme = false,
         description = "GreenTheme",
     ),
     GetoMultiTheme(
-        greenTheme = false,
-        purpleTheme = true,
-        darkTheme = false,
+        themeBrand = ThemeBrand.PURPLE,
+        darkThemeConfig = DarkThemeConfig.LIGHT,
         dynamicTheme = false,
         description = "PurpleTheme",
     ),
     GetoMultiTheme(
-        greenTheme = true,
-        purpleTheme = false,
-        darkTheme = true,
+        themeBrand = ThemeBrand.GREEN,
+        darkThemeConfig = DarkThemeConfig.DARK,
         dynamicTheme = false,
         description = "GreenDarkTheme",
     ),
     GetoMultiTheme(
-        greenTheme = false,
-        purpleTheme = true,
-        darkTheme = true,
+        themeBrand = ThemeBrand.PURPLE,
+        darkThemeConfig = DarkThemeConfig.DARK,
         dynamicTheme = false,
         description = "PurpleDarkTheme",
     ),
     GetoMultiTheme(
-        greenTheme = false,
-        purpleTheme = false,
-        darkTheme = false,
+        themeBrand = ThemeBrand.GREEN,
+        darkThemeConfig = DarkThemeConfig.LIGHT,
         dynamicTheme = true,
         description = "DynamicTheme",
     ),
     GetoMultiTheme(
-        greenTheme = false,
-        purpleTheme = false,
-        darkTheme = true,
+        themeBrand = ThemeBrand.GREEN,
+        darkThemeConfig = DarkThemeConfig.DARK,
         dynamicTheme = true,
         description = "DynamicDarkTheme",
     ),
