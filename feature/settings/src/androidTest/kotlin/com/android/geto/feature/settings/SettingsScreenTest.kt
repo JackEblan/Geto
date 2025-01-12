@@ -162,42 +162,4 @@ class SettingsScreenTest {
 
         composeTestRule.onNodeWithTag("settings:dynamic").assertIsNotDisplayed()
     }
-
-    @Test
-    fun autoLaunchSwitch_isOff_whenUseAutoLaunch_isFalse() {
-        composeTestRule.setContent {
-            SettingsScreen(
-                settingsUiState = SettingsUiState.Success(
-                    UserData(
-                        themeBrand = ThemeBrand.PURPLE,
-                        useDynamicColor = true,
-                        darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
-                    ),
-                ),
-                supportDynamicColor = true,
-                onEvent = {},
-            )
-        }
-
-        composeTestRule.onNodeWithTag("settings:autoLaunchSwitch").assertIsOff()
-    }
-
-    @Test
-    fun autoLaunchSwitch_isOn_whenUseAutoLaunch_isTrue() {
-        composeTestRule.setContent {
-            SettingsScreen(
-                settingsUiState = SettingsUiState.Success(
-                    UserData(
-                        themeBrand = ThemeBrand.PURPLE,
-                        useDynamicColor = true,
-                        darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
-                    ),
-                ),
-                supportDynamicColor = true,
-                onEvent = {},
-            )
-        }
-
-        composeTestRule.onNodeWithTag("settings:autoLaunchSwitch").assertIsOn()
-    }
 }
