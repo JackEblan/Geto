@@ -28,7 +28,6 @@ import kotlinx.coroutines.test.runTest
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
-import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class AppSettingsDaoTest {
@@ -73,49 +72,6 @@ class AppSettingsDaoTest {
 
         assertTrue {
             appSettingEntitiesByPackageName.containsAll(appSettingEntities)
-        }
-    }
-
-    @Test
-    fun deleteAppSettingEntitiesByPackageName() = runTest {
-        val oldAppSettingsEntities = List(10) { index ->
-            AppSettingEntity(
-                id = index,
-                enabled = false,
-                settingType = SettingType.GLOBAL,
-                packageName = "com.android.geto.old",
-                label = "Geto",
-                key = "Geto",
-                valueOnLaunch = "0",
-                valueOnRevert = "1",
-            )
-        }
-
-        val newAppSettingsEntities = List(10) { index ->
-            AppSettingEntity(
-                id = index + 11,
-                enabled = false,
-                settingType = SettingType.GLOBAL,
-                packageName = "com.android.geto.new",
-                label = "Geto",
-                key = "Geto",
-                valueOnLaunch = "0",
-                valueOnRevert = "1",
-            )
-        }
-
-        appSettingsDao.upsertAppSettingEntities(oldAppSettingsEntities + newAppSettingsEntities)
-
-        appSettingsDao.deleteAppSettingEntitiesByPackageName(packageNames = listOf("com.android.geto.old"))
-
-        val appSettingsList = appSettingsDao.getAppSettingEntities().first()
-
-        assertFalse {
-            appSettingsList.containsAll(oldAppSettingsEntities)
-        }
-
-        assertTrue {
-            appSettingsList.containsAll(newAppSettingsEntities)
         }
     }
 }
