@@ -66,10 +66,8 @@ class MainActivity : ComponentActivity() {
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { uiState ->
-                    themeSettings = when (uiState) {
-                        MainActivityUiState.Loading -> themeSettings
-
-                        is MainActivityUiState.Success -> ThemeSettings(
+                    if (uiState is MainActivityUiState.Success) {
+                        themeSettings = ThemeSettings(
                             themeBrand = uiState.userData.themeBrand,
                             darkThemeConfig = uiState.userData.darkThemeConfig,
                             dynamicTheme = uiState.userData.useDynamicColor,

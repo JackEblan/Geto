@@ -124,7 +124,7 @@ fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.c
             GetoTheme(
                 themeBrand = themeBrand,
                 darkThemeConfig = darkThemeConfig,
-                dynamicTheme = false,
+                dynamicTheme = dynamicTheme,
             ) {
                 key(themeBrand, darkThemeConfig, dynamicTheme) {
                     content(description)
