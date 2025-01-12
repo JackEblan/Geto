@@ -24,8 +24,6 @@ import com.android.geto.domain.model.SettingType
 sealed interface AppSettingsEvent {
     data object ApplyAppSettings : AppSettingsEvent
 
-    data object AutoLaunchApp : AppSettingsEvent
-
     data class CheckAppSetting(val appSetting: AppSetting) : AppSettingsEvent
 
     data class DeleteAppSetting(val appSetting: AppSetting) : AppSettingsEvent
@@ -78,8 +76,6 @@ sealed interface AppSettingsEvent {
     data object ResetApplyAppSettingsResult : AppSettingsEvent
 
     data object ResetRevertAppSettingsResult : AppSettingsEvent
-
-    data object ResetAutoLaunchResult : AppSettingsEvent
 
     data object ResetRequestPinShortcutResult : AppSettingsEvent
 

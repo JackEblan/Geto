@@ -48,10 +48,6 @@ class TestAppSettingsRepository : AppSettingsRepository {
         }
     }
 
-    override suspend fun deleteAppSettingsByPackageName(packageNames: List<String>) {
-        _appSettingsFlow.tryEmit(currentAppSettings.filterNot { it.packageName in packageNames })
-    }
-
     fun setAppSettings(value: List<AppSetting>) {
         _appSettingsFlow.tryEmit(value)
     }

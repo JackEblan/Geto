@@ -45,7 +45,6 @@ class SettingsScreenDialogsTest {
                         themeBrand = ThemeBrand.PURPLE,
                         useDynamicColor = true,
                         darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
-                        useAutoLaunch = true,
                     ),
                 ),
                 supportDynamicColor = true,
@@ -71,7 +70,6 @@ class SettingsScreenDialogsTest {
                         themeBrand = ThemeBrand.PURPLE,
                         useDynamicColor = true,
                         darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
-                        useAutoLaunch = true,
                     ),
                 ),
                 supportDynamicColor = true,
@@ -89,32 +87,6 @@ class SettingsScreenDialogsTest {
     }
 
     @Test
-    fun cleanDialog_isDisplayed_whenCleanSetting_isClicked_thenDismissed() {
-        composeTestRule.setContent {
-            SettingsScreen(
-                settingsUiState = SettingsUiState.Success(
-                    UserData(
-                        themeBrand = ThemeBrand.PURPLE,
-                        useDynamicColor = true,
-                        darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
-                        useAutoLaunch = true,
-                    ),
-                ),
-                supportDynamicColor = true,
-                onEvent = {},
-            )
-        }
-
-        composeTestRule.onNodeWithTag("settings:clean").performClick()
-
-        composeTestRule.onNodeWithContentDescription("Clean Dialog").assertIsDisplayed()
-
-        composeTestRule.onNodeWithText("Cancel").performClick()
-
-        composeTestRule.onNodeWithContentDescription("Clean Dialog").assertIsNotDisplayed()
-    }
-
-    @Test
     fun themeDialog_stateRestoration() {
         val restorationTester = StateRestorationTester(composeTestRule)
 
@@ -125,7 +97,6 @@ class SettingsScreenDialogsTest {
                         themeBrand = ThemeBrand.PURPLE,
                         useDynamicColor = true,
                         darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
-                        useAutoLaunch = true,
                     ),
                 ),
                 supportDynamicColor = true,
@@ -155,7 +126,6 @@ class SettingsScreenDialogsTest {
                         themeBrand = ThemeBrand.PURPLE,
                         useDynamicColor = true,
                         darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
-                        useAutoLaunch = true,
                     ),
                 ),
                 supportDynamicColor = true,
@@ -172,35 +142,5 @@ class SettingsScreenDialogsTest {
         composeTestRule.onNodeWithText("Cancel").performClick()
 
         composeTestRule.onNodeWithContentDescription("Dark Dialog").assertIsNotDisplayed()
-    }
-
-    @Test
-    fun cleanDialog_stateRestoration() {
-        val restorationTester = StateRestorationTester(composeTestRule)
-
-        restorationTester.setContent {
-            SettingsScreen(
-                settingsUiState = SettingsUiState.Success(
-                    UserData(
-                        themeBrand = ThemeBrand.PURPLE,
-                        useDynamicColor = true,
-                        darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
-                        useAutoLaunch = true,
-                    ),
-                ),
-                supportDynamicColor = true,
-                onEvent = {},
-            )
-        }
-
-        composeTestRule.onNodeWithTag("settings:clean").performClick()
-
-        restorationTester.emulateSavedInstanceStateRestore()
-
-        composeTestRule.onNodeWithContentDescription("Clean Dialog").assertIsDisplayed()
-
-        composeTestRule.onNodeWithText("Cancel").performClick()
-
-        composeTestRule.onNodeWithContentDescription("Clean Dialog").assertIsNotDisplayed()
     }
 }

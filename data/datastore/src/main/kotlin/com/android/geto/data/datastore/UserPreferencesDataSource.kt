@@ -53,7 +53,6 @@ class UserPreferencesDataSource @Inject constructor(
                 DarkThemeConfigProto.DARK_THEME_CONFIG_DARK -> DarkThemeConfig.DARK
             },
             useDynamicColor = it.useDynamicColor,
-            useAutoLaunch = it.useAutoLaunch,
         )
     }
 
@@ -83,12 +82,6 @@ class UserPreferencesDataSource @Inject constructor(
                     DarkThemeConfig.DARK -> DarkThemeConfigProto.DARK_THEME_CONFIG_DARK
                 }
             }
-        }
-    }
-
-    suspend fun setAutoLaunch(useAutoLaunch: Boolean) {
-        userPreferences.updateData {
-            it.copy { this.useAutoLaunch = useAutoLaunch }
         }
     }
 }

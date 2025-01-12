@@ -26,8 +26,4 @@ sealed interface SettingsEvent {
     data class UpdateDarkThemeConfig(val darkThemeConfig: DarkThemeConfig) : SettingsEvent
 
     data class UpdateDynamicColor(val useDynamicColor: Boolean) : SettingsEvent
-
-    data class UpdateAutoLaunch(val useAutoLaunch: Boolean) : SettingsEvent
-
-    data object CleanAppSettings : SettingsEvent
 }

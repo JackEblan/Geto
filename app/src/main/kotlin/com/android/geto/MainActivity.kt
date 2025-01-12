@@ -92,7 +92,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    @Composable
     private fun shouldUseGreenTheme(
         state: MainActivityUiState,
     ): Boolean = when (state) {
@@ -103,7 +102,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    @Composable
     private fun shouldUsePurpleTheme(
         state: MainActivityUiState,
     ): Boolean = when (state) {
@@ -114,7 +112,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    @Composable
     private fun shouldUseDynamicTheme(
         state: MainActivityUiState,
     ): Boolean = when (state) {

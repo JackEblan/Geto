@@ -21,5 +21,6 @@ import com.android.geto.domain.model.UserData
 
 sealed interface MainActivityUiState {
     data object Loading : MainActivityUiState
+
     data class Success(val userData: UserData) : MainActivityUiState
 }

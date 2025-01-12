@@ -39,9 +39,6 @@ interface AppSettingsDao {
     @Query("SELECT * FROM AppSettingEntity")
     fun getAppSettingEntities(): Flow<List<AppSettingEntity>>
 
-    @Query("DELETE FROM AppSettingEntity WHERE packageName IN (:packageNames)")
-    suspend fun deleteAppSettingEntitiesByPackageName(packageNames: List<String>)
-
     @Upsert
     suspend fun upsertAppSettingEntities(entities: List<AppSettingEntity>)
 }

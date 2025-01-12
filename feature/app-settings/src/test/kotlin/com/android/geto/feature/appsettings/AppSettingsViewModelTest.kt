@@ -22,9 +22,9 @@ import androidx.navigation.testing.invoke
 import com.android.geto.common.MainDispatcherRule
 import com.android.geto.domain.broadcastreceiver.DummyRevertSettingsBroadcastReceiver
 import com.android.geto.domain.broadcastreceiver.RevertSettingsBroadcastReceiver
-import com.android.geto.domain.framework.DummyClipboardManagerWrapper
 import com.android.geto.domain.framework.DummyNotificationManagerWrapper
 import com.android.geto.domain.framework.FakeAssetManagerWrapper
+import com.android.geto.domain.framework.FakeClipboardManagerWrapper
 import com.android.geto.domain.framework.FakePackageManagerWrapper
 import com.android.geto.domain.model.AddAppSettingResult
 import com.android.geto.domain.model.AppSetting
@@ -45,7 +45,6 @@ import com.android.geto.domain.repository.TestShortcutRepository
 import com.android.geto.domain.repository.TestUserDataRepository
 import com.android.geto.domain.usecase.AddAppSettingUseCase
 import com.android.geto.domain.usecase.ApplyAppSettingsUseCase
-import com.android.geto.domain.usecase.AutoLaunchUseCase
 import com.android.geto.domain.usecase.RequestPinShortcutUseCase
 import com.android.geto.domain.usecase.RevertAppSettingsUseCase
 import com.android.geto.feature.appsettings.dialog.template.TemplateDialogUiState
@@ -79,7 +78,7 @@ class AppSettingsViewModelTest {
 
     private lateinit var secureSettingsRepository: TestSecureSettingsRepository
 
-    private lateinit var clipboardManagerWrapper: DummyClipboardManagerWrapper
+    private lateinit var clipboardManagerWrapper: FakeClipboardManagerWrapper
 
     private lateinit var notificationManagerWrapper: DummyNotificationManagerWrapper
 
@@ -92,8 +91,6 @@ class AppSettingsViewModelTest {
     private lateinit var applyAppSettingsUseCase: ApplyAppSettingsUseCase
 
     private lateinit var revertAppSettingsUseCase: RevertAppSettingsUseCase
-
-    private lateinit var autoLaunchUseCase: AutoLaunchUseCase
 
     private lateinit var addAppSettingUseCase: AddAppSettingUseCase
 
@@ -117,7 +114,7 @@ class AppSettingsViewModelTest {
 
         secureSettingsRepository = TestSecureSettingsRepository()
 
-        clipboardManagerWrapper = DummyClipboardManagerWrapper()
+        clipboardManagerWrapper = FakeClipboardManagerWrapper()
 
         shortcutRepository = TestShortcutRepository()
 
@@ -129,12 +126,6 @@ class AppSettingsViewModelTest {
         )
 
         revertAppSettingsUseCase = RevertAppSettingsUseCase(
-            appSettingsRepository = appSettingsRepository,
-            secureSettingsRepository = secureSettingsRepository,
-        )
-
-        autoLaunchUseCase = AutoLaunchUseCase(
-            userDataRepository = userDataRepository,
             appSettingsRepository = appSettingsRepository,
             secureSettingsRepository = secureSettingsRepository,
         )
@@ -167,7 +158,6 @@ class AppSettingsViewModelTest {
             secureSettingsRepository = secureSettingsRepository,
             applyAppSettingsUseCase = applyAppSettingsUseCase,
             revertAppSettingsUseCase = revertAppSettingsUseCase,
-            autoLaunchUseCase = autoLaunchUseCase,
             requestPinShortcutUseCase = requestPinShortcutUseCase,
             addAppSettingUseCase = addAppSettingUseCase,
             notificationManagerWrapper = notificationManagerWrapper,
@@ -189,11 +179,6 @@ class AppSettingsViewModelTest {
     @Test
     fun revertAppSettingsResult_isNull_whenStarted() {
         assertNull(viewModel.revertAppSettingsResult.value)
-    }
-
-    @Test
-    fun autoLaunchResult_isNull_whenStarted() {
-        assertNull(viewModel.autoLaunchResult.value)
     }
 
     @Test
