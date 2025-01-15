@@ -36,6 +36,7 @@ dependencies {
     testImplementation(libs.robolectric)
     testImplementation(testFixtures(projects.common))
     testImplementation(testFixtures(projects.domain.foregroundService))
+    testImplementation(testFixtures(projects.domain.framework))
     testImplementation(testFixtures(projects.domain.useCase))
     testImplementation(projects.roborazzi)
 
