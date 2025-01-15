@@ -29,5 +29,6 @@ dependencies {
     implementation(libs.gson)
 
     implementation(projects.common)
-    implementation(projects.domain)
+    implementation(projects.domain.framework)
+    implementation(projects.domain.model)
 }

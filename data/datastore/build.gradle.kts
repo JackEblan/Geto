@@ -55,7 +55,8 @@ dependencies {
     implementation(libs.protobuf.kotlin.lite)
 
     implementation(projects.common)
-    implementation(projects.domain)
+    implementation(projects.domain.model)
+    implementation(projects.domain.repository)
 
     testImplementation(kotlin("test"))
     testImplementation(testFixtures(projects.common))

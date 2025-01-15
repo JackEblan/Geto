@@ -29,5 +29,7 @@ dependencies {
     implementation(libs.androidx.core.ktx)
 
     implementation(projects.common)
-    implementation(projects.domain)
+    implementation(projects.domain.broadcastReceiver)
+    implementation(projects.domain.framework)
+    implementation(projects.domain.model)
 }
