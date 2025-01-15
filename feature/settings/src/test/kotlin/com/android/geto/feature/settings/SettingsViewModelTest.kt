@@ -18,7 +18,6 @@
 package com.android.geto.feature.settings
 
 import com.android.geto.common.MainDispatcherRule
-import com.android.geto.domain.framework.FakePackageManagerWrapper
 import com.android.geto.domain.model.DarkThemeConfig
 import com.android.geto.domain.model.ThemeBrand
 import com.android.geto.domain.repository.TestAppSettingsRepository
@@ -39,8 +38,6 @@ class SettingsViewModelTest {
 
     private lateinit var userDataRepository: TestUserDataRepository
 
-    private lateinit var packageManagerWrapper: FakePackageManagerWrapper
-
     private lateinit var appSettingsRepository: TestAppSettingsRepository
 
     private lateinit var viewModel: SettingsViewModel
@@ -48,8 +45,6 @@ class SettingsViewModelTest {
     @Before
     fun setUp() {
         userDataRepository = TestUserDataRepository()
-
-        packageManagerWrapper = FakePackageManagerWrapper()
 
         appSettingsRepository = TestAppSettingsRepository()
 
