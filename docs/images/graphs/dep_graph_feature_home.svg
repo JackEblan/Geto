@@ -27,15 +27,15 @@
 <path fill="none" stroke="red" stroke-width="2" d="M65.53,-143.7C65.53,-136.41 65.53,-127.73 65.53,-119.54"/>
 <polygon fill="red" stroke="red" stroke-width="2" points="69.03,-121.13 65.53,-111.13 62.03,-121.13 69.03,-121.13"/>
 </g>
-<!-- :domain -->
+<!-- :domain:model -->
 <g id="node3" class="node">
-<title>:domain</title>
-<ellipse fill="none" stroke="black" cx="65.53" cy="-18" rx="40.09" ry="18"/>
-<text text-anchor="middle" x="65.53" y="-12.57" font-family="Times New Roman,serif" font-size="14.00">:domain</text>
+<title>:domain:model</title>
+<ellipse fill="none" stroke="black" cx="65.53" cy="-18" rx="65.04" ry="18"/>
+<text text-anchor="middle" x="65.53" y="-12.57" font-family="Times New Roman,serif" font-size="14.00">:domain:model</text>
 </g>
-<!-- :design&#45;system&#45;&gt;:domain -->
+<!-- :design&#45;system&#45;&gt;:domain:model -->
 <g id="edge2" class="edge">
-<title>:design&#45;system&#45;&gt;:domain</title>
+<title>:design&#45;system&#45;&gt;:domain:model</title>
 <path fill="none" stroke="red" stroke-width="2" d="M65.53,-71.7C65.53,-64.41 65.53,-55.73 65.53,-47.54"/>
 <polygon fill="red" stroke="red" stroke-width="2" points="69.03,-49.13 65.53,-39.13 62.03,-49.13 69.03,-49.13"/>
 </g>
