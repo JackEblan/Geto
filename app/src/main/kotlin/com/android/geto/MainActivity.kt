@@ -66,18 +66,24 @@ class MainActivity : ComponentActivity() {
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { uiState ->
-                    if (uiState is MainActivityUiState.Success) {
-                        themeSettings = ThemeSettings(
-                            themeBrand = uiState.userData.themeBrand,
-                            darkThemeConfig = uiState.userData.darkThemeConfig,
-                            dynamicTheme = uiState.userData.useDynamicColor,
-                        )
+                    when (uiState) {
+                        MainActivityUiState.Loading -> {
+                            splashScreen.setKeepOnScreenCondition { true }
+                        }
+
+                        is MainActivityUiState.Success -> {
+                            splashScreen.setKeepOnScreenCondition { false }
+
+                            themeSettings = ThemeSettings(
+                                themeBrand = uiState.userData.themeBrand,
+                                darkThemeConfig = uiState.userData.darkThemeConfig,
+                                dynamicTheme = uiState.userData.useDynamicColor,
+                            )
+                        }
                     }
                 }
             }
         }
-
-        splashScreen.setKeepOnScreenCondition { viewModel.uiState.value == MainActivityUiState.Loading }
 
         setContent {
             val navController = rememberNavController()
