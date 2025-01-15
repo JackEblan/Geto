@@ -20,8 +20,6 @@ package com.android.geto.feature.appsettings
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.testing.invoke
 import com.android.geto.common.MainDispatcherRule
-import com.android.geto.domain.broadcastreceiver.DummyRevertSettingsBroadcastReceiver
-import com.android.geto.domain.broadcastreceiver.RevertSettingsBroadcastReceiver
 import com.android.geto.domain.framework.DummyNotificationManagerWrapper
 import com.android.geto.domain.framework.FakeAssetManagerWrapper
 import com.android.geto.domain.framework.FakeClipboardManagerWrapper
@@ -96,8 +94,6 @@ class AppSettingsViewModelTest {
 
     private lateinit var requestPinShortcutUseCase: RequestPinShortcutUseCase
 
-    private lateinit var revertSettingsBroadcastReceiver: RevertSettingsBroadcastReceiver
-
     private lateinit var savedStateHandle: SavedStateHandle
 
     private lateinit var viewModel: AppSettingsViewModel
@@ -148,8 +144,6 @@ class AppSettingsViewModelTest {
 
         assetManagerWrapper = FakeAssetManagerWrapper()
 
-        revertSettingsBroadcastReceiver = DummyRevertSettingsBroadcastReceiver()
-
         viewModel = AppSettingsViewModel(
             savedStateHandle = savedStateHandle,
             appSettingsRepository = appSettingsRepository,
@@ -162,7 +156,6 @@ class AppSettingsViewModelTest {
             addAppSettingUseCase = addAppSettingUseCase,
             notificationManagerWrapper = notificationManagerWrapper,
             assetManagerWrapper = assetManagerWrapper,
-            revertSettingsBroadcastReceiver = revertSettingsBroadcastReceiver,
         )
     }
 

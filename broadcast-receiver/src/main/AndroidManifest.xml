@@ -19,7 +19,7 @@
 
     <application>
         <receiver
-            android:name=".DefaultRevertSettingsBroadcastReceiver"
+            android:name=".RevertSettingsBroadcastReceiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="ACTION_REVERT_SETTINGS" />
@@ -27,7 +27,7 @@
         </receiver>
 
         <receiver
-            android:name=".DefaultStopUsageStatsForegroundServiceBroadcastReceiver"
+            android:name=".StopUsageStatsForegroundServiceBroadcastReceiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="ACTION_STOP_USAGE_STATS_FOREGROUND_SERVICE" />

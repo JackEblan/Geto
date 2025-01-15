@@ -29,7 +29,6 @@ android {
 
 dependencies {
     implementation(projects.common)
-    implementation(projects.domain.broadcastReceiver)
     implementation(projects.domain.framework)
     implementation(projects.domain.repository)
     implementation(projects.domain.useCase)
@@ -38,7 +37,6 @@ dependencies {
     testImplementation(libs.bundles.androidx.compose.ui.test)
     testImplementation(libs.robolectric)
     testImplementation(testFixtures(projects.common))
-    testImplementation(testFixtures(projects.domain.broadcastReceiver))
     testImplementation(testFixtures(projects.domain.framework))
     testImplementation(testFixtures(projects.domain.repository))
     testImplementation(projects.roborazzi)
