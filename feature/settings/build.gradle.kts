@@ -28,7 +28,6 @@ android {
 }
 
 dependencies {
-    implementation(projects.domain.model)
     implementation(projects.domain.repository)
 
     testImplementation(kotlin("test"))
