@@ -35,6 +35,12 @@
             <option value="$PROJECT_DIR$/data/room" />
             <option value="$PROJECT_DIR$/design-system" />
             <option value="$PROJECT_DIR$/domain" />
+            <option value="$PROJECT_DIR$/domain/broadcast-receiver" />
+            <option value="$PROJECT_DIR$/domain/foreground-service" />
+            <option value="$PROJECT_DIR$/domain/framework" />
+            <option value="$PROJECT_DIR$/domain/model" />
+            <option value="$PROJECT_DIR$/domain/repository" />
+            <option value="$PROJECT_DIR$/domain/use-case" />
             <option value="$PROJECT_DIR$/feature" />
             <option value="$PROJECT_DIR$/feature/app-settings" />
             <option value="$PROJECT_DIR$/feature/apps" />

@@ -42,7 +42,7 @@ dependencies {
     api(libs.androidx.compose.ui.util)
     api(libs.coil.kt.compose)
 
-    implementation(projects.domain)
+    implementation(projects.domain.model)
 
     testImplementation(kotlin("test"))
     testImplementation(libs.androidx.compose.ui.test)

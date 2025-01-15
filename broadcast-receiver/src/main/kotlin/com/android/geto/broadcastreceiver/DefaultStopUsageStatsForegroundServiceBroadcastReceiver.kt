@@ -26,7 +26,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class DefaultStopUsageStatsForegroundServiceBroadcastReceiver @Inject constructor() :
+internal class DefaultStopUsageStatsForegroundServiceBroadcastReceiver @Inject constructor() :
     BroadcastReceiver(), StopUsageStatsForegroundServiceBroadcastReceiver {
     @Inject
     lateinit var usageStatsForegroundServiceManager: UsageStatsForegroundServiceManager

@@ -33,7 +33,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class DefaultRevertSettingsBroadcastReceiver @Inject constructor() :
+internal class DefaultRevertSettingsBroadcastReceiver @Inject constructor() :
     BroadcastReceiver(), RevertSettingsBroadcastReceiver {
 
     @Inject

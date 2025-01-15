@@ -41,5 +41,5 @@ dependencies {
     implementation(libs.shizuku.provider)
 
     implementation(projects.common)
-    implementation(projects.domain)
+    implementation(projects.domain.framework)
 }

@@ -36,7 +36,8 @@ android {
 }
 
 dependencies {
-    implementation(projects.domain)
+    implementation(projects.domain.model)
+    implementation(projects.domain.repository)
 
     androidTestImplementation(kotlin("test"))
     androidTestImplementation(libs.room.testing)

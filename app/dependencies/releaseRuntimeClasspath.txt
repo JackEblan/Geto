@@ -143,10 +143,10 @@ org.jetbrains.kotlin:kotlin-stdlib-common:2.0.0
 org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.9.0
 org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.0
 org.jetbrains.kotlin:kotlin-stdlib:2.0.0
-org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3
-org.jetbrains.kotlinx:kotlinx-coroutines-bom:1.7.3
-org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.7.3
-org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3
+org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1
+org.jetbrains.kotlinx:kotlinx-coroutines-bom:1.8.1
+org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.8.1
+org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1
 org.jetbrains.kotlinx:kotlinx-serialization-bom:1.6.3
 org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:1.6.3
 org.jetbrains.kotlinx:kotlinx-serialization-core:1.6.3
