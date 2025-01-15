@@ -62,8 +62,8 @@ android {
 }
 
 dependencies {
-    implementation(projects.data.repository)
     implementation(projects.designSystem)
+    implementation(projects.data.repository)
     implementation(projects.domain.repository)
 
     implementation(projects.feature.apps)

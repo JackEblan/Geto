@@ -30,5 +30,4 @@ dependencies {
 
     implementation(projects.common)
     implementation(projects.domain.framework)
-    implementation(projects.domain.model)
 }

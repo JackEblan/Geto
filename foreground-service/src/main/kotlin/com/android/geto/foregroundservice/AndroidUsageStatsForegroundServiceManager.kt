@@ -30,7 +30,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import javax.inject.Inject
 
-class AndroidUsageStatsForegroundServiceManager @Inject constructor(@ApplicationContext private val context: Context) :
+internal class AndroidUsageStatsForegroundServiceManager @Inject constructor(@ApplicationContext private val context: Context) :
     UsageStatsForegroundServiceManager {
     private val usageStatsServiceIntent = Intent(context, UsageStatsService::class.java)
 

@@ -45,7 +45,7 @@ import javax.inject.Inject
 import com.android.geto.common.R as commonR
 
 @AndroidEntryPoint
-class UsageStatsService : Service() {
+internal class UsageStatsService : Service() {
     @Inject
     lateinit var notificationManagerWrapper: NotificationManagerWrapper
 
