@@ -1,0 +1,21 @@
+Index: app/release/output-metadata.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>{\r\n  \"version\": 3,\r\n  \"artifactType\": {\r\n    \"type\": \"APK\",\r\n    \"kind\": \"Directory\"\r\n  },\r\n  \"applicationId\": \"com.android.geto\",\r\n  \"variantName\": \"release\",\r\n  \"elements\": [\r\n    {\r\n      \"type\": \"SINGLE\",\r\n      \"filters\": [],\r\n      \"attributes\": [],\r\n      \"versionCode\": 165,\r\n      \"versionName\": \"1.16.5\",\r\n      \"outputFile\": \"app-release.apk\"\r\n    }\r\n  ],\r\n  \"elementType\": \"File\",\r\n  \"baselineProfiles\": [\r\n    {\r\n      \"minApi\": 28,\r\n      \"maxApi\": 30,\r\n      \"baselineProfiles\": [\r\n        \"baselineProfiles/1/app-release.dm\"\r\n      ]\r\n    },\r\n    {\r\n      \"minApi\": 31,\r\n      \"maxApi\": 2147483647,\r\n      \"baselineProfiles\": [\r\n        \"baselineProfiles/0/app-release.dm\"\r\n      ]\r\n    }\r\n  ],\r\n  \"minSdkVersionForDexing\": 24\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/release/output-metadata.json b/app/release/output-metadata.json
+--- a/app/release/output-metadata.json	(revision 6a26da4eac30eb2380d1561395322d80685783bb)
++++ b/app/release/output-metadata.json	(date 1736715897696)
+@@ -11,8 +11,8 @@
+       "type": "SINGLE",
+       "filters": [],
+       "attributes": [],
+-      "versionCode": 165,
+-      "versionName": "1.16.5",
++      "versionCode": 167,
++      "versionName": "1.16.7",
+       "outputFile": "app-release.apk"
+     }
+   ],

@@ -29,13 +29,18 @@ android {
 
 dependencies {
     implementation(projects.common)
-    implementation(projects.domain)
+    implementation(projects.domain.broadcastReceiver)
+    implementation(projects.domain.framework)
+    implementation(projects.domain.repository)
+    implementation(projects.domain.useCase)
 
     testImplementation(kotlin("test"))
     testImplementation(libs.bundles.androidx.compose.ui.test)
     testImplementation(libs.robolectric)
     testImplementation(testFixtures(projects.common))
-    testImplementation(testFixtures(projects.domain))
+    testImplementation(testFixtures(projects.domain.broadcastReceiver))
+    testImplementation(testFixtures(projects.domain.framework))
+    testImplementation(testFixtures(projects.domain.repository))
     testImplementation(projects.roborazzi)
 
     androidTestImplementation(kotlin("test"))

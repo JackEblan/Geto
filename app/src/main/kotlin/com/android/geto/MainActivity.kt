@@ -22,10 +22,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -39,95 +36,67 @@ import com.android.geto.domain.model.DarkThemeConfig
 import com.android.geto.domain.model.ThemeBrand
 import com.android.geto.navigation.GetoNavHost
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val viewModel: MainActivityViewModel by viewModels()
 
+    private data class ThemeSettings(
+        val themeBrand: ThemeBrand,
+        val darkThemeConfig: DarkThemeConfig,
+        val dynamicTheme: Boolean,
+    )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
 
+        enableEdgeToEdge()
+
         super.onCreate(savedInstanceState)
 
-        var mainActivityUiState: MainActivityUiState by mutableStateOf(MainActivityUiState.Loading)
+        var themeSettings by mutableStateOf(
+            ThemeSettings(
+                themeBrand = ThemeBrand.GREEN,
+                darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+                dynamicTheme = false,
+            ),
+        )
 
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.uiState.onEach { mainActivityUiState = it }.collect()
+                viewModel.uiState.collect { uiState ->
+                    when (uiState) {
+                        MainActivityUiState.Loading -> {
+                            splashScreen.setKeepOnScreenCondition { true }
+                        }
+
+                        is MainActivityUiState.Success -> {
+                            splashScreen.setKeepOnScreenCondition { false }
+
+                            themeSettings = ThemeSettings(
+                                themeBrand = uiState.userData.themeBrand,
+                                darkThemeConfig = uiState.userData.darkThemeConfig,
+                                dynamicTheme = uiState.userData.useDynamicColor,
+                            )
+                        }
+                    }
+                }
             }
         }
-
-        splashScreen.setKeepOnScreenCondition {
-            when (mainActivityUiState) {
-                MainActivityUiState.Loading -> true
-                is MainActivityUiState.Success -> false
-            }
-        }
-
-        enableEdgeToEdge()
 
         setContent {
-            val darkTheme = shouldUseDarkTheme(mainActivityUiState)
-
             val navController = rememberNavController()
 
-            DisposableEffect(darkTheme) {
-                enableEdgeToEdge()
-                onDispose {}
-            }
-
             GetoTheme(
-                greenTheme = shouldUseGreenTheme(mainActivityUiState),
-                purpleTheme = shouldUsePurpleTheme(mainActivityUiState),
-                darkTheme = darkTheme,
-                dynamicTheme = shouldUseDynamicTheme(mainActivityUiState),
+                themeBrand = themeSettings.themeBrand,
+                darkThemeConfig = themeSettings.darkThemeConfig,
+                dynamicTheme = themeSettings.dynamicTheme,
             ) {
                 Surface {
                     GetoNavHost(navController = navController)
                 }
             }
-        }
-    }
-
-    private fun shouldUseGreenTheme(
-        state: MainActivityUiState,
-    ): Boolean = when (state) {
-        MainActivityUiState.Loading -> false
-        is MainActivityUiState.Success -> when (state.userData.themeBrand) {
-            ThemeBrand.GREEN -> true
-            ThemeBrand.PURPLE -> false
-        }
-    }
-
-    private fun shouldUsePurpleTheme(
-        state: MainActivityUiState,
-    ): Boolean = when (state) {
-        MainActivityUiState.Loading -> false
-        is MainActivityUiState.Success -> when (state.userData.themeBrand) {
-            ThemeBrand.GREEN -> false
-            ThemeBrand.PURPLE -> true
-        }
-    }
-
-    private fun shouldUseDynamicTheme(
-        state: MainActivityUiState,
-    ): Boolean = when (state) {
-        MainActivityUiState.Loading -> false
-        is MainActivityUiState.Success -> state.userData.useDynamicColor
-    }
-
-    @Composable
-    private fun shouldUseDarkTheme(
-        state: MainActivityUiState,
-    ): Boolean = when (state) {
-        MainActivityUiState.Loading -> isSystemInDarkTheme()
-        is MainActivityUiState.Success -> when (state.userData.darkThemeConfig) {
-            DarkThemeConfig.FOLLOW_SYSTEM -> isSystemInDarkTheme()
-            DarkThemeConfig.LIGHT -> false
-            DarkThemeConfig.DARK -> true
         }
     }
 }

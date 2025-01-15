@@ -23,23 +23,19 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onRoot
 import com.android.geto.designsystem.component.GetoLoadingWheel
 import com.android.geto.designsystem.component.GetoOverlayLoadingWheel
-import com.android.geto.designsystem.theme.GetoTheme
 import com.android.geto.roborazzi.DefaultRoborazziOptions
 import com.android.geto.roborazzi.captureScreenMultiTheme
 import com.github.takahirom.roborazzi.captureRoboImage
-import dagger.hilt.android.testing.HiltTestApplication
 import org.junit.Rule
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.GraphicsMode
-import org.robolectric.annotation.LooperMode
 import kotlin.test.Test
 
 @RunWith(RobolectricTestRunner::class)
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
-@Config(application = HiltTestApplication::class, qualifiers = "480dpi")
-@LooperMode(LooperMode.Mode.PAUSED)
+@Config(qualifiers = "480dpi")
 class LoadingWheelScreenshotTests {
 
     @get:Rule
@@ -66,8 +62,9 @@ class LoadingWheelScreenshotTests {
     @Test
     fun getoLoadingWheel_animation() {
         composeTestRule.mainClock.autoAdvance = false
+
         composeTestRule.setContent {
-            GetoTheme {
+            Surface {
                 GetoLoadingWheel(contentDescription = "")
             }
         }

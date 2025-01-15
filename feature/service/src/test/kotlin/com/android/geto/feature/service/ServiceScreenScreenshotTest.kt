@@ -21,6 +21,8 @@ import androidx.activity.ComponentActivity
 import androidx.compose.material3.Surface
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.android.geto.designsystem.theme.GetoTheme
+import com.android.geto.domain.model.DarkThemeConfig
+import com.android.geto.domain.model.ThemeBrand
 import com.android.geto.roborazzi.DefaultTestDevices
 import com.android.geto.roborazzi.captureScreenForDevice
 import com.android.geto.roborazzi.captureScreenForMultiDevice
@@ -45,7 +47,11 @@ class ServiceScreenScreenshotTest {
     @Test
     fun serviceScreen_inActive() {
         composeTestRule.captureScreenForMultiDevice("ServiceScreenInActive") {
-            GetoTheme {
+            GetoTheme(
+                themeBrand = ThemeBrand.GREEN,
+                darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+                dynamicTheme = false,
+            ) {
                 ServiceScreen(
                     usageStatsForegroundServiceActive = false,
                     onEvent = {},
@@ -57,7 +63,11 @@ class ServiceScreenScreenshotTest {
     @Test
     fun serviceScreen_active() {
         composeTestRule.captureScreenForMultiDevice("ServiceScreenActive") {
-            GetoTheme {
+            GetoTheme(
+                themeBrand = ThemeBrand.GREEN,
+                darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+                dynamicTheme = false,
+            ) {
                 ServiceScreen(
                     usageStatsForegroundServiceActive = true,
                     onEvent = {},
@@ -74,7 +84,11 @@ class ServiceScreenScreenshotTest {
             fileName = "ServiceScreenInActive",
             darkMode = true,
         ) {
-            GetoTheme {
+            GetoTheme(
+                themeBrand = ThemeBrand.GREEN,
+                darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+                dynamicTheme = false,
+            ) {
                 Surface {
                     ServiceScreen(
                         usageStatsForegroundServiceActive = false,
@@ -93,7 +107,11 @@ class ServiceScreenScreenshotTest {
             fileName = "ServiceScreenActive",
             darkMode = true,
         ) {
-            GetoTheme {
+            GetoTheme(
+                themeBrand = ThemeBrand.GREEN,
+                darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+                dynamicTheme = false,
+            ) {
                 Surface {
                     ServiceScreen(
                         usageStatsForegroundServiceActive = true,

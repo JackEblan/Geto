@@ -51,7 +51,11 @@ class SettingsScreenScreenshotTest {
             deviceName = "foldable",
             deviceSpec = DefaultTestDevices.FOLDABLE.spec,
         ) {
-            GetoTheme {
+            GetoTheme(
+                themeBrand = ThemeBrand.GREEN,
+                darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+                dynamicTheme = false,
+            ) {
                 SettingsScreen(
                     settingsUiState = SettingsUiState.Success(
                         userData = UserData(
@@ -74,7 +78,11 @@ class SettingsScreenScreenshotTest {
             deviceName = "foldable",
             deviceSpec = DefaultTestDevices.FOLDABLE.spec,
         ) {
-            GetoTheme {
+            GetoTheme(
+                themeBrand = ThemeBrand.GREEN,
+                darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+                dynamicTheme = false,
+            ) {
                 SettingsScreen(
                     settingsUiState = SettingsUiState.Loading,
                     supportDynamicColor = true,
@@ -92,7 +100,11 @@ class SettingsScreenScreenshotTest {
             deviceSpec = DefaultTestDevices.FOLDABLE.spec,
             darkMode = true,
         ) {
-            GetoTheme {
+            GetoTheme(
+                themeBrand = ThemeBrand.GREEN,
+                darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+                dynamicTheme = false,
+            ) {
                 Surface {
                     SettingsScreen(
                         settingsUiState = SettingsUiState.Success(
@@ -118,7 +130,11 @@ class SettingsScreenScreenshotTest {
             deviceSpec = DefaultTestDevices.FOLDABLE.spec,
             darkMode = true,
         ) {
-            GetoTheme {
+            GetoTheme(
+                themeBrand = ThemeBrand.GREEN,
+                darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+                dynamicTheme = false,
+            ) {
                 Surface {
                     SettingsScreen(
                         settingsUiState = SettingsUiState.Loading,
