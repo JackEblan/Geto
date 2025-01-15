@@ -19,7 +19,6 @@
 plugins {
     alias(libs.plugins.com.android.geto.library)
     alias(libs.plugins.com.android.geto.libraryJacoco)
-    alias(libs.plugins.com.android.geto.hilt)
 }
 
 android {
@@ -32,6 +31,7 @@ android {
 
 dependencies {
     api(projects.domain.model)
+    implementation(libs.javax.inject)
     implementation(libs.kotlinx.coroutines.core)
     implementation(projects.domain.foregroundService)
     implementation(projects.domain.framework)

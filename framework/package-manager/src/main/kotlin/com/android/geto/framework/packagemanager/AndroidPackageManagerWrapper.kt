@@ -37,7 +37,7 @@ import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 
-internal class AndroidPackageManagerWrapper @Inject constructor(
+class AndroidPackageManagerWrapper @Inject constructor(
     @Dispatcher(Default) private val defaultDispatcher: CoroutineDispatcher,
     @Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher,
     @ApplicationContext private val context: Context,
