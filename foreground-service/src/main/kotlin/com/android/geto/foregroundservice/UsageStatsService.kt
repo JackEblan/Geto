@@ -38,14 +38,14 @@ import com.android.geto.domain.model.ForegroundServiceAppSettingsResult.Success
 import com.android.geto.domain.usecase.ForegroundServiceAppSettingsUseCase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.cancel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import com.android.geto.common.R as commonR
 
 @AndroidEntryPoint
-class UsageStatsService : Service() {
+internal class UsageStatsService : Service() {
     @Inject
     lateinit var notificationManagerWrapper: NotificationManagerWrapper
 
@@ -59,6 +59,8 @@ class UsageStatsService : Service() {
     @ApplicationScope
     lateinit var appScope: CoroutineScope
 
+    private lateinit var serviceJob: Job
+
     private val notificationId = 1
 
     private val usageStatsBinder = UsageStatsBinder()
@@ -70,7 +72,7 @@ class UsageStatsService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         startUsageStatsForeground()
 
-        appScope.launch {
+        serviceJob = appScope.launch {
             foregroundServiceAppSettingsUseCase().collectLatest { result ->
                 updateUsageStatsForegroundServiceNotification(result = result)
             }
@@ -82,7 +84,7 @@ class UsageStatsService : Service() {
     override fun onDestroy() {
         super.onDestroy()
 
-        appScope.cancel()
+        serviceJob.cancel()
     }
 
     private fun startUsageStatsForeground() {

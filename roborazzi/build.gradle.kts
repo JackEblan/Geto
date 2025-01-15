@@ -34,5 +34,6 @@ dependencies {
     implementation(libs.androidx.compose.ui.test)
     implementation(libs.robolectric)
     implementation(projects.common)
+    implementation(projects.domain.model)
     implementation(projects.designSystem)
 }

@@ -19,26 +19,23 @@ package com.android.geto.designsystem
 
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onRoot
 import com.android.geto.designsystem.component.AnimatedWavyCircle
-import com.android.geto.designsystem.theme.GetoTheme
 import com.android.geto.roborazzi.DefaultRoborazziOptions
 import com.github.takahirom.roborazzi.captureRoboImage
-import dagger.hilt.android.testing.HiltTestApplication
 import org.junit.Rule
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.GraphicsMode
-import org.robolectric.annotation.LooperMode
 import kotlin.test.Test
 
 @RunWith(RobolectricTestRunner::class)
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
-@Config(application = HiltTestApplication::class, qualifiers = "480dpi")
-@LooperMode(LooperMode.Mode.PAUSED)
+@Config(qualifiers = "480dpi")
 class WavyCircleScreenshotTests {
 
     @get:Rule
@@ -47,8 +44,9 @@ class WavyCircleScreenshotTests {
     @Test
     fun animatedWavyCircle_animation() {
         composeTestRule.mainClock.autoAdvance = false
+
         composeTestRule.setContent {
-            GetoTheme {
+            Surface {
                 AnimatedWavyCircle(
                     modifier = Modifier.fillMaxSize(),
                     active = true,
@@ -59,6 +57,7 @@ class WavyCircleScreenshotTests {
         // Try multiple frames of the animation; some arbitrary, some synchronized with duration.
         listOf(0L, 250L, 500L).forEach { deltaTime ->
             composeTestRule.mainClock.advanceTimeBy(deltaTime)
+
             composeTestRule.onRoot().captureRoboImage(
                 "src/test/screenshots/WavyCircle/AnimatedWavyCircle_animation_$deltaTime.png",
                 roborazziOptions = DefaultRoborazziOptions,

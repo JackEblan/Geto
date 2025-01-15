@@ -48,6 +48,4 @@ class FakeAppSettingsRepository @Inject constructor() : AppSettingsRepository {
 
         return flowOf(appSettings)
     }
-
-    override suspend fun deleteAppSettingsByPackageName(packageNames: List<String>) {}
 }

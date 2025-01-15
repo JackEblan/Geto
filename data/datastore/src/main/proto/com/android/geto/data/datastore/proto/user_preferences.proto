@@ -30,7 +30,5 @@ message UserPreferences {
   DarkThemeConfigProto dark_theme_config = 17;
 
   bool use_dynamic_color = 19;
-
-  bool use_auto_launch = 20;
 }
 

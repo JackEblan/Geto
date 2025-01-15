@@ -22,7 +22,6 @@ import androidx.lifecycle.viewModelScope
 import com.android.geto.domain.model.DarkThemeConfig
 import com.android.geto.domain.model.ThemeBrand
 import com.android.geto.domain.repository.UserDataRepository
-import com.android.geto.domain.usecase.CleanAppSettingsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.flow.map
@@ -33,7 +32,6 @@ import javax.inject.Inject
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val userDataRepository: UserDataRepository,
-    private val cleanAppSettingsUseCase: CleanAppSettingsUseCase,
 ) : ViewModel() {
     val settingsUiState = userDataRepository.userData.map(SettingsUiState::Success).stateIn(
         scope = viewModelScope,
@@ -43,14 +41,6 @@ class SettingsViewModel @Inject constructor(
 
     fun onEvent(event: SettingsEvent) {
         when (event) {
-            SettingsEvent.CleanAppSettings -> {
-                cleanAppSettings()
-            }
-
-            is SettingsEvent.UpdateAutoLaunch -> {
-                updateAutoLaunch(useAutoLaunch = event.useAutoLaunch)
-            }
-
             is SettingsEvent.UpdateDarkThemeConfig -> {
                 updateDarkThemeConfig(darkThemeConfig = event.darkThemeConfig)
             }
@@ -80,18 +70,6 @@ class SettingsViewModel @Inject constructor(
     private fun updateDynamicColor(useDynamicColor: Boolean) {
         viewModelScope.launch {
             userDataRepository.setDynamicColor(useDynamicColor)
-        }
-    }
-
-    private fun updateAutoLaunch(useAutoLaunch: Boolean) {
-        viewModelScope.launch {
-            userDataRepository.setAutoLaunch(useAutoLaunch)
-        }
-    }
-
-    private fun cleanAppSettings() {
-        viewModelScope.launch {
-            cleanAppSettingsUseCase()
         }
     }
 }

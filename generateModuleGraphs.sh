@@ -16,6 +16,11 @@
 #   limitations under the License.
 #
 #
+# Script to generate dependency graphs for each of the modules. The --exclude-module parameter can
+# be used to exclude modules which are not part of the root dependency graph (and which, if included
+# would cause the script to fail.
+#
+# Usage: generateModuleGraphs.sh --exclude-module :benchmarks --exclude-module :lint
 
 # Check if the dot command is available
 if ! command -v dot &> /dev/null

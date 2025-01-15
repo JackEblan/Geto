@@ -23,7 +23,9 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import com.android.geto.designsystem.theme.GetoTheme
 import com.android.geto.domain.model.AppSetting
+import com.android.geto.domain.model.DarkThemeConfig
 import com.android.geto.domain.model.SettingType
+import com.android.geto.domain.model.ThemeBrand
 import com.android.geto.feature.appsettings.dialog.template.TemplateDialogUiState
 import com.android.geto.roborazzi.DefaultTestDevices
 import com.android.geto.roborazzi.captureScreenForDevice
@@ -62,7 +64,11 @@ class AppSettingsScreenScreenshotTest {
     @Test
     fun appSettingsScreen_populated() {
         composeTestRule.captureScreenForMultiDevice("AppSettingsScreenPopulated") {
-            GetoTheme {
+            GetoTheme(
+                themeBrand = ThemeBrand.GREEN,
+                darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+                dynamicTheme = false,
+            ) {
                 AppSettingsScreen(
                     packageName = "com.android.geto",
                     appName = "Geto",
@@ -73,7 +79,6 @@ class AppSettingsScreenScreenshotTest {
                     addAppSettingResult = null,
                     appSettingsResult = null,
                     revertAppSettingsResult = null,
-                    autoLaunchResult = null,
                     requestPinShortcutResult = null,
                     setPrimaryClipResult = false,
                     templateDialogUiState = TemplateDialogUiState.Loading,
@@ -88,7 +93,11 @@ class AppSettingsScreenScreenshotTest {
     @Test
     fun appSettingsScreen_loading() {
         composeTestRule.captureScreenForMultiDevice("AppSettingsScreenLoading") {
-            GetoTheme {
+            GetoTheme(
+                themeBrand = ThemeBrand.GREEN,
+                darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+                dynamicTheme = false,
+            ) {
                 AppSettingsScreen(
                     packageName = "com.android.geto",
                     appName = "Geto",
@@ -99,7 +108,6 @@ class AppSettingsScreenScreenshotTest {
                     addAppSettingResult = null,
                     appSettingsResult = null,
                     revertAppSettingsResult = null,
-                    autoLaunchResult = null,
                     requestPinShortcutResult = null,
                     setPrimaryClipResult = false,
                     templateDialogUiState = TemplateDialogUiState.Loading,
@@ -114,7 +122,11 @@ class AppSettingsScreenScreenshotTest {
     @Test
     fun appSettingsScreen_empty() {
         composeTestRule.captureScreenForMultiDevice("AppSettingsScreenEmpty") {
-            GetoTheme {
+            GetoTheme(
+                themeBrand = ThemeBrand.GREEN,
+                darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+                dynamicTheme = false,
+            ) {
                 AppSettingsScreen(
                     packageName = "com.android.geto",
                     appName = "Geto",
@@ -125,7 +137,6 @@ class AppSettingsScreenScreenshotTest {
                     addAppSettingResult = null,
                     appSettingsResult = null,
                     revertAppSettingsResult = null,
-                    autoLaunchResult = null,
                     requestPinShortcutResult = null,
                     setPrimaryClipResult = false,
                     templateDialogUiState = TemplateDialogUiState.Loading,
@@ -145,7 +156,11 @@ class AppSettingsScreenScreenshotTest {
             fileName = "AppSettingsScreenPopulated",
             darkMode = true,
         ) {
-            GetoTheme {
+            GetoTheme(
+                themeBrand = ThemeBrand.GREEN,
+                darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+                dynamicTheme = false,
+            ) {
                 Surface {
                     AppSettingsScreen(
                         packageName = "com.android.geto",
@@ -157,7 +172,6 @@ class AppSettingsScreenScreenshotTest {
                         addAppSettingResult = null,
                         appSettingsResult = null,
                         revertAppSettingsResult = null,
-                        autoLaunchResult = null,
                         requestPinShortcutResult = null,
                         setPrimaryClipResult = false,
                         templateDialogUiState = TemplateDialogUiState.Loading,
@@ -178,7 +192,11 @@ class AppSettingsScreenScreenshotTest {
             fileName = "AppSettingsScreenLoading",
             darkMode = true,
         ) {
-            GetoTheme {
+            GetoTheme(
+                themeBrand = ThemeBrand.GREEN,
+                darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+                dynamicTheme = false,
+            ) {
                 Surface {
                     AppSettingsScreen(
                         packageName = "com.android.geto",
@@ -190,7 +208,6 @@ class AppSettingsScreenScreenshotTest {
                         addAppSettingResult = null,
                         appSettingsResult = null,
                         revertAppSettingsResult = null,
-                        autoLaunchResult = null,
                         requestPinShortcutResult = null,
                         setPrimaryClipResult = false,
                         templateDialogUiState = TemplateDialogUiState.Loading,
@@ -211,7 +228,11 @@ class AppSettingsScreenScreenshotTest {
             fileName = "AppSettingsScreenEmpty",
             darkMode = true,
         ) {
-            GetoTheme {
+            GetoTheme(
+                themeBrand = ThemeBrand.GREEN,
+                darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+                dynamicTheme = false,
+            ) {
                 Surface {
                     AppSettingsScreen(
                         packageName = "com.android.geto",
@@ -223,7 +244,6 @@ class AppSettingsScreenScreenshotTest {
                         addAppSettingResult = null,
                         appSettingsResult = null,
                         revertAppSettingsResult = null,
-                        autoLaunchResult = null,
                         requestPinShortcutResult = null,
                         setPrimaryClipResult = false,
                         templateDialogUiState = TemplateDialogUiState.Loading,

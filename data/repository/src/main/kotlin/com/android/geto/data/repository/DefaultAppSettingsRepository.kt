@@ -49,8 +49,4 @@ class DefaultAppSettingsRepository @Inject constructor(
             entities.map(AppSettingEntity::asExternalModel)
         }
     }
-
-    override suspend fun deleteAppSettingsByPackageName(packageNames: List<String>) {
-        appSettingsDao.deleteAppSettingEntitiesByPackageName(packageNames)
-    }
 }

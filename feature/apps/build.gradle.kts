@@ -28,13 +28,14 @@ android {
 }
 
 dependencies {
-    implementation(projects.domain)
+    implementation(projects.domain.framework)
+    implementation(projects.domain.model)
 
     testImplementation(kotlin("test"))
     testImplementation(libs.bundles.androidx.compose.ui.test)
     testImplementation(libs.robolectric)
     testImplementation(testFixtures(projects.common))
-    testImplementation(testFixtures(projects.domain))
+    testImplementation(testFixtures(projects.domain.framework))
     testImplementation(projects.roborazzi)
 
     androidTestImplementation(kotlin("test"))

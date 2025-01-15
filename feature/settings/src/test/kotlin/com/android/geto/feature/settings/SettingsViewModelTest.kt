@@ -18,12 +18,10 @@
 package com.android.geto.feature.settings
 
 import com.android.geto.common.MainDispatcherRule
-import com.android.geto.domain.framework.FakePackageManagerWrapper
 import com.android.geto.domain.model.DarkThemeConfig
 import com.android.geto.domain.model.ThemeBrand
 import com.android.geto.domain.repository.TestAppSettingsRepository
 import com.android.geto.domain.repository.TestUserDataRepository
-import com.android.geto.domain.usecase.CleanAppSettingsUseCase
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -40,11 +38,7 @@ class SettingsViewModelTest {
 
     private lateinit var userDataRepository: TestUserDataRepository
 
-    private lateinit var packageManagerWrapper: FakePackageManagerWrapper
-
     private lateinit var appSettingsRepository: TestAppSettingsRepository
-
-    private lateinit var cleanAppSettingsUseCase: CleanAppSettingsUseCase
 
     private lateinit var viewModel: SettingsViewModel
 
@@ -52,18 +46,10 @@ class SettingsViewModelTest {
     fun setUp() {
         userDataRepository = TestUserDataRepository()
 
-        packageManagerWrapper = FakePackageManagerWrapper()
-
         appSettingsRepository = TestAppSettingsRepository()
-
-        cleanAppSettingsUseCase = CleanAppSettingsUseCase(
-            packageManagerWrapper = packageManagerWrapper,
-            appSettingsRepository = appSettingsRepository,
-        )
 
         viewModel = SettingsViewModel(
             userDataRepository = userDataRepository,
-            cleanAppSettingsUseCase = cleanAppSettingsUseCase,
         )
     }
 
