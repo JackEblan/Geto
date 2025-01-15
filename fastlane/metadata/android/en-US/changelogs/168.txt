@@ -1,0 +1,2 @@
+What's new
+- Removed Auto-launch and Clean app settings feature

@@ -32,8 +32,8 @@ android {
 
     defaultConfig {
         applicationId = "com.android.geto"
-        versionCode = 167
-        versionName = "1.16.7"
+        versionCode = 168
+        versionName = "1.16.8"
 
         // Custom test runner to set up Hilt dependency graph
         testInstrumentationRunner = "com.android.geto.common.GetoTestRunner"
