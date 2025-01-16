@@ -21,7 +21,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
-import com.android.geto.domain.broadcastreceiver.RevertSettingsBroadcastReceiver
 import com.android.geto.domain.framework.AssetManagerWrapper
 import com.android.geto.domain.framework.ClipboardManagerWrapper
 import com.android.geto.domain.framework.NotificationManagerWrapper
@@ -80,7 +79,6 @@ class AppSettingsViewModel @Inject constructor(
     private val addAppSettingUseCase: AddAppSettingUseCase,
     private val notificationManagerWrapper: NotificationManagerWrapper,
     private val assetManagerWrapper: AssetManagerWrapper,
-    private val revertSettingsBroadcastReceiver: RevertSettingsBroadcastReceiver,
 ) : ViewModel() {
     private val appSettingsRouteData = savedStateHandle.toRoute<AppSettingsRouteData>()
 
@@ -290,7 +288,6 @@ class AppSettingsViewModel @Inject constructor(
 
         notificationManagerWrapper.notifyRevertNotification(
             notificationId = notificationId,
-            revertSettingsBroadcastReceiver = revertSettingsBroadcastReceiver,
             packageName = packageName,
             icon = icon,
             contentTitle = contentTitle,

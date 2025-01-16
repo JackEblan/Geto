@@ -17,12 +17,9 @@
  */
 package com.android.geto.domain.framework
 
-import com.android.geto.domain.broadcastreceiver.RevertSettingsBroadcastReceiver
-
 interface NotificationManagerWrapper {
     fun notifyRevertNotification(
         notificationId: Int,
-        revertSettingsBroadcastReceiver: RevertSettingsBroadcastReceiver,
         packageName: String,
         icon: ByteArray?,
         contentTitle: String,

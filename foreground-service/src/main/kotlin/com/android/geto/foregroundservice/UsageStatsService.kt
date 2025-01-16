@@ -28,9 +28,9 @@ import android.os.Binder
 import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
+import com.android.geto.broadcastreceiver.StopUsageStatsForegroundServiceBroadcastReceiver
+import com.android.geto.broadcastreceiver.StopUsageStatsForegroundServiceBroadcastReceiver.Companion.ACTION_STOP_USAGE_STATS_FOREGROUND_SERVICE
 import com.android.geto.common.di.ApplicationScope
-import com.android.geto.domain.broadcastreceiver.StopUsageStatsForegroundServiceBroadcastReceiver
-import com.android.geto.domain.broadcastreceiver.StopUsageStatsForegroundServiceBroadcastReceiver.Companion.ACTION_STOP_USAGE_STATS_FOREGROUND_SERVICE
 import com.android.geto.domain.framework.NotificationManagerWrapper
 import com.android.geto.domain.model.ForegroundServiceAppSettingsResult
 import com.android.geto.domain.model.ForegroundServiceAppSettingsResult.Ignore
@@ -51,9 +51,6 @@ internal class UsageStatsService : Service() {
 
     @Inject
     lateinit var foregroundServiceAppSettingsUseCase: ForegroundServiceAppSettingsUseCase
-
-    @Inject
-    lateinit var stopUsageStatsForegroundServiceBroadcastReceiver: StopUsageStatsForegroundServiceBroadcastReceiver
 
     @Inject
     @ApplicationScope
@@ -135,7 +132,7 @@ internal class UsageStatsService : Service() {
         notificationManagerWrapper.createNotificationChannel()
 
         val stopIntent =
-            Intent(this, stopUsageStatsForegroundServiceBroadcastReceiver::class.java).apply {
+            Intent(this, StopUsageStatsForegroundServiceBroadcastReceiver::class.java).apply {
                 action = ACTION_STOP_USAGE_STATS_FOREGROUND_SERVICE
             }
 

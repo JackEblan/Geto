@@ -21,9 +21,6 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import com.android.geto.common.di.ApplicationScope
-import com.android.geto.domain.broadcastreceiver.RevertSettingsBroadcastReceiver
-import com.android.geto.domain.broadcastreceiver.RevertSettingsBroadcastReceiver.Companion.EXTRA_NOTIFICATION_ID
-import com.android.geto.domain.broadcastreceiver.RevertSettingsBroadcastReceiver.Companion.EXTRA_PACKAGE_NAME
 import com.android.geto.domain.framework.NotificationManagerWrapper
 import com.android.geto.domain.model.AppSettingsResult
 import com.android.geto.domain.usecase.RevertAppSettingsUseCase
@@ -33,8 +30,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-internal class DefaultRevertSettingsBroadcastReceiver @Inject constructor() :
-    BroadcastReceiver(), RevertSettingsBroadcastReceiver {
+class RevertSettingsBroadcastReceiver @Inject constructor() : BroadcastReceiver() {
 
     @Inject
     @ApplicationScope
@@ -65,5 +61,11 @@ internal class DefaultRevertSettingsBroadcastReceiver @Inject constructor() :
                 notificationManagerWrapper.cancel(notificationId)
             }
         }
+    }
+
+    companion object {
+        const val ACTION_REVERT_SETTINGS = "ACTION_REVERT_SETTINGS"
+        const val EXTRA_PACKAGE_NAME = "package_name"
+        const val EXTRA_NOTIFICATION_ID = "notification_id"
     }
 }

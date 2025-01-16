@@ -32,9 +32,7 @@ android {
 dependencies {
     api(projects.domain.model)
     implementation(libs.kotlinx.coroutines.core)
-    implementation(projects.domain.broadcastReceiver)
 
-    testFixturesImplementation(projects.domain.broadcastReceiver)
     testFixturesImplementation(projects.domain.model)
     testFixturesImplementation(libs.kotlinx.coroutines.core)
 }
