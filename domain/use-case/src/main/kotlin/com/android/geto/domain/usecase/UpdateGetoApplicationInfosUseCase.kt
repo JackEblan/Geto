@@ -21,6 +21,7 @@ package com.android.geto.domain.usecase
 import com.android.geto.domain.common.annotations.Dispatcher
 import com.android.geto.domain.common.annotations.GetoDispatchers.Default
 import com.android.geto.domain.framework.PackageManagerWrapper
+import com.android.geto.domain.repository.AppSettingsRepository
 import com.android.geto.domain.repository.GetoApplicationInfosRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.first
@@ -31,6 +32,7 @@ class UpdateGetoApplicationInfosUseCase @Inject constructor(
     @Dispatcher(Default) private val defaultDispatcher: CoroutineDispatcher,
     private val packageManagerWrapper: PackageManagerWrapper,
     private val getoApplicationInfosRepository: GetoApplicationInfosRepository,
+    private val appSettingsRepository: AppSettingsRepository,
 ) {
     suspend operator fun invoke() {
         val getoApplicationInfosFromFramework = packageManagerWrapper.queryIntentActivities()
@@ -48,6 +50,8 @@ class UpdateGetoApplicationInfosUseCase @Inject constructor(
             }
 
             getoApplicationInfosRepository.deleteGetoApplicationInfoByPackageName(packageNames = oldPackageNames)
+
+            // TODO Delete app settings by package name
         }
 
         getoApplicationInfosRepository.upsertGetoApplicationInfo(getoApplicationInfos = getoApplicationInfosFromFramework)
