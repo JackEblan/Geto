@@ -29,4 +29,6 @@ interface GetoApplicationInfosRepository {
     suspend fun upsertGetoApplicationInfo(getoApplicationInfos: List<GetoApplicationInfo>)
 
     suspend fun getGetoApplicationInfoEntity(packageName: String): GetoApplicationInfo
+
+    suspend fun getGetoApplicationInfoByPackageName(text: String): List<GetoApplicationInfo>
 }

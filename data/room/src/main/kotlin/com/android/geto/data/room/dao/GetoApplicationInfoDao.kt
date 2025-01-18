@@ -26,7 +26,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface GetoApplicationInfoDao {
     @Query("DELETE FROM GetoApplicationInfoEntity WHERE packageName in (:packageNames)")
-    fun deleteGetoApplicationInfoEntitiesByPackageName(packageNames: List<String>)
+    suspend fun deleteGetoApplicationInfoEntitiesByPackageName(packageNames: List<String>)
 
     @Query("SELECT * FROM GetoApplicationInfoEntity")
     fun getGetoApplicationInfoEntities(): Flow<List<GetoApplicationInfoEntity>>
@@ -35,5 +35,5 @@ interface GetoApplicationInfoDao {
     suspend fun upserGetoApplicationInfoEntities(entities: List<GetoApplicationInfoEntity>)
 
     @Query("SELECT * FROM GetoApplicationInfoEntity WHERE packageName = :packageName ")
-    fun getGetoApplicationInfoEntity(packageName: String): GetoApplicationInfoEntity
+    suspend fun getGetoApplicationInfoEntity(packageName: String): GetoApplicationInfoEntity
 }

@@ -506,7 +506,7 @@ private fun AppSettingsLaunchedEffects(
         snapshotFlow { appSettingDialogState.key }.debounce(500).distinctUntilChanged().onEach {
             onGetSecureSettingsByName(
                 settingType,
-                appSettingDialogState.key,
+                it,
             )
         }.collect()
     }

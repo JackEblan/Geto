@@ -40,7 +40,7 @@ class UpdateGetoApplicationInfosUseCase @Inject constructor(
         val getoApplicationInfosFromRepository =
             getoApplicationInfosRepository.getGetoApplicationInfos().first()
 
-        if (getoApplicationInfosFromRepository.isNotEmpty() || getoApplicationInfosFromRepository != getoApplicationInfosFromFramework) {
+        if (getoApplicationInfosFromRepository.size > getoApplicationInfosFromFramework.size) {
             val oldPackageNames = withContext(defaultDispatcher) {
                 getoApplicationInfosFromRepository.filterNot { getoApplicationInfo ->
                     getoApplicationInfosFromFramework.contains(getoApplicationInfo)

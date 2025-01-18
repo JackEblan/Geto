@@ -24,6 +24,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -34,17 +35,23 @@ import androidx.compose.material3.DockedSearchBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
+import androidx.compose.material3.ListItemColors
+import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.unit.dp
@@ -53,6 +60,11 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.android.geto.designsystem.component.GetoLoadingWheel
 import com.android.geto.designsystem.component.ShimmerImage
 import com.android.geto.domain.model.GetoApplicationInfo
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.onEach
 
 @Composable
 internal fun AppsRoute(
@@ -62,10 +74,14 @@ internal fun AppsRoute(
 ) {
     val appListUiState by viewModel.appsUiState.collectAsStateWithLifecycle()
 
+    val searchGetoApplicationInfos by viewModel.searchGetoApplicationInfos.collectAsStateWithLifecycle()
+
     AppsScreen(
         modifier = modifier,
         appsUiState = appListUiState,
+        searchGetoApplicationInfos = searchGetoApplicationInfos,
         onItemClick = onItemClick,
+        onSearch = viewModel::getGetoApplicationInfoByPackageName,
     )
 }
 
@@ -75,7 +91,9 @@ internal fun AppsRoute(
 internal fun AppsScreen(
     modifier: Modifier = Modifier,
     appsUiState: AppsUiState,
+    searchGetoApplicationInfos: List<GetoApplicationInfo>,
     onItemClick: (String, String) -> Unit,
+    onSearch: (String) -> Unit,
 ) {
     ReportDrawnWhen {
         appsUiState is AppsUiState.Success
@@ -100,7 +118,9 @@ internal fun AppsScreen(
                 SuccessState(
                     modifier = modifier,
                     appsUiState = appsUiState,
+                    searchGetoApplicationInfos = searchGetoApplicationInfos,
                     onItemClick = onItemClick,
+                    onSearch = onSearch,
                 )
             }
         }
@@ -115,19 +135,32 @@ private fun LoadingState(modifier: Modifier = Modifier) {
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, FlowPreview::class)
 @Composable
 private fun SuccessState(
     modifier: Modifier = Modifier,
     appsUiState: AppsUiState.Success,
+    searchGetoApplicationInfos: List<GetoApplicationInfo>,
     onItemClick: (String, String) -> Unit,
+    onSearch: (String) -> Unit,
 ) {
     var query by rememberSaveable { mutableStateOf("") }
 
     var expanded by rememberSaveable { mutableStateOf(false) }
 
+    LaunchedEffect(
+        key1 = query,
+    ) {
+        snapshotFlow { query }.debounce(500).distinctUntilChanged().onEach {
+            onSearch(it)
+        }.collect()
+    }
+
     Column(modifier = modifier.fillMaxWidth()) {
         DockedSearchBar(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(5.dp),
             inputField = {
                 SearchBarDefaults.InputField(
                     query = query,
@@ -137,22 +170,30 @@ private fun SuccessState(
                     onSearch = { expanded = false },
                     expanded = expanded,
                     onExpandedChange = { expanded = it },
-                    placeholder = { Text("Hinted search text") },
+                    placeholder = { Text(stringResource(R.string.search)) },
                     leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
                 )
             },
             expanded = expanded,
             onExpandedChange = { expanded = it },
-        ) {}
+        ) {
+            searchGetoApplicationInfos.onEach { getoApplicationInfo ->
+                AppItem(
+                    colors = ListItemDefaults.colors(containerColor = Color.Transparent),
+                    getoApplicationInfo = getoApplicationInfo,
+                    onItemClick = onItemClick,
+                )
+            }
+        }
         LazyVerticalGrid(
             columns = GridCells.Adaptive(300.dp),
             modifier = Modifier
                 .fillMaxSize()
                 .testTag("apps:lazyVerticalGrid"),
         ) {
-            items(items = appsUiState.getoApplicationInfos) { mappedApplicationInfo ->
+            items(items = appsUiState.getoApplicationInfos) { getoApplicationInfo ->
                 AppItem(
-                    getoApplicationInfo = mappedApplicationInfo,
+                    getoApplicationInfo = getoApplicationInfo,
                     onItemClick = onItemClick,
                 )
             }
@@ -163,6 +204,7 @@ private fun SuccessState(
 @Composable
 private fun AppItem(
     modifier: Modifier = Modifier,
+    colors: ListItemColors = ListItemDefaults.colors(),
     getoApplicationInfo: GetoApplicationInfo,
     onItemClick: (String, String) -> Unit,
 ) {
@@ -191,5 +233,6 @@ private fun AppItem(
                 model = getoApplicationInfo.iconPath,
             )
         },
+        colors = colors,
     )
 }

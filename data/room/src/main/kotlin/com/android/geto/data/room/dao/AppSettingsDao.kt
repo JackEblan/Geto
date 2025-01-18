@@ -42,6 +42,6 @@ interface AppSettingsDao {
     @Upsert
     suspend fun upsertAppSettingEntities(entities: List<AppSettingEntity>)
 
-    @Query("DELETE FROM AppSettingEntity WHERE packageName = (:packageNames)")
+    @Query("DELETE FROM AppSettingEntity WHERE packageName in (:packageNames)")
     suspend fun deleteAppSettingEntitiesByPackageName(packageNames: List<String>)
 }
