@@ -52,7 +52,6 @@
             <option value="$PROJECT_DIR$/framework" />
             <option value="$PROJECT_DIR$/framework/asset-manager" />
             <option value="$PROJECT_DIR$/framework/clipboard-manager" />
-            <option value="$PROJECT_DIR$/framework/framework-test" />
             <option value="$PROJECT_DIR$/framework/notification-manager" />
             <option value="$PROJECT_DIR$/framework/package-manager" />
             <option value="$PROJECT_DIR$/framework/secure-settings" />

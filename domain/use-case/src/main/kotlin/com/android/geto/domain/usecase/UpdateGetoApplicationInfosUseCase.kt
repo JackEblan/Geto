@@ -51,7 +51,11 @@ class UpdateGetoApplicationInfosUseCase @Inject constructor(
 
             getoApplicationInfosRepository.deleteGetoApplicationInfoByPackageName(packageNames = oldPackageNames)
 
-            // TODO Delete app settings by package name
+            appSettingsRepository.deleteAppSettingsByPackageName(packageNames = oldPackageNames)
+
+            oldPackageNames.onEach { oldPackageName ->
+                packageManagerWrapper.deleteIconPath(packageName = oldPackageName)
+            }
         }
 
         getoApplicationInfosRepository.upsertGetoApplicationInfo(getoApplicationInfos = getoApplicationInfosFromFramework)

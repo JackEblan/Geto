@@ -46,6 +46,8 @@ class AndroidPackageManagerWrapper @Inject constructor(
 
     private val packageManager = context.packageManager
 
+    private val iconsDirectory = File(context.filesDir, "icons")
+
     override suspend fun queryIntentActivities(): List<GetoApplicationInfo> {
         val intent = Intent().apply {
             action = Intent.ACTION_MAIN
@@ -76,6 +78,18 @@ class AndroidPackageManagerWrapper @Inject constructor(
         }
     }
 
+    override suspend fun deleteIconPath(packageName: String) {
+        withContext(ioDispatcher) {
+            val iconFile = File(iconsDirectory, packageName)
+
+            if (iconsDirectory.exists().not() || iconFile.exists().not()) {
+                return@withContext
+            }
+
+            iconFile.delete()
+        }
+    }
+
     private suspend fun ApplicationInfo.toGetoApplicationInfo(): GetoApplicationInfo {
         return GetoApplicationInfo(
             flags = flags,
@@ -86,8 +100,6 @@ class AndroidPackageManagerWrapper @Inject constructor(
     }
 
     private suspend fun Drawable.toPath(packageName: String): String {
-        val iconsDirectory = File(context.filesDir, "icons")
-
         if (iconsDirectory.exists().not()) {
             iconsDirectory.mkdir()
         }

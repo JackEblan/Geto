@@ -23,4 +23,6 @@ interface PackageManagerWrapper {
     suspend fun queryIntentActivities(): List<GetoApplicationInfo>
 
     fun launchIntentForPackage(packageName: String)
+
+    suspend fun deleteIconPath(packageName: String)
 }
