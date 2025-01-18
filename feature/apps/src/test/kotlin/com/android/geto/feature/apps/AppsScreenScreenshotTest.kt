@@ -48,7 +48,7 @@ class AppsScreenScreenshotTest {
     private val mappedGetoApplicationInfos = List(5) { index ->
         GetoApplicationInfo(
             flags = 0,
-            iconPath = ByteArray(0),
+            iconPath = "",
             packageName = "com.android.geto$index",
             label = "Geto $index",
         )
@@ -64,7 +64,9 @@ class AppsScreenScreenshotTest {
             ) {
                 AppsScreen(
                     appsUiState = AppsUiState.Success(mappedGetoApplicationInfos),
+                    searchGetoApplicationInfos = emptyList(),
                     onItemClick = { _, _ -> },
+                    onSearch = {},
                 )
             }
         }
@@ -80,7 +82,9 @@ class AppsScreenScreenshotTest {
             ) {
                 AppsScreen(
                     appsUiState = AppsUiState.Loading,
+                    searchGetoApplicationInfos = emptyList(),
                     onItemClick = { _, _ -> },
+                    onSearch = {},
                 )
             }
         }
@@ -104,7 +108,9 @@ class AppsScreenScreenshotTest {
                         appsUiState = AppsUiState.Success(
                             mappedGetoApplicationInfos,
                         ),
+                        searchGetoApplicationInfos = emptyList(),
                         onItemClick = { _, _ -> },
+                        onSearch = {},
                     )
                 }
             }
@@ -127,7 +133,9 @@ class AppsScreenScreenshotTest {
                 Surface {
                     AppsScreen(
                         appsUiState = AppsUiState.Loading,
+                        searchGetoApplicationInfos = emptyList(),
                         onItemClick = { _, _ -> },
+                        onSearch = {},
                     )
                 }
             }

@@ -35,7 +35,9 @@ class AppsScreenTest {
         composeTestRule.setContent {
             AppsScreen(
                 appsUiState = AppsUiState.Loading,
+                searchGetoApplicationInfos = emptyList(),
                 onItemClick = { _, _ -> },
+                onSearch = {}
             )
         }
 
@@ -47,7 +49,7 @@ class AppsScreenTest {
         val mappedGetoApplicationInfos = List(2) { index ->
             GetoApplicationInfo(
                 flags = 0,
-                iconPath = ByteArray(0),
+                iconPath = "",
                 packageName = "com.android.geto$index",
                 label = "Geto $index",
             )
@@ -56,7 +58,9 @@ class AppsScreenTest {
         composeTestRule.setContent {
             AppsScreen(
                 appsUiState = AppsUiState.Success(mappedGetoApplicationInfos),
+                searchGetoApplicationInfos = emptyList(),
                 onItemClick = { _, _ -> },
+                onSearch = {}
             )
         }
 

@@ -20,6 +20,11 @@ package com.android.geto.feature.apps
 import com.android.geto.common.MainDispatcherRule
 import com.android.geto.domain.framework.FakePackageManagerWrapper
 import com.android.geto.domain.model.GetoApplicationInfo
+import com.android.geto.domain.repository.AppSettingsRepository
+import com.android.geto.domain.repository.GetoApplicationInfosRepository
+import com.android.geto.domain.repository.TestAppSettingsRepository
+import com.android.geto.domain.repository.TestGetoApplicationInfosRepository
+import com.android.geto.domain.usecase.UpdateGetoApplicationInfosUseCase
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -33,7 +38,13 @@ class AppsViewModelTest {
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
+    private lateinit var updateGetoApplicationInfosUseCase: UpdateGetoApplicationInfosUseCase
+
     private lateinit var packageManagerWrapper: FakePackageManagerWrapper
+
+    private lateinit var getoApplicationInfosRepository: GetoApplicationInfosRepository
+
+    private lateinit var appSettingsRepository: AppSettingsRepository
 
     private lateinit var viewModel: AppsViewModel
 
@@ -41,7 +52,21 @@ class AppsViewModelTest {
     fun setup() {
         packageManagerWrapper = FakePackageManagerWrapper()
 
-        viewModel = AppsViewModel(packageManagerWrapper = packageManagerWrapper)
+        getoApplicationInfosRepository = TestGetoApplicationInfosRepository()
+
+        appSettingsRepository = TestAppSettingsRepository()
+
+        updateGetoApplicationInfosUseCase = UpdateGetoApplicationInfosUseCase(
+            defaultDispatcher = mainDispatcherRule.testDispatcher,
+            packageManagerWrapper = packageManagerWrapper,
+            getoApplicationInfosRepository = getoApplicationInfosRepository,
+            appSettingsRepository = appSettingsRepository,
+
+            )
+        viewModel = AppsViewModel(
+            updateGetoApplicationInfosUseCase = updateGetoApplicationInfosUseCase,
+            getoApplicationInfosRepository = getoApplicationInfosRepository,
+        )
     }
 
     @Test
@@ -58,7 +83,7 @@ class AppsViewModelTest {
         val getoApplicationInfos = List(2) { index ->
             GetoApplicationInfo(
                 flags = 0,
-                iconPath = ByteArray(0),
+                iconPath = "",
                 packageName = "com.android.geto$index",
                 label = "Geto $index",
             )
@@ -78,7 +103,7 @@ class AppsViewModelTest {
         val getoApplicationInfos = List(2) { index ->
             GetoApplicationInfo(
                 flags = 0,
-                iconPath = ByteArray(0),
+                iconPath = "",
                 packageName = "com.android.geto$index",
                 label = "Geto $index",
             )

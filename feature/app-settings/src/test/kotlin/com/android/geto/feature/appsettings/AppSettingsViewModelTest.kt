@@ -38,6 +38,7 @@ import com.android.geto.domain.model.RequestPinShortcutResult
 import com.android.geto.domain.model.SecureSetting
 import com.android.geto.domain.model.SettingType
 import com.android.geto.domain.repository.TestAppSettingsRepository
+import com.android.geto.domain.repository.TestGetoApplicationInfosRepository
 import com.android.geto.domain.repository.TestSecureSettingsRepository
 import com.android.geto.domain.repository.TestShortcutRepository
 import com.android.geto.domain.repository.TestUserDataRepository
@@ -94,6 +95,8 @@ class AppSettingsViewModelTest {
 
     private lateinit var requestPinShortcutUseCase: RequestPinShortcutUseCase
 
+    private lateinit var getoApplicationInfosRepository: TestGetoApplicationInfosRepository
+
     private lateinit var savedStateHandle: SavedStateHandle
 
     private lateinit var viewModel: AppSettingsViewModel
@@ -115,6 +118,8 @@ class AppSettingsViewModelTest {
         shortcutRepository = TestShortcutRepository()
 
         userDataRepository = TestUserDataRepository()
+
+        getoApplicationInfosRepository = TestGetoApplicationInfosRepository()
 
         applyAppSettingsUseCase = ApplyAppSettingsUseCase(
             defaultDispatcher = mainDispatcherRule.testDispatcher,
@@ -159,6 +164,7 @@ class AppSettingsViewModelTest {
             addAppSettingUseCase = addAppSettingUseCase,
             notificationManagerWrapper = notificationManagerWrapper,
             assetManagerWrapper = assetManagerWrapper,
+            getoApplicationInfosRepository = getoApplicationInfosRepository,
         )
     }
 
@@ -193,8 +199,8 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun applicationIcon_isNull_whenStarted() {
-        assertNull(viewModel.applicationIcon.value)
+    fun iconPath_isNull_whenStarted() {
+        assertNull(viewModel.iconPath.value)
     }
 
     @Test
@@ -749,9 +755,9 @@ class AppSettingsViewModelTest {
 
         viewModel.onEvent(
             event = AppSettingsEvent.RequestPinShortcut(
+                iconPath = "",
                 getoShortcutInfoCompat = GetoShortcutInfoCompat(
                     id = "0",
-                    iconPath = ByteArray(0),
                     shortLabel = "shortLabel",
                     longLabel = "longLabel",
                 ),
@@ -774,9 +780,9 @@ class AppSettingsViewModelTest {
 
         viewModel.onEvent(
             event = AppSettingsEvent.RequestPinShortcut(
+                iconPath = "",
                 getoShortcutInfoCompat = GetoShortcutInfoCompat(
                     id = "0",
-                    iconPath = ByteArray(0),
                     shortLabel = "shortLabel",
                     longLabel = "longLabel",
                 ),
@@ -798,7 +804,6 @@ class AppSettingsViewModelTest {
         val shortcuts = List(2) {
             GetoShortcutInfoCompat(
                 id = "com.android.geto",
-                iconPath = ByteArray(0),
                 shortLabel = "Geto",
                 longLabel = "Geto",
             )
@@ -812,9 +817,9 @@ class AppSettingsViewModelTest {
 
         viewModel.onEvent(
             event = AppSettingsEvent.RequestPinShortcut(
+                iconPath = "",
                 getoShortcutInfoCompat = GetoShortcutInfoCompat(
                     id = "com.android.geto",
-                    iconPath = ByteArray(0),
                     shortLabel = "shortLabel",
                     longLabel = "longLabel",
                 ),
@@ -836,7 +841,6 @@ class AppSettingsViewModelTest {
         val shortcuts = List(2) {
             GetoShortcutInfoCompat(
                 id = "com.android.geto",
-                iconPath = ByteArray(0),
                 shortLabel = "Geto",
                 longLabel = "Geto",
             )
@@ -850,9 +854,9 @@ class AppSettingsViewModelTest {
 
         viewModel.onEvent(
             event = AppSettingsEvent.RequestPinShortcut(
+                iconPath = "",
                 getoShortcutInfoCompat = GetoShortcutInfoCompat(
                     id = "com.android.geto",
-                    iconPath = ByteArray(0),
                     shortLabel = "shortLabel",
                     longLabel = "longLabel",
                 ),
@@ -866,12 +870,12 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun applicationIcon_isNotNull_whenGetApplicationIcon() = runTest {
+    fun iconPath_isNotNull_whenGetApplicationIcon() = runTest {
         backgroundScope.launch(UnconfinedTestDispatcher()) {
             val getoApplicationInfos = List(1) { _ ->
                 GetoApplicationInfo(
                     flags = 0,
-                    iconPath = ByteArray(0),
+                    iconPath = "",
                     packageName = packageName,
                     label = appName,
                 )
@@ -879,19 +883,19 @@ class AppSettingsViewModelTest {
 
             packageManagerWrapper.setApplicationInfos(getoApplicationInfos)
 
-            viewModel.applicationIcon.collect()
+            viewModel.iconPath.collect()
         }
 
-        assertNotNull(viewModel.applicationIcon.value)
+        assertNotNull(viewModel.iconPath.value)
     }
 
     @Test
-    fun applicationIcon_isNull_whenGetApplicationIcon() = runTest {
+    fun iconPath_isNull_whenGetApplicationIcon() = runTest {
         backgroundScope.launch(UnconfinedTestDispatcher()) {
             val getoApplicationInfos = List(1) { _ ->
                 GetoApplicationInfo(
                     flags = 0,
-                    iconPath = ByteArray(0),
+                    iconPath = "",
                     packageName = "",
                     label = appName,
                 )
@@ -899,10 +903,10 @@ class AppSettingsViewModelTest {
 
             packageManagerWrapper.setApplicationInfos(getoApplicationInfos)
 
-            viewModel.applicationIcon.collect()
+            viewModel.iconPath.collect()
         }
 
-        assertNull(viewModel.applicationIcon.value)
+        assertNull(viewModel.iconPath.value)
     }
 
     @Test

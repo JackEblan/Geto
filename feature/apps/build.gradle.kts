@@ -36,6 +36,7 @@ dependencies {
     testImplementation(libs.robolectric)
     testImplementation(testFixtures(projects.common))
     testImplementation(testFixtures(projects.domain.framework))
+    testImplementation(testFixtures(projects.domain.repository))
     testImplementation(projects.roborazzi)
 
     androidTestImplementation(kotlin("test"))
