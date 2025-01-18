@@ -17,8 +17,9 @@
  */
 package com.android.geto.common.di
 
-import com.android.geto.common.Dispatcher
-import com.android.geto.common.GetoDispatchers.Default
+import com.android.geto.domain.common.annotations.ApplicationScope
+import com.android.geto.domain.common.annotations.Dispatcher
+import com.android.geto.domain.common.annotations.GetoDispatchers.Default
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,12 +27,7 @@ import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
-import javax.inject.Qualifier
 import javax.inject.Singleton
-
-@Retention(AnnotationRetention.RUNTIME)
-@Qualifier
-annotation class ApplicationScope
 
 @Module
 @InstallIn(SingletonComponent::class)

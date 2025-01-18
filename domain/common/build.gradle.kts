@@ -15,16 +15,16 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.common
 
-import javax.inject.Qualifier
-import kotlin.annotation.AnnotationRetention.RUNTIME
+plugins {
+    alias(libs.plugins.com.android.geto.library)
+    alias(libs.plugins.com.android.geto.libraryJacoco)
+}
 
-@Qualifier
-@Retention(RUNTIME)
-annotation class Dispatcher(val getoDispatcher: GetoDispatchers)
+android {
+    namespace = "com.android.geto.domain.common"
+}
 
-enum class GetoDispatchers {
-    Default,
-    IO,
+dependencies {
+    implementation(libs.javax.inject)
 }

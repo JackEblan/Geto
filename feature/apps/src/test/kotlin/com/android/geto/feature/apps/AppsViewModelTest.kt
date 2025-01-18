@@ -50,7 +50,7 @@ class AppsViewModelTest {
     }
 
     @Test
-    fun appsUiState_isSuccess_whenQueryIntentActivities() = runTest {
+    fun appsUiState_isSuccess_whenUpdateGetoApplicationInfos() = runTest {
         backgroundScope.launch(UnconfinedTestDispatcher()) {
             viewModel.appsUiState.collect()
         }
@@ -58,7 +58,7 @@ class AppsViewModelTest {
         val getoApplicationInfos = List(2) { index ->
             GetoApplicationInfo(
                 flags = 0,
-                icon = ByteArray(0),
+                iconPath = ByteArray(0),
                 packageName = "com.android.geto$index",
                 label = "Geto $index",
             )
@@ -70,7 +70,7 @@ class AppsViewModelTest {
     }
 
     @Test
-    fun appsUiState_isSuccessEmpty_whenQueryIntentActivities() = runTest {
+    fun appsUiState_isSuccessEmpty_whenUpdateGetoApplicationInfos() = runTest {
         backgroundScope.launch(UnconfinedTestDispatcher()) {
             viewModel.appsUiState.collect()
         }
@@ -78,7 +78,7 @@ class AppsViewModelTest {
         val getoApplicationInfos = List(2) { index ->
             GetoApplicationInfo(
                 flags = 0,
-                icon = ByteArray(0),
+                iconPath = ByteArray(0),
                 packageName = "com.android.geto$index",
                 label = "Geto $index",
             )

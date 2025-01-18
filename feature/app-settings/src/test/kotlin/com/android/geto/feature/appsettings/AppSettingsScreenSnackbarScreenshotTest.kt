@@ -83,7 +83,7 @@ class AppSettingsScreenSnackbarScreenshotTest {
                     appName = "Geto",
                     appSettingsUiState = AppSettingsUiState.Success(appSettings),
                     snackbarHostState = snackbarHostState,
-                    applicationIcon = null,
+                    iconPath = null,
                     secureSettings = emptyList(),
                     addAppSettingResult = null,
                     appSettingsResult = null,

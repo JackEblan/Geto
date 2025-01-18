@@ -47,7 +47,7 @@ class AppsScreenTest {
         val mappedGetoApplicationInfos = List(2) { index ->
             GetoApplicationInfo(
                 flags = 0,
-                icon = ByteArray(0),
+                iconPath = ByteArray(0),
                 packageName = "com.android.geto$index",
                 label = "Geto $index",
             )

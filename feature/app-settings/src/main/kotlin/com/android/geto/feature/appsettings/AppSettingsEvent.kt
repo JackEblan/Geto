@@ -34,8 +34,10 @@ sealed interface AppSettingsEvent {
 
     data object RevertAppSettings : AppSettingsEvent
 
-    data class RequestPinShortcut(val getoShortcutInfoCompat: GetoShortcutInfoCompat) :
-        AppSettingsEvent
+    data class RequestPinShortcut(
+        val iconPath: String?,
+        val getoShortcutInfoCompat: GetoShortcutInfoCompat,
+    ) : AppSettingsEvent
 
     data class GetSecureSettingsByName(val settingType: SettingType, val text: String) :
         AppSettingsEvent
@@ -43,35 +45,10 @@ sealed interface AppSettingsEvent {
     data object LaunchIntentForPackage : AppSettingsEvent
 
     data class PostNotification(
-        val icon: ByteArray?,
+        val iconPath: String?,
         val contentTitle: String,
         val contentText: String,
-    ) : AppSettingsEvent {
-        override fun equals(other: Any?): Boolean {
-            if (this === other) return true
-            if (javaClass != other?.javaClass) return false
-
-            other as PostNotification
-
-            if (icon != null) {
-                if (other.icon == null) return false
-                if (!icon.contentEquals(other.icon)) return false
-            } else if (other.icon != null) {
-                return false
-            }
-            if (contentTitle != other.contentTitle) return false
-            if (contentText != other.contentText) return false
-
-            return true
-        }
-
-        override fun hashCode(): Int {
-            var result = icon?.contentHashCode() ?: 0
-            result = 31 * result + contentTitle.hashCode()
-            result = 31 * result + contentText.hashCode()
-            return result
-        }
-    }
+    ) : AppSettingsEvent
 
     data object ResetApplyAppSettingsResult : AppSettingsEvent
 

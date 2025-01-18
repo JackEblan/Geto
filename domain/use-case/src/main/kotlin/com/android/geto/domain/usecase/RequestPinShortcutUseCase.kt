@@ -31,6 +31,7 @@ class RequestPinShortcutUseCase @Inject constructor(
     private val shortcutRepository: ShortcutRepository,
 ) {
     suspend operator fun invoke(
+        iconPath: String?,
         packageName: String,
         appName: String,
         getoShortcutInfoCompat: GetoShortcutInfoCompat,
@@ -43,12 +44,14 @@ class RequestPinShortcutUseCase @Inject constructor(
 
         return if (pinnedShortcut != null) {
             updateShortcuts(
+                iconPath = iconPath,
                 packageName = packageName,
                 appName = appName,
                 getoShortcutInfoCompat = getoShortcutInfoCompat,
             )
         } else {
             requestPinShortcut(
+                iconPath = iconPath,
                 packageName = packageName,
                 appName = appName,
                 getoShortcutInfoCompat = getoShortcutInfoCompat,
@@ -57,11 +60,13 @@ class RequestPinShortcutUseCase @Inject constructor(
     }
 
     private fun requestPinShortcut(
+        iconPath: String?,
         packageName: String,
         appName: String,
         getoShortcutInfoCompat: GetoShortcutInfoCompat,
     ): RequestPinShortcutResult {
         return if (shortcutRepository.requestPinShortcut(
+                iconPath = iconPath,
                 packageName = packageName,
                 appName = appName,
                 getoShortcutInfoCompat = getoShortcutInfoCompat,
@@ -74,12 +79,14 @@ class RequestPinShortcutUseCase @Inject constructor(
     }
 
     private fun updateShortcuts(
+        iconPath: String?,
         packageName: String,
         appName: String,
         getoShortcutInfoCompat: GetoShortcutInfoCompat,
     ): RequestPinShortcutResult {
         return try {
             if (shortcutRepository.updateShortcuts(
+                    iconPath = iconPath,
                     packageName = packageName,
                     appName = appName,
                     getoShortcutInfoCompats = listOf(getoShortcutInfoCompat),

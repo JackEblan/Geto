@@ -17,8 +17,8 @@
  */
 package com.android.geto.data.repository
 
-import com.android.geto.common.Dispatcher
-import com.android.geto.common.GetoDispatchers.Default
+import com.android.geto.domain.common.annotations.Dispatcher
+import com.android.geto.domain.common.annotations.GetoDispatchers.Default
 import com.android.geto.domain.framework.ShortcutManagerCompatWrapper
 import com.android.geto.domain.model.GetoShortcutInfoCompat
 import com.android.geto.domain.repository.ShortcutRepository
@@ -36,11 +36,13 @@ class DefaultShortcutRepository @Inject constructor(
     }
 
     override fun requestPinShortcut(
+        iconPath: String?,
         packageName: String,
         appName: String,
         getoShortcutInfoCompat: GetoShortcutInfoCompat,
     ): Boolean {
         return shortcutManagerCompatWrapper.requestPinShortcut(
+            iconPath = iconPath,
             packageName = packageName,
             appName = appName,
             getoShortcutInfoCompat = getoShortcutInfoCompat,
@@ -48,11 +50,13 @@ class DefaultShortcutRepository @Inject constructor(
     }
 
     override fun updateShortcuts(
+        iconPath: String?,
         packageName: String,
         appName: String,
         getoShortcutInfoCompats: List<GetoShortcutInfoCompat>,
     ): Boolean {
         return shortcutManagerCompatWrapper.updateShortcuts(
+            iconPath = iconPath,
             packageName = packageName,
             appName = appName,
             getoShortcutInfoCompats = getoShortcutInfoCompats,

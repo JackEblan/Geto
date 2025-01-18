@@ -27,7 +27,7 @@ class FakePackageManagerWrapper : PackageManagerWrapper {
     }
 
     override suspend fun getApplicationIcon(packageName: String): ByteArray? {
-        return getoApplicationInfos.find { it.packageName == packageName }?.icon
+        return getoApplicationInfos.find { it.packageName == packageName }?.iconPath
     }
 
     override fun launchIntentForPackage(packageName: String) {

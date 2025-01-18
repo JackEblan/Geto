@@ -19,8 +19,8 @@ package com.android.geto.framework.shortcutmanager
 
 import android.content.Context
 import androidx.core.content.pm.ShortcutManagerCompat
-import com.android.geto.common.Dispatcher
-import com.android.geto.common.GetoDispatchers.Default
+import com.android.geto.domain.common.annotations.Dispatcher
+import com.android.geto.domain.common.annotations.GetoDispatchers.Default
 import com.android.geto.domain.framework.ShortcutManagerCompatWrapper
 import com.android.geto.domain.model.GetoShortcutInfoCompat
 import com.android.geto.framework.shortcutmanager.mapper.asGetoShortcutInfoCompat
@@ -40,6 +40,7 @@ internal class AndroidShortcutManagerCompatWrapper @Inject constructor(
     }
 
     override fun requestPinShortcut(
+        iconPath: String?,
         packageName: String,
         appName: String,
         getoShortcutInfoCompat: GetoShortcutInfoCompat,
@@ -48,6 +49,7 @@ internal class AndroidShortcutManagerCompatWrapper @Inject constructor(
             context,
             getoShortcutInfoCompat.asShortcutInfoCompat(
                 context = context,
+                iconPath = iconPath,
                 packageName = packageName,
                 appName = appName,
             ),
@@ -56,6 +58,7 @@ internal class AndroidShortcutManagerCompatWrapper @Inject constructor(
     }
 
     override fun updateShortcuts(
+        iconPath: String?,
         packageName: String,
         appName: String,
         getoShortcutInfoCompats: List<GetoShortcutInfoCompat>,
@@ -65,6 +68,7 @@ internal class AndroidShortcutManagerCompatWrapper @Inject constructor(
             getoShortcutInfoCompats.map {
                 it.asShortcutInfoCompat(
                     context = context,
+                    iconPath = iconPath,
                     packageName = packageName,
                     appName = appName,
                 )

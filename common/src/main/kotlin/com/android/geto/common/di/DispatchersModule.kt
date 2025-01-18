@@ -17,8 +17,8 @@
  */
 package com.android.geto.common.di
 
-import com.android.geto.common.Dispatcher
-import com.android.geto.common.GetoDispatchers
+import com.android.geto.domain.common.annotations.Dispatcher
+import com.android.geto.domain.common.annotations.GetoDispatchers
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

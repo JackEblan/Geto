@@ -33,6 +33,7 @@ import com.android.geto.domain.model.RequestPinShortcutResult
 import com.android.geto.domain.model.SecureSetting
 import com.android.geto.domain.model.SettingType
 import com.android.geto.domain.repository.AppSettingsRepository
+import com.android.geto.domain.repository.GetoApplicationInfosRepository
 import com.android.geto.domain.repository.SecureSettingsRepository
 import com.android.geto.domain.usecase.AddAppSettingUseCase
 import com.android.geto.domain.usecase.ApplyAppSettingsUseCase
@@ -79,6 +80,7 @@ class AppSettingsViewModel @Inject constructor(
     private val addAppSettingUseCase: AddAppSettingUseCase,
     private val notificationManagerWrapper: NotificationManagerWrapper,
     private val assetManagerWrapper: AssetManagerWrapper,
+    private val getoApplicationInfosRepository: GetoApplicationInfosRepository,
 ) : ViewModel() {
     private val appSettingsRouteData = savedStateHandle.toRoute<AppSettingsRouteData>()
 
@@ -88,15 +90,6 @@ class AppSettingsViewModel @Inject constructor(
 
     private var _secureSettings = MutableStateFlow<List<SecureSetting>>(emptyList())
     val secureSettings = _secureSettings.asStateFlow()
-
-    private var _applicationIcon = MutableStateFlow<ByteArray?>(null)
-    val applicationIcon = _applicationIcon.onStart {
-        getApplicationIcon()
-    }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.Lazily,
-        initialValue = null,
-    )
 
     private val _addAppSettingsResult = MutableStateFlow<AddAppSettingResult?>(null)
     val addAppSettingsResult = _addAppSettingsResult.asStateFlow()
@@ -129,6 +122,16 @@ class AppSettingsViewModel @Inject constructor(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
         initialValue = TemplateDialogUiState.Loading,
+    )
+
+    private var _iconPath = MutableStateFlow<String?>(null)
+
+    val iconPath = _iconPath.onStart {
+        getGetoApplicationInfoIconPath()
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000),
+        initialValue = null,
     )
 
     fun onEvent(event: AppSettingsEvent) {
@@ -164,7 +167,10 @@ class AppSettingsViewModel @Inject constructor(
             }
 
             is RequestPinShortcut -> {
-                requestPinShortcut(getoShortcutInfoCompat = event.getoShortcutInfoCompat)
+                requestPinShortcut(
+                    iconPath = event.iconPath,
+                    getoShortcutInfoCompat = event.getoShortcutInfoCompat,
+                )
             }
 
             RevertAppSettings -> {
@@ -177,7 +183,7 @@ class AppSettingsViewModel @Inject constructor(
 
             is PostNotification -> {
                 postNotification(
-                    icon = event.icon,
+                    iconPath = event.iconPath,
                     contentTitle = event.contentTitle,
                     contentText = event.contentText,
                 )
@@ -231,12 +237,6 @@ class AppSettingsViewModel @Inject constructor(
         }
     }
 
-    private fun getApplicationIcon() {
-        viewModelScope.launch {
-            _applicationIcon.update { packageManagerWrapper.getApplicationIcon(packageName = packageName) }
-        }
-    }
-
     private fun copyCommand(label: String, text: String) {
         _setPrimaryClipResult.update {
             clipboardManagerWrapper.setPrimaryClip(
@@ -252,10 +252,14 @@ class AppSettingsViewModel @Inject constructor(
         }
     }
 
-    private fun requestPinShortcut(getoShortcutInfoCompat: GetoShortcutInfoCompat) {
+    private fun requestPinShortcut(
+        iconPath: String?,
+        getoShortcutInfoCompat: GetoShortcutInfoCompat,
+    ) {
         viewModelScope.launch {
             _requestPinShortcutResult.update {
                 requestPinShortcutUseCase(
+                    iconPath = iconPath,
                     packageName = packageName,
                     appName = appName,
                     getoShortcutInfoCompat = getoShortcutInfoCompat,
@@ -280,7 +284,7 @@ class AppSettingsViewModel @Inject constructor(
     }
 
     private fun postNotification(
-        icon: ByteArray?,
+        iconPath: String?,
         contentTitle: String,
         contentText: String,
     ) {
@@ -289,7 +293,7 @@ class AppSettingsViewModel @Inject constructor(
         notificationManagerWrapper.notifyRevertNotification(
             notificationId = notificationId,
             packageName = packageName,
-            icon = icon,
+            iconPath = iconPath,
             contentTitle = contentTitle,
             contentText = contentText,
         )
@@ -299,6 +303,14 @@ class AppSettingsViewModel @Inject constructor(
         viewModelScope.launch {
             _templateDialogUiState.update {
                 TemplateDialogUiState.Success(appSettingTemplates = assetManagerWrapper.getAppSettingTemplates())
+            }
+        }
+    }
+
+    private fun getGetoApplicationInfoIconPath() {
+        viewModelScope.launch {
+            _iconPath.update {
+                getoApplicationInfosRepository.getGetoApplicationInfoEntity(packageName = appSettingsRouteData.packageName).iconPath
             }
         }
     }

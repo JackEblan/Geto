@@ -18,10 +18,12 @@
 package com.android.geto.data.repository.di
 
 import com.android.geto.data.repository.DefaultAppSettingsRepository
+import com.android.geto.data.repository.DefaultGetoApplicationInfoRepository
 import com.android.geto.data.repository.DefaultSecureSettingsRepository
 import com.android.geto.data.repository.DefaultShortcutRepository
 import com.android.geto.data.repository.DefaultUserDataRepository
 import com.android.geto.domain.repository.AppSettingsRepository
+import com.android.geto.domain.repository.GetoApplicationInfosRepository
 import com.android.geto.domain.repository.SecureSettingsRepository
 import com.android.geto.domain.repository.ShortcutRepository
 import com.android.geto.domain.repository.UserDataRepository
@@ -50,4 +52,9 @@ interface RepositoryModule {
     @Binds
     @Singleton
     fun userDataRepository(impl: DefaultUserDataRepository): UserDataRepository
+
+    @Binds
+    @Singleton
+    fun getoApplicationInfosRepository(impl: DefaultGetoApplicationInfoRepository): GetoApplicationInfosRepository
+
 }

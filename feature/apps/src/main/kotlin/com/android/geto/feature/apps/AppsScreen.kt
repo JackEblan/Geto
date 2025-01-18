@@ -21,15 +21,26 @@ import androidx.activity.compose.ReportDrawnWhen
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.DockedSearchBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
+import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -104,23 +115,47 @@ private fun LoadingState(modifier: Modifier = Modifier) {
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun SuccessState(
     modifier: Modifier = Modifier,
     appsUiState: AppsUiState.Success,
     onItemClick: (String, String) -> Unit,
 ) {
-    LazyVerticalGrid(
-        columns = GridCells.Adaptive(300.dp),
-        modifier = modifier
-            .fillMaxSize()
-            .testTag("apps:lazyVerticalGrid"),
-    ) {
-        items(items = appsUiState.getoApplicationInfos) { mappedApplicationInfo ->
-            AppItem(
-                getoApplicationInfo = mappedApplicationInfo,
-                onItemClick = onItemClick,
-            )
+    var query by rememberSaveable { mutableStateOf("") }
+
+    var expanded by rememberSaveable { mutableStateOf(false) }
+
+    Column(modifier = modifier.fillMaxWidth()) {
+        DockedSearchBar(
+            inputField = {
+                SearchBarDefaults.InputField(
+                    query = query,
+                    onQueryChange = {
+                        query = it
+                    },
+                    onSearch = { expanded = false },
+                    expanded = expanded,
+                    onExpandedChange = { expanded = it },
+                    placeholder = { Text("Hinted search text") },
+                    leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
+                )
+            },
+            expanded = expanded,
+            onExpandedChange = { expanded = it },
+        ) {}
+        LazyVerticalGrid(
+            columns = GridCells.Adaptive(300.dp),
+            modifier = Modifier
+                .fillMaxSize()
+                .testTag("apps:lazyVerticalGrid"),
+        ) {
+            items(items = appsUiState.getoApplicationInfos) { mappedApplicationInfo ->
+                AppItem(
+                    getoApplicationInfo = mappedApplicationInfo,
+                    onItemClick = onItemClick,
+                )
+            }
         }
     }
 }
@@ -153,7 +188,7 @@ private fun AppItem(
         leadingContent = {
             ShimmerImage(
                 modifier = Modifier.size(50.dp),
-                model = getoApplicationInfo.icon,
+                model = getoApplicationInfo.iconPath,
             )
         },
     )

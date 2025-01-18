@@ -35,6 +35,7 @@
             <option value="$PROJECT_DIR$/data/room" />
             <option value="$PROJECT_DIR$/design-system" />
             <option value="$PROJECT_DIR$/domain" />
+            <option value="$PROJECT_DIR$/domain/common" />
             <option value="$PROJECT_DIR$/domain/foreground-service" />
             <option value="$PROJECT_DIR$/domain/framework" />
             <option value="$PROJECT_DIR$/domain/model" />

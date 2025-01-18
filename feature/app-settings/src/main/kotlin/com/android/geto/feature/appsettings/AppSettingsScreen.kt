@@ -130,7 +130,7 @@ internal fun AppSettingsRoute(
 
     val addAppSettingResult by viewModel.addAppSettingsResult.collectAsStateWithLifecycle()
 
-    val applicationIcon by viewModel.applicationIcon.collectAsStateWithLifecycle()
+    val iconPath by viewModel.iconPath.collectAsStateWithLifecycle()
 
     val setPrimaryClipResult by viewModel.setPrimaryClipResult.collectAsStateWithLifecycle()
 
@@ -148,7 +148,7 @@ internal fun AppSettingsRoute(
         appName = appSettingsRouteData.appName,
         appSettingsUiState = appSettingsUiState,
         snackbarHostState = snackbarHostState,
-        applicationIcon = applicationIcon,
+        iconPath = iconPath,
         secureSettings = secureSettings,
         addAppSettingResult = addAppSettingResult,
         appSettingsResult = applyAppSettingsResult,
@@ -170,7 +170,7 @@ internal fun AppSettingsScreen(
     appName: String,
     appSettingsUiState: AppSettingsUiState,
     snackbarHostState: SnackbarHostState,
-    applicationIcon: ByteArray?,
+    iconPath: String?,
     secureSettings: List<SecureSetting>,
     addAppSettingResult: AddAppSettingResult?,
     appSettingsResult: AppSettingsResult?,
@@ -192,7 +192,7 @@ internal fun AppSettingsScreen(
         snackbarHostState = snackbarHostState,
         appSettingDialogState = appSettingDialogState,
         shortcutDialogState = shortcutDialogState,
-        applicationIcon = applicationIcon,
+        iconPath = iconPath,
         secureSettings = secureSettings,
         addAppSettingResult = addAppSettingResult,
         appSettingsResult = appSettingsResult,
@@ -217,7 +217,7 @@ internal fun AppSettingsScreen(
         onPostNotification = { icon, contentTitle, contentText ->
             onEvent(
                 PostNotification(
-                    icon = icon,
+                    iconPath = icon,
                     contentTitle = contentTitle,
                     contentText = contentText,
                 ),
@@ -232,7 +232,7 @@ internal fun AppSettingsScreen(
         templateDialogState = templateDialogState,
         packageName = packageName,
         onAddAppSetting = { onEvent(AddAppSetting(it)) },
-        onAddShortcut = { onEvent(RequestPinShortcut(it)) },
+        onAddShortcut = { onEvent(RequestPinShortcut(iconPath, it)) },
     )
 
     Scaffold(
@@ -300,7 +300,7 @@ private fun AppSettingsLaunchedEffects(
     snackbarHostState: SnackbarHostState,
     appSettingDialogState: AppSettingDialogState,
     shortcutDialogState: ShortcutDialogState,
-    applicationIcon: ByteArray?,
+    iconPath: String?,
     secureSettings: List<SecureSetting>,
     addAppSettingResult: AddAppSettingResult?,
     appSettingsResult: AppSettingsResult?,
@@ -316,7 +316,7 @@ private fun AppSettingsLaunchedEffects(
     onGetSecureSettingsByName: (SettingType, String) -> Unit,
     onLaunchIntent: () -> Unit,
     onPostNotification: (
-        icon: ByteArray?,
+        iconPath: String?,
         contentTitle: String,
         contentText: String,
     ) -> Unit,
@@ -375,7 +375,7 @@ private fun AppSettingsLaunchedEffects(
             }
 
             Success -> {
-                onPostNotification(applicationIcon, getoSettings, applySuccess)
+                onPostNotification(iconPath, getoSettings, applySuccess)
 
                 onLaunchIntent()
             }
@@ -529,9 +529,9 @@ private fun AppSettingsLaunchedEffects(
         appSettingDialogState.updateSecureSettings(secureSettings)
     }
 
-    LaunchedEffect(key1 = applicationIcon) {
-        applicationIcon?.let {
-            shortcutDialogState.updateIcon(it)
+    LaunchedEffect(key1 = iconPath) {
+        iconPath?.let {
+            shortcutDialogState.updateIconPath(it)
         }
     }
 }

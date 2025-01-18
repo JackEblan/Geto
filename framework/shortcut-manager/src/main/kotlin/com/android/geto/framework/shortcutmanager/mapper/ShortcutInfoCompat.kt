@@ -29,7 +29,6 @@ import com.android.geto.domain.model.GetoShortcutInfoCompat
 internal fun ShortcutInfoCompat.asGetoShortcutInfoCompat(): GetoShortcutInfoCompat {
     return GetoShortcutInfoCompat(
         id = id,
-        icon = icon.mData,
         shortLabel = shortLabel.toString(),
         longLabel = longLabel.toString(),
     )
@@ -37,6 +36,7 @@ internal fun ShortcutInfoCompat.asGetoShortcutInfoCompat(): GetoShortcutInfoComp
 
 internal fun GetoShortcutInfoCompat.asShortcutInfoCompat(
     context: Context,
+    iconPath: String?,
     packageName: String,
     appName: String,
 ): ShortcutInfoCompat {
@@ -49,8 +49,8 @@ internal fun GetoShortcutInfoCompat.asShortcutInfoCompat(
     }
 
     return ShortcutInfoCompat.Builder(context, id).apply {
-        icon?.let {
-            setIcon(IconCompat.createWithData(it, 0, it.size))
+        iconPath?.let {
+            setIcon(IconCompat.createWithContentUri(it))
         }
 
         setShortLabel(shortLabel)

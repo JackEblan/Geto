@@ -17,8 +17,8 @@
  */
 package com.android.geto.data.repository
 
-import com.android.geto.common.Dispatcher
-import com.android.geto.common.GetoDispatchers.Default
+import com.android.geto.domain.common.annotations.Dispatcher
+import com.android.geto.domain.common.annotations.GetoDispatchers.Default
 import com.android.geto.domain.framework.SecureSettingsWrapper
 import com.android.geto.domain.model.AppSetting
 import com.android.geto.domain.model.SecureSetting

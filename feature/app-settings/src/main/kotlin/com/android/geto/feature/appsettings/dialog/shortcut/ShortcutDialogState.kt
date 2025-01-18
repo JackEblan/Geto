@@ -38,7 +38,7 @@ internal class ShortcutDialogState {
     var showDialog by mutableStateOf(false)
         private set
 
-    var icon by mutableStateOf<ByteArray?>(null)
+    var iconPath by mutableStateOf<String?>(null)
         private set
 
     var shortLabel by mutableStateOf("")
@@ -61,8 +61,8 @@ internal class ShortcutDialogState {
         showDialog = value
     }
 
-    fun updateIcon(value: ByteArray?) {
-        icon = value
+    fun updateIconPath(value: String?) {
+        iconPath = value
     }
 
     fun updateShortLabel(value: String) {
@@ -91,7 +91,6 @@ internal class ShortcutDialogState {
         return if (showShortLabelError.not() && showLongLabelError.not()) {
             GetoShortcutInfoCompat(
                 id = packageName,
-                icon = icon,
                 shortLabel = shortLabel,
                 longLabel = longLabel,
             )

@@ -72,7 +72,7 @@ internal fun ShortcutDialog(
                 modifier = modifier
                     .size(50.dp)
                     .align(Alignment.CenterHorizontally),
-                icon = shortcutDialogState.icon,
+                iconPath = shortcutDialogState.iconPath,
             )
 
             ShortcutDialogTextFields(
@@ -110,13 +110,13 @@ private fun ShortcutDialogTitle(modifier: Modifier = Modifier, title: String) {
 @Composable
 private fun ShortcutDialogApplicationIcon(
     modifier: Modifier = Modifier,
-    icon: ByteArray?,
+    iconPath: String?,
 ) {
     Spacer(modifier = Modifier.height(10.dp))
 
     ShimmerImage(
         modifier = modifier,
-        model = icon,
+        model = iconPath,
     )
 }
 

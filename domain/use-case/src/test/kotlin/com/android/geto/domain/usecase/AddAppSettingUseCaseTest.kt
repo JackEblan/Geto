@@ -21,6 +21,7 @@ import com.android.geto.domain.model.AddAppSettingResult
 import com.android.geto.domain.model.AppSetting
 import com.android.geto.domain.model.SettingType
 import com.android.geto.domain.repository.TestAppSettingsRepository
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -31,6 +32,8 @@ class AddAppSettingUseCaseTest {
 
     private lateinit var appSettingsRepository: TestAppSettingsRepository
 
+    private val testDispatcher = UnconfinedTestDispatcher()
+
     private val packageName = "com.android.geto"
 
     @BeforeTest
@@ -38,6 +41,7 @@ class AddAppSettingUseCaseTest {
         appSettingsRepository = TestAppSettingsRepository()
 
         addAppSettingUseCase = AddAppSettingUseCase(
+            defaultDispatcher = testDispatcher,
             appSettingsRepository = appSettingsRepository,
         )
     }

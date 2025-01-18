@@ -62,6 +62,7 @@ android {
 }
 
 dependencies {
+    implementation(projects.common)
     implementation(projects.designSystem)
     implementation(projects.data.repository)
     implementation(projects.domain.repository)

@@ -51,7 +51,7 @@ internal class AndroidNotificationManagerWrapper @Inject constructor(@Applicatio
     override fun notifyRevertNotification(
         notificationId: Int,
         packageName: String,
-        icon: ByteArray?,
+        iconPath: String?,
         contentTitle: String,
         contentText: String,
     ) {
@@ -63,7 +63,7 @@ internal class AndroidNotificationManagerWrapper @Inject constructor(@Applicatio
             notificationId,
             getRevertNotification(
                 packageName = packageName,
-                icon = icon,
+                iconPath = iconPath,
                 contentTitle = contentTitle,
                 contentText = contentText,
             ),
@@ -138,7 +138,7 @@ internal class AndroidNotificationManagerWrapper @Inject constructor(@Applicatio
 
     private fun getRevertNotification(
         packageName: String,
-        icon: ByteArray?,
+        iconPath: String?,
         contentTitle: String,
         contentText: String,
     ): Notification {
@@ -165,8 +165,8 @@ internal class AndroidNotificationManagerWrapper @Inject constructor(@Applicatio
         ).apply {
             setSmallIcon(R.drawable.baseline_settings_24)
 
-            icon?.let {
-                setLargeIcon(Icon.createWithData(icon, 0, it.size))
+            iconPath?.let {
+                setLargeIcon(Icon.createWithFilePath(iconPath))
             }
 
             setContentTitle(contentTitle)

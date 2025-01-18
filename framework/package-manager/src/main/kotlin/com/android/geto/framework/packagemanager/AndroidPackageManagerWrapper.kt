@@ -26,15 +26,16 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import androidx.core.graphics.drawable.toBitmap
-import com.android.geto.common.Dispatcher
-import com.android.geto.common.GetoDispatchers.Default
-import com.android.geto.common.GetoDispatchers.IO
+import com.android.geto.domain.common.annotations.Dispatcher
+import com.android.geto.domain.common.annotations.GetoDispatchers.Default
+import com.android.geto.domain.common.annotations.GetoDispatchers.IO
 import com.android.geto.domain.framework.PackageManagerWrapper
 import com.android.geto.domain.model.GetoApplicationInfo
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
-import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileOutputStream
 import javax.inject.Inject
 
 class AndroidPackageManagerWrapper @Inject constructor(
@@ -64,14 +65,6 @@ class AndroidPackageManagerWrapper @Inject constructor(
         }
     }
 
-    override suspend fun getApplicationIcon(packageName: String): ByteArray? {
-        return try {
-            packageManager.getApplicationIcon(packageName).toByteArray()
-        } catch (e: PackageManager.NameNotFoundException) {
-            null
-        }
-    }
-
     override fun launchIntentForPackage(packageName: String) {
         val intent = packageManager.getLaunchIntentForPackage(packageName)?.apply {
             flags = FLAG_ACTIVITY_NEW_TASK
@@ -86,19 +79,31 @@ class AndroidPackageManagerWrapper @Inject constructor(
     private suspend fun ApplicationInfo.toGetoApplicationInfo(): GetoApplicationInfo {
         return GetoApplicationInfo(
             flags = flags,
-            icon = loadIcon(packageManager).toByteArray(),
+            iconPath = loadIcon(packageManager).toPath(packageName = packageName),
             packageName = packageName,
             label = loadLabel(packageManager).toString(),
         )
     }
 
-    private suspend fun Drawable.toByteArray(): ByteArray {
-        val stream = ByteArrayOutputStream()
+    private suspend fun Drawable.toPath(packageName: String): String {
+        val iconsDirectory = File(context.filesDir, "icons")
 
-        withContext(ioDispatcher) {
-            toBitmap().compress(Bitmap.CompressFormat.PNG, 30, stream)
+        if (iconsDirectory.exists().not()) {
+            iconsDirectory.mkdir()
         }
 
-        return stream.toByteArray()
+        val iconFile = File(iconsDirectory, packageName)
+
+        return if (iconFile.exists()) {
+            iconFile.absolutePath
+        } else {
+            withContext(ioDispatcher) {
+                FileOutputStream(iconFile).use { outputStream ->
+                    toBitmap().compress(Bitmap.CompressFormat.PNG, 100, outputStream)
+                }
+            }
+
+            iconFile.absolutePath
+        }
     }
 }

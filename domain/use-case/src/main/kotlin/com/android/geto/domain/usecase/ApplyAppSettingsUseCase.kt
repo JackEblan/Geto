@@ -17,6 +17,8 @@
  */
 package com.android.geto.domain.usecase
 
+import com.android.geto.domain.common.annotations.Dispatcher
+import com.android.geto.domain.common.annotations.GetoDispatchers.Default
 import com.android.geto.domain.model.AppSettingsResult
 import com.android.geto.domain.model.AppSettingsResult.DisabledAppSettings
 import com.android.geto.domain.model.AppSettingsResult.EmptyAppSettings
@@ -26,10 +28,13 @@ import com.android.geto.domain.model.AppSettingsResult.NoPermission
 import com.android.geto.domain.model.AppSettingsResult.Success
 import com.android.geto.domain.repository.AppSettingsRepository
 import com.android.geto.domain.repository.SecureSettingsRepository
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class ApplyAppSettingsUseCase @Inject constructor(
+    @Dispatcher(Default) private val defaultDispatcher: CoroutineDispatcher,
     private val appSettingsRepository: AppSettingsRepository,
     private val secureSettingsRepository: SecureSettingsRepository,
 ) {
@@ -39,7 +44,10 @@ class ApplyAppSettingsUseCase @Inject constructor(
 
         if (appSettings.isEmpty()) return EmptyAppSettings
 
-        if (appSettings.all { it.enabled.not() }) return DisabledAppSettings
+        val disabledAppSettings =
+            withContext(defaultDispatcher) { appSettings.all { it.enabled.not() } }
+
+        if (disabledAppSettings) return DisabledAppSettings
 
         return try {
             if (secureSettingsRepository.applySecureSettings(appSettings)) {

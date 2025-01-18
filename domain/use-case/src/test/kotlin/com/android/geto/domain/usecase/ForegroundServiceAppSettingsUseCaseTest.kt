@@ -26,6 +26,7 @@ import com.android.geto.domain.model.SettingType
 import com.android.geto.domain.repository.TestAppSettingsRepository
 import com.android.geto.domain.repository.TestSecureSettingsRepository
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -44,6 +45,8 @@ class ForegroundServiceAppSettingsUseCaseTest {
 
     private lateinit var foregroundServiceAppSettingsUseCase: ForegroundServiceAppSettingsUseCase
 
+    private val testDispatcher = UnconfinedTestDispatcher()
+
     private val packageName = "com.android.geto"
 
     @BeforeTest
@@ -55,11 +58,13 @@ class ForegroundServiceAppSettingsUseCaseTest {
         secureSettingsRepository = TestSecureSettingsRepository()
 
         applyAppSettingsUseCase = ApplyAppSettingsUseCase(
+            defaultDispatcher = testDispatcher,
             appSettingsRepository = appSettingsRepository,
             secureSettingsRepository = secureSettingsRepository,
         )
 
         revertAppSettingsUseCase = RevertAppSettingsUseCase(
+            defaultDispatcher = testDispatcher,
             appSettingsRepository = appSettingsRepository,
             secureSettingsRepository = secureSettingsRepository,
         )

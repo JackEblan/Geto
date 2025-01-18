@@ -28,6 +28,6 @@ android {
 dependencies {
     implementation(libs.gson)
 
-    implementation(projects.common)
+    implementation(projects.domain.common)
     implementation(projects.domain.framework)
 }

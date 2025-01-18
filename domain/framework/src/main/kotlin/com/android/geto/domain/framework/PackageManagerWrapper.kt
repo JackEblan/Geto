@@ -22,7 +22,5 @@ import com.android.geto.domain.model.GetoApplicationInfo
 interface PackageManagerWrapper {
     suspend fun queryIntentActivities(): List<GetoApplicationInfo>
 
-    suspend fun getApplicationIcon(packageName: String): ByteArray?
-
     fun launchIntentForPackage(packageName: String)
 }

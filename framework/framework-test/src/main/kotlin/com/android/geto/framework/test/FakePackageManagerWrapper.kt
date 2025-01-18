@@ -26,7 +26,7 @@ class FakePackageManagerWrapper @Inject constructor() : PackageManagerWrapper {
         return List(10) { index ->
             GetoApplicationInfo(
                 flags = 0,
-                icon = ByteArray(0),
+                iconPath = ByteArray(0),
                 packageName = "com.android.geto",
                 label = "Geto $index",
             )

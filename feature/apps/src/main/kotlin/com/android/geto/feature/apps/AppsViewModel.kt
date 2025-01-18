@@ -19,34 +19,32 @@ package com.android.geto.feature.apps
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.android.geto.domain.framework.PackageManagerWrapper
+import com.android.geto.domain.repository.GetoApplicationInfosRepository
+import com.android.geto.domain.usecase.UpdateGetoApplicationInfosUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class AppsViewModel @Inject constructor(
-    private val packageManagerWrapper: PackageManagerWrapper,
+    private val updateGetoApplicationInfosUseCase: UpdateGetoApplicationInfosUseCase,
+    getoApplicationInfosRepository: GetoApplicationInfosRepository,
 ) : ViewModel() {
-    private val _appUiState = MutableStateFlow<AppsUiState>(AppsUiState.Loading)
-    val appsUiState = _appUiState.onStart {
-        queryIntentActivities()
-    }.stateIn(
+    val appsUiState = getoApplicationInfosRepository.getGetoApplicationInfos().onStart {
+        updateGetoApplicationInfos()
+    }.map(AppsUiState::Success).stateIn(
         scope = viewModelScope,
         started = SharingStarted.Lazily,
         initialValue = AppsUiState.Loading,
     )
 
-    private fun queryIntentActivities() {
+    private fun updateGetoApplicationInfos() {
         viewModelScope.launch {
-            _appUiState.update {
-                AppsUiState.Success(getoApplicationInfos = packageManagerWrapper.queryIntentActivities())
-            }
+            updateGetoApplicationInfosUseCase()
         }
     }
 }
