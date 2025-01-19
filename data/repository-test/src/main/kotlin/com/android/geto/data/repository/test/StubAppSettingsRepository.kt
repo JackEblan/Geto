@@ -25,7 +25,7 @@ import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
-class FakeAppSettingsRepository @Inject constructor() : AppSettingsRepository {
+class StubAppSettingsRepository @Inject constructor() : AppSettingsRepository {
     override val appSettings: Flow<List<AppSetting>> = emptyFlow()
 
     override suspend fun upsertAppSetting(appSetting: AppSetting) {}
@@ -47,5 +47,8 @@ class FakeAppSettingsRepository @Inject constructor() : AppSettingsRepository {
         }
 
         return flowOf(appSettings)
+    }
+
+    override suspend fun deleteAppSettingsByPackageName(packageNames: List<String>) {
     }
 }

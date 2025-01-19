@@ -21,13 +21,13 @@ import com.android.geto.domain.model.GetoShortcutInfoCompat
 import com.android.geto.domain.repository.ShortcutRepository
 import javax.inject.Inject
 
-class FakeShortcutRepository @Inject constructor() : ShortcutRepository {
-
+class DummyShortcutRepository @Inject constructor() : ShortcutRepository {
     override fun isRequestPinShortcutSupported(): Boolean {
         return false
     }
 
     override fun requestPinShortcut(
+        iconPath: String?,
         packageName: String,
         appName: String,
         getoShortcutInfoCompat: GetoShortcutInfoCompat,
@@ -36,6 +36,7 @@ class FakeShortcutRepository @Inject constructor() : ShortcutRepository {
     }
 
     override fun updateShortcuts(
+        iconPath: String?,
         packageName: String,
         appName: String,
         getoShortcutInfoCompats: List<GetoShortcutInfoCompat>,

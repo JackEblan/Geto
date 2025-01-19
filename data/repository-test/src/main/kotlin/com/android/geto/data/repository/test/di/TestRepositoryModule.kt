@@ -18,11 +18,11 @@
 package com.android.geto.data.repository.test.di
 
 import com.android.geto.data.repository.di.RepositoryModule
-import com.android.geto.data.repository.test.FakeAppSettingsRepository
-import com.android.geto.data.repository.test.FakeSecureSettingsRepository
-import com.android.geto.data.repository.test.FakeShortcutRepository
-import com.android.geto.data.repository.test.FakeUserDataRepository
+import com.android.geto.data.repository.test.DummySecureSettingsRepository
+import com.android.geto.data.repository.test.DummyShortcutRepository
+import com.android.geto.data.repository.test.StubAppSettingsRepository
 import com.android.geto.data.repository.test.StubGetoApplicationInfoRepository
+import com.android.geto.data.repository.test.StubUserDataRepository
 import com.android.geto.domain.repository.AppSettingsRepository
 import com.android.geto.domain.repository.GetoApplicationInfosRepository
 import com.android.geto.domain.repository.SecureSettingsRepository
@@ -43,19 +43,19 @@ internal interface TestRepositoryModule {
 
     @Binds
     @Singleton
-    fun appSettingsRepository(impl: FakeAppSettingsRepository): AppSettingsRepository
+    fun appSettingsRepository(impl: StubAppSettingsRepository): AppSettingsRepository
 
     @Binds
     @Singleton
-    fun secureSettingsRepository(impl: FakeSecureSettingsRepository): SecureSettingsRepository
+    fun secureSettingsRepository(impl: DummySecureSettingsRepository): SecureSettingsRepository
 
     @Binds
     @Singleton
-    fun shortcutRepository(impl: FakeShortcutRepository): ShortcutRepository
+    fun shortcutRepository(impl: DummyShortcutRepository): ShortcutRepository
 
     @Binds
     @Singleton
-    fun userDataRepository(impl: FakeUserDataRepository): UserDataRepository
+    fun userDataRepository(impl: StubUserDataRepository): UserDataRepository
 
     @Binds
     @Singleton
