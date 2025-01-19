@@ -21,7 +21,7 @@ class DummyNotificationManagerWrapper : NotificationManagerWrapper {
     override fun notifyRevertNotification(
         notificationId: Int,
         packageName: String,
-        icon: ByteArray?,
+        iconPath: String?,
         contentTitle: String,
         contentText: String,
     ) {

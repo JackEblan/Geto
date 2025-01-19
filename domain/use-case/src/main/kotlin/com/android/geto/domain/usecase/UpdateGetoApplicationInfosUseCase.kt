@@ -21,6 +21,7 @@ package com.android.geto.domain.usecase
 import com.android.geto.domain.common.annotations.Dispatcher
 import com.android.geto.domain.common.annotations.GetoDispatchers.Default
 import com.android.geto.domain.framework.PackageManagerWrapper
+import com.android.geto.domain.model.GetoApplicationInfo
 import com.android.geto.domain.repository.AppSettingsRepository
 import com.android.geto.domain.repository.GetoApplicationInfosRepository
 import kotlinx.coroutines.CoroutineDispatcher
@@ -38,26 +39,36 @@ class UpdateGetoApplicationInfosUseCase @Inject constructor(
         val getoApplicationInfosFromFramework = packageManagerWrapper.queryIntentActivities()
 
         val getoApplicationInfosFromRepository =
-            getoApplicationInfosRepository.getGetoApplicationInfos().first()
+            getoApplicationInfosRepository.getoApplicationInfos.first()
 
         if (getoApplicationInfosFromRepository.size > getoApplicationInfosFromFramework.size) {
-            val oldPackageNames = withContext(defaultDispatcher) {
-                getoApplicationInfosFromRepository.filterNot { getoApplicationInfo ->
-                    getoApplicationInfosFromFramework.contains(getoApplicationInfo)
-                }.map { getoApplicationInfo ->
-                    getoApplicationInfo.packageName
-                }
-            }
+            deleteOldPackageNames(
+                getoApplicationInfosFromRepository = getoApplicationInfosFromRepository,
+                getoApplicationInfosFromFramework = getoApplicationInfosFromFramework,
+            )
+        } else {
+            getoApplicationInfosRepository.upsertGetoApplicationInfo(getoApplicationInfos = getoApplicationInfosFromFramework)
+        }
+    }
 
-            getoApplicationInfosRepository.deleteGetoApplicationInfoByPackageName(packageNames = oldPackageNames)
-
-            appSettingsRepository.deleteAppSettingsByPackageName(packageNames = oldPackageNames)
-
-            oldPackageNames.onEach { oldPackageName ->
-                packageManagerWrapper.deleteIconPath(packageName = oldPackageName)
+    private suspend fun deleteOldPackageNames(
+        getoApplicationInfosFromRepository: List<GetoApplicationInfo>,
+        getoApplicationInfosFromFramework: List<GetoApplicationInfo>,
+    ) {
+        val oldPackageNames = withContext(defaultDispatcher) {
+            getoApplicationInfosFromRepository.filterNot { getoApplicationInfo ->
+                getoApplicationInfosFromFramework.contains(getoApplicationInfo)
+            }.map { getoApplicationInfo ->
+                getoApplicationInfo.packageName
             }
         }
 
-        getoApplicationInfosRepository.upsertGetoApplicationInfo(getoApplicationInfos = getoApplicationInfosFromFramework)
+        getoApplicationInfosRepository.deleteGetoApplicationInfoByPackageName(packageNames = oldPackageNames)
+
+        appSettingsRepository.deleteAppSettingsByPackageName(packageNames = oldPackageNames)
+
+        oldPackageNames.onEach { oldPackageName ->
+            packageManagerWrapper.deleteIconPath(packageName = oldPackageName)
+        }
     }
 }

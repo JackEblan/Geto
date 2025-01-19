@@ -36,14 +36,12 @@ class DefaultGetoApplicationInfoRepository @Inject constructor(
     @Dispatcher(Default) private val defaultDispatcher: CoroutineDispatcher,
     private val getoApplicationInfoDao: GetoApplicationInfoDao,
 ) : GetoApplicationInfosRepository {
-    override fun getGetoApplicationInfos(): Flow<List<GetoApplicationInfo>> {
-        return getoApplicationInfoDao.getGetoApplicationInfoEntities()
-            .map { getoApplicationInfoEntities ->
+    override val getoApplicationInfos: Flow<List<GetoApplicationInfo>> =
+        getoApplicationInfoDao.getGetoApplicationInfoEntities().map { getoApplicationInfoEntities ->
                 getoApplicationInfoEntities.map { getoApplicationInfoEntity ->
                     getoApplicationInfoEntity.asExternalModel()
                 }
             }
-    }
 
     override suspend fun deleteGetoApplicationInfoByPackageName(packageNames: List<String>) {
         getoApplicationInfoDao.deleteGetoApplicationInfoEntitiesByPackageName(

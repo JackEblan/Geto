@@ -35,7 +35,6 @@ import androidx.compose.material3.DockedSearchBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
-import androidx.compose.material3.ListItemColors
 import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
@@ -160,7 +159,8 @@ private fun SuccessState(
         DockedSearchBar(
             modifier = modifier
                 .fillMaxWidth()
-                .padding(5.dp),
+                .padding(5.dp)
+                .testTag("apps:dockedSearchBar"),
             inputField = {
                 SearchBarDefaults.InputField(
                     query = query,
@@ -177,12 +177,18 @@ private fun SuccessState(
             expanded = expanded,
             onExpandedChange = { expanded = it },
         ) {
-            searchGetoApplicationInfos.onEach { getoApplicationInfo ->
-                AppItem(
-                    colors = ListItemDefaults.colors(containerColor = Color.Transparent),
-                    getoApplicationInfo = getoApplicationInfo,
-                    onItemClick = onItemClick,
-                )
+            LazyVerticalGrid(
+                columns = GridCells.Adaptive(300.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .testTag("apps:dockedSearchBar:lazyVerticalGrid"),
+            ) {
+                items(items = searchGetoApplicationInfos) { getoApplicationInfo ->
+                    SearchAppItem(
+                        getoApplicationInfo = getoApplicationInfo,
+                        onItemClick = onItemClick,
+                    )
+                }
             }
         }
         LazyVerticalGrid(
@@ -204,7 +210,6 @@ private fun SuccessState(
 @Composable
 private fun AppItem(
     modifier: Modifier = Modifier,
-    colors: ListItemColors = ListItemDefaults.colors(),
     getoApplicationInfo: GetoApplicationInfo,
     onItemClick: (String, String) -> Unit,
 ) {
@@ -233,6 +238,40 @@ private fun AppItem(
                 model = getoApplicationInfo.iconPath,
             )
         },
-        colors = colors,
+    )
+}
+
+@Composable
+private fun SearchAppItem(
+    modifier: Modifier = Modifier,
+    getoApplicationInfo: GetoApplicationInfo,
+    onItemClick: (String, String) -> Unit,
+) {
+    ListItem(
+        modifier = modifier
+            .testTag("apps:appItem")
+            .clickable {
+                onItemClick(
+                    getoApplicationInfo.packageName,
+                    getoApplicationInfo.label,
+                )
+            },
+        headlineContent = {
+            Text(
+                text = getoApplicationInfo.label,
+            )
+        },
+        supportingContent = {
+            Text(
+                text = getoApplicationInfo.packageName,
+            )
+        },
+        leadingContent = {
+            ShimmerImage(
+                modifier = Modifier.size(50.dp),
+                model = getoApplicationInfo.iconPath,
+            )
+        },
+        colors = ListItemDefaults.colors(containerColor = Color.Transparent),
     )
 }

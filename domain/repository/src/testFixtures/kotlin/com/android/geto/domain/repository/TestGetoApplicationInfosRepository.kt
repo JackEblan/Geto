@@ -19,26 +19,53 @@
 package com.android.geto.domain.repository
 
 import com.android.geto.domain.model.GetoApplicationInfo
+import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 
-class TestGetoApplicationInfosRepository: GetoApplicationInfosRepository {
-    override fun getGetoApplicationInfos(): Flow<List<GetoApplicationInfo>> {
-        TODO("Not yet implemented")
-    }
+class TestGetoApplicationInfosRepository : GetoApplicationInfosRepository {
+    private val _getoApplicationInfos = MutableSharedFlow<List<GetoApplicationInfo>>(
+        replay = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST,
+    )
+
+    private val currentGetoApplicationInfos
+        get() = _getoApplicationInfos.replayCache.firstOrNull() ?: emptyList()
+
+    override val getoApplicationInfos: Flow<List<GetoApplicationInfo>> =
+        _getoApplicationInfos.asSharedFlow()
 
     override suspend fun deleteGetoApplicationInfoByPackageName(packageNames: List<String>) {
-        TODO("Not yet implemented")
+        _getoApplicationInfos.tryEmit(
+            currentGetoApplicationInfos.filter { entity ->
+                packageNames.contains(entity.packageName)
+            },
+        )
     }
 
     override suspend fun upsertGetoApplicationInfo(getoApplicationInfos: List<GetoApplicationInfo>) {
-        TODO("Not yet implemented")
+        _getoApplicationInfos.tryEmit((currentGetoApplicationInfos + getoApplicationInfos).distinct())
     }
 
     override suspend fun getGetoApplicationInfoEntity(packageName: String): GetoApplicationInfo {
-        TODO("Not yet implemented")
+        return currentGetoApplicationInfos.find { getoApplicationInfo ->
+            getoApplicationInfo.packageName == packageName
+        } ?: GetoApplicationInfo(
+            flags = 0,
+            iconPath = "",
+            packageName = "",
+            label = "",
+        )
     }
 
     override suspend fun getGetoApplicationInfoByPackageName(text: String): List<GetoApplicationInfo> {
-        TODO("Not yet implemented")
+        return currentGetoApplicationInfos.filter { getoApplicationInfo ->
+            getoApplicationInfo.packageName.contains(text, true)
+        }
+    }
+
+    fun setGetoApplicationInfos(value: List<GetoApplicationInfo>) {
+        _getoApplicationInfos.tryEmit(value)
     }
 }

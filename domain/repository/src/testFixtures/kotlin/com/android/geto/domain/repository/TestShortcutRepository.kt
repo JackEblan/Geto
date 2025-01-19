@@ -32,6 +32,7 @@ class TestShortcutRepository : ShortcutRepository {
     }
 
     override fun requestPinShortcut(
+        iconPath: String?,
         packageName: String,
         appName: String,
         getoShortcutInfoCompat: GetoShortcutInfoCompat,
@@ -40,6 +41,7 @@ class TestShortcutRepository : ShortcutRepository {
     }
 
     override fun updateShortcuts(
+        iconPath: String?,
         packageName: String,
         appName: String,
         getoShortcutInfoCompats: List<GetoShortcutInfoCompat>,

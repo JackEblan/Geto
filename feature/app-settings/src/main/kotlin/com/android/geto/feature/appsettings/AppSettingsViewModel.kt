@@ -17,6 +17,7 @@
  */
 package com.android.geto.feature.appsettings
 
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -299,7 +300,8 @@ class AppSettingsViewModel @Inject constructor(
         )
     }
 
-    private fun getAppSettingTemplates() {
+    @VisibleForTesting
+    fun getAppSettingTemplates() {
         viewModelScope.launch {
             _templateDialogUiState.update {
                 TemplateDialogUiState.Success(appSettingTemplates = assetManagerWrapper.getAppSettingTemplates())
@@ -307,7 +309,8 @@ class AppSettingsViewModel @Inject constructor(
         }
     }
 
-    private fun getGetoApplicationInfoIconPath() {
+    @VisibleForTesting
+    fun getGetoApplicationInfoIconPath() {
         viewModelScope.launch {
             _iconPath.update {
                 getoApplicationInfosRepository.getGetoApplicationInfoEntity(packageName = appSettingsRouteData.packageName).iconPath

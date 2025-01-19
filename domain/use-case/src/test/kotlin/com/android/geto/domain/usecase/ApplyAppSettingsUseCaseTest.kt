@@ -17,14 +17,12 @@
  */
 package com.android.geto.domain.usecase
 
-import com.android.geto.domain.framework.FakePackageManagerWrapper
 import com.android.geto.domain.model.AppSetting
 import com.android.geto.domain.model.AppSettingsResult.DisabledAppSettings
 import com.android.geto.domain.model.AppSettingsResult.EmptyAppSettings
 import com.android.geto.domain.model.AppSettingsResult.InvalidValues
 import com.android.geto.domain.model.AppSettingsResult.NoPermission
 import com.android.geto.domain.model.AppSettingsResult.Success
-import com.android.geto.domain.model.GetoApplicationInfo
 import com.android.geto.domain.model.SettingType
 import com.android.geto.domain.repository.TestAppSettingsRepository
 import com.android.geto.domain.repository.TestSecureSettingsRepository
@@ -37,8 +35,6 @@ import kotlin.test.assertEquals
 class ApplyAppSettingsUseCaseTest {
     private lateinit var applyAppSettingsUseCase: ApplyAppSettingsUseCase
 
-    private lateinit var packageRepository: FakePackageManagerWrapper
-
     private lateinit var appSettingsRepository: TestAppSettingsRepository
 
     private lateinit var secureSettingsRepository: TestSecureSettingsRepository
@@ -49,8 +45,6 @@ class ApplyAppSettingsUseCaseTest {
 
     @BeforeTest
     fun setup() {
-        packageRepository = FakePackageManagerWrapper()
-
         appSettingsRepository = TestAppSettingsRepository()
 
         secureSettingsRepository = TestSecureSettingsRepository()
@@ -109,17 +103,6 @@ class ApplyAppSettingsUseCaseTest {
                 valueOnRevert = "1",
             )
         }
-
-        val getoApplicationInfos = List(5) { index ->
-            GetoApplicationInfo(
-                flags = 0,
-                iconPath = ByteArray(0),
-                packageName = packageName,
-                label = "Geto $index",
-            )
-        }
-
-        packageRepository.setApplicationInfos(getoApplicationInfos)
 
         secureSettingsRepository.setWriteSecureSettings(true)
 

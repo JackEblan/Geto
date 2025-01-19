@@ -21,9 +21,9 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.testing.invoke
 import com.android.geto.common.MainDispatcherRule
 import com.android.geto.domain.framework.DummyNotificationManagerWrapper
+import com.android.geto.domain.framework.DummyPackageManagerWrapper
 import com.android.geto.domain.framework.FakeAssetManagerWrapper
 import com.android.geto.domain.framework.FakeClipboardManagerWrapper
-import com.android.geto.domain.framework.FakePackageManagerWrapper
 import com.android.geto.domain.model.AddAppSettingResult
 import com.android.geto.domain.model.AppSetting
 import com.android.geto.domain.model.AppSettingTemplate
@@ -61,7 +61,6 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertIs
-import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
@@ -71,7 +70,7 @@ class AppSettingsViewModelTest {
     @get:Rule
     val mainDispatcherRule = MainDispatcherRule()
 
-    private lateinit var packageManagerWrapper: FakePackageManagerWrapper
+    private lateinit var packageManagerWrapper: DummyPackageManagerWrapper
 
     private lateinit var appSettingsRepository: TestAppSettingsRepository
 
@@ -107,7 +106,7 @@ class AppSettingsViewModelTest {
 
     @BeforeTest
     fun setup() {
-        packageManagerWrapper = FakePackageManagerWrapper()
+        packageManagerWrapper = DummyPackageManagerWrapper()
 
         appSettingsRepository = TestAppSettingsRepository()
 
@@ -240,22 +239,26 @@ class AppSettingsViewModelTest {
     @Test
     fun templateDialogUiState_isSuccess_whenAppSettingTemplates_isNotEmpty() = runTest {
         backgroundScope.launch(UnconfinedTestDispatcher()) {
-            val appSettingTemplates = List(5) { index ->
-                AppSettingTemplate(
-                    settingType = SettingType.SYSTEM,
-                    label = "Geto",
-                    key = "Geto $index",
-                    valueOnLaunch = "0",
-                    valueOnRevert = "1",
-                )
-            }
-
-            assetManagerWrapper.setAppSettingTemplates(appSettingTemplates)
-
             viewModel.templateDialogUiState.collect()
         }
 
-        assertIs<TemplateDialogUiState.Success>(viewModel.templateDialogUiState.value)
+        val appSettingTemplates = List(5) { index ->
+            AppSettingTemplate(
+                settingType = SettingType.SYSTEM,
+                label = "Geto",
+                key = "Geto $index",
+                valueOnLaunch = "0",
+                valueOnRevert = "1",
+            )
+        }
+
+        assetManagerWrapper.setAppSettingTemplates(appSettingTemplates)
+
+        viewModel.getAppSettingTemplates()
+
+        val result = assertIs<TemplateDialogUiState.Success>(viewModel.templateDialogUiState.value)
+
+        assertTrue(result.appSettingTemplates.isNotEmpty())
     }
 
     @Test
@@ -870,43 +873,49 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun iconPath_isNotNull_whenGetApplicationIcon() = runTest {
+    fun iconPath_exists_whenGetApplicationIcon() = runTest {
         backgroundScope.launch(UnconfinedTestDispatcher()) {
-            val getoApplicationInfos = List(1) { _ ->
-                GetoApplicationInfo(
-                    flags = 0,
-                    iconPath = "",
-                    packageName = packageName,
-                    label = appName,
-                )
-            }
-
-            packageManagerWrapper.setApplicationInfos(getoApplicationInfos)
-
             viewModel.iconPath.collect()
         }
 
-        assertNotNull(viewModel.iconPath.value)
+        val iconPath = "iconPath"
+
+        val getoApplicationInfos = List(1) { _ ->
+            GetoApplicationInfo(
+                flags = 0,
+                iconPath = iconPath,
+                packageName = packageName,
+                label = appName,
+            )
+        }
+
+        getoApplicationInfosRepository.setGetoApplicationInfos(getoApplicationInfos)
+
+        viewModel.getGetoApplicationInfoIconPath()
+
+        assertEquals(expected = iconPath, actual = viewModel.iconPath.value)
     }
 
     @Test
-    fun iconPath_isNull_whenGetApplicationIcon() = runTest {
+    fun iconPath_isEmpty_whenGetApplicationIcon() = runTest {
         backgroundScope.launch(UnconfinedTestDispatcher()) {
-            val getoApplicationInfos = List(1) { _ ->
-                GetoApplicationInfo(
-                    flags = 0,
-                    iconPath = "",
-                    packageName = "",
-                    label = appName,
-                )
-            }
-
-            packageManagerWrapper.setApplicationInfos(getoApplicationInfos)
-
             viewModel.iconPath.collect()
         }
 
-        assertNull(viewModel.iconPath.value)
+        val getoApplicationInfos = List(1) { _ ->
+            GetoApplicationInfo(
+                flags = 0,
+                iconPath = "",
+                packageName = "",
+                label = appName,
+            )
+        }
+
+        getoApplicationInfosRepository.setGetoApplicationInfos(getoApplicationInfos)
+
+        viewModel.getGetoApplicationInfoIconPath()
+
+        assertTrue(viewModel.iconPath.value.isNullOrEmpty())
     }
 
     @Test

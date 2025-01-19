@@ -17,6 +17,7 @@
  */
 package com.android.geto.feature.apps
 
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.android.geto.domain.model.GetoApplicationInfo
@@ -38,7 +39,7 @@ class AppsViewModel @Inject constructor(
     private val updateGetoApplicationInfosUseCase: UpdateGetoApplicationInfosUseCase,
     private val getoApplicationInfosRepository: GetoApplicationInfosRepository,
 ) : ViewModel() {
-    val appsUiState = getoApplicationInfosRepository.getGetoApplicationInfos().onStart {
+    val appsUiState = getoApplicationInfosRepository.getoApplicationInfos.onStart {
         updateGetoApplicationInfos()
     }.map(AppsUiState::Success).stateIn(
         scope = viewModelScope,
@@ -58,7 +59,8 @@ class AppsViewModel @Inject constructor(
         }
     }
 
-    private fun updateGetoApplicationInfos() {
+    @VisibleForTesting
+    fun updateGetoApplicationInfos() {
         viewModelScope.launch {
             updateGetoApplicationInfosUseCase()
         }

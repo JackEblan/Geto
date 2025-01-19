@@ -43,15 +43,15 @@ class TestAppSettingsRepository : AppSettingsRepository {
     }
 
     override fun getAppSettingsByPackageName(packageName: String): Flow<List<AppSetting>> {
-        return _appSettingsFlow.map { entities ->
-            entities.filter { it.packageName == packageName }
+        return _appSettingsFlow.map { appSettings ->
+            appSettings.filter { it.packageName == packageName }
         }
     }
 
     override suspend fun deleteAppSettingsByPackageName(packageNames: List<String>) {
         _appSettingsFlow.tryEmit(
-            currentAppSettings.filter { entity ->
-                packageNames.contains(entity.packageName)
+            currentAppSettings.filter { appSetting ->
+                packageNames.contains(appSetting.packageName)
             },
         )
     }

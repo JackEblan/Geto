@@ -91,6 +91,24 @@ class AppsScreenScreenshotTest {
     }
 
     @Test
+    fun appsScreen_dockedSearchBar_populated() {
+        composeTestRule.captureScreenForMultiDevice("AppsScreenDockedSearchBarPopulated") {
+            GetoTheme(
+                themeBrand = ThemeBrand.GREEN,
+                darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+                dynamicTheme = false,
+            ) {
+                AppsScreen(
+                    appsUiState = AppsUiState.Success(mappedGetoApplicationInfos),
+                    searchGetoApplicationInfos = mappedGetoApplicationInfos,
+                    onItemClick = { _, _ -> },
+                    onSearch = {},
+                )
+            }
+        }
+    }
+
+    @Test
     fun appsScreen_populated_dark() {
         composeTestRule.captureScreenForDevice(
             deviceName = "phone_dark",
@@ -134,6 +152,33 @@ class AppsScreenScreenshotTest {
                     AppsScreen(
                         appsUiState = AppsUiState.Loading,
                         searchGetoApplicationInfos = emptyList(),
+                        onItemClick = { _, _ -> },
+                        onSearch = {},
+                    )
+                }
+            }
+        }
+    }
+
+    @Test
+    fun appsScreen_dockedSearchBar_populated_dark() {
+        composeTestRule.captureScreenForDevice(
+            deviceName = "phone_dark",
+            deviceSpec = DefaultTestDevices.PHONE.spec,
+            fileName = "AppsScreenDockedSearchBarPopulated",
+            darkMode = true,
+        ) {
+            GetoTheme(
+                themeBrand = ThemeBrand.GREEN,
+                darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+                dynamicTheme = false,
+            ) {
+                Surface {
+                    AppsScreen(
+                        appsUiState = AppsUiState.Success(
+                            mappedGetoApplicationInfos,
+                        ),
+                        searchGetoApplicationInfos = mappedGetoApplicationInfos,
                         onItemClick = { _, _ -> },
                         onSearch = {},
                     )

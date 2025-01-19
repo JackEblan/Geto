@@ -22,7 +22,7 @@ import com.android.geto.domain.model.GetoApplicationInfo
 import kotlinx.coroutines.flow.Flow
 
 interface GetoApplicationInfosRepository {
-    fun getGetoApplicationInfos(): Flow<List<GetoApplicationInfo>>
+    val getoApplicationInfos: Flow<List<GetoApplicationInfo>>
 
     suspend fun deleteGetoApplicationInfoByPackageName(packageNames: List<String>)
 

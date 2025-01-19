@@ -18,10 +18,8 @@
 package com.android.geto.feature.apps
 
 import com.android.geto.common.MainDispatcherRule
-import com.android.geto.domain.framework.FakePackageManagerWrapper
+import com.android.geto.domain.framework.DummyPackageManagerWrapper
 import com.android.geto.domain.model.GetoApplicationInfo
-import com.android.geto.domain.repository.AppSettingsRepository
-import com.android.geto.domain.repository.GetoApplicationInfosRepository
 import com.android.geto.domain.repository.TestAppSettingsRepository
 import com.android.geto.domain.repository.TestGetoApplicationInfosRepository
 import com.android.geto.domain.usecase.UpdateGetoApplicationInfosUseCase
@@ -33,6 +31,7 @@ import org.junit.Rule
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertIs
+import kotlin.test.assertTrue
 
 class AppsViewModelTest {
     @get:Rule
@@ -40,17 +39,17 @@ class AppsViewModelTest {
 
     private lateinit var updateGetoApplicationInfosUseCase: UpdateGetoApplicationInfosUseCase
 
-    private lateinit var packageManagerWrapper: FakePackageManagerWrapper
+    private lateinit var packageManagerWrapper: DummyPackageManagerWrapper
 
-    private lateinit var getoApplicationInfosRepository: GetoApplicationInfosRepository
+    private lateinit var getoApplicationInfosRepository: TestGetoApplicationInfosRepository
 
-    private lateinit var appSettingsRepository: AppSettingsRepository
+    private lateinit var appSettingsRepository: TestAppSettingsRepository
 
     private lateinit var viewModel: AppsViewModel
 
     @BeforeTest
     fun setup() {
-        packageManagerWrapper = FakePackageManagerWrapper()
+        packageManagerWrapper = DummyPackageManagerWrapper()
 
         getoApplicationInfosRepository = TestGetoApplicationInfosRepository()
 
@@ -75,6 +74,11 @@ class AppsViewModelTest {
     }
 
     @Test
+    fun searchGetoApplicationInfos_isEmpty_whenStarted() {
+        assertTrue(viewModel.searchGetoApplicationInfos.value.isEmpty())
+    }
+
+    @Test
     fun appsUiState_isSuccess_whenUpdateGetoApplicationInfos() = runTest {
         backgroundScope.launch(UnconfinedTestDispatcher()) {
             viewModel.appsUiState.collect()
@@ -89,18 +93,22 @@ class AppsViewModelTest {
             )
         }
 
-        packageManagerWrapper.setApplicationInfos(getoApplicationInfos)
+        getoApplicationInfosRepository.setGetoApplicationInfos(getoApplicationInfos)
 
-        assertIs<AppsUiState.Success>(viewModel.appsUiState.value)
+        viewModel.updateGetoApplicationInfos()
+
+        val result = assertIs<AppsUiState.Success>(viewModel.appsUiState.value)
+
+        assertTrue(result.getoApplicationInfos.isNotEmpty())
     }
 
     @Test
-    fun appsUiState_isSuccessEmpty_whenUpdateGetoApplicationInfos() = runTest {
+    fun searchGetoApplicationInfos_whenGetGetoApplicationInfoByPackageName() = runTest {
         backgroundScope.launch(UnconfinedTestDispatcher()) {
-            viewModel.appsUiState.collect()
+            viewModel.searchGetoApplicationInfos.collect()
         }
 
-        val getoApplicationInfos = List(2) { index ->
+        val getoApplicationInfos = List(10) { index ->
             GetoApplicationInfo(
                 flags = 0,
                 iconPath = "",
@@ -109,8 +117,32 @@ class AppsViewModelTest {
             )
         }
 
-        packageManagerWrapper.setApplicationInfos(getoApplicationInfos)
+        getoApplicationInfosRepository.setGetoApplicationInfos(getoApplicationInfos)
 
-        assertIs<AppsUiState.Success>(viewModel.appsUiState.value)
+        viewModel.getGetoApplicationInfoByPackageName(text = "com.android.geto")
+
+        assertTrue(viewModel.searchGetoApplicationInfos.value.size == 10)
+    }
+
+    @Test
+    fun searchGetoApplicationInfos_isEmpty_whenGetGetoApplicationInfoByPackageName() = runTest {
+        backgroundScope.launch(UnconfinedTestDispatcher()) {
+            viewModel.searchGetoApplicationInfos.collect()
+        }
+
+        val getoApplicationInfos = List(10) { index ->
+            GetoApplicationInfo(
+                flags = 0,
+                iconPath = "",
+                packageName = "com.android.geto$index",
+                label = "Geto $index",
+            )
+        }
+
+        getoApplicationInfosRepository.setGetoApplicationInfos(getoApplicationInfos)
+
+        viewModel.getGetoApplicationInfoByPackageName(text = "Invalid Search")
+
+        assertTrue(viewModel.searchGetoApplicationInfos.value.isEmpty())
     }
 }

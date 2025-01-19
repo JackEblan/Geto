@@ -22,6 +22,7 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.performClick
 import com.android.geto.domain.model.GetoApplicationInfo
 import org.junit.Rule
 import kotlin.test.Test
@@ -37,7 +38,7 @@ class AppsScreenTest {
                 appsUiState = AppsUiState.Loading,
                 searchGetoApplicationInfos = emptyList(),
                 onItemClick = { _, _ -> },
-                onSearch = {}
+                onSearch = {},
             )
         }
 
@@ -60,10 +61,35 @@ class AppsScreenTest {
                 appsUiState = AppsUiState.Success(mappedGetoApplicationInfos),
                 searchGetoApplicationInfos = emptyList(),
                 onItemClick = { _, _ -> },
-                onSearch = {}
+                onSearch = {},
             )
         }
 
         composeTestRule.onNodeWithTag("apps:lazyVerticalGrid").assertIsDisplayed()
+    }
+
+    @Test
+    fun dockedSearchbar_isDisplayed() {
+        val mappedGetoApplicationInfos = List(2) { index ->
+            GetoApplicationInfo(
+                flags = 0,
+                iconPath = "",
+                packageName = "com.android.geto$index",
+                label = "Geto $index",
+            )
+        }
+
+        composeTestRule.setContent {
+            AppsScreen(
+                appsUiState = AppsUiState.Success(mappedGetoApplicationInfos),
+                searchGetoApplicationInfos = mappedGetoApplicationInfos,
+                onItemClick = { _, _ -> },
+                onSearch = {},
+            )
+        }
+
+        composeTestRule.onNodeWithTag("apps:dockedSearchBar").performClick()
+        
+        composeTestRule.onNodeWithTag("apps:dockedSearchBar:lazyVerticalGrid").assertIsDisplayed()
     }
 }

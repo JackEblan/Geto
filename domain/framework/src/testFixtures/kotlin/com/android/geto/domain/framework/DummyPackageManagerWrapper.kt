@@ -15,25 +15,19 @@
  *   limitations under the License.
  *
  */
+
 package com.android.geto.domain.framework
 
 import com.android.geto.domain.model.GetoApplicationInfo
 
-class FakePackageManagerWrapper : PackageManagerWrapper {
-    private var getoApplicationInfos = listOf<GetoApplicationInfo>()
-
+class DummyPackageManagerWrapper : PackageManagerWrapper {
     override suspend fun queryIntentActivities(): List<GetoApplicationInfo> {
-        return getoApplicationInfos.filter { it.flags == 0 }.sortedBy { it.label }
-    }
-
-    override suspend fun getApplicationIcon(packageName: String): ByteArray? {
-        return getoApplicationInfos.find { it.packageName == packageName }?.iconPath
+        return emptyList()
     }
 
     override fun launchIntentForPackage(packageName: String) {
     }
 
-    fun setApplicationInfos(value: List<GetoApplicationInfo>) {
-        getoApplicationInfos = value
+    override suspend fun deleteIconPath(packageName: String) {
     }
 }
