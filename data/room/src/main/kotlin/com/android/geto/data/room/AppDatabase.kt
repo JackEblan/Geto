@@ -31,7 +31,7 @@ import com.android.geto.data.room.model.GetoApplicationInfoEntity
 
 @Database(
     entities = [AppSettingEntity::class, GetoApplicationInfoEntity::class],
-    version = 7,
+    version = 8,
     autoMigrations = [
         AutoMigration(
             from = 1,
@@ -52,6 +52,10 @@ import com.android.geto.data.room.model.GetoApplicationInfoEntity
             from = 6,
             to = 7,
             spec = RenameAppSettingsEntityToAppSettingEntity::class,
+        ),
+        AutoMigration(
+            from = 7,
+            to = 8,
         ),
     ],
     exportSchema = true,

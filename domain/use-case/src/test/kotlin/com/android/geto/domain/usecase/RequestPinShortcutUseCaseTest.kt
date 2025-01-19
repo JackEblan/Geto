@@ -49,11 +49,11 @@ class RequestPinShortcutUseCaseTest {
         assertEquals(
             expected = SupportedLauncher,
             actual = requestPinShortcutUseCase(
+                iconPath = "",
                 packageName = "com.android.geto",
                 appName = "Geto",
                 getoShortcutInfoCompat = GetoShortcutInfoCompat(
                     id = "com.android.geto",
-                    iconPath = ByteArray(0),
                     shortLabel = "shortLabel",
                     longLabel = "longLabel",
                 ),
@@ -68,11 +68,11 @@ class RequestPinShortcutUseCaseTest {
         assertEquals(
             expected = UnsupportedLauncher,
             actual = requestPinShortcutUseCase(
+                iconPath = "",
                 packageName = "com.android.geto",
                 appName = "Geto",
                 getoShortcutInfoCompat = GetoShortcutInfoCompat(
                     id = "com.android.geto",
-                    iconPath = ByteArray(0),
                     shortLabel = "shortLabel",
                     longLabel = "longLabel",
                 ),
@@ -85,7 +85,6 @@ class RequestPinShortcutUseCaseTest {
         val shortcuts = List(2) {
             GetoShortcutInfoCompat(
                 id = "com.android.geto",
-                iconPath = ByteArray(0),
                 shortLabel = "Geto",
                 longLabel = "Geto",
             )
@@ -100,11 +99,11 @@ class RequestPinShortcutUseCaseTest {
         assertEquals(
             expected = UpdateImmutableShortcuts,
             actual = requestPinShortcutUseCase(
+                iconPath = "",
                 packageName = "com.android.geto",
                 appName = "Geto",
                 getoShortcutInfoCompat = GetoShortcutInfoCompat(
                     id = "com.android.geto",
-                    iconPath = ByteArray(0),
                     shortLabel = "shortLabel",
                     longLabel = "longLabel",
                 ),
@@ -117,7 +116,6 @@ class RequestPinShortcutUseCaseTest {
         val shortcuts = List(2) {
             GetoShortcutInfoCompat(
                 id = "com.android.geto",
-                iconPath = ByteArray(0),
                 shortLabel = "Geto",
                 longLabel = "Geto",
             )
@@ -132,11 +130,11 @@ class RequestPinShortcutUseCaseTest {
         assertEquals(
             expected = UpdateSuccess,
             actual = requestPinShortcutUseCase(
+                iconPath = "",
                 packageName = "com.android.geto",
                 appName = "Geto",
                 getoShortcutInfoCompat = GetoShortcutInfoCompat(
                     id = "com.android.geto",
-                    iconPath = ByteArray(0),
                     shortLabel = "shortLabel",
                     longLabel = "longLabel",
                 ),

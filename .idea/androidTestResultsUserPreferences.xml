@@ -511,6 +511,19 @@
             </AndroidTestResultsTableState>
           </value>
         </entry>
+        <entry key="-1033656716">
+          <value>
+            <AndroidTestResultsTableState>
+              <option name="preferredColumnWidths">
+                <map>
+                  <entry key="Duration" value="90" />
+                  <entry key="TECNO MOBILE LIMITED TECNO CH6n" value="120" />
+                  <entry key="Tests" value="360" />
+                </map>
+              </option>
+            </AndroidTestResultsTableState>
+          </value>
+        </entry>
         <entry key="-1013651613">
           <value>
             <AndroidTestResultsTableState>
@@ -1295,6 +1308,19 @@
           </value>
         </entry>
         <entry key="367761940">
+          <value>
+            <AndroidTestResultsTableState>
+              <option name="preferredColumnWidths">
+                <map>
+                  <entry key="Duration" value="90" />
+                  <entry key="TECNO MOBILE LIMITED TECNO CH6n" value="120" />
+                  <entry key="Tests" value="360" />
+                </map>
+              </option>
+            </AndroidTestResultsTableState>
+          </value>
+        </entry>
+        <entry key="383537209">
           <value>
             <AndroidTestResultsTableState>
               <option name="preferredColumnWidths">
@@ -2129,6 +2155,19 @@
           </value>
         </entry>
         <entry key="1773283157">
+          <value>
+            <AndroidTestResultsTableState>
+              <option name="preferredColumnWidths">
+                <map>
+                  <entry key="Duration" value="90" />
+                  <entry key="TECNO MOBILE LIMITED TECNO CH6n" value="120" />
+                  <entry key="Tests" value="360" />
+                </map>
+              </option>
+            </AndroidTestResultsTableState>
+          </value>
+        </entry>
+        <entry key="1781159977">
           <value>
             <AndroidTestResultsTableState>
               <option name="preferredColumnWidths">

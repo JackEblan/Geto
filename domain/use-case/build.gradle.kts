@@ -30,6 +30,7 @@ android {
 }
 
 dependencies {
+    api(projects.domain.common)
     api(projects.domain.model)
     implementation(libs.javax.inject)
     implementation(libs.kotlinx.coroutines.core)
