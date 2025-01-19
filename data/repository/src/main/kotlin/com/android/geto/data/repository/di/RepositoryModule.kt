@@ -56,5 +56,4 @@ interface RepositoryModule {
     @Binds
     @Singleton
     fun getoApplicationInfosRepository(impl: DefaultGetoApplicationInfoRepository): GetoApplicationInfosRepository
-
 }

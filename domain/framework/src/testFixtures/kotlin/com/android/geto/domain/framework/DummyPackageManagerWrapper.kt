@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.domain.framework
 
 import com.android.geto.domain.model.GetoApplicationInfo

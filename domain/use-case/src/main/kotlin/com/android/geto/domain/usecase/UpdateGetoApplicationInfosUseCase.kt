@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.domain.usecase
 
 import com.android.geto.domain.common.annotations.Dispatcher

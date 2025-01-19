@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.data.repository
 
 import com.android.geto.data.room.dao.GetoApplicationInfoDao
@@ -38,10 +37,10 @@ class DefaultGetoApplicationInfoRepository @Inject constructor(
 ) : GetoApplicationInfosRepository {
     override val getoApplicationInfos: Flow<List<GetoApplicationInfo>> =
         getoApplicationInfoDao.getGetoApplicationInfoEntities().map { getoApplicationInfoEntities ->
-                getoApplicationInfoEntities.map { getoApplicationInfoEntity ->
-                    getoApplicationInfoEntity.asExternalModel()
-                }
+            getoApplicationInfoEntities.map { getoApplicationInfoEntity ->
+                getoApplicationInfoEntity.asExternalModel()
             }
+        }
 
     override suspend fun deleteGetoApplicationInfoByPackageName(packageNames: List<String>) {
         getoApplicationInfoDao.deleteGetoApplicationInfoEntitiesByPackageName(
@@ -64,7 +63,6 @@ class DefaultGetoApplicationInfoRepository @Inject constructor(
     override suspend fun getGetoApplicationInfoEntity(packageName: String): GetoApplicationInfo {
         return getoApplicationInfoDao.getGetoApplicationInfoEntity(packageName = packageName)
             .asExternalModel()
-
     }
 
     override suspend fun getGetoApplicationInfoByPackageName(text: String): List<GetoApplicationInfo> {

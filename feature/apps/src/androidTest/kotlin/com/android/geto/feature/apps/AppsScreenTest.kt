@@ -89,7 +89,7 @@ class AppsScreenTest {
         }
 
         composeTestRule.onNodeWithTag("apps:dockedSearchBar").performClick()
-        
+
         composeTestRule.onNodeWithTag("apps:dockedSearchBar:lazyVerticalGrid").assertIsDisplayed()
     }
 }

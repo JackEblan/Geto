@@ -15,7 +15,6 @@
  *   limitations under the License.
  *
  */
-
 package com.android.geto.data.repository.test
 
 import com.android.geto.domain.model.GetoApplicationInfo
@@ -24,24 +23,34 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
-class FakeGetoApplicationInfoRepository @Inject constructor() : GetoApplicationInfosRepository {
-    override fun getGetoApplicationInfos(): Flow<List<GetoApplicationInfo>> {
-        val getoApplicationInfos = List(10) { index ->
+class StubGetoApplicationInfoRepository @Inject constructor() : GetoApplicationInfosRepository {
+    override val getoApplicationInfos: Flow<List<GetoApplicationInfo>> = flowOf(
+        List(10) { index ->
             GetoApplicationInfo(
                 flags = 0,
-                iconPath = ByteArray(0),
+                iconPath = "",
                 packageName = "com.android.geto",
                 label = "Geto $index",
             )
-        }
-
-        return flowOf(getoApplicationInfos)
-    }
+        },
+    )
 
     override suspend fun deleteGetoApplicationInfoByPackageName(packageNames: List<String>) {
     }
 
     override suspend fun upsertGetoApplicationInfo(getoApplicationInfos: List<GetoApplicationInfo>) {
+    }
 
+    override suspend fun getGetoApplicationInfoEntity(packageName: String): GetoApplicationInfo {
+        return GetoApplicationInfo(
+            flags = 0,
+            iconPath = "",
+            packageName = "",
+            label = "",
+        )
+    }
+
+    override suspend fun getGetoApplicationInfoByPackageName(text: String): List<GetoApplicationInfo> {
+        return emptyList()
     }
 }

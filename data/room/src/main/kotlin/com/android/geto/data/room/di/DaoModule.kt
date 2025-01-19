@@ -34,7 +34,6 @@ internal object DaoModule {
     @Singleton
     fun appSettingsDao(appDatabase: AppDatabase): AppSettingsDao = appDatabase.appSettingsDao()
 
-
     @Provides
     @Singleton
     fun getoApplicationInfoDao(appDatabase: AppDatabase): GetoApplicationInfoDao =

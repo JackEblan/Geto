@@ -19,10 +19,10 @@ package com.android.geto.data.repository.test.di
 
 import com.android.geto.data.repository.di.RepositoryModule
 import com.android.geto.data.repository.test.FakeAppSettingsRepository
-import com.android.geto.data.repository.test.FakeGetoApplicationInfoRepository
 import com.android.geto.data.repository.test.FakeSecureSettingsRepository
 import com.android.geto.data.repository.test.FakeShortcutRepository
 import com.android.geto.data.repository.test.FakeUserDataRepository
+import com.android.geto.data.repository.test.StubGetoApplicationInfoRepository
 import com.android.geto.domain.repository.AppSettingsRepository
 import com.android.geto.domain.repository.GetoApplicationInfosRepository
 import com.android.geto.domain.repository.SecureSettingsRepository
@@ -59,5 +59,5 @@ internal interface TestRepositoryModule {
 
     @Binds
     @Singleton
-    fun getoApplicationInfosRepository(impl: FakeGetoApplicationInfoRepository): GetoApplicationInfosRepository
+    fun getoApplicationInfosRepository(impl: StubGetoApplicationInfoRepository): GetoApplicationInfosRepository
 }

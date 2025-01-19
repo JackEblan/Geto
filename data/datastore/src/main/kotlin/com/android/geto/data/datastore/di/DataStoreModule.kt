@@ -21,11 +21,11 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.DataStoreFactory
 import androidx.datastore.dataStoreFile
-import com.android.geto.domain.common.annotations.Dispatcher
-import com.android.geto.domain.common.annotations.GetoDispatchers.IO
-import com.android.geto.domain.common.annotations.ApplicationScope
 import com.android.geto.data.datastore.UserPreferencesSerializer
 import com.android.geto.data.datastore.proto.UserPreferences
+import com.android.geto.domain.common.annotations.ApplicationScope
+import com.android.geto.domain.common.annotations.Dispatcher
+import com.android.geto.domain.common.annotations.GetoDispatchers.IO
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

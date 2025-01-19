@@ -61,7 +61,7 @@ class AppsViewModelTest {
             getoApplicationInfosRepository = getoApplicationInfosRepository,
             appSettingsRepository = appSettingsRepository,
 
-            )
+        )
         viewModel = AppsViewModel(
             updateGetoApplicationInfosUseCase = updateGetoApplicationInfosUseCase,
             getoApplicationInfosRepository = getoApplicationInfosRepository,
