@@ -26,9 +26,9 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import androidx.core.graphics.drawable.toBitmap
-import com.android.geto.common.Dispatcher
-import com.android.geto.common.GetoDispatchers.Default
-import com.android.geto.common.GetoDispatchers.IO
+import com.android.geto.domain.common.dispatcher.Dispatcher
+import com.android.geto.domain.common.dispatcher.GetoDispatchers.Default
+import com.android.geto.domain.common.dispatcher.GetoDispatchers.IO
 import com.android.geto.domain.framework.PackageManagerWrapper
 import com.android.geto.domain.model.GetoApplicationInfo
 import dagger.hilt.android.qualifiers.ApplicationContext

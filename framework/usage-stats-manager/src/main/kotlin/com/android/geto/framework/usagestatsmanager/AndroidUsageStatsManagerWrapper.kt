@@ -26,8 +26,8 @@ import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import android.os.Build
 import android.provider.Settings
 import androidx.core.content.getSystemService
-import com.android.geto.common.Dispatcher
-import com.android.geto.common.GetoDispatchers.Default
+import com.android.geto.domain.common.dispatcher.Dispatcher
+import com.android.geto.domain.common.dispatcher.GetoDispatchers.Default
 import com.android.geto.domain.framework.UsageStatsManagerWrapper
 import com.android.geto.domain.model.GetoLifeCycle
 import com.android.geto.domain.model.GetoUsageEvent

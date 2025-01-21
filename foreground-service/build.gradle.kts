@@ -29,6 +29,7 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(projects.broadcastReceiver)
     implementation(projects.common)
+    implementation(projects.domain.common)
     implementation(projects.domain.foregroundService)
     implementation(projects.domain.framework)
     implementation(projects.domain.useCase)

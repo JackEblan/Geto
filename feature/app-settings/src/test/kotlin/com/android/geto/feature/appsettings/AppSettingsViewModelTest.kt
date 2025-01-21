@@ -117,11 +117,13 @@ class AppSettingsViewModelTest {
         userDataRepository = TestUserDataRepository()
 
         applyAppSettingsUseCase = ApplyAppSettingsUseCase(
+            defaultDispatcher = mainDispatcherRule.testDispatcher,
             appSettingsRepository = appSettingsRepository,
             secureSettingsRepository = secureSettingsRepository,
         )
 
         revertAppSettingsUseCase = RevertAppSettingsUseCase(
+            defaultDispatcher = mainDispatcherRule.testDispatcher,
             appSettingsRepository = appSettingsRepository,
             secureSettingsRepository = secureSettingsRepository,
         )
@@ -130,6 +132,7 @@ class AppSettingsViewModelTest {
             RequestPinShortcutUseCase(shortcutRepository = shortcutRepository)
 
         addAppSettingUseCase = AddAppSettingUseCase(
+            defaultDispatcher = mainDispatcherRule.testDispatcher,
             appSettingsRepository = appSettingsRepository,
         )
 
@@ -231,20 +234,22 @@ class AppSettingsViewModelTest {
     @Test
     fun templateDialogUiState_isSuccess_whenAppSettingTemplates_isNotEmpty() = runTest {
         backgroundScope.launch(UnconfinedTestDispatcher()) {
-            val appSettingTemplates = List(5) { index ->
-                AppSettingTemplate(
-                    settingType = SettingType.SYSTEM,
-                    label = "Geto",
-                    key = "Geto $index",
-                    valueOnLaunch = "0",
-                    valueOnRevert = "1",
-                )
-            }
-
-            assetManagerWrapper.setAppSettingTemplates(appSettingTemplates)
-
             viewModel.templateDialogUiState.collect()
         }
+
+        val appSettingTemplates = List(5) { index ->
+            AppSettingTemplate(
+                settingType = SettingType.SYSTEM,
+                label = "Geto",
+                key = "Geto $index",
+                valueOnLaunch = "0",
+                valueOnRevert = "1",
+            )
+        }
+
+        assetManagerWrapper.setAppSettingTemplates(appSettingTemplates)
+
+        viewModel.getAppSettingTemplates()
 
         assertIs<TemplateDialogUiState.Success>(viewModel.templateDialogUiState.value)
     }
@@ -865,19 +870,21 @@ class AppSettingsViewModelTest {
     @Test
     fun applicationIcon_isNotNull_whenGetApplicationIcon() = runTest {
         backgroundScope.launch(UnconfinedTestDispatcher()) {
-            val getoApplicationInfos = List(1) { _ ->
-                GetoApplicationInfo(
-                    flags = 0,
-                    icon = ByteArray(0),
-                    packageName = packageName,
-                    label = appName,
-                )
-            }
-
-            packageManagerWrapper.setApplicationInfos(getoApplicationInfos)
-
             viewModel.applicationIcon.collect()
         }
+
+        val getoApplicationInfos = List(1) { _ ->
+            GetoApplicationInfo(
+                flags = 0,
+                icon = ByteArray(0),
+                packageName = packageName,
+                label = appName,
+            )
+        }
+
+        packageManagerWrapper.setApplicationInfos(getoApplicationInfos)
+
+        viewModel.getApplicationIcon()
 
         assertNotNull(viewModel.applicationIcon.value)
     }
@@ -885,19 +892,21 @@ class AppSettingsViewModelTest {
     @Test
     fun applicationIcon_isNull_whenGetApplicationIcon() = runTest {
         backgroundScope.launch(UnconfinedTestDispatcher()) {
-            val getoApplicationInfos = List(1) { _ ->
-                GetoApplicationInfo(
-                    flags = 0,
-                    icon = ByteArray(0),
-                    packageName = "",
-                    label = appName,
-                )
-            }
-
-            packageManagerWrapper.setApplicationInfos(getoApplicationInfos)
-
             viewModel.applicationIcon.collect()
         }
+
+        val getoApplicationInfos = List(1) { _ ->
+            GetoApplicationInfo(
+                flags = 0,
+                icon = ByteArray(0),
+                packageName = "",
+                label = appName,
+            )
+        }
+
+        packageManagerWrapper.setApplicationInfos(getoApplicationInfos)
+
+        viewModel.getApplicationIcon()
 
         assertNull(viewModel.applicationIcon.value)
     }

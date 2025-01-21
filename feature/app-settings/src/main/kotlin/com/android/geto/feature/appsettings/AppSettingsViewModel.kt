@@ -17,6 +17,7 @@
  */
 package com.android.geto.feature.appsettings
 
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -231,7 +232,8 @@ class AppSettingsViewModel @Inject constructor(
         }
     }
 
-    private fun getApplicationIcon() {
+    @VisibleForTesting
+    fun getApplicationIcon() {
         viewModelScope.launch {
             _applicationIcon.update { packageManagerWrapper.getApplicationIcon(packageName = packageName) }
         }
@@ -295,7 +297,8 @@ class AppSettingsViewModel @Inject constructor(
         )
     }
 
-    private fun getAppSettingTemplates() {
+    @VisibleForTesting
+    fun getAppSettingTemplates() {
         viewModelScope.launch {
             _templateDialogUiState.update {
                 TemplateDialogUiState.Success(appSettingTemplates = assetManagerWrapper.getAppSettingTemplates())

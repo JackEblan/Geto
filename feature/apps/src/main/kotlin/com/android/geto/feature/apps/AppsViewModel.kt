@@ -17,6 +17,7 @@
  */
 package com.android.geto.feature.apps
 
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.android.geto.domain.framework.PackageManagerWrapper
@@ -42,7 +43,8 @@ class AppsViewModel @Inject constructor(
         initialValue = AppsUiState.Loading,
     )
 
-    private fun queryIntentActivities() {
+    @VisibleForTesting
+    fun queryIntentActivities() {
         viewModelScope.launch {
             _appUiState.update {
                 AppsUiState.Success(getoApplicationInfos = packageManagerWrapper.queryIntentActivities())

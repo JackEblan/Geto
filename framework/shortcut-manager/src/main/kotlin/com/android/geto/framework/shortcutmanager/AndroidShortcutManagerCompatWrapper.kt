@@ -19,8 +19,8 @@ package com.android.geto.framework.shortcutmanager
 
 import android.content.Context
 import androidx.core.content.pm.ShortcutManagerCompat
-import com.android.geto.common.Dispatcher
-import com.android.geto.common.GetoDispatchers.Default
+import com.android.geto.domain.common.dispatcher.Dispatcher
+import com.android.geto.domain.common.dispatcher.GetoDispatchers.Default
 import com.android.geto.domain.framework.ShortcutManagerCompatWrapper
 import com.android.geto.domain.model.GetoShortcutInfoCompat
 import com.android.geto.framework.shortcutmanager.mapper.asGetoShortcutInfoCompat

@@ -15,7 +15,7 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.common
+package com.android.geto.domain.common.dispatcher
 
 import javax.inject.Qualifier
 import kotlin.annotation.AnnotationRetention.RUNTIME

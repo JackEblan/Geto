@@ -31,8 +31,8 @@ android {
 
 dependencies {
     api(projects.domain.model)
-    implementation(libs.javax.inject)
     implementation(libs.kotlinx.coroutines.core)
+    implementation(projects.domain.common)
     implementation(projects.domain.foregroundService)
     implementation(projects.domain.framework)
     implementation(projects.domain.repository)
