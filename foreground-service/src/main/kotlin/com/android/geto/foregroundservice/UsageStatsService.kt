@@ -30,7 +30,7 @@ import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import com.android.geto.broadcastreceiver.StopUsageStatsForegroundServiceBroadcastReceiver
 import com.android.geto.broadcastreceiver.StopUsageStatsForegroundServiceBroadcastReceiver.Companion.ACTION_STOP_USAGE_STATS_FOREGROUND_SERVICE
-import com.android.geto.common.di.ApplicationScope
+import com.android.geto.common.ApplicationScope
 import com.android.geto.domain.framework.NotificationManagerWrapper
 import com.android.geto.domain.model.ForegroundServiceAppSettingsResult
 import com.android.geto.domain.model.ForegroundServiceAppSettingsResult.Ignore

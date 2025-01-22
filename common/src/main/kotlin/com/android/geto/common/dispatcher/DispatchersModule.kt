@@ -15,31 +15,26 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.common.di
+package com.android.geto.common.dispatcher
 
-import com.android.geto.common.Dispatcher
-import com.android.geto.common.GetoDispatchers.Default
+import com.android.geto.domain.common.dispatcher.Dispatcher
+import com.android.geto.domain.common.dispatcher.GetoDispatchers.Default
+import com.android.geto.domain.common.dispatcher.GetoDispatchers.IO
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.SupervisorJob
-import javax.inject.Qualifier
-import javax.inject.Singleton
-
-@Retention(AnnotationRetention.RUNTIME)
-@Qualifier
-annotation class ApplicationScope
+import kotlinx.coroutines.Dispatchers
 
 @Module
 @InstallIn(SingletonComponent::class)
-internal object CoroutineScopesModule {
+object DispatchersModule {
     @Provides
-    @Singleton
-    @ApplicationScope
-    fun providesCoroutineScope(
-        @Dispatcher(Default) dispatcher: CoroutineDispatcher,
-    ): CoroutineScope = CoroutineScope(SupervisorJob() + dispatcher)
+    @Dispatcher(IO)
+    fun providesIODispatcher(): CoroutineDispatcher = Dispatchers.IO
+
+    @Provides
+    @Dispatcher(Default)
+    fun providesDefaultDispatcher(): CoroutineDispatcher = Dispatchers.Default
 }

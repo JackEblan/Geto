@@ -28,6 +28,7 @@ import org.junit.Rule
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertIs
+import kotlin.test.assertTrue
 
 class AppsViewModelTest {
     @get:Rule
@@ -66,26 +67,10 @@ class AppsViewModelTest {
 
         packageManagerWrapper.setApplicationInfos(getoApplicationInfos)
 
-        assertIs<AppsUiState.Success>(viewModel.appsUiState.value)
-    }
+        viewModel.queryIntentActivities()
 
-    @Test
-    fun appsUiState_isSuccessEmpty_whenQueryIntentActivities() = runTest {
-        backgroundScope.launch(UnconfinedTestDispatcher()) {
-            viewModel.appsUiState.collect()
-        }
+        val result = assertIs<AppsUiState.Success>(viewModel.appsUiState.value)
 
-        val getoApplicationInfos = List(2) { index ->
-            GetoApplicationInfo(
-                flags = 0,
-                icon = ByteArray(0),
-                packageName = "com.android.geto$index",
-                label = "Geto $index",
-            )
-        }
-
-        packageManagerWrapper.setApplicationInfos(getoApplicationInfos)
-
-        assertIs<AppsUiState.Success>(viewModel.appsUiState.value)
+        assertTrue(result.getoApplicationInfos.isNotEmpty())
     }
 }

@@ -28,7 +28,7 @@ android {
 }
 
 dependencies {
-    implementation(projects.common)
+    implementation(projects.domain.common)
     implementation(projects.domain.framework)
     implementation(projects.domain.repository)
     implementation(projects.domain.useCase)

@@ -18,16 +18,13 @@
 
 plugins {
     alias(libs.plugins.com.android.geto.library)
-    alias(libs.plugins.com.android.geto.hilt)
+    alias(libs.plugins.com.android.geto.libraryJacoco)
 }
 
 android {
-    namespace = "com.android.geto.framework.assetmanager"
+    namespace = "com.android.geto.domain.common"
 }
 
 dependencies {
-    implementation(libs.gson)
-
-    implementation(projects.domain.common)
-    implementation(projects.domain.framework)
+    api(libs.javax.inject)
 }

@@ -39,4 +39,15 @@ class FakePackageManagerWrapper @Inject constructor() : PackageManagerWrapper {
 
     override fun launchIntentForPackage(packageName: String) {
     }
+
+    override suspend fun queryIntentActivitiesByLabel(label: String): List<GetoApplicationInfo> {
+        return List(10) { index ->
+            GetoApplicationInfo(
+                flags = 0,
+                icon = ByteArray(0),
+                packageName = "com.android.geto",
+                label = "Geto $index",
+            )
+        }
+    }
 }

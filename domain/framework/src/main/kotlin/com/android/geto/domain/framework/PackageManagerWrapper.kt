@@ -25,4 +25,6 @@ interface PackageManagerWrapper {
     suspend fun getApplicationIcon(packageName: String): ByteArray?
 
     fun launchIntentForPackage(packageName: String)
+
+    suspend fun queryIntentActivitiesByLabel(label: String): List<GetoApplicationInfo>
 }

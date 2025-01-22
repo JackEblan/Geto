@@ -55,6 +55,7 @@ dependencies {
     implementation(libs.protobuf.kotlin.lite)
 
     implementation(projects.common)
+    implementation(projects.domain.common)
     implementation(projects.domain.model)
     implementation(projects.domain.repository)
 

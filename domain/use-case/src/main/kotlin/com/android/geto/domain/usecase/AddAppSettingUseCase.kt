@@ -17,19 +17,27 @@
  */
 package com.android.geto.domain.usecase
 
+import com.android.geto.domain.common.dispatcher.Dispatcher
+import com.android.geto.domain.common.dispatcher.GetoDispatchers.Default
 import com.android.geto.domain.model.AddAppSettingResult
 import com.android.geto.domain.model.AddAppSettingResult.FAILED
 import com.android.geto.domain.model.AddAppSettingResult.SUCCESS
 import com.android.geto.domain.model.AppSetting
 import com.android.geto.domain.repository.AppSettingsRepository
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class AddAppSettingUseCase @Inject constructor(private val appSettingsRepository: AppSettingsRepository) {
+class AddAppSettingUseCase @Inject constructor(
+    @Dispatcher(Default) private val defaultDispatcher: CoroutineDispatcher,
+    private val appSettingsRepository: AppSettingsRepository,
+) {
     suspend operator fun invoke(appSetting: AppSetting): AddAppSettingResult {
-        val appSettings =
+        val appSettings = withContext(defaultDispatcher) {
             appSettingsRepository.getAppSettingsByPackageName(packageName = appSetting.packageName)
                 .first().map { it.key }
+        }
 
         return if (appSetting.key !in appSettings) {
             appSettingsRepository.upsertAppSetting(appSetting = appSetting)

@@ -26,9 +26,9 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import androidx.core.graphics.drawable.toBitmap
-import com.android.geto.common.Dispatcher
-import com.android.geto.common.GetoDispatchers.Default
-import com.android.geto.common.GetoDispatchers.IO
+import com.android.geto.domain.common.dispatcher.Dispatcher
+import com.android.geto.domain.common.dispatcher.GetoDispatchers.Default
+import com.android.geto.domain.common.dispatcher.GetoDispatchers.IO
 import com.android.geto.domain.framework.PackageManagerWrapper
 import com.android.geto.domain.model.GetoApplicationInfo
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -52,15 +52,12 @@ class AndroidPackageManagerWrapper @Inject constructor(
         }
 
         return withContext(defaultDispatcher) {
-            val intentActivities =
-                packageManager.queryIntentActivities(intent, PackageManager.MATCH_ALL)
-                    .map { resolveInfo ->
-                        resolveInfo.activityInfo.applicationInfo.toGetoApplicationInfo()
-                    }
-
-            intentActivities.filter { applicationInfo ->
-                (applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM) == 0
-            }.sortedBy { applicationInfo -> applicationInfo.label }
+            packageManager.queryIntentActivities(intent, PackageManager.MATCH_ALL)
+                .filter { resolveInfo ->
+                    (resolveInfo.activityInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM) == 0
+                }.map { resolveInfo ->
+                    resolveInfo.activityInfo.applicationInfo.toGetoApplicationInfo()
+                }.sortedBy { applicationInfo -> applicationInfo.label }
         }
     }
 
@@ -80,6 +77,24 @@ class AndroidPackageManagerWrapper @Inject constructor(
         try {
             context.startActivity(intent)
         } catch (_: ActivityNotFoundException) {
+        }
+    }
+
+    override suspend fun queryIntentActivitiesByLabel(label: String): List<GetoApplicationInfo> {
+        val intent = Intent().apply {
+            action = Intent.ACTION_MAIN
+            addCategory(Intent.CATEGORY_LAUNCHER)
+        }
+
+        return withContext(defaultDispatcher) {
+            packageManager.queryIntentActivities(intent, PackageManager.MATCH_ALL)
+                .filter { resolveInfo ->
+                    (resolveInfo.activityInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM) == 0 && resolveInfo.activityInfo.applicationInfo.loadLabel(
+                        packageManager,
+                    ).toString().startsWith(label, true)
+                }.map { resolveInfo ->
+                    resolveInfo.activityInfo.applicationInfo.toGetoApplicationInfo()
+                }
         }
     }
 

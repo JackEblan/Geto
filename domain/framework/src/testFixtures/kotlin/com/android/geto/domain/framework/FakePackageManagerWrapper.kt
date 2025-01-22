@@ -33,6 +33,10 @@ class FakePackageManagerWrapper : PackageManagerWrapper {
     override fun launchIntentForPackage(packageName: String) {
     }
 
+    override suspend fun queryIntentActivitiesByLabel(label: String): List<GetoApplicationInfo> {
+        return getoApplicationInfos.filter { it.flags == 0 && it.label == label }
+    }
+
     fun setApplicationInfos(value: List<GetoApplicationInfo>) {
         getoApplicationInfos = value
     }

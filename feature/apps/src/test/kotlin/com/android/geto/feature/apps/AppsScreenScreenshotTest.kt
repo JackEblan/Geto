@@ -64,7 +64,13 @@ class AppsScreenScreenshotTest {
             ) {
                 AppsScreen(
                     appsUiState = AppsUiState.Success(mappedGetoApplicationInfos),
+                    searchGetoApplicationInfos = emptyList(),
+                    dockedSearchBarQuery = "",
+                    dockedSearchBarExpanded = false,
                     onItemClick = { _, _ -> },
+                    onSearch = {},
+                    onQueryChange = {},
+                    onExpandedChange = {},
                 )
             }
         }
@@ -80,7 +86,35 @@ class AppsScreenScreenshotTest {
             ) {
                 AppsScreen(
                     appsUiState = AppsUiState.Loading,
+                    searchGetoApplicationInfos = emptyList(),
+                    dockedSearchBarQuery = "",
+                    dockedSearchBarExpanded = false,
                     onItemClick = { _, _ -> },
+                    onSearch = {},
+                    onQueryChange = {},
+                    onExpandedChange = {},
+                )
+            }
+        }
+    }
+
+    @Test
+    fun appsScreen_dockedSearchBar_populated() {
+        composeTestRule.captureScreenForMultiDevice("DockedSearchBarPopulated") {
+            GetoTheme(
+                themeBrand = ThemeBrand.GREEN,
+                darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+                dynamicTheme = false,
+            ) {
+                AppsScreen(
+                    appsUiState = AppsUiState.Success(emptyList()),
+                    searchGetoApplicationInfos = mappedGetoApplicationInfos,
+                    dockedSearchBarQuery = "",
+                    dockedSearchBarExpanded = true,
+                    onItemClick = { _, _ -> },
+                    onSearch = {},
+                    onQueryChange = {},
+                    onExpandedChange = {},
                 )
             }
         }
@@ -104,7 +138,13 @@ class AppsScreenScreenshotTest {
                         appsUiState = AppsUiState.Success(
                             mappedGetoApplicationInfos,
                         ),
+                        searchGetoApplicationInfos = emptyList(),
+                        dockedSearchBarQuery = "",
+                        dockedSearchBarExpanded = false,
                         onItemClick = { _, _ -> },
+                        onSearch = {},
+                        onQueryChange = {},
+                        onExpandedChange = {},
                     )
                 }
             }
@@ -127,7 +167,44 @@ class AppsScreenScreenshotTest {
                 Surface {
                     AppsScreen(
                         appsUiState = AppsUiState.Loading,
+                        searchGetoApplicationInfos = emptyList(),
+                        dockedSearchBarQuery = "",
+                        dockedSearchBarExpanded = false,
                         onItemClick = { _, _ -> },
+                        onSearch = {},
+                        onQueryChange = {},
+                        onExpandedChange = {},
+                    )
+                }
+            }
+        }
+    }
+
+    @Test
+    fun appsScreen_dockedSearchBar_populated_dark() {
+        composeTestRule.captureScreenForDevice(
+            deviceName = "phone_dark",
+            deviceSpec = DefaultTestDevices.PHONE.spec,
+            fileName = "DockedSearchBarPopulated",
+            darkMode = true,
+        ) {
+            GetoTheme(
+                themeBrand = ThemeBrand.GREEN,
+                darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+                dynamicTheme = false,
+            ) {
+                Surface {
+                    AppsScreen(
+                        appsUiState = AppsUiState.Success(
+                            emptyList(),
+                        ),
+                        searchGetoApplicationInfos = mappedGetoApplicationInfos,
+                        dockedSearchBarQuery = "",
+                        dockedSearchBarExpanded = true,
+                        onItemClick = { _, _ -> },
+                        onSearch = {},
+                        onQueryChange = {},
+                        onExpandedChange = {},
                     )
                 }
             }

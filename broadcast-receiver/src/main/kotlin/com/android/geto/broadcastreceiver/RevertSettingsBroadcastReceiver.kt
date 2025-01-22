@@ -20,7 +20,7 @@ package com.android.geto.broadcastreceiver
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.android.geto.common.di.ApplicationScope
+import com.android.geto.common.ApplicationScope
 import com.android.geto.domain.framework.NotificationManagerWrapper
 import com.android.geto.domain.model.AppSettingsResult
 import com.android.geto.domain.usecase.RevertAppSettingsUseCase
