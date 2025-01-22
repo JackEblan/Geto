@@ -2023,6 +2023,19 @@
             </AndroidTestResultsTableState>
           </value>
         </entry>
+        <entry key="1636525215">
+          <value>
+            <AndroidTestResultsTableState>
+              <option name="preferredColumnWidths">
+                <map>
+                  <entry key="Duration" value="90" />
+                  <entry key="TECNO MOBILE LIMITED TECNO CH6n" value="120" />
+                  <entry key="Tests" value="360" />
+                </map>
+              </option>
+            </AndroidTestResultsTableState>
+          </value>
+        </entry>
         <entry key="1643494604">
           <value>
             <AndroidTestResultsTableState>

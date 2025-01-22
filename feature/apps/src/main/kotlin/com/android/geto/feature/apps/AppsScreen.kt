@@ -76,12 +76,24 @@ internal fun AppsRoute(
 
     val searchGetoApplicationInfos by viewModel.searchGetoApplicationInfos.collectAsStateWithLifecycle()
 
+    var dockedSearchBarQuery by rememberSaveable { mutableStateOf("") }
+
+    var dockedSearchQueryExpanded by rememberSaveable { mutableStateOf(false) }
+
     AppsScreen(
         modifier = modifier,
         appsUiState = appListUiState,
         searchGetoApplicationInfos = searchGetoApplicationInfos,
+        dockedSearchBarQuery = dockedSearchBarQuery,
+        dockedSearchBarExpanded = dockedSearchQueryExpanded,
         onItemClick = onItemClick,
         onSearch = viewModel::queryIntentActivitiesByLabel,
+        onQueryChange = {
+            dockedSearchBarQuery = it
+        },
+        onExpandedChange = {
+            dockedSearchQueryExpanded = it
+        },
     )
 }
 
@@ -92,8 +104,12 @@ internal fun AppsScreen(
     modifier: Modifier = Modifier,
     appsUiState: AppsUiState,
     searchGetoApplicationInfos: List<GetoApplicationInfo>,
+    dockedSearchBarQuery: String,
+    dockedSearchBarExpanded: Boolean,
     onItemClick: (String, String) -> Unit,
     onSearch: (String) -> Unit,
+    onQueryChange: (String) -> Unit,
+    onExpandedChange: (Boolean) -> Unit,
 ) {
     ReportDrawnWhen {
         appsUiState is AppsUiState.Success
@@ -120,7 +136,11 @@ internal fun AppsScreen(
                     searchGetoApplicationInfos = searchGetoApplicationInfos,
                     appsUiState = appsUiState,
                     onItemClick = onItemClick,
+                    dockedSearchBarQuery = dockedSearchBarQuery,
+                    dockedSearchBarExpanded = dockedSearchBarExpanded,
                     onSearch = onSearch,
+                    onQueryChange = onQueryChange,
+                    onExpandedChange = onExpandedChange,
                 )
             }
         }
@@ -141,17 +161,17 @@ private fun SuccessState(
     modifier: Modifier = Modifier,
     appsUiState: AppsUiState.Success,
     searchGetoApplicationInfos: List<GetoApplicationInfo>,
+    dockedSearchBarQuery: String,
+    dockedSearchBarExpanded: Boolean,
     onItemClick: (String, String) -> Unit,
     onSearch: (String) -> Unit,
+    onQueryChange: (String) -> Unit,
+    onExpandedChange: (Boolean) -> Unit,
 ) {
-    var query by rememberSaveable { mutableStateOf("") }
-
-    var expanded by rememberSaveable { mutableStateOf(false) }
-
     LaunchedEffect(
-        key1 = query,
+        key1 = dockedSearchBarQuery,
     ) {
-        snapshotFlow { query }.debounce(500).filter { query ->
+        snapshotFlow { dockedSearchBarQuery }.debounce(500).filter { query ->
             query.isNotEmpty()
         }.distinctUntilChanged().onEach {
             onSearch(it)
@@ -166,19 +186,17 @@ private fun SuccessState(
                 .testTag("apps:dockedSearchBar"),
             inputField = {
                 SearchBarDefaults.InputField(
-                    query = query,
-                    onQueryChange = {
-                        query = it
-                    },
-                    onSearch = { expanded = false },
-                    expanded = expanded,
-                    onExpandedChange = { expanded = it },
+                    query = dockedSearchBarQuery,
+                    onQueryChange = onQueryChange,
+                    onSearch = onSearch,
+                    expanded = dockedSearchBarExpanded,
+                    onExpandedChange = onExpandedChange,
                     placeholder = { Text(text = stringResource(R.string.search)) },
                     leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
                 )
             },
-            expanded = expanded,
-            onExpandedChange = { expanded = it },
+            expanded = dockedSearchBarExpanded,
+            onExpandedChange = onExpandedChange,
         ) {
             LazyVerticalGrid(
                 columns = GridCells.Adaptive(300.dp),

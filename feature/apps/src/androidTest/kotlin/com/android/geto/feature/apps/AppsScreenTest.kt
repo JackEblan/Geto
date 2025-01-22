@@ -35,7 +35,13 @@ class AppsScreenTest {
         composeTestRule.setContent {
             AppsScreen(
                 appsUiState = AppsUiState.Loading,
+                searchGetoApplicationInfos = emptyList(),
+                dockedSearchBarQuery = "",
+                dockedSearchBarExpanded = false,
                 onItemClick = { _, _ -> },
+                onSearch = {},
+                onQueryChange = {},
+                onExpandedChange = {},
             )
         }
 
@@ -43,7 +49,7 @@ class AppsScreenTest {
     }
 
     @Test
-    fun lazyColumn_isDisplayed_whenAppsUiState_isSuccess() {
+    fun lazyVerticalGrid_isDisplayed_whenAppsUiState_isSuccess() {
         val mappedGetoApplicationInfos = List(2) { index ->
             GetoApplicationInfo(
                 flags = 0,
@@ -56,10 +62,43 @@ class AppsScreenTest {
         composeTestRule.setContent {
             AppsScreen(
                 appsUiState = AppsUiState.Success(mappedGetoApplicationInfos),
+                searchGetoApplicationInfos = emptyList(),
+                dockedSearchBarQuery = "",
+                dockedSearchBarExpanded = false,
                 onItemClick = { _, _ -> },
+                onSearch = {},
+                onQueryChange = {},
+                onExpandedChange = {},
             )
         }
 
         composeTestRule.onNodeWithTag("apps:lazyVerticalGrid").assertIsDisplayed()
+    }
+
+    @Test
+    fun dockedSearchBar_lazyVerticalGrid_isDisplayed() {
+        val mappedGetoApplicationInfos = List(2) { index ->
+            GetoApplicationInfo(
+                flags = 0,
+                icon = ByteArray(0),
+                packageName = "com.android.geto$index",
+                label = "Geto $index",
+            )
+        }
+
+        composeTestRule.setContent {
+            AppsScreen(
+                appsUiState = AppsUiState.Success(emptyList()),
+                searchGetoApplicationInfos = mappedGetoApplicationInfos,
+                dockedSearchBarQuery = "",
+                dockedSearchBarExpanded = true,
+                onItemClick = { _, _ -> },
+                onSearch = {},
+                onQueryChange = {},
+                onExpandedChange = {},
+            )
+        }
+
+        composeTestRule.onNodeWithTag("apps:dockedSearchBar:lazyVerticalGrid").assertIsDisplayed()
     }
 }
