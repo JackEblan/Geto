@@ -15,4 +15,6 @@
   ~   limitations under the License.
   ~
   -->
-<resources></resources>
+<resources>
+    <string name="search">Search</string>
+</resources>
