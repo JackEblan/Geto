@@ -24,10 +24,6 @@ plugins {
 }
 
 android {
-    defaultConfig {
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
     namespace = "com.android.geto.designsystem"
 }
 
