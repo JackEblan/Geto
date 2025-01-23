@@ -20,6 +20,7 @@ package com.android.geto.framework.shortcutmanager.mapper
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.graphics.BitmapFactory
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.graphics.drawable.IconCompat
 import androidx.core.net.toUri
@@ -50,7 +51,9 @@ internal fun GetoShortcutInfoCompat.asShortcutInfoCompat(
 
     return ShortcutInfoCompat.Builder(context, id).apply {
         icon?.let {
-            setIcon(IconCompat.createWithData(it, 0, it.size))
+            val bitmapIcon = BitmapFactory.decodeByteArray(it, 0, it.size)
+
+            setIcon(IconCompat.createWithBitmap(bitmapIcon))
         }
 
         setShortLabel(shortLabel)
