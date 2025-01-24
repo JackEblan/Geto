@@ -18,11 +18,13 @@
 package com.android.geto.framework.assetmanager
 
 import android.content.Context
+import androidx.annotation.VisibleForTesting
 import com.android.geto.domain.common.dispatcher.Dispatcher
 import com.android.geto.domain.common.dispatcher.GetoDispatchers.IO
 import com.android.geto.domain.framework.AssetManagerWrapper
 import com.android.geto.domain.model.AppSettingTemplate
 import com.google.gson.Gson
+import com.google.gson.JsonSyntaxException
 import com.google.gson.reflect.TypeToken
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
@@ -36,7 +38,8 @@ internal class AndroidAssetManagerWrapper @Inject constructor(
 ) : AssetManagerWrapper {
     private val appSettingsType = object : TypeToken<List<AppSettingTemplate>>() {}.type
 
-    private val appSettingTemplatesJson = "AppSettingTemplates.json"
+    @VisibleForTesting
+    var appSettingTemplatesJson = "AppSettingTemplates.json"
 
     override suspend fun getAppSettingTemplates(): List<AppSettingTemplate> {
         val jsonString = withContext(ioDispatcher) {
@@ -47,6 +50,10 @@ internal class AndroidAssetManagerWrapper @Inject constructor(
             }
         }
 
-        return Gson().fromJson(jsonString, appSettingsType)
+        return try {
+            Gson().fromJson(jsonString, appSettingsType) ?: emptyList()
+        } catch (e: JsonSyntaxException) {
+            emptyList()
+        }
     }
 }

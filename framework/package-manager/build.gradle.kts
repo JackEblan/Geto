@@ -29,4 +29,9 @@ android {
 dependencies {
     implementation(projects.domain.common)
     implementation(projects.domain.framework)
+
+    androidTestImplementation(kotlin("test"))
+    androidTestImplementation(libs.androidx.test.core)
+    androidTestImplementation(libs.androidx.test.runner)
+    androidTestImplementation(libs.kotlinx.coroutines.test)
 }

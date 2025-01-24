@@ -16,10 +16,10 @@
       <SelectionState runConfigName="Generate Baseline Profile for app">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="AppsScreenTest">
+      <SelectionState runConfigName="PackageManagerWrapperTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="dockedSearchBar_lazyVerticalGrid_isDisplayed()">
+      <SelectionState runConfigName="queryIntentActivities_filterInstalledApplications()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>
