@@ -1,0 +1,3 @@
+What's new
+- Optimized fetching of installed applications
+- Fixed a bug where you can't create shortcuts
