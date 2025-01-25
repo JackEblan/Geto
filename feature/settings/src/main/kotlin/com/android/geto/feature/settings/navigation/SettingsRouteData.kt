@@ -17,9 +17,7 @@
  */
 package com.android.geto.feature.settings.navigation
 
-import androidx.annotation.Keep
 import kotlinx.serialization.Serializable
 
-@Keep
 @Serializable
 data object SettingsRouteData

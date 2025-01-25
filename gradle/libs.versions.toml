@@ -29,10 +29,9 @@ hilt = "2.51.1"
 jacoco = "0.8.7"
 javaxInject = "1"
 junit4 = "4.13.2"
-hidden-api-bypass = "4.3"
 kotlin = "2.0.0"
 kotlinxCoroutines = "1.8.1"
-kotlinxSerializationJson = "1.6.3"
+kotlinxSerializationJson = "1.8.0"
 ksp = "2.0.0-1.0.21"
 moduleGraph = "2.5.0"
 protobuf = "4.26.1"
@@ -90,7 +89,6 @@ androidx-tracing-ktx = { group = "androidx.tracing", name = "tracing-ktx", versi
 coil-kt-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 dagger-compiler = { group = "com.google.dagger", name = "dagger-compiler", version.ref = "hilt" }
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
-hidden-api-bypass = { group = "org.lsposed.hiddenapibypass", name = "hiddenapibypass", version.ref = "hidden-api-bypass" }
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-android-gradle-plugin = { group = "com.google.dagger", name = "hilt-android-gradle-plugin", version.ref = "hilt" }
 hilt-android-testing = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt" }
