@@ -114,7 +114,7 @@ internal fun HomeScreen(
                             text = stringResource(id = topBarTitleStringResource),
                         )
                     },
-                    modifier = modifier.testTag("home:largeTopAppBar"),
+                    modifier = Modifier.testTag("home:largeTopAppBar"),
                     scrollBehavior = topAppBarScrollBehavior,
                 )
             },
