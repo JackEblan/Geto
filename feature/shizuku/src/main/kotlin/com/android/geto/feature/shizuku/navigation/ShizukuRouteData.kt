@@ -17,9 +17,7 @@
  */
 package com.android.geto.feature.shizuku.navigation
 
-import androidx.annotation.Keep
 import kotlinx.serialization.Serializable
 
-@Keep
 @Serializable
 data object ShizukuRouteData

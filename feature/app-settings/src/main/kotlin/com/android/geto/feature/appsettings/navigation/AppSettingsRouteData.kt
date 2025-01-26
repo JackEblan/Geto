@@ -17,9 +17,7 @@
  */
 package com.android.geto.feature.appsettings.navigation
 
-import androidx.annotation.Keep
 import kotlinx.serialization.Serializable
 
-@Keep
 @Serializable
 data class AppSettingsRouteData(val packageName: String, val appName: String)
