@@ -61,22 +61,20 @@ class AddAppSettingUseCaseTest {
             )
         }
 
-        val newAppSetting = AppSetting(
-            id = 6,
-            enabled = true,
-            settingType = SettingType.SYSTEM,
-            packageName = packageName,
-            label = "Geto",
-            key = "Geto",
-            valueOnLaunch = "0",
-            valueOnRevert = "1",
-        )
-
         appSettingsRepository.setAppSettings(appSettings)
 
         assertEquals(
             expected = AddAppSettingResult.SUCCESS,
-            actual = addAppSettingUseCase(appSetting = newAppSetting),
+            actual = addAppSettingUseCase(
+                id = 6,
+                enabled = true,
+                settingType = SettingType.SYSTEM,
+                packageName = packageName,
+                label = "Geto",
+                key = "Geto",
+                valueOnLaunch = "0",
+                valueOnRevert = "1",
+            ),
         )
     }
 
@@ -99,7 +97,16 @@ class AddAppSettingUseCaseTest {
 
         assertEquals(
             expected = AddAppSettingResult.FAILED,
-            actual = addAppSettingUseCase(appSetting = appSettings.first()),
+            actual = addAppSettingUseCase(
+                id = 0,
+                enabled = true,
+                settingType = SettingType.SYSTEM,
+                packageName = packageName,
+                label = "Geto",
+                key = "Geto 0",
+                valueOnLaunch = "0",
+                valueOnRevert = "1",
+            ),
         )
     }
 }
