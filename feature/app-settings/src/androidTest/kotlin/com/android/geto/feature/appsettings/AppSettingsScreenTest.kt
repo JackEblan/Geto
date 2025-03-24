@@ -60,11 +60,22 @@ class AppSettingsScreenTest {
                 appSettingsResult = null,
                 revertAppSettingsResult = null,
                 requestPinShortcutResult = null,
-                setPrimaryClipResult = false,
                 templateDialogUiState = TemplateDialogUiState.Loading,
+                onApplyAppSettings = {},
+                onRevertAppSettings = {},
+                onCheckAppSetting = {},
+                onDeleteAppSetting = {},
+                onAddAppSetting = {},
+                onRequestPinShortcut = { _, _, _ -> },
+                onGetSecureSettingsByName = { _, _ -> },
+                onLaunchIntentForPackage = {},
+                onPostNotification = { _, _, _ -> },
+                onResetApplyAppSettingsResult = {},
+                onResetRequestPinShortcutResult = {},
+                onResetRevertAppSettingsResult = {},
+                onResetAddAppSettingResult = {},
                 onNavigationIconClick = {},
                 onShizuku = {},
-                onEvent = {},
             )
         }
 
@@ -85,12 +96,24 @@ class AppSettingsScreenTest {
                 appSettingsResult = null,
                 revertAppSettingsResult = null,
                 requestPinShortcutResult = null,
-                setPrimaryClipResult = false,
                 templateDialogUiState = TemplateDialogUiState.Loading,
+                onApplyAppSettings = {},
+                onRevertAppSettings = {},
+                onCheckAppSetting = {},
+                onDeleteAppSetting = {},
+                onAddAppSetting = {},
+                onRequestPinShortcut = { _, _, _ -> },
+                onGetSecureSettingsByName = { _, _ -> },
+                onLaunchIntentForPackage = {},
+                onPostNotification = { _, _, _ -> },
+                onResetApplyAppSettingsResult = {},
+                onResetRequestPinShortcutResult = {},
+                onResetRevertAppSettingsResult = {},
+                onResetAddAppSettingResult = {},
                 onNavigationIconClick = {},
                 onShizuku = {},
-                onEvent = {},
             )
+
         }
 
         composeTestRule.onNodeWithTag("appSettings:emptyListPlaceHolderScreen").assertIsDisplayed()
@@ -110,12 +133,24 @@ class AppSettingsScreenTest {
                 appSettingsResult = null,
                 revertAppSettingsResult = null,
                 requestPinShortcutResult = null,
-                setPrimaryClipResult = false,
                 templateDialogUiState = TemplateDialogUiState.Loading,
+                onApplyAppSettings = {},
+                onRevertAppSettings = {},
+                onCheckAppSetting = {},
+                onDeleteAppSetting = {},
+                onAddAppSetting = {},
+                onRequestPinShortcut = { _, _, _ -> },
+                onGetSecureSettingsByName = { _, _ -> },
+                onLaunchIntentForPackage = {},
+                onPostNotification = { _, _, _ -> },
+                onResetApplyAppSettingsResult = {},
+                onResetRequestPinShortcutResult = {},
+                onResetRevertAppSettingsResult = {},
+                onResetAddAppSettingResult = {},
                 onNavigationIconClick = {},
                 onShizuku = {},
-                onEvent = {},
             )
+
         }
 
         composeTestRule.onNodeWithTag("appSettings:lazyColumn").assertIsDisplayed()

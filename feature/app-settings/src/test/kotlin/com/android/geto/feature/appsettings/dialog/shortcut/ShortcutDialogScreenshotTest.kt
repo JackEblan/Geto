@@ -44,7 +44,7 @@ class ShortcutDialogScreenshotTest {
 
     @BeforeTest
     fun setUp() {
-        shortcutDialogState = ShortcutDialogState()
+        shortcutDialogState = ShortcutDialogState { _, _, _ -> }
     }
 
     @Test
@@ -61,9 +61,7 @@ class ShortcutDialogScreenshotTest {
             ) {
                 ShortcutDialog(
                     shortcutDialogState = shortcutDialogState,
-                    packageName = "",
                     contentDescription = "",
-                    onAddClick = {},
                 )
             }
         }
@@ -87,9 +85,7 @@ class ShortcutDialogScreenshotTest {
             ) {
                 ShortcutDialog(
                     shortcutDialogState = shortcutDialogState,
-                    packageName = "",
                     contentDescription = "",
-                    onAddClick = {},
                 )
             }
         }
@@ -97,7 +93,7 @@ class ShortcutDialogScreenshotTest {
 
     @Test
     fun shortcutDialog_error_textfields() {
-        shortcutDialogState.getShortcut(packageName = "Test")
+        shortcutDialogState.getShortcut()
 
         composeTestRule.captureDialogForDevice(
             fileName = "ShortcutDialogErrorTextFields",
@@ -111,9 +107,7 @@ class ShortcutDialogScreenshotTest {
             ) {
                 ShortcutDialog(
                     shortcutDialogState = shortcutDialogState,
-                    packageName = "",
                     contentDescription = "",
-                    onAddClick = {},
                 )
             }
         }
@@ -135,9 +129,7 @@ class ShortcutDialogScreenshotTest {
                 Surface {
                     ShortcutDialog(
                         shortcutDialogState = shortcutDialogState,
-                        packageName = "",
                         contentDescription = "",
-                        onAddClick = {},
                     )
                 }
             }
@@ -164,9 +156,7 @@ class ShortcutDialogScreenshotTest {
                 Surface {
                     ShortcutDialog(
                         shortcutDialogState = shortcutDialogState,
-                        packageName = "",
                         contentDescription = "",
-                        onAddClick = {},
                     )
                 }
             }
@@ -175,7 +165,7 @@ class ShortcutDialogScreenshotTest {
 
     @Test
     fun shortcutDialog_error_textfields_dark() {
-        shortcutDialogState.getShortcut(packageName = "Test")
+        shortcutDialogState.getShortcut()
 
         composeTestRule.captureDialogForDevice(
             fileName = "ShortcutDialogErrorTextFields",
@@ -191,9 +181,7 @@ class ShortcutDialogScreenshotTest {
                 Surface {
                     ShortcutDialog(
                         shortcutDialogState = shortcutDialogState,
-                        packageName = "",
                         contentDescription = "",
-                        onAddClick = {},
                     )
                 }
             }

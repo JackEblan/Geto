@@ -51,8 +51,6 @@
     <string name="supported_launcher">Your current launcher supports shortcuts</string>
     <string name="unsupported_launcher">Your current launcher does not support shortcuts</string>
     <string name="no_settings_found">No Settings Found!</string>
-    <string name="command_label">Command</string>
-    <string name="command">pm grant com.android.geto android.permission.WRITE_SECURE_SETTINGS</string>
     <string name="app_setting_already_exists">App setting already exists</string>
     <string name="app_setting_added_successfully">App setting added successfully</string>
 </resources>

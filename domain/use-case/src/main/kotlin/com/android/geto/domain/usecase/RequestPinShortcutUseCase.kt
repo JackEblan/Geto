@@ -17,7 +17,6 @@
  */
 package com.android.geto.domain.usecase
 
-import com.android.geto.domain.model.GetoShortcutInfoCompat
 import com.android.geto.domain.model.RequestPinShortcutResult
 import com.android.geto.domain.model.RequestPinShortcutResult.SupportedLauncher
 import com.android.geto.domain.model.RequestPinShortcutResult.UnsupportedLauncher
@@ -32,39 +31,54 @@ class RequestPinShortcutUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(
         packageName: String,
+        icon: ByteArray?,
         appName: String,
-        getoShortcutInfoCompat: GetoShortcutInfoCompat,
+        id: String,
+        shortLabel: String,
+        longLabel: String,
     ): RequestPinShortcutResult {
         if (!shortcutRepository.isRequestPinShortcutSupported()) {
             return UnsupportedLauncher
         }
 
-        val pinnedShortcut = shortcutRepository.getPinnedShortcut(id = getoShortcutInfoCompat.id)
+        val pinnedShortcut = shortcutRepository.getPinnedShortcut(id = id)
 
         return if (pinnedShortcut != null) {
             updateShortcuts(
                 packageName = packageName,
+                icon = icon,
                 appName = appName,
-                getoShortcutInfoCompat = getoShortcutInfoCompat,
+                id = id,
+                shortLabel = shortLabel,
+                longLabel = longLabel,
             )
         } else {
             requestPinShortcut(
                 packageName = packageName,
+                icon = icon,
                 appName = appName,
-                getoShortcutInfoCompat = getoShortcutInfoCompat,
+                id = id,
+                shortLabel = shortLabel,
+                longLabel = longLabel,
             )
         }
     }
 
     private fun requestPinShortcut(
         packageName: String,
+        icon: ByteArray?,
         appName: String,
-        getoShortcutInfoCompat: GetoShortcutInfoCompat,
+        id: String,
+        shortLabel: String,
+        longLabel: String,
     ): RequestPinShortcutResult {
         return if (shortcutRepository.requestPinShortcut(
                 packageName = packageName,
+                icon = icon,
                 appName = appName,
-                getoShortcutInfoCompat = getoShortcutInfoCompat,
+                id = id,
+                shortLabel = shortLabel,
+                longLabel = longLabel,
             )
         ) {
             SupportedLauncher
@@ -75,14 +89,20 @@ class RequestPinShortcutUseCase @Inject constructor(
 
     private fun updateShortcuts(
         packageName: String,
+        icon: ByteArray?,
         appName: String,
-        getoShortcutInfoCompat: GetoShortcutInfoCompat,
+        id: String,
+        shortLabel: String,
+        longLabel: String,
     ): RequestPinShortcutResult {
         return try {
             if (shortcutRepository.updateShortcuts(
                     packageName = packageName,
+                    icon = icon,
                     appName = appName,
-                    getoShortcutInfoCompats = listOf(getoShortcutInfoCompat),
+                    id = id,
+                    shortLabel = shortLabel,
+                    longLabel = longLabel,
                 )
             ) {
                 UpdateSuccess

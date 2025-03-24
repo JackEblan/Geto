@@ -29,7 +29,6 @@ import com.android.geto.domain.framework.PackageManagerWrapper
 import com.android.geto.domain.model.AddAppSettingResult
 import com.android.geto.domain.model.AppSetting
 import com.android.geto.domain.model.AppSettingsResult
-import com.android.geto.domain.model.GetoShortcutInfoCompat
 import com.android.geto.domain.model.RequestPinShortcutResult
 import com.android.geto.domain.model.SecureSetting
 import com.android.geto.domain.model.SettingType
@@ -39,21 +38,6 @@ import com.android.geto.domain.usecase.AddAppSettingUseCase
 import com.android.geto.domain.usecase.ApplyAppSettingsUseCase
 import com.android.geto.domain.usecase.RequestPinShortcutUseCase
 import com.android.geto.domain.usecase.RevertAppSettingsUseCase
-import com.android.geto.feature.appsettings.AppSettingsEvent.AddAppSetting
-import com.android.geto.feature.appsettings.AppSettingsEvent.ApplyAppSettings
-import com.android.geto.feature.appsettings.AppSettingsEvent.CheckAppSetting
-import com.android.geto.feature.appsettings.AppSettingsEvent.CopyCommand
-import com.android.geto.feature.appsettings.AppSettingsEvent.DeleteAppSetting
-import com.android.geto.feature.appsettings.AppSettingsEvent.GetSecureSettingsByName
-import com.android.geto.feature.appsettings.AppSettingsEvent.LaunchIntentForPackage
-import com.android.geto.feature.appsettings.AppSettingsEvent.PostNotification
-import com.android.geto.feature.appsettings.AppSettingsEvent.RequestPinShortcut
-import com.android.geto.feature.appsettings.AppSettingsEvent.ResetAddAppSettingResult
-import com.android.geto.feature.appsettings.AppSettingsEvent.ResetApplyAppSettingsResult
-import com.android.geto.feature.appsettings.AppSettingsEvent.ResetRequestPinShortcutResult
-import com.android.geto.feature.appsettings.AppSettingsEvent.ResetRevertAppSettingsResult
-import com.android.geto.feature.appsettings.AppSettingsEvent.ResetSetPrimaryClipResult
-import com.android.geto.feature.appsettings.AppSettingsEvent.RevertAppSettings
 import com.android.geto.feature.appsettings.dialog.template.TemplateDialogUiState
 import com.android.geto.feature.appsettings.navigation.AppSettingsRouteData
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -108,9 +92,6 @@ class AppSettingsViewModel @Inject constructor(
     private val _revertAppSettingsResult = MutableStateFlow<AppSettingsResult?>(null)
     val revertAppSettingsResult = _revertAppSettingsResult.asStateFlow()
 
-    private val _setPrimaryClipResult = MutableStateFlow(false)
-    val setPrimaryClipResult = _setPrimaryClipResult.asStateFlow()
-
     private val _requestPinShortcutResult = MutableStateFlow<RequestPinShortcutResult?>(null)
     val requestPinShortcutResult = _requestPinShortcutResult.asStateFlow()
 
@@ -132,99 +113,25 @@ class AppSettingsViewModel @Inject constructor(
         initialValue = TemplateDialogUiState.Loading,
     )
 
-    fun onEvent(event: AppSettingsEvent) {
-        when (event) {
-            is AddAppSetting -> {
-                addAppSetting(appSetting = event.appSetting)
-            }
-
-            ApplyAppSettings -> {
-                applyAppSettings()
-            }
-
-            is CheckAppSetting -> {
-                checkAppSetting(appSetting = event.appSetting)
-            }
-
-            is CopyCommand -> {
-                copyCommand(
-                    label = event.label,
-                    text = event.text,
-                )
-            }
-
-            is DeleteAppSetting -> {
-                deleteAppSetting(appSetting = event.appSetting)
-            }
-
-            is GetSecureSettingsByName -> {
-                getSecureSettingsByName(
-                    settingType = event.settingType,
-                    text = event.text,
-                )
-            }
-
-            is RequestPinShortcut -> {
-                requestPinShortcut(getoShortcutInfoCompat = event.getoShortcutInfoCompat)
-            }
-
-            RevertAppSettings -> {
-                revertAppSettings()
-            }
-
-            LaunchIntentForPackage -> {
-                launchIntentForPackage()
-            }
-
-            is PostNotification -> {
-                postNotification(
-                    icon = event.icon,
-                    contentTitle = event.contentTitle,
-                    contentText = event.contentText,
-                )
-            }
-
-            ResetApplyAppSettingsResult -> {
-                _applyAppSettingsResult.update { null }
-            }
-
-            ResetRequestPinShortcutResult -> {
-                _requestPinShortcutResult.update { null }
-            }
-
-            ResetRevertAppSettingsResult -> {
-                _revertAppSettingsResult.update { null }
-            }
-
-            ResetSetPrimaryClipResult -> {
-                _setPrimaryClipResult.update { false }
-            }
-
-            ResetAddAppSettingResult -> {
-                _addAppSettingsResult.update { null }
-            }
-        }
-    }
-
-    private fun applyAppSettings() {
+    fun applyAppSettings() {
         viewModelScope.launch {
             _applyAppSettingsResult.update { applyAppSettingsUseCase(packageName = packageName) }
         }
     }
 
-    private fun checkAppSetting(appSetting: AppSetting) {
+    fun checkAppSetting(appSetting: AppSetting) {
         viewModelScope.launch {
             appSettingsRepository.upsertAppSetting(appSetting)
         }
     }
 
-    private fun deleteAppSetting(appSetting: AppSetting) {
+    fun deleteAppSetting(appSetting: AppSetting) {
         viewModelScope.launch {
             appSettingsRepository.deleteAppSetting(appSetting)
         }
     }
 
-    private fun addAppSetting(appSetting: AppSetting) {
+    fun addAppSetting(appSetting: AppSetting) {
         viewModelScope.launch {
             _addAppSettingsResult.update {
                 addAppSettingUseCase(appSetting = appSetting)
@@ -232,41 +139,38 @@ class AppSettingsViewModel @Inject constructor(
         }
     }
 
-    @VisibleForTesting
     fun getApplicationIcon() {
         viewModelScope.launch {
             _applicationIcon.update { packageManagerWrapper.getApplicationIcon(packageName = packageName) }
         }
     }
 
-    private fun copyCommand(label: String, text: String) {
-        _setPrimaryClipResult.update {
-            clipboardManagerWrapper.setPrimaryClip(
-                label = label,
-                text = text,
-            )
-        }
-    }
-
-    private fun revertAppSettings() {
+    fun revertAppSettings() {
         viewModelScope.launch {
             _revertAppSettingsResult.update { revertAppSettingsUseCase(packageName = packageName) }
         }
     }
 
-    private fun requestPinShortcut(getoShortcutInfoCompat: GetoShortcutInfoCompat) {
+    fun requestPinShortcut(
+        icon: ByteArray?,
+        shortLabel: String,
+        longLabel: String,
+    ) {
         viewModelScope.launch {
             _requestPinShortcutResult.update {
                 requestPinShortcutUseCase(
                     packageName = packageName,
+                    icon = icon,
                     appName = appName,
-                    getoShortcutInfoCompat = getoShortcutInfoCompat,
+                    id = packageName,
+                    shortLabel = shortLabel,
+                    longLabel = longLabel,
                 )
             }
         }
     }
 
-    private fun getSecureSettingsByName(settingType: SettingType, text: String) {
+    fun getSecureSettingsByName(settingType: SettingType, text: String) {
         viewModelScope.launch {
             _secureSettings.update {
                 secureSettingsRepository.getSecureSettingsByName(
@@ -277,11 +181,11 @@ class AppSettingsViewModel @Inject constructor(
         }
     }
 
-    private fun launchIntentForPackage() {
+    fun launchIntentForPackage() {
         packageManagerWrapper.launchIntentForPackage(packageName = packageName)
     }
 
-    private fun postNotification(
+    fun postNotification(
         icon: ByteArray?,
         contentTitle: String,
         contentText: String,
@@ -304,5 +208,21 @@ class AppSettingsViewModel @Inject constructor(
                 TemplateDialogUiState.Success(appSettingTemplates = assetManagerWrapper.getAppSettingTemplates())
             }
         }
+    }
+
+    fun resetApplyAppSettingsResult() {
+        _applyAppSettingsResult.update { null }
+    }
+
+    fun resetRequestPinShortcutResult() {
+        _requestPinShortcutResult.update { null }
+    }
+
+    fun resetRevertAppSettingsResult() {
+        _revertAppSettingsResult.update { null }
+    }
+
+    fun resetAddAppSettingResult() {
+        _addAppSettingsResult.update { null }
     }
 }

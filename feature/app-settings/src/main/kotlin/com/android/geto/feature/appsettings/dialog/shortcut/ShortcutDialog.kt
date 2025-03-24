@@ -44,7 +44,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.android.geto.designsystem.component.DialogContainer
 import com.android.geto.designsystem.component.ShimmerImage
-import com.android.geto.domain.model.GetoShortcutInfoCompat
 import com.android.geto.feature.appsettings.R
 
 @Composable
@@ -52,9 +51,7 @@ internal fun ShortcutDialog(
     modifier: Modifier = Modifier,
     shortcutDialogState: ShortcutDialogState,
     scrollState: ScrollState = rememberScrollState(),
-    packageName: String,
     contentDescription: String,
-    onAddClick: (GetoShortcutInfoCompat) -> Unit,
 ) {
     DialogContainer(
         modifier = modifier
@@ -80,14 +77,7 @@ internal fun ShortcutDialog(
             )
 
             ShortcutDialogButtons(
-                onPositiveTextButtonClick = {
-                    shortcutDialogState.getShortcut(
-                        packageName = packageName,
-                    )?.let {
-                        onAddClick(it)
-                        shortcutDialogState.resetState()
-                    }
-                },
+                onPositiveTextButtonClick = shortcutDialogState::getShortcut,
                 onNegativeTextButtonClick = {
                     shortcutDialogState.updateShowDialog(false)
                 },

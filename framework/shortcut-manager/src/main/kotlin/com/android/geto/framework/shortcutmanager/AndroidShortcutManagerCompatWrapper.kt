@@ -18,13 +18,16 @@
 package com.android.geto.framework.shortcutmanager
 
 import android.content.Context
+import android.content.Intent
+import android.graphics.BitmapFactory
+import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
+import androidx.core.graphics.drawable.IconCompat
+import androidx.core.net.toUri
 import com.android.geto.domain.common.dispatcher.Dispatcher
 import com.android.geto.domain.common.dispatcher.GetoDispatchers.Default
 import com.android.geto.domain.framework.ShortcutManagerCompatWrapper
 import com.android.geto.domain.model.GetoShortcutInfoCompat
-import com.android.geto.framework.shortcutmanager.mapper.asGetoShortcutInfoCompat
-import com.android.geto.framework.shortcutmanager.mapper.asShortcutInfoCompat
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
@@ -41,15 +44,21 @@ internal class AndroidShortcutManagerCompatWrapper @Inject constructor(
 
     override fun requestPinShortcut(
         packageName: String,
+        icon: ByteArray?,
         appName: String,
-        getoShortcutInfoCompat: GetoShortcutInfoCompat,
+        id: String,
+        shortLabel: String,
+        longLabel: String,
     ): Boolean {
         return ShortcutManagerCompat.requestPinShortcut(
             context,
-            getoShortcutInfoCompat.asShortcutInfoCompat(
-                context = context,
+            asShortcutInfoCompat(
                 packageName = packageName,
+                icon = icon,
                 appName = appName,
+                id = id,
+                shortLabel = shortLabel,
+                longLabel = longLabel,
             ),
             null,
         )
@@ -57,18 +66,24 @@ internal class AndroidShortcutManagerCompatWrapper @Inject constructor(
 
     override fun updateShortcuts(
         packageName: String,
+        icon: ByteArray?,
         appName: String,
-        getoShortcutInfoCompats: List<GetoShortcutInfoCompat>,
+        id: String,
+        shortLabel: String,
+        longLabel: String,
     ): Boolean {
         return ShortcutManagerCompat.updateShortcuts(
             context,
-            getoShortcutInfoCompats.map {
-                it.asShortcutInfoCompat(
-                    context = context,
+            listOf(
+                asShortcutInfoCompat(
                     packageName = packageName,
+                    icon = icon,
                     appName = appName,
-                )
-            },
+                    id = id,
+                    shortLabel = shortLabel,
+                    longLabel = longLabel,
+                ),
+            ),
         )
     }
 
@@ -79,5 +94,42 @@ internal class AndroidShortcutManagerCompatWrapper @Inject constructor(
                 ShortcutManagerCompat.FLAG_MATCH_PINNED,
             ).map { it.asGetoShortcutInfoCompat() }
         }
+    }
+
+    private fun ShortcutInfoCompat.asGetoShortcutInfoCompat(): GetoShortcutInfoCompat {
+        return GetoShortcutInfoCompat(
+            id = id,
+            shortLabel = shortLabel.toString(),
+            longLabel = longLabel.toString(),
+        )
+    }
+
+    private fun asShortcutInfoCompat(
+        packageName: String,
+        icon: ByteArray?,
+        appName: String,
+        id: String,
+        shortLabel: String,
+        longLabel: String,
+    ): ShortcutInfoCompat {
+        val shortcutIntent = Intent().apply {
+            action = Intent.ACTION_VIEW
+            // TODO: Do not hard code the className for MainActivity
+            setClassName(context.packageName, "com.android.geto.MainActivity")
+            data = "https://www.android.geto.com/$packageName/$appName".toUri()
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+
+        return ShortcutInfoCompat.Builder(context, id).apply {
+            icon?.let {
+                val bitmapIcon = BitmapFactory.decodeByteArray(it, 0, it.size)
+
+                setIcon(IconCompat.createWithBitmap(bitmapIcon))
+            }
+
+            setShortLabel(shortLabel)
+            setLongLabel(longLabel)
+            setIntent(shortcutIntent)
+        }.build()
     }
 }

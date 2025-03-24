@@ -58,7 +58,6 @@ import org.robolectric.RobolectricTestRunner
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFalse
 import kotlin.test.assertIs
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
@@ -178,11 +177,6 @@ class AppSettingsViewModelTest {
     }
 
     @Test
-    fun setPrimaryClipResult_isFalse_whenStarted() {
-        assertFalse(viewModel.setPrimaryClipResult.value)
-    }
-
-    @Test
     fun secureSettings_isEmpty_whenStarted() {
         assertTrue(viewModel.secureSettings.value.isEmpty())
     }
@@ -277,7 +271,7 @@ class AppSettingsViewModelTest {
 
         secureSettingsRepository.setWriteSecureSettings(true)
 
-        viewModel.onEvent(event = AppSettingsEvent.ApplyAppSettings)
+        viewModel.applyAppSettings()
 
         assertEquals(
             expected = Success,
@@ -308,7 +302,7 @@ class AppSettingsViewModelTest {
 
         secureSettingsRepository.setWriteSecureSettings(false)
 
-        viewModel.onEvent(event = AppSettingsEvent.ApplyAppSettings)
+        viewModel.applyAppSettings()
 
         assertEquals(
             expected = NoPermission,
@@ -341,7 +335,7 @@ class AppSettingsViewModelTest {
 
         secureSettingsRepository.setInvalidValues(true)
 
-        viewModel.onEvent(event = AppSettingsEvent.ApplyAppSettings)
+        viewModel.applyAppSettings()
 
         assertEquals(
             expected = InvalidValues,
@@ -359,7 +353,7 @@ class AppSettingsViewModelTest {
 
         secureSettingsRepository.setWriteSecureSettings(true)
 
-        viewModel.onEvent(event = AppSettingsEvent.ApplyAppSettings)
+        viewModel.applyAppSettings()
 
         assertEquals(
             expected = EmptyAppSettings,
@@ -390,7 +384,7 @@ class AppSettingsViewModelTest {
 
         secureSettingsRepository.setWriteSecureSettings(true)
 
-        viewModel.onEvent(event = AppSettingsEvent.ApplyAppSettings)
+        viewModel.applyAppSettings()
 
         assertEquals(
             expected = DisabledAppSettings,
@@ -421,7 +415,7 @@ class AppSettingsViewModelTest {
 
         appSettingsRepository.setAppSettings(appSettings)
 
-        viewModel.onEvent(event = AppSettingsEvent.RevertAppSettings)
+        viewModel.revertAppSettings()
 
         assertEquals(
             expected = Success,
@@ -452,7 +446,7 @@ class AppSettingsViewModelTest {
 
         appSettingsRepository.setAppSettings(appSettings)
 
-        viewModel.onEvent(event = AppSettingsEvent.RevertAppSettings)
+        viewModel.revertAppSettings()
 
         assertEquals(
             expected = NoPermission,
@@ -485,7 +479,7 @@ class AppSettingsViewModelTest {
 
         secureSettingsRepository.setInvalidValues(true)
 
-        viewModel.onEvent(event = AppSettingsEvent.RevertAppSettings)
+        viewModel.revertAppSettings()
 
         assertEquals(
             expected = InvalidValues,
@@ -501,7 +495,7 @@ class AppSettingsViewModelTest {
 
         appSettingsRepository.setAppSettings(emptyList())
 
-        viewModel.onEvent(event = AppSettingsEvent.RevertAppSettings)
+        viewModel.revertAppSettings()
 
         assertEquals(
             expected = EmptyAppSettings,
@@ -532,51 +526,12 @@ class AppSettingsViewModelTest {
 
         secureSettingsRepository.setWriteSecureSettings(true)
 
-        viewModel.onEvent(event = AppSettingsEvent.RevertAppSettings)
+        viewModel.revertAppSettings()
 
         assertEquals(
             expected = DisabledAppSettings,
             actual = viewModel.revertAppSettingsResult.value,
         )
-    }
-
-    @Test
-    fun setPrimaryClipResult_isFalse_whenCopyCommand() = runTest {
-        backgroundScope.launch(UnconfinedTestDispatcher()) {
-            viewModel.revertAppSettingsResult.collect()
-        }
-
-        clipboardManagerWrapper.setSDKInt(33)
-
-        viewModel.onEvent(
-            event = AppSettingsEvent.CopyCommand(
-                label = "label",
-                text = "text",
-            ),
-        )
-
-        assertEquals(
-            expected = false,
-            actual = viewModel.setPrimaryClipResult.value,
-        )
-    }
-
-    @Test
-    fun setPrimaryClipResult_isTrue_whenCopyCommand() = runTest {
-        backgroundScope.launch(UnconfinedTestDispatcher()) {
-            viewModel.setPrimaryClipResult.collect()
-        }
-
-        clipboardManagerWrapper.setSDKInt(32)
-
-        viewModel.onEvent(
-            event = AppSettingsEvent.CopyCommand(
-                label = "label",
-                text = "text",
-            ),
-        )
-
-        assertTrue(viewModel.setPrimaryClipResult.value)
     }
 
     @Test
@@ -596,11 +551,9 @@ class AppSettingsViewModelTest {
 
         secureSettingsRepository.setSecureSettings(secureSettings)
 
-        viewModel.onEvent(
-            event = AppSettingsEvent.GetSecureSettingsByName(
-                settingType = SettingType.SYSTEM,
-                text = "SecureSetting",
-            ),
+        viewModel.getSecureSettingsByName(
+            settingType = SettingType.SYSTEM,
+            text = "SecureSetting",
         )
 
         assertTrue(viewModel.secureSettings.value.isNotEmpty())
@@ -623,11 +576,9 @@ class AppSettingsViewModelTest {
 
         secureSettingsRepository.setSecureSettings(secureSettings)
 
-        viewModel.onEvent(
-            event = AppSettingsEvent.GetSecureSettingsByName(
-                settingType = SettingType.SECURE,
-                text = "SecureSetting",
-            ),
+        viewModel.getSecureSettingsByName(
+            settingType = SettingType.SECURE,
+            text = "SecureSetting",
         )
 
         assertTrue(viewModel.secureSettings.value.isNotEmpty())
@@ -650,11 +601,9 @@ class AppSettingsViewModelTest {
 
         secureSettingsRepository.setSecureSettings(secureSettings)
 
-        viewModel.onEvent(
-            event = AppSettingsEvent.GetSecureSettingsByName(
-                settingType = SettingType.GLOBAL,
-                text = "SecureSetting",
-            ),
+        viewModel.getSecureSettingsByName(
+            settingType = SettingType.GLOBAL,
+            text = "SecureSetting",
         )
 
         assertTrue(viewModel.secureSettings.value.isNotEmpty())
@@ -677,11 +626,9 @@ class AppSettingsViewModelTest {
 
         secureSettingsRepository.setSecureSettings(secureSettings)
 
-        viewModel.onEvent(
-            event = AppSettingsEvent.GetSecureSettingsByName(
-                settingType = SettingType.SYSTEM,
-                text = "text",
-            ),
+        viewModel.getSecureSettingsByName(
+            settingType = SettingType.SYSTEM,
+            text = "text",
         )
 
         assertTrue(viewModel.secureSettings.value.isEmpty())
@@ -704,11 +651,9 @@ class AppSettingsViewModelTest {
 
         secureSettingsRepository.setSecureSettings(secureSettings)
 
-        viewModel.onEvent(
-            event = AppSettingsEvent.GetSecureSettingsByName(
-                settingType = SettingType.SECURE,
-                text = "text",
-            ),
+        viewModel.getSecureSettingsByName(
+            settingType = SettingType.SECURE,
+            text = "text",
         )
 
         assertTrue(viewModel.secureSettings.value.isEmpty())
@@ -731,11 +676,9 @@ class AppSettingsViewModelTest {
 
         secureSettingsRepository.setSecureSettings(secureSettings)
 
-        viewModel.onEvent(
-            event = AppSettingsEvent.GetSecureSettingsByName(
-                settingType = SettingType.GLOBAL,
-                text = "text",
-            ),
+        viewModel.getSecureSettingsByName(
+            settingType = SettingType.GLOBAL,
+            text = "text",
         )
 
         assertTrue(viewModel.secureSettings.value.isEmpty())
@@ -749,15 +692,10 @@ class AppSettingsViewModelTest {
 
         shortcutRepository.setRequestPinShortcutSupported(true)
 
-        viewModel.onEvent(
-            event = AppSettingsEvent.RequestPinShortcut(
-                getoShortcutInfoCompat = GetoShortcutInfoCompat(
-                    id = "0",
-                    icon = ByteArray(0),
-                    shortLabel = "shortLabel",
-                    longLabel = "longLabel",
-                ),
-            ),
+        viewModel.requestPinShortcut(
+            icon = ByteArray(0),
+            shortLabel = "shortLabel",
+            longLabel = "longLabel",
         )
 
         assertEquals(
@@ -774,15 +712,10 @@ class AppSettingsViewModelTest {
 
         shortcutRepository.setRequestPinShortcutSupported(false)
 
-        viewModel.onEvent(
-            event = AppSettingsEvent.RequestPinShortcut(
-                getoShortcutInfoCompat = GetoShortcutInfoCompat(
-                    id = "0",
-                    icon = ByteArray(0),
-                    shortLabel = "shortLabel",
-                    longLabel = "longLabel",
-                ),
-            ),
+        viewModel.requestPinShortcut(
+            icon = ByteArray(0),
+            shortLabel = "shortLabel",
+            longLabel = "longLabel",
         )
 
         assertEquals(
@@ -800,7 +733,6 @@ class AppSettingsViewModelTest {
         val shortcuts = List(2) {
             GetoShortcutInfoCompat(
                 id = "com.android.geto",
-                icon = ByteArray(0),
                 shortLabel = "Geto",
                 longLabel = "Geto",
             )
@@ -812,15 +744,10 @@ class AppSettingsViewModelTest {
 
         shortcutRepository.setShortcuts(shortcuts)
 
-        viewModel.onEvent(
-            event = AppSettingsEvent.RequestPinShortcut(
-                getoShortcutInfoCompat = GetoShortcutInfoCompat(
-                    id = "com.android.geto",
-                    icon = ByteArray(0),
-                    shortLabel = "shortLabel",
-                    longLabel = "longLabel",
-                ),
-            ),
+        viewModel.requestPinShortcut(
+            icon = ByteArray(0),
+            shortLabel = "shortLabel",
+            longLabel = "longLabel",
         )
 
         assertEquals(
@@ -838,7 +765,6 @@ class AppSettingsViewModelTest {
         val shortcuts = List(2) {
             GetoShortcutInfoCompat(
                 id = "com.android.geto",
-                icon = ByteArray(0),
                 shortLabel = "Geto",
                 longLabel = "Geto",
             )
@@ -850,15 +776,10 @@ class AppSettingsViewModelTest {
 
         shortcutRepository.setShortcuts(shortcuts)
 
-        viewModel.onEvent(
-            event = AppSettingsEvent.RequestPinShortcut(
-                getoShortcutInfoCompat = GetoShortcutInfoCompat(
-                    id = "com.android.geto",
-                    icon = ByteArray(0),
-                    shortLabel = "shortLabel",
-                    longLabel = "longLabel",
-                ),
-            ),
+        viewModel.requestPinShortcut(
+            icon = ByteArray(0),
+            shortLabel = "shortLabel",
+            longLabel = "longLabel",
         )
 
         assertEquals(
@@ -943,11 +864,7 @@ class AppSettingsViewModelTest {
 
         appSettingsRepository.setAppSettings(appSettings)
 
-        viewModel.onEvent(
-            event = AppSettingsEvent.AddAppSetting(
-                appSetting = newAppSetting,
-            ),
-        )
+        viewModel.addAppSetting(appSetting = newAppSetting)
 
         assertEquals(
             expected = AddAppSettingResult.SUCCESS,
@@ -976,11 +893,7 @@ class AppSettingsViewModelTest {
 
         appSettingsRepository.setAppSettings(appSettings)
 
-        viewModel.onEvent(
-            event = AppSettingsEvent.AddAppSetting(
-                appSetting = appSettings.first(),
-            ),
-        )
+        viewModel.addAppSetting(appSetting = appSettings.first())
 
         assertEquals(
             expected = AddAppSettingResult.FAILED,

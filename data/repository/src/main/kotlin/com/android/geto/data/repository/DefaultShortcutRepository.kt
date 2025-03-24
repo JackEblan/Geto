@@ -37,25 +37,37 @@ class DefaultShortcutRepository @Inject constructor(
 
     override fun requestPinShortcut(
         packageName: String,
+        icon: ByteArray?,
         appName: String,
-        getoShortcutInfoCompat: GetoShortcutInfoCompat,
+        id: String,
+        shortLabel: String,
+        longLabel: String,
     ): Boolean {
         return shortcutManagerCompatWrapper.requestPinShortcut(
             packageName = packageName,
+            icon = icon,
             appName = appName,
-            getoShortcutInfoCompat = getoShortcutInfoCompat,
+            id = id,
+            shortLabel = shortLabel,
+            longLabel = longLabel,
         )
     }
 
     override fun updateShortcuts(
         packageName: String,
+        icon: ByteArray?,
         appName: String,
-        getoShortcutInfoCompats: List<GetoShortcutInfoCompat>,
+        id: String,
+        shortLabel: String,
+        longLabel: String,
     ): Boolean {
         return shortcutManagerCompatWrapper.updateShortcuts(
             packageName = packageName,
+            icon = icon,
             appName = appName,
-            getoShortcutInfoCompats = getoShortcutInfoCompats,
+            id = id,
+            shortLabel = shortLabel,
+            longLabel = longLabel,
         )
     }
 

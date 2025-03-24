@@ -72,7 +72,6 @@ import com.android.geto.domain.model.AppSettingsResult.Failure
 import com.android.geto.domain.model.AppSettingsResult.InvalidValues
 import com.android.geto.domain.model.AppSettingsResult.NoPermission
 import com.android.geto.domain.model.AppSettingsResult.Success
-import com.android.geto.domain.model.GetoShortcutInfoCompat
 import com.android.geto.domain.model.RequestPinShortcutResult
 import com.android.geto.domain.model.RequestPinShortcutResult.SupportedLauncher
 import com.android.geto.domain.model.RequestPinShortcutResult.UnsupportedLauncher
@@ -81,20 +80,6 @@ import com.android.geto.domain.model.RequestPinShortcutResult.UpdateImmutableSho
 import com.android.geto.domain.model.RequestPinShortcutResult.UpdateSuccess
 import com.android.geto.domain.model.SecureSetting
 import com.android.geto.domain.model.SettingType
-import com.android.geto.feature.appsettings.AppSettingsEvent.AddAppSetting
-import com.android.geto.feature.appsettings.AppSettingsEvent.ApplyAppSettings
-import com.android.geto.feature.appsettings.AppSettingsEvent.CheckAppSetting
-import com.android.geto.feature.appsettings.AppSettingsEvent.DeleteAppSetting
-import com.android.geto.feature.appsettings.AppSettingsEvent.GetSecureSettingsByName
-import com.android.geto.feature.appsettings.AppSettingsEvent.LaunchIntentForPackage
-import com.android.geto.feature.appsettings.AppSettingsEvent.PostNotification
-import com.android.geto.feature.appsettings.AppSettingsEvent.RequestPinShortcut
-import com.android.geto.feature.appsettings.AppSettingsEvent.ResetAddAppSettingResult
-import com.android.geto.feature.appsettings.AppSettingsEvent.ResetApplyAppSettingsResult
-import com.android.geto.feature.appsettings.AppSettingsEvent.ResetRequestPinShortcutResult
-import com.android.geto.feature.appsettings.AppSettingsEvent.ResetRevertAppSettingsResult
-import com.android.geto.feature.appsettings.AppSettingsEvent.ResetSetPrimaryClipResult
-import com.android.geto.feature.appsettings.AppSettingsEvent.RevertAppSettings
 import com.android.geto.feature.appsettings.dialog.appsetting.AppSettingDialog
 import com.android.geto.feature.appsettings.dialog.appsetting.AppSettingDialogState
 import com.android.geto.feature.appsettings.dialog.appsetting.rememberAppSettingDialogState
@@ -132,8 +117,6 @@ internal fun AppSettingsRoute(
 
     val applicationIcon by viewModel.applicationIcon.collectAsStateWithLifecycle()
 
-    val setPrimaryClipResult by viewModel.setPrimaryClipResult.collectAsStateWithLifecycle()
-
     val requestPinShortcutResult by viewModel.requestPinShortcutResult.collectAsStateWithLifecycle()
 
     val templateDialogUiState by viewModel.templateDialogUiState.collectAsStateWithLifecycle()
@@ -154,11 +137,22 @@ internal fun AppSettingsRoute(
         appSettingsResult = applyAppSettingsResult,
         revertAppSettingsResult = revertAppSettingsResult,
         requestPinShortcutResult = requestPinShortcutResult,
-        setPrimaryClipResult = setPrimaryClipResult,
         templateDialogUiState = templateDialogUiState,
+        onApplyAppSettings = viewModel::applyAppSettings,
+        onRevertAppSettings = viewModel::revertAppSettings,
+        onCheckAppSetting = viewModel::checkAppSetting,
+        onDeleteAppSetting = viewModel::deleteAppSetting,
+        onAddAppSetting = viewModel::addAppSetting,
+        onRequestPinShortcut = viewModel::requestPinShortcut,
+        onGetSecureSettingsByName = viewModel::getSecureSettingsByName,
+        onLaunchIntentForPackage = viewModel::launchIntentForPackage,
+        onPostNotification = viewModel::postNotification,
+        onResetApplyAppSettingsResult = viewModel::resetApplyAppSettingsResult,
+        onResetRequestPinShortcutResult = viewModel::resetRequestPinShortcutResult,
+        onResetRevertAppSettingsResult = viewModel::resetRevertAppSettingsResult,
+        onResetAddAppSettingResult = viewModel::resetAddAppSettingResult,
         onNavigationIconClick = onNavigationIconClick,
         onShizuku = onShizuku,
-        onEvent = viewModel::onEvent,
     )
 }
 
@@ -176,15 +170,36 @@ internal fun AppSettingsScreen(
     appSettingsResult: AppSettingsResult?,
     revertAppSettingsResult: AppSettingsResult?,
     requestPinShortcutResult: RequestPinShortcutResult?,
-    setPrimaryClipResult: Boolean,
     templateDialogUiState: TemplateDialogUiState,
+    onApplyAppSettings: () -> Unit,
+    onRevertAppSettings: () -> Unit,
+    onCheckAppSetting: (appSetting: AppSetting) -> Unit,
+    onDeleteAppSetting: (appSetting: AppSetting) -> Unit,
+    onAddAppSetting: (appSetting: AppSetting) -> Unit,
+    onRequestPinShortcut: (
+        icon: ByteArray?,
+        shortLabel: String,
+        longLabel: String,
+    ) -> Unit,
+    onGetSecureSettingsByName: (settingType: SettingType, text: String) -> Unit,
+    onLaunchIntentForPackage: () -> Unit,
+    onPostNotification: (
+        icon: ByteArray?,
+        contentTitle: String,
+        contentText: String,
+    ) -> Unit,
+    onResetApplyAppSettingsResult: () -> Unit,
+    onResetRequestPinShortcutResult: () -> Unit,
+    onResetRevertAppSettingsResult: () -> Unit,
+    onResetAddAppSettingResult: () -> Unit,
     onNavigationIconClick: () -> Unit,
     onShizuku: () -> Unit,
-    onEvent: (AppSettingsEvent) -> Unit,
 ) {
     val appSettingDialogState = rememberAppSettingDialogState()
 
-    val shortcutDialogState = rememberShortcutDialogState()
+    val shortcutDialogState = rememberShortcutDialogState(
+        onRequestPinShortcut = onRequestPinShortcut,
+    )
 
     val templateDialogState = rememberTemplateDialogState()
 
@@ -198,31 +213,14 @@ internal fun AppSettingsScreen(
         appSettingsResult = appSettingsResult,
         revertAppSettingsResult = revertAppSettingsResult,
         requestPinShortcutResult = requestPinShortcutResult,
-        setPrimaryClipResult = setPrimaryClipResult,
         onShizuku = onShizuku,
-        onResetApplyAppSettingsResult = { onEvent(ResetApplyAppSettingsResult) },
-        onResetRevertAppSettingsResult = { onEvent(ResetRevertAppSettingsResult) },
-        onResetRequestPinShortcutResult = { onEvent(ResetRequestPinShortcutResult) },
-        onResetSetPrimaryClipResult = { onEvent(ResetSetPrimaryClipResult) },
-        onResetAddAppSettingResult = { onEvent(ResetAddAppSettingResult) },
-        onGetSecureSettingsByName = { settingType, text ->
-            onEvent(
-                GetSecureSettingsByName(
-                    settingType = settingType,
-                    text = text,
-                ),
-            )
-        },
-        onLaunchIntent = { onEvent(LaunchIntentForPackage) },
-        onPostNotification = { icon, contentTitle, contentText ->
-            onEvent(
-                PostNotification(
-                    icon = icon,
-                    contentTitle = contentTitle,
-                    contentText = contentText,
-                ),
-            )
-        },
+        onResetApplyAppSettingsResult = onResetApplyAppSettingsResult,
+        onResetRevertAppSettingsResult = onResetRevertAppSettingsResult,
+        onResetRequestPinShortcutResult = onResetRequestPinShortcutResult,
+        onResetAddAppSettingResult = onResetAddAppSettingResult,
+        onGetSecureSettingsByName = onGetSecureSettingsByName,
+        onLaunchIntentForPackage = onLaunchIntentForPackage,
+        onPostNotification = onPostNotification,
     )
 
     AppSettingsDialogs(
@@ -231,8 +229,7 @@ internal fun AppSettingsScreen(
         templateDialogUiState = templateDialogUiState,
         templateDialogState = templateDialogState,
         packageName = packageName,
-        onAddAppSetting = { onEvent(AddAppSetting(it)) },
-        onAddShortcut = { onEvent(RequestPinShortcut(it)) },
+        onAddAppSetting = onAddAppSetting,
     )
 
     Scaffold(
@@ -244,7 +241,7 @@ internal fun AppSettingsScreen(
         },
         bottomBar = {
             AppSettingsBottomAppBar(
-                onRefreshIconClick = { onEvent(RevertAppSettings) },
+                onRefreshIconClick = onRevertAppSettings,
                 onSettingsIconClick = {
                     appSettingDialogState.updateShowDialog(true)
                 },
@@ -254,7 +251,7 @@ internal fun AppSettingsScreen(
                 onSettingsSuggestIconClick = {
                     templateDialogState.updateShowDialog(true)
                 },
-                onFloatingActionButtonClick = { onEvent(ApplyAppSettings) },
+                onFloatingActionButtonClick = onApplyAppSettings,
             )
         },
         snackbarHost = {
@@ -279,8 +276,8 @@ internal fun AppSettingsScreen(
                     if (appSettingsUiState.appSettings.isNotEmpty()) {
                         SuccessState(
                             appSettingsUiState = appSettingsUiState,
-                            onCheckAppSetting = { onEvent(CheckAppSetting(it)) },
-                            onDeleteAppSettingsItem = { onEvent(DeleteAppSetting(it)) },
+                            onCheckAppSetting = onCheckAppSetting,
+                            onDeleteAppSettingsItem = onDeleteAppSetting,
                         )
                     } else {
                         EmptyState(
@@ -306,15 +303,13 @@ private fun AppSettingsLaunchedEffects(
     appSettingsResult: AppSettingsResult?,
     revertAppSettingsResult: AppSettingsResult?,
     requestPinShortcutResult: RequestPinShortcutResult?,
-    setPrimaryClipResult: Boolean,
     onShizuku: () -> Unit,
     onResetApplyAppSettingsResult: () -> Unit,
     onResetRevertAppSettingsResult: () -> Unit,
     onResetRequestPinShortcutResult: () -> Unit,
-    onResetSetPrimaryClipResult: () -> Unit,
     onResetAddAppSettingResult: () -> Unit,
     onGetSecureSettingsByName: (SettingType, String) -> Unit,
-    onLaunchIntent: () -> Unit,
+    onLaunchIntentForPackage: () -> Unit,
     onPostNotification: (
         icon: ByteArray?,
         contentTitle: String,
@@ -346,11 +341,7 @@ private fun AppSettingsLaunchedEffects(
 
     val unsupportedLauncher = stringResource(id = R.string.unsupported_launcher)
 
-    val copiedToClipboard = stringResource(id = R.string.copied_to_clipboard)
-
     val invalidValues = stringResource(R.string.settings_has_invalid_values)
-
-    val command = stringResource(R.string.command)
 
     val appSettingAddSuccess = stringResource(R.string.app_setting_added_successfully)
 
@@ -377,7 +368,7 @@ private fun AppSettingsLaunchedEffects(
             Success -> {
                 onPostNotification(applicationIcon, getoSettings, applySuccess)
 
-                onLaunchIntent()
+                onLaunchIntentForPackage()
             }
 
             InvalidValues -> {
@@ -488,16 +479,6 @@ private fun AppSettingsLaunchedEffects(
         onResetAddAppSettingResult()
     }
 
-    LaunchedEffect(key1 = setPrimaryClipResult) {
-        if (setPrimaryClipResult) {
-            snackbarHostState.showSnackbar(
-                message = copiedToClipboard.format(command),
-            )
-        }
-
-        onResetSetPrimaryClipResult()
-    }
-
     LaunchedEffect(
         key1 = appSettingDialogState.key,
     ) {
@@ -544,7 +525,6 @@ private fun AppSettingsDialogs(
     templateDialogState: TemplateDialogState,
     packageName: String,
     onAddAppSetting: (AppSetting) -> Unit,
-    onAddShortcut: (GetoShortcutInfoCompat) -> Unit,
 ) {
     if (appSettingDialogState.showDialog) {
         AppSettingDialog(
@@ -558,9 +538,7 @@ private fun AppSettingsDialogs(
     if (shortcutDialogState.showDialog) {
         ShortcutDialog(
             shortcutDialogState = shortcutDialogState,
-            packageName = packageName,
             contentDescription = "Add Shortcut Dialog",
-            onAddClick = onAddShortcut,
         )
     }
 

@@ -24,17 +24,22 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import com.android.geto.domain.model.GetoShortcutInfoCompat
 
 @Composable
-internal fun rememberShortcutDialogState(): ShortcutDialogState {
+internal fun rememberShortcutDialogState(onRequestPinShortcut: (icon: ByteArray?, shortLabel: String, longLabel: String) -> Unit): ShortcutDialogState {
     return rememberSaveable(saver = ShortcutDialogState.Saver) {
-        ShortcutDialogState()
+        ShortcutDialogState(onRequestPinShortcut = onRequestPinShortcut)
     }
 }
 
 @Stable
-internal class ShortcutDialogState {
+internal class ShortcutDialogState(
+    private val onRequestPinShortcut: (
+        icon: ByteArray?,
+        shortLabel: String,
+        longLabel: String,
+    ) -> Unit,
+) {
     var showDialog by mutableStateOf(false)
         private set
 
@@ -77,26 +82,17 @@ internal class ShortcutDialogState {
         }
     }
 
-    fun resetState() {
-        showDialog = false
-        longLabel = ""
-        shortLabel = ""
-    }
-
-    fun getShortcut(packageName: String): GetoShortcutInfoCompat? {
+    fun getShortcut() {
         showShortLabelError = shortLabel.isBlank()
 
         showLongLabelError = longLabel.isBlank()
 
-        return if (showShortLabelError.not() && showLongLabelError.not()) {
-            GetoShortcutInfoCompat(
-                id = packageName,
-                icon = icon,
-                shortLabel = shortLabel,
-                longLabel = longLabel,
-            )
-        } else {
-            null
+        if (showShortLabelError.not() && showLongLabelError.not()) {
+            onRequestPinShortcut(icon, shortLabel, longLabel)
+
+            showDialog = false
+            longLabel = ""
+            shortLabel = ""
         }
     }
 
@@ -112,7 +108,9 @@ internal class ShortcutDialogState {
                 )
             },
             restore = {
-                ShortcutDialogState().apply {
+                ShortcutDialogState(
+                    onRequestPinShortcut = { _, _, _ -> },
+                ).apply {
                     showDialog = it[0] as Boolean
 
                     shortLabel = it[1] as String

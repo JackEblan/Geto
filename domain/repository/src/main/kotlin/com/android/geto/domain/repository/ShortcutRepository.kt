@@ -25,14 +25,20 @@ interface ShortcutRepository {
 
     fun requestPinShortcut(
         packageName: String,
+        icon: ByteArray?,
         appName: String,
-        getoShortcutInfoCompat: GetoShortcutInfoCompat,
+        id: String,
+        shortLabel: String,
+        longLabel: String,
     ): Boolean
 
     fun updateShortcuts(
         packageName: String,
+        icon: ByteArray?,
         appName: String,
-        getoShortcutInfoCompats: List<GetoShortcutInfoCompat>,
+        id: String,
+        shortLabel: String,
+        longLabel: String,
     ): Boolean
 
     suspend fun getPinnedShortcuts(): List<GetoShortcutInfoCompat>

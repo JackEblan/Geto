@@ -33,16 +33,22 @@ class TestShortcutRepository : ShortcutRepository {
 
     override fun requestPinShortcut(
         packageName: String,
+        icon: ByteArray?,
         appName: String,
-        getoShortcutInfoCompat: GetoShortcutInfoCompat,
+        id: String,
+        shortLabel: String,
+        longLabel: String,
     ): Boolean {
         return requestPinShortcutSupported
     }
 
     override fun updateShortcuts(
         packageName: String,
+        icon: ByteArray?,
         appName: String,
-        getoShortcutInfoCompats: List<GetoShortcutInfoCompat>,
+        id: String,
+        shortLabel: String,
+        longLabel: String,
     ): Boolean {
         return if (updateImmutableShortcuts) {
             throw IllegalArgumentException()

@@ -27,8 +27,6 @@ import androidx.compose.ui.test.performClick
 import org.junit.Rule
 import kotlin.test.BeforeTest
 import kotlin.test.Test
-import kotlin.test.assertFalse
-import kotlin.test.assertTrue
 
 class ShortcutDialogTest {
     @get:Rule
@@ -38,7 +36,7 @@ class ShortcutDialogTest {
 
     @BeforeTest
     fun setup() {
-        shortcutDialogState = ShortcutDialogState()
+        shortcutDialogState = ShortcutDialogState { _, _, _ -> }
     }
 
     @Test
@@ -50,11 +48,7 @@ class ShortcutDialogTest {
         composeTestRule.setContent {
             ShortcutDialog(
                 shortcutDialogState = shortcutDialogState,
-                packageName = "",
                 contentDescription = "",
-                onAddClick = {
-                    assertTrue(shortcutDialogState.showDialog)
-                },
             )
         }
 
@@ -78,11 +72,7 @@ class ShortcutDialogTest {
         composeTestRule.setContent {
             ShortcutDialog(
                 shortcutDialogState = shortcutDialogState,
-                packageName = "",
                 contentDescription = "",
-                onAddClick = {
-                    assertTrue(shortcutDialogState.showDialog)
-                },
             )
         }
 
@@ -103,11 +93,7 @@ class ShortcutDialogTest {
 
             ShortcutDialog(
                 shortcutDialogState = shortcutDialogState,
-                packageName = "",
                 contentDescription = "",
-                onAddClick = {
-                    assertTrue(shortcutDialogState.showDialog)
-                },
             )
         }
 
@@ -127,11 +113,7 @@ class ShortcutDialogTest {
         composeTestRule.setContent {
             ShortcutDialog(
                 shortcutDialogState = shortcutDialogState,
-                packageName = "",
                 contentDescription = "",
-                onAddClick = {
-                    assertTrue(shortcutDialogState.showDialog)
-                },
             )
         }
 
@@ -151,11 +133,7 @@ class ShortcutDialogTest {
         composeTestRule.setContent {
             ShortcutDialog(
                 shortcutDialogState = shortcutDialogState,
-                packageName = "",
                 contentDescription = "",
-                onAddClick = {
-                    assertTrue(shortcutDialogState.showDialog)
-                },
             )
         }
 
@@ -176,11 +154,7 @@ class ShortcutDialogTest {
         composeTestRule.setContent {
             ShortcutDialog(
                 shortcutDialogState = shortcutDialogState,
-                packageName = "",
                 contentDescription = "",
-                onAddClick = {
-                    assertFalse(shortcutDialogState.showDialog)
-                },
             )
         }
 

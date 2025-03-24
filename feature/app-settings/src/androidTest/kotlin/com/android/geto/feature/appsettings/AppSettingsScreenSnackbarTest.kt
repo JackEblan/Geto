@@ -64,11 +64,7 @@ class AppSettingsScreenSnackbarTest {
 
     private val unsupportedLauncher by composeTestRule.stringResource(id = R.string.unsupported_launcher)
 
-    private val copiedToClipboard by composeTestRule.stringResource(id = R.string.copied_to_clipboard)
-
     private val invalidValues by composeTestRule.stringResource(R.string.settings_has_invalid_values)
-
-    private val command by composeTestRule.stringResource(R.string.command)
 
     @Test
     fun snackbar_isShown_whenApplyAppSettingsResult_isDisabledAppSettings() {
@@ -84,11 +80,22 @@ class AppSettingsScreenSnackbarTest {
                 appSettingsResult = AppSettingsResult.DisabledAppSettings,
                 revertAppSettingsResult = null,
                 requestPinShortcutResult = null,
-                setPrimaryClipResult = false,
                 templateDialogUiState = TemplateDialogUiState.Loading,
+                onApplyAppSettings = {},
+                onRevertAppSettings = {},
+                onCheckAppSetting = {},
+                onDeleteAppSetting = {},
+                onAddAppSetting = {},
+                onRequestPinShortcut = { _, _, _ -> },
+                onGetSecureSettingsByName = { _, _ -> },
+                onLaunchIntentForPackage = {},
+                onPostNotification = { _, _, _ -> },
+                onResetApplyAppSettingsResult = {},
+                onResetRequestPinShortcutResult = {},
+                onResetRevertAppSettingsResult = {},
+                onResetAddAppSettingResult = {},
                 onNavigationIconClick = {},
                 onShizuku = {},
-                onEvent = {},
             )
         }
 
@@ -115,11 +122,22 @@ class AppSettingsScreenSnackbarTest {
                 appSettingsResult = AppSettingsResult.EmptyAppSettings,
                 revertAppSettingsResult = null,
                 requestPinShortcutResult = null,
-                setPrimaryClipResult = false,
                 templateDialogUiState = TemplateDialogUiState.Loading,
+                onApplyAppSettings = {},
+                onRevertAppSettings = {},
+                onCheckAppSetting = {},
+                onDeleteAppSetting = {},
+                onAddAppSetting = {},
+                onRequestPinShortcut = { _, _, _ -> },
+                onGetSecureSettingsByName = { _, _ -> },
+                onLaunchIntentForPackage = {},
+                onPostNotification = { _, _, _ -> },
+                onResetApplyAppSettingsResult = {},
+                onResetRequestPinShortcutResult = {},
+                onResetRevertAppSettingsResult = {},
+                onResetAddAppSettingResult = {},
                 onNavigationIconClick = {},
                 onShizuku = {},
-                onEvent = {},
             )
         }
 
@@ -146,11 +164,22 @@ class AppSettingsScreenSnackbarTest {
                 appSettingsResult = AppSettingsResult.Failure,
                 revertAppSettingsResult = null,
                 requestPinShortcutResult = null,
-                setPrimaryClipResult = false,
                 templateDialogUiState = TemplateDialogUiState.Loading,
+                onApplyAppSettings = {},
+                onRevertAppSettings = {},
+                onCheckAppSetting = {},
+                onDeleteAppSetting = {},
+                onAddAppSetting = {},
+                onRequestPinShortcut = { _, _, _ -> },
+                onGetSecureSettingsByName = { _, _ -> },
+                onLaunchIntentForPackage = {},
+                onPostNotification = { _, _, _ -> },
+                onResetApplyAppSettingsResult = {},
+                onResetRequestPinShortcutResult = {},
+                onResetRevertAppSettingsResult = {},
+                onResetAddAppSettingResult = {},
                 onNavigationIconClick = {},
                 onShizuku = {},
-                onEvent = {},
             )
         }
 
@@ -177,11 +206,22 @@ class AppSettingsScreenSnackbarTest {
                 appSettingsResult = AppSettingsResult.InvalidValues,
                 revertAppSettingsResult = null,
                 requestPinShortcutResult = null,
-                setPrimaryClipResult = false,
                 templateDialogUiState = TemplateDialogUiState.Loading,
+                onApplyAppSettings = {},
+                onRevertAppSettings = {},
+                onCheckAppSetting = {},
+                onDeleteAppSetting = {},
+                onAddAppSetting = {},
+                onRequestPinShortcut = { _, _, _ -> },
+                onGetSecureSettingsByName = { _, _ -> },
+                onLaunchIntentForPackage = {},
+                onPostNotification = { _, _, _ -> },
+                onResetApplyAppSettingsResult = {},
+                onResetRequestPinShortcutResult = {},
+                onResetRevertAppSettingsResult = {},
+                onResetAddAppSettingResult = {},
                 onNavigationIconClick = {},
                 onShizuku = {},
-                onEvent = {},
             )
         }
 
@@ -208,11 +248,22 @@ class AppSettingsScreenSnackbarTest {
                 appSettingsResult = null,
                 revertAppSettingsResult = AppSettingsResult.DisabledAppSettings,
                 requestPinShortcutResult = null,
-                setPrimaryClipResult = false,
                 templateDialogUiState = TemplateDialogUiState.Loading,
+                onApplyAppSettings = {},
+                onRevertAppSettings = {},
+                onCheckAppSetting = {},
+                onDeleteAppSetting = {},
+                onAddAppSetting = {},
+                onRequestPinShortcut = { _, _, _ -> },
+                onGetSecureSettingsByName = { _, _ -> },
+                onLaunchIntentForPackage = {},
+                onPostNotification = { _, _, _ -> },
+                onResetApplyAppSettingsResult = {},
+                onResetRequestPinShortcutResult = {},
+                onResetRevertAppSettingsResult = {},
+                onResetAddAppSettingResult = {},
                 onNavigationIconClick = {},
                 onShizuku = {},
-                onEvent = {},
             )
         }
 
@@ -239,11 +290,22 @@ class AppSettingsScreenSnackbarTest {
                 appSettingsResult = null,
                 revertAppSettingsResult = AppSettingsResult.EmptyAppSettings,
                 requestPinShortcutResult = null,
-                setPrimaryClipResult = false,
                 templateDialogUiState = TemplateDialogUiState.Loading,
+                onApplyAppSettings = {},
+                onRevertAppSettings = {},
+                onCheckAppSetting = {},
+                onDeleteAppSetting = {},
+                onAddAppSetting = {},
+                onRequestPinShortcut = { _, _, _ -> },
+                onGetSecureSettingsByName = { _, _ -> },
+                onLaunchIntentForPackage = {},
+                onPostNotification = { _, _, _ -> },
+                onResetApplyAppSettingsResult = {},
+                onResetRequestPinShortcutResult = {},
+                onResetRevertAppSettingsResult = {},
+                onResetAddAppSettingResult = {},
                 onNavigationIconClick = {},
                 onShizuku = {},
-                onEvent = {},
             )
         }
 
@@ -270,11 +332,22 @@ class AppSettingsScreenSnackbarTest {
                 appSettingsResult = null,
                 revertAppSettingsResult = AppSettingsResult.Failure,
                 requestPinShortcutResult = null,
-                setPrimaryClipResult = false,
                 templateDialogUiState = TemplateDialogUiState.Loading,
+                onApplyAppSettings = {},
+                onRevertAppSettings = {},
+                onCheckAppSetting = {},
+                onDeleteAppSetting = {},
+                onAddAppSetting = {},
+                onRequestPinShortcut = { _, _, _ -> },
+                onGetSecureSettingsByName = { _, _ -> },
+                onLaunchIntentForPackage = {},
+                onPostNotification = { _, _, _ -> },
+                onResetApplyAppSettingsResult = {},
+                onResetRequestPinShortcutResult = {},
+                onResetRevertAppSettingsResult = {},
+                onResetAddAppSettingResult = {},
                 onNavigationIconClick = {},
                 onShizuku = {},
-                onEvent = {},
             )
         }
 
@@ -301,11 +374,22 @@ class AppSettingsScreenSnackbarTest {
                 appSettingsResult = null,
                 revertAppSettingsResult = AppSettingsResult.Success,
                 requestPinShortcutResult = null,
-                setPrimaryClipResult = false,
                 templateDialogUiState = TemplateDialogUiState.Loading,
+                onApplyAppSettings = {},
+                onRevertAppSettings = {},
+                onCheckAppSetting = {},
+                onDeleteAppSetting = {},
+                onAddAppSetting = {},
+                onRequestPinShortcut = { _, _, _ -> },
+                onGetSecureSettingsByName = { _, _ -> },
+                onLaunchIntentForPackage = {},
+                onPostNotification = { _, _, _ -> },
+                onResetApplyAppSettingsResult = {},
+                onResetRequestPinShortcutResult = {},
+                onResetRevertAppSettingsResult = {},
+                onResetAddAppSettingResult = {},
                 onNavigationIconClick = {},
                 onShizuku = {},
-                onEvent = {},
             )
         }
 
@@ -332,11 +416,22 @@ class AppSettingsScreenSnackbarTest {
                 appSettingsResult = null,
                 revertAppSettingsResult = AppSettingsResult.InvalidValues,
                 requestPinShortcutResult = null,
-                setPrimaryClipResult = false,
                 templateDialogUiState = TemplateDialogUiState.Loading,
+                onApplyAppSettings = {},
+                onRevertAppSettings = {},
+                onCheckAppSetting = {},
+                onDeleteAppSetting = {},
+                onAddAppSetting = {},
+                onRequestPinShortcut = { _, _, _ -> },
+                onGetSecureSettingsByName = { _, _ -> },
+                onLaunchIntentForPackage = {},
+                onPostNotification = { _, _, _ -> },
+                onResetApplyAppSettingsResult = {},
+                onResetRequestPinShortcutResult = {},
+                onResetRevertAppSettingsResult = {},
+                onResetAddAppSettingResult = {},
                 onNavigationIconClick = {},
                 onShizuku = {},
-                onEvent = {},
             )
         }
 
@@ -363,11 +458,22 @@ class AppSettingsScreenSnackbarTest {
                 appSettingsResult = null,
                 revertAppSettingsResult = null,
                 requestPinShortcutResult = RequestPinShortcutResult.SupportedLauncher,
-                setPrimaryClipResult = false,
                 templateDialogUiState = TemplateDialogUiState.Loading,
+                onApplyAppSettings = {},
+                onRevertAppSettings = {},
+                onCheckAppSetting = {},
+                onDeleteAppSetting = {},
+                onAddAppSetting = {},
+                onRequestPinShortcut = { _, _, _ -> },
+                onGetSecureSettingsByName = { _, _ -> },
+                onLaunchIntentForPackage = {},
+                onPostNotification = { _, _, _ -> },
+                onResetApplyAppSettingsResult = {},
+                onResetRequestPinShortcutResult = {},
+                onResetRevertAppSettingsResult = {},
+                onResetAddAppSettingResult = {},
                 onNavigationIconClick = {},
                 onShizuku = {},
-                onEvent = {},
             )
         }
 
@@ -394,11 +500,22 @@ class AppSettingsScreenSnackbarTest {
                 appSettingsResult = null,
                 revertAppSettingsResult = null,
                 requestPinShortcutResult = RequestPinShortcutResult.UnsupportedLauncher,
-                setPrimaryClipResult = false,
                 templateDialogUiState = TemplateDialogUiState.Loading,
+                onApplyAppSettings = {},
+                onRevertAppSettings = {},
+                onCheckAppSetting = {},
+                onDeleteAppSetting = {},
+                onAddAppSetting = {},
+                onRequestPinShortcut = { _, _, _ -> },
+                onGetSecureSettingsByName = { _, _ -> },
+                onLaunchIntentForPackage = {},
+                onPostNotification = { _, _, _ -> },
+                onResetApplyAppSettingsResult = {},
+                onResetRequestPinShortcutResult = {},
+                onResetRevertAppSettingsResult = {},
+                onResetAddAppSettingResult = {},
                 onNavigationIconClick = {},
                 onShizuku = {},
-                onEvent = {},
             )
         }
 
@@ -425,11 +542,22 @@ class AppSettingsScreenSnackbarTest {
                 appSettingsResult = null,
                 revertAppSettingsResult = null,
                 requestPinShortcutResult = RequestPinShortcutResult.UpdateFailure,
-                setPrimaryClipResult = false,
                 templateDialogUiState = TemplateDialogUiState.Loading,
+                onApplyAppSettings = {},
+                onRevertAppSettings = {},
+                onCheckAppSetting = {},
+                onDeleteAppSetting = {},
+                onAddAppSetting = {},
+                onRequestPinShortcut = { _, _, _ -> },
+                onGetSecureSettingsByName = { _, _ -> },
+                onLaunchIntentForPackage = {},
+                onPostNotification = { _, _, _ -> },
+                onResetApplyAppSettingsResult = {},
+                onResetRequestPinShortcutResult = {},
+                onResetRevertAppSettingsResult = {},
+                onResetAddAppSettingResult = {},
                 onNavigationIconClick = {},
                 onShizuku = {},
-                onEvent = {},
             )
         }
 
@@ -456,11 +584,22 @@ class AppSettingsScreenSnackbarTest {
                 appSettingsResult = null,
                 revertAppSettingsResult = null,
                 requestPinShortcutResult = RequestPinShortcutResult.UpdateSuccess,
-                setPrimaryClipResult = false,
                 templateDialogUiState = TemplateDialogUiState.Loading,
+                onApplyAppSettings = {},
+                onRevertAppSettings = {},
+                onCheckAppSetting = {},
+                onDeleteAppSetting = {},
+                onAddAppSetting = {},
+                onRequestPinShortcut = { _, _, _ -> },
+                onGetSecureSettingsByName = { _, _ -> },
+                onLaunchIntentForPackage = {},
+                onPostNotification = { _, _, _ -> },
+                onResetApplyAppSettingsResult = {},
+                onResetRequestPinShortcutResult = {},
+                onResetRevertAppSettingsResult = {},
+                onResetAddAppSettingResult = {},
                 onNavigationIconClick = {},
                 onShizuku = {},
-                onEvent = {},
             )
         }
 
@@ -487,11 +626,22 @@ class AppSettingsScreenSnackbarTest {
                 appSettingsResult = null,
                 revertAppSettingsResult = null,
                 requestPinShortcutResult = RequestPinShortcutResult.UpdateImmutableShortcuts,
-                setPrimaryClipResult = false,
                 templateDialogUiState = TemplateDialogUiState.Loading,
+                onApplyAppSettings = {},
+                onRevertAppSettings = {},
+                onCheckAppSetting = {},
+                onDeleteAppSetting = {},
+                onAddAppSetting = {},
+                onRequestPinShortcut = { _, _, _ -> },
+                onGetSecureSettingsByName = { _, _ -> },
+                onLaunchIntentForPackage = {},
+                onPostNotification = { _, _, _ -> },
+                onResetApplyAppSettingsResult = {},
+                onResetRequestPinShortcutResult = {},
+                onResetRevertAppSettingsResult = {},
+                onResetAddAppSettingResult = {},
                 onNavigationIconClick = {},
                 onShizuku = {},
-                onEvent = {},
             )
         }
 
@@ -500,37 +650,6 @@ class AppSettingsScreenSnackbarTest {
                 hasTestTag("appSettings:snackbar"),
             ) and hasText(
                 shortcutUpdateImmutableShortcuts,
-            ),
-        ).assertExists()
-    }
-
-    @Test
-    fun snackbar_isShown_whenSetPrimaryClipResult_isTrue() {
-        composeTestRule.setContent {
-            AppSettingsScreen(
-                packageName = "com.android.geto",
-                appName = "Geto",
-                appSettingsUiState = AppSettingsUiState.Success(emptyList()),
-                snackbarHostState = SnackbarHostState(),
-                applicationIcon = null,
-                secureSettings = emptyList(),
-                addAppSettingResult = null,
-                appSettingsResult = null,
-                revertAppSettingsResult = null,
-                requestPinShortcutResult = null,
-                setPrimaryClipResult = true,
-                templateDialogUiState = TemplateDialogUiState.Loading,
-                onNavigationIconClick = {},
-                onShizuku = {},
-                onEvent = {},
-            )
-        }
-
-        composeTestRule.onNode(
-            matcher = hasAnyAncestor(
-                hasTestTag("appSettings:snackbar"),
-            ) and hasText(
-                String.format(copiedToClipboard, command),
             ),
         ).assertExists()
     }
@@ -549,11 +668,22 @@ class AppSettingsScreenSnackbarTest {
                 appSettingsResult = null,
                 revertAppSettingsResult = null,
                 requestPinShortcutResult = null,
-                setPrimaryClipResult = false,
                 templateDialogUiState = TemplateDialogUiState.Loading,
+                onApplyAppSettings = {},
+                onRevertAppSettings = {},
+                onCheckAppSetting = {},
+                onDeleteAppSetting = {},
+                onAddAppSetting = {},
+                onRequestPinShortcut = { _, _, _ -> },
+                onGetSecureSettingsByName = { _, _ -> },
+                onLaunchIntentForPackage = {},
+                onPostNotification = { _, _, _ -> },
+                onResetApplyAppSettingsResult = {},
+                onResetRequestPinShortcutResult = {},
+                onResetRevertAppSettingsResult = {},
+                onResetAddAppSettingResult = {},
                 onNavigationIconClick = {},
                 onShizuku = {},
-                onEvent = {},
             )
         }
 
@@ -580,11 +710,22 @@ class AppSettingsScreenSnackbarTest {
                 appSettingsResult = null,
                 revertAppSettingsResult = null,
                 requestPinShortcutResult = null,
-                setPrimaryClipResult = false,
                 templateDialogUiState = TemplateDialogUiState.Loading,
+                onApplyAppSettings = {},
+                onRevertAppSettings = {},
+                onCheckAppSetting = {},
+                onDeleteAppSetting = {},
+                onAddAppSetting = {},
+                onRequestPinShortcut = { _, _, _ -> },
+                onGetSecureSettingsByName = { _, _ -> },
+                onLaunchIntentForPackage = {},
+                onPostNotification = { _, _, _ -> },
+                onResetApplyAppSettingsResult = {},
+                onResetRequestPinShortcutResult = {},
+                onResetRevertAppSettingsResult = {},
+                onResetAddAppSettingResult = {},
                 onNavigationIconClick = {},
                 onShizuku = {},
-                onEvent = {},
             )
         }
 
