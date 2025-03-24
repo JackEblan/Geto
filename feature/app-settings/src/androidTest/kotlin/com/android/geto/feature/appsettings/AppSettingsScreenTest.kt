@@ -113,7 +113,6 @@ class AppSettingsScreenTest {
                 onNavigationIconClick = {},
                 onShizuku = {},
             )
-
         }
 
         composeTestRule.onNodeWithTag("appSettings:emptyListPlaceHolderScreen").assertIsDisplayed()
@@ -150,7 +149,6 @@ class AppSettingsScreenTest {
                 onNavigationIconClick = {},
                 onShizuku = {},
             )
-
         }
 
         composeTestRule.onNodeWithTag("appSettings:lazyColumn").assertIsDisplayed()

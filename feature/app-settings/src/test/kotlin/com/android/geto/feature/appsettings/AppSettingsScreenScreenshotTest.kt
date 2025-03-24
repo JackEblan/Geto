@@ -137,7 +137,6 @@ class AppSettingsScreenScreenshotTest {
                     onNavigationIconClick = {},
                     onShizuku = {},
                 )
-
             }
         }
     }

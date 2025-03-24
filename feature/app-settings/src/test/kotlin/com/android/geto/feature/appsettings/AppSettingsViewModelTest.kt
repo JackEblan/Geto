@@ -22,7 +22,6 @@ import androidx.navigation.testing.invoke
 import com.android.geto.common.MainDispatcherRule
 import com.android.geto.domain.framework.DummyNotificationManagerWrapper
 import com.android.geto.domain.framework.FakeAssetManagerWrapper
-import com.android.geto.domain.framework.FakeClipboardManagerWrapper
 import com.android.geto.domain.framework.FakePackageManagerWrapper
 import com.android.geto.domain.model.AddAppSettingResult
 import com.android.geto.domain.model.AppSetting
@@ -75,8 +74,6 @@ class AppSettingsViewModelTest {
 
     private lateinit var secureSettingsRepository: TestSecureSettingsRepository
 
-    private lateinit var clipboardManagerWrapper: FakeClipboardManagerWrapper
-
     private lateinit var notificationManagerWrapper: DummyNotificationManagerWrapper
 
     private lateinit var assetManagerWrapper: FakeAssetManagerWrapper
@@ -108,8 +105,6 @@ class AppSettingsViewModelTest {
         appSettingsRepository = TestAppSettingsRepository()
 
         secureSettingsRepository = TestSecureSettingsRepository()
-
-        clipboardManagerWrapper = FakeClipboardManagerWrapper()
 
         shortcutRepository = TestShortcutRepository()
 
@@ -150,7 +145,6 @@ class AppSettingsViewModelTest {
             savedStateHandle = savedStateHandle,
             appSettingsRepository = appSettingsRepository,
             packageManagerWrapper = packageManagerWrapper,
-            clipboardManagerWrapper = clipboardManagerWrapper,
             secureSettingsRepository = secureSettingsRepository,
             applyAppSettingsUseCase = applyAppSettingsUseCase,
             revertAppSettingsUseCase = revertAppSettingsUseCase,

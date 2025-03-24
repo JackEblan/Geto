@@ -41,6 +41,7 @@
       <module name="Geto.feature.shortcut" target="17" />
       <module name="Geto.framework.broadcast-receiver" target="21" />
       <module name="Geto.framework.build-version" target="17" />
+      <module name="Geto.framework.clipboard-manager" target="21" />
       <module name="Geto.framework.package-manager-test" target="21" />
       <module name="Geto.screenshot-testing" target="21" />
       <module name="Geto.shizuku.package-manager" target="21" />
