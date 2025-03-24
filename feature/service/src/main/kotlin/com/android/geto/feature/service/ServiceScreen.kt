@@ -35,7 +35,7 @@ internal fun ServiceRoute(
     ServiceScreen(
         modifier = modifier,
         usageStatsForegroundServiceActive = usageStatsForegroundServiceActive,
-        onEvent = viewModel::onEvent,
+        onUpdateUsageStatsForegroundService = viewModel::updateUsageStatsForegroundService,
     )
 }
 
@@ -43,13 +43,11 @@ internal fun ServiceRoute(
 internal fun ServiceScreen(
     modifier: Modifier = Modifier,
     usageStatsForegroundServiceActive: Boolean,
-    onEvent: (ServiceEvent) -> Unit,
+    onUpdateUsageStatsForegroundService: () -> Unit,
 ) {
     AnimatedWavyCircle(
         modifier = modifier.fillMaxSize(),
         active = usageStatsForegroundServiceActive,
-        onClick = {
-            onEvent(ServiceEvent.UpdateUsageStatsForegroundService)
-        },
+        onClick = onUpdateUsageStatsForegroundService,
     )
 }

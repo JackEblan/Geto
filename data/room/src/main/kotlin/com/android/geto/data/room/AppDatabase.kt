@@ -29,7 +29,7 @@ import com.android.geto.data.room.model.AppSettingEntity
 
 @Database(
     entities = [AppSettingEntity::class],
-    version = 7,
+    version = 8,
     autoMigrations = [
         AutoMigration(
             from = 1,

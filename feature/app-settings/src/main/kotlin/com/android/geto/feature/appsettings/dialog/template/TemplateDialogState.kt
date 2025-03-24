@@ -24,18 +24,42 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import com.android.geto.domain.model.AppSetting
 import com.android.geto.domain.model.AppSettingTemplate
+import com.android.geto.domain.model.SettingType
 
 @Composable
-internal fun rememberTemplateDialogState(): TemplateDialogState {
+internal fun rememberTemplateDialogState(
+    onAddAppSetting: (
+        (
+            id: Int,
+            enabled: Boolean,
+            settingType: SettingType,
+            label: String,
+            key: String,
+            valueOnLaunch: String,
+            valueOnRevert: String,
+        ) -> Unit
+    )?,
+): TemplateDialogState {
     return rememberSaveable(saver = TemplateDialogState.Saver) {
-        TemplateDialogState()
+        TemplateDialogState(onAddAppSetting = onAddAppSetting)
     }
 }
 
 @Stable
-internal class TemplateDialogState {
+internal class TemplateDialogState(
+    private val onAddAppSetting: (
+        (
+            id: Int,
+            enabled: Boolean,
+            settingType: SettingType,
+            label: String,
+            key: String,
+            valueOnLaunch: String,
+            valueOnRevert: String,
+        ) -> Unit
+    )? = null,
+) {
     var showDialog by mutableStateOf(false)
         private set
 
@@ -43,19 +67,20 @@ internal class TemplateDialogState {
         showDialog = value
     }
 
-    fun toAppSetting(
-        packageName: String,
+    fun addAppSetting(
         appSettingTemplate: AppSettingTemplate,
-    ): AppSetting {
-        return AppSetting(
-            enabled = true,
-            settingType = appSettingTemplate.settingType,
-            packageName = packageName,
-            label = appSettingTemplate.label,
-            key = appSettingTemplate.key,
-            valueOnLaunch = appSettingTemplate.valueOnLaunch,
-            valueOnRevert = appSettingTemplate.valueOnRevert,
+    ) {
+        onAddAppSetting?.invoke(
+            0,
+            true,
+            appSettingTemplate.settingType,
+            appSettingTemplate.label,
+            appSettingTemplate.key,
+            appSettingTemplate.valueOnLaunch,
+            appSettingTemplate.valueOnRevert,
         )
+
+        showDialog = false
     }
 
     companion object {

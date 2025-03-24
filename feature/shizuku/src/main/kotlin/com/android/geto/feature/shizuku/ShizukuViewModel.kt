@@ -28,26 +28,15 @@ import javax.inject.Inject
 @HiltViewModel
 class ShizukuViewModel @Inject constructor(private val shizukuWrapper: ShizukuWrapper) :
     ViewModel() {
-
     val shizukuStatus = shizukuWrapper.shizukuStatus.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
         initialValue = null,
     )
 
-    fun onEvent(event: ShizukuEvent) {
-        when (event) {
-            ShizukuEvent.CheckShizukuPermission -> {
-                shizukuWrapper.checkShizukuPermission()
-            }
+    fun checkShizukuPermission() = shizukuWrapper.checkShizukuPermission()
 
-            ShizukuEvent.OnCreate -> {
-                shizukuWrapper.onCreate()
-            }
+    fun onCreate() = shizukuWrapper.onCreate()
 
-            ShizukuEvent.OnDestroy -> {
-                shizukuWrapper.onDestroy()
-            }
-        }
-    }
+    fun onDestroy() = shizukuWrapper.onDestroy()
 }

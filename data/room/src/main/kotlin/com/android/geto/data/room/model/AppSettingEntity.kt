@@ -19,12 +19,11 @@ package com.android.geto.data.room.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.android.geto.domain.model.AppSetting
 import com.android.geto.domain.model.SettingType
 
 @Entity
 data class AppSettingEntity(
-    @PrimaryKey(autoGenerate = true) val id: Int? = null,
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val enabled: Boolean,
     val settingType: SettingType,
     val packageName: String,
@@ -33,29 +32,3 @@ data class AppSettingEntity(
     val valueOnLaunch: String,
     val valueOnRevert: String,
 )
-
-fun AppSettingEntity.asExternalModel(): AppSetting {
-    return AppSetting(
-        id = id,
-        enabled = enabled,
-        settingType = settingType,
-        packageName = packageName,
-        label = label,
-        key = key,
-        valueOnLaunch = valueOnLaunch,
-        valueOnRevert = valueOnRevert,
-    )
-}
-
-fun AppSetting.asEntity(): AppSettingEntity {
-    return AppSettingEntity(
-        id = id,
-        enabled = enabled,
-        settingType = settingType,
-        packageName = packageName,
-        label = label,
-        key = key,
-        valueOnLaunch = valueOnLaunch,
-        valueOnRevert = valueOnRevert,
-    )
-}

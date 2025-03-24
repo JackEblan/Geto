@@ -68,7 +68,7 @@ class ServiceViewModelTest {
 
         usageStatsManagerWrapper.setUsageStatsPermissionGranted(true)
 
-        viewModel.onEvent(event = ServiceEvent.UpdateUsageStatsForegroundService)
+        viewModel.updateUsageStatsForegroundService()
 
         assertTrue(viewModel.usageStatsForegroundServiceActive.value)
     }
@@ -85,7 +85,7 @@ class ServiceViewModelTest {
 
         usageStatsManagerWrapper.setUsageStatsPermissionGranted(true)
 
-        viewModel.onEvent(event = ServiceEvent.UpdateUsageStatsForegroundService)
+        viewModel.updateUsageStatsForegroundService()
 
         assertFalse(viewModel.usageStatsForegroundServiceActive.value)
     }

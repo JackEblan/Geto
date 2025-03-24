@@ -36,7 +36,7 @@ class ShortcutDialogTest {
 
     @BeforeTest
     fun setup() {
-        shortcutDialogState = ShortcutDialogState { _, _, _ -> }
+        shortcutDialogState = ShortcutDialogState()
     }
 
     @Test

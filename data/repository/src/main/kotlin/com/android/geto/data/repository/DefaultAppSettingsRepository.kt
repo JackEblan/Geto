@@ -19,8 +19,6 @@ package com.android.geto.data.repository
 
 import com.android.geto.data.room.dao.AppSettingsDao
 import com.android.geto.data.room.model.AppSettingEntity
-import com.android.geto.data.room.model.asEntity
-import com.android.geto.data.room.model.asExternalModel
 import com.android.geto.domain.model.AppSetting
 import com.android.geto.domain.repository.AppSettingsRepository
 import kotlinx.coroutines.flow.Flow
@@ -33,20 +31,46 @@ class DefaultAppSettingsRepository @Inject constructor(
 
     override val appSettings: Flow<List<AppSetting>> =
         appSettingsDao.getAppSettingEntities().map { entities ->
-            entities.map(AppSettingEntity::asExternalModel)
+            entities.map(::asExternalModel)
         }
 
     override suspend fun upsertAppSetting(appSetting: AppSetting) {
-        appSettingsDao.upsertAppSettingEntity(appSetting.asEntity())
+        appSettingsDao.upsertAppSettingEntity(asEntity(appSetting = appSetting))
     }
 
     override suspend fun deleteAppSetting(appSetting: AppSetting) {
-        appSettingsDao.deleteAppSettingEntity(appSetting.asEntity())
+        appSettingsDao.deleteAppSettingEntity(asEntity(appSetting = appSetting))
     }
 
     override fun getAppSettingsByPackageName(packageName: String): Flow<List<AppSetting>> {
         return appSettingsDao.getAppSettingEntitiesByPackageName(packageName).map { entities ->
-            entities.map(AppSettingEntity::asExternalModel)
+            entities.map(::asExternalModel)
         }
+    }
+
+    private fun asExternalModel(entity: AppSettingEntity): AppSetting {
+        return AppSetting(
+            id = entity.id,
+            enabled = entity.enabled,
+            settingType = entity.settingType,
+            packageName = entity.packageName,
+            label = entity.label,
+            key = entity.key,
+            valueOnLaunch = entity.valueOnLaunch,
+            valueOnRevert = entity.valueOnRevert,
+        )
+    }
+
+    private fun asEntity(appSetting: AppSetting): AppSettingEntity {
+        return AppSettingEntity(
+            id = appSetting.id,
+            enabled = appSetting.enabled,
+            settingType = appSetting.settingType,
+            packageName = appSetting.packageName,
+            label = appSetting.label,
+            key = appSetting.key,
+            valueOnLaunch = appSetting.valueOnLaunch,
+            valueOnRevert = appSetting.valueOnRevert,
+        )
     }
 }

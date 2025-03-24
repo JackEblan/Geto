@@ -828,10 +828,6 @@ class AppSettingsViewModelTest {
 
     @Test
     fun addAppSettingResult_isSuccess_whenAddAppSetting() = runTest {
-        backgroundScope.launch(UnconfinedTestDispatcher()) {
-            viewModel.requestPinShortcutResult.collect()
-        }
-
         val appSettings = List(5) { index ->
             AppSetting(
                 id = index,
@@ -845,20 +841,17 @@ class AppSettingsViewModelTest {
             )
         }
 
-        val newAppSetting = AppSetting(
-            id = 6,
+        appSettingsRepository.setAppSettings(appSettings)
+
+        viewModel.addAppSetting(
+            id = 0,
             enabled = true,
             settingType = SettingType.SYSTEM,
-            packageName = packageName,
             label = "Geto",
             key = "Geto",
             valueOnLaunch = "0",
             valueOnRevert = "1",
         )
-
-        appSettingsRepository.setAppSettings(appSettings)
-
-        viewModel.addAppSetting(appSetting = newAppSetting)
 
         assertEquals(
             expected = AddAppSettingResult.SUCCESS,
@@ -868,10 +861,6 @@ class AppSettingsViewModelTest {
 
     @Test
     fun addAppSettingResult_isFailed_whenAddAppSetting() = runTest {
-        backgroundScope.launch(UnconfinedTestDispatcher()) {
-            viewModel.requestPinShortcutResult.collect()
-        }
-
         val appSettings = List(5) { index ->
             AppSetting(
                 id = index,
@@ -887,7 +876,15 @@ class AppSettingsViewModelTest {
 
         appSettingsRepository.setAppSettings(appSettings)
 
-        viewModel.addAppSetting(appSetting = appSettings.first())
+        viewModel.addAppSetting(
+            id = 0,
+            enabled = true,
+            settingType = SettingType.SYSTEM,
+            label = "Geto",
+            key = "Geto 0",
+            valueOnLaunch = "0",
+            valueOnRevert = "1",
+        )
 
         assertEquals(
             expected = AddAppSettingResult.FAILED,

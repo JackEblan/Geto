@@ -25,19 +25,42 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import com.android.geto.domain.model.AppSetting
 import com.android.geto.domain.model.SecureSetting
 import com.android.geto.domain.model.SettingType
 
 @Composable
-internal fun rememberAppSettingDialogState(): AppSettingDialogState {
+internal fun rememberAppSettingDialogState(
+    onAddAppSetting: (
+        (
+            id: Int,
+            enabled: Boolean,
+            settingType: SettingType,
+            label: String,
+            key: String,
+            valueOnLaunch: String,
+            valueOnRevert: String,
+        ) -> Unit
+    )?,
+): AppSettingDialogState {
     return rememberSaveable(saver = AppSettingDialogState.Saver) {
-        AppSettingDialogState()
+        AppSettingDialogState(onAddAppSetting = onAddAppSetting)
     }
 }
 
 @Stable
-internal class AppSettingDialogState {
+internal class AppSettingDialogState(
+    private val onAddAppSetting: (
+        (
+            id: Int,
+            enabled: Boolean,
+            settingType: SettingType,
+            label: String,
+            key: String,
+            valueOnLaunch: String,
+            valueOnRevert: String,
+        ) -> Unit
+    )? = null,
+) {
     var secureSettings by mutableStateOf<List<SecureSetting>>(emptyList())
         private set
 
@@ -109,19 +132,7 @@ internal class AppSettingDialogState {
         valueOnRevert = value
     }
 
-    fun resetState() {
-        showDialog = false
-        secureSettingsExpanded = false
-        secureSettings = emptyList()
-
-        selectedRadioOptionIndex = 0
-        key = ""
-        label = ""
-        valueOnLaunch = ""
-        valueOnRevert = ""
-    }
-
-    fun getAppSetting(packageName: String): AppSetting? {
+    fun getAppSetting() {
         showLabelError = label.isBlank()
 
         showKeyError = key.isBlank()
@@ -133,18 +144,26 @@ internal class AppSettingDialogState {
 
         showValueOnRevertError = valueOnRevert.isBlank()
 
-        return if (showLabelError.not() && showKeyNotFoundError.not() && showKeyError.not() && showValueOnLaunchError.not() && showValueOnRevertError.not()) {
-            AppSetting(
-                enabled = true,
-                settingType = SettingType.entries[selectedRadioOptionIndex],
-                packageName = packageName,
-                label = label,
-                key = key,
-                valueOnLaunch = valueOnLaunch,
-                valueOnRevert = valueOnRevert,
+        if (showLabelError.not() && showKeyNotFoundError.not() && showKeyError.not() && showValueOnLaunchError.not() && showValueOnRevertError.not()) {
+            onAddAppSetting?.invoke(
+                0,
+                true,
+                SettingType.entries[selectedRadioOptionIndex],
+                label,
+                key,
+                valueOnLaunch,
+                valueOnRevert,
             )
-        } else {
-            null
+
+            showDialog = false
+            secureSettingsExpanded = false
+            secureSettings = emptyList()
+
+            selectedRadioOptionIndex = 0
+            key = ""
+            label = ""
+            valueOnLaunch = ""
+            valueOnRevert = ""
         }
     }
 

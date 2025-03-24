@@ -39,35 +39,19 @@ class SettingsViewModel @Inject constructor(
         initialValue = SettingsUiState.Loading,
     )
 
-    fun onEvent(event: SettingsEvent) {
-        when (event) {
-            is SettingsEvent.UpdateDarkThemeConfig -> {
-                updateDarkThemeConfig(darkThemeConfig = event.darkThemeConfig)
-            }
-
-            is SettingsEvent.UpdateDynamicColor -> {
-                updateDynamicColor(useDynamicColor = event.useDynamicColor)
-            }
-
-            is SettingsEvent.UpdateThemeBrand -> {
-                updateThemeBrand(themeBrand = event.themeBrand)
-            }
-        }
-    }
-
-    private fun updateThemeBrand(themeBrand: ThemeBrand) {
+    fun updateThemeBrand(themeBrand: ThemeBrand) {
         viewModelScope.launch {
             userDataRepository.setThemeBrand(themeBrand)
         }
     }
 
-    private fun updateDarkThemeConfig(darkThemeConfig: DarkThemeConfig) {
+    fun updateDarkThemeConfig(darkThemeConfig: DarkThemeConfig) {
         viewModelScope.launch {
             userDataRepository.setDarkThemeConfig(darkThemeConfig)
         }
     }
 
-    private fun updateDynamicColor(useDynamicColor: Boolean) {
+    fun updateDynamicColor(useDynamicColor: Boolean) {
         viewModelScope.launch {
             userDataRepository.setDynamicColor(useDynamicColor)
         }

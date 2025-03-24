@@ -63,7 +63,9 @@ internal fun ShizukuRoute(
         modifier = modifier,
         snackbarHostState = snackbarHostState,
         shizukuStatus = shizukuStatus,
-        onEvent = viewModel::onEvent,
+        onCheckPermission = viewModel::checkShizukuPermission,
+        onCreate = viewModel::onCreate,
+        onDestroy = viewModel::onDestroy,
         onNavigationIconClick = onNavigationIconClick,
     )
 }
@@ -73,7 +75,9 @@ internal fun ShizukuScreen(
     modifier: Modifier = Modifier,
     snackbarHostState: SnackbarHostState,
     shizukuStatus: ShizukuStatus?,
-    onEvent: (ShizukuEvent) -> Unit,
+    onCheckPermission: () -> Unit,
+    onCreate: () -> Unit,
+    onDestroy: () -> Unit,
     onNavigationIconClick: () -> Unit,
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -102,9 +106,9 @@ internal fun ShizukuScreen(
     DisposableEffect(key1 = lifecycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
             if (event == Lifecycle.Event.ON_CREATE) {
-                onEvent(ShizukuEvent.OnCreate)
+                onCreate()
             } else if (event == Lifecycle.Event.ON_DESTROY) {
-                onEvent(ShizukuEvent.OnDestroy)
+                onDestroy()
             }
         }
 
@@ -215,9 +219,7 @@ internal fun ShizukuScreen(
             AnimatedWavyCircle(
                 modifier = modifier.fillMaxSize(),
                 active = shizukuStatus == ShizukuStatus.CanWriteSecureSettings,
-                onClick = {
-                    onEvent(ShizukuEvent.CheckShizukuPermission)
-                },
+                onClick = onCheckPermission,
             )
         }
     }

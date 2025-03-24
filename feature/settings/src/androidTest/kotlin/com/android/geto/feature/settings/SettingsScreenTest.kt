@@ -42,7 +42,9 @@ class SettingsScreenTest {
             SettingsScreen(
                 settingsUiState = SettingsUiState.Loading,
                 supportDynamicColor = false,
-                onEvent = {},
+                onUpdateThemeBrand = {},
+                onUpdateDarkThemeConfig = {},
+                onUpdateDynamicColor = {},
             )
         }
 
@@ -61,7 +63,9 @@ class SettingsScreenTest {
                     ),
                 ),
                 supportDynamicColor = false,
-                onEvent = {},
+                onUpdateThemeBrand = {},
+                onUpdateDarkThemeConfig = {},
+                onUpdateDynamicColor = {},
             )
         }
 
@@ -80,7 +84,9 @@ class SettingsScreenTest {
                     ),
                 ),
                 supportDynamicColor = true,
-                onEvent = {},
+                onUpdateThemeBrand = {},
+                onUpdateDarkThemeConfig = {},
+                onUpdateDynamicColor = {},
             )
         }
 
@@ -99,7 +105,9 @@ class SettingsScreenTest {
                     ),
                 ),
                 supportDynamicColor = true,
-                onEvent = {},
+                onUpdateThemeBrand = {},
+                onUpdateDarkThemeConfig = {},
+                onUpdateDynamicColor = {},
             )
         }
 
@@ -118,7 +126,9 @@ class SettingsScreenTest {
                     ),
                 ),
                 supportDynamicColor = true,
-                onEvent = {},
+                onUpdateThemeBrand = {},
+                onUpdateDarkThemeConfig = {},
+                onUpdateDynamicColor = {},
             )
         }
 
@@ -137,7 +147,9 @@ class SettingsScreenTest {
                     ),
                 ),
                 supportDynamicColor = false,
-                onEvent = {},
+                onUpdateThemeBrand = {},
+                onUpdateDarkThemeConfig = {},
+                onUpdateDynamicColor = {},
             )
         }
 
@@ -156,7 +168,9 @@ class SettingsScreenTest {
                     ),
                 ),
                 supportDynamicColor = false,
-                onEvent = {},
+                onUpdateThemeBrand = {},
+                onUpdateDarkThemeConfig = {},
+                onUpdateDynamicColor = {},
             )
         }
 
