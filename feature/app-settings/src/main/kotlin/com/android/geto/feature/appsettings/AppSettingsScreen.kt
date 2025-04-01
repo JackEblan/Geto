@@ -127,7 +127,6 @@ internal fun AppSettingsRoute(
 
     AppSettingsScreen(
         modifier = modifier,
-        packageName = appSettingsRouteData.packageName,
         appName = appSettingsRouteData.appName,
         appSettingsUiState = appSettingsUiState,
         snackbarHostState = snackbarHostState,
@@ -160,7 +159,6 @@ internal fun AppSettingsRoute(
 @Composable
 internal fun AppSettingsScreen(
     modifier: Modifier = Modifier,
-    packageName: String,
     appName: String,
     appSettingsUiState: AppSettingsUiState,
     snackbarHostState: SnackbarHostState,
@@ -175,7 +173,15 @@ internal fun AppSettingsScreen(
     onRevertAppSettings: () -> Unit,
     onCheckAppSetting: (appSetting: AppSetting) -> Unit,
     onDeleteAppSetting: (appSetting: AppSetting) -> Unit,
-    onAddAppSetting: (appSetting: AppSetting) -> Unit,
+    onAddAppSetting: (
+        id: Int,
+        enabled: Boolean,
+        settingType: SettingType,
+        label: String,
+        key: String,
+        valueOnLaunch: String,
+        valueOnRevert: String,
+    ) -> Unit,
     onRequestPinShortcut: (
         icon: ByteArray?,
         shortLabel: String,
@@ -195,13 +201,13 @@ internal fun AppSettingsScreen(
     onNavigationIconClick: () -> Unit,
     onShizuku: () -> Unit,
 ) {
-    val appSettingDialogState = rememberAppSettingDialogState()
+    val appSettingDialogState = rememberAppSettingDialogState(onAddAppSetting = onAddAppSetting)
 
     val shortcutDialogState = rememberShortcutDialogState(
         onRequestPinShortcut = onRequestPinShortcut,
     )
 
-    val templateDialogState = rememberTemplateDialogState()
+    val templateDialogState = rememberTemplateDialogState(onAddAppSetting = onAddAppSetting)
 
     AppSettingsLaunchedEffects(
         snackbarHostState = snackbarHostState,
@@ -228,8 +234,6 @@ internal fun AppSettingsScreen(
         shortcutDialogState = shortcutDialogState,
         templateDialogUiState = templateDialogUiState,
         templateDialogState = templateDialogState,
-        packageName = packageName,
-        onAddAppSetting = onAddAppSetting,
     )
 
     Scaffold(
@@ -523,14 +527,10 @@ private fun AppSettingsDialogs(
     shortcutDialogState: ShortcutDialogState,
     templateDialogUiState: TemplateDialogUiState,
     templateDialogState: TemplateDialogState,
-    packageName: String,
-    onAddAppSetting: (AppSetting) -> Unit,
 ) {
     if (appSettingDialogState.showDialog) {
         AppSettingDialog(
             appSettingDialogState = appSettingDialogState,
-            packageName = packageName,
-            onAddClick = onAddAppSetting,
             contentDescription = "Add App Settings Dialog",
         )
     }
@@ -544,11 +544,9 @@ private fun AppSettingsDialogs(
 
     if (templateDialogState.showDialog) {
         TemplateDialog(
-            packageName = packageName,
             templateDialogUiState = templateDialogUiState,
             templateDialogState = templateDialogState,
             contentDescription = "Template Dialog",
-            onAddClick = onAddAppSetting,
         )
     }
 }
@@ -702,7 +700,7 @@ private fun SuccessState(
     LazyColumn(
         modifier = modifier.testTag("appSettings:lazyColumn"),
     ) {
-        items(items = appSettingsUiState.appSettings, key = { it.id!! }) { appSettings ->
+        items(items = appSettingsUiState.appSettings, key = { it.id }) { appSettings ->
             AppSettingItem(
                 appSetting = appSettings,
                 onCheckedChange = { check ->

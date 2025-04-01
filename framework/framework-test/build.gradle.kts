@@ -28,7 +28,6 @@ android {
 
 dependencies {
     implementation(projects.framework.assetManager)
-    implementation(projects.framework.clipboardManager)
     implementation(projects.framework.notificationManager)
     implementation(projects.framework.packageManager)
     implementation(projects.framework.secureSettings)

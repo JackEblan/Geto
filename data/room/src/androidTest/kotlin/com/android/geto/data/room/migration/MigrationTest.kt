@@ -35,6 +35,7 @@ class MigrationTest {
         Migration4To5(),
         Migration5To6(),
         Migration6To7(),
+        Migration7To8(),
     )
 
     @get:Rule
@@ -106,6 +107,17 @@ class MigrationTest {
         }
 
         helper.runMigrationsAndValidate(testDb, 7, true, Migration6To7())
+    }
+
+    @Test
+    @Throws(IOException::class)
+    fun migrate7To8() {
+        helper.createDatabase(testDb, 7).apply {
+            execSQL("INSERT INTO AppSettingEntity (id, enabled, settingType, packageName, label, key, valueOnLaunch, valueOnRevert) VALUES (0, 1, 'GLOBAL', 'com.android.geto', 'label', 'key', 'valueOnLaunch', 'valueOnRevert')")
+            close()
+        }
+
+        helper.runMigrationsAndValidate(testDb, 8, true, Migration7To8())
     }
 
     @Test

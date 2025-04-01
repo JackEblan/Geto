@@ -50,7 +50,6 @@ class AppSettingsScreenTest {
     fun getoLoadingWheel_isDisplayed_whenAppSettingsUiState_isLoading() {
         composeTestRule.setContent {
             AppSettingsScreen(
-                packageName = "com.android.geto",
                 appName = "Geto",
                 appSettingsUiState = AppSettingsUiState.Loading,
                 snackbarHostState = SnackbarHostState(),
@@ -65,7 +64,7 @@ class AppSettingsScreenTest {
                 onRevertAppSettings = {},
                 onCheckAppSetting = {},
                 onDeleteAppSetting = {},
-                onAddAppSetting = {},
+                onAddAppSetting = { _, _, _, _, _, _, _ -> },
                 onRequestPinShortcut = { _, _, _ -> },
                 onGetSecureSettingsByName = { _, _ -> },
                 onLaunchIntentForPackage = {},
@@ -86,7 +85,6 @@ class AppSettingsScreenTest {
     fun emptyListPlaceHolderScreen_isDisplayed_whenAppSettings_isEmpty() {
         composeTestRule.setContent {
             AppSettingsScreen(
-                packageName = "com.android.geto",
                 appName = "Geto",
                 appSettingsUiState = AppSettingsUiState.Success(emptyList()),
                 snackbarHostState = SnackbarHostState(),
@@ -101,7 +99,7 @@ class AppSettingsScreenTest {
                 onRevertAppSettings = {},
                 onCheckAppSetting = {},
                 onDeleteAppSetting = {},
-                onAddAppSetting = {},
+                onAddAppSetting = { _, _, _, _, _, _, _ -> },
                 onRequestPinShortcut = { _, _, _ -> },
                 onGetSecureSettingsByName = { _, _ -> },
                 onLaunchIntentForPackage = {},
@@ -113,7 +111,6 @@ class AppSettingsScreenTest {
                 onNavigationIconClick = {},
                 onShizuku = {},
             )
-
         }
 
         composeTestRule.onNodeWithTag("appSettings:emptyListPlaceHolderScreen").assertIsDisplayed()
@@ -123,7 +120,6 @@ class AppSettingsScreenTest {
     fun lazyColumn_isDisplayed_whenAppSettingsUiState_isSuccess() {
         composeTestRule.setContent {
             AppSettingsScreen(
-                packageName = "com.android.geto",
                 appName = "Geto",
                 appSettingsUiState = AppSettingsUiState.Success(appSettings),
                 snackbarHostState = SnackbarHostState(),
@@ -138,7 +134,7 @@ class AppSettingsScreenTest {
                 onRevertAppSettings = {},
                 onCheckAppSetting = {},
                 onDeleteAppSetting = {},
-                onAddAppSetting = {},
+                onAddAppSetting = { _, _, _, _, _, _, _ -> },
                 onRequestPinShortcut = { _, _, _ -> },
                 onGetSecureSettingsByName = { _, _ -> },
                 onLaunchIntentForPackage = {},
@@ -150,7 +146,6 @@ class AppSettingsScreenTest {
                 onNavigationIconClick = {},
                 onShizuku = {},
             )
-
         }
 
         composeTestRule.onNodeWithTag("appSettings:lazyColumn").assertIsDisplayed()

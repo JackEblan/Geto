@@ -54,7 +54,7 @@ class ServiceScreenScreenshotTest {
             ) {
                 ServiceScreen(
                     usageStatsForegroundServiceActive = false,
-                    onEvent = {},
+                    onUpdateUsageStatsForegroundService = {},
                 )
             }
         }
@@ -70,7 +70,7 @@ class ServiceScreenScreenshotTest {
             ) {
                 ServiceScreen(
                     usageStatsForegroundServiceActive = true,
-                    onEvent = {},
+                    onUpdateUsageStatsForegroundService = {},
                 )
             }
         }
@@ -92,7 +92,7 @@ class ServiceScreenScreenshotTest {
                 Surface {
                     ServiceScreen(
                         usageStatsForegroundServiceActive = false,
-                        onEvent = {},
+                        onUpdateUsageStatsForegroundService = {},
                     )
                 }
             }
@@ -115,7 +115,7 @@ class ServiceScreenScreenshotTest {
                 Surface {
                     ServiceScreen(
                         usageStatsForegroundServiceActive = true,
-                        onEvent = {},
+                        onUpdateUsageStatsForegroundService = {},
                     )
                 }
             }

@@ -65,7 +65,9 @@ class SettingsScreenScreenshotTest {
                         ),
                     ),
                     supportDynamicColor = true,
-                    onEvent = {},
+                    onUpdateThemeBrand = {},
+                    onUpdateDarkThemeConfig = {},
+                    onUpdateDynamicColor = {},
                 )
             }
         }
@@ -86,7 +88,9 @@ class SettingsScreenScreenshotTest {
                 SettingsScreen(
                     settingsUiState = SettingsUiState.Loading,
                     supportDynamicColor = true,
-                    onEvent = {},
+                    onUpdateThemeBrand = {},
+                    onUpdateDarkThemeConfig = {},
+                    onUpdateDynamicColor = {},
                 )
             }
         }
@@ -115,7 +119,9 @@ class SettingsScreenScreenshotTest {
                             ),
                         ),
                         supportDynamicColor = true,
-                        onEvent = {},
+                        onUpdateThemeBrand = {},
+                        onUpdateDarkThemeConfig = {},
+                        onUpdateDynamicColor = {},
                     )
                 }
             }
@@ -139,7 +145,9 @@ class SettingsScreenScreenshotTest {
                     SettingsScreen(
                         settingsUiState = SettingsUiState.Loading,
                         supportDynamicColor = true,
-                        onEvent = {},
+                        onUpdateThemeBrand = {},
+                        onUpdateDarkThemeConfig = {},
+                        onUpdateDynamicColor = {},
                     )
                 }
             }

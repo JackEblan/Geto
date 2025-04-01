@@ -23,7 +23,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.android.geto.domain.framework.AssetManagerWrapper
-import com.android.geto.domain.framework.ClipboardManagerWrapper
 import com.android.geto.domain.framework.NotificationManagerWrapper
 import com.android.geto.domain.framework.PackageManagerWrapper
 import com.android.geto.domain.model.AddAppSettingResult
@@ -56,7 +55,6 @@ class AppSettingsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val appSettingsRepository: AppSettingsRepository,
     private val packageManagerWrapper: PackageManagerWrapper,
-    private val clipboardManagerWrapper: ClipboardManagerWrapper,
     private val secureSettingsRepository: SecureSettingsRepository,
     private val applyAppSettingsUseCase: ApplyAppSettingsUseCase,
     private val revertAppSettingsUseCase: RevertAppSettingsUseCase,
@@ -131,10 +129,27 @@ class AppSettingsViewModel @Inject constructor(
         }
     }
 
-    fun addAppSetting(appSetting: AppSetting) {
+    fun addAppSetting(
+        id: Int,
+        enabled: Boolean,
+        settingType: SettingType,
+        label: String,
+        key: String,
+        valueOnLaunch: String,
+        valueOnRevert: String,
+    ) {
         viewModelScope.launch {
             _addAppSettingsResult.update {
-                addAppSettingUseCase(appSetting = appSetting)
+                addAppSettingUseCase(
+                    id = id,
+                    packageName = packageName,
+                    enabled = enabled,
+                    settingType = settingType,
+                    label = label,
+                    key = key,
+                    valueOnLaunch = valueOnLaunch,
+                    valueOnRevert = valueOnRevert,
+                )
             }
         }
     }

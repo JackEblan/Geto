@@ -29,16 +29,22 @@ class FakeShortcutRepository @Inject constructor() : ShortcutRepository {
 
     override fun requestPinShortcut(
         packageName: String,
+        icon: ByteArray?,
         appName: String,
-        getoShortcutInfoCompat: GetoShortcutInfoCompat,
+        id: String,
+        shortLabel: String,
+        longLabel: String,
     ): Boolean {
         return false
     }
 
     override fun updateShortcuts(
         packageName: String,
+        icon: ByteArray?,
         appName: String,
-        getoShortcutInfoCompats: List<GetoShortcutInfoCompat>,
+        id: String,
+        shortLabel: String,
+        longLabel: String,
     ): Boolean {
         return false
     }
