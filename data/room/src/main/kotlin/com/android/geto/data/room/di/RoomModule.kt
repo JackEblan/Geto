@@ -26,6 +26,7 @@ import com.android.geto.data.room.migration.Migration3To4
 import com.android.geto.data.room.migration.Migration4To5
 import com.android.geto.data.room.migration.Migration5To6
 import com.android.geto.data.room.migration.Migration6To7
+import com.android.geto.data.room.migration.Migration7To8
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -49,5 +50,6 @@ internal object RoomModule {
         Migration4To5(),
         Migration5To6(),
         Migration6To7(),
+        Migration7To8(),
     ).build()
 }

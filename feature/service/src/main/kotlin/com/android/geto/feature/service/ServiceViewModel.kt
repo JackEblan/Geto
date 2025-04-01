@@ -38,13 +38,9 @@ class ServiceViewModel @Inject constructor(
         initialValue = false,
     )
 
-    fun onEvent(event: ServiceEvent) {
-        when (event) {
-            ServiceEvent.UpdateUsageStatsForegroundService -> {
-                viewModelScope.launch {
-                    updateUsageStatsForegroundServiceUseCase()
-                }
-            }
+    fun updateUsageStatsForegroundService() {
+        viewModelScope.launch {
+            updateUsageStatsForegroundServiceUseCase()
         }
     }
 }

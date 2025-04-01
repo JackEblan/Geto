@@ -32,6 +32,7 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.GraphicsMode
 import org.robolectric.annotation.LooperMode
+import kotlin.test.BeforeTest
 import kotlin.test.Test
 
 @RunWith(RobolectricTestRunner::class)
@@ -52,6 +53,13 @@ class TemplateDialogScreenshotTest {
         )
     }
 
+    private lateinit var templateDialogState: TemplateDialogState
+
+    @BeforeTest
+    fun setup() {
+        templateDialogState = TemplateDialogState()
+    }
+
     @Test
     fun templateDialog_loading() {
         composeTestRule.captureDialogForDevice(
@@ -65,11 +73,9 @@ class TemplateDialogScreenshotTest {
                 dynamicTheme = false,
             ) {
                 TemplateDialog(
-                    packageName = "com.android.geto",
                     templateDialogUiState = TemplateDialogUiState.Loading,
-                    templateDialogState = rememberTemplateDialogState(),
+                    templateDialogState = templateDialogState,
                     contentDescription = "Template Dialog",
-                    onAddClick = {},
                 )
             }
         }
@@ -88,11 +94,9 @@ class TemplateDialogScreenshotTest {
                 dynamicTheme = false,
             ) {
                 TemplateDialog(
-                    packageName = "com.android.geto",
                     templateDialogUiState = TemplateDialogUiState.Success(appSettingTemplates = appSettingTemplates),
-                    templateDialogState = rememberTemplateDialogState(),
+                    templateDialogState = templateDialogState,
                     contentDescription = "Template Dialog",
-                    onAddClick = {},
                 )
             }
         }
@@ -113,11 +117,9 @@ class TemplateDialogScreenshotTest {
             ) {
                 Surface {
                     TemplateDialog(
-                        packageName = "com.android.geto",
                         templateDialogUiState = TemplateDialogUiState.Loading,
-                        templateDialogState = rememberTemplateDialogState(),
+                        templateDialogState = templateDialogState,
                         contentDescription = "Template Dialog",
-                        onAddClick = {},
                     )
                 }
             }
@@ -139,11 +141,9 @@ class TemplateDialogScreenshotTest {
             ) {
                 Surface {
                     TemplateDialog(
-                        packageName = "com.android.geto",
                         templateDialogUiState = TemplateDialogUiState.Success(appSettingTemplates = appSettingTemplates),
-                        templateDialogState = rememberTemplateDialogState(),
+                        templateDialogState = templateDialogState,
                         contentDescription = "Template Dialog",
-                        onAddClick = {},
                     )
                 }
             }

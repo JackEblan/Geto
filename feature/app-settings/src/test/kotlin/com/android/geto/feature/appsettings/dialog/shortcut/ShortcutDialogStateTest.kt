@@ -27,8 +27,6 @@ import kotlin.test.assertTrue
 class ShortcutDialogStateTest {
     private lateinit var shortcutDialogState: ShortcutDialogState
 
-    private val packageName = "com.android.geto"
-
     @BeforeTest
     fun setup() {
         shortcutDialogState = ShortcutDialogState()
@@ -38,7 +36,7 @@ class ShortcutDialogStateTest {
     fun shortLabelError_isNotBlank_whenShortLabel_isBlank() {
         shortcutDialogState.updateShortLabel("")
 
-        shortcutDialogState.getShortcut(packageName = packageName)
+        shortcutDialogState.getShortcut()
 
         assertTrue(shortcutDialogState.showShortLabelError)
     }
@@ -47,7 +45,7 @@ class ShortcutDialogStateTest {
     fun shortLabelError_isBlank_whenShortLabel_isNotBlank() {
         shortcutDialogState.updateShortLabel("Geto")
 
-        shortcutDialogState.getShortcut(packageName = packageName)
+        shortcutDialogState.getShortcut()
 
         assertFalse(shortcutDialogState.showShortLabelError)
     }
@@ -56,7 +54,7 @@ class ShortcutDialogStateTest {
     fun longLabelError_isNotBlank_whenLongLabel_isBlank() {
         shortcutDialogState.updateLongLabel("")
 
-        shortcutDialogState.getShortcut(packageName = packageName)
+        shortcutDialogState.getShortcut()
 
         assertTrue(shortcutDialogState.showLongLabelError)
     }
@@ -65,7 +63,7 @@ class ShortcutDialogStateTest {
     fun longLabelError_isBlank_whenLongLabel_isNotBlank() {
         shortcutDialogState.updateLongLabel("Geto")
 
-        shortcutDialogState.getShortcut(packageName = packageName)
+        shortcutDialogState.getShortcut()
 
         assertFalse(shortcutDialogState.showLongLabelError)
     }
@@ -77,9 +75,7 @@ class ShortcutDialogStateTest {
         shortcutDialogState.updateLongLabel("Geto")
 
         assertNotNull(
-            shortcutDialogState.getShortcut(
-                packageName = packageName,
-            ),
+            shortcutDialogState.getShortcut(),
         )
     }
 

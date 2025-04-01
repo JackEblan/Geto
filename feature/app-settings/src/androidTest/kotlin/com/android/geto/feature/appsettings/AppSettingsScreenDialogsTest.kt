@@ -47,7 +47,6 @@ class AppSettingsScreenDialogsTest {
     fun appSettingDialog_isDisplayed_whenSettingsIcon_isClicked_thenDismissed() {
         composeTestRule.setContent {
             AppSettingsScreen(
-                packageName = "com.android.geto",
                 appName = "Geto",
                 appSettingsUiState = AppSettingsUiState.Loading,
                 snackbarHostState = SnackbarHostState(),
@@ -62,7 +61,7 @@ class AppSettingsScreenDialogsTest {
                 onRevertAppSettings = {},
                 onCheckAppSetting = {},
                 onDeleteAppSetting = {},
-                onAddAppSetting = {},
+                onAddAppSetting = { _, _, _, _, _, _, _ -> },
                 onRequestPinShortcut = { _, _, _ -> },
                 onGetSecureSettingsByName = { _, _ -> },
                 onLaunchIntentForPackage = {},
@@ -93,7 +92,6 @@ class AppSettingsScreenDialogsTest {
     fun shortcutDialog_isDisplayed_whenShortcutIcon_isClicked_thenDismissed() {
         composeTestRule.setContent {
             AppSettingsScreen(
-                packageName = "com.android.geto",
                 appName = "Geto",
                 appSettingsUiState = AppSettingsUiState.Loading,
                 snackbarHostState = SnackbarHostState(),
@@ -108,7 +106,7 @@ class AppSettingsScreenDialogsTest {
                 onRevertAppSettings = {},
                 onCheckAppSetting = {},
                 onDeleteAppSetting = {},
-                onAddAppSetting = {},
+                onAddAppSetting = { _, _, _, _, _, _, _ -> },
                 onRequestPinShortcut = { _, _, _ -> },
                 onGetSecureSettingsByName = { _, _ -> },
                 onLaunchIntentForPackage = {},
@@ -138,7 +136,6 @@ class AppSettingsScreenDialogsTest {
     fun templateDialog_isDisplayed_whenSettingsSuggestIcon_isClicked() {
         composeTestRule.setContent {
             AppSettingsScreen(
-                packageName = "com.android.geto",
                 appName = "Geto",
                 appSettingsUiState = AppSettingsUiState.Loading,
                 snackbarHostState = SnackbarHostState(),
@@ -153,7 +150,7 @@ class AppSettingsScreenDialogsTest {
                 onRevertAppSettings = {},
                 onCheckAppSetting = {},
                 onDeleteAppSetting = {},
-                onAddAppSetting = {},
+                onAddAppSetting = { _, _, _, _, _, _, _ -> },
                 onRequestPinShortcut = { _, _, _ -> },
                 onGetSecureSettingsByName = { _, _ -> },
                 onLaunchIntentForPackage = {},
@@ -181,7 +178,6 @@ class AppSettingsScreenDialogsTest {
 
         restorationTester.setContent {
             AppSettingsScreen(
-                packageName = "com.android.geto",
                 appName = "Geto",
                 appSettingsUiState = AppSettingsUiState.Loading,
                 snackbarHostState = SnackbarHostState(),
@@ -196,7 +192,7 @@ class AppSettingsScreenDialogsTest {
                 onRevertAppSettings = {},
                 onCheckAppSetting = {},
                 onDeleteAppSetting = {},
-                onAddAppSetting = {},
+                onAddAppSetting = { _, _, _, _, _, _, _ -> },
                 onRequestPinShortcut = { _, _, _ -> },
                 onGetSecureSettingsByName = { _, _ -> },
                 onLaunchIntentForPackage = {},
@@ -274,7 +270,6 @@ class AppSettingsScreenDialogsTest {
 
         restorationTester.setContent {
             AppSettingsScreen(
-                packageName = "com.android.geto",
                 appName = "Geto",
                 appSettingsUiState = AppSettingsUiState.Loading,
                 snackbarHostState = SnackbarHostState(),
@@ -289,7 +284,7 @@ class AppSettingsScreenDialogsTest {
                 onRevertAppSettings = {},
                 onCheckAppSetting = {},
                 onDeleteAppSetting = {},
-                onAddAppSetting = {},
+                onAddAppSetting = { _, _, _, _, _, _, _ -> },
                 onRequestPinShortcut = { _, _, _ -> },
                 onGetSecureSettingsByName = { _, _ -> },
                 onLaunchIntentForPackage = {},

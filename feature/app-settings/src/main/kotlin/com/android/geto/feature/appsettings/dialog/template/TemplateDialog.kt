@@ -39,18 +39,15 @@ import androidx.compose.ui.unit.dp
 import com.android.geto.designsystem.component.DialogContainer
 import com.android.geto.designsystem.component.GetoLoadingWheel
 import com.android.geto.designsystem.icon.GetoIcons
-import com.android.geto.domain.model.AppSetting
 import com.android.geto.domain.model.AppSettingTemplate
 import com.android.geto.feature.appsettings.R
 
 @Composable
 internal fun TemplateDialog(
     modifier: Modifier = Modifier,
-    packageName: String,
     contentDescription: String,
     templateDialogUiState: TemplateDialogUiState,
     templateDialogState: TemplateDialogState,
-    onAddClick: (AppSetting) -> Unit,
 ) {
     DialogContainer(
         modifier = modifier
@@ -75,16 +72,7 @@ internal fun TemplateDialog(
                 is TemplateDialogUiState.Success -> {
                     TemplateDialogContent(
                         appSettingTemplates = templateDialogUiState.appSettingTemplates,
-                        onAddClick = { appSettingTemplate ->
-                            onAddClick(
-                                templateDialogState.toAppSetting(
-                                    packageName = packageName,
-                                    appSettingTemplate = appSettingTemplate,
-                                ),
-                            )
-
-                            templateDialogState.updateShowDialog(false)
-                        },
+                        onAddClick = templateDialogState::addAppSetting,
                     )
                 }
             }

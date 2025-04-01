@@ -51,7 +51,6 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.android.geto.designsystem.component.DialogContainer
-import com.android.geto.domain.model.AppSetting
 import com.android.geto.domain.model.SettingType
 import com.android.geto.feature.appsettings.R
 
@@ -60,8 +59,6 @@ internal fun AppSettingDialog(
     modifier: Modifier = Modifier,
     appSettingDialogState: AppSettingDialogState,
     scrollState: ScrollState = rememberScrollState(),
-    packageName: String,
-    onAddClick: (AppSetting) -> Unit,
     contentDescription: String,
 ) {
     DialogContainer(
@@ -89,12 +86,7 @@ internal fun AppSettingDialog(
                 onCancelClick = {
                     appSettingDialogState.updateShowDialog(false)
                 },
-                onAddClick = {
-                    appSettingDialogState.getAppSetting(packageName = packageName)?.let {
-                        onAddClick(it)
-                        appSettingDialogState.resetState()
-                    }
-                },
+                onAddClick = appSettingDialogState::getAppSetting,
             )
         }
     }

@@ -26,7 +26,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 
 @Composable
-internal fun rememberShortcutDialogState(onRequestPinShortcut: (icon: ByteArray?, shortLabel: String, longLabel: String) -> Unit): ShortcutDialogState {
+internal fun rememberShortcutDialogState(onRequestPinShortcut: ((icon: ByteArray?, shortLabel: String, longLabel: String) -> Unit)?): ShortcutDialogState {
     return rememberSaveable(saver = ShortcutDialogState.Saver) {
         ShortcutDialogState(onRequestPinShortcut = onRequestPinShortcut)
     }
@@ -35,10 +35,12 @@ internal fun rememberShortcutDialogState(onRequestPinShortcut: (icon: ByteArray?
 @Stable
 internal class ShortcutDialogState(
     private val onRequestPinShortcut: (
-        icon: ByteArray?,
-        shortLabel: String,
-        longLabel: String,
-    ) -> Unit,
+        (
+            icon: ByteArray?,
+            shortLabel: String,
+            longLabel: String,
+        ) -> Unit
+    )? = null,
 ) {
     var showDialog by mutableStateOf(false)
         private set
@@ -88,7 +90,7 @@ internal class ShortcutDialogState(
         showLongLabelError = longLabel.isBlank()
 
         if (showShortLabelError.not() && showLongLabelError.not()) {
-            onRequestPinShortcut(icon, shortLabel, longLabel)
+            onRequestPinShortcut?.invoke(icon, shortLabel, longLabel)
 
             showDialog = false
             longLabel = ""

@@ -22,7 +22,6 @@ import androidx.navigation.testing.invoke
 import com.android.geto.common.MainDispatcherRule
 import com.android.geto.domain.framework.DummyNotificationManagerWrapper
 import com.android.geto.domain.framework.FakeAssetManagerWrapper
-import com.android.geto.domain.framework.FakeClipboardManagerWrapper
 import com.android.geto.domain.framework.FakePackageManagerWrapper
 import com.android.geto.domain.model.AddAppSettingResult
 import com.android.geto.domain.model.AppSetting
@@ -75,8 +74,6 @@ class AppSettingsViewModelTest {
 
     private lateinit var secureSettingsRepository: TestSecureSettingsRepository
 
-    private lateinit var clipboardManagerWrapper: FakeClipboardManagerWrapper
-
     private lateinit var notificationManagerWrapper: DummyNotificationManagerWrapper
 
     private lateinit var assetManagerWrapper: FakeAssetManagerWrapper
@@ -108,8 +105,6 @@ class AppSettingsViewModelTest {
         appSettingsRepository = TestAppSettingsRepository()
 
         secureSettingsRepository = TestSecureSettingsRepository()
-
-        clipboardManagerWrapper = FakeClipboardManagerWrapper()
 
         shortcutRepository = TestShortcutRepository()
 
@@ -150,7 +145,6 @@ class AppSettingsViewModelTest {
             savedStateHandle = savedStateHandle,
             appSettingsRepository = appSettingsRepository,
             packageManagerWrapper = packageManagerWrapper,
-            clipboardManagerWrapper = clipboardManagerWrapper,
             secureSettingsRepository = secureSettingsRepository,
             applyAppSettingsUseCase = applyAppSettingsUseCase,
             revertAppSettingsUseCase = revertAppSettingsUseCase,
@@ -834,10 +828,6 @@ class AppSettingsViewModelTest {
 
     @Test
     fun addAppSettingResult_isSuccess_whenAddAppSetting() = runTest {
-        backgroundScope.launch(UnconfinedTestDispatcher()) {
-            viewModel.requestPinShortcutResult.collect()
-        }
-
         val appSettings = List(5) { index ->
             AppSetting(
                 id = index,
@@ -851,20 +841,17 @@ class AppSettingsViewModelTest {
             )
         }
 
-        val newAppSetting = AppSetting(
-            id = 6,
+        appSettingsRepository.setAppSettings(appSettings)
+
+        viewModel.addAppSetting(
+            id = 0,
             enabled = true,
             settingType = SettingType.SYSTEM,
-            packageName = packageName,
             label = "Geto",
             key = "Geto",
             valueOnLaunch = "0",
             valueOnRevert = "1",
         )
-
-        appSettingsRepository.setAppSettings(appSettings)
-
-        viewModel.addAppSetting(appSetting = newAppSetting)
 
         assertEquals(
             expected = AddAppSettingResult.SUCCESS,
@@ -874,10 +861,6 @@ class AppSettingsViewModelTest {
 
     @Test
     fun addAppSettingResult_isFailed_whenAddAppSetting() = runTest {
-        backgroundScope.launch(UnconfinedTestDispatcher()) {
-            viewModel.requestPinShortcutResult.collect()
-        }
-
         val appSettings = List(5) { index ->
             AppSetting(
                 id = index,
@@ -893,7 +876,15 @@ class AppSettingsViewModelTest {
 
         appSettingsRepository.setAppSettings(appSettings)
 
-        viewModel.addAppSetting(appSetting = appSettings.first())
+        viewModel.addAppSetting(
+            id = 0,
+            enabled = true,
+            settingType = SettingType.SYSTEM,
+            label = "Geto",
+            key = "Geto 0",
+            valueOnLaunch = "0",
+            valueOnRevert = "1",
+        )
 
         assertEquals(
             expected = AddAppSettingResult.FAILED,

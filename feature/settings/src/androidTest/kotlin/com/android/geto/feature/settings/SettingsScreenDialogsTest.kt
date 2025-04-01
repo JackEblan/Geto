@@ -48,7 +48,9 @@ class SettingsScreenDialogsTest {
                     ),
                 ),
                 supportDynamicColor = true,
-                onEvent = {},
+                onUpdateThemeBrand = {},
+                onUpdateDarkThemeConfig = {},
+                onUpdateDynamicColor = {},
             )
         }
 
@@ -73,7 +75,9 @@ class SettingsScreenDialogsTest {
                     ),
                 ),
                 supportDynamicColor = true,
-                onEvent = {},
+                onUpdateThemeBrand = {},
+                onUpdateDarkThemeConfig = {},
+                onUpdateDynamicColor = {},
             )
         }
 
@@ -100,7 +104,9 @@ class SettingsScreenDialogsTest {
                     ),
                 ),
                 supportDynamicColor = true,
-                onEvent = {},
+                onUpdateThemeBrand = {},
+                onUpdateDarkThemeConfig = {},
+                onUpdateDynamicColor = {},
             )
         }
 
@@ -129,7 +135,9 @@ class SettingsScreenDialogsTest {
                     ),
                 ),
                 supportDynamicColor = true,
-                onEvent = {},
+                onUpdateThemeBrand = {},
+                onUpdateDarkThemeConfig = {},
+                onUpdateDynamicColor = {},
             )
         }
 

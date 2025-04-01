@@ -70,7 +70,6 @@ class AppSettingsScreenScreenshotTest {
                 dynamicTheme = false,
             ) {
                 AppSettingsScreen(
-                    packageName = "com.android.geto",
                     appName = "Geto",
                     appSettingsUiState = AppSettingsUiState.Success(appSettings),
                     snackbarHostState = SnackbarHostState(),
@@ -85,7 +84,7 @@ class AppSettingsScreenScreenshotTest {
                     onRevertAppSettings = {},
                     onCheckAppSetting = {},
                     onDeleteAppSetting = {},
-                    onAddAppSetting = {},
+                    onAddAppSetting = { _, _, _, _, _, _, _ -> },
                     onRequestPinShortcut = { _, _, _ -> },
                     onGetSecureSettingsByName = { _, _ -> },
                     onLaunchIntentForPackage = {},
@@ -110,7 +109,6 @@ class AppSettingsScreenScreenshotTest {
                 dynamicTheme = false,
             ) {
                 AppSettingsScreen(
-                    packageName = "com.android.geto",
                     appName = "Geto",
                     appSettingsUiState = AppSettingsUiState.Loading,
                     snackbarHostState = SnackbarHostState(),
@@ -125,7 +123,7 @@ class AppSettingsScreenScreenshotTest {
                     onRevertAppSettings = {},
                     onCheckAppSetting = {},
                     onDeleteAppSetting = {},
-                    onAddAppSetting = {},
+                    onAddAppSetting = { _, _, _, _, _, _, _ -> },
                     onRequestPinShortcut = { _, _, _ -> },
                     onGetSecureSettingsByName = { _, _ -> },
                     onLaunchIntentForPackage = {},
@@ -137,7 +135,6 @@ class AppSettingsScreenScreenshotTest {
                     onNavigationIconClick = {},
                     onShizuku = {},
                 )
-
             }
         }
     }
@@ -151,7 +148,6 @@ class AppSettingsScreenScreenshotTest {
                 dynamicTheme = false,
             ) {
                 AppSettingsScreen(
-                    packageName = "com.android.geto",
                     appName = "Geto",
                     appSettingsUiState = AppSettingsUiState.Success(emptyList()),
                     snackbarHostState = SnackbarHostState(),
@@ -166,7 +162,7 @@ class AppSettingsScreenScreenshotTest {
                     onRevertAppSettings = {},
                     onCheckAppSetting = {},
                     onDeleteAppSetting = {},
-                    onAddAppSetting = {},
+                    onAddAppSetting = { _, _, _, _, _, _, _ -> },
                     onRequestPinShortcut = { _, _, _ -> },
                     onGetSecureSettingsByName = { _, _ -> },
                     onLaunchIntentForPackage = {},
@@ -197,7 +193,6 @@ class AppSettingsScreenScreenshotTest {
             ) {
                 Surface {
                     AppSettingsScreen(
-                        packageName = "com.android.geto",
                         appName = "Geto",
                         appSettingsUiState = AppSettingsUiState.Success(appSettings),
                         snackbarHostState = SnackbarHostState(),
@@ -212,7 +207,7 @@ class AppSettingsScreenScreenshotTest {
                         onRevertAppSettings = {},
                         onCheckAppSetting = {},
                         onDeleteAppSetting = {},
-                        onAddAppSetting = {},
+                        onAddAppSetting = { _, _, _, _, _, _, _ -> },
                         onRequestPinShortcut = { _, _, _ -> },
                         onGetSecureSettingsByName = { _, _ -> },
                         onLaunchIntentForPackage = {},
@@ -244,7 +239,6 @@ class AppSettingsScreenScreenshotTest {
             ) {
                 Surface {
                     AppSettingsScreen(
-                        packageName = "com.android.geto",
                         appName = "Geto",
                         appSettingsUiState = AppSettingsUiState.Loading,
                         snackbarHostState = SnackbarHostState(),
@@ -259,7 +253,7 @@ class AppSettingsScreenScreenshotTest {
                         onRevertAppSettings = {},
                         onCheckAppSetting = {},
                         onDeleteAppSetting = {},
-                        onAddAppSetting = {},
+                        onAddAppSetting = { _, _, _, _, _, _, _ -> },
                         onRequestPinShortcut = { _, _, _ -> },
                         onGetSecureSettingsByName = { _, _ -> },
                         onLaunchIntentForPackage = {},
@@ -291,7 +285,6 @@ class AppSettingsScreenScreenshotTest {
             ) {
                 Surface {
                     AppSettingsScreen(
-                        packageName = "com.android.geto",
                         appName = "Geto",
                         appSettingsUiState = AppSettingsUiState.Success(emptyList()),
                         snackbarHostState = SnackbarHostState(),
@@ -306,7 +299,7 @@ class AppSettingsScreenScreenshotTest {
                         onRevertAppSettings = {},
                         onCheckAppSetting = {},
                         onDeleteAppSetting = {},
-                        onAddAppSetting = {},
+                        onAddAppSetting = { _, _, _, _, _, _, _ -> },
                         onRequestPinShortcut = { _, _, _ -> },
                         onGetSecureSettingsByName = { _, _ -> },
                         onLaunchIntentForPackage = {},

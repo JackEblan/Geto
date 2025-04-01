@@ -62,8 +62,6 @@ class AppSettingDialogScreenshotTest {
             ) {
                 AppSettingDialog(
                     appSettingDialogState = appSettingDialogState,
-                    packageName = "",
-                    onAddClick = {},
                     contentDescription = "",
                 )
             }
@@ -94,8 +92,6 @@ class AppSettingDialogScreenshotTest {
             ) {
                 AppSettingDialog(
                     appSettingDialogState = appSettingDialogState,
-                    packageName = "",
-                    onAddClick = {},
                     contentDescription = "",
                 )
             }
@@ -104,7 +100,7 @@ class AppSettingDialogScreenshotTest {
 
     @Test
     fun appSettingDialog_error_textfields() {
-        appSettingDialogState.getAppSetting(packageName = "")
+        appSettingDialogState.getAppSetting()
 
         composeTestRule.captureDialogForDevice(
             fileName = "AppSettingDialogErrorTextFields",
@@ -118,8 +114,6 @@ class AppSettingDialogScreenshotTest {
             ) {
                 AppSettingDialog(
                     appSettingDialogState = appSettingDialogState,
-                    packageName = "",
-                    onAddClick = {},
                     contentDescription = "",
                 )
             }
@@ -142,8 +136,6 @@ class AppSettingDialogScreenshotTest {
                 Surface {
                     AppSettingDialog(
                         appSettingDialogState = appSettingDialogState,
-                        packageName = "",
-                        onAddClick = {},
                         contentDescription = "",
                     )
                 }
@@ -177,8 +169,6 @@ class AppSettingDialogScreenshotTest {
                 Surface {
                     AppSettingDialog(
                         appSettingDialogState = appSettingDialogState,
-                        packageName = "",
-                        onAddClick = {},
                         contentDescription = "",
                     )
                 }
@@ -188,7 +178,7 @@ class AppSettingDialogScreenshotTest {
 
     @Test
     fun appSettingDialog_error_textfields_dark() {
-        appSettingDialogState.getAppSetting(packageName = "")
+        appSettingDialogState.getAppSetting()
 
         composeTestRule.captureDialogForDevice(
             fileName = "AppSettingDialogErrorTextFields",
@@ -204,8 +194,6 @@ class AppSettingDialogScreenshotTest {
                 Surface {
                     AppSettingDialog(
                         appSettingDialogState = appSettingDialogState,
-                        packageName = "",
-                        onAddClick = {},
                         contentDescription = "",
                     )
                 }

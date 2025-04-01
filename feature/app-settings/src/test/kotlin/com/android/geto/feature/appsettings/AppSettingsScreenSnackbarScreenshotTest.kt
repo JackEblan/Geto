@@ -79,7 +79,6 @@ class AppSettingsScreenSnackbarScreenshotTest {
                 dynamicTheme = false,
             ) {
                 AppSettingsScreen(
-                    packageName = "com.android.geto",
                     appName = "Geto",
                     appSettingsUiState = AppSettingsUiState.Success(appSettings),
                     snackbarHostState = snackbarHostState,
@@ -94,7 +93,7 @@ class AppSettingsScreenSnackbarScreenshotTest {
                     onRevertAppSettings = {},
                     onCheckAppSetting = {},
                     onDeleteAppSetting = {},
-                    onAddAppSetting = {},
+                    onAddAppSetting = { _, _, _, _, _, _, _ -> },
                     onRequestPinShortcut = { _, _, _ -> },
                     onGetSecureSettingsByName = { _, _ -> },
                     onLaunchIntentForPackage = {},

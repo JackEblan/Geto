@@ -70,7 +70,6 @@ class AppSettingsScreenSnackbarTest {
     fun snackbar_isShown_whenApplyAppSettingsResult_isDisabledAppSettings() {
         composeTestRule.setContent {
             AppSettingsScreen(
-                packageName = "com.android.geto",
                 appName = "Geto",
                 appSettingsUiState = AppSettingsUiState.Success(emptyList()),
                 snackbarHostState = SnackbarHostState(),
@@ -85,7 +84,7 @@ class AppSettingsScreenSnackbarTest {
                 onRevertAppSettings = {},
                 onCheckAppSetting = {},
                 onDeleteAppSetting = {},
-                onAddAppSetting = {},
+                onAddAppSetting = { _, _, _, _, _, _, _ -> },
                 onRequestPinShortcut = { _, _, _ -> },
                 onGetSecureSettingsByName = { _, _ -> },
                 onLaunchIntentForPackage = {},
@@ -112,7 +111,6 @@ class AppSettingsScreenSnackbarTest {
     fun snackbar_isShown_whenApplyAppSettingsResult_isEmptyAppSettings() {
         composeTestRule.setContent {
             AppSettingsScreen(
-                packageName = "com.android.geto",
                 appName = "Geto",
                 appSettingsUiState = AppSettingsUiState.Success(emptyList()),
                 snackbarHostState = SnackbarHostState(),
@@ -127,7 +125,7 @@ class AppSettingsScreenSnackbarTest {
                 onRevertAppSettings = {},
                 onCheckAppSetting = {},
                 onDeleteAppSetting = {},
-                onAddAppSetting = {},
+                onAddAppSetting = { _, _, _, _, _, _, _ -> },
                 onRequestPinShortcut = { _, _, _ -> },
                 onGetSecureSettingsByName = { _, _ -> },
                 onLaunchIntentForPackage = {},
@@ -154,7 +152,7 @@ class AppSettingsScreenSnackbarTest {
     fun snackbar_isShown_whenApplyAppSettingsResult_isFailure() {
         composeTestRule.setContent {
             AppSettingsScreen(
-                packageName = "com.android.geto",
+
                 appName = "Geto",
                 appSettingsUiState = AppSettingsUiState.Success(emptyList()),
                 snackbarHostState = SnackbarHostState(),
@@ -169,7 +167,7 @@ class AppSettingsScreenSnackbarTest {
                 onRevertAppSettings = {},
                 onCheckAppSetting = {},
                 onDeleteAppSetting = {},
-                onAddAppSetting = {},
+                onAddAppSetting = { _, _, _, _, _, _, _ -> },
                 onRequestPinShortcut = { _, _, _ -> },
                 onGetSecureSettingsByName = { _, _ -> },
                 onLaunchIntentForPackage = {},
@@ -196,7 +194,6 @@ class AppSettingsScreenSnackbarTest {
     fun snackbar_isShown_whenApplyAppSettingsResult_isInvalidValues() {
         composeTestRule.setContent {
             AppSettingsScreen(
-                packageName = "com.android.geto",
                 appName = "Geto",
                 appSettingsUiState = AppSettingsUiState.Success(emptyList()),
                 snackbarHostState = SnackbarHostState(),
@@ -211,7 +208,7 @@ class AppSettingsScreenSnackbarTest {
                 onRevertAppSettings = {},
                 onCheckAppSetting = {},
                 onDeleteAppSetting = {},
-                onAddAppSetting = {},
+                onAddAppSetting = { _, _, _, _, _, _, _ -> },
                 onRequestPinShortcut = { _, _, _ -> },
                 onGetSecureSettingsByName = { _, _ -> },
                 onLaunchIntentForPackage = {},
@@ -238,7 +235,6 @@ class AppSettingsScreenSnackbarTest {
     fun snackbar_isShown_whenRevertAppSettingsResult_isDisabledAppSettings() {
         composeTestRule.setContent {
             AppSettingsScreen(
-                packageName = "com.android.geto",
                 appName = "Geto",
                 appSettingsUiState = AppSettingsUiState.Success(emptyList()),
                 snackbarHostState = SnackbarHostState(),
@@ -253,7 +249,7 @@ class AppSettingsScreenSnackbarTest {
                 onRevertAppSettings = {},
                 onCheckAppSetting = {},
                 onDeleteAppSetting = {},
-                onAddAppSetting = {},
+                onAddAppSetting = { _, _, _, _, _, _, _ -> },
                 onRequestPinShortcut = { _, _, _ -> },
                 onGetSecureSettingsByName = { _, _ -> },
                 onLaunchIntentForPackage = {},
@@ -280,7 +276,6 @@ class AppSettingsScreenSnackbarTest {
     fun snackbar_isShown_whenRevertAppSettingsResult_isEmptyAppSettings() {
         composeTestRule.setContent {
             AppSettingsScreen(
-                packageName = "com.android.geto",
                 appName = "Geto",
                 appSettingsUiState = AppSettingsUiState.Success(emptyList()),
                 snackbarHostState = SnackbarHostState(),
@@ -295,7 +290,7 @@ class AppSettingsScreenSnackbarTest {
                 onRevertAppSettings = {},
                 onCheckAppSetting = {},
                 onDeleteAppSetting = {},
-                onAddAppSetting = {},
+                onAddAppSetting = { _, _, _, _, _, _, _ -> },
                 onRequestPinShortcut = { _, _, _ -> },
                 onGetSecureSettingsByName = { _, _ -> },
                 onLaunchIntentForPackage = {},
@@ -322,7 +317,6 @@ class AppSettingsScreenSnackbarTest {
     fun snackbar_isShown_whenRevertAppSettingsResult_isFailure() {
         composeTestRule.setContent {
             AppSettingsScreen(
-                packageName = "com.android.geto",
                 appName = "Geto",
                 appSettingsUiState = AppSettingsUiState.Success(emptyList()),
                 snackbarHostState = SnackbarHostState(),
@@ -337,7 +331,7 @@ class AppSettingsScreenSnackbarTest {
                 onRevertAppSettings = {},
                 onCheckAppSetting = {},
                 onDeleteAppSetting = {},
-                onAddAppSetting = {},
+                onAddAppSetting = { _, _, _, _, _, _, _ -> },
                 onRequestPinShortcut = { _, _, _ -> },
                 onGetSecureSettingsByName = { _, _ -> },
                 onLaunchIntentForPackage = {},
@@ -364,7 +358,7 @@ class AppSettingsScreenSnackbarTest {
     fun snackbar_isShown_whenRevertAppSettingsResult_isSuccess() {
         composeTestRule.setContent {
             AppSettingsScreen(
-                packageName = "com.android.geto",
+
                 appName = "Geto",
                 appSettingsUiState = AppSettingsUiState.Success(emptyList()),
                 snackbarHostState = SnackbarHostState(),
@@ -379,7 +373,7 @@ class AppSettingsScreenSnackbarTest {
                 onRevertAppSettings = {},
                 onCheckAppSetting = {},
                 onDeleteAppSetting = {},
-                onAddAppSetting = {},
+                onAddAppSetting = { _, _, _, _, _, _, _ -> },
                 onRequestPinShortcut = { _, _, _ -> },
                 onGetSecureSettingsByName = { _, _ -> },
                 onLaunchIntentForPackage = {},
@@ -406,7 +400,7 @@ class AppSettingsScreenSnackbarTest {
     fun snackbar_isShown_whenRevertAppSettingsResult_isInvalidValues() {
         composeTestRule.setContent {
             AppSettingsScreen(
-                packageName = "com.android.geto",
+
                 appName = "Geto",
                 appSettingsUiState = AppSettingsUiState.Success(emptyList()),
                 snackbarHostState = SnackbarHostState(),
@@ -421,7 +415,7 @@ class AppSettingsScreenSnackbarTest {
                 onRevertAppSettings = {},
                 onCheckAppSetting = {},
                 onDeleteAppSetting = {},
-                onAddAppSetting = {},
+                onAddAppSetting = { _, _, _, _, _, _, _ -> },
                 onRequestPinShortcut = { _, _, _ -> },
                 onGetSecureSettingsByName = { _, _ -> },
                 onLaunchIntentForPackage = {},
@@ -448,7 +442,7 @@ class AppSettingsScreenSnackbarTest {
     fun snackbar_isShown_whenRequestPinShortcutResult_isSupportedLauncher() {
         composeTestRule.setContent {
             AppSettingsScreen(
-                packageName = "com.android.geto",
+
                 appName = "Geto",
                 appSettingsUiState = AppSettingsUiState.Success(emptyList()),
                 snackbarHostState = SnackbarHostState(),
@@ -463,7 +457,7 @@ class AppSettingsScreenSnackbarTest {
                 onRevertAppSettings = {},
                 onCheckAppSetting = {},
                 onDeleteAppSetting = {},
-                onAddAppSetting = {},
+                onAddAppSetting = { _, _, _, _, _, _, _ -> },
                 onRequestPinShortcut = { _, _, _ -> },
                 onGetSecureSettingsByName = { _, _ -> },
                 onLaunchIntentForPackage = {},
@@ -490,7 +484,7 @@ class AppSettingsScreenSnackbarTest {
     fun snackbar_isShown_whenRequestPinShortcutResult_isUnsupportedLauncher() {
         composeTestRule.setContent {
             AppSettingsScreen(
-                packageName = "com.android.geto",
+
                 appName = "Geto",
                 appSettingsUiState = AppSettingsUiState.Success(emptyList()),
                 snackbarHostState = SnackbarHostState(),
@@ -505,7 +499,7 @@ class AppSettingsScreenSnackbarTest {
                 onRevertAppSettings = {},
                 onCheckAppSetting = {},
                 onDeleteAppSetting = {},
-                onAddAppSetting = {},
+                onAddAppSetting = { _, _, _, _, _, _, _ -> },
                 onRequestPinShortcut = { _, _, _ -> },
                 onGetSecureSettingsByName = { _, _ -> },
                 onLaunchIntentForPackage = {},
@@ -532,7 +526,7 @@ class AppSettingsScreenSnackbarTest {
     fun snackbar_isShown_whenRequestPinShortcutResult_isUpdateFailure() {
         composeTestRule.setContent {
             AppSettingsScreen(
-                packageName = "com.android.geto",
+
                 appName = "Geto",
                 appSettingsUiState = AppSettingsUiState.Success(emptyList()),
                 snackbarHostState = SnackbarHostState(),
@@ -547,7 +541,7 @@ class AppSettingsScreenSnackbarTest {
                 onRevertAppSettings = {},
                 onCheckAppSetting = {},
                 onDeleteAppSetting = {},
-                onAddAppSetting = {},
+                onAddAppSetting = { _, _, _, _, _, _, _ -> },
                 onRequestPinShortcut = { _, _, _ -> },
                 onGetSecureSettingsByName = { _, _ -> },
                 onLaunchIntentForPackage = {},
@@ -574,7 +568,7 @@ class AppSettingsScreenSnackbarTest {
     fun snackbar_isShown_whenRequestPinShortcutResult_isUpdateSuccess() {
         composeTestRule.setContent {
             AppSettingsScreen(
-                packageName = "com.android.geto",
+
                 appName = "Geto",
                 appSettingsUiState = AppSettingsUiState.Success(emptyList()),
                 snackbarHostState = SnackbarHostState(),
@@ -589,7 +583,7 @@ class AppSettingsScreenSnackbarTest {
                 onRevertAppSettings = {},
                 onCheckAppSetting = {},
                 onDeleteAppSetting = {},
-                onAddAppSetting = {},
+                onAddAppSetting = { _, _, _, _, _, _, _ -> },
                 onRequestPinShortcut = { _, _, _ -> },
                 onGetSecureSettingsByName = { _, _ -> },
                 onLaunchIntentForPackage = {},
@@ -616,7 +610,7 @@ class AppSettingsScreenSnackbarTest {
     fun snackbar_isShown_whenRequestPinShortcutResult_isUpdateImmutableShortcuts() {
         composeTestRule.setContent {
             AppSettingsScreen(
-                packageName = "com.android.geto",
+
                 appName = "Geto",
                 appSettingsUiState = AppSettingsUiState.Success(emptyList()),
                 snackbarHostState = SnackbarHostState(),
@@ -631,7 +625,7 @@ class AppSettingsScreenSnackbarTest {
                 onRevertAppSettings = {},
                 onCheckAppSetting = {},
                 onDeleteAppSetting = {},
-                onAddAppSetting = {},
+                onAddAppSetting = { _, _, _, _, _, _, _ -> },
                 onRequestPinShortcut = { _, _, _ -> },
                 onGetSecureSettingsByName = { _, _ -> },
                 onLaunchIntentForPackage = {},
@@ -658,7 +652,7 @@ class AppSettingsScreenSnackbarTest {
     fun snackbar_isShown_whenAddAppSettingsResult_isSuccess() {
         composeTestRule.setContent {
             AppSettingsScreen(
-                packageName = "com.android.geto",
+
                 appName = "Geto",
                 appSettingsUiState = AppSettingsUiState.Success(emptyList()),
                 snackbarHostState = SnackbarHostState(),
@@ -673,7 +667,7 @@ class AppSettingsScreenSnackbarTest {
                 onRevertAppSettings = {},
                 onCheckAppSetting = {},
                 onDeleteAppSetting = {},
-                onAddAppSetting = {},
+                onAddAppSetting = { _, _, _, _, _, _, _ -> },
                 onRequestPinShortcut = { _, _, _ -> },
                 onGetSecureSettingsByName = { _, _ -> },
                 onLaunchIntentForPackage = {},
@@ -700,7 +694,7 @@ class AppSettingsScreenSnackbarTest {
     fun snackbar_isShown_whenAddAppSettingsResult_isFailed() {
         composeTestRule.setContent {
             AppSettingsScreen(
-                packageName = "com.android.geto",
+
                 appName = "Geto",
                 appSettingsUiState = AppSettingsUiState.Success(emptyList()),
                 snackbarHostState = SnackbarHostState(),
@@ -715,7 +709,7 @@ class AppSettingsScreenSnackbarTest {
                 onRevertAppSettings = {},
                 onCheckAppSetting = {},
                 onDeleteAppSetting = {},
-                onAddAppSetting = {},
+                onAddAppSetting = { _, _, _, _, _, _, _ -> },
                 onRequestPinShortcut = { _, _, _ -> },
                 onGetSecureSettingsByName = { _, _ -> },
                 onLaunchIntentForPackage = {},

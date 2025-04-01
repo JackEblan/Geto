@@ -44,7 +44,7 @@ class ShortcutDialogScreenshotTest {
 
     @BeforeTest
     fun setUp() {
-        shortcutDialogState = ShortcutDialogState { _, _, _ -> }
+        shortcutDialogState = ShortcutDialogState()
     }
 
     @Test

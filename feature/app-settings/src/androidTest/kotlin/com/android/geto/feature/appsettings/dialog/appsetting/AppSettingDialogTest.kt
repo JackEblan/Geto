@@ -28,9 +28,8 @@ import androidx.compose.ui.test.performScrollTo
 import com.android.geto.domain.model.SecureSetting
 import com.android.geto.domain.model.SettingType
 import org.junit.Rule
+import kotlin.test.BeforeTest
 import kotlin.test.Test
-import kotlin.test.assertFalse
-import kotlin.test.assertTrue
 
 class AppSettingDialogTest {
     @get:Rule
@@ -45,11 +44,16 @@ class AppSettingDialogTest {
         )
     }
 
+    private lateinit var appSettingDialogState: AppSettingDialogState
+
+    @BeforeTest
+    fun setup() {
+        appSettingDialogState = AppSettingDialogState()
+    }
+
     @Test
     fun labelSupportingText_isDisplayed_whenLabelTextField_isBlank() {
         composeTestRule.setContent {
-            val appSettingDialogState = rememberAppSettingDialogState()
-
             appSettingDialogState.updateSecureSettings(secureSettings)
 
             appSettingDialogState.updateSelectedRadioOptionIndex(1)
@@ -64,10 +68,6 @@ class AppSettingDialogTest {
 
             AppSettingDialog(
                 appSettingDialogState = appSettingDialogState,
-                packageName = "",
-                onAddClick = {
-                    assertTrue(appSettingDialogState.showDialog)
-                },
                 contentDescription = "",
             )
         }
@@ -83,8 +83,6 @@ class AppSettingDialogTest {
     @Test
     fun keySupportingText_isDisplayed_whenKeyTextField_isBlank() {
         composeTestRule.setContent {
-            val appSettingDialogState = rememberAppSettingDialogState()
-
             appSettingDialogState.updateSecureSettings(secureSettings)
 
             appSettingDialogState.updateSelectedRadioOptionIndex(1)
@@ -99,10 +97,6 @@ class AppSettingDialogTest {
 
             AppSettingDialog(
                 appSettingDialogState = appSettingDialogState,
-                packageName = "",
-                onAddClick = {
-                    assertTrue(appSettingDialogState.showDialog)
-                },
                 contentDescription = "",
             )
         }
@@ -118,8 +112,6 @@ class AppSettingDialogTest {
     @Test
     fun settingsKeyNotFoundSupportingText_isDisplayed_whenSettingsKey_notFound() {
         composeTestRule.setContent {
-            val appSettingDialogState = rememberAppSettingDialogState()
-
             appSettingDialogState.updateSecureSettings(secureSettings)
 
             appSettingDialogState.updateSelectedRadioOptionIndex(1)
@@ -134,10 +126,6 @@ class AppSettingDialogTest {
 
             AppSettingDialog(
                 appSettingDialogState = appSettingDialogState,
-                packageName = "",
-                onAddClick = {
-                    assertTrue(appSettingDialogState.showDialog)
-                },
                 contentDescription = "",
             )
         }
@@ -153,8 +141,6 @@ class AppSettingDialogTest {
     @Test
     fun valueOnLaunchSupportingText_isDisplayed_whenValueOnLaunchTextField_isBlank() {
         composeTestRule.setContent {
-            val appSettingDialogState = rememberAppSettingDialogState()
-
             appSettingDialogState.updateSecureSettings(secureSettings)
 
             appSettingDialogState.updateSelectedRadioOptionIndex(1)
@@ -169,10 +155,6 @@ class AppSettingDialogTest {
 
             AppSettingDialog(
                 appSettingDialogState = appSettingDialogState,
-                packageName = "",
-                onAddClick = {
-                    assertTrue(appSettingDialogState.showDialog)
-                },
                 contentDescription = "",
             )
         }
@@ -188,8 +170,6 @@ class AppSettingDialogTest {
     @Test
     fun valueOnRevertSupportingText_isDisplayed_whenValueOnRevertTextField_isBlank() {
         composeTestRule.setContent {
-            val appSettingDialogState = rememberAppSettingDialogState()
-
             appSettingDialogState.updateSecureSettings(secureSettings)
 
             appSettingDialogState.updateSelectedRadioOptionIndex(1)
@@ -204,10 +184,6 @@ class AppSettingDialogTest {
 
             AppSettingDialog(
                 appSettingDialogState = appSettingDialogState,
-                packageName = "",
-                onAddClick = {
-                    assertTrue(appSettingDialogState.showDialog)
-                },
                 contentDescription = "",
             )
         }
@@ -223,16 +199,10 @@ class AppSettingDialogTest {
     @Test
     fun exposedDropdownMenuBox_isDisplayed_whenSecureSettingsListExpanded_isTrue() {
         composeTestRule.setContent {
-            val appSettingDialogState = rememberAppSettingDialogState()
-
             appSettingDialogState.updateSecureSettings(secureSettings)
 
             AppSettingDialog(
                 appSettingDialogState = appSettingDialogState,
-                packageName = "",
-                onAddClick = {
-                    assertTrue(appSettingDialogState.showDialog)
-                },
                 contentDescription = "",
             )
         }
@@ -248,16 +218,10 @@ class AppSettingDialogTest {
     @Test
     fun keyTextField_has_value_whenSecureSettingsListItem_isClicked() {
         composeTestRule.setContent {
-            val appSettingDialogState = rememberAppSettingDialogState()
-
             appSettingDialogState.updateSecureSettings(secureSettings)
 
             AppSettingDialog(
                 appSettingDialogState = appSettingDialogState,
-                packageName = "",
-                onAddClick = {
-                    assertTrue(appSettingDialogState.showDialog)
-                },
                 contentDescription = "",
             )
         }
@@ -281,8 +245,6 @@ class AppSettingDialogTest {
     @Test
     fun appSettingDialog_isDismissed() {
         composeTestRule.setContent {
-            val appSettingDialogState = rememberAppSettingDialogState()
-
             appSettingDialogState.updateSecureSettings(secureSettings)
 
             appSettingDialogState.updateSelectedRadioOptionIndex(1)
@@ -297,10 +259,6 @@ class AppSettingDialogTest {
 
             AppSettingDialog(
                 appSettingDialogState = appSettingDialogState,
-                packageName = "",
-                onAddClick = {
-                    assertFalse(appSettingDialogState.showDialog)
-                },
                 contentDescription = "",
             )
         }
