@@ -36,7 +36,7 @@ class ShortcutDialogStateTest {
     fun shortLabelError_isNotBlank_whenShortLabel_isBlank() {
         shortcutDialogState.updateShortLabel("")
 
-        shortcutDialogState.getShortcut()
+        shortcutDialogState.getShortcut(onRequestPinShortcut = { _, _, _ -> })
 
         assertTrue(shortcutDialogState.showShortLabelError)
     }
@@ -45,7 +45,7 @@ class ShortcutDialogStateTest {
     fun shortLabelError_isBlank_whenShortLabel_isNotBlank() {
         shortcutDialogState.updateShortLabel("Geto")
 
-        shortcutDialogState.getShortcut()
+        shortcutDialogState.getShortcut(onRequestPinShortcut = { _, _, _ -> })
 
         assertFalse(shortcutDialogState.showShortLabelError)
     }
@@ -54,7 +54,7 @@ class ShortcutDialogStateTest {
     fun longLabelError_isNotBlank_whenLongLabel_isBlank() {
         shortcutDialogState.updateLongLabel("")
 
-        shortcutDialogState.getShortcut()
+        shortcutDialogState.getShortcut(onRequestPinShortcut = { _, _, _ -> })
 
         assertTrue(shortcutDialogState.showLongLabelError)
     }
@@ -63,7 +63,7 @@ class ShortcutDialogStateTest {
     fun longLabelError_isBlank_whenLongLabel_isNotBlank() {
         shortcutDialogState.updateLongLabel("Geto")
 
-        shortcutDialogState.getShortcut()
+        shortcutDialogState.getShortcut(onRequestPinShortcut = { _, _, _ -> })
 
         assertFalse(shortcutDialogState.showLongLabelError)
     }
@@ -75,7 +75,7 @@ class ShortcutDialogStateTest {
         shortcutDialogState.updateLongLabel("Geto")
 
         assertNotNull(
-            shortcutDialogState.getShortcut(),
+            shortcutDialogState.getShortcut(onRequestPinShortcut = { _, _, _ -> }),
         )
     }
 

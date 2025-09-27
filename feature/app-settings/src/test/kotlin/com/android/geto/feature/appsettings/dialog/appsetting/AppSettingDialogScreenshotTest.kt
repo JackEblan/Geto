@@ -63,6 +63,7 @@ class AppSettingDialogScreenshotTest {
                 AppSettingDialog(
                     appSettingDialogState = appSettingDialogState,
                     contentDescription = "",
+                    onAddAppSetting = { _, _, _, _, _, _, _ -> },
                 )
             }
         }
@@ -93,6 +94,7 @@ class AppSettingDialogScreenshotTest {
                 AppSettingDialog(
                     appSettingDialogState = appSettingDialogState,
                     contentDescription = "",
+                    onAddAppSetting = { _, _, _, _, _, _, _ -> },
                 )
             }
         }
@@ -100,7 +102,7 @@ class AppSettingDialogScreenshotTest {
 
     @Test
     fun appSettingDialog_error_textfields() {
-        appSettingDialogState.getAppSetting()
+        appSettingDialogState.getAppSetting(onAddAppSetting = { _, _, _, _, _, _, _ -> })
 
         composeTestRule.captureDialogForDevice(
             fileName = "AppSettingDialogErrorTextFields",
@@ -115,6 +117,7 @@ class AppSettingDialogScreenshotTest {
                 AppSettingDialog(
                     appSettingDialogState = appSettingDialogState,
                     contentDescription = "",
+                    onAddAppSetting = { _, _, _, _, _, _, _ -> },
                 )
             }
         }
@@ -137,6 +140,7 @@ class AppSettingDialogScreenshotTest {
                     AppSettingDialog(
                         appSettingDialogState = appSettingDialogState,
                         contentDescription = "",
+                        onAddAppSetting = { _, _, _, _, _, _, _ -> },
                     )
                 }
             }
@@ -170,6 +174,7 @@ class AppSettingDialogScreenshotTest {
                     AppSettingDialog(
                         appSettingDialogState = appSettingDialogState,
                         contentDescription = "",
+                        onAddAppSetting = { _, _, _, _, _, _, _ -> },
                     )
                 }
             }
@@ -178,7 +183,7 @@ class AppSettingDialogScreenshotTest {
 
     @Test
     fun appSettingDialog_error_textfields_dark() {
-        appSettingDialogState.getAppSetting()
+        appSettingDialogState.getAppSetting(onAddAppSetting = { _, _, _, _, _, _, _ -> })
 
         composeTestRule.captureDialogForDevice(
             fileName = "AppSettingDialogErrorTextFields",
@@ -195,6 +200,7 @@ class AppSettingDialogScreenshotTest {
                     AppSettingDialog(
                         appSettingDialogState = appSettingDialogState,
                         contentDescription = "",
+                        onAddAppSetting = { _, _, _, _, _, _, _ -> },
                     )
                 }
             }

@@ -38,7 +38,7 @@ class AppSettingsDialogStateTest {
     fun labelError_isNotBlank_whenLabel_isBlank() {
         appSettingDialogState.updateLabel("")
 
-        appSettingDialogState.getAppSetting()
+        appSettingDialogState.getAppSetting(onAddAppSetting = { _, _, _, _, _, _, _ -> })
 
         assertTrue(appSettingDialogState.showLabelError)
     }
@@ -47,7 +47,7 @@ class AppSettingsDialogStateTest {
     fun labelError_isBlank_whenLabel_isNotBlank() {
         appSettingDialogState.updateLabel("Geto")
 
-        appSettingDialogState.getAppSetting()
+        appSettingDialogState.getAppSetting(onAddAppSetting = { _, _, _, _, _, _, _ -> })
 
         assertFalse { appSettingDialogState.showLabelError }
     }
@@ -56,7 +56,7 @@ class AppSettingsDialogStateTest {
     fun keyError_isNotBlank_whenKey_isBlank() {
         appSettingDialogState.updateKey("")
 
-        appSettingDialogState.getAppSetting()
+        appSettingDialogState.getAppSetting(onAddAppSetting = { _, _, _, _, _, _, _ -> })
 
         assertTrue(appSettingDialogState.showKeyError)
     }
@@ -65,7 +65,7 @@ class AppSettingsDialogStateTest {
     fun keyError_isBlank_whenKey_isNotBlank() {
         appSettingDialogState.updateKey("Geto")
 
-        appSettingDialogState.getAppSetting()
+        appSettingDialogState.getAppSetting(onAddAppSetting = { _, _, _, _, _, _, _ -> })
 
         assertFalse { appSettingDialogState.showKeyError }
     }
@@ -85,7 +85,7 @@ class AppSettingsDialogStateTest {
 
         appSettingDialogState.updateKey("_")
 
-        appSettingDialogState.getAppSetting()
+        appSettingDialogState.getAppSetting(onAddAppSetting = { _, _, _, _, _, _, _ -> })
 
         assertTrue(appSettingDialogState.showKeyNotFoundError)
     }
@@ -105,7 +105,7 @@ class AppSettingsDialogStateTest {
 
         appSettingDialogState.updateKey("Geto")
 
-        appSettingDialogState.getAppSetting()
+        appSettingDialogState.getAppSetting(onAddAppSetting = { _, _, _, _, _, _, _ -> })
 
         assertFalse(appSettingDialogState.showKeyNotFoundError)
     }
@@ -114,7 +114,7 @@ class AppSettingsDialogStateTest {
     fun valueOnLaunchError_isNotBlank_whenValueOnLaunch_isBlank() {
         appSettingDialogState.updateValueOnLaunch("")
 
-        appSettingDialogState.getAppSetting()
+        appSettingDialogState.getAppSetting(onAddAppSetting = { _, _, _, _, _, _, _ -> })
 
         assertTrue { appSettingDialogState.showValueOnLaunchError }
     }
@@ -123,7 +123,7 @@ class AppSettingsDialogStateTest {
     fun valueOnLaunchError_isBlank_whenValueOnLaunch_isNotBlank() {
         appSettingDialogState.updateValueOnLaunch("0")
 
-        appSettingDialogState.getAppSetting()
+        appSettingDialogState.getAppSetting(onAddAppSetting = { _, _, _, _, _, _, _ -> })
 
         assertFalse(appSettingDialogState.showValueOnLaunchError)
     }
@@ -132,7 +132,7 @@ class AppSettingsDialogStateTest {
     fun valueOnRevertError_isNotBlank_whenValueOnRevert_isBlank() {
         appSettingDialogState.updateValueOnRevert("")
 
-        appSettingDialogState.getAppSetting()
+        appSettingDialogState.getAppSetting(onAddAppSetting = { _, _, _, _, _, _, _ -> })
 
         assertTrue(appSettingDialogState.showValueOnRevertError)
     }
@@ -141,7 +141,7 @@ class AppSettingsDialogStateTest {
     fun valueOnRevertError_isBlank_whenValueOnRevert_isNotBlank() {
         appSettingDialogState.updateValueOnRevert("1")
 
-        appSettingDialogState.getAppSetting()
+        appSettingDialogState.getAppSetting(onAddAppSetting = { _, _, _, _, _, _, _ -> })
 
         assertFalse(appSettingDialogState.showValueOnRevertError)
     }
@@ -169,6 +169,6 @@ class AppSettingsDialogStateTest {
 
         appSettingDialogState.updateValueOnRevert("1")
 
-        assertNotNull(appSettingDialogState.getAppSetting())
+        assertNotNull(appSettingDialogState.getAppSetting(onAddAppSetting = { _, _, _, _, _, _, _ -> }))
     }
 }

@@ -49,6 +49,7 @@ class ShortcutDialogTest {
             ShortcutDialog(
                 shortcutDialogState = shortcutDialogState,
                 contentDescription = "",
+                onRequestPinShortcut = { _, _, _ -> },
             )
         }
 
@@ -73,6 +74,7 @@ class ShortcutDialogTest {
             ShortcutDialog(
                 shortcutDialogState = shortcutDialogState,
                 contentDescription = "",
+                onRequestPinShortcut = { _, _, _ -> },
             )
         }
 
@@ -94,6 +96,7 @@ class ShortcutDialogTest {
             ShortcutDialog(
                 shortcutDialogState = shortcutDialogState,
                 contentDescription = "",
+                onRequestPinShortcut = { _, _, _ -> },
             )
         }
 
@@ -114,6 +117,7 @@ class ShortcutDialogTest {
             ShortcutDialog(
                 shortcutDialogState = shortcutDialogState,
                 contentDescription = "",
+                onRequestPinShortcut = { _, _, _ -> },
             )
         }
 
@@ -134,6 +138,7 @@ class ShortcutDialogTest {
             ShortcutDialog(
                 shortcutDialogState = shortcutDialogState,
                 contentDescription = "",
+                onRequestPinShortcut = { _, _, _ -> },
             )
         }
 
@@ -155,6 +160,7 @@ class ShortcutDialogTest {
             ShortcutDialog(
                 shortcutDialogState = shortcutDialogState,
                 contentDescription = "",
+                onRequestPinShortcut = { _, _, _ -> },
             )
         }
 

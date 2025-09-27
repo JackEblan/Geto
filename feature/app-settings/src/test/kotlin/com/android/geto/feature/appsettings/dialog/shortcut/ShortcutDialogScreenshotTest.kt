@@ -62,6 +62,7 @@ class ShortcutDialogScreenshotTest {
                 ShortcutDialog(
                     shortcutDialogState = shortcutDialogState,
                     contentDescription = "",
+                    onRequestPinShortcut = { _, _, _ -> },
                 )
             }
         }
@@ -86,6 +87,7 @@ class ShortcutDialogScreenshotTest {
                 ShortcutDialog(
                     shortcutDialogState = shortcutDialogState,
                     contentDescription = "",
+                    onRequestPinShortcut = { _, _, _ -> },
                 )
             }
         }
@@ -93,7 +95,7 @@ class ShortcutDialogScreenshotTest {
 
     @Test
     fun shortcutDialog_error_textfields() {
-        shortcutDialogState.getShortcut()
+        shortcutDialogState.getShortcut(onRequestPinShortcut = { _, _, _ -> })
 
         composeTestRule.captureDialogForDevice(
             fileName = "ShortcutDialogErrorTextFields",
@@ -108,6 +110,7 @@ class ShortcutDialogScreenshotTest {
                 ShortcutDialog(
                     shortcutDialogState = shortcutDialogState,
                     contentDescription = "",
+                    onRequestPinShortcut = { _, _, _ -> },
                 )
             }
         }
@@ -130,6 +133,7 @@ class ShortcutDialogScreenshotTest {
                     ShortcutDialog(
                         shortcutDialogState = shortcutDialogState,
                         contentDescription = "",
+                        onRequestPinShortcut = { _, _, _ -> },
                     )
                 }
             }
@@ -157,6 +161,7 @@ class ShortcutDialogScreenshotTest {
                     ShortcutDialog(
                         shortcutDialogState = shortcutDialogState,
                         contentDescription = "",
+                        onRequestPinShortcut = { _, _, _ -> },
                     )
                 }
             }
@@ -165,7 +170,7 @@ class ShortcutDialogScreenshotTest {
 
     @Test
     fun shortcutDialog_error_textfields_dark() {
-        shortcutDialogState.getShortcut()
+        shortcutDialogState.getShortcut(onRequestPinShortcut = { _, _, _ -> })
 
         composeTestRule.captureDialogForDevice(
             fileName = "ShortcutDialogErrorTextFields",
@@ -182,6 +187,7 @@ class ShortcutDialogScreenshotTest {
                     ShortcutDialog(
                         shortcutDialogState = shortcutDialogState,
                         contentDescription = "",
+                        onRequestPinShortcut = { _, _, _ -> },
                     )
                 }
             }

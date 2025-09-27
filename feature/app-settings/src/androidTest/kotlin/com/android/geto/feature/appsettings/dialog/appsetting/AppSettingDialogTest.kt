@@ -69,6 +69,7 @@ class AppSettingDialogTest {
             AppSettingDialog(
                 appSettingDialogState = appSettingDialogState,
                 contentDescription = "",
+                onAddAppSetting = { _, _, _, _, _, _, _ -> },
             )
         }
 
@@ -98,6 +99,7 @@ class AppSettingDialogTest {
             AppSettingDialog(
                 appSettingDialogState = appSettingDialogState,
                 contentDescription = "",
+                onAddAppSetting = { _, _, _, _, _, _, _ -> },
             )
         }
 
@@ -127,6 +129,7 @@ class AppSettingDialogTest {
             AppSettingDialog(
                 appSettingDialogState = appSettingDialogState,
                 contentDescription = "",
+                onAddAppSetting = { _, _, _, _, _, _, _ -> },
             )
         }
 
@@ -156,6 +159,7 @@ class AppSettingDialogTest {
             AppSettingDialog(
                 appSettingDialogState = appSettingDialogState,
                 contentDescription = "",
+                onAddAppSetting = { _, _, _, _, _, _, _ -> },
             )
         }
 
@@ -185,6 +189,7 @@ class AppSettingDialogTest {
             AppSettingDialog(
                 appSettingDialogState = appSettingDialogState,
                 contentDescription = "",
+                onAddAppSetting = { _, _, _, _, _, _, _ -> },
             )
         }
 
@@ -204,6 +209,7 @@ class AppSettingDialogTest {
             AppSettingDialog(
                 appSettingDialogState = appSettingDialogState,
                 contentDescription = "",
+                onAddAppSetting = { _, _, _, _, _, _, _ -> },
             )
         }
 
@@ -223,6 +229,7 @@ class AppSettingDialogTest {
             AppSettingDialog(
                 appSettingDialogState = appSettingDialogState,
                 contentDescription = "",
+                onAddAppSetting = { _, _, _, _, _, _, _ -> },
             )
         }
 
@@ -260,6 +267,7 @@ class AppSettingDialogTest {
             AppSettingDialog(
                 appSettingDialogState = appSettingDialogState,
                 contentDescription = "",
+                onAddAppSetting = { _, _, _, _, _, _, _ -> },
             )
         }
 
