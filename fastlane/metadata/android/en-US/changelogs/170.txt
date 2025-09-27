@@ -1,0 +1,2 @@
+What's new
+- Fixed update shortcut crash
