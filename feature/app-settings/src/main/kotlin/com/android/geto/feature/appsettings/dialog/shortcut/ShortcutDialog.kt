@@ -52,6 +52,7 @@ internal fun ShortcutDialog(
     shortcutDialogState: ShortcutDialogState,
     scrollState: ScrollState = rememberScrollState(),
     contentDescription: String,
+    onRequestPinShortcut: (ByteArray?, String, String) -> Unit,
 ) {
     DialogContainer(
         modifier = modifier
@@ -77,7 +78,7 @@ internal fun ShortcutDialog(
             )
 
             ShortcutDialogButtons(
-                onPositiveTextButtonClick = shortcutDialogState::getShortcut,
+                onPositiveTextButtonClick = { shortcutDialogState.getShortcut(onRequestPinShortcut = onRequestPinShortcut) },
                 onNegativeTextButtonClick = {
                     shortcutDialogState.updateShowDialog(false)
                 },

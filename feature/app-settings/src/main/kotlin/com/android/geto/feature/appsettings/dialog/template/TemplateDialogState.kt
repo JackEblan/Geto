@@ -28,38 +28,14 @@ import com.android.geto.domain.model.AppSettingTemplate
 import com.android.geto.domain.model.SettingType
 
 @Composable
-internal fun rememberTemplateDialogState(
-    onAddAppSetting: (
-        (
-            id: Int,
-            enabled: Boolean,
-            settingType: SettingType,
-            label: String,
-            key: String,
-            valueOnLaunch: String,
-            valueOnRevert: String,
-        ) -> Unit
-    )?,
-): TemplateDialogState {
+internal fun rememberTemplateDialogState(): TemplateDialogState {
     return rememberSaveable(saver = TemplateDialogState.Saver) {
-        TemplateDialogState(onAddAppSetting = onAddAppSetting)
+        TemplateDialogState()
     }
 }
 
 @Stable
-internal class TemplateDialogState(
-    private val onAddAppSetting: (
-        (
-            id: Int,
-            enabled: Boolean,
-            settingType: SettingType,
-            label: String,
-            key: String,
-            valueOnLaunch: String,
-            valueOnRevert: String,
-        ) -> Unit
-    )? = null,
-) {
+internal class TemplateDialogState() {
     var showDialog by mutableStateOf(false)
         private set
 
@@ -69,8 +45,19 @@ internal class TemplateDialogState(
 
     fun addAppSetting(
         appSettingTemplate: AppSettingTemplate,
+        onAddAppSetting: (
+        (
+            id: Int,
+            enabled: Boolean,
+            settingType: SettingType,
+            label: String,
+            key: String,
+            valueOnLaunch: String,
+            valueOnRevert: String,
+        ) -> Unit
+        ),
     ) {
-        onAddAppSetting?.invoke(
+        onAddAppSetting(
             0,
             true,
             appSettingTemplate.settingType,

@@ -40,6 +40,7 @@ import com.android.geto.designsystem.component.DialogContainer
 import com.android.geto.designsystem.component.GetoLoadingWheel
 import com.android.geto.designsystem.icon.GetoIcons
 import com.android.geto.domain.model.AppSettingTemplate
+import com.android.geto.domain.model.SettingType
 import com.android.geto.feature.appsettings.R
 
 @Composable
@@ -48,6 +49,7 @@ internal fun TemplateDialog(
     contentDescription: String,
     templateDialogUiState: TemplateDialogUiState,
     templateDialogState: TemplateDialogState,
+    onAddAppSetting: (Int, Boolean, SettingType, String, String, String, String) -> Unit,
 ) {
     DialogContainer(
         modifier = modifier
@@ -72,7 +74,12 @@ internal fun TemplateDialog(
                 is TemplateDialogUiState.Success -> {
                     TemplateDialogContent(
                         appSettingTemplates = templateDialogUiState.appSettingTemplates,
-                        onAddClick = templateDialogState::addAppSetting,
+                        onAddClick = { appSettingTemplate ->
+                            templateDialogState.addAppSetting(
+                                appSettingTemplate = appSettingTemplate,
+                                onAddAppSetting = onAddAppSetting,
+                            )
+                        },
                     )
                 }
             }

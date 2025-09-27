@@ -60,6 +60,15 @@ internal fun AppSettingDialog(
     appSettingDialogState: AppSettingDialogState,
     scrollState: ScrollState = rememberScrollState(),
     contentDescription: String,
+    onAddAppSetting: (
+        id: Int,
+        enabled: Boolean,
+        settingType: SettingType,
+        label: String,
+        key: String,
+        valueOnLaunch: String,
+        valueOnRevert: String,
+    ) -> Unit,
 ) {
     DialogContainer(
         modifier = modifier
@@ -86,7 +95,7 @@ internal fun AppSettingDialog(
                 onCancelClick = {
                     appSettingDialogState.updateShowDialog(false)
                 },
-                onAddClick = appSettingDialogState::getAppSetting,
+                onAddClick = { appSettingDialogState.getAppSetting(onAddAppSetting = onAddAppSetting) },
             )
         }
     }

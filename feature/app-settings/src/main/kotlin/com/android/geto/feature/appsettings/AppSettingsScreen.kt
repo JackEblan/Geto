@@ -201,13 +201,11 @@ internal fun AppSettingsScreen(
     onNavigationIconClick: () -> Unit,
     onShizuku: () -> Unit,
 ) {
-    val appSettingDialogState = rememberAppSettingDialogState(onAddAppSetting = onAddAppSetting)
+    val appSettingDialogState = rememberAppSettingDialogState()
 
-    val shortcutDialogState = rememberShortcutDialogState(
-        onRequestPinShortcut = onRequestPinShortcut,
-    )
+    val shortcutDialogState = rememberShortcutDialogState()
 
-    val templateDialogState = rememberTemplateDialogState(onAddAppSetting = onAddAppSetting)
+    val templateDialogState = rememberTemplateDialogState()
 
     AppSettingsLaunchedEffects(
         snackbarHostState = snackbarHostState,
@@ -234,6 +232,8 @@ internal fun AppSettingsScreen(
         shortcutDialogState = shortcutDialogState,
         templateDialogUiState = templateDialogUiState,
         templateDialogState = templateDialogState,
+        onAddAppSetting = onAddAppSetting,
+        onRequestPinShortcut = onRequestPinShortcut,
     )
 
     Scaffold(
@@ -527,11 +527,22 @@ private fun AppSettingsDialogs(
     shortcutDialogState: ShortcutDialogState,
     templateDialogUiState: TemplateDialogUiState,
     templateDialogState: TemplateDialogState,
+    onAddAppSetting: (
+        id: Int,
+        enabled: Boolean,
+        settingType: SettingType,
+        label: String,
+        key: String,
+        valueOnLaunch: String,
+        valueOnRevert: String,
+    ) -> Unit,
+    onRequestPinShortcut: (ByteArray?, String, String) -> Unit,
 ) {
     if (appSettingDialogState.showDialog) {
         AppSettingDialog(
             appSettingDialogState = appSettingDialogState,
             contentDescription = "Add App Settings Dialog",
+            onAddAppSetting = onAddAppSetting,
         )
     }
 
@@ -539,6 +550,7 @@ private fun AppSettingsDialogs(
         ShortcutDialog(
             shortcutDialogState = shortcutDialogState,
             contentDescription = "Add Shortcut Dialog",
+            onRequestPinShortcut = onRequestPinShortcut,
         )
     }
 
@@ -547,6 +559,7 @@ private fun AppSettingsDialogs(
             templateDialogUiState = templateDialogUiState,
             templateDialogState = templateDialogState,
             contentDescription = "Template Dialog",
+            onAddAppSetting = onAddAppSetting,
         )
     }
 }

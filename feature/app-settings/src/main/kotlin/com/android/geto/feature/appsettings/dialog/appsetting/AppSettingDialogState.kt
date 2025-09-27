@@ -29,38 +29,14 @@ import com.android.geto.domain.model.SecureSetting
 import com.android.geto.domain.model.SettingType
 
 @Composable
-internal fun rememberAppSettingDialogState(
-    onAddAppSetting: (
-        (
-            id: Int,
-            enabled: Boolean,
-            settingType: SettingType,
-            label: String,
-            key: String,
-            valueOnLaunch: String,
-            valueOnRevert: String,
-        ) -> Unit
-    )?,
-): AppSettingDialogState {
+internal fun rememberAppSettingDialogState(): AppSettingDialogState {
     return rememberSaveable(saver = AppSettingDialogState.Saver) {
-        AppSettingDialogState(onAddAppSetting = onAddAppSetting)
+        AppSettingDialogState()
     }
 }
 
 @Stable
-internal class AppSettingDialogState(
-    private val onAddAppSetting: (
-        (
-            id: Int,
-            enabled: Boolean,
-            settingType: SettingType,
-            label: String,
-            key: String,
-            valueOnLaunch: String,
-            valueOnRevert: String,
-        ) -> Unit
-    )? = null,
-) {
+internal class AppSettingDialogState() {
     var secureSettings by mutableStateOf<List<SecureSetting>>(emptyList())
         private set
 
@@ -132,7 +108,17 @@ internal class AppSettingDialogState(
         valueOnRevert = value
     }
 
-    fun getAppSetting() {
+    fun getAppSetting(
+        onAddAppSetting: (
+            id: Int,
+            enabled: Boolean,
+            settingType: SettingType,
+            label: String,
+            key: String,
+            valueOnLaunch: String,
+            valueOnRevert: String,
+        ) -> Unit,
+    ) {
         showLabelError = label.isBlank()
 
         showKeyError = key.isBlank()
@@ -145,7 +131,7 @@ internal class AppSettingDialogState(
         showValueOnRevertError = valueOnRevert.isBlank()
 
         if (showLabelError.not() && showKeyNotFoundError.not() && showKeyError.not() && showValueOnLaunchError.not() && showValueOnRevertError.not()) {
-            onAddAppSetting?.invoke(
+            onAddAppSetting(
                 0,
                 true,
                 SettingType.entries[selectedRadioOptionIndex],
