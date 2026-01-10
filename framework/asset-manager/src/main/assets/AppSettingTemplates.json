@@ -15,6 +15,13 @@
   },
   {
     "settingType": "GLOBAL",
+    "label": "Hide USB Wireless Debugging",
+    "key": "adb_wifi_enabled",
+    "valueOnLaunch": "0",
+    "valueOnRevert": "1"
+  },
+  {
+    "settingType": "GLOBAL",
     "label": "Hide Accessibility Services",
     "key": "accessibility_enabled",
     "valueOnLaunch": "0",
