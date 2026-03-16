@@ -54,6 +54,7 @@ internal fun ShizukuRoute(
     onNavigationIconClick: () -> Unit,
 ) {
     val shizukuStatus by viewModel.shizukuStatus.collectAsStateWithLifecycle()
+    val userData by viewModel.userData.collectAsStateWithLifecycle()
 
     val snackbarHostState = remember {
         SnackbarHostState()
@@ -63,6 +64,7 @@ internal fun ShizukuRoute(
         modifier = modifier,
         snackbarHostState = snackbarHostState,
         shizukuStatus = shizukuStatus,
+        useRootMode = userData?.useRootMode ?: false,
         onCheckPermission = viewModel::checkShizukuPermission,
         onCreate = viewModel::onCreate,
         onDestroy = viewModel::onDestroy,
@@ -75,6 +77,7 @@ internal fun ShizukuScreen(
     modifier: Modifier = Modifier,
     snackbarHostState: SnackbarHostState,
     shizukuStatus: ShizukuStatus?,
+    useRootMode: Boolean,
     onCheckPermission: () -> Unit,
     onCreate: () -> Unit,
     onDestroy: () -> Unit,
@@ -91,7 +94,11 @@ internal fun ShizukuScreen(
 
     val shizukuAliveBinder = stringResource(R.string.shizuku_alive_binder)
 
-    val shizukuDenied = stringResource(R.string.shizuku_permission_denied)
+    val shizukuDenied = if (useRootMode) {
+        stringResource(R.string.root_permission_denied)
+    } else {
+        stringResource(R.string.shizuku_permission_denied)
+    }
 
     val shizukuUpgrade = stringResource(R.string.please_upgrade_shizuku_version)
 
@@ -99,7 +106,11 @@ internal fun ShizukuScreen(
 
     val remoteException = stringResource(R.string.something_went_wrong_with_the_request)
 
-    val shizukuError = stringResource(R.string.please_check_if_shizuku_is_properly_running)
+    val shizukuError = if (useRootMode) {
+        stringResource(R.string.please_check_if_root_is_properly_granted)
+    } else {
+        stringResource(R.string.please_check_if_shizuku_is_properly_running)
+    }
 
     val shizukuDeadBinder = stringResource(R.string.shizuku_dead_binder)
 
@@ -120,6 +131,34 @@ internal fun ShizukuScreen(
     }
 
     LaunchedEffect(key1 = shizukuStatus) {
+        if (useRootMode) {
+            when (shizukuStatus) {
+                ShizukuStatus.CanWriteSecureSettings -> {
+                    snackbarHostState.showSnackbar(
+                        message = writeSecureSettingsGranted,
+                        duration = SnackbarDuration.Indefinite,
+                    )
+                }
+
+                ShizukuStatus.Denied -> {
+                    snackbarHostState.showSnackbar(
+                        message = shizukuDenied,
+                        duration = SnackbarDuration.Indefinite,
+                    )
+                }
+
+                ShizukuStatus.Error -> {
+                    snackbarHostState.showSnackbar(
+                        message = shizukuError,
+                        duration = SnackbarDuration.Indefinite,
+                    )
+                }
+
+                else -> {}
+            }
+            return@LaunchedEffect
+        }
+
         when (shizukuStatus) {
             ShizukuStatus.UnBound -> {
                 snackbarHostState.showSnackbar(
@@ -199,7 +238,11 @@ internal fun ShizukuScreen(
     Scaffold(
         topBar = {
             ShizukuTopAppBar(
-                title = stringResource(R.string.shizuku),
+                title = if (useRootMode) {
+                    stringResource(R.string.root)
+                } else {
+                    stringResource(R.string.shizuku)
+                },
                 onNavigationIconClick = onNavigationIconClick,
             )
         },

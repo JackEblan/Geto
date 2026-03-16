@@ -32,6 +32,7 @@ class FakeUserDataRepository @Inject constructor() : UserDataRepository {
             themeBrand = ThemeBrand.PURPLE,
             darkThemeConfig = DarkThemeConfig.DARK,
             useDynamicColor = false,
+            useRootMode = false,
         ),
     )
 
@@ -40,4 +41,6 @@ class FakeUserDataRepository @Inject constructor() : UserDataRepository {
     override suspend fun setDarkThemeConfig(darkThemeConfig: DarkThemeConfig) {}
 
     override suspend fun setDynamicColor(useDynamicColor: Boolean) {}
+
+    override suspend fun setUseRootMode(useRootMode: Boolean) {}
 }

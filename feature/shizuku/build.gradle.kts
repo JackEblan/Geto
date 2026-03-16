@@ -29,6 +29,7 @@ android {
 
 dependencies {
     implementation(projects.domain.framework)
+    implementation(projects.domain.repository)
 
     testImplementation(kotlin("test"))
     testImplementation(libs.bundles.androidx.compose.ui.test)

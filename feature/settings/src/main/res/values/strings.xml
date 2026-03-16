@@ -29,4 +29,6 @@
     <string name="clean_app_settings">Clean App Settings</string>
     <string name="are_you_sure_you_want_to_clean_app_settings_from_the_uninstalled_applications">Are you sure you want to clean app settings from the uninstalled applications?</string>
     <string name="clean">Clean</string>
+    <string name="root_mode">Root Mode</string>
+    <string name="utilise_a_magisk_type_root_solution">Utilise a root solution instead of Shizuku</string>
 </resources>

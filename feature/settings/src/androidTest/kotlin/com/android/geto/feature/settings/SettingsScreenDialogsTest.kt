@@ -45,12 +45,14 @@ class SettingsScreenDialogsTest {
                         themeBrand = ThemeBrand.PURPLE,
                         useDynamicColor = true,
                         darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+                        useRootMode = false,
                     ),
                 ),
                 supportDynamicColor = true,
                 onUpdateThemeBrand = {},
                 onUpdateDarkThemeConfig = {},
                 onUpdateDynamicColor = {},
+                onUpdateUseRootMode = {},
             )
         }
 
@@ -72,12 +74,14 @@ class SettingsScreenDialogsTest {
                         themeBrand = ThemeBrand.PURPLE,
                         useDynamicColor = true,
                         darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+                        useRootMode = false,
                     ),
                 ),
                 supportDynamicColor = true,
                 onUpdateThemeBrand = {},
                 onUpdateDarkThemeConfig = {},
                 onUpdateDynamicColor = {},
+                onUpdateUseRootMode = {},
             )
         }
 
@@ -101,12 +105,14 @@ class SettingsScreenDialogsTest {
                         themeBrand = ThemeBrand.PURPLE,
                         useDynamicColor = true,
                         darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+                        useRootMode = false,
                     ),
                 ),
                 supportDynamicColor = true,
                 onUpdateThemeBrand = {},
                 onUpdateDarkThemeConfig = {},
                 onUpdateDynamicColor = {},
+                onUpdateUseRootMode = {},
             )
         }
 
@@ -132,12 +138,14 @@ class SettingsScreenDialogsTest {
                         themeBrand = ThemeBrand.PURPLE,
                         useDynamicColor = true,
                         darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+                        useRootMode = false,
                     ),
                 ),
                 supportDynamicColor = true,
                 onUpdateThemeBrand = {},
                 onUpdateDarkThemeConfig = {},
                 onUpdateDynamicColor = {},
+                onUpdateUseRootMode = {},
             )
         }
 

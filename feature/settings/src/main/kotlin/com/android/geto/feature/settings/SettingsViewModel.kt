@@ -56,4 +56,10 @@ class SettingsViewModel @Inject constructor(
             userDataRepository.setDynamicColor(useDynamicColor)
         }
     }
+
+    fun updateUseRootMode(useRootMode: Boolean) {
+        viewModelScope.launch {
+            userDataRepository.setUseRootMode(useRootMode)
+        }
+    }
 }

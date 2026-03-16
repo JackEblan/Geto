@@ -67,6 +67,7 @@ internal fun SettingsRoute(
         onUpdateThemeBrand = viewModel::updateThemeBrand,
         onUpdateDarkThemeConfig = viewModel::updateDarkThemeConfig,
         onUpdateDynamicColor = viewModel::updateDynamicColor,
+        onUpdateUseRootMode = viewModel::updateUseRootMode,
     )
 }
 
@@ -80,6 +81,7 @@ internal fun SettingsScreen(
     onUpdateThemeBrand: (ThemeBrand) -> Unit,
     onUpdateDarkThemeConfig: (DarkThemeConfig) -> Unit,
     onUpdateDynamicColor: (Boolean) -> Unit,
+    onUpdateUseRootMode: (Boolean) -> Unit,
 ) {
     var showThemeDialog by rememberSaveable { mutableStateOf(false) }
 
@@ -119,6 +121,7 @@ internal fun SettingsScreen(
                     onShowThemeDialog = { showThemeDialog = true },
                     onShowDarkDialog = { showDarkDialog = true },
                     onChangeDynamicColorPreference = onUpdateDynamicColor,
+                    onChangeRootModePreference = onUpdateUseRootMode,
                 )
             }
         }
@@ -196,6 +199,7 @@ private fun SuccessState(
     onShowThemeDialog: () -> Unit,
     onShowDarkDialog: () -> Unit,
     onChangeDynamicColorPreference: (useDynamicColor: Boolean) -> Unit,
+    onChangeRootModePreference: (useRootMode: Boolean) -> Unit,
 ) {
     Column(
         modifier = modifier
@@ -216,6 +220,48 @@ private fun SuccessState(
         DarkSetting(
             title = settingsUiState.userData.darkThemeConfig.title,
             onDarkDialog = onShowDarkDialog,
+        )
+
+        RootSetting(
+            useRootMode = settingsUiState.userData.useRootMode,
+            onChangeRootModePreference = onChangeRootModePreference,
+        )
+    }
+}
+
+@Composable
+private fun RootSetting(
+    modifier: Modifier = Modifier,
+    useRootMode: Boolean,
+    onChangeRootModePreference: (Boolean) -> Unit,
+) {
+    Spacer(modifier = Modifier.height(8.dp))
+
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(10.dp)
+            .testTag("settings:root"),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = stringResource(R.string.root_mode),
+                style = MaterialTheme.typography.bodyLarge,
+            )
+
+            Spacer(modifier = Modifier.height(4.dp))
+
+            Text(
+                text = stringResource(R.string.utilise_a_magisk_type_root_solution),
+                style = MaterialTheme.typography.bodySmall,
+            )
+        }
+
+        Switch(
+            modifier = Modifier.testTag("settings:rootSwitch"),
+            checked = useRootMode,
+            onCheckedChange = onChangeRootModePreference,
         )
     }
 }

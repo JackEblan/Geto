@@ -20,15 +20,25 @@ package com.android.geto.feature.shizuku
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.android.geto.domain.framework.ShizukuWrapper
+import com.android.geto.domain.repository.UserDataRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 @HiltViewModel
-class ShizukuViewModel @Inject constructor(private val shizukuWrapper: ShizukuWrapper) :
+class ShizukuViewModel @Inject constructor(
+    private val shizukuWrapper: ShizukuWrapper,
+    userDataRepository: UserDataRepository,
+) :
     ViewModel() {
     val shizukuStatus = shizukuWrapper.shizukuStatus.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000),
+        initialValue = null,
+    )
+
+    val userData = userDataRepository.userData.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
         initialValue = null,

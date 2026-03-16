@@ -18,13 +18,9 @@
 package com.android.geto.feature.settings
 
 import com.android.geto.common.MainDispatcherRule
-import com.android.geto.domain.model.DarkThemeConfig
-import com.android.geto.domain.model.ThemeBrand
 import com.android.geto.domain.repository.TestAppSettingsRepository
 import com.android.geto.domain.repository.TestUserDataRepository
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
@@ -59,15 +55,10 @@ class SettingsViewModelTest {
     }
 
     @Test
-    fun settingsUiState_isSuccess() = runTest {
-        backgroundScope.launch(UnconfinedTestDispatcher()) {
-            viewModel.settingsUiState.collect()
-        }
+    fun updateUseRootMode_updatesUserDataRepository() = runTest {
+        viewModel.updateUseRootMode(true)
 
-        userDataRepository.setThemeBrand(ThemeBrand.GREEN)
-
-        userDataRepository.setDarkThemeConfig(DarkThemeConfig.DARK)
-
-        assertIs<SettingsUiState.Success>(viewModel.settingsUiState.value)
+        val userData = userDataRepository.userData.first()
+        kotlin.test.assertEquals(true, userData.useRootMode)
     }
 }

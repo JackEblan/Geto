@@ -62,12 +62,14 @@ class SettingsScreenScreenshotTest {
                             themeBrand = ThemeBrand.PURPLE,
                             useDynamicColor = false,
                             darkThemeConfig = DarkThemeConfig.DARK,
+                            useRootMode = false,
                         ),
                     ),
                     supportDynamicColor = true,
                     onUpdateThemeBrand = {},
                     onUpdateDarkThemeConfig = {},
                     onUpdateDynamicColor = {},
+                    onUpdateUseRootMode = {},
                 )
             }
         }
@@ -91,6 +93,7 @@ class SettingsScreenScreenshotTest {
                     onUpdateThemeBrand = {},
                     onUpdateDarkThemeConfig = {},
                     onUpdateDynamicColor = {},
+                    onUpdateUseRootMode = {},
                 )
             }
         }
@@ -116,12 +119,14 @@ class SettingsScreenScreenshotTest {
                                 themeBrand = ThemeBrand.PURPLE,
                                 useDynamicColor = false,
                                 darkThemeConfig = DarkThemeConfig.DARK,
+                                useRootMode = false,
                             ),
                         ),
                         supportDynamicColor = true,
                         onUpdateThemeBrand = {},
                         onUpdateDarkThemeConfig = {},
                         onUpdateDynamicColor = {},
+                        onUpdateUseRootMode = {},
                     )
                 }
             }
@@ -148,6 +153,7 @@ class SettingsScreenScreenshotTest {
                         onUpdateThemeBrand = {},
                         onUpdateDarkThemeConfig = {},
                         onUpdateDynamicColor = {},
+                        onUpdateUseRootMode = {},
                     )
                 }
             }

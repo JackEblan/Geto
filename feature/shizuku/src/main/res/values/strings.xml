@@ -27,4 +27,7 @@
     <string name="please_check_if_shizuku_is_properly_running">Please check if Shizuku is properly running</string>
     <string name="shizuku_dead_binder">Shizuku dead binder</string>
     <string name="shizuku">Shizuku</string>
+    <string name="root">Root</string>
+    <string name="root_permission_denied">Root permission denied</string>
+    <string name="please_check_if_root_is_properly_granted">Please check if Root access is properly granted</string>
 </resources>

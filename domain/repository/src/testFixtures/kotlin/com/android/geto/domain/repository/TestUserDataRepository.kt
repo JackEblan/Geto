@@ -29,6 +29,7 @@ val emptyUserData = UserData(
     themeBrand = ThemeBrand.PURPLE,
     darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
     useDynamicColor = false,
+    useRootMode = false,
 )
 
 class TestUserDataRepository : UserDataRepository {
@@ -53,6 +54,12 @@ class TestUserDataRepository : UserDataRepository {
     override suspend fun setDynamicColor(useDynamicColor: Boolean) {
         currentUserData.let { current ->
             _userData.tryEmit(current.copy(useDynamicColor = useDynamicColor))
+        }
+    }
+
+    override suspend fun setUseRootMode(useRootMode: Boolean) {
+        currentUserData.let { current ->
+            _userData.tryEmit(current.copy(useRootMode = useRootMode))
         }
     }
 

@@ -53,6 +53,7 @@ class UserPreferencesDataSource @Inject constructor(
                 DarkThemeConfigProto.DARK_THEME_CONFIG_DARK -> DarkThemeConfig.DARK
             },
             useDynamicColor = it.useDynamicColor,
+            useRootMode = it.useRootMode,
         )
     }
 
@@ -70,6 +71,12 @@ class UserPreferencesDataSource @Inject constructor(
     suspend fun setDynamicColor(useDynamicColor: Boolean) {
         userPreferences.updateData {
             it.copy { this.useDynamicColor = useDynamicColor }
+        }
+    }
+
+    suspend fun setUseRootMode(useRootMode: Boolean) {
+        userPreferences.updateData {
+            it.copy { this.useRootMode = useRootMode }
         }
     }
 

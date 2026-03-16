@@ -42,4 +42,8 @@ class DefaultUserDataRepository @Inject constructor(
     override suspend fun setDynamicColor(useDynamicColor: Boolean) {
         userPreferencesDataSource.setDynamicColor(useDynamicColor = useDynamicColor)
     }
+
+    override suspend fun setUseRootMode(useRootMode: Boolean) {
+        userPreferencesDataSource.setUseRootMode(useRootMode = useRootMode)
+    }
 }

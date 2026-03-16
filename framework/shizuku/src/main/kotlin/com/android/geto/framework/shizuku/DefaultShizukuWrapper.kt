@@ -26,16 +26,28 @@ import android.os.IBinder
 import android.os.RemoteException
 import com.android.geto.domain.framework.ShizukuWrapper
 import com.android.geto.domain.model.ShizukuStatus
+import com.android.geto.domain.repository.UserDataRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import rikka.shizuku.Shizuku
 import rikka.shizuku.Shizuku.OnRequestPermissionResultListener
+import java.io.DataOutputStream
 import javax.inject.Inject
 
-internal class DefaultShizukuWrapper @Inject constructor(@ApplicationContext private val context: Context) :
+internal class DefaultShizukuWrapper @Inject constructor(
+    @ApplicationContext private val context: Context,
+    private val userDataRepository: UserDataRepository,
+) :
     ShizukuWrapper {
+    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
+
     private val requestPermissionResult = 1
 
     private val requestPermissionResultListener =
@@ -112,21 +124,53 @@ internal class DefaultShizukuWrapper @Inject constructor(@ApplicationContext pri
     }
 
     override fun checkShizukuPermission() {
-        try {
-            if (Shizuku.isPreV11()) {
+        scope.launch {
+            val useRootMode = userDataRepository.userData.first().useRootMode
+            if (useRootMode) {
+                grantRuntimePermissionWithRoot()
+                return@launch
+            }
+
+            try {
+                if (Shizuku.isPreV11()) {
+                    _shizukuStatus.tryEmit(
+                        ShizukuStatus.Denied,
+                    )
+                } else if (Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED) {
+                    grantRuntimePermission()
+                } else if (Shizuku.shouldShowRequestPermissionRationale()) {
+                    _shizukuStatus.tryEmit(
+                        ShizukuStatus.Denied,
+                    )
+                } else {
+                    Shizuku.requestPermission(requestPermissionResult)
+                }
+            } catch (e: Throwable) {
                 _shizukuStatus.tryEmit(
-                    ShizukuStatus.Denied,
+                    ShizukuStatus.Error,
                 )
-            } else if (Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED) {
-                grantRuntimePermission()
-            } else if (Shizuku.shouldShowRequestPermissionRationale()) {
+            }
+        }
+    }
+
+    private fun grantRuntimePermissionWithRoot() {
+        try {
+            val process = Runtime.getRuntime().exec("su")
+            val os = DataOutputStream(process.outputStream)
+            os.writeBytes("pm grant ${context.packageName} android.permission.WRITE_SECURE_SETTINGS\n")
+            os.writeBytes("exit\n")
+            os.flush()
+            val result = process.waitFor()
+            if (result == 0) {
                 _shizukuStatus.tryEmit(
-                    ShizukuStatus.Denied,
+                    ShizukuStatus.CanWriteSecureSettings,
                 )
             } else {
-                Shizuku.requestPermission(requestPermissionResult)
+                _shizukuStatus.tryEmit(
+                    ShizukuStatus.Denied,
+                )
             }
-        } catch (e: Throwable) {
+        } catch (e: Exception) {
             _shizukuStatus.tryEmit(
                 ShizukuStatus.Error,
             )
