@@ -111,7 +111,16 @@ class AndroidPackageManagerWrapper @Inject constructor(
         val stream = ByteArrayOutputStream()
 
         withContext(ioDispatcher) {
-            toBitmap().compress(Bitmap.CompressFormat.PNG, 30, stream)
+            try {
+                val bitmap = if (intrinsicWidth > 0 && intrinsicHeight > 0) {
+                    toBitmap()
+                } else {
+                    toBitmap(width = 100, height = 100)
+                }
+                bitmap.compress(Bitmap.CompressFormat.PNG, 30, stream)
+            } catch (e: Exception) {
+                // Prevent zero-dimension or un-renderable drawables from fatally crashing the app loader.
+            }
         }
 
         return stream.toByteArray()
