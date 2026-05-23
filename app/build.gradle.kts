@@ -30,7 +30,7 @@ android {
         versionCode = 170
         versionName = "1.17.0"
 
-        testInstrumentationRunner = "com.android.geto.common.GetoTestRunner"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         vectorDrawables {
             useSupportLibrary = true

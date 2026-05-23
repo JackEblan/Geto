@@ -34,6 +34,10 @@ dependencies {
     implementation(projects.domain.model)
     implementation(projects.domain.repository)
 
-    androidTestImplementation(kotlin("test"))
+    androidTestImplementation(libs.androidx.test.core.ktx)
+    androidTestImplementation(libs.androidx.test.runner)
+    androidTestImplementation(libs.androidx.test.rules)
+    androidTestImplementation(libs.androidx.test.ext.junit.ktx)
+    androidTestImplementation(libs.kotlinx.coroutines.test)
     androidTestImplementation(libs.room.testing)
 }

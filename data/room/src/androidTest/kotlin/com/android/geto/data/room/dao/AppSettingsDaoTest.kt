@@ -25,10 +25,10 @@ import com.android.geto.data.room.model.AppSettingEntity
 import com.android.geto.domain.model.SettingType
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
-import kotlin.test.AfterTest
-import kotlin.test.BeforeTest
-import kotlin.test.Test
-import kotlin.test.assertTrue
+import org.junit.After
+import org.junit.Assert.assertTrue
+import org.junit.Before
+import org.junit.Test
 
 class AppSettingsDaoTest {
     private lateinit var appSettingsDao: AppSettingsDao
@@ -40,12 +40,12 @@ class AppSettingsDaoTest {
         AppDatabase::class.java,
     ).build()
 
-    @BeforeTest
+    @Before
     fun setup() {
         appSettingsDao = db.appSettingsDao()
     }
 
-    @AfterTest
+    @After
     fun tearDown() {
         db.close()
     }
@@ -69,8 +69,6 @@ class AppSettingsDaoTest {
         val appSettingEntitiesByPackageName =
             appSettingsDao.getAppSettingEntitiesByPackageName("com.android.geto").first()
 
-        assertTrue {
-            appSettingEntitiesByPackageName.isNotEmpty()
-        }
+        assertTrue(appSettingEntitiesByPackageName.isNotEmpty())
     }
 }
