@@ -66,15 +66,15 @@ dependencies {
     implementation(projects.feature.settings)
     implementation(projects.feature.shizuku)
 
-    implementation(projects.broadcastReceiver)
-    implementation(projects.foregroundService)
     implementation(projects.framework.assetManager)
+    implementation(projects.framework.broadcastReceiver)
     implementation(projects.framework.notificationManager)
     implementation(projects.framework.packageManager)
     implementation(projects.framework.secureSettings)
     implementation(projects.framework.shizuku)
     implementation(projects.framework.shortcutManager)
     implementation(projects.framework.usageStatsManager)
+    implementation(projects.service)
 
     implementation(libs.accompanist.permissions)
     implementation(libs.androidx.activity.ktx)

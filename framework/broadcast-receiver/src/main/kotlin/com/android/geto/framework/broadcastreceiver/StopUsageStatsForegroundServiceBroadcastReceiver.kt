@@ -15,21 +15,27 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.domain.usecase
+package com.android.geto.framework.broadcastreceiver
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
 import com.android.geto.domain.service.UsageStatsServiceManager
-import com.android.geto.domain.framework.UsageStatsManagerWrapper
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-class UpdateUsageStatsForegroundServiceUseCase @Inject constructor(
-    private val usageStatsServiceManager: UsageStatsServiceManager,
-    private val usageStatsManagerWrapper: UsageStatsManagerWrapper,
-) {
-    operator fun invoke() {
-        if (usageStatsManagerWrapper.isUsageStatsPermissionGranted()) {
-            usageStatsServiceManager.updateForegroundService()
-        } else {
-            usageStatsManagerWrapper.requestUsageStatsPermission()
-        }
+@AndroidEntryPoint
+class StopUsageStatsForegroundServiceBroadcastReceiver @Inject constructor() :
+    BroadcastReceiver() {
+    @Inject
+    lateinit var usageStatsServiceManager: UsageStatsServiceManager
+
+    override fun onReceive(context: Context?, intent: Intent?) {
+        usageStatsServiceManager.updateForegroundService()
+    }
+
+    companion object {
+        const val ACTION_STOP_USAGE_STATS_FOREGROUND_SERVICE =
+            "ACTION_STOP_USAGE_STATS_FOREGROUND_SERVICE"
     }
 }

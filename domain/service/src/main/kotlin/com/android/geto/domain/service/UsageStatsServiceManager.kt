@@ -15,20 +15,12 @@
  *   limitations under the License.
  *
  */
+package com.android.geto.domain.service
 
-plugins {
-    alias(libs.plugins.com.android.geto.library)
-}
+import kotlinx.coroutines.flow.Flow
 
-android {
-    namespace = "com.android.geto.domain.usecase"
-}
+interface UsageStatsServiceManager {
+    val isActive: Flow<Boolean>
 
-dependencies {
-    api(projects.domain.model)
-    implementation(libs.kotlinx.coroutines.core)
-    implementation(projects.domain.common)
-    implementation(projects.domain.service)
-    implementation(projects.domain.framework)
-    implementation(projects.domain.repository)
+    fun updateForegroundService()
 }

@@ -27,6 +27,6 @@ android {
 
 dependencies {
     implementation(projects.domain.common)
-    implementation(projects.domain.foregroundService)
+    implementation(projects.domain.service)
     implementation(projects.domain.useCase)
 }

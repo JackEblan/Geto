@@ -18,17 +18,18 @@
 
 plugins {
     alias(libs.plugins.com.android.geto.library)
+    alias(libs.plugins.com.android.geto.hilt)
 }
 
 android {
-    namespace = "com.android.geto.domain.usecase"
+    namespace = "com.android.geto.framework.broadcastreceiver"
 }
 
 dependencies {
-    api(projects.domain.model)
-    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.androidx.core.ktx)
+    implementation(projects.common)
     implementation(projects.domain.common)
     implementation(projects.domain.service)
     implementation(projects.domain.framework)
-    implementation(projects.domain.repository)
+    implementation(projects.domain.useCase)
 }

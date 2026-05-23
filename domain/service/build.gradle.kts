@@ -21,14 +21,9 @@ plugins {
 }
 
 android {
-    namespace = "com.android.geto.domain.usecase"
+    namespace = "com.android.geto.domain.service"
 }
 
 dependencies {
-    api(projects.domain.model)
     implementation(libs.kotlinx.coroutines.core)
-    implementation(projects.domain.common)
-    implementation(projects.domain.service)
-    implementation(projects.domain.framework)
-    implementation(projects.domain.repository)
 }

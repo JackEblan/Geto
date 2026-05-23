@@ -19,7 +19,7 @@ package com.android.geto.feature.service
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.android.geto.domain.foregroundservice.UsageStatsForegroundServiceManager
+import com.android.geto.domain.service.UsageStatsServiceManager
 import com.android.geto.domain.usecase.UpdateUsageStatsForegroundServiceUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
@@ -29,10 +29,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ServiceViewModel @Inject constructor(
-    usageStatsForegroundServiceManager: UsageStatsForegroundServiceManager,
+    usageStatsServiceManager: UsageStatsServiceManager,
     private val updateUsageStatsForegroundServiceUseCase: UpdateUsageStatsForegroundServiceUseCase,
 ) : ViewModel() {
-    val usageStatsForegroundServiceActive = usageStatsForegroundServiceManager.isActive.stateIn(
+    val usageStatsForegroundServiceActive = usageStatsServiceManager.isActive.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
         initialValue = false,

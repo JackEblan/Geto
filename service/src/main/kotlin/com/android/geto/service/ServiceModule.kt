@@ -15,20 +15,20 @@
  *   limitations under the License.
  *
  */
+package com.android.geto.service
 
-plugins {
-    alias(libs.plugins.com.android.geto.library)
-}
+import com.android.geto.domain.service.UsageStatsServiceManager
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
-android {
-    namespace = "com.android.geto.domain.usecase"
-}
+@Module
+@InstallIn(SingletonComponent::class)
+internal interface ServiceModule {
 
-dependencies {
-    api(projects.domain.model)
-    implementation(libs.kotlinx.coroutines.core)
-    implementation(projects.domain.common)
-    implementation(projects.domain.service)
-    implementation(projects.domain.framework)
-    implementation(projects.domain.repository)
+    @Binds
+    @Singleton
+    fun usageStatsForegroundServiceManager(impl: AndroidUsageStatsServiceManager): UsageStatsServiceManager
 }

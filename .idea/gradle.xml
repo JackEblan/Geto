@@ -23,7 +23,6 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/broadcast-receiver" />
             <option value="$PROJECT_DIR$/build-logic" />
             <option value="$PROJECT_DIR$/build-logic/convention" />
             <option value="$PROJECT_DIR$/common" />
@@ -35,10 +34,10 @@
             <option value="$PROJECT_DIR$/design-system" />
             <option value="$PROJECT_DIR$/domain" />
             <option value="$PROJECT_DIR$/domain/common" />
-            <option value="$PROJECT_DIR$/domain/foreground-service" />
             <option value="$PROJECT_DIR$/domain/framework" />
             <option value="$PROJECT_DIR$/domain/model" />
             <option value="$PROJECT_DIR$/domain/repository" />
+            <option value="$PROJECT_DIR$/domain/service" />
             <option value="$PROJECT_DIR$/domain/use-case" />
             <option value="$PROJECT_DIR$/feature" />
             <option value="$PROJECT_DIR$/feature/app-settings" />
@@ -47,15 +46,16 @@
             <option value="$PROJECT_DIR$/feature/service" />
             <option value="$PROJECT_DIR$/feature/settings" />
             <option value="$PROJECT_DIR$/feature/shizuku" />
-            <option value="$PROJECT_DIR$/foreground-service" />
             <option value="$PROJECT_DIR$/framework" />
             <option value="$PROJECT_DIR$/framework/asset-manager" />
+            <option value="$PROJECT_DIR$/framework/broadcast-receiver" />
             <option value="$PROJECT_DIR$/framework/notification-manager" />
             <option value="$PROJECT_DIR$/framework/package-manager" />
             <option value="$PROJECT_DIR$/framework/secure-settings" />
             <option value="$PROJECT_DIR$/framework/shizuku" />
             <option value="$PROJECT_DIR$/framework/shortcut-manager" />
             <option value="$PROJECT_DIR$/framework/usage-stats-manager" />
+            <option value="$PROJECT_DIR$/service" />
           </set>
         </option>
       </GradleProjectSettings>
