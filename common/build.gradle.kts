@@ -18,21 +18,13 @@
 
 plugins {
     alias(libs.plugins.com.android.geto.library)
-    alias(libs.plugins.com.android.geto.libraryJacoco)
     alias(libs.plugins.com.android.geto.hilt)
 }
 
 android {
     namespace = "com.android.geto.common"
-
-    testFixtures {
-        enable = true
-    }
 }
 
 dependencies {
     implementation(projects.domain.common)
-    testFixturesApi(libs.androidx.test.rules)
-    testFixturesApi(libs.hilt.android.testing)
-    testFixturesApi(libs.kotlinx.coroutines.test)
 }

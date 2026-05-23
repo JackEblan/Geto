@@ -18,7 +18,6 @@
 
 plugins {
     alias(libs.plugins.com.android.geto.library)
-    alias(libs.plugins.com.android.geto.libraryJacoco)
     alias(libs.plugins.com.android.geto.hilt)
 }
 
@@ -39,6 +38,5 @@ android {
 dependencies {
     implementation(libs.shizuku.api)
     implementation(libs.shizuku.provider)
-
     implementation(projects.domain.framework)
 }

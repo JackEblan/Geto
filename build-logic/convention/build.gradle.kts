@@ -24,8 +24,6 @@ plugins {
 
 group = "com.android.geto.buildlogic"
 
-// Configure the build-logic plugins to target JDK 17
-// This matches the JDK used to build the project, and is not related to what is running on device.
 java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
@@ -44,7 +42,6 @@ dependencies {
     compileOnly(libs.kotlin.gradlePlugin)
     compileOnly(libs.ksp.gradlePlugin)
     compileOnly(libs.room.gradlePlugin)
-    implementation(libs.truth)
 }
 
 tasks {
@@ -61,24 +58,9 @@ gradlePlugin {
             implementationClass = "AndroidApplicationConventionPlugin"
         }
 
-        register("androidApplicationCompose") {
-            id = "com.android.geto.applicationCompose"
-            implementationClass = "AndroidApplicationComposeConventionPlugin"
-        }
-
-        register("androidApplicationJacoco") {
-            id = "com.android.geto.applicationJacoco"
-            implementationClass = "AndroidApplicationJacocoConventionPlugin"
-        }
-
         register("androidLibrary") {
             id = "com.android.geto.library"
             implementationClass = "AndroidLibraryConventionPlugin"
-        }
-
-        register("androidLibraryJacoco") {
-            id = "com.android.geto.libraryJacoco"
-            implementationClass = "AndroidLibraryJacocoConventionPlugin"
         }
 
         register("androidLibraryCompose") {
@@ -96,19 +78,9 @@ gradlePlugin {
             implementationClass = "AndroidHiltConventionPlugin"
         }
 
-        register("androidLint") {
-            id = "com.android.geto.lint"
-            implementationClass = "AndroidLintConventionPlugin"
-        }
-
         register("androidRoom") {
             id = "com.android.geto.room"
             implementationClass = "AndroidRoomConventionPlugin"
-        }
-
-        register("androidTest") {
-            id = "com.android.geto.test"
-            implementationClass = "AndroidTestConventionPlugin"
         }
 
         register("jvmLibrary") {

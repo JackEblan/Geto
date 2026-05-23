@@ -19,8 +19,6 @@
 plugins {
     alias(libs.plugins.com.android.geto.library)
     alias(libs.plugins.com.android.geto.libraryCompose)
-    alias(libs.plugins.com.android.geto.libraryJacoco)
-    alias(libs.plugins.roborazzi)
 }
 
 android {
@@ -28,26 +26,12 @@ android {
 }
 
 dependencies {
-    lintPublish(projects.lint)
-
     api(libs.androidx.compose.foundation)
     api(libs.androidx.compose.foundation.layout)
     api(libs.androidx.compose.material3)
     api(libs.androidx.compose.material.iconsExtended)
     api(libs.androidx.compose.runtime)
-    api(libs.androidx.compose.ui.util)
     api(libs.coil.kt.compose)
 
     implementation(projects.domain.model)
-
-    testImplementation(kotlin("test"))
-    testImplementation(libs.androidx.compose.ui.test)
-    testImplementation(libs.androidx.compose.ui.test.manifest)
-    testImplementation(libs.accompanist.testharness)
-    testImplementation(libs.robolectric)
-    testImplementation(projects.roborazzi)
-    testImplementation(testFixtures(projects.common))
-
-    androidTestImplementation(kotlin("test"))
-    androidTestImplementation(libs.bundles.androidx.compose.ui.test)
 }

@@ -18,21 +18,13 @@
 
 plugins {
     alias(libs.plugins.com.android.geto.library)
-    alias(libs.plugins.com.android.geto.libraryJacoco)
 }
 
 android {
     namespace = "com.android.geto.domain.framework"
-
-    testFixtures {
-        enable = true
-    }
 }
 
 dependencies {
     api(projects.domain.model)
     implementation(libs.kotlinx.coroutines.core)
-
-    testFixturesImplementation(projects.domain.model)
-    testFixturesImplementation(libs.kotlinx.coroutines.core)
 }

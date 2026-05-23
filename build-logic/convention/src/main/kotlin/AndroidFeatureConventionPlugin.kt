@@ -16,12 +16,9 @@
  *
  */
 
-import com.android.build.gradle.LibraryExtension
-import com.android.geto.configureGradleManagedDevices
 import com.android.geto.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 
 class AndroidFeatureConventionPlugin : Plugin<Project> {
@@ -31,12 +28,6 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                 apply("com.android.geto.library")
                 apply("com.android.geto.hilt")
                 apply("org.jetbrains.kotlin.plugin.serialization")
-            }
-
-            extensions.configure<LibraryExtension> {
-                testOptions.animationsDisabled = true
-
-                configureGradleManagedDevices(this)
             }
 
             dependencies {
@@ -49,19 +40,7 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                     libs.findLibrary("androidx.lifecycle.viewmodel.compose").get(),
                 )
                 add("implementation", libs.findLibrary("androidx.navigation.compose").get())
-                add("implementation", libs.findLibrary("androidx.tracing.ktx").get())
                 add("implementation", libs.findLibrary("kotlinx.serialization.json").get())
-
-                add(
-                    "androidTestImplementation",
-                    libs.findLibrary("androidx.lifecycle.runtime.testing").get(),
-                )
-                add(
-                    "androidTestImplementation",
-                    libs.findLibrary("androidx.test.core").get(),
-                )
-
-                add("testImplementation", libs.findLibrary("androidx-navigation-testing").get())
             }
         }
     }
