@@ -18,7 +18,6 @@
 
 plugins {
     alias(libs.plugins.com.android.geto.library)
-    alias(libs.plugins.com.android.geto.libraryJacoco)
     alias(libs.plugins.com.android.geto.hilt)
     alias(libs.plugins.com.android.geto.room)
 }
@@ -37,5 +36,4 @@ dependencies {
 
     androidTestImplementation(kotlin("test"))
     androidTestImplementation(libs.room.testing)
-    androidTestImplementation(testFixtures(projects.common))
 }

@@ -16,14 +16,9 @@
  *
  */
 
-import com.android.geto.GetoBuildType
-
 plugins {
     alias(libs.plugins.com.android.geto.application)
-    alias(libs.plugins.com.android.geto.applicationCompose)
-    alias(libs.plugins.com.android.geto.applicationJacoco)
     alias(libs.plugins.com.android.geto.hilt)
-    alias(libs.plugins.baselineprofile)
     alias(libs.plugins.kotlin.serialization)
 }
 
@@ -35,8 +30,8 @@ android {
         versionCode = 170
         versionName = "1.17.0"
 
-        // Custom test runner to set up Hilt dependency graph
         testInstrumentationRunner = "com.android.geto.common.GetoTestRunner"
+
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -44,19 +39,16 @@ android {
 
     buildTypes {
         debug {
-            applicationIdSuffix = GetoBuildType.DEBUG.applicationIdSuffix
+            applicationIdSuffix = ".debug"
         }
         release {
             isMinifyEnabled = true
             isShrinkResources = true
-            applicationIdSuffix = GetoBuildType.RELEASE.applicationIdSuffix
+
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
             )
-
-            // Ensure Baseline Profile is fresh for release builds.
-            baselineProfile.automaticGenerationDuringBuild = true
         }
     }
 }
@@ -93,30 +85,5 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.navigation.compose)
-    implementation(libs.androidx.profileinstaller)
     implementation(libs.kotlinx.serialization.json)
-
-    debugImplementation(libs.androidx.compose.ui.test.manifest)
-
-    androidTestImplementation(kotlin("test"))
-    androidTestImplementation(libs.accompanist.testharness)
-    androidTestImplementation(libs.androidx.compose.ui.test)
-    androidTestImplementation(libs.androidx.navigation.testing)
-    androidTestImplementation(libs.androidx.test.espresso.core)
-    androidTestImplementation(projects.data.repositoryTest)
-    androidTestImplementation(projects.framework.frameworkTest)
-    androidTestImplementation(testFixtures(projects.common))
-
-    baselineProfile(projects.benchmarks)
-}
-
-baselineProfile {
-    // Don't build on every iteration of a full assemble.
-    // Instead enable generation directly for the release build variant.
-    automaticGenerationDuringBuild = false
-    dexLayoutOptimization = true
-}
-
-dependencyGuard {
-    configuration("releaseRuntimeClasspath")
 }

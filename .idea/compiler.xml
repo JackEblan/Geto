@@ -2,6 +2,7 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel target="11">
+      <module name="Geto.benchmarks" target="21" />
       <module name="Geto.core.broadcast" target="17" />
       <module name="Geto.core.broadcastreceiver" target="17" />
       <module name="Geto.core.build-version" target="17" />
@@ -31,7 +32,6 @@
       <module name="Geto.core.shortcutmanager-test" target="17" />
       <module name="Geto.core.testing" target="21" />
       <module name="Geto.core.ui" target="21" />
-      <module name="Geto.data.datastore-proto" target="21" />
       <module name="Geto.data.datastore-test" target="21" />
       <module name="Geto.domain.broadcast-receiver" target="21" />
       <module name="Geto.feature.applist" target="17" />
@@ -43,6 +43,7 @@
       <module name="Geto.framework.build-version" target="17" />
       <module name="Geto.framework.clipboard-manager" target="21" />
       <module name="Geto.framework.package-manager-test" target="21" />
+      <module name="Geto.roborazzi" target="21" />
       <module name="Geto.screenshot-testing" target="21" />
       <module name="Geto.shizuku.package-manager" target="21" />
       <module name="Geto.ui-test-hilt-manifest" target="17" />

@@ -17,18 +17,28 @@
  */
 
 plugins {
-    alias(libs.plugins.com.android.geto.library)
-    alias(libs.plugins.com.android.geto.hilt)
+    alias(libs.plugins.com.android.geto.jvmLibrary)
+    alias(libs.plugins.protobuf)
 }
 
-android {
-    namespace = "com.android.geto.data.repository"
+protobuf {
+    protoc {
+        artifact = libs.protobuf.protoc.get().toString()
+    }
+    generateProtoTasks {
+        all().forEach { task ->
+            task.builtins {
+                named("java") {
+                    option("lite")
+                }
+                register("kotlin") {
+                    option("lite")
+                }
+            }
+        }
+    }
 }
 
 dependencies {
-    implementation(projects.data.datastore)
-    implementation(projects.data.room)
-    implementation(projects.domain.common)
-    implementation(projects.domain.framework)
-    implementation(projects.domain.repository)
+    api(libs.protobuf.kotlin.lite)
 }

@@ -18,15 +18,10 @@
 
 plugins {
     alias(libs.plugins.com.android.geto.library)
-    alias(libs.plugins.com.android.geto.libraryJacoco)
 }
 
 android {
     namespace = "com.android.geto.domain.usecase"
-
-    testFixtures {
-        enable = true
-    }
 }
 
 dependencies {
@@ -36,11 +31,4 @@ dependencies {
     implementation(projects.domain.foregroundService)
     implementation(projects.domain.framework)
     implementation(projects.domain.repository)
-
-    testImplementation(kotlin("test"))
-    testImplementation(libs.kotlinx.coroutines.test)
-
-    testImplementation(projects.domain.model)
-    testImplementation(testFixtures(projects.domain.framework))
-    testImplementation(testFixtures(projects.domain.repository))
 }
