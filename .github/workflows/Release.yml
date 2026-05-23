@@ -6,7 +6,8 @@ on:
       - 'v*'
 
 jobs:
-  build:
+  build_release_apk:
+    name: "Build Release APK"
     if: github.repository == 'JackEblan/Geto'
     runs-on: ubuntu-latest
     timeout-minutes: 120
@@ -34,17 +35,15 @@ jobs:
       - name: Copy CI gradle.properties
         run: mkdir -p ~/.gradle ; cp .github/ci-gradle.properties ~/.gradle/gradle.properties
 
-      - name: Set up JDK 17
+      - name: Setup JDK 17
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: 17
 
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
+        uses: gradle/actions/setup-gradle@v5
         with:
-          validate-wrappers: true
-          gradle-home-cache-cleanup: true
           cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
 
       - name: Setup Android SDK
@@ -53,19 +52,45 @@ jobs:
       - name: Accept licenses
         run: yes | sdkmanager --licenses || true
 
-      - name: Setup GMD
-        run: ./gradlew :benchmarks:pixel6Api33Setup
-          --info
-          -Pandroid.experimental.testOptions.managedDevices.emulator.showKernelLogging=true
-          -Pandroid.testoptions.manageddevices.emulator.gpu="swiftshader_indirect"
+      - name: Read version info from build.gradle.kts
+        id: version
+        run: |
+          VERSION_NAME=$(sed -n 's/.*versionName *= *"\(.*\)".*/\1/p' app/build.gradle.kts)
+          VERSION_CODE=$(sed -n 's/.*versionCode *= *\([0-9]\+\).*/\1/p' app/build.gradle.kts)  
+          
+          echo "version_name=${VERSION_NAME}" >> $GITHUB_OUTPUT
+          echo "version_code=${VERSION_CODE}" >> $GITHUB_OUTPUT
 
-      - name: Build release variant including baseline profile generation
+      - name: Check if tag matches versionName
+        run: |
+          CLEAN_TAG="${GITHUB_REF_NAME#v}"
+          
+          if [ "${CLEAN_TAG}" != "${{ steps.version.outputs.version_name }}" ]; then
+           echo "❌ Tag does not match versionName in build.gradle.kts"
+           echo "Tag: ${CLEAN_TAG}"
+           echo "Version Name: ${{ steps.version.outputs.version_name }}"
+           exit 1
+          fi
+           echo "✅ Tag matches versionName"
+
+      - name: Check if metadata file exists
+        run: |
+          FILE_PATH="fastlane/metadata/android/en-US/changelogs/${{ steps.version.outputs.version_code }}.txt"
+          
+          if [ ! -f "$FILE_PATH" ]; then
+           echo "❌ Missing file for versionCode: $FILE_PATH"
+           exit 1
+          fi
+           echo "✅ Found metadata file: $FILE_PATH"
+
+      - name: Build release
         run: ./gradlew :app:assembleRelease
-          -Pandroid.testInstrumentationRunnerArguments.androidx.benchmark.enabledRules=BaselineProfile
-          -Pandroid.testoptions.manageddevices.emulator.gpu="swiftshader_indirect"
-          -Pandroid.experimental.testOptions.managedDevices.emulator.showKernelLogging=true
-          -Pandroid.experimental.androidTest.numManagedDeviceShards=1
-          -Pandroid.experimental.testOptions.managedDevices.maxConcurrentDevices=1
+
+      - name: Upload mapping file
+        uses: actions/upload-artifact@v4
+        with:
+          name: mapping-${{ github.ref_name }}
+          path: app/build/outputs/mapping/release/mapping.txt
 
       - name: Sign release APK
         uses: r0adkll/sign-android-release@v1
@@ -79,13 +104,15 @@ jobs:
         env:
           BUILD_TOOLS_VERSION: "34.0.0"
 
-      - name: Rename signed Files
+      - name: Rename signed files
         run: |
-          mv ${{steps.sign_release_apk.outputs.signedReleaseFile}} app/build/outputs/apk/release/geto-${{ github.ref_name }}.apk
+          mv ${{steps.sign_release_apk.outputs.signedReleaseFile}} app/build/outputs/apk/release/Geto-${{ github.ref_name }}.apk
 
       - name: Release
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
         with:
+          prerelease: true
+          generate_release_notes: true
           files: |
-            app/build/outputs/apk/release/geto-${{ github.ref_name }}.apk
+            app/build/outputs/apk/release/Geto-${{ github.ref_name }}.apk
