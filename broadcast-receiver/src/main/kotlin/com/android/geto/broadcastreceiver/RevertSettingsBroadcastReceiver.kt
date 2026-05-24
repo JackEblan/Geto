@@ -15,7 +15,7 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.framework.broadcastreceiver
+package com.android.geto.broadcastreceiver
 
 import android.content.BroadcastReceiver
 import android.content.Context

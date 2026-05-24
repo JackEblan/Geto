@@ -54,6 +54,7 @@ android {
 }
 
 dependencies {
+    implementation(projects.broadcastReceiver)
     implementation(projects.common)
     implementation(projects.designSystem)
     implementation(projects.data.repository)
@@ -67,7 +68,6 @@ dependencies {
     implementation(projects.feature.shizuku)
 
     implementation(projects.framework.assetManager)
-    implementation(projects.framework.broadcastReceiver)
     implementation(projects.framework.notificationManager)
     implementation(projects.framework.packageManager)
     implementation(projects.framework.secureSettings)
