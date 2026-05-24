@@ -19,28 +19,24 @@
 import com.android.geto.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.dependencies
 
 class AndroidFeatureConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
-            with(pluginManager) {
-                apply("com.android.geto.library")
-                apply("com.android.geto.hilt")
-                apply("org.jetbrains.kotlin.plugin.serialization")
-            }
+            apply(plugin = libs.plugins.com.android.geto.library.get().pluginId)
+            apply(plugin = libs.plugins.com.android.geto.hilt.get().pluginId)
+            apply(plugin = libs.plugins.kotlin.serialization.get().pluginId)
 
             dependencies {
                 add("implementation", project(":design-system"))
 
-                add("implementation", libs.findLibrary("androidx.hilt.navigation.compose").get())
-                add("implementation", libs.findLibrary("androidx.lifecycle.runtime.compose").get())
-                add(
-                    "implementation",
-                    libs.findLibrary("androidx.lifecycle.viewmodel.compose").get(),
-                )
-                add("implementation", libs.findLibrary("androidx.navigation.compose").get())
-                add("implementation", libs.findLibrary("kotlinx.serialization.json").get())
+                add("implementation", libs.androidx.hilt.navigation.compose)
+                add("implementation", libs.androidx.lifecycle.runtime.compose)
+                add("implementation", libs.androidx.lifecycle.viewmodel.compose)
+                add("implementation", libs.androidx.navigation.compose)
+                add("implementation", libs.kotlinx.serialization.json)
             }
         }
     }

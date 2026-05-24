@@ -17,26 +17,47 @@
  */
 
 import com.android.build.api.dsl.ApplicationExtension
-import com.android.geto.configureAndroidCompose
-import com.android.geto.configureKotlinAndroid
+import com.android.geto.configureCompose
+import com.android.geto.configureAndroid
+import com.android.geto.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.kotlin.dsl.apply
+import org.gradle.kotlin.dsl.assign
 import org.gradle.kotlin.dsl.configure
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
 
 class AndroidApplicationConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
-            with(pluginManager) {
-                apply("com.android.application")
-                apply("org.jetbrains.kotlin.android")
-                apply("org.jetbrains.kotlin.plugin.compose")
-            }
+            apply(plugin = libs.plugins.android.application.get().pluginId)
+            apply(plugin = libs.plugins.kotlin.android.get().pluginId)
+            apply(plugin = libs.plugins.compose.get().pluginId)
 
             extensions.configure<ApplicationExtension> {
-                defaultConfig.targetSdk = 34
-                configureKotlinAndroid(this)
-                configureAndroidCompose(this)
+                configureAndroid(this)
+
+                defaultConfig {
+                    targetSdk = 36
+                }
+
+                buildFeatures {
+                    compose = true
+                }
+
+                packaging {
+                    jniLibs.keepDebugSymbols.add("**/*.so")
+                }
             }
+
+            extensions.configure<KotlinAndroidProjectExtension> {
+                compilerOptions {
+                    jvmTarget = JvmTarget.JVM_11
+                }
+            }
+
+            configureCompose()
         }
     }
 }

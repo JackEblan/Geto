@@ -18,21 +18,30 @@
 
 import com.android.build.api.dsl.LibraryExtension
 import com.android.build.api.variant.LibraryAndroidComponentsExtension
-import com.android.geto.configureKotlinAndroid
+import com.android.geto.configureAndroid
+import com.android.geto.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.kotlin.dsl.apply
+import org.gradle.kotlin.dsl.assign
 import org.gradle.kotlin.dsl.configure
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
 
 class AndroidLibraryConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
-            with(pluginManager) {
-                apply("com.android.library")
-                apply("org.jetbrains.kotlin.android")
-            }
+            apply(plugin = libs.plugins.android.library.get().pluginId)
+            apply(plugin = libs.plugins.kotlin.android.get().pluginId)
 
             extensions.configure<LibraryExtension> {
-                configureKotlinAndroid(this)
+                configureAndroid(this)
+            }
+
+            extensions.configure<KotlinAndroidProjectExtension> {
+                compilerOptions {
+                    jvmTarget = JvmTarget.JVM_11
+                }
             }
 
             extensions.configure<LibraryAndroidComponentsExtension> {

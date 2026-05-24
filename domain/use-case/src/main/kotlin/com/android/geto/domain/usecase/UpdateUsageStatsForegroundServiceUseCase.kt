@@ -17,8 +17,8 @@
  */
 package com.android.geto.domain.usecase
 
-import com.android.geto.domain.service.UsageStatsServiceManager
 import com.android.geto.domain.framework.UsageStatsManagerWrapper
+import com.android.geto.domain.service.UsageStatsServiceManager
 import javax.inject.Inject
 
 class UpdateUsageStatsForegroundServiceUseCase @Inject constructor(

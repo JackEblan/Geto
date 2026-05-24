@@ -28,14 +28,14 @@ import android.os.Binder
 import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
-import com.android.geto.framework.broadcastreceiver.StopUsageStatsForegroundServiceBroadcastReceiver
-import com.android.geto.framework.broadcastreceiver.StopUsageStatsForegroundServiceBroadcastReceiver.Companion.ACTION_STOP_USAGE_STATS_FOREGROUND_SERVICE
 import com.android.geto.common.ApplicationScope
 import com.android.geto.domain.framework.NotificationManagerWrapper
 import com.android.geto.domain.model.ForegroundServiceAppSettingsResult
 import com.android.geto.domain.model.ForegroundServiceAppSettingsResult.Ignore
 import com.android.geto.domain.model.ForegroundServiceAppSettingsResult.Success
 import com.android.geto.domain.usecase.ForegroundServiceAppSettingsUseCase
+import com.android.geto.framework.broadcastreceiver.StopUsageStatsForegroundServiceBroadcastReceiver
+import com.android.geto.framework.broadcastreceiver.StopUsageStatsForegroundServiceBroadcastReceiver.Companion.ACTION_STOP_USAGE_STATS_FOREGROUND_SERVICE
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
