@@ -38,6 +38,8 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
             extensions.configure<ApplicationExtension> {
                 configureAndroid(this)
 
+                configureCompose(this)
+
                 defaultConfig {
                     targetSdk = 36
                 }
@@ -56,8 +58,6 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                     jvmTarget = JvmTarget.JVM_11
                 }
             }
-
-            configureCompose()
         }
     }
 }

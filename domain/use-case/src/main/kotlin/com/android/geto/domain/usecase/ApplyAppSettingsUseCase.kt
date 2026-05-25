@@ -34,32 +34,30 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class ApplyAppSettingsUseCase @Inject constructor(
-    @Dispatcher(Default) private val defaultDispatcher: CoroutineDispatcher,
+    @param:Dispatcher(Default) private val defaultDispatcher: CoroutineDispatcher,
     private val appSettingsRepository: AppSettingsRepository,
     private val secureSettingsRepository: SecureSettingsRepository,
 ) {
     suspend operator fun invoke(packageName: String): AppSettingsResult {
-        val appSettings =
-            appSettingsRepository.getAppSettingsByPackageName(packageName = packageName).first()
+        return withContext(defaultDispatcher) {
+            val appSettings =
+                appSettingsRepository.getAppSettingsByPackageName(packageName = packageName)
 
-        if (appSettings.isEmpty()) return EmptyAppSettings
+            if (appSettings.isEmpty()) return@withContext EmptyAppSettings
 
-        val disabledAppSettings = withContext(defaultDispatcher) {
-            appSettings.all { it.enabled.not() }
-        }
+            if (appSettings.all { it.enabled.not() }) return@withContext DisabledAppSettings
 
-        if (disabledAppSettings) return DisabledAppSettings
-
-        return try {
-            if (secureSettingsRepository.applySecureSettings(appSettings)) {
-                Success
-            } else {
-                Failure
+            try {
+                if (secureSettingsRepository.applySecureSettings(appSettings = appSettings)) {
+                    Success
+                } else {
+                    Failure
+                }
+            } catch (_: SecurityException) {
+                NoPermission
+            } catch (_: IllegalArgumentException) {
+                InvalidValues
             }
-        } catch (e: SecurityException) {
-            NoPermission
-        } catch (e: IllegalArgumentException) {
-            InvalidValues
         }
     }
 }

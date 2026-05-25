@@ -109,7 +109,7 @@ class RequestPinShortcutUseCase @Inject constructor(
             } else {
                 UpdateFailure
             }
-        } catch (e: IllegalArgumentException) {
+        } catch (_: IllegalArgumentException) {
             UpdateImmutableShortcuts
         }
     }

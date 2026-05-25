@@ -31,7 +31,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class AddAppSettingUseCase @Inject constructor(
-    @Dispatcher(Default) private val defaultDispatcher: CoroutineDispatcher,
+    @param:Dispatcher(Default) private val defaultDispatcher: CoroutineDispatcher,
     private val appSettingsRepository: AppSettingsRepository,
 ) {
     suspend operator fun invoke(
@@ -44,28 +44,29 @@ class AddAppSettingUseCase @Inject constructor(
         valueOnLaunch: String,
         valueOnRevert: String,
     ): AddAppSettingResult {
-        val appSetting = AppSetting(
-            id = id,
-            enabled = enabled,
-            settingType = settingType,
-            packageName = packageName,
-            label = label,
-            key = key,
-            valueOnLaunch = valueOnLaunch,
-            valueOnRevert = valueOnRevert,
-        )
+        return withContext(defaultDispatcher) {
+            val appSetting = AppSetting(
+                id = id,
+                enabled = enabled,
+                settingType = settingType,
+                packageName = packageName,
+                label = label,
+                key = key,
+                valueOnLaunch = valueOnLaunch,
+                valueOnRevert = valueOnRevert,
+            )
 
-        val appSettings = withContext(defaultDispatcher) {
-            appSettingsRepository.getAppSettingsByPackageName(packageName = appSetting.packageName)
-                .first().map { it.key }
-        }
+            val keys =
+                appSettingsRepository.getAppSettingsByPackageName(packageName = appSetting.packageName)
+                    .map { it.key }
 
-        return if (appSetting.key !in appSettings) {
-            appSettingsRepository.upsertAppSetting(appSetting = appSetting)
+            if (appSetting.key !in keys) {
+                appSettingsRepository.upsertAppSetting(appSetting = appSetting)
 
-            SUCCESS
-        } else {
-            FAILED
+                SUCCESS
+            } else {
+                FAILED
+            }
         }
     }
 }

@@ -51,7 +51,7 @@ class AppSettingsDaoTest {
     }
 
     @Test
-    fun getAppSettingEntitiesByPackageName() = runTest {
+    fun getAppSettingEntitiesFlowByPackageName() = runTest {
         val appSettingEntities = List(10) {
             AppSettingEntity(
                 enabled = false,
@@ -67,7 +67,7 @@ class AppSettingsDaoTest {
         appSettingsDao.upsertAppSettingEntities(appSettingEntities)
 
         val appSettingEntitiesByPackageName =
-            appSettingsDao.getAppSettingEntitiesByPackageName("com.android.geto").first()
+            appSettingsDao.getAppSettingEntitiesFlowByPackageName("com.android.geto").first()
 
         assertTrue(appSettingEntitiesByPackageName.isNotEmpty())
     }
