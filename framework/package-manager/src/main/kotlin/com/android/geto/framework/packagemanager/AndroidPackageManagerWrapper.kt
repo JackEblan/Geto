@@ -38,9 +38,9 @@ import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 
 class AndroidPackageManagerWrapper @Inject constructor(
-    @Dispatcher(Default) private val defaultDispatcher: CoroutineDispatcher,
-    @Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher,
-    @ApplicationContext private val context: Context,
+    @param:Dispatcher(Default) private val defaultDispatcher: CoroutineDispatcher,
+    @param:Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher,
+    @param:ApplicationContext private val context: Context,
 ) : PackageManagerWrapper {
 
     private val packageManager = context.packageManager
@@ -64,7 +64,7 @@ class AndroidPackageManagerWrapper @Inject constructor(
     override suspend fun getApplicationIcon(packageName: String): ByteArray? {
         return try {
             packageManager.getApplicationIcon(packageName).toByteArray()
-        } catch (e: PackageManager.NameNotFoundException) {
+        } catch (_: PackageManager.NameNotFoundException) {
             null
         }
     }

@@ -33,8 +33,8 @@ import java.io.IOException
 import javax.inject.Inject
 
 internal class AndroidAssetManagerWrapper @Inject constructor(
-    @Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher,
-    @ApplicationContext private val context: Context,
+    @param:Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher,
+    @param:ApplicationContext private val context: Context,
 ) : AssetManagerWrapper {
     private val appSettingsType = object : TypeToken<List<AppSettingTemplate>>() {}.type
 
@@ -45,14 +45,14 @@ internal class AndroidAssetManagerWrapper @Inject constructor(
         val jsonString = withContext(ioDispatcher) {
             try {
                 context.assets.open(appSettingTemplatesJson).bufferedReader().use { it.readText() }
-            } catch (ex: IOException) {
+            } catch (_: IOException) {
                 null
             }
         }
 
         return try {
             Gson().fromJson(jsonString, appSettingsType) ?: emptyList()
-        } catch (e: JsonSyntaxException) {
+        } catch (_: JsonSyntaxException) {
             emptyList()
         }
     }

@@ -35,7 +35,7 @@ internal fun rememberTemplateDialogState(): TemplateDialogState {
 }
 
 @Stable
-internal class TemplateDialogState() {
+internal class TemplateDialogState {
     var showDialog by mutableStateOf(false)
         private set
 

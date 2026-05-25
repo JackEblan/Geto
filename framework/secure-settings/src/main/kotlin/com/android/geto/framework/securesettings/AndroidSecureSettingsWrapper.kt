@@ -35,8 +35,8 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 internal class AndroidSecureSettingsWrapper @Inject constructor(
-    @Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher,
-    @ApplicationContext private val context: Context,
+    @param:Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher,
+    @param:ApplicationContext private val context: Context,
 ) : SecureSettingsWrapper {
 
     private val contentResolver = context.contentResolver
