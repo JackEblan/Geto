@@ -25,6 +25,10 @@ plugins {
 android {
     namespace = "com.android.geto.data.room"
 
+    defaultConfig {
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
     sourceSets {
         getByName("androidTest").assets.srcDir("$projectDir/schemas")
     }
