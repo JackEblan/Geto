@@ -34,8 +34,8 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 internal class AndroidShortcutManagerCompatWrapper @Inject constructor(
-    @ApplicationContext private val context: Context,
-    @Dispatcher(Default) private val defaultDispatcher: CoroutineDispatcher,
+    @param:ApplicationContext private val context: Context,
+    @param:Dispatcher(Default) private val defaultDispatcher: CoroutineDispatcher,
 ) : ShortcutManagerCompatWrapper {
 
     override fun isRequestPinShortcutSupported(): Boolean {

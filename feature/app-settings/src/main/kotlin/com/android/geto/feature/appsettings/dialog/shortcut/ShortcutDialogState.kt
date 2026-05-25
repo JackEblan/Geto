@@ -33,7 +33,7 @@ internal fun rememberShortcutDialogState(): ShortcutDialogState {
 }
 
 @Stable
-internal class ShortcutDialogState() {
+internal class ShortcutDialogState {
     var showDialog by mutableStateOf(false)
         private set
 

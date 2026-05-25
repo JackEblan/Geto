@@ -34,7 +34,7 @@ import rikka.shizuku.Shizuku
 import rikka.shizuku.Shizuku.OnRequestPermissionResultListener
 import javax.inject.Inject
 
-internal class DefaultShizukuWrapper @Inject constructor(@ApplicationContext private val context: Context) :
+internal class DefaultShizukuWrapper @Inject constructor(@param:ApplicationContext private val context: Context) :
     ShizukuWrapper {
     private val requestPermissionResult = 1
 
@@ -58,7 +58,7 @@ internal class DefaultShizukuWrapper @Inject constructor(@ApplicationContext pri
     private val serviceArgs = Shizuku.UserServiceArgs(
         ComponentName(
             context.packageName,
-            UserService::class.java.getName(),
+            UserService::class.java.name,
         ),
     ).daemon(false).processNameSuffix("user_service").debuggable(BuildConfig.DEBUG)
 
@@ -126,7 +126,7 @@ internal class DefaultShizukuWrapper @Inject constructor(@ApplicationContext pri
             } else {
                 Shizuku.requestPermission(requestPermissionResult)
             }
-        } catch (e: Throwable) {
+        } catch (_: Throwable) {
             _shizukuStatus.tryEmit(
                 ShizukuStatus.Error,
             )
@@ -157,7 +157,7 @@ internal class DefaultShizukuWrapper @Inject constructor(@ApplicationContext pri
             _shizukuStatus.tryEmit(
                 ShizukuStatus.CanWriteSecureSettings,
             )
-        } catch (e: RemoteException) {
+        } catch (_: RemoteException) {
             _shizukuStatus.tryEmit(
                 ShizukuStatus.RemoteException,
             )

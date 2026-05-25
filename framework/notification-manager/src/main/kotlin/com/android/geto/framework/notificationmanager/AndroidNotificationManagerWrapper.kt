@@ -43,7 +43,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import com.android.geto.common.R as commonR
 
-internal class AndroidNotificationManagerWrapper @Inject constructor(@ApplicationContext private val context: Context) :
+internal class AndroidNotificationManagerWrapper @Inject constructor(@param:ApplicationContext private val context: Context) :
     NotificationManagerWrapper {
     private val notificationManagerCompat = NotificationManagerCompat.from(context)
 
