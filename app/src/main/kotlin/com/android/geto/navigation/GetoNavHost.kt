@@ -35,26 +35,19 @@ import com.android.geto.feature.appsettings.navigation.appSettingsScreen
 import com.android.geto.feature.appsettings.navigation.navigateToAppSettings
 import com.android.geto.feature.home.navigation.HomeRouteData
 import com.android.geto.feature.home.navigation.homeScreen
-import com.android.geto.feature.service.navigation.navigateToService
-import com.android.geto.feature.service.navigation.serviceScreen
 import com.android.geto.feature.settings.navigation.navigateToSettings
 import com.android.geto.feature.settings.navigation.settingsScreen
 import com.android.geto.feature.shizuku.navigation.navigateToShizuku
 import com.android.geto.feature.shizuku.navigation.shizukuScreen
 import com.android.geto.navigation.TopLevelDestination.APPS
-import com.android.geto.navigation.TopLevelDestination.SERVICE
 import com.android.geto.navigation.TopLevelDestination.SETTINGS
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
 
 @Composable
-fun GetoNavHost(
-    navController: NavHostController,
-) {
-    val snackbarHostState = remember {
-        SnackbarHostState()
-    }
+fun GetoNavHost(navController: NavHostController) {
+    val snackbarHostState = remember { SnackbarHostState() }
 
     PostNotificationsPermission(snackbarHostState = snackbarHostState)
 
@@ -69,14 +62,11 @@ fun GetoNavHost(
             onItemClick = { homeNavHostController, homeDestination ->
                 when (homeDestination) {
                     APPS -> homeNavHostController.navigateToApps()
-                    SERVICE -> homeNavHostController.navigateToService()
                     SETTINGS -> homeNavHostController.navigateToSettings()
                 }
             },
             builder = {
                 appsScreen(onItemClick = navController::navigateToAppSettings)
-
-                serviceScreen()
 
                 settingsScreen()
             },
@@ -107,7 +97,7 @@ private fun PostNotificationsPermission(snackbarHostState: SnackbarHostState) {
     LaunchedEffect(key1 = notificationsPermissionState) {
         val status = notificationsPermissionState.status
 
-        if (status is PermissionStatus.Denied && status.shouldShowRationale.not()) {
+        if (status is PermissionStatus.Denied && !status.shouldShowRationale) {
             val snackbarResult = snackbarHostState.showSnackbar(
                 message = message,
                 actionLabel = actionLabel,

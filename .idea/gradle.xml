@@ -38,13 +38,11 @@
             <option value="$PROJECT_DIR$/domain/framework" />
             <option value="$PROJECT_DIR$/domain/model" />
             <option value="$PROJECT_DIR$/domain/repository" />
-            <option value="$PROJECT_DIR$/domain/service" />
             <option value="$PROJECT_DIR$/domain/use-case" />
             <option value="$PROJECT_DIR$/feature" />
             <option value="$PROJECT_DIR$/feature/app-settings" />
             <option value="$PROJECT_DIR$/feature/apps" />
             <option value="$PROJECT_DIR$/feature/home" />
-            <option value="$PROJECT_DIR$/feature/service" />
             <option value="$PROJECT_DIR$/feature/settings" />
             <option value="$PROJECT_DIR$/feature/shizuku" />
             <option value="$PROJECT_DIR$/framework" />
@@ -54,8 +52,6 @@
             <option value="$PROJECT_DIR$/framework/secure-settings" />
             <option value="$PROJECT_DIR$/framework/shizuku" />
             <option value="$PROJECT_DIR$/framework/shortcut-manager" />
-            <option value="$PROJECT_DIR$/framework/usage-stats-manager" />
-            <option value="$PROJECT_DIR$/service" />
           </set>
         </option>
       </GradleProjectSettings>

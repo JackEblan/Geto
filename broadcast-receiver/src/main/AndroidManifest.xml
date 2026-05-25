@@ -25,15 +25,6 @@
                 <action android:name="ACTION_REVERT_SETTINGS" />
             </intent-filter>
         </receiver>
-
-        <receiver
-            android:name="com.android.geto.broadcastreceiver.StopUsageStatsForegroundServiceBroadcastReceiver"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="ACTION_STOP_USAGE_STATS_FOREGROUND_SERVICE" />
-            </intent-filter>
-        </receiver>
-
     </application>
 
 </manifest>

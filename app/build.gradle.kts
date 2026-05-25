@@ -63,7 +63,6 @@ dependencies {
     implementation(projects.feature.apps)
     implementation(projects.feature.appSettings)
     implementation(projects.feature.home)
-    implementation(projects.feature.service)
     implementation(projects.feature.settings)
     implementation(projects.feature.shizuku)
 
@@ -73,8 +72,6 @@ dependencies {
     implementation(projects.framework.secureSettings)
     implementation(projects.framework.shizuku)
     implementation(projects.framework.shortcutManager)
-    implementation(projects.framework.usageStatsManager)
-    implementation(projects.service)
 
     implementation(libs.accompanist.permissions)
     implementation(libs.androidx.activity.ktx)

@@ -35,9 +35,11 @@
       <module name="Geto.data.datastore-test" target="21" />
       <module name="Geto.domain.broadcast-receiver" target="21" />
       <module name="Geto.domain.foreground-service" target="21" />
+      <module name="Geto.domain.service" target="21" />
       <module name="Geto.feature.applist" target="17" />
       <module name="Geto.feature.permission" target="21" />
       <module name="Geto.feature.securesettingslist" target="17" />
+      <module name="Geto.feature.service" target="21" />
       <module name="Geto.feature.settings.test" target="17" />
       <module name="Geto.feature.shortcut" target="17" />
       <module name="Geto.foreground-service" target="21" />
@@ -45,8 +47,10 @@
       <module name="Geto.framework.build-version" target="17" />
       <module name="Geto.framework.clipboard-manager" target="21" />
       <module name="Geto.framework.package-manager-test" target="21" />
+      <module name="Geto.framework.usage-stats-manager" target="21" />
       <module name="Geto.roborazzi" target="21" />
       <module name="Geto.screenshot-testing" target="21" />
+      <module name="Geto.service" target="21" />
       <module name="Geto.shizuku.package-manager" target="21" />
       <module name="Geto.ui-test-hilt-manifest" target="17" />
       <module name="Geto.ui-test-hilt-manifest.main" target="17" />

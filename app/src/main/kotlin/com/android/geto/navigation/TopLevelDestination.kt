@@ -22,7 +22,6 @@ import com.android.geto.R
 import com.android.geto.designsystem.icon.GetoIcons
 import com.android.geto.feature.apps.navigation.AppsRouteData
 import com.android.geto.feature.home.navigation.HomeDestination
-import com.android.geto.feature.service.navigation.ServiceRouteData
 import com.android.geto.feature.settings.navigation.SettingsRouteData
 import kotlin.reflect.KClass
 
@@ -38,14 +37,6 @@ enum class TopLevelDestination(
         contentDescription = R.string.apps,
         route = AppsRouteData::class,
     ),
-
-    SERVICE(
-        label = R.string.service,
-        icon = GetoIcons.RemoveRedEye,
-        contentDescription = R.string.service,
-        route = ServiceRouteData::class,
-    ),
-
     SETTINGS(
         label = R.string.settings,
         icon = GetoIcons.Settings,

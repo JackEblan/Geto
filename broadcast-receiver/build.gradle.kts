@@ -29,7 +29,6 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(projects.common)
     implementation(projects.domain.common)
-    implementation(projects.domain.service)
     implementation(projects.domain.framework)
     implementation(projects.domain.useCase)
 }
