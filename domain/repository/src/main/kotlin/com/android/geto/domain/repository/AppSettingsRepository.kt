@@ -22,11 +22,15 @@ import kotlinx.coroutines.flow.Flow
 
 interface AppSettingsRepository {
 
-    val appSettings: Flow<List<AppSetting>>
+    val appSettingsFlow: Flow<List<AppSetting>>
+
+    val appSettings: List<AppSetting>
 
     suspend fun upsertAppSetting(appSetting: AppSetting)
 
     suspend fun deleteAppSetting(appSetting: AppSetting)
 
-    fun getAppSettingsByPackageName(packageName: String): Flow<List<AppSetting>>
+    fun getAppSettingsFlowByPackageName(packageName: String): Flow<List<AppSetting>>
+
+    fun getAppSettingsByPackageName(packageName: String): List<AppSetting>
 }

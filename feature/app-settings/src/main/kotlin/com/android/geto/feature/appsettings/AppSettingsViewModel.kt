@@ -94,7 +94,7 @@ class AppSettingsViewModel @Inject constructor(
     val requestPinShortcutResult = _requestPinShortcutResult.asStateFlow()
 
     val appSettingsUiState =
-        appSettingsRepository.getAppSettingsByPackageName(packageName = packageName)
+        appSettingsRepository.getAppSettingsFlowByPackageName(packageName = packageName)
             .map(AppSettingsUiState::Success).stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5_000),

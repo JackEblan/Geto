@@ -29,48 +29,63 @@ class DefaultAppSettingsRepository @Inject constructor(
     private val appSettingsDao: AppSettingsDao,
 ) : AppSettingsRepository {
 
-    override val appSettings: Flow<List<AppSetting>> =
-        appSettingsDao.getAppSettingEntities().map { entities ->
-            entities.map(::asExternalModel)
+    override val appSettingsFlow: Flow<List<AppSetting>> =
+        appSettingsDao.getAppSettingEntitiesFlow().map { entities ->
+            entities.map { entity ->
+                entity.asExternalModel()
+            }
+        }
+
+    override val appSettings: List<AppSetting> =
+        appSettingsDao.getAppSettingEntities().map { entity ->
+            entity.asExternalModel()
         }
 
     override suspend fun upsertAppSetting(appSetting: AppSetting) {
-        appSettingsDao.upsertAppSettingEntity(asEntity(appSetting = appSetting))
+        appSettingsDao.upsertAppSettingEntity(entity = appSetting.asEntity())
     }
 
     override suspend fun deleteAppSetting(appSetting: AppSetting) {
-        appSettingsDao.deleteAppSettingEntity(asEntity(appSetting = appSetting))
+        appSettingsDao.deleteAppSettingEntity(entity = appSetting.asEntity())
     }
 
-    override fun getAppSettingsByPackageName(packageName: String): Flow<List<AppSetting>> {
-        return appSettingsDao.getAppSettingEntitiesByPackageName(packageName).map { entities ->
-            entities.map(::asExternalModel)
+    override fun getAppSettingsFlowByPackageName(packageName: String): Flow<List<AppSetting>> {
+        return appSettingsDao.getAppSettingEntitiesFlowByPackageName(packageName).map { entities ->
+            entities.map { entity ->
+                entity.asExternalModel()
+            }
         }
     }
 
-    private fun asExternalModel(entity: AppSettingEntity): AppSetting {
+    override fun getAppSettingsByPackageName(packageName: String): List<AppSetting> {
+        return appSettingsDao.getAppSettingEntitiesByPackageName(packageName).map { entity ->
+            entity.asExternalModel()
+        }
+    }
+
+    private fun AppSettingEntity.asExternalModel(): AppSetting {
         return AppSetting(
-            id = entity.id,
-            enabled = entity.enabled,
-            settingType = entity.settingType,
-            packageName = entity.packageName,
-            label = entity.label,
-            key = entity.key,
-            valueOnLaunch = entity.valueOnLaunch,
-            valueOnRevert = entity.valueOnRevert,
+            id = id,
+            enabled = enabled,
+            settingType = settingType,
+            packageName = packageName,
+            label = label,
+            key = key,
+            valueOnLaunch = valueOnLaunch,
+            valueOnRevert = valueOnRevert,
         )
     }
 
-    private fun asEntity(appSetting: AppSetting): AppSettingEntity {
+    private fun AppSetting.asEntity(): AppSettingEntity {
         return AppSettingEntity(
-            id = appSetting.id,
-            enabled = appSetting.enabled,
-            settingType = appSetting.settingType,
-            packageName = appSetting.packageName,
-            label = appSetting.label,
-            key = appSetting.key,
-            valueOnLaunch = appSetting.valueOnLaunch,
-            valueOnRevert = appSetting.valueOnRevert,
+            id = id,
+            enabled = enabled,
+            settingType = settingType,
+            packageName = packageName,
+            label = label,
+            key = key,
+            valueOnLaunch = valueOnLaunch,
+            valueOnRevert = valueOnRevert,
         )
     }
 }

@@ -19,6 +19,7 @@ package com.android.geto.feature.service
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.android.geto.domain.framework.UsageStatsManagerWrapper
 import com.android.geto.domain.service.UsageStatsServiceManager
 import com.android.geto.domain.usecase.UpdateUsageStatsForegroundServiceUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -29,8 +30,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ServiceViewModel @Inject constructor(
-    usageStatsServiceManager: UsageStatsServiceManager,
-    private val updateUsageStatsForegroundServiceUseCase: UpdateUsageStatsForegroundServiceUseCase,
+    private val usageStatsServiceManager: UsageStatsServiceManager,
+    private val usageStatsManagerWrapper: UsageStatsManagerWrapper,
 ) : ViewModel() {
     val usageStatsForegroundServiceActive = usageStatsServiceManager.isActive.stateIn(
         scope = viewModelScope,
@@ -40,7 +41,11 @@ class ServiceViewModel @Inject constructor(
 
     fun updateUsageStatsForegroundService() {
         viewModelScope.launch {
-            updateUsageStatsForegroundServiceUseCase()
+            if (usageStatsManagerWrapper.isUsageStatsPermissionGranted()) {
+                usageStatsServiceManager.updateForegroundService()
+            } else {
+                usageStatsManagerWrapper.requestUsageStatsPermission()
+            }
         }
     }
 }

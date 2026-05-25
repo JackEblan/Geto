@@ -37,9 +37,7 @@ class AndroidLibraryComposeConventionPlugin : Plugin<Project> {
             extensions.configure<LibraryExtension> {
                 configureAndroid(this)
 
-                buildFeatures {
-                    compose = true
-                }
+                configureCompose(this)
             }
 
             extensions.configure<KotlinAndroidProjectExtension> {
@@ -47,8 +45,6 @@ class AndroidLibraryComposeConventionPlugin : Plugin<Project> {
                     jvmTarget = JvmTarget.JVM_11
                 }
             }
-
-            configureCompose()
         }
     }
 }
