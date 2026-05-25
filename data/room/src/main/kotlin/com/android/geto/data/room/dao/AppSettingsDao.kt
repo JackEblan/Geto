@@ -42,9 +42,6 @@ interface AppSettingsDao {
     @Upsert
     suspend fun upsertAppSettingEntities(entities: List<AppSettingEntity>)
 
-    @Query("SELECT * FROM AppSettingEntity")
-    fun getAppSettingEntities(): List<AppSettingEntity>
-
     @Query("SELECT * FROM AppSettingEntity WHERE packageName = :packageName")
-    fun getAppSettingEntitiesByPackageName(packageName: String): List<AppSettingEntity>
+    suspend fun getAppSettingEntitiesByPackageName(packageName: String): List<AppSettingEntity>
 }

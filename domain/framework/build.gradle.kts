@@ -17,13 +17,8 @@
  */
 
 plugins {
-    alias(libs.plugins.com.android.geto.library)
+    alias(libs.plugins.com.android.geto.jvmLibrary)
 }
-
-android {
-    namespace = "com.android.geto.domain.framework"
-}
-
 dependencies {
     api(projects.domain.model)
     implementation(libs.kotlinx.coroutines.core)
