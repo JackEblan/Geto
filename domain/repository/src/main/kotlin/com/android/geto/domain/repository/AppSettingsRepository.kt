@@ -24,13 +24,11 @@ interface AppSettingsRepository {
 
     val appSettingsFlow: Flow<List<AppSetting>>
 
-    val appSettings: List<AppSetting>
-
     suspend fun upsertAppSetting(appSetting: AppSetting)
 
     suspend fun deleteAppSetting(appSetting: AppSetting)
 
     fun getAppSettingsFlowByPackageName(packageName: String): Flow<List<AppSetting>>
 
-    fun getAppSettingsByPackageName(packageName: String): List<AppSetting>
+    suspend fun getAppSettingsByPackageName(packageName: String): List<AppSetting>
 }

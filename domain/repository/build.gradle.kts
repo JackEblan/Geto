@@ -17,11 +17,7 @@
  */
 
 plugins {
-    alias(libs.plugins.com.android.geto.library)
-}
-
-android {
-    namespace = "com.android.geto.domain.repository"
+    alias(libs.plugins.com.android.geto.jvmLibrary)
 }
 
 dependencies {

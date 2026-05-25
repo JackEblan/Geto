@@ -29,7 +29,6 @@ import com.android.geto.domain.model.AppSettingsResult.Success
 import com.android.geto.domain.repository.AppSettingsRepository
 import com.android.geto.domain.repository.SecureSettingsRepository
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 

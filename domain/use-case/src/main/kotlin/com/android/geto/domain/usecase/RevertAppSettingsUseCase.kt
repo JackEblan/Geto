@@ -34,7 +34,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class RevertAppSettingsUseCase @Inject constructor(
-    @Dispatcher(Default) private val defaultDispatcher: CoroutineDispatcher,
+    @param:Dispatcher(Default) private val defaultDispatcher: CoroutineDispatcher,
     private val appSettingsRepository: AppSettingsRepository,
     private val secureSettingsRepository: SecureSettingsRepository,
 ) {
@@ -55,9 +55,9 @@ class RevertAppSettingsUseCase @Inject constructor(
             } else {
                 Failure
             }
-        } catch (e: SecurityException) {
+        } catch (_: SecurityException) {
             NoPermission
-        } catch (e: IllegalArgumentException) {
+        } catch (_: IllegalArgumentException) {
             InvalidValues
         }
     }

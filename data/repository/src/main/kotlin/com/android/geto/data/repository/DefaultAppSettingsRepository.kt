@@ -36,11 +36,6 @@ class DefaultAppSettingsRepository @Inject constructor(
             }
         }
 
-    override val appSettings: List<AppSetting> =
-        appSettingsDao.getAppSettingEntities().map { entity ->
-            entity.asExternalModel()
-        }
-
     override suspend fun upsertAppSetting(appSetting: AppSetting) {
         appSettingsDao.upsertAppSettingEntity(entity = appSetting.asEntity())
     }
@@ -57,7 +52,7 @@ class DefaultAppSettingsRepository @Inject constructor(
         }
     }
 
-    override fun getAppSettingsByPackageName(packageName: String): List<AppSetting> {
+    override suspend fun getAppSettingsByPackageName(packageName: String): List<AppSetting> {
         return appSettingsDao.getAppSettingEntitiesByPackageName(packageName).map { entity ->
             entity.asExternalModel()
         }

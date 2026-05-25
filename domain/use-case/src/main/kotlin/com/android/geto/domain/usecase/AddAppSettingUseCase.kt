@@ -26,7 +26,6 @@ import com.android.geto.domain.model.AppSetting
 import com.android.geto.domain.model.SettingType
 import com.android.geto.domain.repository.AppSettingsRepository
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 

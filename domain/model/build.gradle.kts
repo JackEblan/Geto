@@ -17,13 +17,5 @@
  */
 
 plugins {
-    alias(libs.plugins.com.android.geto.library)
-}
-
-android {
-    namespace = "com.android.geto.domain.model"
-
-    defaultConfig {
-        consumerProguardFiles("consumer-proguard-rules.pro")
-    }
+    alias(libs.plugins.com.android.geto.jvmLibrary)
 }
