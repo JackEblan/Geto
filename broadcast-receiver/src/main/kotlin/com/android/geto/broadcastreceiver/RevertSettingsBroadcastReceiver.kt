@@ -43,18 +43,9 @@ class RevertSettingsBroadcastReceiver @Inject constructor() : BroadcastReceiver(
     lateinit var notificationManagerWrapper: NotificationManagerWrapper
 
     override fun onReceive(context: Context?, intent: Intent?) {
-        val packageName = intent?.extras?.getString(EXTRA_PACKAGE_NAME)
+        val packageName = intent?.extras?.getString(EXTRA_PACKAGE_NAME) ?: return
 
-        val notificationId = intent?.extras?.getInt(EXTRA_NOTIFICATION_ID)
-
-        revertSettings(
-            packageName = packageName,
-            notificationId = notificationId,
-        )
-    }
-
-    private fun revertSettings(packageName: String?, notificationId: Int?) {
-        if (packageName == null || notificationId == null) return
+        val notificationId = intent.extras?.getInt(EXTRA_NOTIFICATION_ID) ?: return
 
         appScope.launch {
             if (revertAppSettingsUseCase(packageName = packageName) == AppSettingsResult.Success) {

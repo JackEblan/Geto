@@ -51,7 +51,6 @@ import kotlin.reflect.KClass
 internal fun HomeRoute(
     modifier: Modifier = Modifier,
     snackbarHostState: SnackbarHostState,
-    navController: NavHostController = rememberNavController(),
     topLevelDestinations: List<HomeDestination>,
     startDestination: KClass<*>,
     onItemClick: (NavHostController, HomeDestination) -> Unit,
@@ -60,7 +59,6 @@ internal fun HomeRoute(
     HomeScreen(
         modifier = modifier,
         snackbarHostState = snackbarHostState,
-        navController = navController,
         topLevelDestinations = topLevelDestinations,
         startDestination = startDestination,
         onItemClick = onItemClick,
@@ -73,12 +71,13 @@ internal fun HomeRoute(
 internal fun HomeScreen(
     modifier: Modifier = Modifier,
     snackbarHostState: SnackbarHostState,
-    navController: NavHostController = rememberNavController(),
     topLevelDestinations: List<HomeDestination>,
     startDestination: KClass<*>,
     onItemClick: (NavHostController, HomeDestination) -> Unit,
     builder: NavGraphBuilder.() -> Unit,
 ) {
+    val navController = rememberNavController()
+
     val topAppBarScrollBehavior = enterAlwaysScrollBehavior()
 
     val currentDestination = navController.currentBackStackEntryAsState().value?.destination
