@@ -44,11 +44,7 @@ class RevertAppSettingsUseCase @Inject constructor(
 
             if (appSettings.isEmpty()) return@withContext EmptyAppSettings
 
-            val disabledAppSettings = withContext(defaultDispatcher) {
-                appSettings.all { !it.enabled }
-            }
-
-            if (disabledAppSettings) return@withContext DisabledAppSettings
+            if (appSettings.all { !it.enabled }) return@withContext DisabledAppSettings
 
             try {
                 if (appSettings.all { appSetting ->

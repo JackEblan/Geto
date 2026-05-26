@@ -41,31 +41,33 @@ class RequestPinShortcutUseCase @Inject constructor(
         id: String,
         shortLabel: String,
         longLabel: String,
-    ): RequestPinShortcutResult = withContext(defaultDispatcher) {
+    ): RequestPinShortcutResult {
         if (!shortcutManagerCompatWrapper.isRequestPinShortcutSupported()) {
-            return@withContext UnsupportedLauncher
+            return UnsupportedLauncher
         }
 
-        val pinnedShortcut = shortcutManagerCompatWrapper.getShortcuts().find { it.id == id }
+        return withContext(defaultDispatcher) {
+            val pinnedShortcut = shortcutManagerCompatWrapper.getShortcuts().find { it.id == id }
 
-        if (pinnedShortcut != null) {
-            updateShortcuts(
-                packageName = packageName,
-                icon = icon,
-                appName = appName,
-                id = id,
-                shortLabel = shortLabel,
-                longLabel = longLabel,
-            )
-        } else {
-            requestPinShortcut(
-                packageName = packageName,
-                icon = icon,
-                appName = appName,
-                id = id,
-                shortLabel = shortLabel,
-                longLabel = longLabel,
-            )
+            if (pinnedShortcut != null) {
+                updateShortcuts(
+                    packageName = packageName,
+                    icon = icon,
+                    appName = appName,
+                    id = id,
+                    shortLabel = shortLabel,
+                    longLabel = longLabel,
+                )
+            } else {
+                requestPinShortcut(
+                    packageName = packageName,
+                    icon = icon,
+                    appName = appName,
+                    id = id,
+                    shortLabel = shortLabel,
+                    longLabel = longLabel,
+                )
+            }
         }
     }
 
