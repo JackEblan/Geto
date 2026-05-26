@@ -76,7 +76,7 @@ fun ShimmerImage(
             )
         },
         contentScale = ContentScale.Crop,
-        painter = if (isError.not() && isLocalInspection.not()) {
+        painter = if (!isError && !isLocalInspection) {
             imageLoader
         } else {
             painterResource(R.drawable.ic_android_black_24dp)

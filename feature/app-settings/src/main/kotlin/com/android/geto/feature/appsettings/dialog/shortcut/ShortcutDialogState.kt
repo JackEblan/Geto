@@ -81,7 +81,7 @@ internal class ShortcutDialogState {
 
         showLongLabelError = longLabel.isBlank()
 
-        if (showShortLabelError.not() && showLongLabelError.not()) {
+        if (!showShortLabelError && !showLongLabelError) {
             onRequestPinShortcut(icon, shortLabel, longLabel)
 
             showDialog = false

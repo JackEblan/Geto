@@ -44,7 +44,7 @@ class ApplyAppSettingsUseCase @Inject constructor(
 
             if (appSettings.isEmpty()) return@withContext EmptyAppSettings
 
-            if (appSettings.all { it.enabled.not() }) return@withContext DisabledAppSettings
+            if (appSettings.all { !it.enabled }) return@withContext DisabledAppSettings
 
             try {
                 if (appSettings.all { appSetting ->
@@ -53,7 +53,8 @@ class ApplyAppSettingsUseCase @Inject constructor(
                             key = appSetting.key,
                             value = appSetting.valueOnLaunch,
                         )
-                    }) {
+                    }
+                ) {
                     Success
                 } else {
                     Failure

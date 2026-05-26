@@ -36,7 +36,6 @@ class AppsViewModel @Inject constructor(
 ) : ViewModel() {
     private var _textFlow =
         MutableStateFlow<String?>(null)
-    val textFlow = _textFlow.asStateFlow()
 
     val appsUiState =
         getLauncherAppsActivityInfosUseCase(textFlow = _textFlow).map(AppsUiState::Success).stateIn(

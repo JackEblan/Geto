@@ -17,6 +17,13 @@
  */
 package com.android.geto.feature.appsettings
 
+import android.app.Notification
+import android.app.PendingIntent
+import android.app.PendingIntent.FLAG_IMMUTABLE
+import android.app.PendingIntent.FLAG_UPDATE_CURRENT
+import android.content.Context
+import android.content.Intent
+import android.graphics.drawable.Icon
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -54,10 +61,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.app.NotificationCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.android.geto.broadcastreceiver.RevertSettingsBroadcastReceiver
 import com.android.geto.designsystem.component.GetoLoadingWheel
 import com.android.geto.designsystem.icon.GetoIcons
 import com.android.geto.domain.model.AddAppSettingResult
@@ -90,7 +100,11 @@ import com.android.geto.feature.appsettings.dialog.template.TemplateDialogState
 import com.android.geto.feature.appsettings.dialog.template.TemplateDialogUiState
 import com.android.geto.feature.appsettings.dialog.template.rememberTemplateDialogState
 import com.android.geto.feature.appsettings.navigation.AppSettingsRouteData
+import com.android.geto.framework.notificationmanager.AndroidNotificationManagerWrapper.Companion.ACTION_REVERT_SETTINGS
+import com.android.geto.framework.notificationmanager.AndroidNotificationManagerWrapper.Companion.EXTRA_COMPONENT_NAME
+import com.android.geto.framework.notificationmanager.AndroidNotificationManagerWrapper.Companion.EXTRA_NOTIFICATION_ID
 import com.android.geto.ui.local.LocalLauncherApps
+import com.android.geto.ui.local.LocalNotificationManager
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
@@ -144,7 +158,6 @@ internal fun AppSettingsRoute(
         onAddAppSetting = viewModel::addAppSetting,
         onRequestPinShortcut = viewModel::requestPinShortcut,
         onGetSecureSettingsByName = viewModel::getSecureSettingsByName,
-        onPostNotification = viewModel::postNotification,
         onResetApplyAppSettingsResult = viewModel::resetApplyAppSettingsResult,
         onResetRequestPinShortcutResult = viewModel::resetRequestPinShortcutResult,
         onResetRevertAppSettingsResult = viewModel::resetRevertAppSettingsResult,
@@ -187,11 +200,6 @@ internal fun AppSettingsScreen(
         longLabel: String,
     ) -> Unit,
     onGetSecureSettingsByName: (settingType: SettingType, text: String) -> Unit,
-    onPostNotification: (
-        icon: ByteArray?,
-        contentTitle: String,
-        contentText: String,
-    ) -> Unit,
     onResetApplyAppSettingsResult: () -> Unit,
     onResetRequestPinShortcutResult: () -> Unit,
     onResetRevertAppSettingsResult: () -> Unit,
@@ -222,7 +230,6 @@ internal fun AppSettingsScreen(
         onResetRequestPinShortcutResult = onResetRequestPinShortcutResult,
         onResetAddAppSettingResult = onResetAddAppSettingResult,
         onGetSecureSettingsByName = onGetSecureSettingsByName,
-        onPostNotification = onPostNotification,
     )
 
     AppSettingsDialogs(
@@ -309,13 +316,12 @@ private fun AppSettingsLaunchedEffects(
     onResetRequestPinShortcutResult: () -> Unit,
     onResetAddAppSettingResult: () -> Unit,
     onGetSecureSettingsByName: (SettingType, String) -> Unit,
-    onPostNotification: (
-        icon: ByteArray?,
-        contentTitle: String,
-        contentText: String,
-    ) -> Unit,
 ) {
+    val context = LocalContext.current
+
     val androidLauncherAppsWrapper = LocalLauncherApps.current
+
+    val androidNotificationManagerWrapper = LocalNotificationManager.current
 
     val appSettingsDisabled = stringResource(id = R.string.app_settings_disabled)
 
@@ -367,9 +373,19 @@ private fun AppSettingsLaunchedEffects(
             }
 
             Success -> {
-                // TODO just post the notification in here
-                onPostNotification(applicationIcon, getoSettings, applySuccess)
+                val notificationId = appSettingsRouteData.componentName.hashCode()
 
+                androidNotificationManagerWrapper.notify(
+                    notificationId = notificationId,
+                    notification = getNotification(
+                        context = context,
+                        notificationId = notificationId,
+                        componentName = appSettingsRouteData.componentName,
+                        icon = applicationIcon,
+                        contentTitle = getoSettings,
+                        contentText = applySuccess,
+                    ),
+                )
                 androidLauncherAppsWrapper.startMainActivity(componentName = appSettingsRouteData.componentName)
             }
 
@@ -755,4 +771,46 @@ private fun LazyItemScope.AppSettingItem(
             }
         },
     )
+}
+
+private fun getNotification(
+    context: Context,
+    notificationId: Int,
+    componentName: String,
+    icon: ByteArray?,
+    contentTitle: String,
+    contentText: String,
+): Notification {
+    val revertIntent = Intent(context, RevertSettingsBroadcastReceiver::class.java).apply {
+        action = ACTION_REVERT_SETTINGS
+        putExtra(EXTRA_COMPONENT_NAME, componentName)
+        putExtra(EXTRA_NOTIFICATION_ID, notificationId)
+    }
+
+    val revertPendingIntent = PendingIntent.getBroadcast(
+        context,
+        0,
+        revertIntent,
+        FLAG_UPDATE_CURRENT or FLAG_IMMUTABLE,
+    )
+
+    return NotificationCompat.Builder(
+        context,
+        context.getString(com.android.geto.common.R.string.geto_notification_channel_id),
+    ).apply {
+        setSmallIcon(com.android.geto.framework.notificationmanager.R.drawable.baseline_settings_24)
+
+        icon?.let {
+            setLargeIcon(Icon.createWithData(icon, 0, it.size))
+        }
+
+        setContentTitle(contentTitle)
+        setContentText(contentText)
+        setPriority(NotificationCompat.PRIORITY_DEFAULT)
+        addAction(
+            com.android.geto.framework.notificationmanager.R.drawable.baseline_settings_24,
+            context.getString(com.android.geto.framework.notificationmanager.R.string.revert),
+            revertPendingIntent,
+        )
+    }.build()
 }

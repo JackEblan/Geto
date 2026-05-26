@@ -36,7 +36,6 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -124,8 +123,7 @@ private fun ShortcutDialogTextFields(
     OutlinedTextField(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 10.dp)
-            .testTag("shortcutDialog:shortLabelTextField"),
+            .padding(horizontal = 10.dp),
         value = shortcutDialogState.shortLabel,
         onValueChange = shortcutDialogState::updateShortLabel,
         label = {
@@ -134,16 +132,11 @@ private fun ShortcutDialogTextFields(
         isError = shortcutDialogState.showShortLabelError,
         supportingText = {
             if (shortcutDialogState.showShortLabelError) {
-                Text(
-                    text = shortLabelIsBlank,
-                    modifier = Modifier.testTag("shortcutDialog:shortLabelSupportingText"),
-                )
+                Text(text = shortLabelIsBlank)
             } else {
                 Text(
                     text = "${shortcutDialogState.shortLabel.length}/${shortcutDialogState.shortLabelMaxLength}",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .testTag("shortcutDialog:shortLabelCounterSupportingText"),
+                    modifier = Modifier.fillMaxWidth(),
                 )
             }
         },
@@ -154,8 +147,7 @@ private fun ShortcutDialogTextFields(
     OutlinedTextField(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 10.dp)
-            .testTag("shortcutDialog:longLabelTextField"),
+            .padding(horizontal = 10.dp),
         value = shortcutDialogState.longLabel,
         onValueChange = shortcutDialogState::updateLongLabel,
         label = {
@@ -164,16 +156,11 @@ private fun ShortcutDialogTextFields(
         isError = shortcutDialogState.showLongLabelError,
         supportingText = {
             if (shortcutDialogState.showLongLabelError) {
-                Text(
-                    text = longLabelIsBlank,
-                    modifier = Modifier.testTag("shortcutDialog:longLabelSupportingText"),
-                )
+                Text(text = longLabelIsBlank)
             } else {
                 Text(
                     text = "${shortcutDialogState.longLabel.length}/${shortcutDialogState.longLabelMaxLength}",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .testTag("shortcutDialog:longLabelCounterSupportingText"),
+                    modifier = Modifier.fillMaxWidth(),
                 )
             }
         },
