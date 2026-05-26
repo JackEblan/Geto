@@ -18,89 +18,27 @@
 package com.android.geto.framework.packagemanager
 
 import android.content.Context
-import android.content.Intent
-import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
-import androidx.core.graphics.drawable.toBitmap
-import com.android.geto.domain.common.dispatcher.Dispatcher
-import com.android.geto.domain.common.dispatcher.GetoDispatchers.Default
-import com.android.geto.domain.common.dispatcher.GetoDispatchers.IO
 import com.android.geto.domain.framework.PackageManagerWrapper
-import com.android.geto.domain.model.GetoApplicationInfo
+import com.android.geto.framework.drawable.AndroidDrawableWrapper
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.withContext
-import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 
 class AndroidPackageManagerWrapper @Inject constructor(
-    @param:Dispatcher(Default) private val defaultDispatcher: CoroutineDispatcher,
-    @param:Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher,
     @param:ApplicationContext private val context: Context,
+    private val androidDrawableWrapper: AndroidDrawableWrapper,
 ) : PackageManagerWrapper {
-
     private val packageManager = context.packageManager
-
-    override suspend fun queryIntentActivities(): List<GetoApplicationInfo> {
-        val intent = Intent().apply {
-            action = Intent.ACTION_MAIN
-            addCategory(Intent.CATEGORY_LAUNCHER)
-        }
-
-        return withContext(defaultDispatcher) {
-            packageManager.queryIntentActivities(intent, PackageManager.MATCH_ALL)
-                .filter { resolveInfo ->
-                    (resolveInfo.activityInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM) == 0
-                }.map { resolveInfo ->
-                    resolveInfo.activityInfo.applicationInfo.toGetoApplicationInfo()
-                }.sortedBy { applicationInfo -> applicationInfo.label }
-        }
-    }
 
     override suspend fun getApplicationIcon(packageName: String): ByteArray? {
         return try {
-            packageManager.getApplicationIcon(packageName).toByteArray()
+            androidDrawableWrapper.toByteArray(
+                drawable = packageManager.getApplicationIcon(
+                    packageName,
+                ),
+            )
         } catch (_: PackageManager.NameNotFoundException) {
             null
         }
-    }
-
-    override suspend fun queryIntentActivitiesByLabel(label: String): List<GetoApplicationInfo> {
-        val intent = Intent().apply {
-            action = Intent.ACTION_MAIN
-            addCategory(Intent.CATEGORY_LAUNCHER)
-        }
-
-        return withContext(defaultDispatcher) {
-            packageManager.queryIntentActivities(intent, PackageManager.MATCH_ALL)
-                .filter { resolveInfo ->
-                    (resolveInfo.activityInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM) == 0 && resolveInfo.activityInfo.applicationInfo.loadLabel(
-                        packageManager,
-                    ).toString().startsWith(label, true)
-                }.map { resolveInfo ->
-                    resolveInfo.activityInfo.applicationInfo.toGetoApplicationInfo()
-                }
-        }
-    }
-
-    private suspend fun ApplicationInfo.toGetoApplicationInfo(): GetoApplicationInfo {
-        return GetoApplicationInfo(
-            flags = flags,
-            icon = loadIcon(packageManager).toByteArray(),
-            packageName = packageName,
-            label = loadLabel(packageManager).toString(),
-        )
-    }
-
-    private suspend fun Drawable.toByteArray(): ByteArray {
-        val stream = ByteArrayOutputStream()
-
-        withContext(ioDispatcher) {
-            toBitmap().compress(Bitmap.CompressFormat.PNG, 30, stream)
-        }
-
-        return stream.toByteArray()
     }
 }

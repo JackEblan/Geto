@@ -30,11 +30,10 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.DockedSearchBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
-import androidx.compose.material3.ListItemDefaults
+import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -47,14 +46,12 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.android.geto.designsystem.component.GetoLoadingWheel
 import com.android.geto.designsystem.component.ShimmerImage
-import com.android.geto.domain.model.GetoApplicationInfo
 import com.android.geto.domain.model.LauncherAppsActivityInfo
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collect
@@ -71,12 +68,9 @@ internal fun AppsRoute(
 ) {
     val appListUiState by viewModel.appsUiState.collectAsStateWithLifecycle()
 
-    val searchGetoApplicationInfos by viewModel.searchGetoApplicationInfos.collectAsStateWithLifecycle()
-
     AppsScreen(
         modifier = modifier,
         appsUiState = appListUiState,
-        searchGetoApplicationInfos = searchGetoApplicationInfos,
         onItemClick = onItemClick,
         onSearch = viewModel::queryIntentActivitiesByLabel,
     )
@@ -88,7 +82,6 @@ internal fun AppsRoute(
 internal fun AppsScreen(
     modifier: Modifier = Modifier,
     appsUiState: AppsUiState,
-    searchGetoApplicationInfos: List<GetoApplicationInfo>,
     onItemClick: (String, String) -> Unit,
     onSearch: (String) -> Unit,
 ) {
@@ -104,7 +97,6 @@ internal fun AppsScreen(
             is AppsUiState.Success -> {
                 Success(
                     modifier = modifier,
-                    searchGetoApplicationInfos = searchGetoApplicationInfos,
                     appsUiState = appsUiState,
                     onItemClick = onItemClick,
                     onSearch = onSearch,
@@ -119,13 +111,10 @@ internal fun AppsScreen(
 private fun Success(
     modifier: Modifier = Modifier,
     appsUiState: AppsUiState.Success,
-    searchGetoApplicationInfos: List<GetoApplicationInfo>,
     onItemClick: (String, String) -> Unit,
     onSearch: (String) -> Unit,
 ) {
     var dockedSearchBarQuery by rememberSaveable { mutableStateOf("") }
-
-    var dockedSearchQueryExpanded by rememberSaveable { mutableStateOf(false) }
 
     LaunchedEffect(key1 = dockedSearchBarQuery) {
         snapshotFlow { dockedSearchBarQuery }.debounce(500).filter { query ->
@@ -136,7 +125,7 @@ private fun Success(
     }
 
     Column(modifier = modifier.fillMaxWidth()) {
-        DockedSearchBar(
+        SearchBar(
             modifier = modifier
                 .fillMaxWidth()
                 .padding(5.dp),
@@ -147,31 +136,21 @@ private fun Success(
                         dockedSearchBarQuery = it
                     },
                     onSearch = onSearch,
-                    expanded = dockedSearchQueryExpanded,
-                    onExpandedChange = {
-                        dockedSearchQueryExpanded = it
-                    },
+                    expanded = false,
+                    onExpandedChange = {},
                     placeholder = { Text(text = stringResource(R.string.search)) },
-                    leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Search,
+                            contentDescription = null,
+                        )
+                    },
                 )
             },
-            expanded = dockedSearchQueryExpanded,
-            onExpandedChange = {
-                dockedSearchQueryExpanded = it
-            },
-        ) {
-            LazyVerticalGrid(
-                columns = GridCells.Adaptive(300.dp),
-                modifier = Modifier.fillMaxWidth(),
-            ) {
-                items(items = searchGetoApplicationInfos) { getoApplicationInfo ->
-                    SearchAppItem(
-                        getoApplicationInfo = getoApplicationInfo,
-                        onItemClick = onItemClick,
-                    )
-                }
-            }
-        }
+            expanded = false,
+            onExpandedChange = {},
+        ) {}
+
         LazyVerticalGrid(
             columns = GridCells.Adaptive(300.dp),
             modifier = Modifier.fillMaxSize(),
@@ -216,39 +195,5 @@ private fun AppItem(
                 model = launcherAppsActivityInfo.activityIcon,
             )
         },
-    )
-}
-
-@Composable
-private fun SearchAppItem(
-    modifier: Modifier = Modifier,
-    getoApplicationInfo: GetoApplicationInfo,
-    onItemClick: (String, String) -> Unit,
-) {
-    ListItem(
-        modifier = modifier
-            .clickable {
-                onItemClick(
-                    getoApplicationInfo.packageName,
-                    getoApplicationInfo.label,
-                )
-            },
-        headlineContent = {
-            Text(
-                text = getoApplicationInfo.label,
-            )
-        },
-        supportingContent = {
-            Text(
-                text = getoApplicationInfo.packageName,
-            )
-        },
-        leadingContent = {
-            ShimmerImage(
-                modifier = Modifier.size(50.dp),
-                model = getoApplicationInfo.icon,
-            )
-        },
-        colors = ListItemDefaults.colors(containerColor = Color.Transparent),
     )
 }

@@ -15,17 +15,10 @@
  *   limitations under the License.
  *
  */
+package com.android.geto.framework.drawable
 
-plugins {
-    alias(libs.plugins.com.android.geto.library)
-    alias(libs.plugins.com.android.geto.hilt)
-}
+import android.graphics.drawable.Drawable
 
-android {
-    namespace = "com.android.geto.framework.packagemanager"
-}
-
-dependencies {
-    implementation(projects.domain.framework)
-    implementation(projects.framework.drawable)
+interface AndroidDrawableWrapper {
+    suspend fun toByteArray(drawable: Drawable): ByteArray
 }

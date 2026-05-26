@@ -47,6 +47,7 @@
             <option value="$PROJECT_DIR$/feature/shizuku" />
             <option value="$PROJECT_DIR$/framework" />
             <option value="$PROJECT_DIR$/framework/asset-manager" />
+            <option value="$PROJECT_DIR$/framework/drawable" />
             <option value="$PROJECT_DIR$/framework/launcher-apps" />
             <option value="$PROJECT_DIR$/framework/notification-manager" />
             <option value="$PROJECT_DIR$/framework/package-manager" />

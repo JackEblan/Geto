@@ -15,17 +15,19 @@
  *   limitations under the License.
  *
  */
+package com.android.geto.framework.drawable
 
-plugins {
-    alias(libs.plugins.com.android.geto.library)
-    alias(libs.plugins.com.android.geto.hilt)
-}
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
-android {
-    namespace = "com.android.geto.framework.packagemanager"
-}
+@Module
+@InstallIn(SingletonComponent::class)
+interface DrawableModule {
 
-dependencies {
-    implementation(projects.domain.framework)
-    implementation(projects.framework.drawable)
+    @Binds
+    @Singleton
+    fun androidDrawableWrapper(impl: DefaultDrawableWrapper): AndroidDrawableWrapper
 }

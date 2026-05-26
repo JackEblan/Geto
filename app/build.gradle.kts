@@ -67,6 +67,7 @@ dependencies {
     implementation(projects.feature.shizuku)
 
     implementation(projects.framework.assetManager)
+    implementation(projects.framework.drawable)
     implementation(projects.framework.launcherApps)
     implementation(projects.framework.notificationManager)
     implementation(projects.framework.packageManager)
