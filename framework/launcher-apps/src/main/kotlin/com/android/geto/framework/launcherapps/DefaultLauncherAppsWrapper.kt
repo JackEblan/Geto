@@ -21,18 +21,15 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.pm.LauncherActivityInfo
 import android.content.pm.LauncherApps
-import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
 import android.os.Handler
 import android.os.Looper
 import android.os.Process.myUserHandle
 import android.os.UserHandle
-import androidx.core.graphics.drawable.toBitmap
 import com.android.geto.domain.common.dispatcher.Dispatcher
 import com.android.geto.domain.common.dispatcher.GetoDispatchers.Default
-import com.android.geto.domain.common.dispatcher.GetoDispatchers.IO
 import com.android.geto.domain.framework.LauncherAppsWrapper
 import com.android.geto.domain.model.LauncherAppsActivityInfo
+import com.android.geto.framework.drawable.AndroidDrawableWrapper
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.channels.awaitClose
@@ -43,14 +40,12 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 
 internal class DefaultLauncherAppsWrapper @Inject constructor(
     @param:Dispatcher(Default) private val defaultDispatcher: CoroutineDispatcher,
-    @param:Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher,
     @param:ApplicationContext private val context: Context,
+    private val androidDrawableWrapper: AndroidDrawableWrapper,
 ) : LauncherAppsWrapper, AndroidLauncherAppsWrapper {
     private val launcherApps =
         context.getSystemService(Context.LAUNCHER_APPS_SERVICE) as LauncherApps
@@ -133,19 +128,9 @@ internal class DefaultLauncherAppsWrapper @Inject constructor(
         return LauncherAppsActivityInfo(
             componentName = componentName.flattenToString(),
             packageName = applicationInfo.packageName,
-            activityIcon = getIcon(0).toByteArray(),
+            activityIcon = androidDrawableWrapper.toByteArray(drawable = getIcon(0)),
             activityLabel = label.toString(),
         )
-    }
-
-    private suspend fun Drawable.toByteArray(): ByteArray {
-        val stream = ByteArrayOutputStream()
-
-        withContext(ioDispatcher) {
-            toBitmap().compress(Bitmap.CompressFormat.PNG, 100, stream)
-        }
-
-        return stream.toByteArray()
     }
 
     override fun startMainActivity(componentName: String) {

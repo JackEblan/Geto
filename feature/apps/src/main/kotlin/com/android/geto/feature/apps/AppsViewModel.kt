@@ -19,12 +19,10 @@ package com.android.geto.feature.apps
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.android.geto.domain.model.GetoApplicationInfo
 import com.android.geto.domain.usecase.GetLauncherAppsActivityInfosUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -34,8 +32,7 @@ import javax.inject.Inject
 class AppsViewModel @Inject constructor(
     getLauncherAppsActivityInfosUseCase: GetLauncherAppsActivityInfosUseCase,
 ) : ViewModel() {
-    private var _textFlow =
-        MutableStateFlow<String?>(null)
+    private var _textFlow = MutableStateFlow<String?>(null)
 
     val appsUiState =
         getLauncherAppsActivityInfosUseCase(textFlow = _textFlow).map(AppsUiState::Success).stateIn(
@@ -43,10 +40,6 @@ class AppsViewModel @Inject constructor(
             SharingStarted.WhileSubscribed(5000),
             AppsUiState.Loading,
         )
-
-    private var _searchGetoApplicationInfos =
-        MutableStateFlow<List<GetoApplicationInfo>>(emptyList())
-    val searchGetoApplicationInfos = _searchGetoApplicationInfos.asStateFlow()
 
     fun queryIntentActivitiesByLabel(text: String) {
         _textFlow.update { text }

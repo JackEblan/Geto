@@ -22,10 +22,9 @@ plugins {
 }
 
 android {
-    namespace = "com.android.geto.framework.packagemanager"
+    namespace = "com.android.geto.framework.drawable"
 }
 
 dependencies {
-    implementation(projects.domain.framework)
-    implementation(projects.framework.drawable)
+    implementation(projects.domain.common)
 }

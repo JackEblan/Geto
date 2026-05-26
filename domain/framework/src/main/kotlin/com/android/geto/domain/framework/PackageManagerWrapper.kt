@@ -17,12 +17,6 @@
  */
 package com.android.geto.domain.framework
 
-import com.android.geto.domain.model.GetoApplicationInfo
-
 interface PackageManagerWrapper {
-    suspend fun queryIntentActivities(): List<GetoApplicationInfo>
-
     suspend fun getApplicationIcon(packageName: String): ByteArray?
-
-    suspend fun queryIntentActivitiesByLabel(label: String): List<GetoApplicationInfo>
 }
