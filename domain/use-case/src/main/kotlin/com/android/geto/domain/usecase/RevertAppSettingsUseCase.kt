@@ -19,6 +19,7 @@ package com.android.geto.domain.usecase
 
 import com.android.geto.domain.common.dispatcher.Dispatcher
 import com.android.geto.domain.common.dispatcher.GetoDispatchers.Default
+import com.android.geto.domain.framework.SecureSettingsWrapper
 import com.android.geto.domain.model.AppSettingsResult
 import com.android.geto.domain.model.AppSettingsResult.DisabledAppSettings
 import com.android.geto.domain.model.AppSettingsResult.EmptyAppSettings
@@ -27,38 +28,44 @@ import com.android.geto.domain.model.AppSettingsResult.InvalidValues
 import com.android.geto.domain.model.AppSettingsResult.NoPermission
 import com.android.geto.domain.model.AppSettingsResult.Success
 import com.android.geto.domain.repository.AppSettingsRepository
-import com.android.geto.domain.repository.SecureSettingsRepository
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class RevertAppSettingsUseCase @Inject constructor(
     @param:Dispatcher(Default) private val defaultDispatcher: CoroutineDispatcher,
     private val appSettingsRepository: AppSettingsRepository,
-    private val secureSettingsRepository: SecureSettingsRepository,
+    private val secureSettingsWrapper: SecureSettingsWrapper,
 ) {
-    suspend operator fun invoke(packageName: String): AppSettingsResult {
-        val appSettings = appSettingsRepository.getAppSettingsFlowByPackageName(packageName).first()
+    suspend operator fun invoke(packageName: String): AppSettingsResult =
+        withContext(defaultDispatcher) {
+            val appSettings =
+                appSettingsRepository.getAppSettingsByPackageName(packageName = packageName)
 
-        if (appSettings.isEmpty()) return EmptyAppSettings
+            if (appSettings.isEmpty()) return@withContext EmptyAppSettings
 
-        val disabledAppSettings = withContext(defaultDispatcher) {
-            appSettings.all { it.enabled.not() }
-        }
-
-        if (disabledAppSettings) return DisabledAppSettings
-
-        return try {
-            if (secureSettingsRepository.revertSecureSettings(appSettings)) {
-                Success
-            } else {
-                Failure
+            val disabledAppSettings = withContext(defaultDispatcher) {
+                appSettings.all { it.enabled.not() }
             }
-        } catch (_: SecurityException) {
-            NoPermission
-        } catch (_: IllegalArgumentException) {
-            InvalidValues
+
+            if (disabledAppSettings) return@withContext DisabledAppSettings
+
+            try {
+                if (appSettings.all { appSetting ->
+                        secureSettingsWrapper.canWriteSecureSettings(
+                            settingType = appSetting.settingType,
+                            key = appSetting.key,
+                            value = appSetting.valueOnRevert,
+                        )
+                    }) {
+                    Success
+                } else {
+                    Failure
+                }
+            } catch (_: SecurityException) {
+                NoPermission
+            } catch (_: IllegalArgumentException) {
+                InvalidValues
+            }
         }
-    }
 }

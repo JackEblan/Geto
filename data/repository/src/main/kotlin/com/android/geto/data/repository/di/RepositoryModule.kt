@@ -18,12 +18,8 @@
 package com.android.geto.data.repository.di
 
 import com.android.geto.data.repository.DefaultAppSettingsRepository
-import com.android.geto.data.repository.DefaultSecureSettingsRepository
-import com.android.geto.data.repository.DefaultShortcutRepository
 import com.android.geto.data.repository.DefaultUserDataRepository
 import com.android.geto.domain.repository.AppSettingsRepository
-import com.android.geto.domain.repository.SecureSettingsRepository
-import com.android.geto.domain.repository.ShortcutRepository
 import com.android.geto.domain.repository.UserDataRepository
 import dagger.Binds
 import dagger.Module
@@ -38,14 +34,6 @@ interface RepositoryModule {
     @Binds
     @Singleton
     fun appSettingsRepository(impl: DefaultAppSettingsRepository): AppSettingsRepository
-
-    @Binds
-    @Singleton
-    fun secureSettingsRepository(impl: DefaultSecureSettingsRepository): SecureSettingsRepository
-
-    @Binds
-    @Singleton
-    fun shortcutRepository(impl: DefaultShortcutRepository): ShortcutRepository
 
     @Binds
     @Singleton
