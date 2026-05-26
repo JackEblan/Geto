@@ -34,7 +34,11 @@ fun NavController.navigateToApps() {
 }
 
 fun NavGraphBuilder.appsScreen(
-    onItemClick: (String, String) -> Unit,
+    onItemClick: (
+        packageName: String,
+        componentName: String,
+        activityLabel: String,
+    ) -> Unit,
 ) {
     composable<AppsRouteData> {
         AppsRoute(

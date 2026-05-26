@@ -20,4 +20,8 @@ package com.android.geto.feature.appsettings.navigation
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class AppSettingsRouteData(val componentName: String, val activityLabel: String)
+data class AppSettingsRouteData(
+    val packageName: String,
+    val componentName: String,
+    val activityLabel: String,
+)
