@@ -32,10 +32,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -113,7 +110,6 @@ internal fun HomeScreen(
                             text = stringResource(id = topBarTitleStringResource),
                         )
                     },
-                    modifier = Modifier.testTag("home:largeTopAppBar"),
                     scrollBehavior = topAppBarScrollBehavior,
                 )
             },
@@ -125,10 +121,7 @@ internal fun HomeScreen(
                 modifier = modifier
                     .nestedScroll(topAppBarScrollBehavior.nestedScrollConnection)
                     .padding(paddingValues)
-                    .consumeWindowInsets(paddingValues)
-                    .semantics {
-                        testTagsAsResourceId = true
-                    },
+                    .consumeWindowInsets(paddingValues),
                 navController = navController,
                 startDestination = startDestination,
                 builder = builder,

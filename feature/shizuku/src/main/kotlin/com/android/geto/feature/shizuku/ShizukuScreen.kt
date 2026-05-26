@@ -36,7 +36,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
@@ -204,10 +203,7 @@ internal fun ShizukuScreen(
             )
         },
         snackbarHost = {
-            SnackbarHost(
-                hostState = snackbarHostState,
-                modifier = Modifier.testTag("shizuku:snackbar"),
-            )
+            SnackbarHost(hostState = snackbarHostState)
         },
     ) { innerPadding ->
         Box(
@@ -236,7 +232,7 @@ private fun ShizukuTopAppBar(
         title = {
             Text(text = title, maxLines = 1)
         },
-        modifier = modifier.testTag("shizuku:topAppBar"),
+        modifier = modifier,
         navigationIcon = {
             IconButton(onClick = onNavigationIconClick) {
                 Icon(

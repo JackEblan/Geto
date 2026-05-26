@@ -36,8 +36,10 @@ import com.android.geto.designsystem.theme.GetoTheme
 import com.android.geto.domain.model.DarkThemeConfig
 import com.android.geto.domain.model.ThemeBrand
 import com.android.geto.framework.launcherapps.AndroidLauncherAppsWrapper
+import com.android.geto.framework.notificationmanager.AndroidNotificationManagerWrapper
 import com.android.geto.navigation.GetoNavHost
 import com.android.geto.ui.local.LocalLauncherApps
+import com.android.geto.ui.local.LocalNotificationManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -46,6 +48,9 @@ import javax.inject.Inject
 class MainActivity : ComponentActivity() {
     @Inject
     lateinit var androidLauncherAppsWrapper: AndroidLauncherAppsWrapper
+
+    @Inject
+    lateinit var androidNotificationManagerWrapper: AndroidNotificationManagerWrapper
 
     private val viewModel: MainActivityViewModel by viewModels()
 
@@ -93,7 +98,10 @@ class MainActivity : ComponentActivity() {
         }
 
         setContent {
-            CompositionLocalProvider(LocalLauncherApps provides androidLauncherAppsWrapper) {
+            CompositionLocalProvider(
+                LocalLauncherApps provides androidLauncherAppsWrapper,
+                LocalNotificationManager provides androidNotificationManagerWrapper,
+            ) {
                 val navController = rememberNavController()
 
                 GetoTheme(

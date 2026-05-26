@@ -42,7 +42,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -88,8 +87,7 @@ internal fun SettingsScreen(
     Box(
         modifier = modifier
             .fillMaxSize()
-            .verticalScroll(scrollState)
-            .testTag("settings"),
+            .verticalScroll(scrollState),
     ) {
         when (settingsUiState) {
             SettingsUiState.Loading -> {
@@ -197,11 +195,7 @@ private fun SuccessState(
     onShowDarkDialog: () -> Unit,
     onChangeDynamicColorPreference: (useDynamicColor: Boolean) -> Unit,
 ) {
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .testTag("settings:success"),
-    ) {
+    Column(modifier = modifier.fillMaxSize()) {
         ThemeSetting(
             title = settingsUiState.userData.themeBrand.title,
             onThemeDialog = onShowThemeDialog,
@@ -230,8 +224,7 @@ private fun ThemeSetting(
         modifier = modifier
             .fillMaxWidth()
             .clickable { onThemeDialog() }
-            .padding(10.dp)
-            .testTag("settings:theme"),
+            .padding(10.dp),
     ) {
         Text(text = stringResource(R.string.theme), style = MaterialTheme.typography.bodyLarge)
 
@@ -257,8 +250,7 @@ private fun DynamicSetting(
         Row(
             modifier = modifier
                 .fillMaxWidth()
-                .padding(10.dp)
-                .testTag("settings:dynamic"),
+                .padding(10.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Column(modifier = Modifier.weight(1f)) {
@@ -276,7 +268,6 @@ private fun DynamicSetting(
             }
 
             Switch(
-                modifier = Modifier.testTag("settings:dynamicSwitch"),
                 checked = useDynamicColor,
                 onCheckedChange = onChangeDynamicColorPreference,
             )
@@ -296,8 +287,7 @@ private fun DarkSetting(
         modifier = modifier
             .fillMaxWidth()
             .clickable { onDarkDialog() }
-            .padding(10.dp)
-            .testTag("settings:dark"),
+            .padding(10.dp),
     ) {
         Text(
             text = stringResource(R.string.dark_mode),

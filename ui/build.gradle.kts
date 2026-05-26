@@ -27,6 +27,7 @@ android {
 
 dependencies {
     api(projects.framework.launcherApps)
+    api(projects.framework.notificationManager)
 
     implementation(projects.designSystem)
     implementation(projects.domain.common)

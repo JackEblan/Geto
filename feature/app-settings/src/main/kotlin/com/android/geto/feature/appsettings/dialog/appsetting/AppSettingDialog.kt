@@ -43,7 +43,6 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
@@ -167,8 +166,7 @@ private fun AppSettingDialogTextFields(
     OutlinedTextField(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 10.dp)
-            .testTag("appSettingDialog:labelTextField"),
+            .padding(horizontal = 10.dp),
         value = appSettingDialogState.label,
         onValueChange = appSettingDialogState::updateLabel,
         label = {
@@ -177,10 +175,7 @@ private fun AppSettingDialogTextFields(
         isError = appSettingDialogState.showLabelError,
         supportingText = {
             if (appSettingDialogState.showLabelError) {
-                Text(
-                    text = labelIsBlank,
-                    modifier = Modifier.testTag("appSettingDialog:labelSupportingText"),
-                )
+                Text(text = labelIsBlank)
             }
         },
         singleLine = true,
@@ -194,8 +189,7 @@ private fun AppSettingDialogTextFields(
     OutlinedTextField(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 10.dp)
-            .testTag("appSettingDialog:valueOnLaunchTextField"),
+            .padding(horizontal = 10.dp),
         value = appSettingDialogState.valueOnLaunch,
         onValueChange = appSettingDialogState::updateValueOnLaunch,
         label = {
@@ -204,10 +198,7 @@ private fun AppSettingDialogTextFields(
         isError = appSettingDialogState.showValueOnLaunchError,
         supportingText = {
             if (appSettingDialogState.showValueOnLaunchError) {
-                Text(
-                    text = valueOnLaunchIsBlank,
-                    modifier = Modifier.testTag("appSettingDialog:valueOnLaunchSupportingText"),
-                )
+                Text(text = valueOnLaunchIsBlank)
             }
         },
         singleLine = true,
@@ -217,8 +208,7 @@ private fun AppSettingDialogTextFields(
     OutlinedTextField(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 10.dp)
-            .testTag("appSettingDialog:valueOnRevertTextField"),
+            .padding(horizontal = 10.dp),
         value = appSettingDialogState.valueOnRevert,
         onValueChange = appSettingDialogState::updateValueOnRevert,
         label = {
@@ -227,10 +217,7 @@ private fun AppSettingDialogTextFields(
         isError = appSettingDialogState.showValueOnRevertError,
         supportingText = {
             if (appSettingDialogState.showValueOnRevertError) {
-                Text(
-                    text = valueOnRevertIsBlank,
-                    modifier = Modifier.testTag("appSettingDialog:valueOnRevertSupportingText"),
-                )
+                Text(text = valueOnRevertIsBlank)
             }
         },
         singleLine = true,
@@ -249,7 +236,6 @@ private fun AppSettingDialogTextFieldWithDropdownMenu(
     ExposedDropdownMenuBox(
         expanded = appSettingDialogState.secureSettingsExpanded,
         onExpandedChange = appSettingDialogState::updateSecureSettingsExpanded,
-        modifier = Modifier.testTag("appSettingDialog:exposedDropdownMenuBox"),
     ) {
         OutlinedTextField(
             modifier = Modifier
@@ -258,8 +244,7 @@ private fun AppSettingDialogTextFieldWithDropdownMenu(
                     enabled = true,
                 )
                 .fillMaxWidth()
-                .padding(horizontal = 10.dp)
-                .testTag("appSettingDialog:keyTextField"),
+                .padding(horizontal = 10.dp),
             value = appSettingDialogState.key,
             onValueChange = appSettingDialogState::updateKey,
             label = {
@@ -270,17 +255,11 @@ private fun AppSettingDialogTextFieldWithDropdownMenu(
             isError = appSettingDialogState.showKeyError || appSettingDialogState.showKeyNotFoundError,
             supportingText = {
                 if (appSettingDialogState.showKeyError) {
-                    Text(
-                        text = keyIsBlank,
-                        modifier = Modifier.testTag("appSettingDialog:keySupportingText"),
-                    )
+                    Text(text = keyIsBlank)
                 }
 
                 if (appSettingDialogState.showKeyNotFoundError) {
-                    Text(
-                        text = keyNotFound,
-                        modifier = Modifier.testTag("appSettingDialog:settingsKeyNotFoundSupportingText"),
-                    )
+                    Text(text = keyNotFound)
                 }
             },
             singleLine = true,
@@ -344,8 +323,7 @@ private fun AppSettingDialogButtons(
         TextButton(
             onClick = onAddClick,
             modifier = Modifier
-                .padding(5.dp)
-                .testTag("Test Add"),
+                .padding(5.dp),
         ) {
             Text(text = stringResource(R.string.add))
         }

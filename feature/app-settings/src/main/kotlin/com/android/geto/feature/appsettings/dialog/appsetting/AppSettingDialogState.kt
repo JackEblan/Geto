@@ -130,7 +130,12 @@ internal class AppSettingDialogState {
 
         showValueOnRevertError = valueOnRevert.isBlank()
 
-        if (showLabelError.not() && showKeyNotFoundError.not() && showKeyError.not() && showValueOnLaunchError.not() && showValueOnRevertError.not()) {
+        if (!showLabelError &&
+            !showKeyNotFoundError &&
+            !showKeyError &&
+            !showValueOnLaunchError &&
+            !showValueOnRevertError
+        ) {
             onAddAppSetting(
                 0,
                 true,

@@ -22,7 +22,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.android.geto.domain.framework.AssetManagerWrapper
-import com.android.geto.domain.framework.NotificationManagerWrapper
 import com.android.geto.domain.framework.PackageManagerWrapper
 import com.android.geto.domain.model.AddAppSettingResult
 import com.android.geto.domain.model.AppSetting
@@ -58,7 +57,6 @@ class AppSettingsViewModel @Inject constructor(
     private val revertAppSettingsUseCase: RevertAppSettingsUseCase,
     private val requestPinShortcutUseCase: RequestPinShortcutUseCase,
     private val addAppSettingUseCase: AddAppSettingUseCase,
-    private val notificationManagerWrapper: NotificationManagerWrapper,
     private val assetManagerWrapper: AssetManagerWrapper,
     private val getSecureSettingsByNameUseCase: GetSecureSettingsByNameUseCase,
 ) : ViewModel() {
@@ -193,22 +191,6 @@ class AppSettingsViewModel @Inject constructor(
                 )
             }
         }
-    }
-
-    fun postNotification(
-        icon: ByteArray?,
-        contentTitle: String,
-        contentText: String,
-    ) {
-        val notificationId = componentName.hashCode()
-
-        notificationManagerWrapper.notifyRevertNotification(
-            notificationId = notificationId,
-            packageName = componentName,
-            icon = icon,
-            contentTitle = contentTitle,
-            contentText = contentText,
-        )
     }
 
     fun getAppSettingTemplates() {

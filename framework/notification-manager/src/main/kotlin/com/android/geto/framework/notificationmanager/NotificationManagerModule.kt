@@ -17,7 +17,6 @@
  */
 package com.android.geto.framework.notificationmanager
 
-import com.android.geto.domain.framework.NotificationManagerWrapper
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -30,5 +29,5 @@ internal interface NotificationManagerModule {
 
     @Binds
     @Singleton
-    fun notificationManagerWrapper(impl: AndroidNotificationManagerWrapper): NotificationManagerWrapper
+    fun notificationManagerWrapper(impl: DefaultNotificationManagerWrapper): AndroidNotificationManagerWrapper
 }

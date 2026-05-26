@@ -31,9 +31,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -44,7 +42,6 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalInspectionMode
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
@@ -61,7 +58,7 @@ fun GetoLoadingWheel(
     val startValue = if (LocalInspectionMode.current) 0F else 1F
     val floatAnimValues = (0 until NUM_OF_LINES).map { remember { Animatable(startValue) } }
     LaunchedEffect(floatAnimValues) {
-        (0 until NUM_OF_LINES).map { index ->
+        (0 until NUM_OF_LINES).forEach { index ->
             launch {
                 floatAnimValues[index].animateTo(
                     targetValue = 0F,
@@ -112,8 +109,7 @@ fun GetoLoadingWheel(
             .size(48.dp)
             .padding(8.dp)
             .graphicsLayer { rotationZ = rotationAnim }
-            .semantics { this.contentDescription = contentDescription }
-            .testTag("loadingWheel"),
+            .semantics { this.contentDescription = contentDescription },
     ) {
         repeat(NUM_OF_LINES) { index ->
             rotate(degrees = index * 30f) {
@@ -128,23 +124,6 @@ fun GetoLoadingWheel(
                 )
             }
         }
-    }
-}
-
-@Composable
-fun GetoOverlayLoadingWheel(
-    contentDescription: String,
-    modifier: Modifier = Modifier,
-) {
-    Surface(
-        shape = RoundedCornerShape(60.dp),
-        shadowElevation = 8.dp,
-        color = MaterialTheme.colorScheme.surface.copy(alpha = 0.83f),
-        modifier = modifier.size(60.dp),
-    ) {
-        GetoLoadingWheel(
-            contentDescription = contentDescription,
-        )
     }
 }
 
