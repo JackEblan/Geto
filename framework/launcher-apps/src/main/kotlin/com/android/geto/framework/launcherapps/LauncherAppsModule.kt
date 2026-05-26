@@ -15,9 +15,23 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.feature.appsettings.navigation
+package com.android.geto.framework.launcherapps
 
-import kotlinx.serialization.Serializable
+import com.android.geto.domain.framework.LauncherAppsWrapper
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
-@Serializable
-data class AppSettingsRouteData(val componentName: String, val activityLabel: String)
+@Module
+@InstallIn(SingletonComponent::class)
+internal interface LauncherAppsModule {
+    @Binds
+    @Singleton
+    fun launcherAppsWrapper(impl: DefaultLauncherAppsWrapper): LauncherAppsWrapper
+
+    @Binds
+    @Singleton
+    fun androidLauncherAppsWrapper(impl: DefaultLauncherAppsWrapper): AndroidLauncherAppsWrapper
+}

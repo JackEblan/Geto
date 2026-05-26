@@ -17,10 +17,8 @@
  */
 package com.android.geto.framework.packagemanager
 
-import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
-import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -66,17 +64,6 @@ class AndroidPackageManagerWrapper @Inject constructor(
             packageManager.getApplicationIcon(packageName).toByteArray()
         } catch (_: PackageManager.NameNotFoundException) {
             null
-        }
-    }
-
-    override fun launchIntentForPackage(packageName: String) {
-        val intent = packageManager.getLaunchIntentForPackage(packageName)?.apply {
-            flags = FLAG_ACTIVITY_NEW_TASK
-        }
-
-        try {
-            context.startActivity(intent)
-        } catch (_: ActivityNotFoundException) {
         }
     }
 

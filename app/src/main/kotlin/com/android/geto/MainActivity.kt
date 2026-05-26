@@ -23,6 +23,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -34,12 +35,18 @@ import androidx.navigation.compose.rememberNavController
 import com.android.geto.designsystem.theme.GetoTheme
 import com.android.geto.domain.model.DarkThemeConfig
 import com.android.geto.domain.model.ThemeBrand
+import com.android.geto.framework.launcherapps.AndroidLauncherAppsWrapper
 import com.android.geto.navigation.GetoNavHost
+import com.android.geto.ui.local.LocalLauncherApps
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @Inject
+    lateinit var androidLauncherAppsWrapper: AndroidLauncherAppsWrapper
+
     private val viewModel: MainActivityViewModel by viewModels()
 
     private data class ThemeSettings(
@@ -86,15 +93,17 @@ class MainActivity : ComponentActivity() {
         }
 
         setContent {
-            val navController = rememberNavController()
+            CompositionLocalProvider(LocalLauncherApps provides androidLauncherAppsWrapper) {
+                val navController = rememberNavController()
 
-            GetoTheme(
-                themeBrand = themeSettings.themeBrand,
-                darkThemeConfig = themeSettings.darkThemeConfig,
-                dynamicTheme = themeSettings.dynamicTheme,
-            ) {
-                Surface {
-                    GetoNavHost(navController = navController)
+                GetoTheme(
+                    themeBrand = themeSettings.themeBrand,
+                    darkThemeConfig = themeSettings.darkThemeConfig,
+                    dynamicTheme = themeSettings.dynamicTheme,
+                ) {
+                    Surface {
+                        GetoNavHost(navController = navController)
+                    }
                 }
             }
         }

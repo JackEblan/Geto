@@ -17,10 +17,10 @@
  */
 package com.android.geto.feature.apps
 
-import com.android.geto.domain.model.GetoApplicationInfo
+import com.android.geto.domain.model.LauncherAppsActivityInfo
 
 sealed interface AppsUiState {
-    data class Success(val getoApplicationInfos: List<GetoApplicationInfo>) : AppsUiState
+    data class Success(val launcherAppsActivityInfos: List<LauncherAppsActivityInfo>) : AppsUiState
 
     data object Loading : AppsUiState
 }

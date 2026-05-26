@@ -17,7 +17,6 @@
  */
 package com.android.geto.feature.apps
 
-import androidx.activity.compose.ReportDrawnWhen
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -49,16 +48,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.android.geto.designsystem.component.GetoLoadingWheel
 import com.android.geto.designsystem.component.ShimmerImage
 import com.android.geto.domain.model.GetoApplicationInfo
+import com.android.geto.domain.model.LauncherAppsActivityInfo
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
@@ -76,24 +73,12 @@ internal fun AppsRoute(
 
     val searchGetoApplicationInfos by viewModel.searchGetoApplicationInfos.collectAsStateWithLifecycle()
 
-    var dockedSearchBarQuery by rememberSaveable { mutableStateOf("") }
-
-    var dockedSearchQueryExpanded by rememberSaveable { mutableStateOf(false) }
-
     AppsScreen(
         modifier = modifier,
         appsUiState = appListUiState,
         searchGetoApplicationInfos = searchGetoApplicationInfos,
-        dockedSearchBarQuery = dockedSearchBarQuery,
-        dockedSearchBarExpanded = dockedSearchQueryExpanded,
         onItemClick = onItemClick,
         onSearch = viewModel::queryIntentActivitiesByLabel,
-        onQueryChange = {
-            dockedSearchBarQuery = it
-        },
-        onExpandedChange = {
-            dockedSearchQueryExpanded = it
-        },
     )
 }
 
@@ -104,73 +89,45 @@ internal fun AppsScreen(
     modifier: Modifier = Modifier,
     appsUiState: AppsUiState,
     searchGetoApplicationInfos: List<GetoApplicationInfo>,
-    dockedSearchBarQuery: String,
-    dockedSearchBarExpanded: Boolean,
     onItemClick: (String, String) -> Unit,
     onSearch: (String) -> Unit,
-    onQueryChange: (String) -> Unit,
-    onExpandedChange: (Boolean) -> Unit,
 ) {
-    ReportDrawnWhen {
-        appsUiState is AppsUiState.Success
-    }
-
-    Box(
-        modifier = modifier
-            .fillMaxSize()
-            .semantics {
-                testTagsAsResourceId = true
-            }
-            .testTag("apps"),
-    ) {
+    Box(modifier = modifier.fillMaxSize()) {
         when (appsUiState) {
             AppsUiState.Loading -> {
-                LoadingState(
+                GetoLoadingWheel(
                     modifier = Modifier.align(Alignment.Center),
+                    contentDescription = "GetoLoadingWheel",
                 )
             }
 
             is AppsUiState.Success -> {
-                SuccessState(
+                Success(
                     modifier = modifier,
                     searchGetoApplicationInfos = searchGetoApplicationInfos,
                     appsUiState = appsUiState,
                     onItemClick = onItemClick,
-                    dockedSearchBarQuery = dockedSearchBarQuery,
-                    dockedSearchBarExpanded = dockedSearchBarExpanded,
                     onSearch = onSearch,
-                    onQueryChange = onQueryChange,
-                    onExpandedChange = onExpandedChange,
                 )
             }
         }
     }
 }
 
-@Composable
-private fun LoadingState(modifier: Modifier = Modifier) {
-    GetoLoadingWheel(
-        modifier = modifier,
-        contentDescription = "GetoLoadingWheel",
-    )
-}
-
 @OptIn(FlowPreview::class, ExperimentalMaterial3Api::class)
 @Composable
-private fun SuccessState(
+private fun Success(
     modifier: Modifier = Modifier,
     appsUiState: AppsUiState.Success,
     searchGetoApplicationInfos: List<GetoApplicationInfo>,
-    dockedSearchBarQuery: String,
-    dockedSearchBarExpanded: Boolean,
     onItemClick: (String, String) -> Unit,
     onSearch: (String) -> Unit,
-    onQueryChange: (String) -> Unit,
-    onExpandedChange: (Boolean) -> Unit,
 ) {
-    LaunchedEffect(
-        key1 = dockedSearchBarQuery,
-    ) {
+    var dockedSearchBarQuery by rememberSaveable { mutableStateOf("") }
+
+    var dockedSearchQueryExpanded by rememberSaveable { mutableStateOf(false) }
+
+    LaunchedEffect(key1 = dockedSearchBarQuery) {
         snapshotFlow { dockedSearchBarQuery }.debounce(500).filter { query ->
             query.isNotEmpty()
         }.distinctUntilChanged().onEach {
@@ -182,27 +139,30 @@ private fun SuccessState(
         DockedSearchBar(
             modifier = modifier
                 .fillMaxWidth()
-                .padding(5.dp)
-                .testTag("apps:dockedSearchBar"),
+                .padding(5.dp),
             inputField = {
                 SearchBarDefaults.InputField(
                     query = dockedSearchBarQuery,
-                    onQueryChange = onQueryChange,
+                    onQueryChange = {
+                        dockedSearchBarQuery = it
+                    },
                     onSearch = onSearch,
-                    expanded = dockedSearchBarExpanded,
-                    onExpandedChange = onExpandedChange,
+                    expanded = dockedSearchQueryExpanded,
+                    onExpandedChange = {
+                        dockedSearchQueryExpanded = it
+                    },
                     placeholder = { Text(text = stringResource(R.string.search)) },
                     leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
                 )
             },
-            expanded = dockedSearchBarExpanded,
-            onExpandedChange = onExpandedChange,
+            expanded = dockedSearchQueryExpanded,
+            onExpandedChange = {
+                dockedSearchQueryExpanded = it
+            },
         ) {
             LazyVerticalGrid(
                 columns = GridCells.Adaptive(300.dp),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .testTag("apps:dockedSearchBar:lazyVerticalGrid"),
+                modifier = Modifier.fillMaxWidth(),
             ) {
                 items(items = searchGetoApplicationInfos) { getoApplicationInfo ->
                     SearchAppItem(
@@ -214,13 +174,11 @@ private fun SuccessState(
         }
         LazyVerticalGrid(
             columns = GridCells.Adaptive(300.dp),
-            modifier = Modifier
-                .fillMaxSize()
-                .testTag("apps:lazyVerticalGrid"),
+            modifier = Modifier.fillMaxSize(),
         ) {
-            items(items = appsUiState.getoApplicationInfos) { getoApplicationInfo ->
+            items(items = appsUiState.launcherAppsActivityInfos) { launcherAppsActivityInfo ->
                 AppItem(
-                    getoApplicationInfo = getoApplicationInfo,
+                    launcherAppsActivityInfo = launcherAppsActivityInfo,
                     onItemClick = onItemClick,
                 )
             }
@@ -231,32 +189,31 @@ private fun SuccessState(
 @Composable
 private fun AppItem(
     modifier: Modifier = Modifier,
-    getoApplicationInfo: GetoApplicationInfo,
+    launcherAppsActivityInfo: LauncherAppsActivityInfo,
     onItemClick: (String, String) -> Unit,
 ) {
     ListItem(
         modifier = modifier
-            .testTag("apps:appItem")
             .clickable {
                 onItemClick(
-                    getoApplicationInfo.packageName,
-                    getoApplicationInfo.label,
+                    launcherAppsActivityInfo.componentName,
+                    launcherAppsActivityInfo.activityLabel,
                 )
             },
         headlineContent = {
             Text(
-                text = getoApplicationInfo.label,
+                text = launcherAppsActivityInfo.activityLabel,
             )
         },
         supportingContent = {
             Text(
-                text = getoApplicationInfo.packageName,
+                text = launcherAppsActivityInfo.packageName,
             )
         },
         leadingContent = {
             ShimmerImage(
                 modifier = Modifier.size(50.dp),
-                model = getoApplicationInfo.icon,
+                model = launcherAppsActivityInfo.activityIcon,
             )
         },
     )
@@ -270,7 +227,6 @@ private fun SearchAppItem(
 ) {
     ListItem(
         modifier = modifier
-            .testTag("apps:appItem")
             .clickable {
                 onItemClick(
                     getoApplicationInfo.packageName,

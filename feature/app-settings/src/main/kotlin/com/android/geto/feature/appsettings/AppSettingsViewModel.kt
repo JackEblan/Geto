@@ -17,7 +17,6 @@
  */
 package com.android.geto.feature.appsettings
 
-import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -65,9 +64,9 @@ class AppSettingsViewModel @Inject constructor(
 ) : ViewModel() {
     private val appSettingsRouteData = savedStateHandle.toRoute<AppSettingsRouteData>()
 
-    private val appName = appSettingsRouteData.appName
+    private val activityLabel = appSettingsRouteData.activityLabel
 
-    private val packageName = appSettingsRouteData.packageName
+    private val componentName = appSettingsRouteData.componentName
 
     private var _secureSettings = MutableStateFlow<List<SecureSetting>>(emptyList())
     val secureSettings = _secureSettings.asStateFlow()
@@ -94,7 +93,7 @@ class AppSettingsViewModel @Inject constructor(
     val requestPinShortcutResult = _requestPinShortcutResult.asStateFlow()
 
     val appSettingsUiState =
-        appSettingsRepository.getAppSettingsFlowByPackageName(packageName = packageName)
+        appSettingsRepository.getAppSettingsFlowByPackageName(packageName = componentName)
             .map(AppSettingsUiState::Success).stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5_000),
@@ -113,7 +112,7 @@ class AppSettingsViewModel @Inject constructor(
 
     fun applyAppSettings() {
         viewModelScope.launch {
-            _applyAppSettingsResult.update { applyAppSettingsUseCase(packageName = packageName) }
+            _applyAppSettingsResult.update { applyAppSettingsUseCase(packageName = componentName) }
         }
     }
 
@@ -142,7 +141,7 @@ class AppSettingsViewModel @Inject constructor(
             _addAppSettingsResult.update {
                 addAppSettingUseCase(
                     id = id,
-                    packageName = packageName,
+                    packageName = componentName,
                     enabled = enabled,
                     settingType = settingType,
                     label = label,
@@ -156,13 +155,13 @@ class AppSettingsViewModel @Inject constructor(
 
     fun getApplicationIcon() {
         viewModelScope.launch {
-            _applicationIcon.update { packageManagerWrapper.getApplicationIcon(packageName = packageName) }
+            _applicationIcon.update { packageManagerWrapper.getApplicationIcon(packageName = componentName) }
         }
     }
 
     fun revertAppSettings() {
         viewModelScope.launch {
-            _revertAppSettingsResult.update { revertAppSettingsUseCase(packageName = packageName) }
+            _revertAppSettingsResult.update { revertAppSettingsUseCase(packageName = componentName) }
         }
     }
 
@@ -174,10 +173,10 @@ class AppSettingsViewModel @Inject constructor(
         viewModelScope.launch {
             _requestPinShortcutResult.update {
                 requestPinShortcutUseCase(
-                    packageName = packageName,
+                    packageName = componentName,
                     icon = icon,
-                    appName = appName,
-                    id = packageName,
+                    appName = activityLabel,
+                    id = componentName,
                     shortLabel = shortLabel,
                     longLabel = longLabel,
                 )
@@ -196,27 +195,22 @@ class AppSettingsViewModel @Inject constructor(
         }
     }
 
-    fun launchIntentForPackage() {
-        packageManagerWrapper.launchIntentForPackage(packageName = packageName)
-    }
-
     fun postNotification(
         icon: ByteArray?,
         contentTitle: String,
         contentText: String,
     ) {
-        val notificationId = packageName.hashCode()
+        val notificationId = componentName.hashCode()
 
         notificationManagerWrapper.notifyRevertNotification(
             notificationId = notificationId,
-            packageName = packageName,
+            packageName = componentName,
             icon = icon,
             contentTitle = contentTitle,
             contentText = contentText,
         )
     }
 
-    @VisibleForTesting
     fun getAppSettingTemplates() {
         viewModelScope.launch {
             _templateDialogUiState.update {

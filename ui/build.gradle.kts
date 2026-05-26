@@ -15,9 +15,24 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.feature.appsettings.navigation
 
-import kotlinx.serialization.Serializable
+plugins {
+    alias(libs.plugins.com.android.geto.library)
+    alias(libs.plugins.com.android.geto.libraryCompose)
+}
 
-@Serializable
-data class AppSettingsRouteData(val componentName: String, val activityLabel: String)
+android {
+    namespace = "com.android.geto.ui"
+}
+
+dependencies {
+    api(projects.framework.launcherApps)
+
+    implementation(projects.designSystem)
+    implementation(projects.domain.common)
+    implementation(projects.domain.framework)
+    implementation(projects.domain.model)
+
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.activity.ktx)
+}
