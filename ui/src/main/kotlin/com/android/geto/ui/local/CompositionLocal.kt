@@ -15,9 +15,11 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.feature.appsettings.navigation
+package com.android.geto.ui.local
 
-import kotlinx.serialization.Serializable
+import androidx.compose.runtime.staticCompositionLocalOf
+import com.android.geto.framework.launcherapps.AndroidLauncherAppsWrapper
 
-@Serializable
-data class AppSettingsRouteData(val componentName: String, val activityLabel: String)
+val LocalLauncherApps = staticCompositionLocalOf<AndroidLauncherAppsWrapper> {
+    error("No LauncherAppsWrapper provided")
+}

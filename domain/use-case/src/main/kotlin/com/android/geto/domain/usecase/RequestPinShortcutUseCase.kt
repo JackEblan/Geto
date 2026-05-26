@@ -26,9 +26,10 @@ import com.android.geto.domain.model.RequestPinShortcutResult.UpdateSuccess
 import com.android.geto.domain.repository.ShortcutRepository
 import javax.inject.Inject
 
-class RequestPinShortcutUseCase @Inject constructor(
-    private val shortcutRepository: ShortcutRepository,
-) {
+/**
+ * [ShortcutRepository] is not a fucking repository. It is an Android framework
+ */
+class RequestPinShortcutUseCase @Inject constructor(private val shortcutRepository: ShortcutRepository) {
     suspend operator fun invoke(
         packageName: String,
         icon: ByteArray?,

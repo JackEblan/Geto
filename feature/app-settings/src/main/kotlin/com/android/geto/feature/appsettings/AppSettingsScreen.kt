@@ -54,7 +54,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -91,6 +90,7 @@ import com.android.geto.feature.appsettings.dialog.template.TemplateDialogState
 import com.android.geto.feature.appsettings.dialog.template.TemplateDialogUiState
 import com.android.geto.feature.appsettings.dialog.template.rememberTemplateDialogState
 import com.android.geto.feature.appsettings.navigation.AppSettingsRouteData
+import com.android.geto.ui.local.LocalLauncherApps
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
@@ -127,7 +127,7 @@ internal fun AppSettingsRoute(
 
     AppSettingsScreen(
         modifier = modifier,
-        appName = appSettingsRouteData.appName,
+        appSettingsRouteData = appSettingsRouteData,
         appSettingsUiState = appSettingsUiState,
         snackbarHostState = snackbarHostState,
         applicationIcon = applicationIcon,
@@ -144,7 +144,6 @@ internal fun AppSettingsRoute(
         onAddAppSetting = viewModel::addAppSetting,
         onRequestPinShortcut = viewModel::requestPinShortcut,
         onGetSecureSettingsByName = viewModel::getSecureSettingsByName,
-        onLaunchIntentForPackage = viewModel::launchIntentForPackage,
         onPostNotification = viewModel::postNotification,
         onResetApplyAppSettingsResult = viewModel::resetApplyAppSettingsResult,
         onResetRequestPinShortcutResult = viewModel::resetRequestPinShortcutResult,
@@ -159,7 +158,7 @@ internal fun AppSettingsRoute(
 @Composable
 internal fun AppSettingsScreen(
     modifier: Modifier = Modifier,
-    appName: String,
+    appSettingsRouteData: AppSettingsRouteData,
     appSettingsUiState: AppSettingsUiState,
     snackbarHostState: SnackbarHostState,
     applicationIcon: ByteArray?,
@@ -188,7 +187,6 @@ internal fun AppSettingsScreen(
         longLabel: String,
     ) -> Unit,
     onGetSecureSettingsByName: (settingType: SettingType, text: String) -> Unit,
-    onLaunchIntentForPackage: () -> Unit,
     onPostNotification: (
         icon: ByteArray?,
         contentTitle: String,
@@ -208,6 +206,7 @@ internal fun AppSettingsScreen(
     val templateDialogState = rememberTemplateDialogState()
 
     AppSettingsLaunchedEffects(
+        appSettingsRouteData = appSettingsRouteData,
         snackbarHostState = snackbarHostState,
         appSettingDialogState = appSettingDialogState,
         shortcutDialogState = shortcutDialogState,
@@ -223,7 +222,6 @@ internal fun AppSettingsScreen(
         onResetRequestPinShortcutResult = onResetRequestPinShortcutResult,
         onResetAddAppSettingResult = onResetAddAppSettingResult,
         onGetSecureSettingsByName = onGetSecureSettingsByName,
-        onLaunchIntentForPackage = onLaunchIntentForPackage,
         onPostNotification = onPostNotification,
     )
 
@@ -239,7 +237,7 @@ internal fun AppSettingsScreen(
     Scaffold(
         topBar = {
             AppSettingsTopAppBar(
-                title = appName,
+                title = appSettingsRouteData.activityLabel,
                 onNavigationIconClick = onNavigationIconClick,
             )
         },
@@ -259,10 +257,7 @@ internal fun AppSettingsScreen(
             )
         },
         snackbarHost = {
-            SnackbarHost(
-                hostState = snackbarHostState,
-                modifier = Modifier.testTag("appSettings:snackbar"),
-            )
+            SnackbarHost(hostState = snackbarHostState)
         },
     ) { innerPadding ->
         Box(
@@ -298,6 +293,7 @@ internal fun AppSettingsScreen(
 @OptIn(FlowPreview::class)
 @Composable
 private fun AppSettingsLaunchedEffects(
+    appSettingsRouteData: AppSettingsRouteData,
     snackbarHostState: SnackbarHostState,
     appSettingDialogState: AppSettingDialogState,
     shortcutDialogState: ShortcutDialogState,
@@ -313,13 +309,14 @@ private fun AppSettingsLaunchedEffects(
     onResetRequestPinShortcutResult: () -> Unit,
     onResetAddAppSettingResult: () -> Unit,
     onGetSecureSettingsByName: (SettingType, String) -> Unit,
-    onLaunchIntentForPackage: () -> Unit,
     onPostNotification: (
         icon: ByteArray?,
         contentTitle: String,
         contentText: String,
     ) -> Unit,
 ) {
+    val androidLauncherAppsWrapper = LocalLauncherApps.current
+
     val appSettingsDisabled = stringResource(id = R.string.app_settings_disabled)
 
     val emptyAppSettingsList = stringResource(id = R.string.empty_app_settings_list)
@@ -370,9 +367,10 @@ private fun AppSettingsLaunchedEffects(
             }
 
             Success -> {
+                // TODO just post the notification in here
                 onPostNotification(applicationIcon, getoSettings, applySuccess)
 
-                onLaunchIntentForPackage()
+                androidLauncherAppsWrapper.startMainActivity(componentName = appSettingsRouteData.componentName)
             }
 
             InvalidValues -> {
@@ -381,9 +379,7 @@ private fun AppSettingsLaunchedEffects(
                 )
             }
 
-            null -> {
-                Unit
-            }
+            null -> Unit
         }
 
         onResetApplyAppSettingsResult()
@@ -417,9 +413,7 @@ private fun AppSettingsLaunchedEffects(
                 )
             }
 
-            null -> {
-                Unit
-            }
+            null -> Unit
         }
 
         onResetRevertAppSettingsResult()
@@ -457,9 +451,7 @@ private fun AppSettingsLaunchedEffects(
                 )
             }
 
-            null -> {
-                Unit
-            }
+            null -> Unit
         }
 
         onResetRequestPinShortcutResult()
@@ -475,9 +467,7 @@ private fun AppSettingsLaunchedEffects(
                 snackbarHostState.showSnackbar(message = appSettingAddFailed)
             }
 
-            null -> {
-                Unit
-            }
+            null -> Unit
         }
 
         onResetAddAppSettingResult()
@@ -572,10 +562,10 @@ private fun AppSettingsTopAppBar(
     onNavigationIconClick: () -> Unit,
 ) {
     TopAppBar(
+        modifier = modifier,
         title = {
             Text(text = title, maxLines = 1)
         },
-        modifier = modifier.testTag("appSettings:topAppBar"),
         navigationIcon = {
             IconButton(onClick = onNavigationIconClick) {
                 Icon(
@@ -674,8 +664,7 @@ private fun EmptyState(
 ) {
     Column(
         modifier = modifier
-            .fillMaxSize()
-            .testTag("appSettings:emptyListPlaceHolderScreen"),
+            .fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
@@ -710,9 +699,7 @@ private fun SuccessState(
     onCheckAppSetting: (AppSetting) -> Unit,
     onDeleteAppSettingsItem: (AppSetting) -> Unit,
 ) {
-    LazyColumn(
-        modifier = modifier.testTag("appSettings:lazyColumn"),
-    ) {
+    LazyColumn(modifier = modifier) {
         items(items = appSettingsUiState.appSettings, key = { it.id }) { appSettings ->
             AppSettingItem(
                 appSetting = appSettings,

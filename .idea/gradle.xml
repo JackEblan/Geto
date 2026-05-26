@@ -47,11 +47,13 @@
             <option value="$PROJECT_DIR$/feature/shizuku" />
             <option value="$PROJECT_DIR$/framework" />
             <option value="$PROJECT_DIR$/framework/asset-manager" />
+            <option value="$PROJECT_DIR$/framework/launcher-apps" />
             <option value="$PROJECT_DIR$/framework/notification-manager" />
             <option value="$PROJECT_DIR$/framework/package-manager" />
             <option value="$PROJECT_DIR$/framework/secure-settings" />
             <option value="$PROJECT_DIR$/framework/shizuku" />
             <option value="$PROJECT_DIR$/framework/shortcut-manager" />
+            <option value="$PROJECT_DIR$/ui" />
           </set>
         </option>
       </GradleProjectSettings>

@@ -15,9 +15,8 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.feature.appsettings.navigation
+package com.android.geto.framework.launcherapps
 
-import kotlinx.serialization.Serializable
-
-@Serializable
-data class AppSettingsRouteData(val componentName: String, val activityLabel: String)
+interface AndroidLauncherAppsWrapper {
+    fun startMainActivity(componentName: String)
+}

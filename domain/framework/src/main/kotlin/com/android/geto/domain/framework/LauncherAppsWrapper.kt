@@ -15,9 +15,11 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.feature.appsettings.navigation
+package com.android.geto.domain.framework
 
-import kotlinx.serialization.Serializable
+import com.android.geto.domain.model.LauncherAppsActivityInfo
+import kotlinx.coroutines.flow.Flow
 
-@Serializable
-data class AppSettingsRouteData(val componentName: String, val activityLabel: String)
+interface LauncherAppsWrapper {
+    fun getActivityListFlow(): Flow<List<LauncherAppsActivityInfo>>
+}

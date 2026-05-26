@@ -17,52 +17,39 @@
  */
 package com.android.geto.feature.apps
 
-import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.android.geto.domain.framework.PackageManagerWrapper
 import com.android.geto.domain.model.GetoApplicationInfo
+import com.android.geto.domain.usecase.GetLauncherAppsActivityInfosUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class AppsViewModel @Inject constructor(
-    private val packageManagerWrapper: PackageManagerWrapper,
+    getLauncherAppsActivityInfosUseCase: GetLauncherAppsActivityInfosUseCase,
 ) : ViewModel() {
-    private val _appUiState = MutableStateFlow<AppsUiState>(AppsUiState.Loading)
-    val appsUiState = _appUiState.onStart {
-        queryIntentActivities()
-    }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.Lazily,
-        initialValue = AppsUiState.Loading,
-    )
+    private var _textFlow =
+        MutableStateFlow<String?>(null)
+    val textFlow = _textFlow.asStateFlow()
+
+    val appsUiState =
+        getLauncherAppsActivityInfosUseCase(textFlow = _textFlow).map(AppsUiState::Success).stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(5000),
+            AppsUiState.Loading,
+        )
 
     private var _searchGetoApplicationInfos =
         MutableStateFlow<List<GetoApplicationInfo>>(emptyList())
     val searchGetoApplicationInfos = _searchGetoApplicationInfos.asStateFlow()
 
-    @VisibleForTesting
-    fun queryIntentActivities() {
-        viewModelScope.launch {
-            _appUiState.update {
-                AppsUiState.Success(getoApplicationInfos = packageManagerWrapper.queryIntentActivities())
-            }
-        }
-    }
-
     fun queryIntentActivitiesByLabel(text: String) {
-        viewModelScope.launch {
-            _searchGetoApplicationInfos.update {
-                packageManagerWrapper.queryIntentActivitiesByLabel(label = text)
-            }
-        }
+        _textFlow.update { text }
     }
 }

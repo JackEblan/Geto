@@ -18,7 +18,6 @@
 package com.android.geto.framework.assetmanager
 
 import android.content.Context
-import androidx.annotation.VisibleForTesting
 import com.android.geto.domain.common.dispatcher.Dispatcher
 import com.android.geto.domain.common.dispatcher.GetoDispatchers.IO
 import com.android.geto.domain.framework.AssetManagerWrapper
@@ -38,7 +37,6 @@ internal class AndroidAssetManagerWrapper @Inject constructor(
 ) : AssetManagerWrapper {
     private val appSettingsType = object : TypeToken<List<AppSettingTemplate>>() {}.type
 
-    @VisibleForTesting
     var appSettingTemplatesJson = "AppSettingTemplates.json"
 
     override suspend fun getAppSettingTemplates(): List<AppSettingTemplate> {

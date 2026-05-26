@@ -31,6 +31,7 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
 
             dependencies {
                 add("implementation", project(":design-system"))
+                add("implementation", project(":ui"))
 
                 add("implementation", libs.androidx.hilt.navigation.compose)
                 add("implementation", libs.androidx.lifecycle.runtime.compose)
