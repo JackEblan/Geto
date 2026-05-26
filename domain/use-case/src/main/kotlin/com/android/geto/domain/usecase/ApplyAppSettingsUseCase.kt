@@ -19,6 +19,7 @@ package com.android.geto.domain.usecase
 
 import com.android.geto.domain.common.dispatcher.Dispatcher
 import com.android.geto.domain.common.dispatcher.GetoDispatchers.Default
+import com.android.geto.domain.framework.SecureSettingsWrapper
 import com.android.geto.domain.model.AppSettingsResult
 import com.android.geto.domain.model.AppSettingsResult.DisabledAppSettings
 import com.android.geto.domain.model.AppSettingsResult.EmptyAppSettings
@@ -27,7 +28,6 @@ import com.android.geto.domain.model.AppSettingsResult.InvalidValues
 import com.android.geto.domain.model.AppSettingsResult.NoPermission
 import com.android.geto.domain.model.AppSettingsResult.Success
 import com.android.geto.domain.repository.AppSettingsRepository
-import com.android.geto.domain.repository.SecureSettingsRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -35,7 +35,7 @@ import javax.inject.Inject
 class ApplyAppSettingsUseCase @Inject constructor(
     @param:Dispatcher(Default) private val defaultDispatcher: CoroutineDispatcher,
     private val appSettingsRepository: AppSettingsRepository,
-    private val secureSettingsRepository: SecureSettingsRepository,
+    private val secureSettingsWrapper: SecureSettingsWrapper,
 ) {
     suspend operator fun invoke(packageName: String): AppSettingsResult {
         return withContext(defaultDispatcher) {
@@ -47,7 +47,13 @@ class ApplyAppSettingsUseCase @Inject constructor(
             if (appSettings.all { it.enabled.not() }) return@withContext DisabledAppSettings
 
             try {
-                if (secureSettingsRepository.applySecureSettings(appSettings = appSettings)) {
+                if (appSettings.all { appSetting ->
+                        secureSettingsWrapper.canWriteSecureSettings(
+                            settingType = appSetting.settingType,
+                            key = appSetting.key,
+                            value = appSetting.valueOnLaunch,
+                        )
+                    }) {
                     Success
                 } else {
                     Failure

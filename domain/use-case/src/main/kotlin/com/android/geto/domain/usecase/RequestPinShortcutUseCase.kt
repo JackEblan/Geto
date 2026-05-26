@@ -17,19 +17,23 @@
  */
 package com.android.geto.domain.usecase
 
+import com.android.geto.domain.common.dispatcher.Dispatcher
+import com.android.geto.domain.common.dispatcher.GetoDispatchers.Default
+import com.android.geto.domain.framework.ShortcutManagerCompatWrapper
 import com.android.geto.domain.model.RequestPinShortcutResult
 import com.android.geto.domain.model.RequestPinShortcutResult.SupportedLauncher
 import com.android.geto.domain.model.RequestPinShortcutResult.UnsupportedLauncher
 import com.android.geto.domain.model.RequestPinShortcutResult.UpdateFailure
 import com.android.geto.domain.model.RequestPinShortcutResult.UpdateImmutableShortcuts
 import com.android.geto.domain.model.RequestPinShortcutResult.UpdateSuccess
-import com.android.geto.domain.repository.ShortcutRepository
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-/**
- * [ShortcutRepository] is not a fucking repository. It is an Android framework
- */
-class RequestPinShortcutUseCase @Inject constructor(private val shortcutRepository: ShortcutRepository) {
+class RequestPinShortcutUseCase @Inject constructor(
+    @param:Dispatcher(Default) private val defaultDispatcher: CoroutineDispatcher,
+    private val shortcutManagerCompatWrapper: ShortcutManagerCompatWrapper,
+) {
     suspend operator fun invoke(
         packageName: String,
         icon: ByteArray?,
@@ -37,14 +41,14 @@ class RequestPinShortcutUseCase @Inject constructor(private val shortcutReposito
         id: String,
         shortLabel: String,
         longLabel: String,
-    ): RequestPinShortcutResult {
-        if (!shortcutRepository.isRequestPinShortcutSupported()) {
-            return UnsupportedLauncher
+    ): RequestPinShortcutResult = withContext(defaultDispatcher) {
+        if (!shortcutManagerCompatWrapper.isRequestPinShortcutSupported()) {
+            return@withContext UnsupportedLauncher
         }
 
-        val pinnedShortcut = shortcutRepository.getPinnedShortcut(id = id)
+        val pinnedShortcut = shortcutManagerCompatWrapper.getShortcuts().find { it.id == id }
 
-        return if (pinnedShortcut != null) {
+        if (pinnedShortcut != null) {
             updateShortcuts(
                 packageName = packageName,
                 icon = icon,
@@ -73,7 +77,7 @@ class RequestPinShortcutUseCase @Inject constructor(private val shortcutReposito
         shortLabel: String,
         longLabel: String,
     ): RequestPinShortcutResult {
-        return if (shortcutRepository.requestPinShortcut(
+        return if (shortcutManagerCompatWrapper.requestPinShortcut(
                 packageName = packageName,
                 icon = icon,
                 appName = appName,
@@ -97,7 +101,7 @@ class RequestPinShortcutUseCase @Inject constructor(private val shortcutReposito
         longLabel: String,
     ): RequestPinShortcutResult {
         return try {
-            if (shortcutRepository.updateShortcuts(
+            if (shortcutManagerCompatWrapper.updateShortcuts(
                     packageName = packageName,
                     icon = icon,
                     appName = appName,

@@ -31,9 +31,9 @@ import com.android.geto.domain.model.RequestPinShortcutResult
 import com.android.geto.domain.model.SecureSetting
 import com.android.geto.domain.model.SettingType
 import com.android.geto.domain.repository.AppSettingsRepository
-import com.android.geto.domain.repository.SecureSettingsRepository
 import com.android.geto.domain.usecase.AddAppSettingUseCase
 import com.android.geto.domain.usecase.ApplyAppSettingsUseCase
+import com.android.geto.domain.usecase.GetSecureSettingsByNameUseCase
 import com.android.geto.domain.usecase.RequestPinShortcutUseCase
 import com.android.geto.domain.usecase.RevertAppSettingsUseCase
 import com.android.geto.feature.appsettings.dialog.template.TemplateDialogUiState
@@ -54,13 +54,13 @@ class AppSettingsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val appSettingsRepository: AppSettingsRepository,
     private val packageManagerWrapper: PackageManagerWrapper,
-    private val secureSettingsRepository: SecureSettingsRepository,
     private val applyAppSettingsUseCase: ApplyAppSettingsUseCase,
     private val revertAppSettingsUseCase: RevertAppSettingsUseCase,
     private val requestPinShortcutUseCase: RequestPinShortcutUseCase,
     private val addAppSettingUseCase: AddAppSettingUseCase,
     private val notificationManagerWrapper: NotificationManagerWrapper,
     private val assetManagerWrapper: AssetManagerWrapper,
+    private val getSecureSettingsByNameUseCase: GetSecureSettingsByNameUseCase,
 ) : ViewModel() {
     private val appSettingsRouteData = savedStateHandle.toRoute<AppSettingsRouteData>()
 
@@ -187,7 +187,7 @@ class AppSettingsViewModel @Inject constructor(
     fun getSecureSettingsByName(settingType: SettingType, text: String) {
         viewModelScope.launch {
             _secureSettings.update {
-                secureSettingsRepository.getSecureSettingsByName(
+                getSecureSettingsByNameUseCase(
                     settingType = settingType,
                     text = text,
                 )
