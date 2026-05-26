@@ -26,8 +26,18 @@ import com.android.geto.feature.appsettings.AppSettingsRoute
 
 private const val DEEP_LINK_URI = "https://www.android.geto.com"
 
-fun NavController.navigateToAppSettings(packageName: String, appName: String) {
-    navigate(AppSettingsRouteData(componentName = packageName, activityLabel = appName))
+fun NavController.navigateToAppSettings(
+    packageName: String,
+    componentName: String,
+    activityLabel: String,
+) {
+    navigate(
+        AppSettingsRouteData(
+            packageName,
+            componentName = componentName,
+            activityLabel = activityLabel,
+        ),
+    )
 }
 
 fun NavGraphBuilder.appSettingsScreen(

@@ -62,9 +62,11 @@ class AppSettingsViewModel @Inject constructor(
 ) : ViewModel() {
     private val appSettingsRouteData = savedStateHandle.toRoute<AppSettingsRouteData>()
 
-    private val activityLabel = appSettingsRouteData.activityLabel
+    private val packageName = appSettingsRouteData.packageName
 
     private val componentName = appSettingsRouteData.componentName
+
+    private val activityLabel = appSettingsRouteData.activityLabel
 
     private var _secureSettings = MutableStateFlow<List<SecureSetting>>(emptyList())
     val secureSettings = _secureSettings.asStateFlow()
@@ -153,7 +155,7 @@ class AppSettingsViewModel @Inject constructor(
 
     fun getApplicationIcon() {
         viewModelScope.launch {
-            _applicationIcon.update { packageManagerWrapper.getApplicationIcon(packageName = componentName) }
+            _applicationIcon.update { packageManagerWrapper.getApplicationIcon(packageName = packageName) }
         }
     }
 

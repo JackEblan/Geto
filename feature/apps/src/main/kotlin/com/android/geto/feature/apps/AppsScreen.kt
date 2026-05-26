@@ -57,14 +57,17 @@ import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.onEach
 
 @Composable
 internal fun AppsRoute(
     modifier: Modifier = Modifier,
     viewModel: AppsViewModel = hiltViewModel(),
-    onItemClick: (String, String) -> Unit,
+    onItemClick: (
+        packageName: String,
+        componentName: String,
+        activityLabel: String,
+    ) -> Unit,
 ) {
     val appListUiState by viewModel.appsUiState.collectAsStateWithLifecycle()
 
@@ -82,7 +85,11 @@ internal fun AppsRoute(
 internal fun AppsScreen(
     modifier: Modifier = Modifier,
     appsUiState: AppsUiState,
-    onItemClick: (String, String) -> Unit,
+    onItemClick: (
+        packageName: String,
+        componentName: String,
+        activityLabel: String,
+    ) -> Unit,
     onSearch: (String) -> Unit,
 ) {
     Box(modifier = modifier.fillMaxSize()) {
@@ -111,15 +118,17 @@ internal fun AppsScreen(
 private fun Success(
     modifier: Modifier = Modifier,
     appsUiState: AppsUiState.Success,
-    onItemClick: (String, String) -> Unit,
+    onItemClick: (
+        packageName: String,
+        componentName: String,
+        activityLabel: String,
+    ) -> Unit,
     onSearch: (String) -> Unit,
 ) {
-    var dockedSearchBarQuery by rememberSaveable { mutableStateOf("") }
+    var searchBarQuery by rememberSaveable { mutableStateOf("") }
 
-    LaunchedEffect(key1 = dockedSearchBarQuery) {
-        snapshotFlow { dockedSearchBarQuery }.debounce(500).filter { query ->
-            query.isNotEmpty()
-        }.distinctUntilChanged().onEach {
+    LaunchedEffect(key1 = searchBarQuery) {
+        snapshotFlow { searchBarQuery }.debounce(500).distinctUntilChanged().onEach {
             onSearch(it)
         }.collect()
     }
@@ -131,9 +140,9 @@ private fun Success(
                 .padding(5.dp),
             inputField = {
                 SearchBarDefaults.InputField(
-                    query = dockedSearchBarQuery,
+                    query = searchBarQuery,
                     onQueryChange = {
-                        dockedSearchBarQuery = it
+                        searchBarQuery = it
                     },
                     onSearch = onSearch,
                     expanded = false,
@@ -169,12 +178,17 @@ private fun Success(
 private fun AppItem(
     modifier: Modifier = Modifier,
     launcherAppsActivityInfo: LauncherAppsActivityInfo,
-    onItemClick: (String, String) -> Unit,
+    onItemClick: (
+        packageName: String,
+        componentName: String,
+        activityLabel: String,
+    ) -> Unit,
 ) {
     ListItem(
         modifier = modifier
             .clickable {
                 onItemClick(
+                    launcherAppsActivityInfo.packageName,
                     launcherAppsActivityInfo.componentName,
                     launcherAppsActivityInfo.activityLabel,
                 )
