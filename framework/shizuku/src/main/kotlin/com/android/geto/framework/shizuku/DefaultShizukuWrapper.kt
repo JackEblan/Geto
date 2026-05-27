@@ -27,8 +27,7 @@ import android.os.RemoteException
 import com.android.geto.domain.framework.ShizukuWrapper
 import com.android.geto.domain.model.ShizukuStatus
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.channels.BufferOverflow
-import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import rikka.shizuku.Shizuku
 import rikka.shizuku.Shizuku.OnRequestPermissionResultListener
@@ -60,10 +59,9 @@ internal class DefaultShizukuWrapper @Inject constructor(@param:ApplicationConte
             context.packageName,
             UserService::class.java.name,
         ),
-    ).daemon(false).processNameSuffix("user_service").debuggable(BuildConfig.DEBUG)
+    ).daemon(false).processNameSuffix("user_service")
 
-    private val _shizukuStatus =
-        MutableSharedFlow<ShizukuStatus>(replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
+    private val _shizukuStatus = MutableStateFlow<ShizukuStatus?>(null)
 
     override val shizukuStatus = _shizukuStatus.asSharedFlow()
 

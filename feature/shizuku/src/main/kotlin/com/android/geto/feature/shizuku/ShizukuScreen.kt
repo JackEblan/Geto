@@ -17,7 +17,7 @@
  */
 package com.android.geto.feature.shizuku
 
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -34,7 +34,6 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -101,6 +100,8 @@ internal fun ShizukuScreen(
     val shizukuError = stringResource(R.string.please_check_if_shizuku_is_properly_running)
 
     val shizukuDeadBinder = stringResource(R.string.shizuku_dead_binder)
+
+    val message = stringResource(R.string.shizuku_message)
 
     DisposableEffect(key1 = lifecycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
@@ -191,6 +192,10 @@ internal fun ShizukuScreen(
             }
 
             null -> {
+                snackbarHostState.showSnackbar(
+                    message = message,
+                    duration = SnackbarDuration.Indefinite,
+                )
             }
         }
     }
@@ -206,16 +211,13 @@ internal fun ShizukuScreen(
             SnackbarHost(hostState = snackbarHostState)
         },
     ) { innerPadding ->
-        Column(
+        Box(
             modifier = modifier
                 .fillMaxSize()
                 .padding(innerPadding),
-            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Text(text = "Click to activate Shizuku")
-
             AnimatedWavyCircle(
-                modifier = modifier.weight(1f),
+                modifier = modifier.matchParentSize(),
                 active = shizukuStatus == ShizukuStatus.CanWriteSecureSettings,
                 onClick = onCheckPermission,
             )

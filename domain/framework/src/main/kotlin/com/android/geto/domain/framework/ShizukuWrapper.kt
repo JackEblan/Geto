@@ -21,7 +21,7 @@ import com.android.geto.domain.model.ShizukuStatus
 import kotlinx.coroutines.flow.Flow
 
 interface ShizukuWrapper {
-    val shizukuStatus: Flow<ShizukuStatus>
+    val shizukuStatus: Flow<ShizukuStatus?>
 
     fun onCreate()
 
