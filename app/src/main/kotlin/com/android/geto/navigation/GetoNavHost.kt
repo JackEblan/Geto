@@ -59,14 +59,14 @@ fun GetoNavHost(navController: NavHostController) {
             snackbarHostState = snackbarHostState,
             topLevelDestinations = TopLevelDestination.entries,
             startDestination = AppsRouteData::class,
-            onItemClick = { homeNavHostController, homeDestination ->
+            onClickHomeDestination = { homeNavHostController, homeDestination ->
                 when (homeDestination) {
                     APPS -> homeNavHostController.navigateToApps()
                     SETTINGS -> homeNavHostController.navigateToSettings()
                 }
             },
             builder = {
-                appsScreen(onItemClick = navController::navigateToAppSettings)
+                appsScreen(onClickApp = navController::navigateToAppSettings)
 
                 settingsScreen()
             },

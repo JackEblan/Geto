@@ -28,7 +28,7 @@ fun NavGraphBuilder.homeScreen(
     snackbarHostState: SnackbarHostState,
     topLevelDestinations: List<HomeDestination>,
     startDestination: KClass<*>,
-    onItemClick: (NavHostController, HomeDestination) -> Unit,
+    onClickHomeDestination: (NavHostController, HomeDestination) -> Unit,
     builder: NavGraphBuilder.() -> Unit,
 ) {
     composable<HomeRouteData> {
@@ -36,7 +36,7 @@ fun NavGraphBuilder.homeScreen(
             snackbarHostState = snackbarHostState,
             topLevelDestinations = topLevelDestinations,
             startDestination = startDestination,
-            onItemClick = onItemClick,
+            onClickHomeDestination = onClickHomeDestination,
             builder = builder,
         )
     }

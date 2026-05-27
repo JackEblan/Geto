@@ -50,7 +50,7 @@ internal fun HomeRoute(
     snackbarHostState: SnackbarHostState,
     topLevelDestinations: List<HomeDestination>,
     startDestination: KClass<*>,
-    onItemClick: (NavHostController, HomeDestination) -> Unit,
+    onClickHomeDestination: (NavHostController, HomeDestination) -> Unit,
     builder: NavGraphBuilder.() -> Unit,
 ) {
     HomeScreen(
@@ -58,7 +58,7 @@ internal fun HomeRoute(
         snackbarHostState = snackbarHostState,
         topLevelDestinations = topLevelDestinations,
         startDestination = startDestination,
-        onItemClick = onItemClick,
+        onClickHomeDestination = onClickHomeDestination,
         builder = builder,
     )
 }
@@ -70,7 +70,7 @@ internal fun HomeScreen(
     snackbarHostState: SnackbarHostState,
     topLevelDestinations: List<HomeDestination>,
     startDestination: KClass<*>,
-    onItemClick: (NavHostController, HomeDestination) -> Unit,
+    onClickHomeDestination: (NavHostController, HomeDestination) -> Unit,
     builder: NavGraphBuilder.() -> Unit,
 ) {
     val navController = rememberNavController()
@@ -96,7 +96,7 @@ internal fun HomeScreen(
                     label = { Text(stringResource(id = destination.label)) },
                     selected = currentDestination.isTopLevelDestinationInHierarchy(destination.route),
                     onClick = {
-                        onItemClick(navController, destination)
+                        onClickHomeDestination(navController, destination)
                     },
                 )
             }

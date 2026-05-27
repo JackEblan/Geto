@@ -63,7 +63,7 @@ import kotlinx.coroutines.flow.onEach
 internal fun AppsRoute(
     modifier: Modifier = Modifier,
     viewModel: AppsViewModel = hiltViewModel(),
-    onItemClick: (
+    onClickApp: (
         packageName: String,
         componentName: String,
         activityLabel: String,
@@ -74,8 +74,8 @@ internal fun AppsRoute(
     AppsScreen(
         modifier = modifier,
         appsUiState = appListUiState,
-        onItemClick = onItemClick,
-        onSearch = viewModel::queryIntentActivitiesByLabel,
+        onClickApp = onClickApp,
+        onSearch = viewModel::search,
     )
 }
 
@@ -85,7 +85,7 @@ internal fun AppsRoute(
 internal fun AppsScreen(
     modifier: Modifier = Modifier,
     appsUiState: AppsUiState,
-    onItemClick: (
+    onClickApp: (
         packageName: String,
         componentName: String,
         activityLabel: String,
@@ -105,7 +105,7 @@ internal fun AppsScreen(
                 Success(
                     modifier = modifier,
                     appsUiState = appsUiState,
-                    onItemClick = onItemClick,
+                    onClickApp = onClickApp,
                     onSearch = onSearch,
                 )
             }
@@ -118,7 +118,7 @@ internal fun AppsScreen(
 private fun Success(
     modifier: Modifier = Modifier,
     appsUiState: AppsUiState.Success,
-    onItemClick: (
+    onClickApp: (
         packageName: String,
         componentName: String,
         activityLabel: String,
@@ -167,7 +167,7 @@ private fun Success(
             items(items = appsUiState.launcherAppsActivityInfos) { launcherAppsActivityInfo ->
                 AppItem(
                     launcherAppsActivityInfo = launcherAppsActivityInfo,
-                    onItemClick = onItemClick,
+                    onClickApp = onClickApp,
                 )
             }
         }
@@ -178,7 +178,7 @@ private fun Success(
 private fun AppItem(
     modifier: Modifier = Modifier,
     launcherAppsActivityInfo: LauncherAppsActivityInfo,
-    onItemClick: (
+    onClickApp: (
         packageName: String,
         componentName: String,
         activityLabel: String,
@@ -187,7 +187,7 @@ private fun AppItem(
     ListItem(
         modifier = modifier
             .clickable {
-                onItemClick(
+                onClickApp(
                     launcherAppsActivityInfo.packageName,
                     launcherAppsActivityInfo.componentName,
                     launcherAppsActivityInfo.activityLabel,

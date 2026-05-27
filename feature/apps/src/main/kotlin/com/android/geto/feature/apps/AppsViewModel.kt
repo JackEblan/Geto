@@ -41,7 +41,7 @@ class AppsViewModel @Inject constructor(
             AppsUiState.Loading,
         )
 
-    fun queryIntentActivitiesByLabel(text: String) {
+    fun search(text: String) {
         _textFlow.update { text }
     }
 }
