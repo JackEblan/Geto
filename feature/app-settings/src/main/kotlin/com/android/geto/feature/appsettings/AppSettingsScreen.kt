@@ -580,7 +580,7 @@ private fun AppSettingsTopAppBar(
             IconButton(onClick = onNavigationIconClick) {
                 Icon(
                     imageVector = GetoIcons.Back,
-                    contentDescription = "Navigation icon",
+                    contentDescription = null,
                 )
             }
         },
@@ -621,7 +621,7 @@ private fun AppSettingsFloatingActionButton(onClick: () -> Unit) {
     ) {
         Icon(
             imageVector = GetoIcons.Android,
-            contentDescription = "Launch icon",
+            contentDescription = null,
         )
     }
 }
@@ -636,14 +636,14 @@ private fun AppSettingsBottomAppBarActions(
     IconButton(onClick = onRefreshIconClick) {
         Icon(
             imageVector = GetoIcons.Refresh,
-            contentDescription = "Revert icon",
+            contentDescription = null,
         )
     }
 
     IconButton(onClick = onSettingsIconClick) {
         Icon(
             GetoIcons.Settings,
-            contentDescription = "Settings icon",
+            contentDescription = null,
         )
     }
 
@@ -652,7 +652,7 @@ private fun AppSettingsBottomAppBarActions(
     ) {
         Icon(
             GetoIcons.Shortcut,
-            contentDescription = "Shortcut icon",
+            contentDescription = null,
         )
     }
 
@@ -660,8 +660,8 @@ private fun AppSettingsBottomAppBarActions(
         onClick = onSettingsSuggestIconClick,
     ) {
         Icon(
-            GetoIcons.SettingsSuggest,
-            contentDescription = "SettingsSuggest icon",
+            imageVector = GetoIcons.SettingsSuggest,
+            contentDescription = null,
         )
     }
 }

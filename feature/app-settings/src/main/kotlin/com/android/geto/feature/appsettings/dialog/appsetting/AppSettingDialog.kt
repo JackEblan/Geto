@@ -44,8 +44,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.android.geto.designsystem.component.DialogContainer
@@ -131,8 +129,7 @@ private fun AppSettingDialogRadioButtonGroup(
                             onSelect(index)
                         },
                     )
-                    .padding(horizontal = 16.dp)
-                    .semantics { contentDescription = text },
+                    .padding(horizontal = 16.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 RadioButton(

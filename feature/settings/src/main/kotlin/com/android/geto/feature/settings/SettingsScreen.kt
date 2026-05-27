@@ -48,6 +48,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.android.geto.designsystem.theme.supportsDynamicTheming
 import com.android.geto.domain.model.Theme
+import com.android.geto.domain.model.UserData
 import com.android.geto.feature.settings.dialog.ThemeDialog
 
 @Composable
@@ -85,7 +86,7 @@ internal fun SettingsScreen(
 
             is SettingsUiState.Success -> {
                 SuccessState(
-                    settingsUiState = settingsUiState,
+                    userData = settingsUiState.userData,
                     onUpdateDynamicTheme = onUpdateDynamicTheme,
                     onUpdateTheme = onUpdateTheme,
                 )
@@ -97,7 +98,7 @@ internal fun SettingsScreen(
 @Composable
 private fun SuccessState(
     modifier: Modifier = Modifier,
-    settingsUiState: SettingsUiState.Success,
+    userData: UserData,
     onUpdateDynamicTheme: (Boolean) -> Unit,
     onUpdateTheme: (Theme) -> Unit,
 ) {
@@ -106,16 +107,19 @@ private fun SuccessState(
     var selectedTheme by remember {
         mutableIntStateOf(
             Theme.entries.indexOf(
-                settingsUiState.userData.theme,
+                userData.theme,
             ),
         )
     }
 
     Column(modifier = modifier.fillMaxSize()) {
-        DynamicThemeSetting(onUpdateDynamicTheme = onUpdateDynamicTheme)
+        DynamicThemeSetting(
+            dynamicTheme = userData.dynamicTheme,
+            onUpdateDynamicTheme = onUpdateDynamicTheme,
+        )
 
         ThemeSetting(
-            title = settingsUiState.userData.theme.getTitle(),
+            title = userData.theme.getTitle(),
             onShowThemeDialog = {
                 showThemeDialog = true
             },
@@ -141,6 +145,7 @@ private fun SuccessState(
 @Composable
 private fun DynamicThemeSetting(
     modifier: Modifier = Modifier,
+    dynamicTheme: Boolean,
     onUpdateDynamicTheme: (Boolean) -> Unit,
 ) {
     if (supportsDynamicTheming()) {
@@ -167,7 +172,7 @@ private fun DynamicThemeSetting(
             }
 
             Switch(
-                checked = supportsDynamicTheming(),
+                checked = dynamicTheme,
                 onCheckedChange = onUpdateDynamicTheme,
             )
         }
@@ -200,4 +205,10 @@ private fun ThemeSetting(
             style = MaterialTheme.typography.bodySmall,
         )
     }
+}
+
+internal fun Theme.getTitle() = when (this) {
+    Theme.FOLLOW_SYSTEM -> "Follow System"
+    Theme.LIGHT -> "Light"
+    Theme.DARK -> "Dark"
 }
