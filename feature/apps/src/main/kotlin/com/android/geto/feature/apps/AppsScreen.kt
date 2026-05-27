@@ -30,6 +30,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
@@ -50,8 +51,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.android.geto.designsystem.component.GetoLoadingWheel
-import com.android.geto.designsystem.component.ShimmerImage
+import coil.compose.AsyncImage
 import com.android.geto.domain.model.LauncherAppsActivityInfo
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collect
@@ -95,10 +95,7 @@ internal fun AppsScreen(
     Box(modifier = modifier.fillMaxSize()) {
         when (appsUiState) {
             AppsUiState.Loading -> {
-                GetoLoadingWheel(
-                    modifier = Modifier.align(Alignment.Center),
-                    contentDescription = "GetoLoadingWheel",
-                )
+                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
             }
 
             is AppsUiState.Success -> {
@@ -204,9 +201,10 @@ private fun AppItem(
             )
         },
         leadingContent = {
-            ShimmerImage(
+            AsyncImage(
                 modifier = Modifier.size(50.dp),
                 model = launcherAppsActivityInfo.activityIcon,
+                contentDescription = null,
             )
         },
     )

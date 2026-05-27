@@ -17,7 +17,6 @@
  */
 package com.android.geto.feature.appsettings.dialog.shortcut
 
-import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -37,27 +36,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.android.geto.designsystem.component.DialogContainer
-import com.android.geto.designsystem.component.ShimmerImage
 import com.android.geto.feature.appsettings.R
 
 @Composable
 internal fun ShortcutDialog(
     modifier: Modifier = Modifier,
     shortcutDialogState: ShortcutDialogState,
-    scrollState: ScrollState = rememberScrollState(),
-    contentDescription: String,
     onRequestPinShortcut: (ByteArray?, String, String) -> Unit,
 ) {
     DialogContainer(
         modifier = modifier
             .padding(16.dp)
-            .verticalScroll(scrollState)
-            .semantics { this.contentDescription = contentDescription },
+            .verticalScroll(rememberScrollState()),
         onDismissRequest = { shortcutDialogState.updateShowDialog(false) },
     ) {
         Column(
@@ -104,9 +98,10 @@ private fun ShortcutDialogApplicationIcon(
 ) {
     Spacer(modifier = Modifier.height(10.dp))
 
-    ShimmerImage(
+    AsyncImage(
         modifier = modifier,
         model = icon,
+        contentDescription = null,
     )
 }
 

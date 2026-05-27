@@ -25,6 +25,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -33,11 +34,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.android.geto.designsystem.component.DialogContainer
-import com.android.geto.designsystem.component.GetoLoadingWheel
 import com.android.geto.designsystem.icon.GetoIcons
 import com.android.geto.domain.model.AppSettingTemplate
 import com.android.geto.domain.model.SettingType
@@ -46,15 +44,13 @@ import com.android.geto.feature.appsettings.R
 @Composable
 internal fun TemplateDialog(
     modifier: Modifier = Modifier,
-    contentDescription: String,
     templateDialogUiState: TemplateDialogUiState,
     templateDialogState: TemplateDialogState,
     onAddAppSetting: (Int, Boolean, SettingType, String, String, String, String) -> Unit,
 ) {
     DialogContainer(
         modifier = modifier
-            .padding(16.dp)
-            .semantics { this.contentDescription = contentDescription },
+            .padding(16.dp),
         onDismissRequest = {
             templateDialogState.updateShowDialog(false)
         },
@@ -66,9 +62,7 @@ internal fun TemplateDialog(
 
             when (templateDialogUiState) {
                 TemplateDialogUiState.Loading -> {
-                    LoadingState(
-                        modifier = modifier.align(Alignment.CenterHorizontally),
-                    )
+                    CircularProgressIndicator()
                 }
 
                 is TemplateDialogUiState.Success -> {
@@ -112,14 +106,6 @@ private fun TemplateDialogContent(
             )
         }
     }
-}
-
-@Composable
-private fun LoadingState(modifier: Modifier = Modifier) {
-    GetoLoadingWheel(
-        modifier = modifier,
-        contentDescription = "GetoLoadingWheel",
-    )
 }
 
 @Composable

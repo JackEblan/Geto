@@ -29,6 +29,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
@@ -45,7 +46,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.android.geto.designsystem.component.GetoLoadingWheel
 import com.android.geto.designsystem.theme.supportsDynamicTheming
 import com.android.geto.domain.model.Theme
 import com.android.geto.feature.settings.dialog.ThemeDialog
@@ -80,9 +80,7 @@ internal fun SettingsScreen(
     ) {
         when (settingsUiState) {
             SettingsUiState.Loading -> {
-                LoadingState(
-                    modifier = Modifier.align(Alignment.Center),
-                )
+                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
             }
 
             is SettingsUiState.Success -> {
@@ -90,19 +88,10 @@ internal fun SettingsScreen(
                     settingsUiState = settingsUiState,
                     onUpdateDynamicTheme = onUpdateDynamicTheme,
                     onUpdateTheme = onUpdateTheme,
-
                 )
             }
         }
     }
-}
-
-@Composable
-private fun LoadingState(modifier: Modifier = Modifier) {
-    GetoLoadingWheel(
-        modifier = modifier,
-        contentDescription = "GetoLoadingWheel",
-    )
 }
 
 @Composable

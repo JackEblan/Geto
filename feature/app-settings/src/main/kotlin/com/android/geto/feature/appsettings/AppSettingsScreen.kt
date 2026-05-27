@@ -42,6 +42,7 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
@@ -68,7 +69,6 @@ import androidx.core.app.NotificationCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.android.geto.broadcastreceiver.RevertSettingsBroadcastReceiver
-import com.android.geto.designsystem.component.GetoLoadingWheel
 import com.android.geto.designsystem.icon.GetoIcons
 import com.android.geto.domain.model.AddAppSettingResult
 import com.android.geto.domain.model.AddAppSettingResult.FAILED
@@ -271,7 +271,7 @@ internal fun AppSettingsScreen(
         ) {
             when (appSettingsUiState) {
                 AppSettingsUiState.Loading -> {
-                    LoadingState(modifier = Modifier.align(Alignment.Center))
+                    CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
                 }
 
                 is AppSettingsUiState.Success -> {
@@ -544,7 +544,6 @@ private fun AppSettingsDialogs(
     if (appSettingDialogState.showDialog) {
         AppSettingDialog(
             appSettingDialogState = appSettingDialogState,
-            contentDescription = "Add App Settings Dialog",
             onAddAppSetting = onAddAppSetting,
         )
     }
@@ -552,7 +551,6 @@ private fun AppSettingsDialogs(
     if (shortcutDialogState.showDialog) {
         ShortcutDialog(
             shortcutDialogState = shortcutDialogState,
-            contentDescription = "Add Shortcut Dialog",
             onRequestPinShortcut = onRequestPinShortcut,
         )
     }
@@ -561,7 +559,6 @@ private fun AppSettingsDialogs(
         TemplateDialog(
             templateDialogUiState = templateDialogUiState,
             templateDialogState = templateDialogState,
-            contentDescription = "Template Dialog",
             onAddAppSetting = onAddAppSetting,
         )
     }
@@ -695,14 +692,6 @@ private fun EmptyState(
 
         Text(text = subtitle, style = MaterialTheme.typography.bodyLarge)
     }
-}
-
-@Composable
-private fun LoadingState(modifier: Modifier = Modifier) {
-    GetoLoadingWheel(
-        modifier = modifier,
-        contentDescription = "GetoLoadingWheel",
-    )
 }
 
 @Composable

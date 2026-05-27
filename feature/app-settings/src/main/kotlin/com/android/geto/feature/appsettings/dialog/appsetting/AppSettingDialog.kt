@@ -17,7 +17,6 @@
  */
 package com.android.geto.feature.appsettings.dialog.appsetting
 
-import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -57,8 +56,6 @@ import com.android.geto.feature.appsettings.R
 internal fun AppSettingDialog(
     modifier: Modifier = Modifier,
     appSettingDialogState: AppSettingDialogState,
-    scrollState: ScrollState = rememberScrollState(),
-    contentDescription: String,
     onAddAppSetting: (
         id: Int,
         enabled: Boolean,
@@ -72,8 +69,7 @@ internal fun AppSettingDialog(
     DialogContainer(
         modifier = modifier
             .padding(16.dp)
-            .verticalScroll(scrollState)
-            .semantics { this.contentDescription = contentDescription },
+            .verticalScroll(rememberScrollState()),
         onDismissRequest = { appSettingDialogState.updateShowDialog(false) },
     ) {
         Column(
