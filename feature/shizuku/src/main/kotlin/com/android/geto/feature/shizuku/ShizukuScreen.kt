@@ -17,8 +17,7 @@
  */
 package com.android.geto.feature.shizuku
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.consumeWindowInsets
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -35,6 +34,7 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -206,14 +206,16 @@ internal fun ShizukuScreen(
             SnackbarHost(hostState = snackbarHostState)
         },
     ) { innerPadding ->
-        Box(
+        Column(
             modifier = modifier
-                .padding(innerPadding)
                 .fillMaxSize()
-                .consumeWindowInsets(innerPadding),
+                .padding(innerPadding),
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
+            Text(text = "Click to activate Shizuku")
+
             AnimatedWavyCircle(
-                modifier = modifier.fillMaxSize(),
+                modifier = modifier.weight(1f),
                 active = shizukuStatus == ShizukuStatus.CanWriteSecureSettings,
                 onClick = onCheckPermission,
             )
