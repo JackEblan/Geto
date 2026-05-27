@@ -117,7 +117,6 @@ internal fun AppSettingsRoute(
     viewModel: AppSettingsViewModel = hiltViewModel(),
     appSettingsRouteData: AppSettingsRouteData,
     onNavigationIconClick: () -> Unit,
-    onShizuku: () -> Unit,
 ) {
     val appSettingsUiState by viewModel.appSettingsUiState.collectAsStateWithLifecycle()
 
@@ -163,7 +162,6 @@ internal fun AppSettingsRoute(
         onResetRevertAppSettingsResult = viewModel::resetRevertAppSettingsResult,
         onResetAddAppSettingResult = viewModel::resetAddAppSettingResult,
         onNavigationIconClick = onNavigationIconClick,
-        onShizuku = onShizuku,
     )
 }
 
@@ -205,7 +203,6 @@ internal fun AppSettingsScreen(
     onResetRevertAppSettingsResult: () -> Unit,
     onResetAddAppSettingResult: () -> Unit,
     onNavigationIconClick: () -> Unit,
-    onShizuku: () -> Unit,
 ) {
     val appSettingDialogState = rememberAppSettingDialogState()
 
@@ -224,7 +221,6 @@ internal fun AppSettingsScreen(
         appSettingsResult = appSettingsResult,
         revertAppSettingsResult = revertAppSettingsResult,
         requestPinShortcutResult = requestPinShortcutResult,
-        onShizuku = onShizuku,
         onResetApplyAppSettingsResult = onResetApplyAppSettingsResult,
         onResetRevertAppSettingsResult = onResetRevertAppSettingsResult,
         onResetRequestPinShortcutResult = onResetRequestPinShortcutResult,
@@ -310,7 +306,6 @@ private fun AppSettingsLaunchedEffects(
     appSettingsResult: AppSettingsResult?,
     revertAppSettingsResult: AppSettingsResult?,
     requestPinShortcutResult: RequestPinShortcutResult?,
-    onShizuku: () -> Unit,
     onResetApplyAppSettingsResult: () -> Unit,
     onResetRevertAppSettingsResult: () -> Unit,
     onResetRequestPinShortcutResult: () -> Unit,
@@ -354,6 +349,8 @@ private fun AppSettingsLaunchedEffects(
 
     val appSettingAddFailed = stringResource(R.string.app_setting_already_exists)
 
+    val noPermission = stringResource(R.string.no_permission)
+
     LaunchedEffect(key1 = appSettingsResult) {
         when (appSettingsResult) {
             DisabledAppSettings -> {
@@ -369,7 +366,7 @@ private fun AppSettingsLaunchedEffects(
             }
 
             NoPermission -> {
-                onShizuku()
+                snackbarHostState.showSnackbar(message = noPermission)
             }
 
             Success -> {
@@ -416,7 +413,7 @@ private fun AppSettingsLaunchedEffects(
             }
 
             NoPermission -> {
-                onShizuku()
+                snackbarHostState.showSnackbar(message = noPermission)
             }
 
             Success -> {

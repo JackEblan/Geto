@@ -64,7 +64,6 @@ dependencies {
     implementation(projects.feature.appSettings)
     implementation(projects.feature.home)
     implementation(projects.feature.settings)
-    implementation(projects.feature.shizuku)
 
     implementation(projects.framework.assetManager)
     implementation(projects.framework.drawable)
@@ -72,7 +71,6 @@ dependencies {
     implementation(projects.framework.notificationManager)
     implementation(projects.framework.packageManager)
     implementation(projects.framework.secureSettings)
-    implementation(projects.framework.shizuku)
     implementation(projects.framework.shortcutManager)
     implementation(projects.ui)
 
