@@ -41,12 +41,14 @@
       <module name="Geto.feature.securesettingslist" target="17" />
       <module name="Geto.feature.service" target="21" />
       <module name="Geto.feature.settings.test" target="17" />
+      <module name="Geto.feature.shizuku" target="21" />
       <module name="Geto.feature.shortcut" target="17" />
       <module name="Geto.foreground-service" target="21" />
       <module name="Geto.framework.broadcast-receiver" target="21" />
       <module name="Geto.framework.build-version" target="17" />
       <module name="Geto.framework.clipboard-manager" target="21" />
       <module name="Geto.framework.package-manager-test" target="21" />
+      <module name="Geto.framework.shizuku" target="21" />
       <module name="Geto.framework.usage-stats-manager" target="21" />
       <module name="Geto.roborazzi" target="21" />
       <module name="Geto.screenshot-testing" target="21" />

@@ -40,10 +40,7 @@ fun NavController.navigateToAppSettings(
     )
 }
 
-fun NavGraphBuilder.appSettingsScreen(
-    onNavigationIconClick: () -> Unit,
-    onShizuku: () -> Unit,
-) {
+fun NavGraphBuilder.appSettingsScreen(onNavigationIconClick: () -> Unit) {
     composable<AppSettingsRouteData>(
         deepLinks = listOf(
             navDeepLink<AppSettingsRouteData>(basePath = DEEP_LINK_URI),
@@ -54,7 +51,6 @@ fun NavGraphBuilder.appSettingsScreen(
         AppSettingsRoute(
             appSettingsRouteData = appSettingsRouteData,
             onNavigationIconClick = onNavigationIconClick,
-            onShizuku = onShizuku,
         )
     }
 }
