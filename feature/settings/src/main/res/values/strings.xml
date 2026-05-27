@@ -17,8 +17,7 @@
   -->
 <resources>
     <string name="settings">Settings</string>
-    <string name="dynamic_color">Dynamic Color</string>
-    <string name="dark_mode">Dark Mode</string>
+    <string name="dynamic_theme">Dynamic Theme</string>
     <string name="cancel">Cancel</string>
     <string name="change">Change</string>
     <string name="theme">Theme</string>

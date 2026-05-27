@@ -15,10 +15,15 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.domain.model
 
-enum class DarkThemeConfig(val title: String) {
-    FOLLOW_SYSTEM("Follow System"),
-    LIGHT("Light"),
-    DARK("Dark"),
+syntax = "proto3";
+
+option java_package = "com.android.geto.data.datastore.proto";
+option java_multiple_files = true;
+
+enum ThemeProto {
+  THEME_UNSPECIFIED = 0;
+  THEME_FOLLOW_SYSTEM = 1;
+  THEME_LIGHT = 2;
+  THEME_DARK = 3;
 }

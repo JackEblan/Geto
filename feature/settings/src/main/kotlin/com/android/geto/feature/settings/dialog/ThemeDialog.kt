@@ -15,7 +15,7 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.feature.settings.dialog.theme
+package com.android.geto.feature.settings.dialog
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -35,12 +35,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.android.geto.designsystem.component.DialogContainer
-import com.android.geto.domain.model.ThemeBrand
+import com.android.geto.domain.model.Theme
 import com.android.geto.feature.settings.R
+import com.android.geto.feature.settings.getTitle
 
 @Composable
 internal fun ThemeDialog(
@@ -48,28 +47,25 @@ internal fun ThemeDialog(
     onDismissRequest: () -> Unit,
     selected: Int,
     onSelect: (Int) -> Unit,
-    onCancelClick: () -> Unit,
     onChangeClick: () -> Unit,
-    contentDescription: String,
 ) {
     DialogContainer(
         modifier = modifier
-            .padding(16.dp)
-            .semantics { this.contentDescription = contentDescription },
+            .padding(16.dp),
         onDismissRequest = onDismissRequest,
     ) {
         Column(
             modifier = Modifier.fillMaxWidth(),
         ) {
-            ThemeDialogTitle()
+            DarkDialogTitle()
 
-            ThemeDialogRadioButtonGroup(
+            DarkDialogRadioButtonGroup(
                 selected = selected,
                 onSelect = onSelect,
             )
 
-            ThemeDialogButtons(
-                onCancelClick = onCancelClick,
+            DarkDialogButtons(
+                onCancelClick = onDismissRequest,
                 onChangeClick = onChangeClick,
             )
         }
@@ -77,7 +73,7 @@ internal fun ThemeDialog(
 }
 
 @Composable
-private fun ThemeDialogTitle(modifier: Modifier = Modifier) {
+private fun DarkDialogTitle(modifier: Modifier = Modifier) {
     Spacer(modifier = Modifier.height(10.dp))
 
     Text(
@@ -88,7 +84,7 @@ private fun ThemeDialogTitle(modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun ThemeDialogRadioButtonGroup(
+private fun DarkDialogRadioButtonGroup(
     modifier: Modifier = Modifier,
     selected: Int,
     onSelect: (Int) -> Unit,
@@ -98,7 +94,7 @@ private fun ThemeDialogRadioButtonGroup(
             .fillMaxWidth()
             .selectableGroup(),
     ) {
-        ThemeBrand.entries.map { it.title }.forEachIndexed { index, text ->
+        Theme.entries.forEachIndexed { index, theme ->
             Row(
                 Modifier
                     .fillMaxWidth()
@@ -111,16 +107,16 @@ private fun ThemeDialogRadioButtonGroup(
                             onSelect(index)
                         },
                     )
-                    .padding(horizontal = 16.dp)
-                    .semantics { contentDescription = text },
+                    .padding(horizontal = 16.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 RadioButton(
                     selected = index == selected,
                     onClick = null,
                 )
+
                 Text(
-                    text = text,
+                    text = theme.getTitle(),
                     style = MaterialTheme.typography.bodyLarge,
                     modifier = Modifier.padding(start = 10.dp),
                 )
@@ -130,7 +126,7 @@ private fun ThemeDialogRadioButtonGroup(
 }
 
 @Composable
-private fun ThemeDialogButtons(
+private fun DarkDialogButtons(
     modifier: Modifier = Modifier,
     onCancelClick: () -> Unit,
     onChangeClick: () -> Unit,

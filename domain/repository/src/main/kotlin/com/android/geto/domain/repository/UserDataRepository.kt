@@ -17,8 +17,7 @@
  */
 package com.android.geto.domain.repository
 
-import com.android.geto.domain.model.DarkThemeConfig
-import com.android.geto.domain.model.ThemeBrand
+import com.android.geto.domain.model.Theme
 import com.android.geto.domain.model.UserData
 import kotlinx.coroutines.flow.Flow
 
@@ -26,9 +25,7 @@ interface UserDataRepository {
 
     val userData: Flow<UserData>
 
-    suspend fun setThemeBrand(themeBrand: ThemeBrand)
+    suspend fun updateTheme(theme: Theme)
 
-    suspend fun setDarkThemeConfig(darkThemeConfig: DarkThemeConfig)
-
-    suspend fun setDynamicColor(useDynamicColor: Boolean)
+    suspend fun updateDynamicTheme(dynamicTheme: Boolean)
 }

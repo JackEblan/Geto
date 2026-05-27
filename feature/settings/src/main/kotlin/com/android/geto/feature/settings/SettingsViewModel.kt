@@ -19,8 +19,7 @@ package com.android.geto.feature.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.android.geto.domain.model.DarkThemeConfig
-import com.android.geto.domain.model.ThemeBrand
+import com.android.geto.domain.model.Theme
 import com.android.geto.domain.repository.UserDataRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
@@ -39,21 +38,15 @@ class SettingsViewModel @Inject constructor(
         initialValue = SettingsUiState.Loading,
     )
 
-    fun updateThemeBrand(themeBrand: ThemeBrand) {
+    fun updateTheme(theme: Theme) {
         viewModelScope.launch {
-            userDataRepository.setThemeBrand(themeBrand)
+            userDataRepository.updateTheme(theme = theme)
         }
     }
 
-    fun updateDarkThemeConfig(darkThemeConfig: DarkThemeConfig) {
+    fun updateDynamicTheme(dynamicTheme: Boolean) {
         viewModelScope.launch {
-            userDataRepository.setDarkThemeConfig(darkThemeConfig)
-        }
-    }
-
-    fun updateDynamicColor(useDynamicColor: Boolean) {
-        viewModelScope.launch {
-            userDataRepository.setDynamicColor(useDynamicColor)
+            userDataRepository.updateDynamicTheme(dynamicTheme = dynamicTheme)
         }
     }
 }

@@ -18,68 +18,44 @@
 package com.android.geto.data.datastore
 
 import androidx.datastore.core.DataStore
-import com.android.geto.data.datastore.proto.DarkThemeConfigProto
-import com.android.geto.data.datastore.proto.ThemeBrandProto
+import com.android.geto.data.datastore.proto.ThemeProto
 import com.android.geto.data.datastore.proto.UserPreferences
 import com.android.geto.data.datastore.proto.copy
-import com.android.geto.domain.model.DarkThemeConfig
-import com.android.geto.domain.model.ThemeBrand
+import com.android.geto.domain.model.Theme
 import com.android.geto.domain.model.UserData
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class UserPreferencesDataSource @Inject constructor(
-    private val userPreferences: DataStore<UserPreferences>,
-) {
+class UserPreferencesDataSource @Inject constructor(private val userPreferences: DataStore<UserPreferences>) {
     val userData = userPreferences.data.map {
         UserData(
-            themeBrand = when (it.themeBrand) {
+            theme = when (it.theme) {
                 null,
-                ThemeBrandProto.THEME_BRAND_UNSPECIFIED,
-                ThemeBrandProto.UNRECOGNIZED,
-                ThemeBrandProto.THEME_BRAND_GREEN,
-                -> ThemeBrand.GREEN
+                ThemeProto.THEME_UNSPECIFIED,
+                ThemeProto.UNRECOGNIZED,
+                ThemeProto.THEME_FOLLOW_SYSTEM,
+                -> Theme.FOLLOW_SYSTEM
 
-                ThemeBrandProto.THEME_BRAND_PURPLE -> ThemeBrand.PURPLE
+                ThemeProto.THEME_LIGHT -> Theme.LIGHT
+                ThemeProto.THEME_DARK -> Theme.DARK
             },
-            darkThemeConfig = when (it.darkThemeConfig) {
-                null,
-                DarkThemeConfigProto.DARK_THEME_CONFIG_UNSPECIFIED,
-                DarkThemeConfigProto.UNRECOGNIZED,
-                DarkThemeConfigProto.DARK_THEME_CONFIG_FOLLOW_SYSTEM,
-                -> DarkThemeConfig.FOLLOW_SYSTEM
-
-                DarkThemeConfigProto.DARK_THEME_CONFIG_LIGHT -> DarkThemeConfig.LIGHT
-                DarkThemeConfigProto.DARK_THEME_CONFIG_DARK -> DarkThemeConfig.DARK
-            },
-            useDynamicColor = it.useDynamicColor,
+            dynamicTheme = it.dynamicTheme,
         )
     }
 
-    suspend fun setThemeBrand(themeBrand: ThemeBrand) {
+    suspend fun updateDynamicColor(dynamicTheme: Boolean) {
         userPreferences.updateData {
-            it.copy {
-                this.themeBrand = when (themeBrand) {
-                    ThemeBrand.GREEN -> ThemeBrandProto.THEME_BRAND_GREEN
-                    ThemeBrand.PURPLE -> ThemeBrandProto.THEME_BRAND_PURPLE
-                }
-            }
+            it.copy { this.dynamicTheme = dynamicTheme }
         }
     }
 
-    suspend fun setDynamicColor(useDynamicColor: Boolean) {
-        userPreferences.updateData {
-            it.copy { this.useDynamicColor = useDynamicColor }
-        }
-    }
-
-    suspend fun setDarkThemeConfig(darkThemeConfig: DarkThemeConfig) {
+    suspend fun updateTheme(theme: Theme) {
         userPreferences.updateData {
             it.copy {
-                this.darkThemeConfig = when (darkThemeConfig) {
-                    DarkThemeConfig.FOLLOW_SYSTEM -> DarkThemeConfigProto.DARK_THEME_CONFIG_FOLLOW_SYSTEM
-                    DarkThemeConfig.LIGHT -> DarkThemeConfigProto.DARK_THEME_CONFIG_LIGHT
-                    DarkThemeConfig.DARK -> DarkThemeConfigProto.DARK_THEME_CONFIG_DARK
+                this.theme = when (theme) {
+                    Theme.FOLLOW_SYSTEM -> ThemeProto.THEME_FOLLOW_SYSTEM
+                    Theme.LIGHT -> ThemeProto.THEME_LIGHT
+                    Theme.DARK -> ThemeProto.THEME_DARK
                 }
             }
         }

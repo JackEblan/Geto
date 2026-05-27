@@ -18,7 +18,6 @@
 package com.android.geto.feature.settings
 
 import androidx.annotation.VisibleForTesting
-import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -48,10 +47,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.android.geto.designsystem.component.GetoLoadingWheel
 import com.android.geto.designsystem.theme.supportsDynamicTheming
-import com.android.geto.domain.model.DarkThemeConfig
-import com.android.geto.domain.model.ThemeBrand
-import com.android.geto.feature.settings.dialog.dark.DarkDialog
-import com.android.geto.feature.settings.dialog.theme.ThemeDialog
+import com.android.geto.domain.model.Theme
+import com.android.geto.feature.settings.dialog.ThemeDialog
 
 @Composable
 internal fun SettingsRoute(
@@ -63,9 +60,8 @@ internal fun SettingsRoute(
     SettingsScreen(
         modifier = modifier,
         settingsUiState = settingsUiState,
-        onUpdateThemeBrand = viewModel::updateThemeBrand,
-        onUpdateDarkThemeConfig = viewModel::updateDarkThemeConfig,
-        onUpdateDynamicColor = viewModel::updateDynamicColor,
+        onUpdateTheme = viewModel::updateTheme,
+        onUpdateDynamicTheme = viewModel::updateDynamicTheme,
     )
 }
 
@@ -74,20 +70,13 @@ internal fun SettingsRoute(
 internal fun SettingsScreen(
     modifier: Modifier = Modifier,
     settingsUiState: SettingsUiState,
-    scrollState: ScrollState = rememberScrollState(),
-    supportDynamicColor: Boolean = supportsDynamicTheming(),
-    onUpdateThemeBrand: (ThemeBrand) -> Unit,
-    onUpdateDarkThemeConfig: (DarkThemeConfig) -> Unit,
-    onUpdateDynamicColor: (Boolean) -> Unit,
+    onUpdateTheme: (Theme) -> Unit,
+    onUpdateDynamicTheme: (Boolean) -> Unit,
 ) {
-    var showThemeDialog by rememberSaveable { mutableStateOf(false) }
-
-    var showDarkDialog by rememberSaveable { mutableStateOf(false) }
-
     Box(
         modifier = modifier
             .fillMaxSize()
-            .verticalScroll(scrollState),
+            .verticalScroll(rememberScrollState()),
     ) {
         when (settingsUiState) {
             SettingsUiState.Loading -> {
@@ -97,84 +86,14 @@ internal fun SettingsScreen(
             }
 
             is SettingsUiState.Success -> {
-                SettingsScreenDialogs(
-                    settingsUiState = settingsUiState,
-                    showThemeDialog = showThemeDialog,
-                    showDarkDialog = showDarkDialog,
-                    onUpdateThemeBrand = onUpdateThemeBrand,
-                    onUpdateDarkThemeConfig = onUpdateDarkThemeConfig,
-                    onThemeDialogDismissRequest = {
-                        showThemeDialog = false
-                    },
-                    onDarkDialogDismissRequest = {
-                        showDarkDialog = false
-                    },
-                )
-
                 SuccessState(
                     settingsUiState = settingsUiState,
-                    supportDynamicColor = supportDynamicColor,
-                    onShowThemeDialog = { showThemeDialog = true },
-                    onShowDarkDialog = { showDarkDialog = true },
-                    onChangeDynamicColorPreference = onUpdateDynamicColor,
+                    onUpdateDynamicTheme = onUpdateDynamicTheme,
+                    onUpdateTheme = onUpdateTheme,
+
                 )
             }
         }
-    }
-}
-
-@Composable
-private fun SettingsScreenDialogs(
-    settingsUiState: SettingsUiState.Success,
-    showThemeDialog: Boolean,
-    showDarkDialog: Boolean,
-    onUpdateThemeBrand: (ThemeBrand) -> Unit,
-    onUpdateDarkThemeConfig: (DarkThemeConfig) -> Unit,
-    onThemeDialogDismissRequest: () -> Unit,
-    onDarkDialogDismissRequest: () -> Unit,
-) {
-    var themeDialogSelected by remember {
-        mutableIntStateOf(
-            ThemeBrand.entries.indexOf(
-                settingsUiState.userData.themeBrand,
-            ),
-        )
-    }
-
-    var darkDialogSelected by remember {
-        mutableIntStateOf(
-            DarkThemeConfig.entries.indexOf(
-                settingsUiState.userData.darkThemeConfig,
-            ),
-        )
-    }
-
-    if (showThemeDialog) {
-        ThemeDialog(
-            onDismissRequest = onThemeDialogDismissRequest,
-            selected = themeDialogSelected,
-            onSelect = { themeDialogSelected = it },
-            onCancelClick = onThemeDialogDismissRequest,
-            onChangeClick = {
-                onUpdateThemeBrand(ThemeBrand.entries[themeDialogSelected])
-                onThemeDialogDismissRequest()
-            },
-            contentDescription = "Theme Dialog",
-        )
-    }
-
-    if (showDarkDialog) {
-        DarkDialog(
-            onDismissRequest = onDarkDialogDismissRequest,
-            selected = darkDialogSelected,
-            onSelect = { darkDialogSelected = it },
-            onCancelClick = onDarkDialogDismissRequest,
-            onChangeClick = {
-                onUpdateDarkThemeConfig(DarkThemeConfig.entries[darkDialogSelected])
-                onDarkDialogDismissRequest()
-            },
-            contentDescription = "Dark Dialog",
-        )
     }
 }
 
@@ -190,61 +109,52 @@ private fun LoadingState(modifier: Modifier = Modifier) {
 private fun SuccessState(
     modifier: Modifier = Modifier,
     settingsUiState: SettingsUiState.Success,
-    supportDynamicColor: Boolean = supportsDynamicTheming(),
-    onShowThemeDialog: () -> Unit,
-    onShowDarkDialog: () -> Unit,
-    onChangeDynamicColorPreference: (useDynamicColor: Boolean) -> Unit,
+    onUpdateDynamicTheme: (Boolean) -> Unit,
+    onUpdateTheme: (Theme) -> Unit,
 ) {
+    var showThemeDialog by rememberSaveable { mutableStateOf(false) }
+
+    var selectedTheme by remember {
+        mutableIntStateOf(
+            Theme.entries.indexOf(
+                settingsUiState.userData.theme,
+            ),
+        )
+    }
+
     Column(modifier = modifier.fillMaxSize()) {
+        DynamicThemeSetting(onUpdateDynamicTheme = onUpdateDynamicTheme)
+
         ThemeSetting(
-            title = settingsUiState.userData.themeBrand.title,
-            onThemeDialog = onShowThemeDialog,
+            title = settingsUiState.userData.theme.getTitle(),
+            onShowThemeDialog = {
+                showThemeDialog = true
+            },
         )
+    }
 
-        DynamicSetting(
-            useDynamicColor = settingsUiState.userData.useDynamicColor,
-            supportDynamicColor = supportDynamicColor,
-            onChangeDynamicColorPreference = onChangeDynamicColorPreference,
-        )
+    if (showThemeDialog) {
+        ThemeDialog(
+            onDismissRequest = {
+                showThemeDialog = false
+            },
+            selected = selectedTheme,
+            onSelect = { selectedTheme = it },
+            onChangeClick = {
+                onUpdateTheme(Theme.entries[selectedTheme])
 
-        DarkSetting(
-            title = settingsUiState.userData.darkThemeConfig.title,
-            onDarkDialog = onShowDarkDialog,
+                showThemeDialog = false
+            },
         )
     }
 }
 
 @Composable
-private fun ThemeSetting(
+private fun DynamicThemeSetting(
     modifier: Modifier = Modifier,
-    title: String,
-    onThemeDialog: () -> Unit,
+    onUpdateDynamicTheme: (Boolean) -> Unit,
 ) {
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .clickable { onThemeDialog() }
-            .padding(10.dp),
-    ) {
-        Text(text = stringResource(R.string.theme), style = MaterialTheme.typography.bodyLarge)
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        Text(
-            text = title,
-            style = MaterialTheme.typography.bodySmall,
-        )
-    }
-}
-
-@Composable
-private fun DynamicSetting(
-    modifier: Modifier = Modifier,
-    useDynamicColor: Boolean,
-    supportDynamicColor: Boolean = supportsDynamicTheming(),
-    onChangeDynamicColorPreference: (Boolean) -> Unit,
-) {
-    if (supportDynamicColor) {
+    if (supportsDynamicTheming()) {
         Spacer(modifier = Modifier.height(8.dp))
 
         Row(
@@ -255,7 +165,7 @@ private fun DynamicSetting(
         ) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = stringResource(R.string.dynamic_color),
+                    text = stringResource(R.string.dynamic_theme),
                     style = MaterialTheme.typography.bodyLarge,
                 )
 
@@ -268,29 +178,29 @@ private fun DynamicSetting(
             }
 
             Switch(
-                checked = useDynamicColor,
-                onCheckedChange = onChangeDynamicColorPreference,
+                checked = supportsDynamicTheming(),
+                onCheckedChange = onUpdateDynamicTheme,
             )
         }
     }
 }
 
 @Composable
-private fun DarkSetting(
+private fun ThemeSetting(
     modifier: Modifier = Modifier,
     title: String,
-    onDarkDialog: () -> Unit,
+    onShowThemeDialog: () -> Unit,
 ) {
     Spacer(modifier = Modifier.height(8.dp))
 
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .clickable { onDarkDialog() }
+            .clickable { onShowThemeDialog() }
             .padding(10.dp),
     ) {
         Text(
-            text = stringResource(R.string.dark_mode),
+            text = stringResource(R.string.theme),
             style = MaterialTheme.typography.bodyLarge,
         )
 

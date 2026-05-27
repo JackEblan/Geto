@@ -15,14 +15,12 @@
  *   limitations under the License.
  *
  */
+package com.android.geto.feature.settings
 
-syntax = "proto3";
+import com.android.geto.domain.model.Theme
 
-option java_package = "com.android.geto.data.datastore.proto";
-option java_multiple_files = true;
-
-enum ThemeBrandProto {
-  THEME_BRAND_UNSPECIFIED = 0;
-  THEME_BRAND_GREEN = 1;
-  THEME_BRAND_PURPLE = 2;
+internal fun Theme.getTitle() = when (this) {
+    Theme.FOLLOW_SYSTEM -> "Follow System"
+    Theme.LIGHT -> "Light"
+    Theme.DARK -> "Dark"
 }

@@ -29,180 +29,99 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import com.android.geto.domain.model.DarkThemeConfig
-import com.android.geto.domain.model.ThemeBrand
+import com.android.geto.domain.model.Theme
 
-val LightGreenColorScheme = lightColorScheme(
-    primary = Green.primaryLight,
-    onPrimary = Green.onPrimaryLight,
-    primaryContainer = Green.primaryContainerLight,
-    onPrimaryContainer = Green.onPrimaryContainerLight,
-    secondary = Green.secondaryLight,
-    onSecondary = Green.onSecondaryLight,
-    secondaryContainer = Green.secondaryContainerLight,
-    onSecondaryContainer = Green.onSecondaryContainerLight,
-    tertiary = Green.tertiaryLight,
-    onTertiary = Green.onTertiaryLight,
-    tertiaryContainer = Green.tertiaryContainerLight,
-    onTertiaryContainer = Green.onTertiaryContainerLight,
-    error = Green.errorLight,
-    onError = Green.onErrorLight,
-    errorContainer = Green.errorContainerLight,
-    onErrorContainer = Green.onErrorContainerLight,
-    background = Green.backgroundLight,
-    onBackground = Green.onBackgroundLight,
-    surface = Green.surfaceLight,
-    onSurface = Green.onSurfaceLight,
-    surfaceVariant = Green.surfaceVariantLight,
-    onSurfaceVariant = Green.onSurfaceVariantLight,
-    outline = Green.outlineLight,
-    outlineVariant = Green.outlineVariantLight,
-    scrim = Green.scrimLight,
-    inverseSurface = Green.inverseSurfaceLight,
-    inverseOnSurface = Green.inverseOnSurfaceLight,
-    inversePrimary = Green.inversePrimaryLight,
-    surfaceDim = Green.surfaceDimLight,
-    surfaceBright = Green.surfaceBrightLight,
-    surfaceContainerLowest = Green.surfaceContainerLowestLight,
-    surfaceContainerLow = Green.surfaceContainerLowLight,
-    surfaceContainer = Green.surfaceContainerLight,
-    surfaceContainerHigh = Green.surfaceContainerHighLight,
-    surfaceContainerHighest = Green.surfaceContainerHighestLight,
+private val LightGreenColorScheme = lightColorScheme(
+    primary = Color(0xFF4C662B),
+    onPrimary = Color(0xFFFFFFFF),
+    primaryContainer = Color(0xFFCDEDA3),
+    onPrimaryContainer = Color(0xFF102000),
+    secondary = Color(0xFF586249),
+    onSecondary = Color(0xFFFFFFFF),
+    secondaryContainer = Color(0xFFDCE7C8),
+    onSecondaryContainer = Color(0xFF151E0B),
+    tertiary = Color(0xFF386663),
+    onTertiary = Color(0xFFFFFFFF),
+    tertiaryContainer = Color(0xFFBCECE7),
+    onTertiaryContainer = Color(0xFF00201E),
+    error = Color(0xFFBA1A1A),
+    onError = Color(0xFFFFFFFF),
+    errorContainer = Color(0xFFFFDAD6),
+    onErrorContainer = Color(0xFF410002),
+    background = Color(0xFFF9FAEF),
+    onBackground = Color(0xFF1A1C16),
+    surface = Color(0xFFF9FAEF),
+    onSurface = Color(0xFF1A1C16),
+    surfaceVariant = Color(0xFFE1E4D5),
+    onSurfaceVariant = Color(0xFF44483D),
+    outline = Color(0xFF75796C),
+    outlineVariant = Color(0xFFC5C8BA),
+    scrim = Color(0xFF000000),
+    inverseSurface = Color(0xFF2F312A),
+    inverseOnSurface = Color(0xFFF1F2E6),
+    inversePrimary = Color(0xFFB1D18A),
+    surfaceDim = Color(0xFFDADBD0),
+    surfaceBright = Color(0xFFF9FAEF),
+    surfaceContainerLowest = Color(0xFFFFFFFF),
+    surfaceContainerLow = Color(0xFFF3F4E9),
+    surfaceContainer = Color(0xFFEEEFE3),
+    surfaceContainerHigh = Color(0xFFE8E9DE),
+    surfaceContainerHighest = Color(0xFFE2E3D8),
 )
 
-val DarkGreenColorScheme = darkColorScheme(
-    primary = Green.primaryDark,
-    onPrimary = Green.onPrimaryDark,
-    primaryContainer = Green.primaryContainerDark,
-    onPrimaryContainer = Green.onPrimaryContainerDark,
-    secondary = Green.secondaryDark,
-    onSecondary = Green.onSecondaryDark,
-    secondaryContainer = Green.secondaryContainerDark,
-    onSecondaryContainer = Green.onSecondaryContainerDark,
-    tertiary = Green.tertiaryDark,
-    onTertiary = Green.onTertiaryDark,
-    tertiaryContainer = Green.tertiaryContainerDark,
-    onTertiaryContainer = Green.onTertiaryContainerDark,
-    error = Green.errorDark,
-    onError = Green.onErrorDark,
-    errorContainer = Green.errorContainerDark,
-    onErrorContainer = Green.onErrorContainerDark,
-    background = Green.backgroundDark,
-    onBackground = Green.onBackgroundDark,
-    surface = Green.surfaceDark,
-    onSurface = Green.onSurfaceDark,
-    surfaceVariant = Green.surfaceVariantDark,
-    onSurfaceVariant = Green.onSurfaceVariantDark,
-    outline = Green.outlineDark,
-    outlineVariant = Green.outlineVariantDark,
-    scrim = Green.scrimDark,
-    inverseSurface = Green.inverseSurfaceDark,
-    inverseOnSurface = Green.inverseOnSurfaceDark,
-    inversePrimary = Green.inversePrimaryDark,
-    surfaceDim = Green.surfaceDimDark,
-    surfaceBright = Green.surfaceBrightDark,
-    surfaceContainerLowest = Green.surfaceContainerLowestDark,
-    surfaceContainerLow = Green.surfaceContainerLowDark,
-    surfaceContainer = Green.surfaceContainerDark,
-    surfaceContainerHigh = Green.surfaceContainerHighDark,
-    surfaceContainerHighest = Green.surfaceContainerHighestDark,
-)
-
-val LightPurpleColorScheme = lightColorScheme(
-    primary = Purple.primaryLight,
-    onPrimary = Purple.onPrimaryLight,
-    primaryContainer = Purple.primaryContainerLight,
-    onPrimaryContainer = Purple.onPrimaryContainerLight,
-    secondary = Purple.secondaryLight,
-    onSecondary = Purple.onSecondaryLight,
-    secondaryContainer = Purple.secondaryContainerLight,
-    onSecondaryContainer = Purple.onSecondaryContainerLight,
-    tertiary = Purple.tertiaryLight,
-    onTertiary = Purple.onTertiaryLight,
-    tertiaryContainer = Purple.tertiaryContainerLight,
-    onTertiaryContainer = Purple.onTertiaryContainerLight,
-    error = Purple.errorLight,
-    onError = Purple.onErrorLight,
-    errorContainer = Purple.errorContainerLight,
-    onErrorContainer = Purple.onErrorContainerLight,
-    background = Purple.backgroundLight,
-    onBackground = Purple.onBackgroundLight,
-    surface = Purple.surfaceLight,
-    onSurface = Purple.onSurfaceLight,
-    surfaceVariant = Purple.surfaceVariantLight,
-    onSurfaceVariant = Purple.onSurfaceVariantLight,
-    outline = Purple.outlineLight,
-    outlineVariant = Purple.outlineVariantLight,
-    scrim = Purple.scrimLight,
-    inverseSurface = Purple.inverseSurfaceLight,
-    inverseOnSurface = Purple.inverseOnSurfaceLight,
-    inversePrimary = Purple.inversePrimaryLight,
-    surfaceDim = Purple.surfaceDimLight,
-    surfaceBright = Purple.surfaceBrightLight,
-    surfaceContainerLowest = Purple.surfaceContainerLowestLight,
-    surfaceContainerLow = Purple.surfaceContainerLowLight,
-    surfaceContainer = Purple.surfaceContainerLight,
-    surfaceContainerHigh = Purple.surfaceContainerHighLight,
-    surfaceContainerHighest = Purple.surfaceContainerHighestLight,
-)
-
-val DarkPurpleColorScheme = darkColorScheme(
-    primary = Purple.primaryDark,
-    onPrimary = Purple.onPrimaryDark,
-    primaryContainer = Purple.primaryContainerDark,
-    onPrimaryContainer = Purple.onPrimaryContainerDark,
-    secondary = Purple.secondaryDark,
-    onSecondary = Purple.onSecondaryDark,
-    secondaryContainer = Purple.secondaryContainerDark,
-    onSecondaryContainer = Purple.onSecondaryContainerDark,
-    tertiary = Purple.tertiaryDark,
-    onTertiary = Purple.onTertiaryDark,
-    tertiaryContainer = Purple.tertiaryContainerDark,
-    onTertiaryContainer = Purple.onTertiaryContainerDark,
-    error = Purple.errorDark,
-    onError = Purple.onErrorDark,
-    errorContainer = Purple.errorContainerDark,
-    onErrorContainer = Purple.onErrorContainerDark,
-    background = Purple.backgroundDark,
-    onBackground = Purple.onBackgroundDark,
-    surface = Purple.surfaceDark,
-    onSurface = Purple.onSurfaceDark,
-    surfaceVariant = Purple.surfaceVariantDark,
-    onSurfaceVariant = Purple.onSurfaceVariantDark,
-    outline = Purple.outlineDark,
-    outlineVariant = Purple.outlineVariantDark,
-    scrim = Purple.scrimDark,
-    inverseSurface = Purple.inverseSurfaceDark,
-    inverseOnSurface = Purple.inverseOnSurfaceDark,
-    inversePrimary = Purple.inversePrimaryDark,
-    surfaceDim = Purple.surfaceDimDark,
-    surfaceBright = Purple.surfaceBrightDark,
-    surfaceContainerLowest = Purple.surfaceContainerLowestDark,
-    surfaceContainerLow = Purple.surfaceContainerLowDark,
-    surfaceContainer = Purple.surfaceContainerDark,
-    surfaceContainerHigh = Purple.surfaceContainerHighDark,
-    surfaceContainerHighest = Purple.surfaceContainerHighestDark,
+private val DarkGreenColorScheme = darkColorScheme(
+    primary = Color(0xFFB1D18A),
+    onPrimary = Color(0xFF1F3701),
+    primaryContainer = Color(0xFF354E16),
+    onPrimaryContainer = Color(0xFFCDEDA3),
+    secondary = Color(0xFFBFCBAD),
+    onSecondary = Color(0xFF2A331E),
+    secondaryContainer = Color(0xFF404A33),
+    onSecondaryContainer = Color(0xFFDCE7C8),
+    tertiary = Color(0xFFA0D0CB),
+    onTertiary = Color(0xFF003735),
+    tertiaryContainer = Color(0xFF1F4E4B),
+    onTertiaryContainer = Color(0xFFBCECE7),
+    error = Color(0xFFFFB4AB),
+    onError = Color(0xFF690005),
+    errorContainer = Color(0xFF93000A),
+    onErrorContainer = Color(0xFFFFDAD6),
+    background = Color(0xFF12140E),
+    onBackground = Color(0xFFE2E3D8),
+    surface = Color(0xFF12140E),
+    onSurface = Color(0xFFE2E3D8),
+    surfaceVariant = Color(0xFF44483D),
+    onSurfaceVariant = Color(0xFFC5C8BA),
+    outline = Color(0xFF8F9285),
+    outlineVariant = Color(0xFF44483D),
+    scrim = Color(0xFF000000),
+    inverseSurface = Color(0xFFE2E3D8),
+    inverseOnSurface = Color(0xFF2F312A),
+    inversePrimary = Color(0xFF4C662B),
+    surfaceDim = Color(0xFF12140E),
+    surfaceBright = Color(0xFF383A32),
+    surfaceContainerLowest = Color(0xFF0C0F09),
+    surfaceContainerLow = Color(0xFF1A1C16),
+    surfaceContainer = Color(0xFF1E201A),
+    surfaceContainerHigh = Color(0xFF282B24),
+    surfaceContainerHighest = Color(0xFF33362E),
 )
 
 @Composable
 fun GetoTheme(
-    themeBrand: ThemeBrand,
-    darkThemeConfig: DarkThemeConfig,
+    theme: Theme,
     dynamicTheme: Boolean,
     content: @Composable () -> Unit,
 ) {
-    val colorScheme = when {
-        supportsDynamicTheming() && dynamicTheme -> getDynamicColorScheme(
-            darkThemeConfig = darkThemeConfig,
+    val colorScheme = if (supportsDynamicTheming() && dynamicTheme) {
+        getDynamicColorScheme(
+            theme = theme,
         )
-
-        themeBrand == ThemeBrand.PURPLE -> getPurpleColorScheme(
-            darkThemeConfig = darkThemeConfig,
-        )
-
-        else -> getGreenColorScheme(
-            darkThemeConfig = darkThemeConfig,
+    } else {
+        getGreenColorScheme(
+            theme = theme,
         )
     }
 
@@ -218,46 +137,29 @@ fun GetoTheme(
 fun supportsDynamicTheming() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
 
 @Composable
-private fun getGreenColorScheme(darkThemeConfig: DarkThemeConfig): ColorScheme {
-    return when (darkThemeConfig) {
-        DarkThemeConfig.FOLLOW_SYSTEM -> {
+private fun getGreenColorScheme(theme: Theme): ColorScheme {
+    return when (theme) {
+        Theme.FOLLOW_SYSTEM -> {
             if (isSystemInDarkTheme()) DarkGreenColorScheme else LightGreenColorScheme
         }
 
-        DarkThemeConfig.LIGHT -> {
+        Theme.LIGHT -> {
             LightGreenColorScheme
         }
 
-        DarkThemeConfig.DARK -> {
+        Theme.DARK -> {
             DarkGreenColorScheme
-        }
-    }
-}
-
-@Composable
-private fun getPurpleColorScheme(darkThemeConfig: DarkThemeConfig): ColorScheme {
-    return when (darkThemeConfig) {
-        DarkThemeConfig.FOLLOW_SYSTEM -> {
-            if (isSystemInDarkTheme()) DarkPurpleColorScheme else LightPurpleColorScheme
-        }
-
-        DarkThemeConfig.LIGHT -> {
-            LightPurpleColorScheme
-        }
-
-        DarkThemeConfig.DARK -> {
-            DarkPurpleColorScheme
         }
     }
 }
 
 @RequiresApi(Build.VERSION_CODES.S)
 @Composable
-private fun getDynamicColorScheme(darkThemeConfig: DarkThemeConfig): ColorScheme {
+private fun getDynamicColorScheme(theme: Theme): ColorScheme {
     val context = LocalContext.current
 
-    return when (darkThemeConfig) {
-        DarkThemeConfig.FOLLOW_SYSTEM -> {
+    return when (theme) {
+        Theme.FOLLOW_SYSTEM -> {
             if (isSystemInDarkTheme()) {
                 dynamicDarkColorScheme(context)
             } else {
@@ -267,13 +169,13 @@ private fun getDynamicColorScheme(darkThemeConfig: DarkThemeConfig): ColorScheme
             }
         }
 
-        DarkThemeConfig.LIGHT -> {
+        Theme.LIGHT -> {
             dynamicLightColorScheme(
                 context,
             )
         }
 
-        DarkThemeConfig.DARK -> {
+        Theme.DARK -> {
             dynamicDarkColorScheme(context)
         }
     }

@@ -18,7 +18,6 @@
 package com.android.geto.domain.model
 
 data class UserData(
-    val themeBrand: ThemeBrand,
-    val darkThemeConfig: DarkThemeConfig,
-    val useDynamicColor: Boolean,
+    val theme: Theme,
+    val dynamicTheme: Boolean,
 )

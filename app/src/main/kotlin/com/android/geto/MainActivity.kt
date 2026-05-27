@@ -25,23 +25,16 @@ import androidx.activity.viewModels
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.rememberNavController
 import com.android.geto.designsystem.theme.GetoTheme
-import com.android.geto.domain.model.DarkThemeConfig
-import com.android.geto.domain.model.ThemeBrand
 import com.android.geto.framework.launcherapps.AndroidLauncherAppsWrapper
 import com.android.geto.framework.notificationmanager.AndroidNotificationManagerWrapper
 import com.android.geto.navigation.GetoNavHost
 import com.android.geto.ui.local.LocalLauncherApps
 import com.android.geto.ui.local.LocalNotificationManager
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -54,48 +47,12 @@ class MainActivity : ComponentActivity() {
 
     private val viewModel: MainActivityViewModel by viewModels()
 
-    private data class ThemeSettings(
-        val themeBrand: ThemeBrand,
-        val darkThemeConfig: DarkThemeConfig,
-        val dynamicTheme: Boolean,
-    )
-
     override fun onCreate(savedInstanceState: Bundle?) {
-        val splashScreen = installSplashScreen()
+        installSplashScreen()
 
         enableEdgeToEdge()
 
         super.onCreate(savedInstanceState)
-
-        var themeSettings by mutableStateOf(
-            ThemeSettings(
-                themeBrand = ThemeBrand.GREEN,
-                darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
-                dynamicTheme = false,
-            ),
-        )
-
-        lifecycleScope.launch {
-            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.uiState.collect { uiState ->
-                    when (uiState) {
-                        MainActivityUiState.Loading -> {
-                            splashScreen.setKeepOnScreenCondition { true }
-                        }
-
-                        is MainActivityUiState.Success -> {
-                            splashScreen.setKeepOnScreenCondition { false }
-
-                            themeSettings = ThemeSettings(
-                                themeBrand = uiState.userData.themeBrand,
-                                darkThemeConfig = uiState.userData.darkThemeConfig,
-                                dynamicTheme = uiState.userData.useDynamicColor,
-                            )
-                        }
-                    }
-                }
-            }
-        }
 
         setContent {
             CompositionLocalProvider(
@@ -104,13 +61,19 @@ class MainActivity : ComponentActivity() {
             ) {
                 val navController = rememberNavController()
 
-                GetoTheme(
-                    themeBrand = themeSettings.themeBrand,
-                    darkThemeConfig = themeSettings.darkThemeConfig,
-                    dynamicTheme = themeSettings.dynamicTheme,
-                ) {
-                    Surface {
-                        GetoNavHost(navController = navController)
+                val mainActivityUiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+                when (val uiState = mainActivityUiState) {
+                    MainActivityUiState.Loading -> Unit
+                    is MainActivityUiState.Success -> {
+                        GetoTheme(
+                            theme = uiState.userData.theme,
+                            dynamicTheme = uiState.userData.dynamicTheme,
+                        ) {
+                            Surface {
+                                GetoNavHost(navController = navController)
+                            }
+                        }
                     }
                 }
             }
