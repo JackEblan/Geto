@@ -35,19 +35,23 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.input.pointer.pointerInput
+import com.android.geto.domain.model.ShizukuStatus
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.pow
 import kotlin.math.sin
 
 @Composable
-fun AnimatedWavyCircle(
+fun WavyCircle(
     modifier: Modifier = Modifier,
-    active: Boolean,
-    colors: WavyCircleColors = WavyCircleDefaults.colors(),
+    shizukuStatus: ShizukuStatus?,
     onClick: () -> Unit,
 ) {
-    val infiniteTransition = rememberInfiniteTransition(label = "infiniteTransition")
+    val inversePrimary = MaterialTheme.colorScheme.inversePrimary
+
+    val error = MaterialTheme.colorScheme.error
+
+    val infiniteTransition = rememberInfiniteTransition()
 
     val rotation by infiniteTransition.animateFloat(
         initialValue = 0f,
@@ -59,7 +63,6 @@ fun AnimatedWavyCircle(
             ),
             repeatMode = RepeatMode.Restart,
         ),
-        label = "",
     )
 
     val scale by infiniteTransition.animateFloat(
@@ -69,7 +72,6 @@ fun AnimatedWavyCircle(
             animation = tween(durationMillis = 500, easing = EaseInOut),
             repeatMode = RepeatMode.Reverse,
         ),
-        label = "",
     )
 
     Canvas(
@@ -116,24 +118,24 @@ fun AnimatedWavyCircle(
         ) {
             drawPath(
                 path = path,
-                color = if (active) colors.activeColor else colors.inActiveColor,
+                color = when (shizukuStatus) {
+                    ShizukuStatus.Bound,
+                    ShizukuStatus.Granted,
+                    ShizukuStatus.UpgradeShizuku,
+                    ShizukuStatus.AliveBinder,
+                    -> Color.Yellow
+
+                    ShizukuStatus.CanWriteSecureSettings -> inversePrimary
+                    ShizukuStatus.UnBound,
+                    ShizukuStatus.Denied,
+                    ShizukuStatus.RemoteException,
+                    ShizukuStatus.DeadBinder,
+                    ShizukuStatus.Error,
+                    null,
+                    -> error
+                },
                 style = Fill,
             )
         }
     }
 }
-
-object WavyCircleDefaults {
-    @Composable
-    fun colors(
-        activeColor: Color = MaterialTheme.colorScheme.inversePrimary,
-        inActiveColor: Color = MaterialTheme.colorScheme.error,
-    ): WavyCircleColors {
-        return WavyCircleColors(activeColor = activeColor, inActiveColor = inActiveColor)
-    }
-}
-
-class WavyCircleColors internal constructor(
-    val activeColor: Color,
-    val inActiveColor: Color,
-)

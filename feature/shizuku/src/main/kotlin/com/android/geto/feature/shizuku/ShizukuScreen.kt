@@ -17,7 +17,6 @@
  */
 package com.android.geto.feature.shizuku
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -41,7 +40,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.android.geto.designsystem.component.AnimatedWavyCircle
+import com.android.geto.designsystem.component.WavyCircle
 import com.android.geto.designsystem.icon.GetoIcons
 import com.android.geto.domain.model.ShizukuStatus
 
@@ -211,17 +210,13 @@ internal fun ShizukuScreen(
             SnackbarHost(hostState = snackbarHostState)
         },
     ) { innerPadding ->
-        Box(
+        WavyCircle(
             modifier = modifier
                 .fillMaxSize()
                 .padding(innerPadding),
-        ) {
-            AnimatedWavyCircle(
-                modifier = modifier.matchParentSize(),
-                active = shizukuStatus == ShizukuStatus.CanWriteSecureSettings,
-                onClick = onCheckPermission,
-            )
-        }
+            shizukuStatus = shizukuStatus,
+            onClick = onCheckPermission,
+        )
     }
 }
 
