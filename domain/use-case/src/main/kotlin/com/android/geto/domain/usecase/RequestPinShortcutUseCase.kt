@@ -35,6 +35,7 @@ class RequestPinShortcutUseCase @Inject constructor(
     private val shortcutManagerCompatWrapper: ShortcutManagerCompatWrapper,
 ) {
     suspend operator fun invoke(
+        packageName: String,
         componentName: String,
         icon: ByteArray?,
         id: String,
@@ -50,6 +51,7 @@ class RequestPinShortcutUseCase @Inject constructor(
 
             if (pinnedShortcut != null) {
                 updateShortcuts(
+                    packageName = packageName,
                     componentName = componentName,
                     icon = icon,
                     id = id,
@@ -58,6 +60,7 @@ class RequestPinShortcutUseCase @Inject constructor(
                 )
             } else {
                 requestPinShortcut(
+                    packageName = packageName,
                     componentName = componentName,
                     icon = icon,
                     id = id,
@@ -69,6 +72,7 @@ class RequestPinShortcutUseCase @Inject constructor(
     }
 
     private fun requestPinShortcut(
+        packageName: String,
         componentName: String,
         icon: ByteArray?,
         id: String,
@@ -76,6 +80,7 @@ class RequestPinShortcutUseCase @Inject constructor(
         longLabel: String,
     ): RequestPinShortcutResult {
         return if (shortcutManagerCompatWrapper.requestPinShortcut(
+                packageName = packageName,
                 componentName = componentName,
                 icon = icon,
                 id = id,
@@ -90,6 +95,7 @@ class RequestPinShortcutUseCase @Inject constructor(
     }
 
     private fun updateShortcuts(
+        packageName: String,
         componentName: String,
         icon: ByteArray?,
         id: String,
@@ -98,6 +104,7 @@ class RequestPinShortcutUseCase @Inject constructor(
     ): RequestPinShortcutResult {
         return try {
             if (shortcutManagerCompatWrapper.updateShortcuts(
+                    packageName = packageName,
                     componentName = componentName,
                     icon = icon,
                     id = id,

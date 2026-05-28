@@ -171,6 +171,7 @@ class AppSettingsViewModel @Inject constructor(
         viewModelScope.launch {
             _requestPinShortcutResult.update {
                 requestPinShortcutUseCase(
+                    packageName = packageName,
                     componentName = componentName,
                     icon = icon,
                     id = componentName,

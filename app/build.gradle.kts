@@ -59,6 +59,7 @@ dependencies {
     implementation(projects.designSystem)
     implementation(projects.data.repository)
     implementation(projects.domain.repository)
+    implementation(projects.domain.useCase)
 
     implementation(projects.feature.apps)
     implementation(projects.feature.appSettings)

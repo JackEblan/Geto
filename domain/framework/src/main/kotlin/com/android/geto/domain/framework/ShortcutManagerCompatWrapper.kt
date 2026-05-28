@@ -24,6 +24,7 @@ interface ShortcutManagerCompatWrapper {
     fun isRequestPinShortcutSupported(): Boolean
 
     fun requestPinShortcut(
+        packageName: String,
         componentName: String,
         icon: ByteArray?,
         id: String,
@@ -32,6 +33,7 @@ interface ShortcutManagerCompatWrapper {
     ): Boolean
 
     fun updateShortcuts(
+        packageName: String,
         componentName: String,
         icon: ByteArray?,
         id: String,
@@ -40,4 +42,9 @@ interface ShortcutManagerCompatWrapper {
     ): Boolean
 
     suspend fun getShortcuts(): List<GetoShortcutInfoCompat>
+
+    companion object {
+        const val EXTRA_PACKAGE_NAME = "packageName"
+        const val EXTRA_COMPONENT_NAME = "componentName"
+    }
 }
