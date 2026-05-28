@@ -49,6 +49,7 @@ import androidx.compose.ui.unit.dp
 import com.android.geto.designsystem.component.DialogContainer
 import com.android.geto.domain.model.SettingType
 import com.android.geto.feature.appsettings.R
+import com.android.geto.feature.appsettings.getSettingTypeTitle
 
 @Composable
 internal fun AppSettingDialog(
@@ -116,7 +117,7 @@ private fun AppSettingDialogRadioButtonGroup(
             .fillMaxWidth()
             .selectableGroup(),
     ) {
-        SettingType.entries.map { it.label }.toTypedArray().forEachIndexed { index, text ->
+        SettingType.entries.forEachIndexed { index, settingType ->
             Row(
                 Modifier
                     .fillMaxWidth()
@@ -137,7 +138,7 @@ private fun AppSettingDialogRadioButtonGroup(
                     onClick = null,
                 )
                 Text(
-                    text = text,
+                    text = settingType.getSettingTypeTitle(),
                     style = MaterialTheme.typography.bodyLarge,
                     modifier = Modifier.padding(start = 10.dp),
                 )

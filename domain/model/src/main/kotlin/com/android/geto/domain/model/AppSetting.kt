@@ -28,8 +28,8 @@ data class AppSetting(
     val valueOnRevert: String,
 )
 
-enum class SettingType(val label: String) {
-    SYSTEM("System"),
-    SECURE("Secure"),
-    GLOBAL("Global"),
+enum class SettingType {
+    SYSTEM,
+    SECURE,
+    GLOBAL,
 }

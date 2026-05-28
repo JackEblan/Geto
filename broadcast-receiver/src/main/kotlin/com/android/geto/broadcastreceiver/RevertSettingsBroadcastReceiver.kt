@@ -21,11 +21,10 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import com.android.geto.common.ApplicationScope
-import com.android.geto.domain.model.AppSettingsResult
 import com.android.geto.domain.usecase.RevertAppSettingsUseCase
 import com.android.geto.framework.notificationmanager.AndroidNotificationManagerWrapper
-import com.android.geto.framework.notificationmanager.AndroidNotificationManagerWrapper.Companion.EXTRA_COMPONENT_NAME
-import com.android.geto.framework.notificationmanager.AndroidNotificationManagerWrapper.Companion.EXTRA_NOTIFICATION_ID
+import com.android.geto.framework.notificationmanager.AndroidNotificationManagerWrapper.Companion.NOTIFICATION_EXTRA_COMPONENT_NAME
+import com.android.geto.framework.notificationmanager.AndroidNotificationManagerWrapper.Companion.NOTIFICATION_EXTRA_NOTIFICATION_ID
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -45,14 +44,14 @@ class RevertSettingsBroadcastReceiver @Inject constructor() : BroadcastReceiver(
     lateinit var notificationManagerWrapper: AndroidNotificationManagerWrapper
 
     override fun onReceive(context: Context?, intent: Intent?) {
-        val packageName = intent?.extras?.getString(EXTRA_COMPONENT_NAME) ?: return
+        val packageName = intent?.extras?.getString(NOTIFICATION_EXTRA_COMPONENT_NAME) ?: return
 
-        val notificationId = intent.extras?.getInt(EXTRA_NOTIFICATION_ID) ?: return
+        val notificationId = intent.extras?.getInt(NOTIFICATION_EXTRA_NOTIFICATION_ID) ?: return
 
         appScope.launch {
-            if (revertAppSettingsUseCase(packageName = packageName) == AppSettingsResult.Success) {
-                notificationManagerWrapper.cancel(notificationId)
-            }
+            revertAppSettingsUseCase(packageName = packageName)
+
+            notificationManagerWrapper.cancel(notificationId)
         }
     }
 }

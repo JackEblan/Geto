@@ -20,11 +20,8 @@ package com.android.geto.feature.appsettings.navigation
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import androidx.navigation.navDeepLink
 import androidx.navigation.toRoute
 import com.android.geto.feature.appsettings.AppSettingsRoute
-
-private const val DEEP_LINK_URI = "https://www.android.geto.com"
 
 fun NavController.navigateToAppSettings(
     packageName: String,
@@ -33,7 +30,7 @@ fun NavController.navigateToAppSettings(
 ) {
     navigate(
         AppSettingsRouteData(
-            packageName,
+            packageName = packageName,
             componentName = componentName,
             activityLabel = activityLabel,
         ),
@@ -41,11 +38,7 @@ fun NavController.navigateToAppSettings(
 }
 
 fun NavGraphBuilder.appSettingsScreen(onNavigationIconClick: () -> Unit) {
-    composable<AppSettingsRouteData>(
-        deepLinks = listOf(
-            navDeepLink<AppSettingsRouteData>(basePath = DEEP_LINK_URI),
-        ),
-    ) { backStackEntry ->
+    composable<AppSettingsRouteData> { backStackEntry ->
         val appSettingsRouteData: AppSettingsRouteData = backStackEntry.toRoute()
 
         AppSettingsRoute(

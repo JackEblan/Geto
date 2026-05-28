@@ -26,8 +26,8 @@ import androidx.core.graphics.drawable.IconCompat
 import com.android.geto.domain.common.dispatcher.Dispatcher
 import com.android.geto.domain.common.dispatcher.GetoDispatchers.Default
 import com.android.geto.domain.framework.ShortcutManagerCompatWrapper
-import com.android.geto.domain.framework.ShortcutManagerCompatWrapper.Companion.EXTRA_COMPONENT_NAME
-import com.android.geto.domain.framework.ShortcutManagerCompatWrapper.Companion.EXTRA_PACKAGE_NAME
+import com.android.geto.domain.framework.ShortcutManagerCompatWrapper.Companion.SHORTCUT_EXTRA_COMPONENT_NAME
+import com.android.geto.domain.framework.ShortcutManagerCompatWrapper.Companion.SHORTCUT_EXTRA_PACKAGE_NAME
 import com.android.geto.domain.model.GetoShortcutInfoCompat
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
@@ -116,8 +116,8 @@ internal class DefaultShortcutManagerCompatWrapper @Inject constructor(
             action = Intent.ACTION_VIEW
             // TODO: Do not hard code the className for ShortcutActivity
             setClassName(context.packageName, "com.android.geto.activity.shortcut.ShortcutActivity")
-            putExtra(EXTRA_PACKAGE_NAME, packageName)
-            putExtra(EXTRA_COMPONENT_NAME, componentName)
+            putExtra(SHORTCUT_EXTRA_PACKAGE_NAME, packageName)
+            putExtra(SHORTCUT_EXTRA_COMPONENT_NAME, componentName)
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
 

@@ -44,7 +44,7 @@ interface ShortcutManagerCompatWrapper {
     suspend fun getShortcuts(): List<GetoShortcutInfoCompat>
 
     companion object {
-        const val EXTRA_PACKAGE_NAME = "packageName"
-        const val EXTRA_COMPONENT_NAME = "componentName"
+        const val SHORTCUT_EXTRA_PACKAGE_NAME = "package_name"
+        const val SHORTCUT_EXTRA_COMPONENT_NAME = "component_name"
     }
 }

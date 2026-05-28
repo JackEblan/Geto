@@ -58,6 +58,8 @@ dependencies {
     implementation(projects.common)
     implementation(projects.designSystem)
     implementation(projects.data.repository)
+    implementation(projects.domain.common)
+    implementation(projects.domain.framework)
     implementation(projects.domain.repository)
     implementation(projects.domain.useCase)
 

@@ -40,6 +40,7 @@ import com.android.geto.designsystem.icon.GetoIcons
 import com.android.geto.domain.model.AppSettingTemplate
 import com.android.geto.domain.model.SettingType
 import com.android.geto.feature.appsettings.R
+import com.android.geto.feature.appsettings.getSettingTypeTitle
 
 @Composable
 internal fun TemplateDialog(
@@ -127,7 +128,7 @@ private fun AppSettingTemplateItem(
             Spacer(modifier = Modifier.height(5.dp))
 
             Text(
-                text = appSettingTemplate.settingType.label,
+                text = appSettingTemplate.settingType.getSettingTypeTitle(),
                 style = MaterialTheme.typography.bodySmall,
             )
 

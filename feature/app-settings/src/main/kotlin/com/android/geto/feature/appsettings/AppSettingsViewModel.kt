@@ -91,7 +91,7 @@ class AppSettingsViewModel @Inject constructor(
     val requestPinShortcutResult = _requestPinShortcutResult.asStateFlow()
 
     val appSettingsUiState =
-        appSettingsRepository.getAppSettingsFlowByPackageName(packageName = componentName)
+        appSettingsRepository.getAppSettingsFlowByPackageName(packageName = packageName)
             .map(AppSettingsUiState::Success).stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5_000),
@@ -110,7 +110,7 @@ class AppSettingsViewModel @Inject constructor(
 
     fun applyAppSettings() {
         viewModelScope.launch {
-            _applyAppSettingsResult.update { applyAppSettingsUseCase(packageName = componentName) }
+            _applyAppSettingsResult.update { applyAppSettingsUseCase(packageName = packageName) }
         }
     }
 
@@ -139,7 +139,7 @@ class AppSettingsViewModel @Inject constructor(
             _addAppSettingsResult.update {
                 addAppSettingUseCase(
                     id = id,
-                    packageName = componentName,
+                    packageName = packageName,
                     enabled = enabled,
                     settingType = settingType,
                     label = label,
@@ -159,7 +159,7 @@ class AppSettingsViewModel @Inject constructor(
 
     fun revertAppSettings() {
         viewModelScope.launch {
-            _revertAppSettingsResult.update { revertAppSettingsUseCase(packageName = componentName) }
+            _revertAppSettingsResult.update { revertAppSettingsUseCase(packageName = packageName) }
         }
     }
 

@@ -100,9 +100,10 @@ import com.android.geto.feature.appsettings.dialog.template.TemplateDialogState
 import com.android.geto.feature.appsettings.dialog.template.TemplateDialogUiState
 import com.android.geto.feature.appsettings.dialog.template.rememberTemplateDialogState
 import com.android.geto.feature.appsettings.navigation.AppSettingsRouteData
+import com.android.geto.framework.notificationmanager.AndroidNotificationManagerWrapper
 import com.android.geto.framework.notificationmanager.AndroidNotificationManagerWrapper.Companion.ACTION_REVERT_SETTINGS
-import com.android.geto.framework.notificationmanager.AndroidNotificationManagerWrapper.Companion.EXTRA_COMPONENT_NAME
-import com.android.geto.framework.notificationmanager.AndroidNotificationManagerWrapper.Companion.EXTRA_NOTIFICATION_ID
+import com.android.geto.framework.notificationmanager.AndroidNotificationManagerWrapper.Companion.NOTIFICATION_EXTRA_COMPONENT_NAME
+import com.android.geto.framework.notificationmanager.AndroidNotificationManagerWrapper.Companion.NOTIFICATION_EXTRA_NOTIFICATION_ID
 import com.android.geto.ui.local.LocalLauncherApps
 import com.android.geto.ui.local.LocalNotificationManager
 import kotlinx.coroutines.FlowPreview
@@ -373,7 +374,7 @@ private fun AppSettingsLaunchedEffects(
                 val notificationId = appSettingsRouteData.componentName.hashCode()
 
                 androidNotificationManagerWrapper.notify(
-                    notificationId = notificationId,
+                    id = notificationId,
                     notification = getNotification(
                         context = context,
                         notificationId = notificationId,
@@ -383,6 +384,7 @@ private fun AppSettingsLaunchedEffects(
                         contentText = applySuccess,
                     ),
                 )
+
                 androidLauncherAppsWrapper.startMainActivity(componentName = appSettingsRouteData.componentName)
             }
 
@@ -739,7 +741,7 @@ private fun LazyItemScope.AppSettingItem(
         },
         supportingContent = {
             Text(
-                text = appSetting.settingType.label,
+                text = appSetting.settingType.getSettingTypeTitle(),
             )
         },
         leadingContent = {
@@ -769,8 +771,8 @@ private fun getNotification(
 ): Notification {
     val revertIntent = Intent(context, RevertSettingsBroadcastReceiver::class.java).apply {
         action = ACTION_REVERT_SETTINGS
-        putExtra(EXTRA_COMPONENT_NAME, componentName)
-        putExtra(EXTRA_NOTIFICATION_ID, notificationId)
+        putExtra(NOTIFICATION_EXTRA_COMPONENT_NAME, componentName)
+        putExtra(NOTIFICATION_EXTRA_NOTIFICATION_ID, notificationId)
     }
 
     val revertPendingIntent = PendingIntent.getBroadcast(
@@ -782,7 +784,7 @@ private fun getNotification(
 
     return NotificationCompat.Builder(
         context,
-        context.getString(com.android.geto.common.R.string.geto_notification_channel_id),
+        AndroidNotificationManagerWrapper.NOTIFICATION_CHANNEL_ID,
     ).apply {
         setSmallIcon(com.android.geto.framework.notificationmanager.R.drawable.baseline_settings_24)
 
@@ -799,4 +801,10 @@ private fun getNotification(
             revertPendingIntent,
         )
     }.build()
+}
+
+internal fun SettingType.getSettingTypeTitle() = when (this) {
+    SettingType.SYSTEM -> "System"
+    SettingType.SECURE -> "Secure"
+    SettingType.GLOBAL -> "Global"
 }

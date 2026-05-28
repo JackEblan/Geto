@@ -19,7 +19,7 @@ package com.android.geto.activity.shortcut
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.android.geto.domain.model.AppSettingsResult
+import com.android.geto.domain.framework.PackageManagerWrapper
 import com.android.geto.domain.usecase.ApplyAppSettingsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -31,17 +31,20 @@ import javax.inject.Inject
 @HiltViewModel
 class ShortcutActivityViewModel @Inject constructor(
     private val applyAppSettingsUseCase: ApplyAppSettingsUseCase,
+    private val packageManagerWrapper: PackageManagerWrapper,
 ) : ViewModel() {
-    private val _applyAppSettingsResult = MutableStateFlow<AppSettingsResult?>(null)
-    val applyAppSettingsResult = _applyAppSettingsResult.asStateFlow()
+    private val _shortcutActivityUiState =
+        MutableStateFlow<ShortcutActivityUiState>(ShortcutActivityUiState.Loading)
+    val shortcutActivityUiState = _shortcutActivityUiState.asStateFlow()
 
     fun applyAppSettings(packageName: String) {
         viewModelScope.launch {
-            _applyAppSettingsResult.update { applyAppSettingsUseCase(packageName = packageName) }
+            _shortcutActivityUiState.update {
+                ShortcutActivityUiState.Success(
+                    appSettingsResult = applyAppSettingsUseCase(packageName = packageName),
+                    applicationIcon = packageManagerWrapper.getApplicationIcon(packageName = packageName),
+                )
+            }
         }
-    }
-
-    fun resetApplyAppSettingsResult() {
-        _applyAppSettingsResult.update { null }
     }
 }

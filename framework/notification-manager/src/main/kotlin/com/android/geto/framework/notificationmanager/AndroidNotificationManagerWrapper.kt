@@ -39,7 +39,7 @@ interface AndroidNotificationManagerWrapper {
     companion object {
         const val NOTIFICATION_CHANNEL_ID = "geto_notification_channel_id"
         const val ACTION_REVERT_SETTINGS = "ACTION_REVERT_SETTINGS"
-        const val EXTRA_COMPONENT_NAME = "component_name"
-        const val EXTRA_NOTIFICATION_ID = "notification_id"
+        const val NOTIFICATION_EXTRA_COMPONENT_NAME = "component_name"
+        const val NOTIFICATION_EXTRA_NOTIFICATION_ID = "notification_id"
     }
 }
