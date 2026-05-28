@@ -18,7 +18,26 @@
 package com.android.geto
 
 import android.app.Application
+import android.app.NotificationManager
+import android.os.Build
+import com.android.geto.framework.notificationmanager.AndroidNotificationManagerWrapper
 import dagger.hilt.android.HiltAndroidApp
+import javax.inject.Inject
 
 @HiltAndroidApp
-class GetoApplication : Application()
+class GetoApplication : Application() {
+    @Inject
+    lateinit var notificationManagerWrapper: AndroidNotificationManagerWrapper
+
+    override fun onCreate() {
+        super.onCreate()
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            notificationManagerWrapper.createNotificationChannel(
+                channelId = AndroidNotificationManagerWrapper.NOTIFICATION_CHANNEL_ID,
+                name = getString(R.string.app_name),
+                importance = NotificationManager.IMPORTANCE_DEFAULT,
+            )
+        }
+    }
+}

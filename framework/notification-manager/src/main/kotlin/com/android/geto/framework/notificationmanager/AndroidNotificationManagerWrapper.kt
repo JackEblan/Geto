@@ -18,21 +18,28 @@
 package com.android.geto.framework.notificationmanager
 
 import android.app.Notification
+import android.os.Build
+import androidx.annotation.RequiresApi
 
 interface AndroidNotificationManagerWrapper {
-
     fun notify(
-        notificationId: Int,
+        id: Int,
         notification: Notification,
     )
 
-    fun createNotificationChannel()
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun createNotificationChannel(
+        channelId: String,
+        name: String,
+        importance: Int,
+    )
 
     fun cancel(id: Int)
 
     companion object {
+        const val NOTIFICATION_CHANNEL_ID = "geto_notification_channel_id"
         const val ACTION_REVERT_SETTINGS = "ACTION_REVERT_SETTINGS"
-        const val EXTRA_COMPONENT_NAME = "package_name"
+        const val EXTRA_COMPONENT_NAME = "component_name"
         const val EXTRA_NOTIFICATION_ID = "notification_id"
     }
 }
