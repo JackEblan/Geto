@@ -74,6 +74,7 @@ import com.android.geto.domain.model.AddAppSettingResult
 import com.android.geto.domain.model.AddAppSettingResult.FAILED
 import com.android.geto.domain.model.AddAppSettingResult.SUCCESS
 import com.android.geto.domain.model.AppSetting
+import com.android.geto.domain.model.AppSettingTemplate
 import com.android.geto.domain.model.AppSettingsResult
 import com.android.geto.domain.model.AppSettingsResult.DisabledAppSettings
 import com.android.geto.domain.model.AppSettingsResult.EmptyAppSettings
@@ -97,7 +98,6 @@ import com.android.geto.feature.appsettings.dialog.shortcut.ShortcutDialogState
 import com.android.geto.feature.appsettings.dialog.shortcut.rememberShortcutDialogState
 import com.android.geto.feature.appsettings.dialog.template.TemplateDialog
 import com.android.geto.feature.appsettings.dialog.template.TemplateDialogState
-import com.android.geto.feature.appsettings.dialog.template.TemplateDialogUiState
 import com.android.geto.feature.appsettings.dialog.template.rememberTemplateDialogState
 import com.android.geto.feature.appsettings.navigation.AppSettingsRouteData
 import com.android.geto.framework.notificationmanager.AndroidNotificationManagerWrapper
@@ -133,7 +133,7 @@ internal fun AppSettingsRoute(
 
     val requestPinShortcutResult by viewModel.requestPinShortcutResult.collectAsStateWithLifecycle()
 
-    val templateDialogUiState by viewModel.templateDialogUiState.collectAsStateWithLifecycle()
+    val appSettingTemplates by viewModel.appSettingTemplates.collectAsStateWithLifecycle()
 
     val snackbarHostState = remember {
         SnackbarHostState()
@@ -150,7 +150,7 @@ internal fun AppSettingsRoute(
         applyAppSettingsResult = applyAppSettingsResult,
         revertAppSettingsResult = revertAppSettingsResult,
         requestPinShortcutResult = requestPinShortcutResult,
-        templateDialogUiState = templateDialogUiState,
+        appSettingTemplates = appSettingTemplates,
         onApplyAppSettings = viewModel::applyAppSettings,
         onRevertAppSettings = viewModel::revertAppSettings,
         onCheckAppSetting = viewModel::checkAppSetting,
@@ -179,7 +179,7 @@ internal fun AppSettingsScreen(
     applyAppSettingsResult: AppSettingsResult?,
     revertAppSettingsResult: AppSettingsResult?,
     requestPinShortcutResult: RequestPinShortcutResult?,
-    templateDialogUiState: TemplateDialogUiState,
+    appSettingTemplates: List<AppSettingTemplate>,
     onApplyAppSettings: () -> Unit,
     onRevertAppSettings: () -> Unit,
     onCheckAppSetting: (appSetting: AppSetting) -> Unit,
@@ -232,7 +232,7 @@ internal fun AppSettingsScreen(
     AppSettingsDialogs(
         appSettingDialogState = appSettingDialogState,
         shortcutDialogState = shortcutDialogState,
-        templateDialogUiState = templateDialogUiState,
+        appSettingTemplates = appSettingTemplates,
         templateDialogState = templateDialogState,
         onAddAppSetting = onAddAppSetting,
         onRequestPinShortcut = onRequestPinShortcut,
@@ -530,7 +530,7 @@ private fun AppSettingsLaunchedEffects(
 private fun AppSettingsDialogs(
     appSettingDialogState: AppSettingDialogState,
     shortcutDialogState: ShortcutDialogState,
-    templateDialogUiState: TemplateDialogUiState,
+    appSettingTemplates: List<AppSettingTemplate>,
     templateDialogState: TemplateDialogState,
     onAddAppSetting: (
         id: Int,
@@ -559,7 +559,7 @@ private fun AppSettingsDialogs(
 
     if (templateDialogState.showDialog) {
         TemplateDialog(
-            templateDialogUiState = templateDialogUiState,
+            appSettingTemplates = appSettingTemplates,
             templateDialogState = templateDialogState,
             onAddAppSetting = onAddAppSetting,
         )

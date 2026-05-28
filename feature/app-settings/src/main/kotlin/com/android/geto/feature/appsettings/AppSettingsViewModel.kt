@@ -25,6 +25,7 @@ import com.android.geto.domain.framework.AssetManagerWrapper
 import com.android.geto.domain.framework.PackageManagerWrapper
 import com.android.geto.domain.model.AddAppSettingResult
 import com.android.geto.domain.model.AppSetting
+import com.android.geto.domain.model.AppSettingTemplate
 import com.android.geto.domain.model.AppSettingsResult
 import com.android.geto.domain.model.RequestPinShortcutResult
 import com.android.geto.domain.model.SecureSetting
@@ -35,7 +36,6 @@ import com.android.geto.domain.usecase.ApplyAppSettingsUseCase
 import com.android.geto.domain.usecase.GetSecureSettingsByNameUseCase
 import com.android.geto.domain.usecase.RequestPinShortcutUseCase
 import com.android.geto.domain.usecase.RevertAppSettingsUseCase
-import com.android.geto.feature.appsettings.dialog.template.TemplateDialogUiState
 import com.android.geto.feature.appsettings.navigation.AppSettingsRouteData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -96,14 +96,14 @@ class AppSettingsViewModel @Inject constructor(
                 initialValue = AppSettingsUiState.Loading,
             )
 
-    private var _templateDialogUiState =
-        MutableStateFlow<TemplateDialogUiState>(TemplateDialogUiState.Loading)
-    val templateDialogUiState = _templateDialogUiState.onStart {
+    private var _appSettingTemplates =
+        MutableStateFlow<List<AppSettingTemplate>>(emptyList())
+    val appSettingTemplates = _appSettingTemplates.onStart {
         getAppSettingTemplates()
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5_000),
-        initialValue = TemplateDialogUiState.Loading,
+        initialValue = emptyList(),
     )
 
     fun applyAppSettings() {
@@ -192,8 +192,8 @@ class AppSettingsViewModel @Inject constructor(
 
     fun getAppSettingTemplates() {
         viewModelScope.launch {
-            _templateDialogUiState.update {
-                TemplateDialogUiState.Success(appSettingTemplates = assetManagerWrapper.getAppSettingTemplates())
+            _appSettingTemplates.update {
+                assetManagerWrapper.getAppSettingTemplates()
             }
         }
     }
