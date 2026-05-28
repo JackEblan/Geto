@@ -66,8 +66,6 @@ class AppSettingsViewModel @Inject constructor(
 
     private val componentName = appSettingsRouteData.componentName
 
-    private val activityLabel = appSettingsRouteData.activityLabel
-
     private var _secureSettings = MutableStateFlow<List<SecureSetting>>(emptyList())
     val secureSettings = _secureSettings.asStateFlow()
 
@@ -173,9 +171,8 @@ class AppSettingsViewModel @Inject constructor(
         viewModelScope.launch {
             _requestPinShortcutResult.update {
                 requestPinShortcutUseCase(
-                    packageName = componentName,
+                    componentName = componentName,
                     icon = icon,
-                    appName = activityLabel,
                     id = componentName,
                     shortLabel = shortLabel,
                     longLabel = longLabel,

@@ -39,6 +39,11 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".ShortcutActivity"
+            android:excludeFromRecents="true"
+            android:theme="@style/Theme.Geto.Shortcut" />
+
     </application>
 
 </manifest>

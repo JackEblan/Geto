@@ -19,6 +19,7 @@ package com.android.geto.designsystem.icon
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Android
 import androidx.compose.material.icons.filled.AppShortcut
@@ -36,4 +37,5 @@ object GetoIcons {
     val Shortcut = Icons.Default.AppShortcut
     val SettingsSuggest = Icons.Default.SettingsSuggest
     val Add = Icons.Default.Add
+    val ArrowForward = Icons.AutoMirrored.Filled.ArrowForward
 }

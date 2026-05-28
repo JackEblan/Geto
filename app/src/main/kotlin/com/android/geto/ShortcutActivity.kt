@@ -15,9 +15,15 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.domain.model
+package com.android.geto
 
-enum class ThemeBrand(val title: String) {
-    GREEN("Green"),
-    PURPLE("Purple"),
+import android.app.Activity
+import android.os.Bundle
+import dagger.hilt.android.AndroidEntryPoint
+
+@AndroidEntryPoint
+class ShortcutActivity : Activity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
 }

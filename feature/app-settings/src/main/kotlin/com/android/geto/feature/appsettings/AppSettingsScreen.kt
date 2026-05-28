@@ -38,6 +38,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomAppBarDefaults
@@ -620,7 +621,7 @@ private fun AppSettingsFloatingActionButton(onClick: () -> Unit) {
         elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
     ) {
         Icon(
-            imageVector = GetoIcons.Android,
+            imageVector = GetoIcons.ArrowForward,
             contentDescription = null,
         )
     }

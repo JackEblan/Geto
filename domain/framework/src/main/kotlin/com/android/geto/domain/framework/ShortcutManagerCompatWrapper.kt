@@ -24,18 +24,16 @@ interface ShortcutManagerCompatWrapper {
     fun isRequestPinShortcutSupported(): Boolean
 
     fun requestPinShortcut(
-        packageName: String,
+        componentName: String,
         icon: ByteArray?,
-        appName: String,
         id: String,
         shortLabel: String,
         longLabel: String,
     ): Boolean
 
     fun updateShortcuts(
-        packageName: String,
+        componentName: String,
         icon: ByteArray?,
-        appName: String,
         id: String,
         shortLabel: String,
         longLabel: String,

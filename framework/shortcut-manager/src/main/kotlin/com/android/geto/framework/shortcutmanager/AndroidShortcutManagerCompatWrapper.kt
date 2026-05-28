@@ -23,7 +23,6 @@ import android.graphics.BitmapFactory
 import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
-import androidx.core.net.toUri
 import com.android.geto.domain.common.dispatcher.Dispatcher
 import com.android.geto.domain.common.dispatcher.GetoDispatchers.Default
 import com.android.geto.domain.framework.ShortcutManagerCompatWrapper
@@ -37,15 +36,13 @@ internal class AndroidShortcutManagerCompatWrapper @Inject constructor(
     @param:ApplicationContext private val context: Context,
     @param:Dispatcher(Default) private val defaultDispatcher: CoroutineDispatcher,
 ) : ShortcutManagerCompatWrapper {
-
     override fun isRequestPinShortcutSupported(): Boolean {
         return ShortcutManagerCompat.isRequestPinShortcutSupported(context)
     }
 
     override fun requestPinShortcut(
-        packageName: String,
+        componentName: String,
         icon: ByteArray?,
-        appName: String,
         id: String,
         shortLabel: String,
         longLabel: String,
@@ -53,9 +50,8 @@ internal class AndroidShortcutManagerCompatWrapper @Inject constructor(
         return ShortcutManagerCompat.requestPinShortcut(
             context,
             asShortcutInfoCompat(
-                packageName = packageName,
+                componentName = componentName,
                 icon = icon,
-                appName = appName,
                 id = id,
                 shortLabel = shortLabel,
                 longLabel = longLabel,
@@ -65,9 +61,8 @@ internal class AndroidShortcutManagerCompatWrapper @Inject constructor(
     }
 
     override fun updateShortcuts(
-        packageName: String,
+        componentName: String,
         icon: ByteArray?,
-        appName: String,
         id: String,
         shortLabel: String,
         longLabel: String,
@@ -76,9 +71,8 @@ internal class AndroidShortcutManagerCompatWrapper @Inject constructor(
             context,
             listOf(
                 asShortcutInfoCompat(
-                    packageName = packageName,
+                    componentName = componentName,
                     icon = icon,
-                    appName = appName,
                     id = id,
                     shortLabel = shortLabel,
                     longLabel = longLabel,
@@ -105,18 +99,17 @@ internal class AndroidShortcutManagerCompatWrapper @Inject constructor(
     }
 
     private fun asShortcutInfoCompat(
-        packageName: String,
+        componentName: String,
         icon: ByteArray?,
-        appName: String,
         id: String,
         shortLabel: String,
         longLabel: String,
     ): ShortcutInfoCompat {
         val shortcutIntent = Intent().apply {
             action = Intent.ACTION_VIEW
-            // TODO: Do not hard code the className for MainActivity
-            setClassName(context.packageName, "com.android.geto.MainActivity")
-            data = "https://www.android.geto.com/$packageName/$appName".toUri()
+            // TODO: Do not hard code the className for ShortcutActivity
+            setClassName(context.packageName, "com.android.geto.ShortcutActivity")
+            putExtra("EXTRA_COMPONENT_NAME", componentName)
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
 
