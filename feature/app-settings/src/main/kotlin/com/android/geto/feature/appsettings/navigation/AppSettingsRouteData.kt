@@ -21,7 +21,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class AppSettingsRouteData(
-    val packageName: String,
     val componentName: String,
     val activityLabel: String,
 )

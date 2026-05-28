@@ -62,8 +62,6 @@ class AppSettingsViewModel @Inject constructor(
 ) : ViewModel() {
     private val appSettingsRouteData = savedStateHandle.toRoute<AppSettingsRouteData>()
 
-    private val packageName = appSettingsRouteData.packageName
-
     private val componentName = appSettingsRouteData.componentName
 
     private var _secureSettings = MutableStateFlow<List<SecureSetting>>(emptyList())
@@ -91,7 +89,7 @@ class AppSettingsViewModel @Inject constructor(
     val requestPinShortcutResult = _requestPinShortcutResult.asStateFlow()
 
     val appSettingsUiState =
-        appSettingsRepository.getAppSettingsFlowByPackageName(packageName = packageName)
+        appSettingsRepository.getAppSettingsFlowByComponentName(componentName = componentName)
             .map(AppSettingsUiState::Success).stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5_000),
@@ -110,7 +108,7 @@ class AppSettingsViewModel @Inject constructor(
 
     fun applyAppSettings() {
         viewModelScope.launch {
-            _applyAppSettingsResult.update { applyAppSettingsUseCase(packageName = packageName) }
+            _applyAppSettingsResult.update { applyAppSettingsUseCase(componentName = componentName) }
         }
     }
 
@@ -139,7 +137,7 @@ class AppSettingsViewModel @Inject constructor(
             _addAppSettingsResult.update {
                 addAppSettingUseCase(
                     id = id,
-                    packageName = packageName,
+                    componentName = componentName,
                     enabled = enabled,
                     settingType = settingType,
                     label = label,
@@ -153,13 +151,13 @@ class AppSettingsViewModel @Inject constructor(
 
     fun getApplicationIcon() {
         viewModelScope.launch {
-            _applicationIcon.update { packageManagerWrapper.getApplicationIcon(packageName = packageName) }
+            _applicationIcon.update { packageManagerWrapper.getActivityIcon(componentName = componentName) }
         }
     }
 
     fun revertAppSettings() {
         viewModelScope.launch {
-            _revertAppSettingsResult.update { revertAppSettingsUseCase(packageName = packageName) }
+            _revertAppSettingsResult.update { revertAppSettingsUseCase(componentName = componentName) }
         }
     }
 
@@ -171,7 +169,6 @@ class AppSettingsViewModel @Inject constructor(
         viewModelScope.launch {
             _requestPinShortcutResult.update {
                 requestPinShortcutUseCase(
-                    packageName = packageName,
                     componentName = componentName,
                     icon = icon,
                     id = componentName,

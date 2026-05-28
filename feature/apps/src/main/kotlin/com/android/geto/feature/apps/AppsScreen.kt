@@ -64,7 +64,6 @@ internal fun AppsRoute(
     modifier: Modifier = Modifier,
     viewModel: AppsViewModel = hiltViewModel(),
     onClickApp: (
-        packageName: String,
         componentName: String,
         activityLabel: String,
     ) -> Unit,
@@ -86,7 +85,6 @@ internal fun AppsScreen(
     modifier: Modifier = Modifier,
     appsUiState: AppsUiState,
     onClickApp: (
-        packageName: String,
         componentName: String,
         activityLabel: String,
     ) -> Unit,
@@ -116,7 +114,6 @@ private fun Success(
     modifier: Modifier = Modifier,
     appsUiState: AppsUiState.Success,
     onClickApp: (
-        packageName: String,
         componentName: String,
         activityLabel: String,
     ) -> Unit,
@@ -176,7 +173,6 @@ private fun AppItem(
     modifier: Modifier = Modifier,
     launcherAppsActivityInfo: LauncherAppsActivityInfo,
     onClickApp: (
-        packageName: String,
         componentName: String,
         activityLabel: String,
     ) -> Unit,
@@ -185,7 +181,6 @@ private fun AppItem(
         modifier = modifier
             .clickable {
                 onClickApp(
-                    launcherAppsActivityInfo.packageName,
                     launcherAppsActivityInfo.componentName,
                     launcherAppsActivityInfo.activityLabel,
                 )

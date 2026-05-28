@@ -23,13 +23,13 @@ import androidx.room.RenameTable
 import androidx.room.migration.AutoMigrationSpec
 
 @RenameTable(fromTableName = "UserAppSettingsItemEntity", toTableName = "AppSettingsItemEntity")
-internal class RenameUserAppSettingsItemEntityToAppSettingsItemEntity : AutoMigrationSpec
+internal class AutoMigrationSpec1To2 : AutoMigrationSpec
 
 @RenameTable(fromTableName = "AppSettingsItemEntity", toTableName = "AppSettingsEntity")
-internal class RenameAppSettingsItemEntityToAppSettingsEntity : AutoMigrationSpec
+internal class AutoMigrationSpec4To5 : AutoMigrationSpec
 
 @DeleteColumn(tableName = "AppSettingsEntity", columnName = "safeToWrite")
-internal class DeleteSafeToWrite : AutoMigrationSpec
+internal class AutoMigrationSpec5To6 : AutoMigrationSpec
 
 @RenameTable(fromTableName = "AppSettingsEntity", toTableName = "AppSettingEntity")
 @RenameColumn(
@@ -37,4 +37,11 @@ internal class DeleteSafeToWrite : AutoMigrationSpec
     fromColumnName = "settingsType",
     toColumnName = "settingType",
 )
-internal class RenameAppSettingsEntityToAppSettingEntity : AutoMigrationSpec
+internal class AutoMigrationSpec6To7 : AutoMigrationSpec
+
+@RenameColumn(
+    tableName = "AppSettingEntity",
+    fromColumnName = "packageName",
+    toColumnName = "componentName",
+)
+internal class AutoMigration8To9 : AutoMigrationSpec

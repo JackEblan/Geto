@@ -21,7 +21,7 @@ data class AppSetting(
     val id: Int = 0,
     val enabled: Boolean,
     val settingType: SettingType,
-    val packageName: String,
+    val componentName: String,
     val label: String,
     val key: String,
     val valueOnLaunch: String,

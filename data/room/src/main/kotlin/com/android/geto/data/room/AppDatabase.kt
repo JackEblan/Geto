@@ -21,35 +21,41 @@ import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.android.geto.data.room.dao.AppSettingsDao
-import com.android.geto.data.room.migration.DeleteSafeToWrite
-import com.android.geto.data.room.migration.RenameAppSettingsEntityToAppSettingEntity
-import com.android.geto.data.room.migration.RenameAppSettingsItemEntityToAppSettingsEntity
-import com.android.geto.data.room.migration.RenameUserAppSettingsItemEntityToAppSettingsItemEntity
+import com.android.geto.data.room.migration.AutoMigration8To9
+import com.android.geto.data.room.migration.AutoMigrationSpec1To2
+import com.android.geto.data.room.migration.AutoMigrationSpec4To5
+import com.android.geto.data.room.migration.AutoMigrationSpec5To6
+import com.android.geto.data.room.migration.AutoMigrationSpec6To7
 import com.android.geto.data.room.model.AppSettingEntity
 
 @Database(
     entities = [AppSettingEntity::class],
-    version = 8,
+    version = 9,
     autoMigrations = [
         AutoMigration(
             from = 1,
             to = 2,
-            spec = RenameUserAppSettingsItemEntityToAppSettingsItemEntity::class,
+            spec = AutoMigrationSpec1To2::class,
         ),
         AutoMigration(
             from = 4,
             to = 5,
-            spec = RenameAppSettingsItemEntityToAppSettingsEntity::class,
+            spec = AutoMigrationSpec4To5::class,
         ),
         AutoMigration(
             from = 5,
             to = 6,
-            spec = DeleteSafeToWrite::class,
+            spec = AutoMigrationSpec5To6::class,
         ),
         AutoMigration(
             from = 6,
             to = 7,
-            spec = RenameAppSettingsEntityToAppSettingEntity::class,
+            spec = AutoMigrationSpec6To7::class,
+        ),
+        AutoMigration(
+            from = 8,
+            to = 9,
+            spec = AutoMigration8To9::class,
         ),
     ],
     exportSchema = true,

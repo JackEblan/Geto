@@ -37,10 +37,10 @@ class RevertAppSettingsUseCase @Inject constructor(
     private val appSettingsRepository: AppSettingsRepository,
     private val secureSettingsWrapper: SecureSettingsWrapper,
 ) {
-    suspend operator fun invoke(packageName: String): AppSettingsResult =
+    suspend operator fun invoke(componentName: String): AppSettingsResult =
         withContext(defaultDispatcher) {
             val appSettings =
-                appSettingsRepository.getAppSettingsByPackageName(packageName = packageName)
+                appSettingsRepository.getAppSettingsByComponentName(componentName = componentName)
 
             if (appSettings.isEmpty()) return@withContext EmptyAppSettings
 

@@ -28,7 +28,7 @@ interface AppSettingsRepository {
 
     suspend fun deleteAppSetting(appSetting: AppSetting)
 
-    fun getAppSettingsFlowByPackageName(packageName: String): Flow<List<AppSetting>>
+    fun getAppSettingsFlowByComponentName(componentName: String): Flow<List<AppSetting>>
 
-    suspend fun getAppSettingsByPackageName(packageName: String): List<AppSetting>
+    suspend fun getAppSettingsByComponentName(componentName: String): List<AppSetting>
 }

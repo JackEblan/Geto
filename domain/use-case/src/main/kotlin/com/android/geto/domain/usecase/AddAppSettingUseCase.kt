@@ -34,7 +34,7 @@ class AddAppSettingUseCase @Inject constructor(
     private val appSettingsRepository: AppSettingsRepository,
 ) {
     suspend operator fun invoke(
-        packageName: String,
+        componentName: String,
         id: Int,
         enabled: Boolean,
         settingType: SettingType,
@@ -48,7 +48,7 @@ class AddAppSettingUseCase @Inject constructor(
                 id = id,
                 enabled = enabled,
                 settingType = settingType,
-                packageName = packageName,
+                componentName = componentName,
                 label = label,
                 key = key,
                 valueOnLaunch = valueOnLaunch,
@@ -56,7 +56,7 @@ class AddAppSettingUseCase @Inject constructor(
             )
 
             val keys =
-                appSettingsRepository.getAppSettingsByPackageName(packageName = appSetting.packageName)
+                appSettingsRepository.getAppSettingsByComponentName(componentName = appSetting.componentName)
                     .map { it.key }
 
             if (appSetting.key !in keys) {

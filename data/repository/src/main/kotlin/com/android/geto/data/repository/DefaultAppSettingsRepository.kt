@@ -42,16 +42,16 @@ class DefaultAppSettingsRepository @Inject constructor(private val appSettingsDa
         appSettingsDao.deleteAppSettingEntity(entity = appSetting.asEntity())
     }
 
-    override fun getAppSettingsFlowByPackageName(packageName: String): Flow<List<AppSetting>> {
-        return appSettingsDao.getAppSettingEntitiesFlowByPackageName(packageName = packageName).map { entities ->
+    override fun getAppSettingsFlowByComponentName(componentName: String): Flow<List<AppSetting>> {
+        return appSettingsDao.getAppSettingEntitiesFlowByComponentName(componentName = componentName).map { entities ->
             entities.map { entity ->
                 entity.asExternalModel()
             }
         }
     }
 
-    override suspend fun getAppSettingsByPackageName(packageName: String): List<AppSetting> {
-        return appSettingsDao.getAppSettingEntitiesByPackageName(packageName).map { entity ->
+    override suspend fun getAppSettingsByComponentName(componentName: String): List<AppSetting> {
+        return appSettingsDao.getAppSettingEntitiesByComponentName(componentName = componentName).map { entity ->
             entity.asExternalModel()
         }
     }
@@ -61,7 +61,7 @@ class DefaultAppSettingsRepository @Inject constructor(private val appSettingsDa
             id = id,
             enabled = enabled,
             settingType = settingType,
-            packageName = packageName,
+            componentName = componentName,
             label = label,
             key = key,
             valueOnLaunch = valueOnLaunch,
@@ -74,7 +74,7 @@ class DefaultAppSettingsRepository @Inject constructor(private val appSettingsDa
             id = id,
             enabled = enabled,
             settingType = settingType,
-            packageName = packageName,
+            componentName = componentName,
             label = label,
             key = key,
             valueOnLaunch = valueOnLaunch,

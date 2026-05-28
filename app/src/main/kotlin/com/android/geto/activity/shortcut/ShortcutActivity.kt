@@ -55,17 +55,13 @@ class ShortcutActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val packageName =
-            intent.getStringExtra(ShortcutManagerCompatWrapper.SHORTCUT_EXTRA_PACKAGE_NAME)
-                ?: return
-
         val componentName =
             intent.getStringExtra(ShortcutManagerCompatWrapper.SHORTCUT_EXTRA_COMPONENT_NAME)
                 ?: return
 
         val notificationId = componentName.hashCode()
 
-        viewModel.applyAppSettings(packageName = packageName)
+        viewModel.applyAppSettings(componentName = componentName)
 
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {

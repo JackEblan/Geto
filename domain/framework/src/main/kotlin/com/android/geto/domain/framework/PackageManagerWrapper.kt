@@ -18,5 +18,5 @@
 package com.android.geto.domain.framework
 
 interface PackageManagerWrapper {
-    suspend fun getApplicationIcon(packageName: String): ByteArray?
+    suspend fun getActivityIcon(componentName: String): ByteArray?
 }

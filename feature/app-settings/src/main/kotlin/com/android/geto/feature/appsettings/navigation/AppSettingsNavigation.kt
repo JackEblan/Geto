@@ -24,13 +24,11 @@ import androidx.navigation.toRoute
 import com.android.geto.feature.appsettings.AppSettingsRoute
 
 fun NavController.navigateToAppSettings(
-    packageName: String,
     componentName: String,
     activityLabel: String,
 ) {
     navigate(
         AppSettingsRouteData(
-            packageName = packageName,
             componentName = componentName,
             activityLabel = activityLabel,
         ),

@@ -37,12 +37,12 @@ class ShortcutActivityViewModel @Inject constructor(
         MutableStateFlow<ShortcutActivityUiState>(ShortcutActivityUiState.Loading)
     val shortcutActivityUiState = _shortcutActivityUiState.asStateFlow()
 
-    fun applyAppSettings(packageName: String) {
+    fun applyAppSettings(componentName: String) {
         viewModelScope.launch {
             _shortcutActivityUiState.update {
                 ShortcutActivityUiState.Success(
-                    appSettingsResult = applyAppSettingsUseCase(packageName = packageName),
-                    applicationIcon = packageManagerWrapper.getApplicationIcon(packageName = packageName),
+                    appSettingsResult = applyAppSettingsUseCase(componentName = componentName),
+                    applicationIcon = packageManagerWrapper.getActivityIcon(componentName = componentName),
                 )
             }
         }

@@ -35,7 +35,6 @@ fun NavController.navigateToApps() {
 
 fun NavGraphBuilder.appsScreen(
     onClickApp: (
-        packageName: String,
         componentName: String,
         activityLabel: String,
     ) -> Unit,
