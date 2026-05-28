@@ -15,7 +15,7 @@
  *   limitations under the License.
  *
  */
-package com.android.geto
+package com.android.geto.activity.main
 
 import com.android.geto.domain.model.UserData
 

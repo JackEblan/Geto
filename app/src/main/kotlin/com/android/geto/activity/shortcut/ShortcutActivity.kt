@@ -15,14 +15,14 @@
  *   limitations under the License.
  *
  */
-package com.android.geto
+package com.android.geto.activity.shortcut
 
-import android.app.Activity
 import android.os.Bundle
+import androidx.activity.ComponentActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ShortcutActivity : Activity() {
+class ShortcutActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }

@@ -34,7 +34,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-internal class AndroidSecureSettingsWrapper @Inject constructor(
+internal class DefaultSecureSettingsWrapper @Inject constructor(
     @param:Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher,
     @param:ApplicationContext private val context: Context,
 ) : SecureSettingsWrapper {

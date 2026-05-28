@@ -15,7 +15,7 @@
  *   limitations under the License.
  *
  */
-package com.android.geto
+package com.android.geto.activity.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

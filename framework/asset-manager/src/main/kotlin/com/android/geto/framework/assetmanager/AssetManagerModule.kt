@@ -30,5 +30,5 @@ internal interface AssetManagerModule {
 
     @Binds
     @Singleton
-    fun assetManagerWrapper(impl: AndroidAssetManagerWrapper): AssetManagerWrapper
+    fun assetManagerWrapper(impl: DefaultAssetManagerWrapper): AssetManagerWrapper
 }

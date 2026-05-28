@@ -27,7 +27,7 @@ import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 
-class DefaultDrawableWrapper @Inject constructor(
+internal class DefaultDrawableWrapper @Inject constructor(
     @param:Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher,
 ) : AndroidDrawableWrapper {
     override suspend fun toByteArray(drawable: Drawable): ByteArray {

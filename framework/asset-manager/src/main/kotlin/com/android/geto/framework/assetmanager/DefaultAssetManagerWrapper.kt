@@ -31,7 +31,7 @@ import kotlinx.coroutines.withContext
 import java.io.IOException
 import javax.inject.Inject
 
-internal class AndroidAssetManagerWrapper @Inject constructor(
+internal class DefaultAssetManagerWrapper @Inject constructor(
     @param:Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher,
     @param:ApplicationContext private val context: Context,
 ) : AssetManagerWrapper {

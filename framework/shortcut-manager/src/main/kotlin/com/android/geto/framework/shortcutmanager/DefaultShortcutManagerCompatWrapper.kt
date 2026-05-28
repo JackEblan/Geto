@@ -32,7 +32,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-internal class AndroidShortcutManagerCompatWrapper @Inject constructor(
+internal class DefaultShortcutManagerCompatWrapper @Inject constructor(
     @param:ApplicationContext private val context: Context,
     @param:Dispatcher(Default) private val defaultDispatcher: CoroutineDispatcher,
 ) : ShortcutManagerCompatWrapper {
@@ -108,7 +108,7 @@ internal class AndroidShortcutManagerCompatWrapper @Inject constructor(
         val shortcutIntent = Intent().apply {
             action = Intent.ACTION_VIEW
             // TODO: Do not hard code the className for ShortcutActivity
-            setClassName(context.packageName, "com.android.geto.ShortcutActivity")
+            setClassName(context.packageName, "com.android.geto.activity.shortcut.ShortcutActivity")
             putExtra("EXTRA_COMPONENT_NAME", componentName)
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }

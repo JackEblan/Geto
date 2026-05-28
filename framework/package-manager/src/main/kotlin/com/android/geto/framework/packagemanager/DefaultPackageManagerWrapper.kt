@@ -24,7 +24,7 @@ import com.android.geto.framework.drawable.AndroidDrawableWrapper
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
-class AndroidPackageManagerWrapper @Inject constructor(
+internal class DefaultPackageManagerWrapper @Inject constructor(
     @param:ApplicationContext private val context: Context,
     private val androidDrawableWrapper: AndroidDrawableWrapper,
 ) : PackageManagerWrapper {

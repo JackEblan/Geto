@@ -38,7 +38,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomAppBarDefaults
@@ -147,7 +146,7 @@ internal fun AppSettingsRoute(
         applicationIcon = applicationIcon,
         secureSettings = secureSettings,
         addAppSettingResult = addAppSettingResult,
-        appSettingsResult = applyAppSettingsResult,
+        applyAppSettingsResult = applyAppSettingsResult,
         revertAppSettingsResult = revertAppSettingsResult,
         requestPinShortcutResult = requestPinShortcutResult,
         templateDialogUiState = templateDialogUiState,
@@ -176,7 +175,7 @@ internal fun AppSettingsScreen(
     applicationIcon: ByteArray?,
     secureSettings: List<SecureSetting>,
     addAppSettingResult: AddAppSettingResult?,
-    appSettingsResult: AppSettingsResult?,
+    applyAppSettingsResult: AppSettingsResult?,
     revertAppSettingsResult: AppSettingsResult?,
     requestPinShortcutResult: RequestPinShortcutResult?,
     templateDialogUiState: TemplateDialogUiState,
@@ -219,7 +218,7 @@ internal fun AppSettingsScreen(
         applicationIcon = applicationIcon,
         secureSettings = secureSettings,
         addAppSettingResult = addAppSettingResult,
-        appSettingsResult = appSettingsResult,
+        applyAppSettingsResult = applyAppSettingsResult,
         revertAppSettingsResult = revertAppSettingsResult,
         requestPinShortcutResult = requestPinShortcutResult,
         onResetApplyAppSettingsResult = onResetApplyAppSettingsResult,
@@ -304,7 +303,7 @@ private fun AppSettingsLaunchedEffects(
     applicationIcon: ByteArray?,
     secureSettings: List<SecureSetting>,
     addAppSettingResult: AddAppSettingResult?,
-    appSettingsResult: AppSettingsResult?,
+    applyAppSettingsResult: AppSettingsResult?,
     revertAppSettingsResult: AppSettingsResult?,
     requestPinShortcutResult: RequestPinShortcutResult?,
     onResetApplyAppSettingsResult: () -> Unit,
@@ -352,8 +351,8 @@ private fun AppSettingsLaunchedEffects(
 
     val noPermission = stringResource(R.string.no_permission)
 
-    LaunchedEffect(key1 = appSettingsResult) {
-        when (appSettingsResult) {
+    LaunchedEffect(key1 = applyAppSettingsResult) {
+        when (applyAppSettingsResult) {
             DisabledAppSettings -> {
                 snackbarHostState.showSnackbar(message = appSettingsDisabled)
             }
