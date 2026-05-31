@@ -53,5 +53,5 @@
     <string name="no_settings_found">No Settings Found!</string>
     <string name="app_setting_already_exists">App setting already exists</string>
     <string name="app_setting_added_successfully">App setting added successfully</string>
-    <string name="no_permission">No WRITE_SECURE_SETTINGS permission</string>
+    <string name="no_permission">Please grant the WRITE_SECURE_SETTINGS permission via ADB</string>
 </resources>
