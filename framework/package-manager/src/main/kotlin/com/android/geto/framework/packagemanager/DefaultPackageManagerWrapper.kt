@@ -17,6 +17,7 @@
  */
 package com.android.geto.framework.packagemanager
 
+import android.content.ComponentName
 import android.content.Context
 import android.content.pm.PackageManager
 import com.android.geto.domain.framework.PackageManagerWrapper
@@ -32,11 +33,11 @@ internal class DefaultPackageManagerWrapper @Inject constructor(
 
     override suspend fun getActivityIcon(componentName: String): ByteArray? {
         return try {
-            androidDrawableWrapper.toByteArray(
-                drawable = packageManager.getApplicationIcon(
-                    componentName,
-                ),
-            )
+            ComponentName.unflattenFromString(componentName)?.let {
+                androidDrawableWrapper.toByteArray(
+                    drawable = packageManager.getActivityIcon(it),
+                )
+            }
         } catch (_: PackageManager.NameNotFoundException) {
             null
         }

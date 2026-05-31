@@ -129,7 +129,7 @@ internal fun AppSettingsRoute(
 
     val addAppSettingResult by viewModel.addAppSettingsResult.collectAsStateWithLifecycle()
 
-    val applicationIcon by viewModel.applicationIcon.collectAsStateWithLifecycle()
+    val activityIcon by viewModel.activityIcon.collectAsStateWithLifecycle()
 
     val requestPinShortcutResult by viewModel.requestPinShortcutResult.collectAsStateWithLifecycle()
 
@@ -144,7 +144,7 @@ internal fun AppSettingsRoute(
         appSettingsRouteData = appSettingsRouteData,
         appSettingsUiState = appSettingsUiState,
         snackbarHostState = snackbarHostState,
-        applicationIcon = applicationIcon,
+        activityIcon = activityIcon,
         secureSettings = secureSettings,
         addAppSettingResult = addAppSettingResult,
         applyAppSettingsResult = applyAppSettingsResult,
@@ -173,7 +173,7 @@ internal fun AppSettingsScreen(
     appSettingsRouteData: AppSettingsRouteData,
     appSettingsUiState: AppSettingsUiState,
     snackbarHostState: SnackbarHostState,
-    applicationIcon: ByteArray?,
+    activityIcon: ByteArray?,
     secureSettings: List<SecureSetting>,
     addAppSettingResult: AddAppSettingResult?,
     applyAppSettingsResult: AppSettingsResult?,
@@ -216,7 +216,7 @@ internal fun AppSettingsScreen(
         snackbarHostState = snackbarHostState,
         appSettingDialogState = appSettingDialogState,
         shortcutDialogState = shortcutDialogState,
-        applicationIcon = applicationIcon,
+        activityIcon = activityIcon,
         secureSettings = secureSettings,
         addAppSettingResult = addAppSettingResult,
         applyAppSettingsResult = applyAppSettingsResult,
@@ -301,7 +301,7 @@ private fun AppSettingsLaunchedEffects(
     snackbarHostState: SnackbarHostState,
     appSettingDialogState: AppSettingDialogState,
     shortcutDialogState: ShortcutDialogState,
-    applicationIcon: ByteArray?,
+    activityIcon: ByteArray?,
     secureSettings: List<SecureSetting>,
     addAppSettingResult: AddAppSettingResult?,
     applyAppSettingsResult: AppSettingsResult?,
@@ -379,7 +379,7 @@ private fun AppSettingsLaunchedEffects(
                         context = context,
                         notificationId = notificationId,
                         componentName = appSettingsRouteData.componentName,
-                        icon = applicationIcon,
+                        icon = activityIcon,
                         contentTitle = getoSettings,
                         contentText = applySuccess,
                     ),
@@ -519,8 +519,8 @@ private fun AppSettingsLaunchedEffects(
         appSettingDialogState.updateSecureSettings(secureSettings)
     }
 
-    LaunchedEffect(key1 = applicationIcon) {
-        applicationIcon?.let {
+    LaunchedEffect(key1 = activityIcon) {
+        activityIcon?.let {
             shortcutDialogState.updateIcon(it)
         }
     }

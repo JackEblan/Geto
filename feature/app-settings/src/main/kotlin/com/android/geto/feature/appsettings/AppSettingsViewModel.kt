@@ -67,9 +67,9 @@ class AppSettingsViewModel @Inject constructor(
     private var _secureSettings = MutableStateFlow<List<SecureSetting>>(emptyList())
     val secureSettings = _secureSettings.asStateFlow()
 
-    private var _applicationIcon = MutableStateFlow<ByteArray?>(null)
-    val applicationIcon = _applicationIcon.onStart {
-        getApplicationIcon()
+    private var _activityIcon = MutableStateFlow<ByteArray?>(null)
+    val activityIcon = _activityIcon.onStart {
+        getActivityIcon()
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.Lazily,
@@ -149,9 +149,9 @@ class AppSettingsViewModel @Inject constructor(
         }
     }
 
-    fun getApplicationIcon() {
+    fun getActivityIcon() {
         viewModelScope.launch {
-            _applicationIcon.update { packageManagerWrapper.getActivityIcon(componentName = componentName) }
+            _activityIcon.update { packageManagerWrapper.getActivityIcon(componentName = componentName) }
         }
     }
 
