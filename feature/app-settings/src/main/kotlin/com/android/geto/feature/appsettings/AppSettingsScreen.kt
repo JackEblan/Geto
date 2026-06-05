@@ -94,6 +94,7 @@ import com.android.geto.domain.model.SettingType
 import com.android.geto.feature.appsettings.dialog.AppSettingDialog
 import com.android.geto.feature.appsettings.dialog.ShortcutDialog
 import com.android.geto.feature.appsettings.dialog.TemplateDialog
+import com.android.geto.feature.appsettings.dialog.WriteSecureSettingsDialog
 import com.android.geto.feature.appsettings.navigation.AppSettingsRouteData
 import com.android.geto.framework.notificationmanager.AndroidNotificationManagerWrapper
 import com.android.geto.framework.notificationmanager.AndroidNotificationManagerWrapper.Companion.ACTION_REVERT_SETTINGS
@@ -101,7 +102,6 @@ import com.android.geto.framework.notificationmanager.AndroidNotificationManager
 import com.android.geto.framework.notificationmanager.AndroidNotificationManagerWrapper.Companion.NOTIFICATION_EXTRA_NOTIFICATION_ID
 import com.android.geto.ui.local.LocalLauncherApps
 import com.android.geto.ui.local.LocalNotificationManager
-import com.eblan.launcher.feature.home.dialog.WriteSecureSettingsDialog
 import kotlinx.coroutines.FlowPreview
 
 @Composable

@@ -15,14 +15,12 @@
  *   limitations under the License.
  *
  */
-package com.eblan.launcher.feature.home.dialog
+package com.android.geto.feature.appsettings.dialog
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.selection.SelectionContainer
@@ -59,14 +57,14 @@ internal fun WriteSecureSettingsDialog(
                     style = MaterialTheme.typography.titleLarge,
                 )
 
-                Spacer(modifier = Modifier.height(8.dp))
-
-                Text(text = stringResource(R.string.write_secure_settings_message))
-
-                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    modifier = Modifier.padding(15.dp),
+                    text = stringResource(R.string.write_secure_settings_message),
+                )
 
                 SelectionContainer {
                     Text(
+                        modifier = Modifier.padding(15.dp),
                         text = "pm grant com.android.geto android.permission.WRITE_SECURE_SETTINGS",
                         style = MaterialTheme.typography.bodyMedium.copy(
                             fontStyle = FontStyle.Italic,
