@@ -56,4 +56,7 @@
     <string name="app_setting_added_successfully">App setting added successfully</string>
     <string name="no_permission">Please grant the WRITE_SECURE_SETTINGS permission via ADB</string>
     <string name="write_secure_settings_message">Copy the command below and run it via ADB to grant the Write Secure Settings permission</string>
+    <string name="system">System</string>
+    <string name="secure">Secure</string>
+    <string name="global">Global</string>
 </resources>

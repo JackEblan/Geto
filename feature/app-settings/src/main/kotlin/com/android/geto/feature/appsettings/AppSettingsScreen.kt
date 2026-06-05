@@ -776,8 +776,9 @@ private fun getNotification(
     }.build()
 }
 
+@Composable
 internal fun SettingType.getSettingTypeTitle() = when (this) {
-    SettingType.SYSTEM -> "System"
-    SettingType.SECURE -> "Secure"
-    SettingType.GLOBAL -> "Global"
+    SettingType.SYSTEM -> stringResource(R.string.system)
+    SettingType.SECURE -> stringResource(R.string.secure)
+    SettingType.GLOBAL -> stringResource(R.string.global)
 }

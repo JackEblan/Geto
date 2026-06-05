@@ -210,8 +210,9 @@ private fun ThemeSetting(
     }
 }
 
+@Composable
 internal fun Theme.getTitle() = when (this) {
-    Theme.FOLLOW_SYSTEM -> "Follow System"
-    Theme.LIGHT -> "Light"
-    Theme.DARK -> "Dark"
+    Theme.FOLLOW_SYSTEM -> stringResource(R.string.follow_system)
+    Theme.LIGHT -> stringResource(R.string.light)
+    Theme.DARK -> stringResource(R.string.dark)
 }
