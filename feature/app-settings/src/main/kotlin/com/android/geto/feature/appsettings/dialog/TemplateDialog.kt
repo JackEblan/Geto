@@ -65,6 +65,7 @@ internal fun TemplateDialog(
                         appSettingTemplate = appSettingTemplate,
                         componentName = componentName,
                         onAddAppSetting = onAddAppSetting,
+                        onDismissRequest = onDismissRequest,
                     )
                 }
             }
@@ -89,6 +90,7 @@ private fun AppSettingTemplateItem(
     appSettingTemplate: AppSettingTemplate,
     componentName: String,
     onAddAppSetting: (AppSetting) -> Unit,
+    onDismissRequest: () -> Unit,
 ) {
     Row(
         modifier = modifier.padding(10.dp),
@@ -128,6 +130,8 @@ private fun AppSettingTemplateItem(
                         valueOnRevert = appSettingTemplate.valueOnRevert,
                     ),
                 )
+
+                onDismissRequest()
             },
         ) {
             Icon(

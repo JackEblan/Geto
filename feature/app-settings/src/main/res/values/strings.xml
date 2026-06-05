@@ -50,7 +50,7 @@
     <string name="shortcut_update_success">Shortcut update success</string>
     <string name="supported_launcher">Your current launcher supports shortcuts</string>
     <string name="unsupported_launcher">Your current launcher does not support shortcuts</string>
-    <string name="no_settings_found">No Settings Found!</string>
+    <string name="no_settings_found">No Settings Found</string>
     <string name="app_setting_already_exists">App setting already exists</string>
     <string name="app_setting_added_successfully">App setting added successfully</string>
     <string name="no_permission">Please grant the WRITE_SECURE_SETTINGS permission via ADB</string>
