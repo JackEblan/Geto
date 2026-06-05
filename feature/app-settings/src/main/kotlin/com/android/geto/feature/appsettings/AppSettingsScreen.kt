@@ -58,8 +58,9 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.snapshotFlow
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -90,15 +91,9 @@ import com.android.geto.domain.model.RequestPinShortcutResult.UpdateImmutableSho
 import com.android.geto.domain.model.RequestPinShortcutResult.UpdateSuccess
 import com.android.geto.domain.model.SecureSetting
 import com.android.geto.domain.model.SettingType
-import com.android.geto.feature.appsettings.dialog.appsetting.AppSettingDialog
-import com.android.geto.feature.appsettings.dialog.appsetting.AppSettingDialogState
-import com.android.geto.feature.appsettings.dialog.appsetting.rememberAppSettingDialogState
-import com.android.geto.feature.appsettings.dialog.shortcut.ShortcutDialog
-import com.android.geto.feature.appsettings.dialog.shortcut.ShortcutDialogState
-import com.android.geto.feature.appsettings.dialog.shortcut.rememberShortcutDialogState
-import com.android.geto.feature.appsettings.dialog.template.TemplateDialog
-import com.android.geto.feature.appsettings.dialog.template.TemplateDialogState
-import com.android.geto.feature.appsettings.dialog.template.rememberTemplateDialogState
+import com.android.geto.feature.appsettings.dialog.AppSettingDialog
+import com.android.geto.feature.appsettings.dialog.ShortcutDialog
+import com.android.geto.feature.appsettings.dialog.TemplateDialog
 import com.android.geto.feature.appsettings.navigation.AppSettingsRouteData
 import com.android.geto.framework.notificationmanager.AndroidNotificationManagerWrapper
 import com.android.geto.framework.notificationmanager.AndroidNotificationManagerWrapper.Companion.ACTION_REVERT_SETTINGS
@@ -107,10 +102,6 @@ import com.android.geto.framework.notificationmanager.AndroidNotificationManager
 import com.android.geto.ui.local.LocalLauncherApps
 import com.android.geto.ui.local.LocalNotificationManager
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.onEach
 
 @Composable
 internal fun AppSettingsRoute(
@@ -184,15 +175,7 @@ internal fun AppSettingsScreen(
     onRevertAppSettings: () -> Unit,
     onCheckAppSetting: (appSetting: AppSetting) -> Unit,
     onDeleteAppSetting: (appSetting: AppSetting) -> Unit,
-    onAddAppSetting: (
-        id: Int,
-        enabled: Boolean,
-        settingType: SettingType,
-        label: String,
-        key: String,
-        valueOnLaunch: String,
-        valueOnRevert: String,
-    ) -> Unit,
+    onAddAppSetting: (AppSetting) -> Unit,
     onRequestPinShortcut: (
         icon: ByteArray?,
         shortLabel: String,
@@ -205,19 +188,16 @@ internal fun AppSettingsScreen(
     onResetAddAppSettingResult: () -> Unit,
     onNavigationIconClick: () -> Unit,
 ) {
-    val appSettingDialogState = rememberAppSettingDialogState()
+    var showAppSettingDialog by remember { mutableStateOf(false) }
 
-    val shortcutDialogState = rememberShortcutDialogState()
+    var showShortcutDialog by remember { mutableStateOf(false) }
 
-    val templateDialogState = rememberTemplateDialogState()
+    var showTemplateDialog by remember { mutableStateOf(false) }
 
     AppSettingsLaunchedEffects(
         appSettingsRouteData = appSettingsRouteData,
         snackbarHostState = snackbarHostState,
-        appSettingDialogState = appSettingDialogState,
-        shortcutDialogState = shortcutDialogState,
         activityIcon = activityIcon,
-        secureSettings = secureSettings,
         addAppSettingResult = addAppSettingResult,
         applyAppSettingsResult = applyAppSettingsResult,
         revertAppSettingsResult = revertAppSettingsResult,
@@ -226,15 +206,27 @@ internal fun AppSettingsScreen(
         onResetRevertAppSettingsResult = onResetRevertAppSettingsResult,
         onResetRequestPinShortcutResult = onResetRequestPinShortcutResult,
         onResetAddAppSettingResult = onResetAddAppSettingResult,
-        onGetSecureSettingsByName = onGetSecureSettingsByName,
     )
 
     AppSettingsDialogs(
-        appSettingDialogState = appSettingDialogState,
-        shortcutDialogState = shortcutDialogState,
         appSettingTemplates = appSettingTemplates,
-        templateDialogState = templateDialogState,
+        componentName = appSettingsRouteData.componentName,
+        icon = activityIcon,
+        secureSettings = secureSettings,
+        showAppSettingDialog = showAppSettingDialog,
+        showShortcutDialog = showShortcutDialog,
+        showTemplateDialog = showTemplateDialog,
         onAddAppSetting = onAddAppSetting,
+        onDismissAppSettingDialog = {
+            showAppSettingDialog = false
+        },
+        onDismissShortcutDialog = {
+            showShortcutDialog = false
+        },
+        onDismissTemplateDialog = {
+            showTemplateDialog = false
+        },
+        onGetSecureSettingsByName = onGetSecureSettingsByName,
         onRequestPinShortcut = onRequestPinShortcut,
     )
 
@@ -249,13 +241,13 @@ internal fun AppSettingsScreen(
             AppSettingsBottomAppBar(
                 onRefreshIconClick = onRevertAppSettings,
                 onSettingsIconClick = {
-                    appSettingDialogState.updateShowDialog(true)
+                    showAppSettingDialog = true
                 },
                 onShortcutIconClick = {
-                    shortcutDialogState.updateShowDialog(true)
+                    showShortcutDialog = true
                 },
                 onSettingsSuggestIconClick = {
-                    templateDialogState.updateShowDialog(true)
+                    showTemplateDialog = true
                 },
                 onFloatingActionButtonClick = onApplyAppSettings,
             )
@@ -299,10 +291,7 @@ internal fun AppSettingsScreen(
 private fun AppSettingsLaunchedEffects(
     appSettingsRouteData: AppSettingsRouteData,
     snackbarHostState: SnackbarHostState,
-    appSettingDialogState: AppSettingDialogState,
-    shortcutDialogState: ShortcutDialogState,
     activityIcon: ByteArray?,
-    secureSettings: List<SecureSetting>,
     addAppSettingResult: AddAppSettingResult?,
     applyAppSettingsResult: AppSettingsResult?,
     revertAppSettingsResult: AppSettingsResult?,
@@ -311,7 +300,6 @@ private fun AppSettingsLaunchedEffects(
     onResetRevertAppSettingsResult: () -> Unit,
     onResetRequestPinShortcutResult: () -> Unit,
     onResetAddAppSettingResult: () -> Unit,
-    onGetSecureSettingsByName: (SettingType, String) -> Unit,
 ) {
     val context = LocalContext.current
 
@@ -487,81 +475,51 @@ private fun AppSettingsLaunchedEffects(
 
         onResetAddAppSettingResult()
     }
-
-    LaunchedEffect(
-        key1 = appSettingDialogState.key,
-    ) {
-        val settingType = SettingType.entries[appSettingDialogState.selectedRadioOptionIndex]
-
-        snapshotFlow { appSettingDialogState.key }.debounce(500).distinctUntilChanged().onEach {
-            onGetSecureSettingsByName(
-                settingType,
-                appSettingDialogState.key,
-            )
-        }.collect()
-    }
-
-    LaunchedEffect(
-        key1 = appSettingDialogState.selectedRadioOptionIndex,
-    ) {
-        val settingType = SettingType.entries[appSettingDialogState.selectedRadioOptionIndex]
-
-        snapshotFlow { appSettingDialogState.selectedRadioOptionIndex }.debounce(500)
-            .distinctUntilChanged().onEach {
-                onGetSecureSettingsByName(
-                    settingType,
-                    appSettingDialogState.key,
-                )
-            }.collect()
-    }
-
-    LaunchedEffect(key1 = secureSettings) {
-        appSettingDialogState.updateSecureSettings(secureSettings)
-    }
-
-    LaunchedEffect(key1 = activityIcon) {
-        activityIcon?.let {
-            shortcutDialogState.updateIcon(it)
-        }
-    }
 }
 
 @Composable
 private fun AppSettingsDialogs(
-    appSettingDialogState: AppSettingDialogState,
-    shortcutDialogState: ShortcutDialogState,
     appSettingTemplates: List<AppSettingTemplate>,
-    templateDialogState: TemplateDialogState,
-    onAddAppSetting: (
-        id: Int,
-        enabled: Boolean,
+    componentName: String,
+    icon: ByteArray?,
+    secureSettings: List<SecureSetting>,
+    showAppSettingDialog: Boolean,
+    showShortcutDialog: Boolean,
+    showTemplateDialog: Boolean,
+    onAddAppSetting: (AppSetting) -> Unit,
+    onDismissAppSettingDialog: () -> Unit,
+    onDismissShortcutDialog: () -> Unit,
+    onDismissTemplateDialog: () -> Unit,
+    onGetSecureSettingsByName: (
         settingType: SettingType,
-        label: String,
-        key: String,
-        valueOnLaunch: String,
-        valueOnRevert: String,
+        text: String,
     ) -> Unit,
     onRequestPinShortcut: (ByteArray?, String, String) -> Unit,
 ) {
-    if (appSettingDialogState.showDialog) {
+    if (showAppSettingDialog) {
         AppSettingDialog(
-            appSettingDialogState = appSettingDialogState,
+            componentName = componentName,
+            secureSettings = secureSettings,
             onAddAppSetting = onAddAppSetting,
+            onDismissRequest = onDismissAppSettingDialog,
+            onGetSecureSettingsByName = onGetSecureSettingsByName,
         )
     }
 
-    if (shortcutDialogState.showDialog) {
+    if (showShortcutDialog) {
         ShortcutDialog(
-            shortcutDialogState = shortcutDialogState,
+            icon = icon,
+            onDismissRequest = onDismissShortcutDialog,
             onRequestPinShortcut = onRequestPinShortcut,
         )
     }
 
-    if (templateDialogState.showDialog) {
+    if (showTemplateDialog) {
         TemplateDialog(
             appSettingTemplates = appSettingTemplates,
-            templateDialogState = templateDialogState,
+            componentName = componentName,
             onAddAppSetting = onAddAppSetting,
+            onDismissRequest = onDismissTemplateDialog,
         )
     }
 }

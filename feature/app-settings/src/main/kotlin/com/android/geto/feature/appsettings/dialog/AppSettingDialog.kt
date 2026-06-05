@@ -15,7 +15,7 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.feature.appsettings.dialog.appsetting
+package com.android.geto.feature.appsettings.dialog
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -40,6 +40,13 @@ import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -47,49 +54,151 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.android.geto.designsystem.component.DialogContainer
+import com.android.geto.domain.model.AppSetting
+import com.android.geto.domain.model.SecureSetting
 import com.android.geto.domain.model.SettingType
 import com.android.geto.feature.appsettings.R
 import com.android.geto.feature.appsettings.getSettingTypeTitle
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.onEach
 
+@OptIn(FlowPreview::class)
 @Composable
 internal fun AppSettingDialog(
     modifier: Modifier = Modifier,
-    appSettingDialogState: AppSettingDialogState,
-    onAddAppSetting: (
-        id: Int,
-        enabled: Boolean,
+    componentName: String,
+    secureSettings: List<SecureSetting>,
+    onAddAppSetting: (AppSetting) -> Unit,
+    onDismissRequest: () -> Unit,
+    onGetSecureSettingsByName: (
         settingType: SettingType,
-        label: String,
-        key: String,
-        valueOnLaunch: String,
-        valueOnRevert: String,
+        text: String,
     ) -> Unit,
 ) {
+    var selectedRadioOptionIndex by remember { mutableIntStateOf(0) }
+
+    var label by remember { mutableStateOf("") }
+
+    var key by remember { mutableStateOf("") }
+
+    var valueOnLaunch by remember { mutableStateOf("") }
+
+    var valueOnRevert by remember { mutableStateOf("") }
+
+    var showLabelError by remember { mutableStateOf(false) }
+
+    var showKeyError by remember { mutableStateOf(false) }
+
+    var showKeyNotFoundError by remember { mutableStateOf(false) }
+
+    var showValueOnLaunchError by remember { mutableStateOf(false) }
+
+    var showValueOnRevertError by remember { mutableStateOf(false) }
+
+    var secureSettingsExpanded by remember { mutableStateOf(false) }
+
+    LaunchedEffect(key1 = Unit) {
+        snapshotFlow { key }.debounce(500).distinctUntilChanged().onEach {
+            onGetSecureSettingsByName(
+                SettingType.entries[selectedRadioOptionIndex],
+                key,
+            )
+        }.collect()
+    }
+
+    LaunchedEffect(key1 = Unit) {
+        snapshotFlow { selectedRadioOptionIndex }.debounce(500)
+            .distinctUntilChanged().onEach {
+                onGetSecureSettingsByName(
+                    SettingType.entries[selectedRadioOptionIndex],
+                    key,
+                )
+            }.collect()
+    }
+
     DialogContainer(
         modifier = modifier
             .padding(16.dp)
             .verticalScroll(rememberScrollState()),
-        onDismissRequest = { appSettingDialogState.updateShowDialog(false) },
+        onDismissRequest = onDismissRequest,
     ) {
-        Column(
-            modifier = Modifier.fillMaxWidth(),
-        ) {
+        Column(modifier = Modifier.fillMaxWidth()) {
             AppSettingDialogTitle()
 
             AppSettingDialogRadioButtonGroup(
-                selected = appSettingDialogState.selectedRadioOptionIndex,
-                onSelect = appSettingDialogState::updateSelectedRadioOptionIndex,
+                selected = selectedRadioOptionIndex,
+                onSelect = {
+                    selectedRadioOptionIndex = it
+                },
             )
 
             AppSettingDialogTextFields(
-                appSettingDialogState = appSettingDialogState,
+                key = key,
+                label = label,
+                secureSettings = secureSettings,
+                secureSettingsExpanded = secureSettingsExpanded,
+                showKeyError = showKeyError,
+                showKeyNotFoundError = showKeyNotFoundError,
+                showLabelError = showLabelError,
+                showValueOnLaunchError = showValueOnLaunchError,
+                showValueOnRevertError = showValueOnRevertError,
+                valueOnLaunch = valueOnLaunch,
+                valueOnRevert = valueOnRevert,
+                onUpdateKey = {
+                    key = it
+                },
+                onUpdateLabel = {
+                    label = it
+                },
+                onUpdateSecureSettingsExpanded = {
+                    secureSettingsExpanded = it
+                },
+                onUpdateValueOnLaunch = {
+                    valueOnLaunch = it
+                },
+                onUpdateValueOnRevert = {
+                    valueOnRevert = it
+                },
             )
 
             AppSettingDialogButtons(
-                onCancelClick = {
-                    appSettingDialogState.updateShowDialog(false)
+                onCancelClick = onDismissRequest,
+                onAddClick = {
+                    showLabelError = label.isBlank()
+
+                    showKeyError = key.isBlank()
+
+                    showKeyNotFoundError =
+                        key.isNotBlank() && !secureSettings.mapNotNull { it.name }.contains(key)
+
+                    showValueOnLaunchError = valueOnLaunch.isBlank()
+
+                    showValueOnRevertError = valueOnRevert.isBlank()
+
+                    if (!showLabelError &&
+                        !showKeyNotFoundError &&
+                        !showKeyError &&
+                        !showValueOnLaunchError &&
+                        !showValueOnRevertError
+                    ) {
+                        onAddAppSetting(
+                            AppSetting(
+                                enabled = true,
+                                settingType = SettingType.entries[selectedRadioOptionIndex],
+                                componentName = componentName,
+                                label = label,
+                                key = key,
+                                valueOnLaunch = valueOnLaunch,
+                                valueOnRevert = valueOnRevert,
+                            ),
+                        )
+
+                        onDismissRequest()
+                    }
                 },
-                onAddClick = { appSettingDialogState.getAppSetting(onAddAppSetting = onAddAppSetting) },
             )
         }
     }
@@ -149,10 +258,27 @@ private fun AppSettingDialogRadioButtonGroup(
 
 @Composable
 private fun AppSettingDialogTextFields(
-    appSettingDialogState: AppSettingDialogState,
+    key: String,
+    label: String,
+    secureSettings: List<SecureSetting>,
+    secureSettingsExpanded: Boolean,
+    showKeyError: Boolean,
+    showKeyNotFoundError: Boolean,
+    showLabelError: Boolean,
+    showValueOnLaunchError: Boolean,
+    showValueOnRevertError: Boolean,
+    valueOnLaunch: String,
+    valueOnRevert: String,
+    onUpdateKey: (String) -> Unit,
+    onUpdateLabel: (String) -> Unit,
+    onUpdateSecureSettingsExpanded: (Boolean) -> Unit,
+    onUpdateValueOnLaunch: (String) -> Unit,
+    onUpdateValueOnRevert: (String) -> Unit,
 ) {
     val labelIsBlank = stringResource(id = R.string.setting_label_is_blank)
+
     val valueOnLaunchIsBlank = stringResource(id = R.string.setting_value_on_launch_is_blank)
+
     val valueOnRevertIsBlank = stringResource(id = R.string.setting_value_on_revert_is_blank)
 
     Spacer(modifier = Modifier.height(10.dp))
@@ -161,14 +287,14 @@ private fun AppSettingDialogTextFields(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 10.dp),
-        value = appSettingDialogState.label,
-        onValueChange = appSettingDialogState::updateLabel,
+        value = label,
+        onValueChange = onUpdateLabel,
         label = {
             Text(text = stringResource(R.string.setting_label))
         },
-        isError = appSettingDialogState.showLabelError,
+        isError = showLabelError,
         supportingText = {
-            if (appSettingDialogState.showLabelError) {
+            if (showLabelError) {
                 Text(text = labelIsBlank)
             }
         },
@@ -177,21 +303,28 @@ private fun AppSettingDialogTextFields(
     )
 
     AppSettingDialogTextFieldWithDropdownMenu(
-        appSettingDialogState = appSettingDialogState,
+        key = key,
+        secureSettings = secureSettings,
+        secureSettingsExpanded = secureSettingsExpanded,
+        showKeyError = showKeyError,
+        showKeyNotFoundError = showKeyNotFoundError,
+        onUpdateKey = onUpdateKey,
+        onUpdateSecureSettingsExpanded = onUpdateSecureSettingsExpanded,
+        onUpdateValueOnRevert = onUpdateValueOnRevert,
     )
 
     OutlinedTextField(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 10.dp),
-        value = appSettingDialogState.valueOnLaunch,
-        onValueChange = appSettingDialogState::updateValueOnLaunch,
+        value = valueOnLaunch,
+        onValueChange = onUpdateValueOnLaunch,
         label = {
             Text(text = stringResource(R.string.setting_value_on_launch))
         },
-        isError = appSettingDialogState.showValueOnLaunchError,
+        isError = showValueOnLaunchError,
         supportingText = {
-            if (appSettingDialogState.showValueOnLaunchError) {
+            if (showValueOnLaunchError) {
                 Text(text = valueOnLaunchIsBlank)
             }
         },
@@ -203,14 +336,14 @@ private fun AppSettingDialogTextFields(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 10.dp),
-        value = appSettingDialogState.valueOnRevert,
-        onValueChange = appSettingDialogState::updateValueOnRevert,
+        value = valueOnRevert,
+        onValueChange = onUpdateValueOnRevert,
         label = {
             Text(text = stringResource(R.string.setting_value_on_revert))
         },
-        isError = appSettingDialogState.showValueOnRevertError,
+        isError = showValueOnRevertError,
         supportingText = {
-            if (appSettingDialogState.showValueOnRevertError) {
+            if (showValueOnRevertError) {
                 Text(text = valueOnRevertIsBlank)
             }
         },
@@ -222,14 +355,20 @@ private fun AppSettingDialogTextFields(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun AppSettingDialogTextFieldWithDropdownMenu(
-    appSettingDialogState: AppSettingDialogState,
+    modifier: Modifier = Modifier,
+    key: String,
+    secureSettings: List<SecureSetting>,
+    secureSettingsExpanded: Boolean,
+    showKeyError: Boolean,
+    showKeyNotFoundError: Boolean,
+    onUpdateKey: (String) -> Unit,
+    onUpdateSecureSettingsExpanded: (Boolean) -> Unit,
+    onUpdateValueOnRevert: (String) -> Unit,
 ) {
-    val keyIsBlank = stringResource(id = R.string.setting_key_is_blank)
-    val keyNotFound = stringResource(id = R.string.setting_key_not_found)
-
     ExposedDropdownMenuBox(
-        expanded = appSettingDialogState.secureSettingsExpanded,
-        onExpandedChange = appSettingDialogState::updateSecureSettingsExpanded,
+        modifier = modifier.fillMaxWidth(),
+        expanded = secureSettingsExpanded,
+        onExpandedChange = onUpdateSecureSettingsExpanded,
     ) {
         OutlinedTextField(
             modifier = Modifier
@@ -239,35 +378,35 @@ private fun AppSettingDialogTextFieldWithDropdownMenu(
                 )
                 .fillMaxWidth()
                 .padding(horizontal = 10.dp),
-            value = appSettingDialogState.key,
-            onValueChange = appSettingDialogState::updateKey,
+            value = key,
+            onValueChange = onUpdateKey,
             label = {
                 Text(text = stringResource(R.string.setting_key))
             },
-            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = appSettingDialogState.secureSettingsExpanded) },
+            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = secureSettingsExpanded) },
             colors = ExposedDropdownMenuDefaults.textFieldColors(),
-            isError = appSettingDialogState.showKeyError || appSettingDialogState.showKeyNotFoundError,
+            isError = showKeyError || showKeyNotFoundError,
             supportingText = {
-                if (appSettingDialogState.showKeyError) {
-                    Text(text = keyIsBlank)
+                if (showKeyError) {
+                    Text(text = stringResource(id = R.string.setting_key_is_blank))
                 }
 
-                if (appSettingDialogState.showKeyNotFoundError) {
-                    Text(text = keyNotFound)
+                if (showKeyNotFoundError) {
+                    Text(text = stringResource(id = R.string.setting_key_not_found))
                 }
             },
             singleLine = true,
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
         )
 
-        if (appSettingDialogState.secureSettings.isNotEmpty()) {
+        if (secureSettings.isNotEmpty()) {
             ExposedDropdownMenu(
-                expanded = appSettingDialogState.secureSettingsExpanded,
+                expanded = secureSettingsExpanded,
                 onDismissRequest = {
-                    appSettingDialogState.updateSecureSettingsExpanded(false)
+                    onUpdateSecureSettingsExpanded(false)
                 },
             ) {
-                appSettingDialogState.secureSettings.forEach { secureSetting ->
+                secureSettings.forEach { secureSetting ->
                     DropdownMenuItem(
                         text = {
                             Text(
@@ -276,17 +415,11 @@ private fun AppSettingDialogTextFieldWithDropdownMenu(
                             )
                         },
                         onClick = {
-                            appSettingDialogState.updateKey(
-                                secureSetting.name ?: "null",
-                            )
+                            onUpdateKey(secureSetting.name ?: "null")
 
-                            appSettingDialogState.updateValueOnRevert(
-                                secureSetting.value ?: "null",
-                            )
+                            onUpdateValueOnRevert(secureSetting.value ?: "null")
 
-                            appSettingDialogState.updateSecureSettingsExpanded(
-                                false,
-                            )
+                            onUpdateSecureSettingsExpanded(false)
                         },
                         contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
                     )

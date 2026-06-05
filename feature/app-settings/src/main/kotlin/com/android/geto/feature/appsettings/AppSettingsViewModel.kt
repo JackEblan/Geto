@@ -124,27 +124,10 @@ class AppSettingsViewModel @Inject constructor(
         }
     }
 
-    fun addAppSetting(
-        id: Int,
-        enabled: Boolean,
-        settingType: SettingType,
-        label: String,
-        key: String,
-        valueOnLaunch: String,
-        valueOnRevert: String,
-    ) {
+    fun addAppSetting(appSetting: AppSetting) {
         viewModelScope.launch {
             _addAppSettingsResult.update {
-                addAppSettingUseCase(
-                    id = id,
-                    componentName = componentName,
-                    enabled = enabled,
-                    settingType = settingType,
-                    label = label,
-                    key = key,
-                    valueOnLaunch = valueOnLaunch,
-                    valueOnRevert = valueOnRevert,
-                )
+                addAppSettingUseCase(appSetting = appSetting)
             }
         }
     }

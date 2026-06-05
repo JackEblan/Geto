@@ -15,7 +15,7 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.feature.appsettings.dialog.template
+package com.android.geto.feature.appsettings.dialog
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -36,8 +36,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.android.geto.designsystem.component.DialogContainer
 import com.android.geto.designsystem.icon.GetoIcons
+import com.android.geto.domain.model.AppSetting
 import com.android.geto.domain.model.AppSettingTemplate
-import com.android.geto.domain.model.SettingType
 import com.android.geto.feature.appsettings.R
 import com.android.geto.feature.appsettings.getSettingTypeTitle
 
@@ -45,30 +45,29 @@ import com.android.geto.feature.appsettings.getSettingTypeTitle
 internal fun TemplateDialog(
     modifier: Modifier = Modifier,
     appSettingTemplates: List<AppSettingTemplate>,
-    templateDialogState: TemplateDialogState,
-    onAddAppSetting: (Int, Boolean, SettingType, String, String, String, String) -> Unit,
+    componentName: String,
+    onAddAppSetting: (AppSetting) -> Unit,
+    onDismissRequest: () -> Unit,
 ) {
     DialogContainer(
         modifier = modifier
             .padding(16.dp),
-        onDismissRequest = {
-            templateDialogState.updateShowDialog(false)
-        },
+        onDismissRequest = onDismissRequest,
     ) {
         Column(
             modifier = Modifier.fillMaxWidth(),
         ) {
             TemplateDialogTitle()
 
-            TemplateDialogContent(
-                appSettingTemplates = appSettingTemplates,
-                onAddClick = { appSettingTemplate ->
-                    templateDialogState.addAppSetting(
+            LazyColumn(modifier = modifier.fillMaxWidth()) {
+                items(appSettingTemplates) { appSettingTemplate ->
+                    AppSettingTemplateItem(
                         appSettingTemplate = appSettingTemplate,
+                        componentName = componentName,
                         onAddAppSetting = onAddAppSetting,
                     )
-                },
-            )
+                }
+            }
         }
     }
 }
@@ -85,26 +84,11 @@ private fun TemplateDialogTitle(modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun TemplateDialogContent(
-    modifier: Modifier = Modifier,
-    appSettingTemplates: List<AppSettingTemplate>,
-    onAddClick: (AppSettingTemplate) -> Unit,
-) {
-    LazyColumn(modifier = modifier.fillMaxWidth()) {
-        items(appSettingTemplates) { appSettingTemplate ->
-            AppSettingTemplateItem(
-                appSettingTemplate = appSettingTemplate,
-                onAddClick = onAddClick,
-            )
-        }
-    }
-}
-
-@Composable
 private fun AppSettingTemplateItem(
     modifier: Modifier = Modifier,
     appSettingTemplate: AppSettingTemplate,
-    onAddClick: (AppSettingTemplate) -> Unit,
+    componentName: String,
+    onAddAppSetting: (AppSetting) -> Unit,
 ) {
     Row(
         modifier = modifier.padding(10.dp),
@@ -131,7 +115,21 @@ private fun AppSettingTemplateItem(
             )
         }
 
-        IconButton(onClick = { onAddClick(appSettingTemplate) }) {
+        IconButton(
+            onClick = {
+                onAddAppSetting(
+                    AppSetting(
+                        enabled = true,
+                        settingType = appSettingTemplate.settingType,
+                        componentName = componentName,
+                        label = appSettingTemplate.label,
+                        key = appSettingTemplate.key,
+                        valueOnLaunch = appSettingTemplate.valueOnLaunch,
+                        valueOnRevert = appSettingTemplate.valueOnRevert,
+                    ),
+                )
+            },
+        ) {
             Icon(
                 imageVector = GetoIcons.Add,
                 contentDescription = null,
