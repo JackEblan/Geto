@@ -50,16 +50,21 @@ internal fun TemplateDialog(
     onDismissRequest: () -> Unit,
 ) {
     DialogContainer(
-        modifier = modifier
-            .padding(16.dp),
+        modifier = modifier,
         onDismissRequest = onDismissRequest,
     ) {
         Column(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(10.dp),
         ) {
-            TemplateDialogTitle()
+            Text(
+                modifier = modifier.padding(10.dp),
+                text = stringResource(id = R.string.templates),
+                style = MaterialTheme.typography.titleLarge,
+            )
 
-            LazyColumn(modifier = modifier.fillMaxWidth()) {
+            LazyColumn(modifier = Modifier.fillMaxWidth()) {
                 items(appSettingTemplates) { appSettingTemplate ->
                     AppSettingTemplateItem(
                         appSettingTemplate = appSettingTemplate,
@@ -71,17 +76,6 @@ internal fun TemplateDialog(
             }
         }
     }
-}
-
-@Composable
-private fun TemplateDialogTitle(modifier: Modifier = Modifier) {
-    Spacer(modifier = Modifier.height(10.dp))
-
-    Text(
-        modifier = modifier.padding(10.dp),
-        text = stringResource(id = R.string.templates),
-        style = MaterialTheme.typography.titleLarge,
-    )
 }
 
 @Composable

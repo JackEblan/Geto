@@ -120,13 +120,19 @@ internal fun AppSettingDialog(
     }
 
     DialogContainer(
-        modifier = modifier
-            .padding(16.dp)
-            .verticalScroll(rememberScrollState()),
+        modifier = modifier.verticalScroll(rememberScrollState()),
         onDismissRequest = onDismissRequest,
     ) {
-        Column(modifier = Modifier.fillMaxWidth()) {
-            AppSettingDialogTitle()
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(10.dp),
+        ) {
+            Text(
+                modifier = modifier.padding(10.dp),
+                text = stringResource(R.string.add_app_setting),
+                style = MaterialTheme.typography.titleLarge,
+            )
 
             AppSettingDialogRadioButtonGroup(
                 selected = selectedRadioOptionIndex,
@@ -202,17 +208,6 @@ internal fun AppSettingDialog(
             )
         }
     }
-}
-
-@Composable
-private fun AppSettingDialogTitle(modifier: Modifier = Modifier) {
-    Spacer(modifier = Modifier.height(10.dp))
-
-    Text(
-        modifier = modifier.padding(10.dp),
-        text = stringResource(R.string.add_app_setting),
-        style = MaterialTheme.typography.titleLarge,
-    )
 }
 
 @Composable

@@ -153,6 +153,9 @@ private fun DynamicThemeSetting(
 
         Row(
             modifier = modifier
+                .clickable {
+                    onUpdateDynamicTheme(!dynamicTheme)
+                }
                 .fillMaxWidth()
                 .padding(10.dp),
             verticalAlignment = Alignment.CenterVertically,

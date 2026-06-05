@@ -20,12 +20,13 @@ package com.android.geto.feature.settings.dialog
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
@@ -50,14 +51,19 @@ internal fun ThemeDialog(
     onChangeClick: () -> Unit,
 ) {
     DialogContainer(
-        modifier = modifier
-            .padding(16.dp),
+        modifier = modifier.verticalScroll(rememberScrollState()),
         onDismissRequest = onDismissRequest,
     ) {
         Column(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(10.dp),
         ) {
-            DarkDialogTitle()
+            Text(
+                modifier = modifier.padding(10.dp),
+                text = stringResource(id = R.string.theme),
+                style = MaterialTheme.typography.titleLarge,
+            )
 
             DarkDialogRadioButtonGroup(
                 selected = selected,
@@ -70,17 +76,6 @@ internal fun ThemeDialog(
             )
         }
     }
-}
-
-@Composable
-private fun DarkDialogTitle(modifier: Modifier = Modifier) {
-    Spacer(modifier = Modifier.height(10.dp))
-
-    Text(
-        modifier = modifier.padding(10.dp),
-        text = stringResource(id = R.string.theme),
-        style = MaterialTheme.typography.titleLarge,
-    )
 }
 
 @Composable

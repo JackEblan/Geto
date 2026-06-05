@@ -42,18 +42,16 @@ internal fun WriteSecureSettingsDialog(
     onDismissRequest: () -> Unit,
 ) {
     DialogContainer(
+        modifier = modifier.verticalScroll(rememberScrollState()),
         content = {
             Column(
-                modifier = modifier
-                    .verticalScroll(rememberScrollState())
-                    .fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(10.dp),
             ) {
                 Text(
-                    modifier = Modifier.padding(
-                        start = 15.dp,
-                        top = 10.dp,
-                    ),
-                    text = "Permission",
+                    modifier = Modifier.padding(10.dp),
+                    text = stringResource(R.string.permission),
                     style = MaterialTheme.typography.titleLarge,
                 )
 
@@ -73,9 +71,7 @@ internal fun WriteSecureSettingsDialog(
                 }
 
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(10.dp),
+                    modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.End,
                 ) {
                     Button(onClick = onDismissRequest) {

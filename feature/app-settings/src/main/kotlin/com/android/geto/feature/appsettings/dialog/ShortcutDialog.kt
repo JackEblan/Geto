@@ -62,15 +62,19 @@ internal fun ShortcutDialog(
     var showLongLabelError by remember { mutableStateOf(false) }
 
     DialogContainer(
-        modifier = modifier
-            .padding(16.dp)
-            .verticalScroll(rememberScrollState()),
+        modifier = modifier.verticalScroll(rememberScrollState()),
         onDismissRequest = onDismissRequest,
     ) {
         Column(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(10.dp),
         ) {
-            ShortcutDialogTitle(title = stringResource(id = R.string.add_shortcut))
+            Text(
+                modifier = modifier.padding(10.dp),
+                text = stringResource(R.string.add_shortcut),
+                style = MaterialTheme.typography.titleLarge,
+            )
 
             ShortcutDialogApplicationIcon(
                 modifier = modifier
@@ -108,17 +112,6 @@ internal fun ShortcutDialog(
             )
         }
     }
-}
-
-@Composable
-private fun ShortcutDialogTitle(modifier: Modifier = Modifier, title: String) {
-    Spacer(modifier = Modifier.height(10.dp))
-
-    Text(
-        modifier = modifier.padding(10.dp),
-        text = title,
-        style = MaterialTheme.typography.titleLarge,
-    )
 }
 
 @Composable
