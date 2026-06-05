@@ -101,6 +101,7 @@ import com.android.geto.framework.notificationmanager.AndroidNotificationManager
 import com.android.geto.framework.notificationmanager.AndroidNotificationManagerWrapper.Companion.NOTIFICATION_EXTRA_NOTIFICATION_ID
 import com.android.geto.ui.local.LocalLauncherApps
 import com.android.geto.ui.local.LocalNotificationManager
+import com.eblan.launcher.feature.home.dialog.WriteSecureSettingsDialog
 import kotlinx.coroutines.FlowPreview
 
 @Composable
@@ -194,6 +195,8 @@ internal fun AppSettingsScreen(
 
     var showTemplateDialog by remember { mutableStateOf(false) }
 
+    var showWriteSecureSettingsDialog by remember { mutableStateOf(false) }
+
     AppSettingsLaunchedEffects(
         appSettingsRouteData = appSettingsRouteData,
         snackbarHostState = snackbarHostState,
@@ -206,6 +209,9 @@ internal fun AppSettingsScreen(
         onResetRevertAppSettingsResult = onResetRevertAppSettingsResult,
         onResetRequestPinShortcutResult = onResetRequestPinShortcutResult,
         onResetAddAppSettingResult = onResetAddAppSettingResult,
+        onShowWriteSecureSettingsDialog = {
+            showWriteSecureSettingsDialog = true
+        },
     )
 
     AppSettingsDialogs(
@@ -216,6 +222,7 @@ internal fun AppSettingsScreen(
         showAppSettingDialog = showAppSettingDialog,
         showShortcutDialog = showShortcutDialog,
         showTemplateDialog = showTemplateDialog,
+        showWriteSecureSettingsDialog = showWriteSecureSettingsDialog,
         onAddAppSetting = onAddAppSetting,
         onDismissAppSettingDialog = {
             showAppSettingDialog = false
@@ -225,6 +232,9 @@ internal fun AppSettingsScreen(
         },
         onDismissTemplateDialog = {
             showTemplateDialog = false
+        },
+        onDismissWriteSecureSettingsDialog = {
+            showWriteSecureSettingsDialog = false
         },
         onGetSecureSettingsByName = onGetSecureSettingsByName,
         onRequestPinShortcut = onRequestPinShortcut,
@@ -300,6 +310,7 @@ private fun AppSettingsLaunchedEffects(
     onResetRevertAppSettingsResult: () -> Unit,
     onResetRequestPinShortcutResult: () -> Unit,
     onResetAddAppSettingResult: () -> Unit,
+    onShowWriteSecureSettingsDialog: () -> Unit,
 ) {
     val context = LocalContext.current
 
@@ -338,8 +349,6 @@ private fun AppSettingsLaunchedEffects(
 
     val appSettingAddFailed = stringResource(R.string.app_setting_already_exists)
 
-    val noPermission = stringResource(R.string.no_permission)
-
     LaunchedEffect(key1 = applyAppSettingsResult) {
         when (applyAppSettingsResult) {
             DisabledAppSettings -> {
@@ -355,7 +364,7 @@ private fun AppSettingsLaunchedEffects(
             }
 
             NoPermission -> {
-                snackbarHostState.showSnackbar(message = noPermission)
+                onShowWriteSecureSettingsDialog()
             }
 
             Success -> {
@@ -403,7 +412,7 @@ private fun AppSettingsLaunchedEffects(
             }
 
             NoPermission -> {
-                snackbarHostState.showSnackbar(message = noPermission)
+                onShowWriteSecureSettingsDialog()
             }
 
             Success -> {
@@ -486,10 +495,12 @@ private fun AppSettingsDialogs(
     showAppSettingDialog: Boolean,
     showShortcutDialog: Boolean,
     showTemplateDialog: Boolean,
+    showWriteSecureSettingsDialog: Boolean,
     onAddAppSetting: (AppSetting) -> Unit,
     onDismissAppSettingDialog: () -> Unit,
     onDismissShortcutDialog: () -> Unit,
     onDismissTemplateDialog: () -> Unit,
+    onDismissWriteSecureSettingsDialog: () -> Unit,
     onGetSecureSettingsByName: (
         settingType: SettingType,
         text: String,
@@ -521,6 +532,10 @@ private fun AppSettingsDialogs(
             onAddAppSetting = onAddAppSetting,
             onDismissRequest = onDismissTemplateDialog,
         )
+    }
+
+    if (showWriteSecureSettingsDialog) {
+        WriteSecureSettingsDialog(onDismissRequest = onDismissWriteSecureSettingsDialog)
     }
 }
 

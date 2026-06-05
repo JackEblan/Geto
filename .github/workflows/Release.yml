@@ -106,7 +106,7 @@ jobs:
 
       - name: Rename signed files
         run: |
-          mv ${{steps.sign_release_apk.outputs.signedReleaseFile}} app/build/outputs/apk/release/Geto-${{ github.ref_name }}.apk
+          mv ${{steps.sign_release_apk.outputs.signedReleaseFile}} app/build/outputs/apk/release/geto-${{ github.ref_name }}.apk
 
       - name: Release
         uses: softprops/action-gh-release@v2
@@ -115,4 +115,4 @@ jobs:
           prerelease: true
           generate_release_notes: true
           files: |
-            app/build/outputs/apk/release/Geto-${{ github.ref_name }}.apk
+            app/build/outputs/apk/release/geto-${{ github.ref_name }}.apk
