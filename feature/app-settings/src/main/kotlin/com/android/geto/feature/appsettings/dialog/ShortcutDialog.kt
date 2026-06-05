@@ -15,7 +15,7 @@
  *   limitations under the License.
  *
  */
-package com.android.geto.feature.appsettings.dialog.shortcut
+package com.android.geto.feature.appsettings.dialog
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -33,6 +33,10 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -45,14 +49,23 @@ import com.android.geto.feature.appsettings.R
 @Composable
 internal fun ShortcutDialog(
     modifier: Modifier = Modifier,
-    shortcutDialogState: ShortcutDialogState,
+    icon: ByteArray?,
+    onDismissRequest: () -> Unit,
     onRequestPinShortcut: (ByteArray?, String, String) -> Unit,
 ) {
+    var shortLabel by remember { mutableStateOf("") }
+
+    var showShortLabelError by remember { mutableStateOf(false) }
+
+    var longLabel by remember { mutableStateOf("") }
+
+    var showLongLabelError by remember { mutableStateOf(false) }
+
     DialogContainer(
         modifier = modifier
             .padding(16.dp)
             .verticalScroll(rememberScrollState()),
-        onDismissRequest = { shortcutDialogState.updateShowDialog(false) },
+        onDismissRequest = onDismissRequest,
     ) {
         Column(
             modifier = Modifier.fillMaxWidth(),
@@ -63,18 +76,35 @@ internal fun ShortcutDialog(
                 modifier = modifier
                     .size(50.dp)
                     .align(Alignment.CenterHorizontally),
-                icon = shortcutDialogState.icon,
+                icon = icon,
             )
 
             ShortcutDialogTextFields(
-                shortcutDialogState = shortcutDialogState,
+                longLabel = longLabel,
+                shortLabel = shortLabel,
+                showLongLabelError = showLongLabelError,
+                showShortLabelError = showShortLabelError,
+                onUpdateLongLabel = {
+                    longLabel = it
+                },
+                onUpdateShortLabel = {
+                    shortLabel = it
+                },
             )
 
             ShortcutDialogButtons(
-                onPositiveTextButtonClick = { shortcutDialogState.getShortcut(onRequestPinShortcut = onRequestPinShortcut) },
-                onNegativeTextButtonClick = {
-                    shortcutDialogState.updateShowDialog(false)
+                onPositiveTextButtonClick = {
+                    showShortLabelError = shortLabel.isBlank()
+
+                    showLongLabelError = longLabel.isBlank()
+
+                    if (!showShortLabelError && !showLongLabelError) {
+                        onRequestPinShortcut(icon, shortLabel, longLabel)
+
+                        onDismissRequest()
+                    }
                 },
+                onNegativeTextButtonClick = onDismissRequest,
             )
         }
     }
@@ -107,7 +137,12 @@ private fun ShortcutDialogApplicationIcon(
 
 @Composable
 private fun ShortcutDialogTextFields(
-    shortcutDialogState: ShortcutDialogState,
+    longLabel: String,
+    shortLabel: String,
+    showLongLabelError: Boolean,
+    showShortLabelError: Boolean,
+    onUpdateLongLabel: (String) -> Unit,
+    onUpdateShortLabel: (String) -> Unit,
 ) {
     val shortLabelIsBlank = stringResource(id = R.string.short_label_is_blank)
 
@@ -119,18 +154,18 @@ private fun ShortcutDialogTextFields(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 10.dp),
-        value = shortcutDialogState.shortLabel,
-        onValueChange = shortcutDialogState::updateShortLabel,
+        value = shortLabel,
+        onValueChange = onUpdateShortLabel,
         label = {
             Text(text = stringResource(R.string.short_label))
         },
-        isError = shortcutDialogState.showShortLabelError,
+        isError = showShortLabelError,
         supportingText = {
-            if (shortcutDialogState.showShortLabelError) {
+            if (showShortLabelError) {
                 Text(text = shortLabelIsBlank)
             } else {
                 Text(
-                    text = "${shortcutDialogState.shortLabel.length}/${shortcutDialogState.shortLabelMaxLength}",
+                    text = "${shortLabel.length}/10",
                     modifier = Modifier.fillMaxWidth(),
                 )
             }
@@ -143,18 +178,18 @@ private fun ShortcutDialogTextFields(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 10.dp),
-        value = shortcutDialogState.longLabel,
-        onValueChange = shortcutDialogState::updateLongLabel,
+        value = longLabel,
+        onValueChange = onUpdateLongLabel,
         label = {
             Text(text = stringResource(R.string.long_label))
         },
-        isError = shortcutDialogState.showLongLabelError,
+        isError = showLongLabelError,
         supportingText = {
-            if (shortcutDialogState.showLongLabelError) {
+            if (showLongLabelError) {
                 Text(text = longLabelIsBlank)
             } else {
                 Text(
-                    text = "${shortcutDialogState.longLabel.length}/${shortcutDialogState.longLabelMaxLength}",
+                    text = "${longLabel.length}/25",
                     modifier = Modifier.fillMaxWidth(),
                 )
             }

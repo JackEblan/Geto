@@ -23,7 +23,6 @@ import com.android.geto.domain.model.AddAppSettingResult
 import com.android.geto.domain.model.AddAppSettingResult.FAILED
 import com.android.geto.domain.model.AddAppSettingResult.SUCCESS
 import com.android.geto.domain.model.AppSetting
-import com.android.geto.domain.model.SettingType
 import com.android.geto.domain.repository.AppSettingsRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
@@ -33,28 +32,8 @@ class AddAppSettingUseCase @Inject constructor(
     @param:Dispatcher(Default) private val defaultDispatcher: CoroutineDispatcher,
     private val appSettingsRepository: AppSettingsRepository,
 ) {
-    suspend operator fun invoke(
-        componentName: String,
-        id: Int,
-        enabled: Boolean,
-        settingType: SettingType,
-        label: String,
-        key: String,
-        valueOnLaunch: String,
-        valueOnRevert: String,
-    ): AddAppSettingResult {
+    suspend operator fun invoke(appSetting: AppSetting): AddAppSettingResult {
         return withContext(defaultDispatcher) {
-            val appSetting = AppSetting(
-                id = id,
-                enabled = enabled,
-                settingType = settingType,
-                componentName = componentName,
-                label = label,
-                key = key,
-                valueOnLaunch = valueOnLaunch,
-                valueOnRevert = valueOnRevert,
-            )
-
             val keys =
                 appSettingsRepository.getAppSettingsByComponentName(componentName = appSetting.componentName)
                     .map { it.key }
