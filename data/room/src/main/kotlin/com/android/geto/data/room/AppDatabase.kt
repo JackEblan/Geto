@@ -21,7 +21,7 @@ import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.android.geto.data.room.dao.AppSettingsDao
-import com.android.geto.data.room.migration.AutoMigration8To9
+import com.android.geto.data.room.migration.AutoMigrationSpec8To9
 import com.android.geto.data.room.migration.AutoMigrationSpec1To2
 import com.android.geto.data.room.migration.AutoMigrationSpec4To5
 import com.android.geto.data.room.migration.AutoMigrationSpec5To6
@@ -55,7 +55,7 @@ import com.android.geto.data.room.model.AppSettingEntity
         AutoMigration(
             from = 8,
             to = 9,
-            spec = AutoMigration8To9::class,
+            spec = AutoMigrationSpec8To9::class,
         ),
     ],
     exportSchema = true,

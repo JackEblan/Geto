@@ -44,4 +44,4 @@ internal class AutoMigrationSpec6To7 : AutoMigrationSpec
     fromColumnName = "packageName",
     toColumnName = "componentName",
 )
-internal class AutoMigration8To9 : AutoMigrationSpec
+internal class AutoMigrationSpec8To9 : AutoMigrationSpec
