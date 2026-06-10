@@ -32,19 +32,17 @@ class AddAppSettingUseCase @Inject constructor(
     @param:Dispatcher(Default) private val defaultDispatcher: CoroutineDispatcher,
     private val appSettingsRepository: AppSettingsRepository,
 ) {
-    suspend operator fun invoke(appSetting: AppSetting): AddAppSettingResult {
-        return withContext(defaultDispatcher) {
-            val keys =
-                appSettingsRepository.getAppSettingsByComponentName(componentName = appSetting.componentName)
-                    .map { it.key }
+    suspend operator fun invoke(appSetting: AppSetting): AddAppSettingResult = withContext(defaultDispatcher) {
+        val keys =
+            appSettingsRepository.getAppSettingsByComponentName(componentName = appSetting.componentName)
+                .map { it.key }
 
-            if (appSetting.key !in keys) {
-                appSettingsRepository.upsertAppSetting(appSetting = appSetting)
+        if (appSetting.key !in keys) {
+            appSettingsRepository.upsertAppSetting(appSetting = appSetting)
 
-                SUCCESS
-            } else {
-                FAILED
-            }
+            SUCCESS
+        } else {
+            FAILED
         }
     }
 }

@@ -37,33 +37,31 @@ class ApplyAppSettingsUseCase @Inject constructor(
     private val appSettingsRepository: AppSettingsRepository,
     private val secureSettingsWrapper: SecureSettingsWrapper,
 ) {
-    suspend operator fun invoke(componentName: String): AppSettingsResult {
-        return withContext(defaultDispatcher) {
-            val appSettings =
-                appSettingsRepository.getAppSettingsByComponentName(componentName = componentName)
+    suspend operator fun invoke(componentName: String): AppSettingsResult = withContext(defaultDispatcher) {
+        val appSettings =
+            appSettingsRepository.getAppSettingsByComponentName(componentName = componentName)
 
-            if (appSettings.isEmpty()) return@withContext EmptyAppSettings
+        if (appSettings.isEmpty()) return@withContext EmptyAppSettings
 
-            if (appSettings.all { !it.enabled }) return@withContext DisabledAppSettings
+        if (appSettings.all { !it.enabled }) return@withContext DisabledAppSettings
 
-            try {
-                if (appSettings.all { appSetting ->
-                        secureSettingsWrapper.canWriteSecureSettings(
-                            settingType = appSetting.settingType,
-                            key = appSetting.key,
-                            value = appSetting.valueOnLaunch,
-                        )
-                    }
-                ) {
-                    Success
-                } else {
-                    Failure
+        try {
+            if (appSettings.all { appSetting ->
+                    secureSettingsWrapper.canWriteSecureSettings(
+                        settingType = appSetting.settingType,
+                        key = appSetting.key,
+                        value = appSetting.valueOnLaunch,
+                    )
                 }
-            } catch (_: SecurityException) {
-                NoPermission
-            } catch (_: IllegalArgumentException) {
-                InvalidValues
+            ) {
+                Success
+            } else {
+                Failure
             }
+        } catch (_: SecurityException) {
+            NoPermission
+        } catch (_: IllegalArgumentException) {
+            InvalidValues
         }
     }
 }
