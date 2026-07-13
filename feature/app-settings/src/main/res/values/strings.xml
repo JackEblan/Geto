@@ -59,4 +59,5 @@
     <string name="system">System</string>
     <string name="secure">Secure</string>
     <string name="global">Global</string>
+    <string name="update">Update</string>
 </resources>

@@ -59,7 +59,7 @@ internal fun TemplateDialog(
                 .padding(10.dp),
         ) {
             Text(
-                modifier = modifier.padding(10.dp),
+                modifier = Modifier.padding(10.dp),
                 text = stringResource(id = R.string.templates),
                 style = MaterialTheme.typography.titleLarge,
             )

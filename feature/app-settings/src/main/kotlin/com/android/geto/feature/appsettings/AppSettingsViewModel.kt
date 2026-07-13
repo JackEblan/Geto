@@ -23,16 +23,19 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.android.geto.domain.framework.AssetManagerWrapper
 import com.android.geto.domain.framework.PackageManagerWrapper
+import com.android.geto.domain.framework.ShortcutManagerCompatWrapper
 import com.android.geto.domain.model.AddAppSettingResult
 import com.android.geto.domain.model.AppSetting
 import com.android.geto.domain.model.AppSettingTemplate
 import com.android.geto.domain.model.AppSettingsResult
+import com.android.geto.domain.model.GetPinShortcutResult
 import com.android.geto.domain.model.RequestPinShortcutResult
 import com.android.geto.domain.model.SecureSetting
 import com.android.geto.domain.model.SettingType
 import com.android.geto.domain.repository.AppSettingsRepository
 import com.android.geto.domain.usecase.AddAppSettingUseCase
 import com.android.geto.domain.usecase.ApplyAppSettingsUseCase
+import com.android.geto.domain.usecase.GetPinShortcutUseCase
 import com.android.geto.domain.usecase.GetSecureSettingsByNameUseCase
 import com.android.geto.domain.usecase.RequestPinShortcutUseCase
 import com.android.geto.domain.usecase.RevertAppSettingsUseCase
@@ -59,6 +62,8 @@ class AppSettingsViewModel @Inject constructor(
     private val addAppSettingUseCase: AddAppSettingUseCase,
     private val assetManagerWrapper: AssetManagerWrapper,
     private val getSecureSettingsByNameUseCase: GetSecureSettingsByNameUseCase,
+    private val getPinShortcutUseCase: GetPinShortcutUseCase,
+    private val shortcutManagerCompatWrapper: ShortcutManagerCompatWrapper,
 ) : ViewModel() {
     private val appSettingsRouteData = savedStateHandle.toRoute<AppSettingsRouteData>()
 
@@ -96,8 +101,7 @@ class AppSettingsViewModel @Inject constructor(
                 initialValue = AppSettingsUiState.Loading,
             )
 
-    private var _appSettingTemplates =
-        MutableStateFlow<List<AppSettingTemplate>>(emptyList())
+    private val _appSettingTemplates = MutableStateFlow<List<AppSettingTemplate>>(emptyList())
     val appSettingTemplates = _appSettingTemplates.onStart {
         getAppSettingTemplates()
     }.stateIn(
@@ -105,6 +109,9 @@ class AppSettingsViewModel @Inject constructor(
         started = SharingStarted.WhileSubscribed(5_000),
         initialValue = emptyList(),
     )
+
+    private val _getPinShortcutResult = MutableStateFlow<GetPinShortcutResult?>(null)
+    val getPinShortcutResult = _getPinShortcutResult.asStateFlow()
 
     fun applyAppSettings() {
         viewModelScope.launch {
@@ -181,6 +188,30 @@ class AppSettingsViewModel @Inject constructor(
         }
     }
 
+    fun getPinShorcut() {
+        viewModelScope.launch {
+            _getPinShortcutResult.update {
+                getPinShortcutUseCase(id = componentName)
+            }
+        }
+    }
+
+    fun updatePinShorcut(
+        icon: ByteArray?,
+        shortLabel: String,
+        longLabel: String,
+    ) {
+        viewModelScope.launch {
+            shortcutManagerCompatWrapper.updateShortcuts(
+                componentName = componentName,
+                icon = icon,
+                id = componentName,
+                shortLabel = shortLabel,
+                longLabel = longLabel,
+            )
+        }
+    }
+
     fun resetApplyAppSettingsResult() {
         _applyAppSettingsResult.update { null }
     }
@@ -195,5 +226,9 @@ class AppSettingsViewModel @Inject constructor(
 
     fun resetAddAppSettingResult() {
         _addAppSettingsResult.update { null }
+    }
+
+    fun resetGetPinShortcutResult() {
+        _getPinShortcutResult.update { null }
     }
 }

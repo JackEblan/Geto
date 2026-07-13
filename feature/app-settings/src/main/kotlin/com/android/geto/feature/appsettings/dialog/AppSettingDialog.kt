@@ -101,17 +101,22 @@ internal fun AppSettingDialog(
     var secureSettingsExpanded by remember { mutableStateOf(false) }
 
     LaunchedEffect(key1 = Unit) {
-        snapshotFlow { key }.debounce(500).distinctUntilChanged().onEach {
-            onGetSecureSettingsByName(
-                SettingType.entries[selectedRadioOptionIndex],
-                key,
-            )
-        }.collect()
+        snapshotFlow { key }
+            .debounce(500)
+            .distinctUntilChanged()
+            .onEach {
+                onGetSecureSettingsByName(
+                    SettingType.entries[selectedRadioOptionIndex],
+                    key,
+                )
+            }.collect()
     }
 
     LaunchedEffect(key1 = Unit) {
-        snapshotFlow { selectedRadioOptionIndex }.debounce(500)
-            .distinctUntilChanged().onEach {
+        snapshotFlow { selectedRadioOptionIndex }
+            .debounce(500)
+            .distinctUntilChanged()
+            .onEach {
                 onGetSecureSettingsByName(
                     SettingType.entries[selectedRadioOptionIndex],
                     key,
@@ -129,7 +134,7 @@ internal fun AppSettingDialog(
                 .padding(10.dp),
         ) {
             Text(
-                modifier = modifier.padding(10.dp),
+                modifier = Modifier.padding(10.dp),
                 text = stringResource(R.string.add_app_setting),
                 style = MaterialTheme.typography.titleLarge,
             )
@@ -140,6 +145,8 @@ internal fun AppSettingDialog(
                     selectedRadioOptionIndex = it
                 },
             )
+
+            Spacer(modifier = Modifier.height(10.dp))
 
             AppSettingDialogTextFields(
                 key = key,
@@ -276,8 +283,6 @@ private fun AppSettingDialogTextFields(
 
     val valueOnRevertIsBlank = stringResource(id = R.string.setting_value_on_revert_is_blank)
 
-    Spacer(modifier = Modifier.height(10.dp))
-
     OutlinedTextField(
         modifier = Modifier
             .fillMaxWidth()
@@ -288,10 +293,12 @@ private fun AppSettingDialogTextFields(
             Text(text = stringResource(R.string.setting_label))
         },
         isError = showLabelError,
-        supportingText = {
-            if (showLabelError) {
+        supportingText = if (showLabelError) {
+            {
                 Text(text = labelIsBlank)
             }
+        } else {
+            null
         },
         singleLine = true,
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
@@ -318,10 +325,12 @@ private fun AppSettingDialogTextFields(
             Text(text = stringResource(R.string.setting_value_on_launch))
         },
         isError = showValueOnLaunchError,
-        supportingText = {
-            if (showValueOnLaunchError) {
+        supportingText = if (showValueOnLaunchError) {
+            {
                 Text(text = valueOnLaunchIsBlank)
             }
+        } else {
+            null
         },
         singleLine = true,
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
@@ -337,10 +346,12 @@ private fun AppSettingDialogTextFields(
             Text(text = stringResource(R.string.setting_value_on_revert))
         },
         isError = showValueOnRevertError,
-        supportingText = {
-            if (showValueOnRevertError) {
+        supportingText = if (showValueOnRevertError) {
+            {
                 Text(text = valueOnRevertIsBlank)
             }
+        } else {
+            null
         },
         singleLine = true,
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),

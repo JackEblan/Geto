@@ -121,10 +121,12 @@ private fun Success(
 ) {
     var searchBarQuery by rememberSaveable { mutableStateOf("") }
 
-    LaunchedEffect(key1 = searchBarQuery) {
-        snapshotFlow { searchBarQuery }.debounce(500).distinctUntilChanged().onEach {
-            onSearch(it)
-        }.collect()
+    LaunchedEffect(key1 = Unit) {
+        snapshotFlow { searchBarQuery }.debounce(500)
+            .distinctUntilChanged()
+            .onEach {
+                onSearch(it)
+            }.collect()
     }
 
     Column(modifier = modifier.fillMaxWidth()) {

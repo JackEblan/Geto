@@ -112,9 +112,9 @@ internal class DefaultSecureSettingsWrapper @Inject constructor(
                     val valueIndex =
                         cursor.getColumnIndex(Settings.NameValueTable.VALUE).takeIf { it != -1 }
 
-                    val id = cursor.getLongOrNull(idIndex!!)
-                    val name = cursor.getStringOrNull(nameIndex!!)
-                    val value = cursor.getStringOrNull(valueIndex!!)
+                    val id = idIndex?.let { cursor.getLongOrNull(it) }
+                    val name = nameIndex?.let { cursor.getStringOrNull(it) }
+                    val value = valueIndex?.let { cursor.getStringOrNull(it) }
 
                     SecureSetting(
                         settingType = settingType,

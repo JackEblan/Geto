@@ -44,14 +44,19 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.android.geto.designsystem.component.DialogContainer
+import com.android.geto.domain.model.GetoShortcutInfoCompat
 import com.android.geto.feature.appsettings.R
 
 @Composable
-internal fun ShortcutDialog(
+internal fun RequestPinShortcutDialog(
     modifier: Modifier = Modifier,
     icon: ByteArray?,
     onDismissRequest: () -> Unit,
-    onRequestPinShortcut: (ByteArray?, String, String) -> Unit,
+    onRequestPinShortcut: (
+        icon: ByteArray?,
+        shortLabel: String,
+        longLabel: String,
+    ) -> Unit,
 ) {
     var shortLabel by remember { mutableStateOf("") }
 
@@ -76,12 +81,17 @@ internal fun ShortcutDialog(
                 style = MaterialTheme.typography.titleLarge,
             )
 
-            ShortcutDialogApplicationIcon(
+            Spacer(modifier = Modifier.height(10.dp))
+
+            AsyncImage(
                 modifier = modifier
                     .size(50.dp)
                     .align(Alignment.CenterHorizontally),
-                icon = icon,
+                model = icon,
+                contentDescription = null,
             )
+
+            Spacer(modifier = Modifier.height(10.dp))
 
             ShortcutDialogTextFields(
                 longLabel = longLabel,
@@ -97,13 +107,19 @@ internal fun ShortcutDialog(
             )
 
             ShortcutDialogButtons(
+                positiveText = stringResource(id = R.string.add),
+                negativeText = stringResource(id = R.string.cancel),
                 onPositiveTextButtonClick = {
                     showShortLabelError = shortLabel.isBlank()
 
                     showLongLabelError = longLabel.isBlank()
 
                     if (!showShortLabelError && !showLongLabelError) {
-                        onRequestPinShortcut(icon, shortLabel, longLabel)
+                        onRequestPinShortcut(
+                            icon,
+                            shortLabel,
+                            longLabel,
+                        )
 
                         onDismissRequest()
                     }
@@ -115,17 +131,87 @@ internal fun ShortcutDialog(
 }
 
 @Composable
-private fun ShortcutDialogApplicationIcon(
+internal fun UpdatePinShortcutDialog(
     modifier: Modifier = Modifier,
     icon: ByteArray?,
+    getoShortcutInfoCompat: GetoShortcutInfoCompat,
+    onDismissRequest: () -> Unit,
+    onUpdatePinShortcut: (
+        icon: ByteArray?,
+        shortLabel: String,
+        longLabel: String,
+    ) -> Unit,
 ) {
-    Spacer(modifier = Modifier.height(10.dp))
+    var shortLabel by remember { mutableStateOf(getoShortcutInfoCompat.shortLabel) }
 
-    AsyncImage(
-        modifier = modifier,
-        model = icon,
-        contentDescription = null,
-    )
+    var showShortLabelError by remember { mutableStateOf(false) }
+
+    var longLabel by remember { mutableStateOf(getoShortcutInfoCompat.longLabel) }
+
+    var showLongLabelError by remember { mutableStateOf(false) }
+
+    DialogContainer(
+        modifier = modifier.verticalScroll(rememberScrollState()),
+        onDismissRequest = onDismissRequest,
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(10.dp),
+        ) {
+            Text(
+                modifier = Modifier.padding(10.dp),
+                text = stringResource(R.string.add_shortcut),
+                style = MaterialTheme.typography.titleLarge,
+            )
+
+            Spacer(modifier = Modifier.height(10.dp))
+
+            AsyncImage(
+                modifier = Modifier
+                    .size(50.dp)
+                    .align(Alignment.CenterHorizontally),
+                model = icon,
+                contentDescription = null,
+            )
+
+            Spacer(modifier = Modifier.height(10.dp))
+
+            ShortcutDialogTextFields(
+                longLabel = longLabel,
+                shortLabel = shortLabel,
+                showLongLabelError = showLongLabelError,
+                showShortLabelError = showShortLabelError,
+                onUpdateLongLabel = {
+                    longLabel = it
+                },
+                onUpdateShortLabel = {
+                    shortLabel = it
+                },
+            )
+
+            ShortcutDialogButtons(
+                positiveText = stringResource(id = R.string.update),
+                negativeText = stringResource(id = R.string.cancel),
+                onPositiveTextButtonClick = {
+                    showShortLabelError = shortLabel.isBlank()
+
+                    showLongLabelError = longLabel.isBlank()
+
+                    if (!showShortLabelError && !showLongLabelError) {
+                        onUpdatePinShortcut(
+                            icon,
+                            shortLabel,
+                            longLabel,
+                        )
+
+                        onDismissRequest()
+                    }
+                },
+                onNegativeTextButtonClick = onDismissRequest,
+            )
+        }
+    }
 }
 
 @Composable
@@ -141,8 +227,6 @@ private fun ShortcutDialogTextFields(
 
     val longLabelIsBlank = stringResource(id = R.string.long_label_is_blank)
 
-    Spacer(modifier = Modifier.height(10.dp))
-
     OutlinedTextField(
         modifier = Modifier
             .fillMaxWidth()
@@ -153,15 +237,12 @@ private fun ShortcutDialogTextFields(
             Text(text = stringResource(R.string.short_label))
         },
         isError = showShortLabelError,
-        supportingText = {
-            if (showShortLabelError) {
+        supportingText = if (showShortLabelError) {
+            {
                 Text(text = shortLabelIsBlank)
-            } else {
-                Text(
-                    text = "${shortLabel.length}/10",
-                    modifier = Modifier.fillMaxWidth(),
-                )
             }
+        } else {
+            null
         },
         singleLine = true,
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
@@ -177,15 +258,12 @@ private fun ShortcutDialogTextFields(
             Text(text = stringResource(R.string.long_label))
         },
         isError = showLongLabelError,
-        supportingText = {
-            if (showLongLabelError) {
+        supportingText = if (showLongLabelError) {
+            {
                 Text(text = longLabelIsBlank)
-            } else {
-                Text(
-                    text = "${longLabel.length}/25",
-                    modifier = Modifier.fillMaxWidth(),
-                )
             }
+        } else {
+            null
         },
         singleLine = true,
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
@@ -195,6 +273,8 @@ private fun ShortcutDialogTextFields(
 @Composable
 private fun ShortcutDialogButtons(
     modifier: Modifier = Modifier,
+    positiveText: String,
+    negativeText: String,
     onPositiveTextButtonClick: () -> Unit,
     onNegativeTextButtonClick: () -> Unit,
 ) {
@@ -207,12 +287,12 @@ private fun ShortcutDialogButtons(
         TextButton(
             onClick = onNegativeTextButtonClick,
         ) {
-            Text(text = stringResource(id = R.string.cancel))
+            Text(text = negativeText)
         }
         TextButton(
             onClick = onPositiveTextButtonClick,
         ) {
-            Text(text = stringResource(id = R.string.add))
+            Text(text = positiveText)
         }
     }
 }

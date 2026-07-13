@@ -29,7 +29,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -83,6 +82,7 @@ import com.android.geto.domain.model.AppSettingsResult.Failure
 import com.android.geto.domain.model.AppSettingsResult.InvalidValues
 import com.android.geto.domain.model.AppSettingsResult.NoPermission
 import com.android.geto.domain.model.AppSettingsResult.Success
+import com.android.geto.domain.model.GetPinShortcutResult
 import com.android.geto.domain.model.RequestPinShortcutResult
 import com.android.geto.domain.model.RequestPinShortcutResult.SupportedLauncher
 import com.android.geto.domain.model.RequestPinShortcutResult.UnsupportedLauncher
@@ -92,8 +92,9 @@ import com.android.geto.domain.model.RequestPinShortcutResult.UpdateSuccess
 import com.android.geto.domain.model.SecureSetting
 import com.android.geto.domain.model.SettingType
 import com.android.geto.feature.appsettings.dialog.AppSettingDialog
-import com.android.geto.feature.appsettings.dialog.ShortcutDialog
+import com.android.geto.feature.appsettings.dialog.RequestPinShortcutDialog
 import com.android.geto.feature.appsettings.dialog.TemplateDialog
+import com.android.geto.feature.appsettings.dialog.UpdatePinShortcutDialog
 import com.android.geto.feature.appsettings.dialog.WriteSecureSettingsDialog
 import com.android.geto.feature.appsettings.navigation.AppSettingsRouteData
 import com.android.geto.framework.notificationmanager.AndroidNotificationManagerWrapper
@@ -127,15 +128,12 @@ internal fun AppSettingsRoute(
 
     val appSettingTemplates by viewModel.appSettingTemplates.collectAsStateWithLifecycle()
 
-    val snackbarHostState = remember {
-        SnackbarHostState()
-    }
+    val getPinShortcutResult by viewModel.getPinShortcutResult.collectAsStateWithLifecycle()
 
     AppSettingsScreen(
         modifier = modifier,
         appSettingsRouteData = appSettingsRouteData,
         appSettingsUiState = appSettingsUiState,
-        snackbarHostState = snackbarHostState,
         activityIcon = activityIcon,
         secureSettings = secureSettings,
         addAppSettingResult = addAppSettingResult,
@@ -155,6 +153,10 @@ internal fun AppSettingsRoute(
         onResetRevertAppSettingsResult = viewModel::resetRevertAppSettingsResult,
         onResetAddAppSettingResult = viewModel::resetAddAppSettingResult,
         onNavigationIconClick = onNavigationIconClick,
+        getPinShortcutResult = getPinShortcutResult,
+        onGetPinShortcut = viewModel::getPinShorcut,
+        onResetGetPinShortcutResult = viewModel::resetGetPinShortcutResult,
+        onUpdatePinShortcut = viewModel::updatePinShorcut,
     )
 }
 
@@ -164,7 +166,6 @@ internal fun AppSettingsScreen(
     modifier: Modifier = Modifier,
     appSettingsRouteData: AppSettingsRouteData,
     appSettingsUiState: AppSettingsUiState,
-    snackbarHostState: SnackbarHostState,
     activityIcon: ByteArray?,
     secureSettings: List<SecureSetting>,
     addAppSettingResult: AddAppSettingResult?,
@@ -172,6 +173,7 @@ internal fun AppSettingsScreen(
     revertAppSettingsResult: AppSettingsResult?,
     requestPinShortcutResult: RequestPinShortcutResult?,
     appSettingTemplates: List<AppSettingTemplate>,
+    getPinShortcutResult: GetPinShortcutResult?,
     onApplyAppSettings: () -> Unit,
     onRevertAppSettings: () -> Unit,
     onCheckAppSetting: (appSetting: AppSetting) -> Unit,
@@ -188,14 +190,21 @@ internal fun AppSettingsScreen(
     onResetRevertAppSettingsResult: () -> Unit,
     onResetAddAppSettingResult: () -> Unit,
     onNavigationIconClick: () -> Unit,
+    onGetPinShortcut: () -> Unit,
+    onResetGetPinShortcutResult: () -> Unit,
+    onUpdatePinShortcut: (
+        icon: ByteArray?,
+        shortLabel: String,
+        longLabel: String,
+    ) -> Unit,
 ) {
     var showAppSettingDialog by remember { mutableStateOf(false) }
-
-    var showShortcutDialog by remember { mutableStateOf(false) }
 
     var showTemplateDialog by remember { mutableStateOf(false) }
 
     var showWriteSecureSettingsDialog by remember { mutableStateOf(false) }
+
+    val snackbarHostState = remember { SnackbarHostState() }
 
     AppSettingsLaunchedEffects(
         appSettingsRouteData = appSettingsRouteData,
@@ -205,6 +214,7 @@ internal fun AppSettingsScreen(
         applyAppSettingsResult = applyAppSettingsResult,
         revertAppSettingsResult = revertAppSettingsResult,
         requestPinShortcutResult = requestPinShortcutResult,
+        getPinShortcutResult = getPinShortcutResult,
         onResetApplyAppSettingsResult = onResetApplyAppSettingsResult,
         onResetRevertAppSettingsResult = onResetRevertAppSettingsResult,
         onResetRequestPinShortcutResult = onResetRequestPinShortcutResult,
@@ -212,32 +222,6 @@ internal fun AppSettingsScreen(
         onShowWriteSecureSettingsDialog = {
             showWriteSecureSettingsDialog = true
         },
-    )
-
-    AppSettingsDialogs(
-        appSettingTemplates = appSettingTemplates,
-        componentName = appSettingsRouteData.componentName,
-        icon = activityIcon,
-        secureSettings = secureSettings,
-        showAppSettingDialog = showAppSettingDialog,
-        showShortcutDialog = showShortcutDialog,
-        showTemplateDialog = showTemplateDialog,
-        showWriteSecureSettingsDialog = showWriteSecureSettingsDialog,
-        onAddAppSetting = onAddAppSetting,
-        onDismissAppSettingDialog = {
-            showAppSettingDialog = false
-        },
-        onDismissShortcutDialog = {
-            showShortcutDialog = false
-        },
-        onDismissTemplateDialog = {
-            showTemplateDialog = false
-        },
-        onDismissWriteSecureSettingsDialog = {
-            showWriteSecureSettingsDialog = false
-        },
-        onGetSecureSettingsByName = onGetSecureSettingsByName,
-        onRequestPinShortcut = onRequestPinShortcut,
     )
 
     Scaffold(
@@ -253,9 +237,7 @@ internal fun AppSettingsScreen(
                 onSettingsIconClick = {
                     showAppSettingDialog = true
                 },
-                onShortcutIconClick = {
-                    showShortcutDialog = true
-                },
+                onShortcutIconClick = onGetPinShortcut,
                 onSettingsSuggestIconClick = {
                     showTemplateDialog = true
                 },
@@ -268,9 +250,8 @@ internal fun AppSettingsScreen(
     ) { innerPadding ->
         Box(
             modifier = modifier
-                .padding(innerPadding)
                 .fillMaxSize()
-                .consumeWindowInsets(innerPadding),
+                .padding(innerPadding),
         ) {
             when (appSettingsUiState) {
                 AppSettingsUiState.Loading -> {
@@ -294,6 +275,58 @@ internal fun AppSettingsScreen(
             }
         }
     }
+
+    if (showAppSettingDialog) {
+        AppSettingDialog(
+            componentName = appSettingsRouteData.componentName,
+            secureSettings = secureSettings,
+            onAddAppSetting = onAddAppSetting,
+            onDismissRequest = {
+                showAppSettingDialog = false
+            },
+            onGetSecureSettingsByName = onGetSecureSettingsByName,
+        )
+    }
+
+    if (showTemplateDialog) {
+        TemplateDialog(
+            appSettingTemplates = appSettingTemplates,
+            componentName = appSettingsRouteData.componentName,
+            onAddAppSetting = onAddAppSetting,
+            onDismissRequest = {
+                showTemplateDialog = false
+            },
+        )
+    }
+
+    if (showWriteSecureSettingsDialog) {
+        WriteSecureSettingsDialog(
+            onDismissRequest = {
+                showWriteSecureSettingsDialog = false
+            },
+        )
+    }
+
+    when (getPinShortcutResult) {
+        GetPinShortcutResult.RequestPinShortcut -> {
+            RequestPinShortcutDialog(
+                icon = activityIcon,
+                onDismissRequest = onResetGetPinShortcutResult,
+                onRequestPinShortcut = onRequestPinShortcut,
+            )
+        }
+
+        is GetPinShortcutResult.UpdatePinShortcut -> {
+            UpdatePinShortcutDialog(
+                icon = activityIcon,
+                getoShortcutInfoCompat = getPinShortcutResult.getoShortcutInfoCompat,
+                onDismissRequest = onResetGetPinShortcutResult,
+                onUpdatePinShortcut = onUpdatePinShortcut,
+            )
+        }
+
+        GetPinShortcutResult.UnsupportedLauncher, null -> Unit
+    }
 }
 
 @OptIn(FlowPreview::class)
@@ -306,6 +339,7 @@ private fun AppSettingsLaunchedEffects(
     applyAppSettingsResult: AppSettingsResult?,
     revertAppSettingsResult: AppSettingsResult?,
     requestPinShortcutResult: RequestPinShortcutResult?,
+    getPinShortcutResult: GetPinShortcutResult?,
     onResetApplyAppSettingsResult: () -> Unit,
     onResetRevertAppSettingsResult: () -> Unit,
     onResetRequestPinShortcutResult: () -> Unit,
@@ -484,58 +518,13 @@ private fun AppSettingsLaunchedEffects(
 
         onResetAddAppSettingResult()
     }
-}
 
-@Composable
-private fun AppSettingsDialogs(
-    appSettingTemplates: List<AppSettingTemplate>,
-    componentName: String,
-    icon: ByteArray?,
-    secureSettings: List<SecureSetting>,
-    showAppSettingDialog: Boolean,
-    showShortcutDialog: Boolean,
-    showTemplateDialog: Boolean,
-    showWriteSecureSettingsDialog: Boolean,
-    onAddAppSetting: (AppSetting) -> Unit,
-    onDismissAppSettingDialog: () -> Unit,
-    onDismissShortcutDialog: () -> Unit,
-    onDismissTemplateDialog: () -> Unit,
-    onDismissWriteSecureSettingsDialog: () -> Unit,
-    onGetSecureSettingsByName: (
-        settingType: SettingType,
-        text: String,
-    ) -> Unit,
-    onRequestPinShortcut: (ByteArray?, String, String) -> Unit,
-) {
-    if (showAppSettingDialog) {
-        AppSettingDialog(
-            componentName = componentName,
-            secureSettings = secureSettings,
-            onAddAppSetting = onAddAppSetting,
-            onDismissRequest = onDismissAppSettingDialog,
-            onGetSecureSettingsByName = onGetSecureSettingsByName,
-        )
-    }
-
-    if (showShortcutDialog) {
-        ShortcutDialog(
-            icon = icon,
-            onDismissRequest = onDismissShortcutDialog,
-            onRequestPinShortcut = onRequestPinShortcut,
-        )
-    }
-
-    if (showTemplateDialog) {
-        TemplateDialog(
-            appSettingTemplates = appSettingTemplates,
-            componentName = componentName,
-            onAddAppSetting = onAddAppSetting,
-            onDismissRequest = onDismissTemplateDialog,
-        )
-    }
-
-    if (showWriteSecureSettingsDialog) {
-        WriteSecureSettingsDialog(onDismissRequest = onDismissWriteSecureSettingsDialog)
+    LaunchedEffect(key1 = getPinShortcutResult) {
+        if (getPinShortcutResult == GetPinShortcutResult.UnsupportedLauncher) {
+            snackbarHostState.showSnackbar(
+                message = unsupportedLauncher,
+            )
+        }
     }
 }
 

@@ -46,9 +46,9 @@ class RequestPinShortcutUseCase @Inject constructor(
         }
 
         return withContext(defaultDispatcher) {
-            val pinnedShortcut = shortcutManagerCompatWrapper.getShortcuts().find { it.id == id }
+            val getoShortcutInfoCompat = shortcutManagerCompatWrapper.getShortcuts().find { it.id == id }
 
-            if (pinnedShortcut != null) {
+            if (getoShortcutInfoCompat != null) {
                 updateShortcuts(
                     componentName = componentName,
                     icon = icon,

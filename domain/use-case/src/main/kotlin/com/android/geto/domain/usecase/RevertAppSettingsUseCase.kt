@@ -47,11 +47,11 @@ class RevertAppSettingsUseCase @Inject constructor(
             if (appSettings.all { !it.enabled }) return@withContext DisabledAppSettings
 
             try {
-                if (appSettings.all { appSetting ->
+                if (appSettings.all {
                         secureSettingsWrapper.canWriteSecureSettings(
-                            settingType = appSetting.settingType,
-                            key = appSetting.key,
-                            value = appSetting.valueOnRevert,
+                            settingType = it.settingType,
+                            key = it.key,
+                            value = it.valueOnRevert,
                         )
                     }
                 ) {
