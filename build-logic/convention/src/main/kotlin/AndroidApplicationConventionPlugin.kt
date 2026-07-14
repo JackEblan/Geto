@@ -43,10 +43,6 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                     targetSdk = 36
                 }
 
-                buildFeatures {
-                    compose = true
-                }
-
                 packaging {
                     jniLibs.keepDebugSymbols.add("**/*.so")
                 }

@@ -80,7 +80,6 @@ internal fun Project.configureCompose(commonExtension: CommonExtension) {
             .relativeToRootProject("compose-reports")
             .let(reportsDestination::set)
 
-        stabilityConfigurationFile =
-            rootProject.layout.projectDirectory.file("compose_compiler_config.conf")
+        stabilityConfigurationFiles.add(rootProject.layout.projectDirectory.file("compose_compiler_config.conf"))
     }
 }
