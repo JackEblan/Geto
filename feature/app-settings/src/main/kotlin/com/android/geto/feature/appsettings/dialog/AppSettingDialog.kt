@@ -390,17 +390,21 @@ private fun AppSettingDialogTextFieldWithDropdownMenu(
             label = {
                 Text(text = stringResource(R.string.setting_key))
             },
-            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = secureSettingsExpanded) },
+            trailingIcon = {
+                ExposedDropdownMenuDefaults.TrailingIcon(expanded = secureSettingsExpanded)
+            },
             colors = ExposedDropdownMenuDefaults.textFieldColors(),
             isError = showKeyError || showKeyNotFoundError,
-            supportingText = {
-                if (showKeyError) {
+            supportingText = if (showKeyError) {
+                {
                     Text(text = stringResource(id = R.string.setting_key_is_blank))
                 }
-
-                if (showKeyNotFoundError) {
+            } else if (showKeyNotFoundError) {
+                {
                     Text(text = stringResource(id = R.string.setting_key_not_found))
                 }
+            } else {
+                null
             },
             singleLine = true,
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
