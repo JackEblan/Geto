@@ -79,26 +79,27 @@ fun GetoNavHost(navController: NavHostController) {
 private fun PostNotificationsPermission(snackbarHostState: SnackbarHostState) {
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) return
 
-    val notificationsPermissionState = rememberPermissionState(
-        android.Manifest.permission.POST_NOTIFICATIONS,
-    )
+    val permissionState = rememberPermissionState(android.Manifest.permission.POST_NOTIFICATIONS)
 
     val message = stringResource(R.string.please_grant_notifications_permission)
-
     val actionLabel = stringResource(R.string.allow)
 
-    LaunchedEffect(key1 = notificationsPermissionState) {
-        val status = notificationsPermissionState.status
+    LaunchedEffect(key1 = permissionState.status) {
+        val status = permissionState.status
 
-        if (status is PermissionStatus.Denied && !status.shouldShowRationale) {
-            val snackbarResult = snackbarHostState.showSnackbar(
-                message = message,
-                actionLabel = actionLabel,
-                duration = SnackbarDuration.Indefinite,
-            )
+        if (status is PermissionStatus.Denied) {
+            permissionState.launchPermissionRequest()
 
-            if (snackbarResult == SnackbarResult.ActionPerformed) {
-                notificationsPermissionState.launchPermissionRequest()
+            if (status.shouldShowRationale) {
+                val result = snackbarHostState.showSnackbar(
+                    message = message,
+                    actionLabel = actionLabel,
+                    duration = SnackbarDuration.Indefinite,
+                )
+
+                if (result == SnackbarResult.ActionPerformed) {
+                    permissionState.launchPermissionRequest()
+                }
             }
         }
     }
