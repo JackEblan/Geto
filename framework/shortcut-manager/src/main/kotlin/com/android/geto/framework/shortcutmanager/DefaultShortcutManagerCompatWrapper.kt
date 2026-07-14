@@ -37,9 +37,7 @@ internal class DefaultShortcutManagerCompatWrapper @Inject constructor(
     @param:ApplicationContext private val context: Context,
     @param:Dispatcher(Default) private val defaultDispatcher: CoroutineDispatcher,
 ) : ShortcutManagerCompatWrapper {
-    override fun isRequestPinShortcutSupported(): Boolean {
-        return ShortcutManagerCompat.isRequestPinShortcutSupported(context)
-    }
+    override fun isRequestPinShortcutSupported(): Boolean = ShortcutManagerCompat.isRequestPinShortcutSupported(context)
 
     override fun requestPinShortcut(
         componentName: String,
@@ -47,19 +45,17 @@ internal class DefaultShortcutManagerCompatWrapper @Inject constructor(
         id: String,
         shortLabel: String,
         longLabel: String,
-    ): Boolean {
-        return ShortcutManagerCompat.requestPinShortcut(
-            context,
-            asShortcutInfoCompat(
-                componentName = componentName,
-                icon = icon,
-                id = id,
-                shortLabel = shortLabel,
-                longLabel = longLabel,
-            ),
-            null,
-        )
-    }
+    ): Boolean = ShortcutManagerCompat.requestPinShortcut(
+        context,
+        asShortcutInfoCompat(
+            componentName = componentName,
+            icon = icon,
+            id = id,
+            shortLabel = shortLabel,
+            longLabel = longLabel,
+        ),
+        null,
+    )
 
     override fun updateShortcuts(
         componentName: String,
@@ -67,37 +63,31 @@ internal class DefaultShortcutManagerCompatWrapper @Inject constructor(
         id: String,
         shortLabel: String,
         longLabel: String,
-    ): Boolean {
-        return ShortcutManagerCompat.updateShortcuts(
-            context,
-            listOf(
-                asShortcutInfoCompat(
-                    componentName = componentName,
-                    icon = icon,
-                    id = id,
-                    shortLabel = shortLabel,
-                    longLabel = longLabel,
-                ),
+    ): Boolean = ShortcutManagerCompat.updateShortcuts(
+        context,
+        listOf(
+            asShortcutInfoCompat(
+                componentName = componentName,
+                icon = icon,
+                id = id,
+                shortLabel = shortLabel,
+                longLabel = longLabel,
             ),
-        )
+        ),
+    )
+
+    override suspend fun getShortcuts(): List<GetoShortcutInfoCompat> = withContext(defaultDispatcher) {
+        ShortcutManagerCompat.getShortcuts(
+            context,
+            ShortcutManagerCompat.FLAG_MATCH_PINNED,
+        ).map { it.asGetoShortcutInfoCompat() }
     }
 
-    override suspend fun getShortcuts(): List<GetoShortcutInfoCompat> {
-        return withContext(defaultDispatcher) {
-            ShortcutManagerCompat.getShortcuts(
-                context,
-                ShortcutManagerCompat.FLAG_MATCH_PINNED,
-            ).map { it.asGetoShortcutInfoCompat() }
-        }
-    }
-
-    private fun ShortcutInfoCompat.asGetoShortcutInfoCompat(): GetoShortcutInfoCompat {
-        return GetoShortcutInfoCompat(
-            id = id,
-            shortLabel = shortLabel.toString(),
-            longLabel = longLabel.toString(),
-        )
-    }
+    private fun ShortcutInfoCompat.asGetoShortcutInfoCompat(): GetoShortcutInfoCompat = GetoShortcutInfoCompat(
+        id = id,
+        shortLabel = shortLabel.toString(),
+        longLabel = longLabel.toString(),
+    )
 
     private fun asShortcutInfoCompat(
         componentName: String,

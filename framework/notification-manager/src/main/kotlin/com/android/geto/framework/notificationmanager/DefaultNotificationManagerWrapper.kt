@@ -27,8 +27,7 @@ import androidx.annotation.RequiresApi
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
-internal class DefaultNotificationManagerWrapper @Inject constructor(@param:ApplicationContext private val context: Context) :
-    AndroidNotificationManagerWrapper {
+internal class DefaultNotificationManagerWrapper @Inject constructor(@param:ApplicationContext private val context: Context) : AndroidNotificationManagerWrapper {
     private val notificationManager =
         context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
 

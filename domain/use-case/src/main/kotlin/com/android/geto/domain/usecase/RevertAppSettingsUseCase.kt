@@ -31,32 +31,31 @@ class RevertAppSettingsUseCase @Inject constructor(
     private val appSettingsRepository: AppSettingsRepository,
     private val secureSettingsWrapper: SecureSettingsWrapper,
 ) {
-    suspend operator fun invoke(componentName: String): AppSettingsResult =
-        withContext(defaultDispatcher) {
-            val appSettings =
-                appSettingsRepository.getAppSettingsByComponentName(componentName = componentName)
+    suspend operator fun invoke(componentName: String): AppSettingsResult = withContext(defaultDispatcher) {
+        val appSettings =
+            appSettingsRepository.getAppSettingsByComponentName(componentName = componentName)
 
-            if (appSettings.isEmpty()) return@withContext AppSettingsResult.EmptyAppSettings
+        if (appSettings.isEmpty()) return@withContext AppSettingsResult.EmptyAppSettings
 
-            if (appSettings.all { !it.enabled }) return@withContext AppSettingsResult.DisabledAppSettings
+        if (appSettings.all { !it.enabled }) return@withContext AppSettingsResult.DisabledAppSettings
 
-            try {
-                if (appSettings.all {
-                        secureSettingsWrapper.canWriteSecureSettings(
-                            settingType = it.settingType,
-                            key = it.key,
-                            value = it.valueOnRevert,
-                        )
-                    }
-                ) {
-                    AppSettingsResult.Success
-                } else {
-                    AppSettingsResult.Failure
+        try {
+            if (appSettings.all {
+                    secureSettingsWrapper.canWriteSecureSettings(
+                        settingType = it.settingType,
+                        key = it.key,
+                        value = it.valueOnRevert,
+                    )
                 }
-            } catch (_: SecurityException) {
-                AppSettingsResult.NoPermission
-            } catch (_: IllegalArgumentException) {
-                AppSettingsResult.InvalidValues
+            ) {
+                AppSettingsResult.Success
+            } else {
+                AppSettingsResult.Failure
             }
+        } catch (_: SecurityException) {
+            AppSettingsResult.NoPermission
+        } catch (_: IllegalArgumentException) {
+            AppSettingsResult.InvalidValues
         }
+    }
 }

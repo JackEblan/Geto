@@ -31,15 +31,13 @@ internal class DefaultPackageManagerWrapper @Inject constructor(
 ) : PackageManagerWrapper {
     private val packageManager = context.packageManager
 
-    override suspend fun getActivityIcon(componentName: String): ByteArray? {
-        return try {
-            ComponentName.unflattenFromString(componentName)?.let {
-                androidDrawableWrapper.toByteArray(
-                    drawable = packageManager.getActivityIcon(it),
-                )
-            }
-        } catch (_: PackageManager.NameNotFoundException) {
-            null
+    override suspend fun getActivityIcon(componentName: String): ByteArray? = try {
+        ComponentName.unflattenFromString(componentName)?.let {
+            androidDrawableWrapper.toByteArray(
+                drawable = packageManager.getActivityIcon(it),
+            )
         }
+    } catch (_: PackageManager.NameNotFoundException) {
+        null
     }
 }

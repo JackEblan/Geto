@@ -65,6 +65,7 @@ class MainActivity : ComponentActivity() {
 
                 when (val uiState = mainActivityUiState) {
                     MainActivityUiState.Loading -> Unit
+
                     is MainActivityUiState.Success -> {
                         GetoTheme(
                             theme = uiState.userData.theme,

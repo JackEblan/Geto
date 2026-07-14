@@ -37,6 +37,7 @@ class UserPreferencesDataSource @Inject constructor(private val userPreferences:
                 -> Theme.FOLLOW_SYSTEM
 
                 ThemeProto.THEME_LIGHT -> Theme.LIGHT
+
                 ThemeProto.THEME_DARK -> Theme.DARK
             },
             dynamicTheme = it.dynamicTheme,

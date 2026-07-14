@@ -137,19 +137,17 @@ fun GetoTheme(
 fun supportsDynamicTheming() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
 
 @Composable
-private fun getGreenColorScheme(theme: Theme): ColorScheme {
-    return when (theme) {
-        Theme.FOLLOW_SYSTEM -> {
-            if (isSystemInDarkTheme()) DarkGreenColorScheme else LightGreenColorScheme
-        }
+private fun getGreenColorScheme(theme: Theme): ColorScheme = when (theme) {
+    Theme.FOLLOW_SYSTEM -> {
+        if (isSystemInDarkTheme()) DarkGreenColorScheme else LightGreenColorScheme
+    }
 
-        Theme.LIGHT -> {
-            LightGreenColorScheme
-        }
+    Theme.LIGHT -> {
+        LightGreenColorScheme
+    }
 
-        Theme.DARK -> {
-            DarkGreenColorScheme
-        }
+    Theme.DARK -> {
+        DarkGreenColorScheme
     }
 }
 

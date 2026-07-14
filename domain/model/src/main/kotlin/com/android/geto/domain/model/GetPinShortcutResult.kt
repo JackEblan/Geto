@@ -22,6 +22,5 @@ sealed interface GetPinShortcutResult {
 
     data object RequestPinShortcut : GetPinShortcutResult
 
-    data class UpdatePinShortcut(val getoShortcutInfoCompat: GetoShortcutInfoCompat) :
-        GetPinShortcutResult
+    data class UpdatePinShortcut(val getoShortcutInfoCompat: GetoShortcutInfoCompat) : GetPinShortcutResult
 }

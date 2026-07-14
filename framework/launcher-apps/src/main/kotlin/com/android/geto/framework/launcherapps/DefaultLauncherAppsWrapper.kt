@@ -46,7 +46,8 @@ internal class DefaultLauncherAppsWrapper @Inject constructor(
     @param:Dispatcher(Default) private val defaultDispatcher: CoroutineDispatcher,
     @param:ApplicationContext private val context: Context,
     private val androidDrawableWrapper: AndroidDrawableWrapper,
-) : LauncherAppsWrapper, AndroidLauncherAppsWrapper {
+) : LauncherAppsWrapper,
+    AndroidLauncherAppsWrapper {
     private val launcherApps =
         context.getSystemService(Context.LAUNCHER_APPS_SERVICE) as LauncherApps
 
@@ -124,14 +125,12 @@ internal class DefaultLauncherAppsWrapper @Inject constructor(
         }
     }.distinctUntilChanged().flowOn(defaultDispatcher)
 
-    private suspend fun LauncherActivityInfo.toLauncherAppsActivityInfo(): LauncherAppsActivityInfo {
-        return LauncherAppsActivityInfo(
-            componentName = componentName.flattenToString(),
-            packageName = applicationInfo.packageName,
-            activityIcon = androidDrawableWrapper.toByteArray(drawable = getIcon(0)),
-            activityLabel = label.toString(),
-        )
-    }
+    private suspend fun LauncherActivityInfo.toLauncherAppsActivityInfo(): LauncherAppsActivityInfo = LauncherAppsActivityInfo(
+        componentName = componentName.flattenToString(),
+        packageName = applicationInfo.packageName,
+        activityIcon = androidDrawableWrapper.toByteArray(drawable = getIcon(0)),
+        activityLabel = label.toString(),
+    )
 
     override fun startMainActivity(componentName: String) {
         try {

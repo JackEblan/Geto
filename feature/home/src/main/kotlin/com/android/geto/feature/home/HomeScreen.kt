@@ -130,7 +130,6 @@ internal fun HomeScreen(
     }
 }
 
-private fun NavDestination?.isTopLevelDestinationInHierarchy(route: KClass<*>) =
-    this?.hierarchy?.any {
-        it.hasRoute(route)
-    } ?: false
+private fun NavDestination?.isTopLevelDestinationInHierarchy(route: KClass<*>) = this?.hierarchy?.any {
+    it.hasRoute(route)
+} ?: false

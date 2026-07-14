@@ -42,43 +42,35 @@ class DefaultAppSettingsRepository @Inject constructor(private val appSettingsDa
         appSettingsDao.deleteAppSettingEntity(entity = appSetting.asEntity())
     }
 
-    override fun getAppSettingsFlowByComponentName(componentName: String): Flow<List<AppSetting>> {
-        return appSettingsDao.getAppSettingEntitiesFlowByComponentName(componentName = componentName).map { entities ->
-            entities.map { entity ->
-                entity.asExternalModel()
-            }
-        }
-    }
-
-    override suspend fun getAppSettingsByComponentName(componentName: String): List<AppSetting> {
-        return appSettingsDao.getAppSettingEntitiesByComponentName(componentName = componentName).map { entity ->
+    override fun getAppSettingsFlowByComponentName(componentName: String): Flow<List<AppSetting>> = appSettingsDao.getAppSettingEntitiesFlowByComponentName(componentName = componentName).map { entities ->
+        entities.map { entity ->
             entity.asExternalModel()
         }
     }
 
-    private fun AppSettingEntity.asExternalModel(): AppSetting {
-        return AppSetting(
-            id = id,
-            enabled = enabled,
-            settingType = settingType,
-            componentName = componentName,
-            label = label,
-            key = key,
-            valueOnLaunch = valueOnLaunch,
-            valueOnRevert = valueOnRevert,
-        )
+    override suspend fun getAppSettingsByComponentName(componentName: String): List<AppSetting> = appSettingsDao.getAppSettingEntitiesByComponentName(componentName = componentName).map { entity ->
+        entity.asExternalModel()
     }
 
-    private fun AppSetting.asEntity(): AppSettingEntity {
-        return AppSettingEntity(
-            id = id,
-            enabled = enabled,
-            settingType = settingType,
-            componentName = componentName,
-            label = label,
-            key = key,
-            valueOnLaunch = valueOnLaunch,
-            valueOnRevert = valueOnRevert,
-        )
-    }
+    private fun AppSettingEntity.asExternalModel(): AppSetting = AppSetting(
+        id = id,
+        enabled = enabled,
+        settingType = settingType,
+        componentName = componentName,
+        label = label,
+        key = key,
+        valueOnLaunch = valueOnLaunch,
+        valueOnRevert = valueOnRevert,
+    )
+
+    private fun AppSetting.asEntity(): AppSettingEntity = AppSettingEntity(
+        id = id,
+        enabled = enabled,
+        settingType = settingType,
+        componentName = componentName,
+        label = label,
+        key = key,
+        valueOnLaunch = valueOnLaunch,
+        valueOnRevert = valueOnRevert,
+    )
 }

@@ -51,79 +51,75 @@ internal class DefaultSecureSettingsWrapper @Inject constructor(
         settingType: SettingType,
         key: String,
         value: String,
-    ): Boolean {
-        return withContext(ioDispatcher) {
-            when (settingType) {
-                SYSTEM -> Settings.System.putString(
-                    contentResolver,
-                    key,
-                    value,
-                )
+    ): Boolean = withContext(ioDispatcher) {
+        when (settingType) {
+            SYSTEM -> Settings.System.putString(
+                contentResolver,
+                key,
+                value,
+            )
 
-                SECURE -> Settings.Secure.putString(
-                    contentResolver,
-                    key,
-                    value,
-                )
+            SECURE -> Settings.Secure.putString(
+                contentResolver,
+                key,
+                value,
+            )
 
-                GLOBAL -> Settings.Global.putString(
-                    contentResolver,
-                    key,
-                    value,
-                )
-            }
+            GLOBAL -> Settings.Global.putString(
+                contentResolver,
+                key,
+                value,
+            )
         }
     }
 
-    override suspend fun getSecureSettings(settingType: SettingType): List<SecureSetting> {
-        return withContext(ioDispatcher) {
-            val cursor = when (settingType) {
-                SYSTEM -> contentResolver.query(
-                    Settings.System.CONTENT_URI,
-                    settingsProjection,
-                    null,
-                    null,
-                    null,
-                )
+    override suspend fun getSecureSettings(settingType: SettingType): List<SecureSetting> = withContext(ioDispatcher) {
+        val cursor = when (settingType) {
+            SYSTEM -> contentResolver.query(
+                Settings.System.CONTENT_URI,
+                settingsProjection,
+                null,
+                null,
+                null,
+            )
 
-                SECURE -> contentResolver.query(
-                    Settings.Secure.CONTENT_URI,
-                    settingsProjection,
-                    null,
-                    null,
-                    null,
-                )
+            SECURE -> contentResolver.query(
+                Settings.Secure.CONTENT_URI,
+                settingsProjection,
+                null,
+                null,
+                null,
+            )
 
-                GLOBAL -> contentResolver.query(
-                    Settings.Global.CONTENT_URI,
-                    settingsProjection,
-                    null,
-                    null,
-                    null,
-                )
-            }
-
-            cursor?.use {
-                generateSequence { if (cursor.moveToNext()) cursor else null }.map {
-                    val idIndex =
-                        cursor.getColumnIndex(Settings.NameValueTable._ID).takeIf { it != -1 }
-                    val nameIndex =
-                        cursor.getColumnIndex(Settings.NameValueTable.NAME).takeIf { it != -1 }
-                    val valueIndex =
-                        cursor.getColumnIndex(Settings.NameValueTable.VALUE).takeIf { it != -1 }
-
-                    val id = idIndex?.let { cursor.getLongOrNull(it) }
-                    val name = nameIndex?.let { cursor.getStringOrNull(it) }
-                    val value = valueIndex?.let { cursor.getStringOrNull(it) }
-
-                    SecureSetting(
-                        settingType = settingType,
-                        id = id,
-                        name = name,
-                        value = value,
-                    )
-                }.sortedBy { it.name }.toList()
-            } ?: emptyList()
+            GLOBAL -> contentResolver.query(
+                Settings.Global.CONTENT_URI,
+                settingsProjection,
+                null,
+                null,
+                null,
+            )
         }
+
+        cursor?.use {
+            generateSequence { if (cursor.moveToNext()) cursor else null }.map {
+                val idIndex =
+                    cursor.getColumnIndex(Settings.NameValueTable._ID).takeIf { it != -1 }
+                val nameIndex =
+                    cursor.getColumnIndex(Settings.NameValueTable.NAME).takeIf { it != -1 }
+                val valueIndex =
+                    cursor.getColumnIndex(Settings.NameValueTable.VALUE).takeIf { it != -1 }
+
+                val id = idIndex?.let { cursor.getLongOrNull(it) }
+                val name = nameIndex?.let { cursor.getStringOrNull(it) }
+                val value = valueIndex?.let { cursor.getStringOrNull(it) }
+
+                SecureSetting(
+                    settingType = settingType,
+                    id = id,
+                    name = name,
+                    value = value,
+                )
+            }.sortedBy { it.name }.toList()
+        } ?: emptyList()
     }
 }
