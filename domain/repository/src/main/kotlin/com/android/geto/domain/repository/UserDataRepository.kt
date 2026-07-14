@@ -17,6 +17,8 @@
  */
 package com.android.geto.domain.repository
 
+import com.android.geto.domain.model.SortLauncherAppsActivityInfo
+import com.android.geto.domain.model.SortOrderLauncherAppsActivityInfo
 import com.android.geto.domain.model.Theme
 import com.android.geto.domain.model.UserData
 import kotlinx.coroutines.flow.Flow
@@ -28,4 +30,10 @@ interface UserDataRepository {
     suspend fun updateTheme(theme: Theme)
 
     suspend fun updateDynamicTheme(dynamicTheme: Boolean)
+
+    suspend fun updateSortLauncherAppsActivityInfo(sortLauncherAppsActivityInfo: SortLauncherAppsActivityInfo)
+
+    suspend fun updateSortOrderLauncherAppsActivityInfo(sortOrderLauncherAppsActivityInfo: SortOrderLauncherAppsActivityInfo)
+
+    suspend fun updateShowSystem(showSystem: Boolean)
 }

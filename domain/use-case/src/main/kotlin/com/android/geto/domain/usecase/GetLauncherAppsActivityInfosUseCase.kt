@@ -20,6 +20,10 @@ package com.android.geto.domain.usecase
 import com.android.geto.domain.common.dispatcher.Dispatcher
 import com.android.geto.domain.common.dispatcher.GetoDispatchers.Default
 import com.android.geto.domain.framework.LauncherAppsWrapper
+import com.android.geto.domain.model.LauncherAppsActivityInfo
+import com.android.geto.domain.model.SortLauncherAppsActivityInfo
+import com.android.geto.domain.model.SortOrderLauncherAppsActivityInfo
+import com.android.geto.domain.repository.UserDataRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -29,20 +33,48 @@ import javax.inject.Inject
 class GetLauncherAppsActivityInfosUseCase @Inject constructor(
     @param:Dispatcher(Default) private val defaultDispatcher: CoroutineDispatcher,
     private val launcherAppsWrapper: LauncherAppsWrapper,
+    private val userDataRepository: UserDataRepository,
 ) {
     operator fun invoke(textFlow: Flow<String?>) = combine(
         textFlow,
         launcherAppsWrapper.getActivityListFlow(),
-    ) { text, launcherAppsActivityInfos ->
-        if (text.isNullOrEmpty()) {
+        userDataRepository.userData,
+    ) { text, launcherAppsActivityInfos, userData ->
+
+        val comparator = when (userData.sortLauncherAppsActivityInfo) {
+            SortLauncherAppsActivityInfo.Name ->
+                compareBy<LauncherAppsActivityInfo> { it.activityLabel }
+
+            SortLauncherAppsActivityInfo.UpdateTime ->
+                compareBy { it.lastUpdateTime }
+
+            SortLauncherAppsActivityInfo.InstallTime ->
+                compareBy { it.firstInstallTime }
+        }
+
+        val filteredLauncherAppsActivityInfos = if (userData.showSystem) {
             launcherAppsActivityInfos
         } else {
-            launcherAppsActivityInfos.filter { launcherAppsActivityInfo ->
-                launcherAppsActivityInfo.activityLabel.contains(
+            launcherAppsActivityInfos.filterNot { it.isSystem }
+        }
+
+        val sortedLauncherAppsActivityInfos = filteredLauncherAppsActivityInfos.sortedWith(
+            if (userData.sortOrderLauncherAppsActivityInfo == SortOrderLauncherAppsActivityInfo.Ascending) {
+                comparator
+            } else {
+                comparator.reversed()
+            },
+        )
+
+        if (text.isNullOrEmpty()) {
+            sortedLauncherAppsActivityInfos
+        } else {
+            sortedLauncherAppsActivityInfos.filter {
+                it.activityLabel.contains(
                     other = text,
                     ignoreCase = true,
                 )
             }
-        }.sortedBy { launcherAppsActivityInfo -> launcherAppsActivityInfo.activityLabel }
+        }
     }.flowOn(defaultDispatcher)
 }

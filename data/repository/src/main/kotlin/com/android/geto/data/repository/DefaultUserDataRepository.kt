@@ -18,6 +18,8 @@
 package com.android.geto.data.repository
 
 import com.android.geto.data.datastore.UserPreferencesDataSource
+import com.android.geto.domain.model.SortLauncherAppsActivityInfo
+import com.android.geto.domain.model.SortOrderLauncherAppsActivityInfo
 import com.android.geto.domain.model.Theme
 import com.android.geto.domain.model.UserData
 import com.android.geto.domain.repository.UserDataRepository
@@ -35,5 +37,19 @@ class DefaultUserDataRepository @Inject constructor(
 
     override suspend fun updateDynamicTheme(dynamicTheme: Boolean) {
         userPreferencesDataSource.updateDynamicColor(dynamicTheme = dynamicTheme)
+    }
+
+    override suspend fun updateSortLauncherAppsActivityInfo(sortLauncherAppsActivityInfo: SortLauncherAppsActivityInfo) {
+        userPreferencesDataSource.updateSortLauncherAppsActivityInfo(sortLauncherAppsActivityInfo = sortLauncherAppsActivityInfo)
+    }
+
+    override suspend fun updateSortOrderLauncherAppsActivityInfo(sortOrderLauncherAppsActivityInfo: SortOrderLauncherAppsActivityInfo) {
+        userPreferencesDataSource.updateSortOrderLauncherAppsActivityInfo(
+            sortOrderLauncherAppsActivityInfo = sortOrderLauncherAppsActivityInfo,
+        )
+    }
+
+    override suspend fun updateShowSystem(showSystem: Boolean) {
+        userPreferencesDataSource.updateShowSystem(showSystem = showSystem)
     }
 }

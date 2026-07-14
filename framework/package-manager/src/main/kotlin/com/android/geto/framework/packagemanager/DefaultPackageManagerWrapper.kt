@@ -19,7 +19,9 @@ package com.android.geto.framework.packagemanager
 
 import android.content.ComponentName
 import android.content.Context
+import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
+import android.os.Build
 import com.android.geto.domain.framework.PackageManagerWrapper
 import com.android.geto.framework.drawable.AndroidDrawableWrapper
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -40,4 +42,23 @@ internal class DefaultPackageManagerWrapper @Inject constructor(
     } catch (_: PackageManager.NameNotFoundException) {
         null
     }
+
+    override fun getLastInstallTime(packageName: String): Long {
+        val packageInfo = try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                packageManager.getPackageInfo(
+                    packageName,
+                    PackageManager.PackageInfoFlags.of(0),
+                )
+            } else {
+                packageManager.getPackageInfo(packageName, 0)
+            }
+        } catch (_: PackageManager.NameNotFoundException) {
+            null
+        }
+
+        return packageInfo?.lastUpdateTime ?: 0L
+    }
+
+    override fun isSystem(flags: Int): Boolean = (flags and (ApplicationInfo.FLAG_SYSTEM or ApplicationInfo.FLAG_UPDATED_SYSTEM_APP)) != 0
 }
