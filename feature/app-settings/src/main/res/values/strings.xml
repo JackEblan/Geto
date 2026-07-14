@@ -31,7 +31,6 @@
     <string name="setting_value_on_revert">Setting value on revert</string>
     <string name="cancel">Cancel</string>
     <string name="add">Add</string>
-    <string name="permission_error">Permission Error</string>
     <string name="templates">Templates</string>
     <string name="add_shortcut">Add Shortcut</string>
     <string name="update_shortcut">Update Shortcut</string>
@@ -45,7 +44,6 @@
     <string name="setting_value_on_launch_is_blank">Setting value on launch is blank</string>
     <string name="setting_value_on_revert_is_blank">Setting value on revert is blank</string>
     <string name="settings_has_invalid_values">Settings has invalid values</string>
-    <string name="copied_to_clipboard">%s copied to clipboard</string>
     <string name="shortcut_update_immutable_shortcuts">Cannot update immutable shortcuts</string>
     <string name="shortcut_update_failed">Shortcut update failed</string>
     <string name="shortcut_update_success">Shortcut update success</string>

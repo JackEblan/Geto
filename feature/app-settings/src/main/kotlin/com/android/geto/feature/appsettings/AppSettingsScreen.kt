@@ -23,7 +23,7 @@ import android.app.PendingIntent.FLAG_IMMUTABLE
 import android.app.PendingIntent.FLAG_UPDATE_CURRENT
 import android.content.Context
 import android.content.Intent
-import android.graphics.drawable.Icon
+import android.graphics.BitmapFactory
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -777,7 +777,13 @@ private fun getNotification(
         setSmallIcon(com.android.geto.framework.notificationmanager.R.drawable.baseline_settings_24)
 
         icon?.let {
-            setLargeIcon(Icon.createWithData(icon, 0, it.size))
+            setLargeIcon(
+                BitmapFactory.decodeByteArray(
+                    icon,
+                    0,
+                    icon.size,
+                ),
+            )
         }
 
         setContentTitle(contentTitle)

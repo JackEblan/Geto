@@ -31,10 +31,10 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuAnchorType
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
@@ -64,6 +64,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.onEach
+import kotlin.time.Duration.Companion.milliseconds
 
 @OptIn(FlowPreview::class)
 @Composable
@@ -102,7 +103,7 @@ internal fun AppSettingDialog(
 
     LaunchedEffect(key1 = Unit) {
         snapshotFlow { key }
-            .debounce(500)
+            .debounce(500.milliseconds)
             .distinctUntilChanged()
             .onEach {
                 onGetSecureSettingsByName(
@@ -114,7 +115,7 @@ internal fun AppSettingDialog(
 
     LaunchedEffect(key1 = Unit) {
         snapshotFlow { selectedRadioOptionIndex }
-            .debounce(500)
+            .debounce(500.milliseconds)
             .distinctUntilChanged()
             .onEach {
                 onGetSecureSettingsByName(
@@ -379,7 +380,7 @@ private fun AppSettingDialogTextFieldWithDropdownMenu(
         OutlinedTextField(
             modifier = Modifier
                 .menuAnchor(
-                    type = MenuAnchorType.SecondaryEditable,
+                    type = ExposedDropdownMenuAnchorType.SecondaryEditable,
                     enabled = true,
                 )
                 .fillMaxWidth()

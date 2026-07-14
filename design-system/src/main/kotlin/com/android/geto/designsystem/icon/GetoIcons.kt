@@ -25,6 +25,7 @@ import androidx.compose.material.icons.filled.Android
 import androidx.compose.material.icons.filled.AppShortcut
 import androidx.compose.material.icons.filled.Apps
 import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.SettingsSuggest
 
@@ -38,4 +39,5 @@ object GetoIcons {
     val SettingsSuggest = Icons.Default.SettingsSuggest
     val Add = Icons.Default.Add
     val ArrowForward = Icons.AutoMirrored.Filled.ArrowForward
+    val Search = Icons.Default.Search
 }
