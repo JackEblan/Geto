@@ -17,7 +17,9 @@
  */
 package com.android.geto.domain.model
 
-enum class RequestPinShortcutResult {
+enum class UpdatePinShortcutResult {
     UnsupportedLauncher,
-    SupportedLauncher,
+    UpdateSuccess,
+    UpdateFailure,
+    UpdateImmutableShortcuts,
 }

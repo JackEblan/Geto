@@ -161,7 +161,7 @@ internal fun UpdatePinShortcutDialog(
         ) {
             Text(
                 modifier = Modifier.padding(10.dp),
-                text = stringResource(R.string.add_shortcut),
+                text = stringResource(R.string.update_shortcut),
                 style = MaterialTheme.typography.titleLarge,
             )
 

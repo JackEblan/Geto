@@ -32,6 +32,7 @@ import com.android.geto.domain.model.GetPinShortcutResult
 import com.android.geto.domain.model.RequestPinShortcutResult
 import com.android.geto.domain.model.SecureSetting
 import com.android.geto.domain.model.SettingType
+import com.android.geto.domain.model.UpdatePinShortcutResult
 import com.android.geto.domain.repository.AppSettingsRepository
 import com.android.geto.domain.usecase.AddAppSettingUseCase
 import com.android.geto.domain.usecase.ApplyAppSettingsUseCase
@@ -39,6 +40,7 @@ import com.android.geto.domain.usecase.GetPinShortcutUseCase
 import com.android.geto.domain.usecase.GetSecureSettingsByNameUseCase
 import com.android.geto.domain.usecase.RequestPinShortcutUseCase
 import com.android.geto.domain.usecase.RevertAppSettingsUseCase
+import com.android.geto.domain.usecase.UpdatePinShortcutUseCase
 import com.android.geto.feature.appsettings.navigation.AppSettingsRouteData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -64,6 +66,7 @@ class AppSettingsViewModel @Inject constructor(
     private val getSecureSettingsByNameUseCase: GetSecureSettingsByNameUseCase,
     private val getPinShortcutUseCase: GetPinShortcutUseCase,
     private val shortcutManagerCompatWrapper: ShortcutManagerCompatWrapper,
+    private val updatePinShortcutUseCase: UpdatePinShortcutUseCase,
 ) : ViewModel() {
     private val appSettingsRouteData = savedStateHandle.toRoute<AppSettingsRouteData>()
 
@@ -112,6 +115,9 @@ class AppSettingsViewModel @Inject constructor(
 
     private val _getPinShortcutResult = MutableStateFlow<GetPinShortcutResult?>(null)
     val getPinShortcutResult = _getPinShortcutResult.asStateFlow()
+
+    private val _updatePinShortcutResult = MutableStateFlow<UpdatePinShortcutResult?>(null)
+    val updatePinShortcutResult = _updatePinShortcutResult.asStateFlow()
 
     fun applyAppSettings() {
         viewModelScope.launch {
@@ -202,13 +208,15 @@ class AppSettingsViewModel @Inject constructor(
         longLabel: String,
     ) {
         viewModelScope.launch {
-            shortcutManagerCompatWrapper.updateShortcuts(
-                componentName = componentName,
-                icon = icon,
-                id = componentName,
-                shortLabel = shortLabel,
-                longLabel = longLabel,
-            )
+            _updatePinShortcutResult.update {
+                updatePinShortcutUseCase(
+                    componentName = componentName,
+                    icon = icon,
+                    id = componentName,
+                    shortLabel = shortLabel,
+                    longLabel = longLabel,
+                )
+            }
         }
     }
 
@@ -230,5 +238,9 @@ class AppSettingsViewModel @Inject constructor(
 
     fun resetGetPinShortcutResult() {
         _getPinShortcutResult.update { null }
+    }
+
+    fun resetUpdatePinShortcutResult() {
+        _updatePinShortcutResult.update { null }
     }
 }
