@@ -18,6 +18,6 @@
 package com.android.geto.domain.model
 
 enum class AddAppSettingResult {
-    SUCCESS,
-    FAILED,
+    Success,
+    Failed,
 }

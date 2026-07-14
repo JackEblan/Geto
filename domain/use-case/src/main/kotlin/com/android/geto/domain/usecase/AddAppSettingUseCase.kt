@@ -20,8 +20,6 @@ package com.android.geto.domain.usecase
 import com.android.geto.domain.common.dispatcher.Dispatcher
 import com.android.geto.domain.common.dispatcher.GetoDispatchers.Default
 import com.android.geto.domain.model.AddAppSettingResult
-import com.android.geto.domain.model.AddAppSettingResult.FAILED
-import com.android.geto.domain.model.AddAppSettingResult.SUCCESS
 import com.android.geto.domain.model.AppSetting
 import com.android.geto.domain.repository.AppSettingsRepository
 import kotlinx.coroutines.CoroutineDispatcher
@@ -40,9 +38,9 @@ class AddAppSettingUseCase @Inject constructor(
         if (appSetting.key !in keys) {
             appSettingsRepository.upsertAppSetting(appSetting = appSetting)
 
-            SUCCESS
+            AddAppSettingResult.Success
         } else {
-            FAILED
+            AddAppSettingResult.Failed
         }
     }
 }

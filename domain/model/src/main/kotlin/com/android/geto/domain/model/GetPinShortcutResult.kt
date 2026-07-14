@@ -17,7 +17,11 @@
  */
 package com.android.geto.domain.model
 
-enum class RequestPinShortcutResult {
-    UnsupportedLauncher,
-    SupportedLauncher,
+sealed interface GetPinShortcutResult {
+    data object UnsupportedLauncher : GetPinShortcutResult
+
+    data object RequestPinShortcut : GetPinShortcutResult
+
+    data class UpdatePinShortcut(val getoShortcutInfoCompat: GetoShortcutInfoCompat) :
+        GetPinShortcutResult
 }

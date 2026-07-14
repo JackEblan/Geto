@@ -21,12 +21,6 @@ import com.android.geto.domain.common.dispatcher.Dispatcher
 import com.android.geto.domain.common.dispatcher.GetoDispatchers.Default
 import com.android.geto.domain.framework.SecureSettingsWrapper
 import com.android.geto.domain.model.AppSettingsResult
-import com.android.geto.domain.model.AppSettingsResult.DisabledAppSettings
-import com.android.geto.domain.model.AppSettingsResult.EmptyAppSettings
-import com.android.geto.domain.model.AppSettingsResult.Failure
-import com.android.geto.domain.model.AppSettingsResult.InvalidValues
-import com.android.geto.domain.model.AppSettingsResult.NoPermission
-import com.android.geto.domain.model.AppSettingsResult.Success
 import com.android.geto.domain.repository.AppSettingsRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
@@ -42,27 +36,27 @@ class RevertAppSettingsUseCase @Inject constructor(
             val appSettings =
                 appSettingsRepository.getAppSettingsByComponentName(componentName = componentName)
 
-            if (appSettings.isEmpty()) return@withContext EmptyAppSettings
+            if (appSettings.isEmpty()) return@withContext AppSettingsResult.EmptyAppSettings
 
-            if (appSettings.all { !it.enabled }) return@withContext DisabledAppSettings
+            if (appSettings.all { !it.enabled }) return@withContext AppSettingsResult.DisabledAppSettings
 
             try {
-                if (appSettings.all { appSetting ->
+                if (appSettings.all {
                         secureSettingsWrapper.canWriteSecureSettings(
-                            settingType = appSetting.settingType,
-                            key = appSetting.key,
-                            value = appSetting.valueOnRevert,
+                            settingType = it.settingType,
+                            key = it.key,
+                            value = it.valueOnRevert,
                         )
                     }
                 ) {
-                    Success
+                    AppSettingsResult.Success
                 } else {
-                    Failure
+                    AppSettingsResult.Failure
                 }
             } catch (_: SecurityException) {
-                NoPermission
+                AppSettingsResult.NoPermission
             } catch (_: IllegalArgumentException) {
-                InvalidValues
+                AppSettingsResult.InvalidValues
             }
         }
 }

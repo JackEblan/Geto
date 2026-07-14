@@ -20,12 +20,12 @@ package com.android.geto.domain.usecase
 import com.android.geto.domain.common.dispatcher.Dispatcher
 import com.android.geto.domain.common.dispatcher.GetoDispatchers.Default
 import com.android.geto.domain.framework.ShortcutManagerCompatWrapper
-import com.android.geto.domain.model.RequestPinShortcutResult
+import com.android.geto.domain.model.UpdatePinShortcutResult
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class RequestPinShortcutUseCase @Inject constructor(
+class UpdatePinShortcutUseCase @Inject constructor(
     @param:Dispatcher(Default) private val defaultDispatcher: CoroutineDispatcher,
     private val shortcutManagerCompatWrapper: ShortcutManagerCompatWrapper,
 ) {
@@ -35,23 +35,34 @@ class RequestPinShortcutUseCase @Inject constructor(
         id: String,
         shortLabel: String,
         longLabel: String,
-    ): RequestPinShortcutResult {
+    ): UpdatePinShortcutResult? {
         if (!shortcutManagerCompatWrapper.isRequestPinShortcutSupported()) {
-            return RequestPinShortcutResult.UnsupportedLauncher
+            return UpdatePinShortcutResult.UnsupportedLauncher
         }
 
         return withContext(defaultDispatcher) {
-            if (shortcutManagerCompatWrapper.requestPinShortcut(
-                    componentName = componentName,
-                    icon = icon,
-                    id = id,
-                    shortLabel = shortLabel,
-                    longLabel = longLabel,
-                )
-            ) {
-                RequestPinShortcutResult.SupportedLauncher
+            val getoShortcutInfoCompat =
+                shortcutManagerCompatWrapper.getShortcuts().find { it.id == id }
+
+            if (getoShortcutInfoCompat != null) {
+                try {
+                    if (shortcutManagerCompatWrapper.updateShortcuts(
+                            componentName = componentName,
+                            icon = icon,
+                            id = id,
+                            shortLabel = shortLabel,
+                            longLabel = longLabel,
+                        )
+                    ) {
+                        UpdatePinShortcutResult.UpdateSuccess
+                    } else {
+                        UpdatePinShortcutResult.UpdateFailure
+                    }
+                } catch (_: IllegalArgumentException) {
+                    UpdatePinShortcutResult.UpdateImmutableShortcuts
+                }
             } else {
-                RequestPinShortcutResult.UnsupportedLauncher
+                null
             }
         }
     }
