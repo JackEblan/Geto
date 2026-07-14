@@ -32,7 +32,6 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             apply(plugin = libs.plugins.android.application.get().pluginId)
-            apply(plugin = libs.plugins.kotlin.android.get().pluginId)
             apply(plugin = libs.plugins.compose.get().pluginId)
 
             extensions.configure<ApplicationExtension> {
