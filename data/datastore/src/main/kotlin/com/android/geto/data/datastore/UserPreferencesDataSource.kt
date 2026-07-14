@@ -17,17 +17,13 @@
  */
 package com.android.geto.data.datastore
 
-import android.R.attr.theme
-import android.util.Log.i
 import androidx.datastore.core.DataStore
 import com.android.geto.data.datastore.mapper.asSortLauncherAppsActivityInfo
 import com.android.geto.data.datastore.mapper.asSortLauncherAppsActivityInfoProto
 import com.android.geto.data.datastore.mapper.asSortOrderLauncherAppsActivityInfo
+import com.android.geto.data.datastore.mapper.asSortOrderLauncherAppsActivityInfoProto
 import com.android.geto.data.datastore.mapper.asTheme
 import com.android.geto.data.datastore.mapper.asThemeProto
-import com.android.geto.data.datastore.proto.SortLauncherAppsActivityInfoProto
-import com.android.geto.data.datastore.proto.SortOrderLauncherAppsActivityInfoProto
-import com.android.geto.data.datastore.proto.ThemeProto
 import com.android.geto.data.datastore.proto.UserPreferences
 import com.android.geto.data.datastore.proto.copy
 import com.android.geto.domain.model.SortLauncherAppsActivityInfo
@@ -75,7 +71,7 @@ class UserPreferencesDataSource @Inject constructor(private val userPreferences:
         userPreferences.updateData {
             it.copy {
                 this.sortOrderLauncherAppsActivityInfo =
-                    sortOrderLauncherAppsActivityInfo.asSortOrderLauncherAppsActivityInfo()
+                    sortOrderLauncherAppsActivityInfo.asSortOrderLauncherAppsActivityInfoProto()
             }
         }
     }

@@ -42,14 +42,19 @@ class GetLauncherAppsActivityInfosUseCase @Inject constructor(
     ) { text, launcherAppsActivityInfos, userData ->
 
         val comparator = when (userData.sortLauncherAppsActivityInfo) {
-            SortLauncherAppsActivityInfo.Name ->
-                compareBy<LauncherAppsActivityInfo> { it.activityLabel }
+            SortLauncherAppsActivityInfo.Name -> {
+                compareBy(String.CASE_INSENSITIVE_ORDER) { it.activityLabel }
+            }
 
-            SortLauncherAppsActivityInfo.UpdateTime ->
-                compareBy { it.lastUpdateTime }
+            SortLauncherAppsActivityInfo.UpdateTime -> {
+                compareBy<LauncherAppsActivityInfo> { it.lastUpdateTime }
+                    .thenBy(String.CASE_INSENSITIVE_ORDER) { it.activityLabel }
+            }
 
-            SortLauncherAppsActivityInfo.InstallTime ->
-                compareBy { it.firstInstallTime }
+            SortLauncherAppsActivityInfo.InstallTime -> {
+                compareBy<LauncherAppsActivityInfo> { it.firstInstallTime }
+                    .thenBy(String.CASE_INSENSITIVE_ORDER) { it.activityLabel }
+            }
         }
 
         val filteredLauncherAppsActivityInfos = if (userData.showSystem) {

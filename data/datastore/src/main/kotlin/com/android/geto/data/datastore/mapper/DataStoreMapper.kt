@@ -28,39 +28,85 @@ internal fun ThemeProto.asTheme(): Theme = when (this) {
     ThemeProto.THEME_UNSPECIFIED,
     ThemeProto.THEME_FOLLOW_SYSTEM,
     ThemeProto.UNRECOGNIZED,
-    -> Theme.FOLLOW_SYSTEM
+    -> {
+        Theme.FOLLOW_SYSTEM
+    }
 
-    ThemeProto.THEME_LIGHT -> Theme.LIGHT
+    ThemeProto.THEME_LIGHT -> {
+        Theme.LIGHT
+    }
 
-    ThemeProto.THEME_DARK -> Theme.DARK
+    ThemeProto.THEME_DARK -> {
+        Theme.DARK
+    }
 }
 
 internal fun SortLauncherAppsActivityInfoProto.asSortLauncherAppsActivityInfo(): SortLauncherAppsActivityInfo = when (this) {
-    SortLauncherAppsActivityInfoProto.SortName -> SortLauncherAppsActivityInfo.Name
-    SortLauncherAppsActivityInfoProto.SortUpdateTime -> SortLauncherAppsActivityInfo.UpdateTime
-    SortLauncherAppsActivityInfoProto.SortInstallTime -> SortLauncherAppsActivityInfo.InstallTime
-    SortLauncherAppsActivityInfoProto.UNRECOGNIZED -> SortLauncherAppsActivityInfo.Name
+    SortLauncherAppsActivityInfoProto.SortName -> {
+        SortLauncherAppsActivityInfo.Name
+    }
+
+    SortLauncherAppsActivityInfoProto.SortUpdateTime -> {
+        SortLauncherAppsActivityInfo.UpdateTime
+    }
+
+    SortLauncherAppsActivityInfoProto.SortInstallTime -> {
+        SortLauncherAppsActivityInfo.InstallTime
+    }
+
+    SortLauncherAppsActivityInfoProto.UNRECOGNIZED -> {
+        SortLauncherAppsActivityInfo.Name
+    }
 }
 
 internal fun SortOrderLauncherAppsActivityInfoProto.asSortOrderLauncherAppsActivityInfo(): SortOrderLauncherAppsActivityInfo = when (this) {
-    SortOrderLauncherAppsActivityInfoProto.SortOrderAscending -> SortOrderLauncherAppsActivityInfo.Ascending
-    SortOrderLauncherAppsActivityInfoProto.SortOrderDescending -> SortOrderLauncherAppsActivityInfo.Descending
-    SortOrderLauncherAppsActivityInfoProto.UNRECOGNIZED -> SortOrderLauncherAppsActivityInfo.Ascending
+    SortOrderLauncherAppsActivityInfoProto.SortOrderAscending -> {
+        SortOrderLauncherAppsActivityInfo.Ascending
+    }
+
+    SortOrderLauncherAppsActivityInfoProto.SortOrderDescending -> {
+        SortOrderLauncherAppsActivityInfo.Descending
+    }
+
+    SortOrderLauncherAppsActivityInfoProto.UNRECOGNIZED -> {
+        SortOrderLauncherAppsActivityInfo.Ascending
+    }
 }
 
 internal fun SortLauncherAppsActivityInfo.asSortLauncherAppsActivityInfoProto(): SortLauncherAppsActivityInfoProto = when (this) {
-    SortLauncherAppsActivityInfo.Name -> SortLauncherAppsActivityInfoProto.SortName
-    SortLauncherAppsActivityInfo.UpdateTime -> SortLauncherAppsActivityInfoProto.SortUpdateTime
-    SortLauncherAppsActivityInfo.InstallTime -> SortLauncherAppsActivityInfoProto.SortInstallTime
+    SortLauncherAppsActivityInfo.Name -> {
+        SortLauncherAppsActivityInfoProto.SortName
+    }
+
+    SortLauncherAppsActivityInfo.UpdateTime -> {
+        SortLauncherAppsActivityInfoProto.SortUpdateTime
+    }
+
+    SortLauncherAppsActivityInfo.InstallTime -> {
+        SortLauncherAppsActivityInfoProto.SortInstallTime
+    }
 }
 
-internal fun SortOrderLauncherAppsActivityInfo.asSortOrderLauncherAppsActivityInfo(): SortOrderLauncherAppsActivityInfoProto = when (this) {
-    SortOrderLauncherAppsActivityInfo.Ascending -> SortOrderLauncherAppsActivityInfoProto.SortOrderAscending
-    SortOrderLauncherAppsActivityInfo.Descending -> SortOrderLauncherAppsActivityInfoProto.SortOrderDescending
+internal fun SortOrderLauncherAppsActivityInfo.asSortOrderLauncherAppsActivityInfoProto(): SortOrderLauncherAppsActivityInfoProto = when (this) {
+    SortOrderLauncherAppsActivityInfo.Ascending -> {
+        SortOrderLauncherAppsActivityInfoProto.SortOrderAscending
+    }
+
+    SortOrderLauncherAppsActivityInfo.Descending -> {
+        SortOrderLauncherAppsActivityInfoProto.SortOrderDescending
+    }
 }
 
 internal fun Theme.asThemeProto(): ThemeProto = when (this) {
-    Theme.FOLLOW_SYSTEM -> ThemeProto.THEME_FOLLOW_SYSTEM
-    Theme.LIGHT -> ThemeProto.THEME_LIGHT
-    Theme.DARK -> ThemeProto.THEME_DARK
+    Theme.FOLLOW_SYSTEM -> {
+        ThemeProto.THEME_FOLLOW_SYSTEM
+    }
+
+    Theme.LIGHT -> {
+        ThemeProto.THEME_LIGHT
+    }
+
+    Theme.DARK -> {
+        ThemeProto.THEME_DARK
+    }
 }
