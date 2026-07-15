@@ -37,6 +37,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -73,6 +74,8 @@ internal fun SortLauncherAppsActivityInfoDialog(
         )
     }
 
+    var selectedShowSystem by remember { mutableStateOf(showSystem) }
+
     DialogContainer(
         modifier = modifier.verticalScroll(rememberScrollState()),
         onDismissRequest = onDismissRequest,
@@ -104,16 +107,20 @@ internal fun SortLauncherAppsActivityInfoDialog(
             Spacer(modifier = Modifier.height(8.dp))
 
             ShowSystemSetting(
-                showSystem = showSystem,
-                onUpdateShowSystem = onUpdateShowSystem,
+                showSystem = selectedShowSystem,
+                onUpdateShowSystem = {
+                    selectedShowSystem = it
+                },
             )
 
             SortLauncherAppsActivityInfoDialogButtons(
-                onDismissRequest = onDismissRequest,
                 selectedSortLauncherAppsActivityInfoIndex = selectedSortLauncherAppsActivityInfoIndex,
                 selectedSortOrderLauncherAppsActivityInfoIndex = selectedSortOrderLauncherAppsActivityInfoIndex,
+                selectedShowSystem = selectedShowSystem,
+                onDismissRequest = onDismissRequest,
                 onUpdateSortLauncherAppsActivityInfo = onUpdateSortLauncherAppsActivityInfo,
                 onUpdateSortOrderLauncherAppsActivityInfo = onUpdateSortOrderLauncherAppsActivityInfo,
+                onUpdateShowSystem = onUpdateShowSystem,
             )
         }
     }
@@ -162,11 +169,13 @@ private fun SortLauncherAppsActivityInfoDialogSelection(
 @Composable
 private fun SortLauncherAppsActivityInfoDialogButtons(
     modifier: Modifier = Modifier,
-    onDismissRequest: () -> Unit,
     selectedSortLauncherAppsActivityInfoIndex: Int,
     selectedSortOrderLauncherAppsActivityInfoIndex: Int,
+    selectedShowSystem: Boolean,
+    onDismissRequest: () -> Unit,
     onUpdateSortLauncherAppsActivityInfo: (SortLauncherAppsActivityInfo) -> Unit,
     onUpdateSortOrderLauncherAppsActivityInfo: (SortOrderLauncherAppsActivityInfo) -> Unit,
+    onUpdateShowSystem: (Boolean) -> Unit,
 ) {
     Row(
         modifier = modifier
@@ -191,13 +200,13 @@ private fun SortLauncherAppsActivityInfoDialogButtons(
                         selectedSortOrderLauncherAppsActivityInfoIndex,
                     )
 
-                selectedSortLauncherAppsActivityInfo?.let(
-                    onUpdateSortLauncherAppsActivityInfo,
-                )
+                selectedSortLauncherAppsActivityInfo?.let(onUpdateSortLauncherAppsActivityInfo)
 
                 selectedSortOrdeLauncherAppsActivityInfo?.let(
                     onUpdateSortOrderLauncherAppsActivityInfo,
                 )
+
+                onUpdateShowSystem(selectedShowSystem)
 
                 onDismissRequest()
             },
