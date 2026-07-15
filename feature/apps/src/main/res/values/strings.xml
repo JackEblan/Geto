@@ -24,4 +24,6 @@
     <string name="install_time">Install</string>
     <string name="ascending">Ascending</string>
     <string name="descending">Descending</string>
+    <string name="show_system">Show System</string>
+    <string name="show_system_applications">Show system applications</string>
 </resources>

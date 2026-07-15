@@ -235,14 +235,14 @@ private fun ShowSystemSetting(
     ) {
         Column(modifier = Modifier.weight(1f)) {
             Text(
-                text = "Show System",
+                text = stringResource(R.string.show_system),
                 style = MaterialTheme.typography.bodyLarge,
             )
 
             Spacer(modifier = Modifier.height(4.dp))
 
             Text(
-                text = "Show system applications",
+                text = stringResource(R.string.show_system_applications),
                 style = MaterialTheme.typography.bodySmall,
             )
         }
