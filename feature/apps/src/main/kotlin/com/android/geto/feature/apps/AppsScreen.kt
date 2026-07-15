@@ -86,6 +86,7 @@ internal fun AppsRoute(
         onSearch = viewModel::search,
         onUpdateSortLauncherAppsActivityInfo = viewModel::updateSortLauncherAppsActivityInfo,
         onUpdateSortOrderLauncherAppsActivityInfo = viewModel::updateSortOrderLauncherAppsActivityInfo,
+        onUpdateShowSystem = viewModel::updateShowSystem,
     )
 }
 
@@ -102,6 +103,7 @@ internal fun AppsScreen(
     onSearch: (String) -> Unit,
     onUpdateSortLauncherAppsActivityInfo: (SortLauncherAppsActivityInfo) -> Unit,
     onUpdateSortOrderLauncherAppsActivityInfo: (SortOrderLauncherAppsActivityInfo) -> Unit,
+    onUpdateShowSystem: (Boolean) -> Unit,
 ) {
     Box(modifier = modifier.fillMaxSize()) {
         when (appsUiState) {
@@ -117,6 +119,7 @@ internal fun AppsScreen(
                     onSearch = onSearch,
                     onUpdateSortLauncherAppsActivityInfo = onUpdateSortLauncherAppsActivityInfo,
                     onUpdateSortOrderLauncherAppsActivityInfo = onUpdateSortOrderLauncherAppsActivityInfo,
+                    onUpdateShowSystem = onUpdateShowSystem,
                 )
             }
         }
@@ -135,6 +138,7 @@ private fun Success(
     onSearch: (String) -> Unit,
     onUpdateSortLauncherAppsActivityInfo: (SortLauncherAppsActivityInfo) -> Unit,
     onUpdateSortOrderLauncherAppsActivityInfo: (SortOrderLauncherAppsActivityInfo) -> Unit,
+    onUpdateShowSystem: (Boolean) -> Unit,
 ) {
     val searchBarState = rememberSearchBarState()
 
@@ -211,11 +215,13 @@ private fun Success(
         SortLauncherAppsActivityInfoDialog(
             sortLauncherAppsActivityInfo = launcherAppsActivityInfoData.userData.sortLauncherAppsActivityInfo,
             sortOrderLauncherAppsActivityInfo = launcherAppsActivityInfoData.userData.sortOrderLauncherAppsActivityInfo,
+            showSystem = launcherAppsActivityInfoData.userData.showSystem,
             onDismissRequest = {
                 showSortLauncherAppsActivityInfoDialog = false
             },
             onUpdateSortLauncherAppsActivityInfo = onUpdateSortLauncherAppsActivityInfo,
             onUpdateSortOrderLauncherAppsActivityInfo = onUpdateSortOrderLauncherAppsActivityInfo,
+            onUpdateShowSystem = onUpdateShowSystem,
         )
     }
 }

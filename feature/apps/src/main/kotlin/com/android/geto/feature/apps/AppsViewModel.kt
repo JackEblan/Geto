@@ -63,4 +63,10 @@ class AppsViewModel @Inject constructor(
             )
         }
     }
+
+    fun updateShowSystem(showSystem: Boolean) {
+        viewModelScope.launch {
+            userDataRepository.updateShowSystem(showSystem = showSystem)
+        }
+    }
 }

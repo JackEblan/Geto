@@ -20,8 +20,8 @@
     <string name="sort">Sort</string>
     <string name="sort_order">Sort Order</string>
     <string name="name">Name</string>
-    <string name="update_time">Update Time</string>
-    <string name="install_time">Install Time</string>
+    <string name="update_time">Update</string>
+    <string name="install_time">Install</string>
     <string name="ascending">Ascending</string>
     <string name="descending">Descending</string>
 </resources>
