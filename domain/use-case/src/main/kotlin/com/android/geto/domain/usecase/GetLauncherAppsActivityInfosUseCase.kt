@@ -21,6 +21,7 @@ import com.android.geto.domain.common.dispatcher.Dispatcher
 import com.android.geto.domain.common.dispatcher.GetoDispatchers.Default
 import com.android.geto.domain.framework.LauncherAppsWrapper
 import com.android.geto.domain.model.LauncherAppsActivityInfo
+import com.android.geto.domain.model.LauncherAppsActivityInfoData
 import com.android.geto.domain.model.SortLauncherAppsActivityInfo
 import com.android.geto.domain.model.SortOrderLauncherAppsActivityInfo
 import com.android.geto.domain.repository.UserDataRepository
@@ -40,7 +41,6 @@ class GetLauncherAppsActivityInfosUseCase @Inject constructor(
         launcherAppsWrapper.getActivityListFlow(),
         userDataRepository.userData,
     ) { text, launcherAppsActivityInfos, userData ->
-
         val comparator = when (userData.sortLauncherAppsActivityInfo) {
             SortLauncherAppsActivityInfo.Name -> {
                 compareBy(String.CASE_INSENSITIVE_ORDER) { it.activityLabel }
@@ -71,15 +71,18 @@ class GetLauncherAppsActivityInfosUseCase @Inject constructor(
             },
         )
 
-        if (text.isNullOrEmpty()) {
-            sortedLauncherAppsActivityInfos
-        } else {
-            sortedLauncherAppsActivityInfos.filter {
-                it.activityLabel.contains(
-                    other = text,
-                    ignoreCase = true,
-                )
-            }
-        }
+        LauncherAppsActivityInfoData(
+            launcherAppsActivityInfos = if (text.isNullOrEmpty()) {
+                sortedLauncherAppsActivityInfos
+            } else {
+                sortedLauncherAppsActivityInfos.filter {
+                    it.activityLabel.contains(
+                        other = text,
+                        ignoreCase = true,
+                    )
+                }
+            },
+            userData = userData,
+        )
     }.flowOn(defaultDispatcher)
 }

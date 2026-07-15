@@ -29,8 +29,6 @@
     <string name="setting_key">Setting key</string>
     <string name="setting_value_on_launch">Setting value on launch</string>
     <string name="setting_value_on_revert">Setting value on revert</string>
-    <string name="cancel">Cancel</string>
-    <string name="add">Add</string>
     <string name="templates">Templates</string>
     <string name="add_shortcut">Add Shortcut</string>
     <string name="update_shortcut">Update Shortcut</string>
@@ -58,5 +56,4 @@
     <string name="system">System</string>
     <string name="secure">Secure</string>
     <string name="global">Global</string>
-    <string name="update">Update</string>
 </resources>

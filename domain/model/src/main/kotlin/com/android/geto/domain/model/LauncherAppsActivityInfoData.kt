@@ -15,20 +15,9 @@
  *   limitations under the License.
  *
  */
+package com.android.geto.domain.model
 
-plugins {
-    alias(libs.plugins.com.android.geto.feature)
-    alias(libs.plugins.com.android.geto.libraryCompose)
-}
-
-android {
-    namespace = "com.android.geto.feature.apps"
-}
-
-dependencies {
-    implementation(projects.common)
-    implementation(projects.domain.common)
-    implementation(projects.domain.framework)
-    implementation(projects.domain.repository)
-    implementation(projects.domain.useCase)
-}
+data class LauncherAppsActivityInfoData(
+    val launcherAppsActivityInfos: List<LauncherAppsActivityInfo>,
+    val userData: UserData,
+)

@@ -60,7 +60,7 @@ internal fun ThemeDialog(
                 .padding(10.dp),
         ) {
             Text(
-                modifier = modifier.padding(10.dp),
+                modifier = Modifier.padding(10.dp),
                 text = stringResource(id = R.string.theme),
                 style = MaterialTheme.typography.titleLarge,
             )

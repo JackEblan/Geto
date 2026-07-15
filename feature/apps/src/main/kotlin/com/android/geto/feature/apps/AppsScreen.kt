@@ -32,6 +32,7 @@ import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SearchBarDefaults
@@ -55,6 +56,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.android.geto.designsystem.icon.GetoIcons
 import com.android.geto.domain.model.LauncherAppsActivityInfo
+import com.android.geto.domain.model.LauncherAppsActivityInfoData
+import com.android.geto.domain.model.SortLauncherAppsActivityInfo
+import com.android.geto.domain.model.SortOrderLauncherAppsActivityInfo
+import com.android.geto.feature.apps.dialog.SortLauncherAppsActivityInfoDialog
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
@@ -79,6 +84,8 @@ internal fun AppsRoute(
         appsUiState = appListUiState,
         onClickApp = onClickApp,
         onSearch = viewModel::search,
+        onUpdateSortLauncherAppsActivityInfo = viewModel::updateSortLauncherAppsActivityInfo,
+        onUpdateSortOrderLauncherAppsActivityInfo = viewModel::updateSortOrderLauncherAppsActivityInfo,
     )
 }
 
@@ -93,6 +100,8 @@ internal fun AppsScreen(
         activityLabel: String,
     ) -> Unit,
     onSearch: (String) -> Unit,
+    onUpdateSortLauncherAppsActivityInfo: (SortLauncherAppsActivityInfo) -> Unit,
+    onUpdateSortOrderLauncherAppsActivityInfo: (SortOrderLauncherAppsActivityInfo) -> Unit,
 ) {
     Box(modifier = modifier.fillMaxSize()) {
         when (appsUiState) {
@@ -103,9 +112,11 @@ internal fun AppsScreen(
             is AppsUiState.Success -> {
                 Success(
                     modifier = modifier,
-                    appsUiState = appsUiState,
+                    launcherAppsActivityInfoData = appsUiState.launcherAppsActivityInfoData,
                     onClickApp = onClickApp,
                     onSearch = onSearch,
+                    onUpdateSortLauncherAppsActivityInfo = onUpdateSortLauncherAppsActivityInfo,
+                    onUpdateSortOrderLauncherAppsActivityInfo = onUpdateSortOrderLauncherAppsActivityInfo,
                 )
             }
         }
@@ -116,20 +127,24 @@ internal fun AppsScreen(
 @Composable
 private fun Success(
     modifier: Modifier = Modifier,
-    appsUiState: AppsUiState.Success,
+    launcherAppsActivityInfoData: LauncherAppsActivityInfoData,
     onClickApp: (
         componentName: String,
         activityLabel: String,
     ) -> Unit,
     onSearch: (String) -> Unit,
+    onUpdateSortLauncherAppsActivityInfo: (SortLauncherAppsActivityInfo) -> Unit,
+    onUpdateSortOrderLauncherAppsActivityInfo: (SortOrderLauncherAppsActivityInfo) -> Unit,
 ) {
-    var searchBarQuery by rememberSaveable { mutableStateOf("") }
-
     val searchBarState = rememberSearchBarState()
 
     val textFieldState = rememberTextFieldState()
 
     val scope = rememberCoroutineScope()
+
+    var searchBarQuery by rememberSaveable { mutableStateOf("") }
+
+    var showSortLauncherAppsActivityInfoDialog by rememberSaveable { mutableStateOf(false) }
 
     LaunchedEffect(key1 = Unit) {
         snapshotFlow { searchBarQuery }.debounce(500.milliseconds)
@@ -155,6 +170,18 @@ private fun Success(
                             contentDescription = null,
                         )
                     },
+                    trailingIcon = {
+                        IconButton(
+                            onClick = {
+                                showSortLauncherAppsActivityInfoDialog = true
+                            },
+                        ) {
+                            Icon(
+                                imageVector = GetoIcons.Sort,
+                                contentDescription = null,
+                            )
+                        }
+                    },
                     onSearch = {
                         scope.launch {
                             searchBarState.animateToCollapsed()
@@ -171,13 +198,25 @@ private fun Success(
             columns = GridCells.Adaptive(300.dp),
             modifier = Modifier.fillMaxSize(),
         ) {
-            items(items = appsUiState.launcherAppsActivityInfos) { launcherAppsActivityInfo ->
+            items(items = launcherAppsActivityInfoData.launcherAppsActivityInfos) { launcherAppsActivityInfo ->
                 AppItem(
                     launcherAppsActivityInfo = launcherAppsActivityInfo,
                     onClickApp = onClickApp,
                 )
             }
         }
+    }
+
+    if (showSortLauncherAppsActivityInfoDialog) {
+        SortLauncherAppsActivityInfoDialog(
+            sortLauncherAppsActivityInfo = launcherAppsActivityInfoData.userData.sortLauncherAppsActivityInfo,
+            sortOrderLauncherAppsActivityInfo = launcherAppsActivityInfoData.userData.sortOrderLauncherAppsActivityInfo,
+            onDismissRequest = {
+                showSortLauncherAppsActivityInfoDialog = false
+            },
+            onUpdateSortLauncherAppsActivityInfo = onUpdateSortLauncherAppsActivityInfo,
+            onUpdateSortOrderLauncherAppsActivityInfo = onUpdateSortOrderLauncherAppsActivityInfo,
+        )
     }
 }
 
