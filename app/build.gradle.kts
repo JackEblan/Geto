@@ -27,8 +27,8 @@ android {
 
     defaultConfig {
         applicationId = "com.android.geto"
-        versionCode = 171
-        versionName = "1.17.1"
+        versionCode = 172
+        versionName = "1.17.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
