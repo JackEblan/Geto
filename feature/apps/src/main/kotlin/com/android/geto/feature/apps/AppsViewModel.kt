@@ -19,6 +19,9 @@ package com.android.geto.feature.apps
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.android.geto.domain.model.SortLauncherAppsActivityInfo
+import com.android.geto.domain.model.SortOrderLauncherAppsActivityInfo
+import com.android.geto.domain.repository.UserDataRepository
 import com.android.geto.domain.usecase.GetLauncherAppsActivityInfosUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,11 +29,13 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class AppsViewModel @Inject constructor(
     getLauncherAppsActivityInfosUseCase: GetLauncherAppsActivityInfosUseCase,
+    private val userDataRepository: UserDataRepository,
 ) : ViewModel() {
     private var _textFlow = MutableStateFlow<String?>(null)
 
@@ -43,5 +48,25 @@ class AppsViewModel @Inject constructor(
 
     fun search(text: String) {
         _textFlow.update { text }
+    }
+
+    fun updateSortLauncherAppsActivityInfo(sortLauncherAppsActivityInfo: SortLauncherAppsActivityInfo) {
+        viewModelScope.launch {
+            userDataRepository.updateSortLauncherAppsActivityInfo(sortLauncherAppsActivityInfo = sortLauncherAppsActivityInfo)
+        }
+    }
+
+    fun updateSortOrderLauncherAppsActivityInfo(sortOrderLauncherAppsActivityInfo: SortOrderLauncherAppsActivityInfo) {
+        viewModelScope.launch {
+            userDataRepository.updateSortOrderLauncherAppsActivityInfo(
+                sortOrderLauncherAppsActivityInfo = sortOrderLauncherAppsActivityInfo,
+            )
+        }
+    }
+
+    fun updateShowSystem(showSystem: Boolean) {
+        viewModelScope.launch {
+            userDataRepository.updateShowSystem(showSystem = showSystem)
+        }
     }
 }

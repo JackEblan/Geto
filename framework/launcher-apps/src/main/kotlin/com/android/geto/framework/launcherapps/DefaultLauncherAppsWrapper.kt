@@ -28,6 +28,7 @@ import android.os.UserHandle
 import com.android.geto.domain.common.dispatcher.Dispatcher
 import com.android.geto.domain.common.dispatcher.GetoDispatchers.Default
 import com.android.geto.domain.framework.LauncherAppsWrapper
+import com.android.geto.domain.framework.PackageManagerWrapper
 import com.android.geto.domain.model.LauncherAppsActivityInfo
 import com.android.geto.framework.drawable.AndroidDrawableWrapper
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -46,6 +47,7 @@ internal class DefaultLauncherAppsWrapper @Inject constructor(
     @param:Dispatcher(Default) private val defaultDispatcher: CoroutineDispatcher,
     @param:ApplicationContext private val context: Context,
     private val androidDrawableWrapper: AndroidDrawableWrapper,
+    private val packageManagerWrapper: PackageManagerWrapper,
 ) : LauncherAppsWrapper,
     AndroidLauncherAppsWrapper {
     private val launcherApps =
@@ -130,6 +132,10 @@ internal class DefaultLauncherAppsWrapper @Inject constructor(
         packageName = applicationInfo.packageName,
         activityIcon = androidDrawableWrapper.toByteArray(drawable = getIcon(0)),
         activityLabel = label.toString(),
+        firstInstallTime = firstInstallTime,
+        lastUpdateTime = packageManagerWrapper.getLastInstallTime(packageName = applicationInfo.packageName),
+        isSystem = packageManagerWrapper.isSystem(flags = applicationInfo.flags),
+
     )
 
     override fun startMainActivity(componentName: String) {

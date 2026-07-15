@@ -20,4 +20,7 @@ package com.android.geto.domain.model
 data class UserData(
     val theme: Theme,
     val dynamicTheme: Boolean,
+    val sortLauncherAppsActivityInfo: SortLauncherAppsActivityInfo,
+    val sortOrderLauncherAppsActivityInfo: SortOrderLauncherAppsActivityInfo,
+    val showSystem: Boolean,
 )

@@ -65,6 +65,7 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.onEach
 import kotlin.time.Duration.Companion.milliseconds
+import com.android.geto.common.R as commonR
 
 @OptIn(FlowPreview::class)
 @Composable
@@ -456,14 +457,14 @@ private fun AppSettingDialogButtons(
             onClick = onCancelClick,
             modifier = Modifier.padding(5.dp),
         ) {
-            Text(text = stringResource(R.string.cancel))
+            Text(text = stringResource(commonR.string.cancel))
         }
         TextButton(
             onClick = onAddClick,
             modifier = Modifier
                 .padding(5.dp),
         ) {
-            Text(text = stringResource(R.string.add))
+            Text(text = stringResource(commonR.string.add))
         }
     }
 }

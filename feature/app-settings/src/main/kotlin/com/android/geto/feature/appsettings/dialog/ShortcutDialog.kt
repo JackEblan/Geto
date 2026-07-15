@@ -46,6 +46,7 @@ import coil.compose.AsyncImage
 import com.android.geto.designsystem.component.DialogContainer
 import com.android.geto.domain.model.GetoShortcutInfoCompat
 import com.android.geto.feature.appsettings.R
+import com.android.geto.common.R as commonR
 
 @Composable
 internal fun RequestPinShortcutDialog(
@@ -76,7 +77,7 @@ internal fun RequestPinShortcutDialog(
                 .padding(10.dp),
         ) {
             Text(
-                modifier = modifier.padding(10.dp),
+                modifier = Modifier.padding(10.dp),
                 text = stringResource(R.string.add_shortcut),
                 style = MaterialTheme.typography.titleLarge,
             )
@@ -107,8 +108,8 @@ internal fun RequestPinShortcutDialog(
             )
 
             ShortcutDialogButtons(
-                positiveText = stringResource(id = R.string.add),
-                negativeText = stringResource(id = R.string.cancel),
+                positiveText = stringResource(id = commonR.string.add),
+                negativeText = stringResource(id = commonR.string.cancel),
                 onPositiveTextButtonClick = {
                     showShortLabelError = shortLabel.isBlank()
 
@@ -191,8 +192,8 @@ internal fun UpdatePinShortcutDialog(
             )
 
             ShortcutDialogButtons(
-                positiveText = stringResource(id = R.string.update),
-                negativeText = stringResource(id = R.string.cancel),
+                positiveText = stringResource(id = commonR.string.update),
+                negativeText = stringResource(id = commonR.string.cancel),
                 onPositiveTextButtonClick = {
                     showShortLabelError = shortLabel.isBlank()
 

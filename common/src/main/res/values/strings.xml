@@ -16,14 +16,7 @@
   ~
   -->
 <resources>
-    <string name="search">Search</string>
-    <string name="sort">Sort</string>
-    <string name="sort_order">Sort Order</string>
-    <string name="name">Name</string>
-    <string name="update_time">Update</string>
-    <string name="install_time">Install</string>
-    <string name="ascending">Ascending</string>
-    <string name="descending">Descending</string>
-    <string name="show_system">Show System</string>
-    <string name="show_system_applications">Show system applications</string>
+    <string name="add">Add</string>
+    <string name="update">Update</string>
+    <string name="cancel">Cancel</string>
 </resources>

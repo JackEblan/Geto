@@ -15,21 +15,10 @@
  *   limitations under the License.
  *
  */
+package com.android.geto.domain.model
 
-syntax = "proto3";
-
-import "com/android/geto/data/datastore/proto/theme.proto";
-import "com/android/geto/data/datastore/proto/sort_launcher_apps_activity_info.proto";
-import "com/android/geto/data/datastore/proto/sort_order_launcher_apps_activity_info.proto";
-
-option java_package = "com.android.geto.data.datastore.proto";
-option java_multiple_files = true;
-
-message UserPreferences {
-  ThemeProto theme = 1;
-  bool dynamicTheme = 2;
-  SortLauncherAppsActivityInfoProto sortLauncherAppsActivityInfo = 3;
-  SortOrderLauncherAppsActivityInfoProto sortOrderLauncherAppsActivityInfo = 4;
-  bool showSystem = 5;
+enum class SortLauncherAppsActivityInfo {
+    Name,
+    UpdateTime,
+    InstallTime,
 }
-
