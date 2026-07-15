@@ -306,6 +306,8 @@ private fun AppSettingDialogTextFields(
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
     )
 
+    Spacer(modifier = Modifier.height(5.dp))
+
     AppSettingDialogTextFieldWithDropdownMenu(
         key = key,
         secureSettings = secureSettings,
@@ -316,6 +318,8 @@ private fun AppSettingDialogTextFields(
         onUpdateSecureSettingsExpanded = onUpdateSecureSettingsExpanded,
         onUpdateValueOnRevert = onUpdateValueOnRevert,
     )
+
+    Spacer(modifier = Modifier.height(5.dp))
 
     OutlinedTextField(
         modifier = Modifier
@@ -337,6 +341,8 @@ private fun AppSettingDialogTextFields(
         singleLine = true,
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
     )
+
+    Spacer(modifier = Modifier.height(5.dp))
 
     OutlinedTextField(
         modifier = Modifier

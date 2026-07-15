@@ -42,8 +42,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
@@ -146,15 +146,13 @@ private fun Success(
 
     val scope = rememberCoroutineScope()
 
-    var searchBarQuery by rememberSaveable { mutableStateOf("") }
+    var showSortLauncherAppsActivityInfoDialog by remember { mutableStateOf(false) }
 
-    var showSortLauncherAppsActivityInfoDialog by rememberSaveable { mutableStateOf(false) }
-
-    LaunchedEffect(key1 = Unit) {
-        snapshotFlow { searchBarQuery }.debounce(500.milliseconds)
+    LaunchedEffect(key1 = textFieldState) {
+        snapshotFlow { textFieldState.text }.debounce(500.milliseconds)
             .distinctUntilChanged()
             .onEach {
-                onSearch(it)
+                onSearch(it.toString())
             }.collect()
     }
 

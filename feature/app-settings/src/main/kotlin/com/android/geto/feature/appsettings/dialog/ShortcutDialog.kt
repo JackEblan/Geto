@@ -249,6 +249,8 @@ private fun ShortcutDialogTextFields(
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
     )
 
+    Spacer(modifier = Modifier.height(5.dp))
+
     OutlinedTextField(
         modifier = Modifier
             .fillMaxWidth()
