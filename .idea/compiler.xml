@@ -52,7 +52,6 @@
       <module name="Geto.framework.usage-stats-manager" target="21" />
       <module name="Geto.roborazzi" target="21" />
       <module name="Geto.screenshot-testing" target="21" />
-      <module name="Geto.service" target="21" />
       <module name="Geto.shizuku.package-manager" target="21" />
       <module name="Geto.ui-test-hilt-manifest" target="17" />
       <module name="Geto.ui-test-hilt-manifest.main" target="17" />

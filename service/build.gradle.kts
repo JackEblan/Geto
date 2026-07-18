@@ -17,15 +17,17 @@
  */
 
 plugins {
-    alias(libs.plugins.com.android.geto.feature)
-    alias(libs.plugins.com.android.geto.libraryCompose)
+    alias(libs.plugins.com.android.geto.library)
+    alias(libs.plugins.com.android.geto.hilt)
 }
 
 android {
-    namespace = "com.android.geto.feature.settings"
+    namespace = "com.android.geto.service"
 }
 
 dependencies {
-    implementation(projects.domain.repository)
-    implementation(projects.service)
+    implementation(projects.common)
+    implementation(projects.framework.notificationManager)
+
+    implementation(libs.androidx.core.ktx)
 }

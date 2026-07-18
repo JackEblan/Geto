@@ -92,6 +92,7 @@ import com.android.geto.framework.notificationmanager.AndroidNotificationManager
 import com.android.geto.ui.local.LocalLauncherApps
 import com.android.geto.ui.local.LocalNotificationManager
 import kotlinx.coroutines.FlowPreview
+import com.android.geto.common.R as commonR
 
 @Composable
 internal fun AppSettingsRoute(
@@ -257,13 +258,13 @@ internal fun AppSettingsScreen(
 
                 is AppSettingsUiState.Success -> {
                     if (appSettingsUiState.appSettings.isNotEmpty()) {
-                        SuccessState(
+                        Success(
                             appSettingsUiState = appSettingsUiState,
                             onCheckAppSetting = onCheckAppSetting,
                             onDeleteAppSettingsItem = onDeleteAppSetting,
                         )
                     } else {
-                        EmptyState(
+                        Empty(
                             title = stringResource(R.string.no_settings_found),
                             subtitle = stringResource(R.string.add_your_first_settings),
                         )
@@ -657,7 +658,7 @@ private fun AppSettingsBottomAppBarActions(
 }
 
 @Composable
-private fun EmptyState(
+private fun Empty(
     modifier: Modifier = Modifier,
     title: String,
     subtitle: String,
@@ -685,7 +686,7 @@ private fun EmptyState(
 }
 
 @Composable
-private fun SuccessState(
+private fun Success(
     modifier: Modifier = Modifier,
     appSettingsUiState: AppSettingsUiState.Success,
     onCheckAppSetting: (AppSetting) -> Unit,
@@ -799,7 +800,7 @@ private fun getNotification(
 
 @Composable
 internal fun SettingType.getSettingTypeTitle() = when (this) {
-    SettingType.SYSTEM -> stringResource(R.string.system)
-    SettingType.SECURE -> stringResource(R.string.secure)
-    SettingType.GLOBAL -> stringResource(R.string.global)
+    SettingType.SYSTEM -> stringResource(commonR.string.system)
+    SettingType.SECURE -> stringResource(commonR.string.secure)
+    SettingType.GLOBAL -> stringResource(commonR.string.global)
 }

@@ -25,4 +25,7 @@
     <string name="follow_system">Follow System</string>
     <string name="light">Light</string>
     <string name="dark">Dark</string>
+    <string name="start_service">Start service</string>
+    <string name="stop_service">Stop service</string>
+    <string name="settings_observer_service">Settings Observer Service</string>
 </resources>
