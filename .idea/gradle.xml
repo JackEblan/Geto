@@ -51,6 +51,7 @@
             <option value="$PROJECT_DIR$/framework/package-manager" />
             <option value="$PROJECT_DIR$/framework/secure-settings" />
             <option value="$PROJECT_DIR$/framework/shortcut-manager" />
+            <option value="$PROJECT_DIR$/service" />
             <option value="$PROJECT_DIR$/ui" />
           </set>
         </option>

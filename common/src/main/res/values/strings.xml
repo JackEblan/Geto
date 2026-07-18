@@ -19,4 +19,7 @@
     <string name="add">Add</string>
     <string name="update">Update</string>
     <string name="cancel">Cancel</string>
+    <string name="system">System</string>
+    <string name="secure">Secure</string>
+    <string name="global">Global</string>
 </resources>

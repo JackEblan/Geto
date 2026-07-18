@@ -17,6 +17,7 @@
  */
 package com.android.geto.feature.settings
 
+import android.content.Intent
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -38,18 +39,20 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.android.geto.designsystem.theme.supportsDynamicTheming
 import com.android.geto.domain.model.Theme
 import com.android.geto.domain.model.UserData
 import com.android.geto.feature.settings.dialog.ThemeDialog
+import com.android.geto.service.SettingsObserverService
 
 @Composable
 internal fun SettingsRoute(
@@ -58,9 +61,12 @@ internal fun SettingsRoute(
 ) {
     val settingsUiState by viewModel.settingsUiState.collectAsStateWithLifecycle()
 
+    val isServiceRunning by viewModel.isServiceRunning.collectAsStateWithLifecycle()
+
     SettingsScreen(
         modifier = modifier,
         settingsUiState = settingsUiState,
+        isServiceRunning = isServiceRunning,
         onUpdateTheme = viewModel::updateTheme,
         onUpdateDynamicTheme = viewModel::updateDynamicTheme,
     )
@@ -71,6 +77,7 @@ internal fun SettingsRoute(
 internal fun SettingsScreen(
     modifier: Modifier = Modifier,
     settingsUiState: SettingsUiState,
+    isServiceRunning: Boolean,
     onUpdateTheme: (Theme) -> Unit,
     onUpdateDynamicTheme: (Boolean) -> Unit,
 ) {
@@ -85,8 +92,9 @@ internal fun SettingsScreen(
             }
 
             is SettingsUiState.Success -> {
-                SuccessState(
+                Success(
                     userData = settingsUiState.userData,
+                    isServiceRunning = isServiceRunning,
                     onUpdateDynamicTheme = onUpdateDynamicTheme,
                     onUpdateTheme = onUpdateTheme,
                 )
@@ -96,13 +104,16 @@ internal fun SettingsScreen(
 }
 
 @Composable
-private fun SuccessState(
+private fun Success(
     modifier: Modifier = Modifier,
     userData: UserData,
+    isServiceRunning: Boolean,
     onUpdateDynamicTheme: (Boolean) -> Unit,
     onUpdateTheme: (Theme) -> Unit,
 ) {
-    var showThemeDialog by rememberSaveable { mutableStateOf(false) }
+    val context = LocalContext.current
+
+    var showThemeDialog by remember { mutableStateOf(false) }
 
     var selectedTheme by remember {
         mutableIntStateOf(
@@ -118,10 +129,33 @@ private fun SuccessState(
             onUpdateDynamicTheme = onUpdateDynamicTheme,
         )
 
-        ThemeSetting(
-            title = userData.theme.getTitle(),
-            onShowThemeDialog = {
+        Spacer(modifier = Modifier.height(8.dp))
+
+        SettingsColumn(
+            title = stringResource(R.string.theme),
+            subtitle = userData.theme.getTitle(),
+            onClick = {
                 showThemeDialog = true
+            },
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        SettingsColumn(
+            title = stringResource(R.string.settings_observer_service),
+            subtitle = if (isServiceRunning) {
+                stringResource(R.string.stop_service)
+            } else {
+                stringResource(R.string.start_service)
+            },
+            onClick = {
+                val intent = Intent(context, SettingsObserverService::class.java)
+
+                if (isServiceRunning) {
+                    context.stopService(intent)
+                } else {
+                    ContextCompat.startForegroundService(context, intent)
+                }
             },
         )
     }
@@ -149,8 +183,6 @@ private fun DynamicThemeSetting(
     onUpdateDynamicTheme: (Boolean) -> Unit,
 ) {
     if (supportsDynamicTheming()) {
-        Spacer(modifier = Modifier.height(8.dp))
-
         Row(
             modifier = modifier
                 .clickable {
@@ -183,28 +215,27 @@ private fun DynamicThemeSetting(
 }
 
 @Composable
-private fun ThemeSetting(
+private fun SettingsColumn(
     modifier: Modifier = Modifier,
     title: String,
-    onShowThemeDialog: () -> Unit,
+    subtitle: String,
+    onClick: () -> Unit,
 ) {
-    Spacer(modifier = Modifier.height(8.dp))
-
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .clickable { onShowThemeDialog() }
+            .clickable(onClick = onClick)
             .padding(10.dp),
     ) {
         Text(
-            text = stringResource(R.string.theme),
+            text = title,
             style = MaterialTheme.typography.bodyLarge,
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
         Text(
-            text = title,
+            text = subtitle,
             style = MaterialTheme.typography.bodySmall,
         )
     }

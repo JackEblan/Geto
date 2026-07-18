@@ -21,6 +21,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.android.geto.domain.model.Theme
 import com.android.geto.domain.repository.UserDataRepository
+import com.android.geto.service.SettingsObserverService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.flow.map
@@ -36,6 +37,12 @@ class SettingsViewModel @Inject constructor(
         scope = viewModelScope,
         started = WhileSubscribed(5_000),
         initialValue = SettingsUiState.Loading,
+    )
+
+    val isServiceRunning = SettingsObserverService.isRunning.stateIn(
+        scope = viewModelScope,
+        started = WhileSubscribed(5_000),
+        initialValue = false,
     )
 
     fun updateTheme(theme: Theme) {

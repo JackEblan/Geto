@@ -15,6 +15,9 @@
   ~   limitations under the License.
   ~
   -->
-<manifest>
-
-</manifest>
+<resources>
+    <string name="settings_observer">Settings Observer</string>
+    <string name="waiting_for_changes">Waiting for changes…</string>
+    <string name="unknown">Unknown</string>
+    <string name="stop">Stop</string>
+</resources>
