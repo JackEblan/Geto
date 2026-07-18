@@ -1,0 +1,1 @@
+- Added a Settings Observer tool to monitor Android system setting changes in real time through a foreground notification (requires the appropriate permissions)
