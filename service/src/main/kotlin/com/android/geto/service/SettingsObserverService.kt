@@ -136,8 +136,13 @@ class SettingsObserverService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         when (intent?.action) {
             SERVICE_ACTION_STOP -> {
-                stopForeground(STOP_FOREGROUND_REMOVE)
+                ServiceCompat.stopForeground(
+                    this,
+                    ServiceCompat.STOP_FOREGROUND_REMOVE,
+                )
+
                 stopSelf()
+
                 return START_NOT_STICKY
             }
         }
