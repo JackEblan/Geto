@@ -34,7 +34,8 @@ class GetSecureSettingsByNameUseCase @Inject constructor(
         settingType: SettingType,
         text: String,
     ): List<SecureSetting> = withContext(defaultDispatcher) {
-        secureSettingsWrapper.getSecureSettings(settingType).filter { it.name!!.contains(text) }
+        secureSettingsWrapper.getSecureSettings(settingType)
+            .filter { it.name?.contains(text) == true }
             .take(20)
     }
 }
