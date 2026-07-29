@@ -18,7 +18,7 @@
 package com.android.geto.domain.usecase
 
 import com.android.geto.domain.common.dispatcher.Dispatcher
-import com.android.geto.domain.common.dispatcher.GetoDispatchers.Default
+import com.android.geto.domain.common.dispatcher.GetoDispatchers
 import com.android.geto.domain.framework.ShortcutManagerCompatWrapper
 import com.android.geto.domain.model.UpdatePinShortcutResult
 import kotlinx.coroutines.CoroutineDispatcher
@@ -26,8 +26,8 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class UpdatePinShortcutUseCase @Inject constructor(
-    @param:Dispatcher(Default) private val defaultDispatcher: CoroutineDispatcher,
     private val shortcutManagerCompatWrapper: ShortcutManagerCompatWrapper,
+    @param:Dispatcher(GetoDispatchers.Default) private val defaultDispatcher: CoroutineDispatcher,
 ) {
     suspend operator fun invoke(
         componentName: String,

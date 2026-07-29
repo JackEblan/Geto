@@ -21,22 +21,20 @@ import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import androidx.core.graphics.drawable.toBitmap
 import com.android.geto.domain.common.dispatcher.Dispatcher
-import com.android.geto.domain.common.dispatcher.GetoDispatchers.IO
+import com.android.geto.domain.common.dispatcher.GetoDispatchers
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 
 internal class DefaultDrawableWrapper @Inject constructor(
-    @param:Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher,
+    @param:Dispatcher(GetoDispatchers.Default) private val defaultDispatcher: CoroutineDispatcher,
 ) : AndroidDrawableWrapper {
-    override suspend fun toByteArray(drawable: Drawable): ByteArray {
+    override suspend fun toByteArray(drawable: Drawable): ByteArray = withContext(defaultDispatcher) {
         val stream = ByteArrayOutputStream()
 
-        withContext(ioDispatcher) {
-            drawable.toBitmap().compress(Bitmap.CompressFormat.PNG, 30, stream)
-        }
+        drawable.toBitmap().compress(Bitmap.CompressFormat.PNG, 30, stream)
 
-        return stream.toByteArray()
+        stream.toByteArray()
     }
 }

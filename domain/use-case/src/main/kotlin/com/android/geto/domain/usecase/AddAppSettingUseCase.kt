@@ -18,7 +18,7 @@
 package com.android.geto.domain.usecase
 
 import com.android.geto.domain.common.dispatcher.Dispatcher
-import com.android.geto.domain.common.dispatcher.GetoDispatchers.Default
+import com.android.geto.domain.common.dispatcher.GetoDispatchers
 import com.android.geto.domain.model.AddAppSettingResult
 import com.android.geto.domain.model.AppSetting
 import com.android.geto.domain.repository.AppSettingsRepository
@@ -27,8 +27,8 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class AddAppSettingUseCase @Inject constructor(
-    @param:Dispatcher(Default) private val defaultDispatcher: CoroutineDispatcher,
     private val appSettingsRepository: AppSettingsRepository,
+    @param:Dispatcher(GetoDispatchers.Default) private val defaultDispatcher: CoroutineDispatcher,
 ) {
     suspend operator fun invoke(appSetting: AppSetting): AddAppSettingResult = withContext(defaultDispatcher) {
         val keys =

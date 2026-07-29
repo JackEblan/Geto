@@ -39,16 +39,17 @@ internal class DefaultAssetManagerWrapper @Inject constructor(
 
     var appSettingTemplatesJson = "AppSettingTemplates.json"
 
-    override suspend fun getAppSettingTemplates(): List<AppSettingTemplate> {
-        val jsonString = withContext(ioDispatcher) {
-            try {
-                context.assets.open(appSettingTemplatesJson).bufferedReader().use { it.readText() }
-            } catch (_: IOException) {
-                null
-            }
+    override suspend fun getAppSettingTemplates(): List<AppSettingTemplate> = withContext(ioDispatcher) {
+        val jsonString = try {
+            context.assets
+                .open(appSettingTemplatesJson)
+                .bufferedReader()
+                .use { it.readText() }
+        } catch (_: IOException) {
+            null
         }
 
-        return try {
+        try {
             Gson().fromJson(jsonString, appSettingsType) ?: emptyList()
         } catch (_: JsonSyntaxException) {
             emptyList()

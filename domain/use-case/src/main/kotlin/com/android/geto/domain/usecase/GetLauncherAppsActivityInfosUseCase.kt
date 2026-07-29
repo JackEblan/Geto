@@ -18,7 +18,7 @@
 package com.android.geto.domain.usecase
 
 import com.android.geto.domain.common.dispatcher.Dispatcher
-import com.android.geto.domain.common.dispatcher.GetoDispatchers.Default
+import com.android.geto.domain.common.dispatcher.GetoDispatchers
 import com.android.geto.domain.framework.LauncherAppsWrapper
 import com.android.geto.domain.model.LauncherAppsActivityInfo
 import com.android.geto.domain.model.LauncherAppsActivityInfoData
@@ -32,9 +32,9 @@ import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class GetLauncherAppsActivityInfosUseCase @Inject constructor(
-    @param:Dispatcher(Default) private val defaultDispatcher: CoroutineDispatcher,
     private val launcherAppsWrapper: LauncherAppsWrapper,
     private val userDataRepository: UserDataRepository,
+    @param:Dispatcher(GetoDispatchers.Default) private val defaultDispatcher: CoroutineDispatcher,
 ) {
     operator fun invoke(textFlow: Flow<String?>) = combine(
         textFlow,

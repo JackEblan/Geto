@@ -22,28 +22,35 @@ import android.content.Context
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.os.Build
+import com.android.geto.domain.common.dispatcher.Dispatcher
+import com.android.geto.domain.common.dispatcher.GetoDispatchers
 import com.android.geto.domain.framework.PackageManagerWrapper
 import com.android.geto.framework.drawable.AndroidDrawableWrapper
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 internal class DefaultPackageManagerWrapper @Inject constructor(
-    @param:ApplicationContext private val context: Context,
     private val androidDrawableWrapper: AndroidDrawableWrapper,
+    @param:ApplicationContext private val context: Context,
+    @param:Dispatcher(GetoDispatchers.IO) private val ioDispatcher: CoroutineDispatcher,
 ) : PackageManagerWrapper {
     private val packageManager = context.packageManager
 
-    override suspend fun getActivityIcon(componentName: String): ByteArray? = try {
-        ComponentName.unflattenFromString(componentName)?.let {
-            androidDrawableWrapper.toByteArray(
-                drawable = packageManager.getActivityIcon(it),
-            )
+    override suspend fun getActivityIcon(componentName: String): ByteArray? = withContext(ioDispatcher) {
+        try {
+            ComponentName.unflattenFromString(componentName)?.let {
+                androidDrawableWrapper.toByteArray(
+                    drawable = packageManager.getActivityIcon(it),
+                )
+            }
+        } catch (_: PackageManager.NameNotFoundException) {
+            null
         }
-    } catch (_: PackageManager.NameNotFoundException) {
-        null
     }
 
-    override fun getLastInstallTime(packageName: String): Long {
+    override suspend fun getLastInstallTime(packageName: String): Long = withContext(ioDispatcher) {
         val packageInfo = try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 packageManager.getPackageInfo(
@@ -57,7 +64,7 @@ internal class DefaultPackageManagerWrapper @Inject constructor(
             null
         }
 
-        return packageInfo?.lastUpdateTime ?: 0L
+        packageInfo?.lastUpdateTime ?: 0L
     }
 
     override fun isSystem(flags: Int): Boolean = (flags and (ApplicationInfo.FLAG_SYSTEM or ApplicationInfo.FLAG_UPDATED_SYSTEM_APP)) != 0

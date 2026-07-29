@@ -26,6 +26,7 @@ android {
 }
 
 dependencies {
+    implementation(projects.domain.common)
     implementation(projects.domain.framework)
     implementation(projects.framework.drawable)
 }
